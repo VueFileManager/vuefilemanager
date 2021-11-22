@@ -14,20 +14,18 @@
 		<SidebarNavigation />
         <PanelNavigationUser />
 
-        <div v-if="user" id="single-page">
-            <div v-if="! isLoading" id="page-content" class="medium-width">
-                <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
+        <div v-if="user" class="pr-6 w-full overflow-x-hidden relative pt-6" style="background: rgba(244, 245, 246, 0.6)">
+            <div v-if="! isLoading" id="page-content">
 
-                <div class="content-page">
-
-                    <!--User thumbnail-->
+				<div class="card shadow-card">
+					<!--User thumbnail-->
                     <div class="page-detail-headline">
                         <div class="user-thumbnail">
                             <div class="avatar">
                                 <UserImageInput
-                                        v-model="avatar"
-                                        :avatar="user.data.relationships.settings.data.attributes.avatar.md"
-                                />
+									v-model="avatar"
+									:avatar="user.data.relationships.settings.data.attributes.avatar.md"
+								/>
                             </div>
                             <div class="info">
                                 <b class="name">
@@ -46,21 +44,21 @@
                         </div>
                     </div>
 
-                    <!--Incomplete Payment Warning-->
+					<!--Incomplete Payment Warning-->
                     <InfoBox v-if="canShowIncompletePayment" type="error" class="message-box">
                         <i18n path="incomplete_payment.description" tag="p">
                             <a :href="user.data.attributes.incomplete_payment">{{ $t('incomplete_payment.href') }}</a>
                         </i18n>
                     </InfoBox>
 
-                    <!--Upgrade Storage Plan Warning-->
+					<!--Upgrade Storage Plan Warning-->
                     <InfoBox v-if="canShowUpgradeWarning && !canShowIncompletePayment" type="error" class="message-box">
                         <p>{{ $t('upgrade_banner.title') }}</p>
                     </InfoBox>
+				</div>
 
-                    <!--Router Content-->
-                    <router-view :user="user" />
-                </div>
+				<!--Router Content-->
+				<router-view :user="user" />
             </div>
             <div id="loader" v-if="isLoading">
                 <Spinner></Spinner>
@@ -134,13 +132,6 @@
 <style lang="scss" scoped>
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
-
-    .page-detail-headline {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 50px;
-        margin-top: 30px;
-    }
 
     .user-thumbnail {
         display: flex;

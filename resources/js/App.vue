@@ -139,7 +139,7 @@ export default {
 }
 
 .input-dark {
-	@apply w-full bg-light-background py-3.5 px-5 rounded-lg appearance-none border-transparent text-base font-bold border
+	@apply w-full bg-light-background py-3 px-4.5 rounded-lg appearance-none border-transparent text-base font-bold border
 }
 
 [v-cloak],
