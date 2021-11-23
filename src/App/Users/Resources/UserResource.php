@@ -27,7 +27,7 @@ class UserResource extends JsonResource
                     'two_factor_authentication' => $this->two_factor_secret ? true : false,
                     'folders'                   => $this->folder_tree,
                     'storage'                   => $this->storage,
-                    'created_at'                => format_date($this->created_at, '%d. %B. %Y'),
+                    'created_at'                => format_date($this->created_at, '%d. %b. %Y'),
                     'updated_at'                => format_date($this->updated_at, '%d. %B. %Y'),
                 ],
                 'relationships' => [

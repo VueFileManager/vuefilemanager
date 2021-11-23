@@ -6,24 +6,24 @@
 					<template slot-scope="{ row }">
 						<tr>
 							<td class="py-4">
-								<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="cell-item" tag="div">
-									<span>{{ row.data.attributes.title }}</span>
+								<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="text-sm font-bold cursor-pointer" tag="div">
+									{{ row.data.attributes.title }}
 								</router-link>
 							</td>
 							<td>
-								<span class="cell-item">
+								<span class="text-sm font-bold">
 									{{ row.data.attributes.slug }}
 								</span>
 							</td>
 							<td>
-								<span class="cell-item">
+								<span class="text-sm font-bold">
 									<SwitchInput @input="changeStatus($event, row.data.attributes.slug)" class="switch" :state="row.data.attributes.visibility"/>
 								</span>
 							</td>
 							<td>
-								<div class="action-icons">
-									<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}">
-										<Edit2Icon size="15" class="icon icon-edit" />
+								<div class="flex space-x-2 w-full justify-end">
+									<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 bg-light-background transition-colors" :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}">
+										<Edit2Icon size="15" class="opacity-75" />
 									</router-link>
 								</div>
 							</td>

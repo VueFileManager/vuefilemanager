@@ -1,76 +1,74 @@
 <template>
     <div>
-		<div class="card shadow-card">
-
-			<div class="mb-6">
-				<router-link :to="{name: 'UserCreate'}">
-					<MobileActionButton icon="user-plus">
-						{{ $t('admin_page_user.create_user.submit') }}
-					</MobileActionButton>
-				</router-link>
-			</div>
-
+        <div class="card shadow-card">
+            <div class="mb-6">
+                <router-link :to="{name: 'UserCreate'}">
+                    <MobileActionButton icon="user-plus">
+                        {{ $t('admin_page_user.create_user.submit') }}
+                    </MobileActionButton>
+                </router-link>
+            </div>
 			<!--Datatable-->
-			<DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
-                    <template slot-scope="{ row }">
-                        <tr>
-                            <td class="py-3">
-                                <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-                                    <DatatableCellImage
-										:member="row"
-										:title="row.data.relationships.settings.data.attributes.name"
-										:description="row.data.attributes.email"
-									/>
+            <DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
+                <template slot-scope="{ row }">
+                    <tr>
+                        <td class="py-3">
+                            <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
+                                <DatatableCellImage
+									:member="row"
+									:title="row.data.relationships.settings.data.attributes.name"
+									:description="row.data.attributes.email"
+								/>
+                            </router-link>
+                        </td>
+                        <td>
+                            <ColorLabel :color="getRoleColor(row.data.attributes.role)">
+                                {{ row.data.attributes.role }}
+                            </ColorLabel>
+                        </td>
+                        <td v-if="config.isSaaS">
+                            <span class="text-sm font-bold" v-if="row.data.attributes.subscription">
+                            	{{ $t('global.premium') }}
+                            </span>
+                            <span class="text-sm font-bold" v-else>
+                            	{{ $t('global.free') }}
+                            </span>
+                        </td>
+                        <td>
+                            <span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
+                            	{{ row.data.attributes.storage.used_formatted }}
+                            </span>
+                            <span v-if="row.data.attributes.storage.capacity == 0" class="text-sm font-bold">
+                            	-
+                            </span>
+                        </td>
+                        <td v-if="config.storageLimit">
+                            <span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
+                            	{{ row.data.attributes.storage.capacity_formatted }}
+                            </span>
+                            <span v-if="row.data.attributes.storage.capacity == 0" class="text-sm font-bold">
+                            	-
+                            </span>
+                        </td>
+                        <td>
+                            <span class="text-sm font-bold">
+                            	{{ row.data.attributes.created_at }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="flex space-x-2 w-full justify-end">
+                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 bg-light-background transition-colors" :to="{name: 'UserDetail', params: {id: row.data.id}}">
+                                    <Edit2Icon size="15" class="opacity-75" />
                                 </router-link>
-                            </td>
-                            <td>
-                                <ColorLabel :color="getRoleColor(row.data.attributes.role)">
-                                    {{ row.data.attributes.role }}
-                                </ColorLabel>
-                            </td>
-                            <td v-if="config.isSaaS">
-                                <span class="cell-item" v-if="row.data.attributes.subscription">
-                                    {{ $t('global.premium') }}
-                                </span>
-                                <span class="cell-item" v-else>
-                                    {{ $t('global.free') }}
-                                </span>
-                            </td>
-                            <td>
-                                <span v-if="row.data.attributes.storage.capacity !== 0" class="cell-item">
-                                    {{ row.data.attributes.storage.used_formatted }}
-                                </span>
-                                <span v-if="row.data.attributes.storage.capacity == 0" class="cell-item">
-                                    -
-                                </span>
-                            </td>
-                            <td v-if="config.storageLimit">
-                                <span v-if="row.data.attributes.storage.capacity !== 0" class="cell-item">
-                                    {{ row.data.attributes.storage.capacity_formatted }}
-                                </span>
-                                <span v-if="row.data.attributes.storage.capacity == 0" class="cell-item">
-                                    -
-                                </span>
-                            </td>
-                            <td>
-                                <span class="cell-item">
-                                    {{ row.data.attributes.created_at }}
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-icons">
-                                    <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-                                        <Edit2Icon size="15" class="icon icon-edit" />
-                                    </router-link>
-                                    <router-link :to="{name: 'UserDelete', params: {id: row.data.id}}">
-                                        <Trash2Icon size="15" class="icon icon-trash" />
-                                    </router-link>
-                                </div>
-                            </td>
-                        </tr>
-                    </template>
-                </DatatableWrapper>
-		</div>
+                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 bg-light-background transition-colors" :to="{name: 'UserDelete', params: {id: row.data.id}}">
+                                    <Trash2Icon size="15" class="opacity-75" />
+                                </router-link>
+                            </div>
+                        </td>
+                    </tr>
+                </template>
+            </DatatableWrapper>
+        </div>
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
         </div>

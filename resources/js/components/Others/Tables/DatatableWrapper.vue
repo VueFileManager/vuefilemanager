@@ -8,17 +8,17 @@
 						v-for="(column, index) in columns"
 						@click="sort(column.field, column.sortable)"
 						:key="index"
-						:class="{ 'sortable': column.sortable }"
+						:class="{ 'sortable': column.sortable, 'text-right': (Object.values(columns).length - 1) === index }"
 						v-if="! column.hidden"
 					>
-						<span class="text-theme dark-text-theme text-xs">
+						<span class="text-gray-400 dark-text-theme text-xs">
 							{{ column.label }}
 						</span>
 
 						<chevron-up-icon
 							v-if="column.sortable"
 							:class="{ 'arrow-down': filter.sort === 'ASC' }"
-							class="inline-block vue-feather text-gray-500"
+							class="inline-block vue-feather text-gray-300"
 							size="12"
 						/>
 					</th>
