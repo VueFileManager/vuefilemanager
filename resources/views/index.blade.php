@@ -34,7 +34,7 @@
 
     @include('vuefilemanager.others.color-template')
 </head>
-<body class="{{ is_dev() ? '__debug-screens' : '' }}">
+<body class="{{ is_dev() ? 'debug-screens' : '' }}">
 
     <div id="app"></div>
 

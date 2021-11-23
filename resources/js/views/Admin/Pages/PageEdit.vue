@@ -1,31 +1,29 @@
 <template>
-    <div id="single-page">
-        <div id="page-content" v-if="! isLoading && page">
-            <div class="card shadow-card">
-                <FormLabel>
-                    {{ page.data.attributes.title }}
-                </FormLabel>
-                <AppInputSwitch :title="$t('admin_pages.form.visibility')" :description="$t('admin_pages.form.visibility_help')">
-                    <SwitchInput @input="changeStatus" class="switch" :state="page.data.attributes.visibility"/>
-                </AppInputSwitch>
-                <AppInputText :title="$t('admin_pages.form.title')">
-                    <input @input="$updateText('/admin/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
-						   :placeholder="$t('admin_pages.form.title_plac')" type="text" class="focus-border-theme input-dark"/>
-                </AppInputText>
-                <AppInputText :title="$t('admin_pages.form.slug')">
-                    <input v-model="page.data.attributes.slug" type="text" class="focus-border-theme input-dark" disabled/>
-                </AppInputText>
-                <AppInputText :title="$t('admin_pages.form.content')">
-                    <textarea
-						@input="$updateText('/admin/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
-						v-model="page.data.attributes.content"
-						:placeholder="$t('admin_pages.form.content_plac')"
-						class="focus-border-theme input-dark"
-						rows="18"
-					></textarea>
-                </AppInputText>
-            </div>
-        </div>
+    <div>
+		<div v-if="! isLoading && page" class="card shadow-card">
+			<FormLabel>
+				{{ page.data.attributes.title }}
+			</FormLabel>
+			<AppInputSwitch :title="$t('admin_pages.form.visibility')" :description="$t('admin_pages.form.visibility_help')">
+				<SwitchInput @input="changeStatus" class="switch" :state="page.data.attributes.visibility"/>
+			</AppInputSwitch>
+			<AppInputText :title="$t('admin_pages.form.title')">
+				<input @input="$updateText('/admin/pages/' + $route.params.slug, 'title', page.data.attributes.title)" v-model="page.data.attributes.title"
+					   :placeholder="$t('admin_pages.form.title_plac')" type="text" class="focus-border-theme input-dark"/>
+			</AppInputText>
+			<AppInputText :title="$t('admin_pages.form.slug')">
+				<input v-model="page.data.attributes.slug" type="text" class="focus-border-theme input-dark" disabled/>
+			</AppInputText>
+			<AppInputText :title="$t('admin_pages.form.content')">
+				<textarea
+					@input="$updateText('/admin/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
+					v-model="page.data.attributes.content"
+					:placeholder="$t('admin_pages.form.content_plac')"
+					class="focus-border-theme input-dark"
+					rows="18"
+				></textarea>
+			</AppInputText>
+		</div>
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
         </div>
@@ -82,9 +80,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-</style>

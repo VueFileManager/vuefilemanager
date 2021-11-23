@@ -7,8 +7,7 @@
             <InfoBox>
                 <p>{{ $t('user_box_password.description') }}</p>
             </InfoBox>
-            <ButtonBase @click.native="requestPasswordResetEmail" :loading="isSendingRequest"
-                        :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+            <ButtonBase @click.native="requestPasswordResetEmail" :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
                 {{ $t('admin_page_user.send_password_link') }}
             </ButtonBase>
 		</div>
@@ -76,13 +75,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .block-form {
-        max-width: 100%;
-    }
-</style>

@@ -46,7 +46,6 @@ export default {
 @import '/resources/sass/vuefilemanager/_forms';
 
 .search-bar {
-    padding: 7px 0px;
     position: relative;
     width: 100%;
     border-radius: 8px;

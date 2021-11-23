@@ -1,31 +1,29 @@
 <template>
-    <PageTab v-if="user">
-		<div class="card shadow-card">
-            <FormLabel>
-				{{ $t('user_box_delete.title') }}
-			</FormLabel>
-            <InfoBox>
-                <p>{{ $t('user_box_delete.description') }}</p>
-            </InfoBox>
-            <ValidationObserver ref="deleteUser" @submit.prevent="deleteUser" v-slot="{ invalid }" tag="form">
-                <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="User name" rules="required">
-					<AppInputText :title="$t('admin_page_user.label_delete_user', {user: user.data.relationships.settings.data.attributes.name})" :error="errors[0]">
-						<div class="flex space-x-4">
-							<input v-model="userName"
-								   :placeholder="$t('admin_page_user.placeholder_delete_user')"
-								   type="text"
-								   class="focus-border-theme input-dark"
-								   :class="{'is-error': errors[0]}"
-							/>
-							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="submit-button">
-								{{ $t('admin_page_user.delete_user') }}
-							</ButtonBase>
-						</div>
-					</AppInputText>
-                </ValidationProvider>
-            </ValidationObserver>
-		</div>
-    </PageTab>
+	<div v-if="user" class="card shadow-card">
+		<FormLabel>
+			{{ $t('user_box_delete.title') }}
+		</FormLabel>
+		<InfoBox>
+			<p>{{ $t('user_box_delete.description') }}</p>
+		</InfoBox>
+		<ValidationObserver ref="deleteUser" @submit.prevent="deleteUser" v-slot="{ invalid }" tag="form">
+			<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="User name" rules="required">
+				<AppInputText :title="$t('admin_page_user.label_delete_user', {user: user.data.relationships.settings.data.attributes.name})" :error="errors[0]">
+					<div class="flex space-x-4">
+						<input v-model="userName"
+							   :placeholder="$t('admin_page_user.placeholder_delete_user')"
+							   type="text"
+							   class="focus-border-theme input-dark"
+							   :class="{'is-error': errors[0]}"
+						/>
+						<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="submit-button">
+							{{ $t('admin_page_user.delete_user') }}
+						</ButtonBase>
+					</div>
+				</AppInputText>
+			</ValidationProvider>
+		</ValidationObserver>
+	</div>
 </template>
 
 <script>
@@ -126,13 +124,3 @@
         },
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .block-form {
-        max-width: 100%;
-    }
-</style>
