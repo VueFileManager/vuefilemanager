@@ -1,6 +1,6 @@
 <template>
     <div class="inline-wrapper icon-append copy-input" :class="size">
-        <input ref="sel" :value="item.data.relationships.shared.data.attributes.link" id="link-input" type="text" class="input-text" readonly>
+        <input ref="sel" :value="item.data.relationships.shared.data.attributes.link" id="link-input" type="text" class="input-text input-dark" readonly>
         <div class="multi-icon">
             <div @click="copyUrl" class="icon-item group hover-bg-theme-100">
                 <link-icon v-if="! isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
@@ -181,7 +181,7 @@ export default {
     }
 
     .icon-item {
-        padding: 9px 10px;
+        padding: 12px 10px;
         display: flex;
         align-items: center;
         border-left: 1px solid $light_mode_border_darken;

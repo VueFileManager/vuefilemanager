@@ -14,22 +14,21 @@
             <ValidationObserver @submit.prevent="updateTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
                 <!--Add Member-->
-				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Email" v-slot="{ errors }">
-					<label class="input-label">{{ $t('Add Member') }}:</label>
+				<ValidationProvider tag="div" mode="passive" name="Email" v-slot="{ errors }">
+					<AppInputText :title="$t('Add Member')" :error="errors[0]">
+						<div class="relative">
+							<span
+								v-if="email"
+								@click="addMember"
+								class="button-base theme absolute right-2 px-3 py-2 font-bold text-sm rounded-lg top-1/2 transform -translate-y-1/2 cursor-pointer"
+							>
+								Add
+							</span>
 
-					<div class="relative">
-						<span
-							v-if="email"
-							@click="addMember"
-							class="button-base theme absolute right-2 px-3 py-2 font-bold text-sm rounded-lg top-1/2 transform -translate-y-1/2 cursor-pointer"
-						>
-							Add
-						</span>
-
-                		<!--TODO: Fix !pr-20 after JIT official release-->
-						<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme !pr-20" :placeholder="$t('Type member email...')">
-					</div>
-					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+							<!--TODO: Fix !pr-20 after JIT official release-->
+							<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme !pr-20 input-dark" :placeholder="$t('Type member email...')">
+						</div>
+					</AppInputText>
 				</ValidationProvider>
 
 				<!--Member list-->
@@ -68,6 +67,7 @@
 </template>
 
 <script>
+	import AppInputText from "../Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 	import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
 	import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
@@ -86,6 +86,7 @@
 		components: {
 			ValidationProvider,
 			ValidationObserver,
+			AppInputText,
 			TeamList,
 			ThumbnailItem,
 			PopupWrapper,

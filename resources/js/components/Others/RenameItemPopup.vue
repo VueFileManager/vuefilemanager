@@ -13,15 +13,15 @@
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
                 <!--Set password-->
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('popup_rename.label') }}:</label>
-                    <div class="input">
-                        <input v-model="pickedItem.data.attributes.name" :class="{'is-error': errors[0]}" ref="input" type="text" class="focus-border-theme" :placeholder="$t('popup_rename.placeholder')">
-                        <div @click="pickedItem.data.attributes.name = ''" class="close-icon-wrapper">
-                            <x-icon class="close-icon hover-text-theme" size="14" />
-                        </div>
-                    </div>
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('popup_rename.label')" :error="errors[0]">
+						<div class="flex items-center relative">
+							<input v-model="pickedItem.data.attributes.name" :class="{'is-error': errors[0]}" ref="input" type="text" class="focus-border-theme input-dark" :placeholder="$t('popup_rename.placeholder')">
+							<div @click="pickedItem.data.attributes.name = ''" class="absolute right-4">
+								<x-icon class="close-icon hover-text-theme" size="14" />
+							</div>
+						</div>
+					</AppInputText>
                 </ValidationProvider>
 
                 <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" />
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import AppInputText from "../Admin/AppInputText";
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
 import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
@@ -63,6 +64,7 @@ export default {
     components: {
         ValidationProvider,
         ValidationObserver,
+		AppInputText,
         SetFolderIcon,
         ThumbnailItem,
         ActionButton,

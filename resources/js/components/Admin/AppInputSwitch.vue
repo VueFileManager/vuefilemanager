@@ -8,7 +8,7 @@
 			</label>
 
 			<!--Input Description-->
-			<span v-if="description" class="text-xs text-gray-500 leading-3" v-html="description"></span>
+			<span v-if="description" class="text-xs text-gray-500 leading-3 -mt-0.5 block" v-html="description"></span>
 
 			<!--Input Description-->
 			<span v-if="error" class="error-message">

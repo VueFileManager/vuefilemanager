@@ -8,13 +8,13 @@
         <PopupContent>
 
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form" class="px-4">
 
                 <!--Set folder name-->
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Title" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('popup_create_folder.label') }}:</label>
-                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" :placeholder="$t('popup_create_folder.placeholder')">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                <ValidationProvider tag="div" mode="passive" name="Title" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
+    	                <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('popup_create_folder.placeholder')">
+					</AppInputText>
                 </ValidationProvider>
 
                 <SetFolderIcon v-if="isMoreOptions"/>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+	import AppInputText from "../Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
     import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
@@ -57,6 +58,7 @@
     export default {
         name: 'CreateFolderPopup',
         components: {
+			AppInputText,
             ValidationProvider,
             ValidationObserver,
             ThumbnailItem,
@@ -116,12 +118,3 @@
         }
     }
 </script>
-
-<style scoped lang="scss">
-    @import "resources/sass/vuefilemanager/_inapp-forms.scss";
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .item-thumbnail {
-        margin-bottom: 20px;
-    }
-</style>

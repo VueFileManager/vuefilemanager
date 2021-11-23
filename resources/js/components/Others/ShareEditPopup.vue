@@ -18,63 +18,52 @@
 			<!--Share via email-->
             <ValidationObserver @submit.prevent v-if="sendToRecipientsMenu && !isEmailSended" v-slot="{ invalid }" ref="shareEmail" tag="form" class="form-wrapper">
                 <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-                    <MultiEmailInput rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" :isError="errors[0]" />
+					<AppInputText :error="errors[0]">
+						<MultiEmailInput rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" :isError="errors[0]" />
+					</AppInputText>
                 </ValidationProvider>
             </ValidationObserver>
 
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent v-if="! sendToRecipientsMenu" ref="shareForm" v-slot="{ invalid }" tag="form" class="form block-form form-wrapper">
+            <ValidationObserver @submit.prevent v-if="! sendToRecipientsMenu" ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
                 <!--Permission Select-->
-                <ValidationProvider v-if="isFolder" tag="div" mode="passive" class="input-wrapper" name="Permission" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('shared_form.label_permission') }}:</label>
-                    <SelectInput v-model="shareOptions.permission" :options="$translateSelectOptions(permissionOptions)" :default="shareOptions.permission" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]"/>
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
+				<ValidationProvider v-if="isFolder" tag="div" mode="passive" name="Permission" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('shared_form.label_permission')" :error="errors[0]">
+						<SelectInput v-model="shareOptions.permission" :options="$translateSelectOptions(permissionOptions)" :default="shareOptions.permission" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]"/>
+					</AppInputText>
+				</ValidationProvider>
 
 				<!--Password Switch-->
-				<div class="switch-wrapper">
-					<div class="input-wrapper">
-						<div class="inline-wrapper">
-							<div class="switch-label">
-								<label class="input-label">{{ $t('shared_form.label_password_protection') }}:</label>
-                                <small class="input-help">{{ $t('popup.share.password_description') }}</small>
-                            </div>
-							<SwitchInput v-model="shareOptions.isProtected" class="switch" :state="shareOptions.isProtected" />
-						</div>
-					</div>
+				<div>
+					<AppInputSwitch :title="$t('shared_form.label_password_protection')" :description="$t('popup.share.password_description')">
+						<SwitchInput v-model="shareOptions.isProtected" class="switch" :state="shareOptions.isProtected" />
+					</AppInputSwitch>
 
-					<ActionButton v-if="(pickedItem.data.relationships.shared.data.attributes.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="change-password">
+					<ActionButton v-if="(pickedItem.data.relationships.shared.data.attributes.protected && canChangePassword) && shareOptions.isProtected" @click.native="changePassword" class="mb-6 -mt-4">
                         {{ $t('popup_share_edit.change_pass') }}
                     </ActionButton>
 
 					<!--Set password-->
-					<ValidationProvider v-if="shareOptions.isProtected && ! canChangePassword" tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
-						<input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" class="focus-border-theme" :placeholder="$t('page_sign_in.placeholder_password')">
-						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+					<ValidationProvider v-if="shareOptions.isProtected && ! canChangePassword" tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
+						<AppInputText :error="errors[0]" class="-mt-2">
+							<input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" class="focus-border-theme input-dark" :placeholder="$t('page_sign_in.placeholder_password')">
+						</AppInputText>
 					</ValidationProvider>
 				</div>
 
 				<!--Expiration switch-->
-				<div class="switch-wrapper">
-					<div class="input-wrapper">
-						<div class="inline-wrapper">
-                            <div class="switch-label">
-                                <label class="input-label">{{ $t('expiration') }}:</label>
-                                <small class="input-help">{{ $t('popup.share.expiration_description') }}</small>
-                            </div>
-							<SwitchInput v-model="shareOptions.expiration" class="switch" :state="shareOptions.expiration ? 1 : 0" />
-                        </div>
-					</div>
+				<div>
+					<AppInputSwitch :title="$t('expiration')" :description="$t('popup.share.expiration_description')">
+						<SwitchInput v-model="shareOptions.expiration" class="switch" :state="shareOptions.expiration ? 1 : 0" />
+					</AppInputSwitch>
 
 					<!--Set expiration-->
-                    <div v-if="shareOptions.expiration" class="input-wrapper">
-                        <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" :value="shareOptions.expiration" class="box" />
-                    </div>
+					<AppInputText v-if="shareOptions.expiration" class="-mt-2" :is-last="true">
+						<SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" :value="shareOptions.expiration" class="box" />
+					</AppInputText>
 				</div>
-
             </ValidationObserver>
-
         </PopupContent>
 
         <!--Actions-->
@@ -100,6 +89,8 @@
 </template>
 
 <script>
+	import AppInputText from "../Admin/AppInputText";
+	import AppInputSwitch from "../Admin/AppInputSwitch";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import SelectBoxInput from '/resources/js/components/Others/Forms/SelectBoxInput'
     import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
@@ -122,6 +113,8 @@
     export default {
         name: 'ShareEditPopup',
         components: {
+			AppInputText,
+			AppInputSwitch,
             ValidationProvider,
             ValidationObserver,
             SelectBoxInput,

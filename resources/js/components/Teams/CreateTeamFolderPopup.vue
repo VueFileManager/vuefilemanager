@@ -14,27 +14,26 @@
             <ValidationObserver @submit.prevent="createTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
 
                 <!--Set folder name-->
-                <ValidationProvider v-if="isNewFolderTeamCreation" tag="div" mode="passive" class="input-wrapper password" name="Name" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('popup_create_folder.label') }}:</label>
-                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="name" class="focus-border-theme" :placeholder="$t('popup_create_folder.placeholder')">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                <ValidationProvider v-if="isNewFolderTeamCreation" tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
+						<input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="name" class="focus-border-theme input-dark" :placeholder="$t('popup_create_folder.placeholder')">
+					</AppInputText>
                 </ValidationProvider>
 
 				<!--Add Member-->
-				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Email" v-slot="{ errors }">
-					<label class="input-label">{{ $t('Add Member') }}:</label>
-
-					<div class="relative">
-						<span
-							v-if="email"
-							@click="addMember"
-							class="button-base theme absolute right-2 px-3 py-2 font-bold text-sm rounded-lg top-1/2 transform -translate-y-1/2 cursor-pointer"
-						>
-							Add
-						</span>
-						<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme" :placeholder="$t('Type member email...')">
-					</div>
-					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+				<ValidationProvider tag="div" mode="passive" name="Email" v-slot="{ errors }">
+					<AppInputText :title="$t('Add Member')" :error="errors[0]">
+						<div class="relative">
+							<span
+								v-if="email"
+								@click="addMember"
+								class="button-base theme absolute right-2 px-3 py-2 font-bold text-sm rounded-lg top-1/2 transform -translate-y-1/2 cursor-pointer"
+							>
+								Add
+							</span>
+							<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme input-dark" :placeholder="$t('Type member email...')">
+						</div>
+					</AppInputText>
 				</ValidationProvider>
 
 				<!--Member list-->
@@ -79,6 +78,7 @@
 </template>
 
 <script>
+	import AppInputText from "../Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 	import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
 	import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
@@ -97,6 +97,7 @@
 		components: {
 			ValidationProvider,
 			ValidationObserver,
+			AppInputText,
 			TeamList,
 			ThumbnailItem,
 			PopupWrapper,
