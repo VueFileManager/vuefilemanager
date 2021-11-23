@@ -5,7 +5,7 @@
 				<DatatableWrapper @init="isLoading = false" api="/api/admin/pages" :paginator="false" :columns="columns" class="table table-users">
 					<template slot-scope="{ row }">
 						<tr>
-							<td class="py-3">
+							<td class="py-4">
 								<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="cell-item" tag="div">
 									<span>{{ row.data.attributes.title }}</span>
 								</router-link>

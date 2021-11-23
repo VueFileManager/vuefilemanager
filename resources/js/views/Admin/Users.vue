@@ -122,7 +122,7 @@
                         return 'purple'
                         break;
                     case 'user':
-                        return 'yellow'
+                        return 'green'
                         break;
                 }
             }

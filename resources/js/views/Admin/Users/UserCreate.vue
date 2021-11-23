@@ -1,86 +1,70 @@
 <template>
-	<ValidationObserver @submit.prevent="createUser" ref="createUser" v-slot="{ invalid }" tag="form" class="form block-form">
-
-		<div class="card shadow-card">
-			<FormLabel>{{ $t('admin_page_user.create_user.group_details') }}</FormLabel>
+    <ValidationObserver @submit.prevent="createUser" ref="createUser" v-slot="{ invalid }" tag="form">
+        <div class="card shadow-card">
+            <FormLabel>{{ $t('admin_page_user.create_user.group_details') }}</FormLabel>
 
 			<!--Avatar-->
-			<div class="block-wrapper">
-				<label>{{ $t('admin_page_user.create_user.avatar') }}</label>
-				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="avatar" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="avatar" v-slot="{ errors }">
+				<AppInputText :title="$t('admin_page_user.create_user.avatar')" :error="errors[0]">
 					<ImageInput v-model="user.avatar" :error="errors[0]" />
-				</ValidationProvider>
-			</div>
+                </AppInputText>
+			</ValidationProvider>
 
 			<!--Email-->
-			<div class="block-wrapper">
-				<label>{{ $t('page_registration.label_email') }}:</label>
-				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="email" rules="required" v-slot="{ errors }">
-					<input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
-					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-				</ValidationProvider>
-			</div>
+            <ValidationProvider tag="div" mode="passive" name="email" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('page_registration.label_email')" :error="errors[0]">
+                    <input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                </AppInputText>
+            </ValidationProvider>
 
 			<!--Name-->
-			<div class="block-wrapper">
-				<label>{{ $t('page_registration.label_name') }}:</label>
-				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="user name" rules="required" v-slot="{ errors }">
-					<input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
-					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-				</ValidationProvider>
-			</div>
+            <ValidationProvider tag="div" mode="passive" name="user name" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('page_registration.label_name')" :error="errors[0]">
+                    <input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                </AppInputText>
+            </ValidationProvider>
 
 			<!--Password-->
-			<div class="wrapper-inline">
-				<div class="block-wrapper">
-					<label>{{ $t('page_registration.label_pass') }}:</label>
-					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password" rules="required" v-slot="{ errors }">
-						<input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
-						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-					</ValidationProvider>
-				</div>
-
-				<div class="block-wrapper">
-					<label>{{ $t('page_registration.label_confirm_pass') }}:</label>
-					<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="password confirm" rules="required" v-slot="{ errors }">
-						<input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
-						<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-					</ValidationProvider>
-				</div>
-			</div>
-		</div>
-
-		<div class="card shadow-card">
-			<FormLabel>{{ $t('admin_page_user.create_user.group_settings') }}</FormLabel>
+            <div class="flex space-x-4">
+                <ValidationProvider tag="div" mode="passive" name="password" rules="required" v-slot="{ errors }" class="w-full">
+                    <AppInputText :title="$t('page_registration.label_pass')" :error="errors[0]">
+                        <input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                    </AppInputText>
+                </ValidationProvider>
+                <ValidationProvider tag="div" mode="passive" name="password confirm" rules="required" v-slot="{ errors }" class="w-full">
+                    <AppInputText :title="$t('page_registration.label_confirm_pass')" :error="errors[0]">
+                        <input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                    </AppInputText>
+                </ValidationProvider>
+            </div>
+        </div>
+        <div class="card shadow-card">
+            <FormLabel>{{ $t('admin_page_user.create_user.group_settings') }}</FormLabel>
 
 			<!--User Role-->
-			<div class="block-wrapper">
-				<label>{{ $t('admin_page_user.select_role') }}:</label>
-				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="permission" rules="required" v-slot="{ errors }">
-					<SelectInput v-model="user.role" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
-					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-				</ValidationProvider>
-			</div>
+            <ValidationProvider tag="div" mode="passive" name="permission" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('admin_page_user.select_role')" :error="errors[0]">
+                    <SelectInput v-model="user.role" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]"/>
+                </AppInputText>
+            </ValidationProvider>
 
 			<!--Storage Capacity-->
-			<div class="block-wrapper">
-				<label>{{ $t('admin_page_user.label_change_capacity') }}</label>
-				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="storage capacity" rules="required" v-slot="{ errors }">
-					<input v-model="user.max_storage_amount" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
-					<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-				</ValidationProvider>
-			</div>
-		</div>
-
-		<div class="form-group">
-			<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
-				{{ $t('admin_page_user.create_user.submit') }}
-			</ButtonBase>
-		</div>
-	</ValidationObserver>
+            <ValidationProvider tag="div" mode="passive" name="storage capacity" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('admin_page_user.label_change_capacity')" :error="errors[0]">
+                    <input v-model="user.max_storage_amount" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                </AppInputText>
+            </ValidationProvider>
+        </div>
+        <div class="form-group">
+            <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
+                {{ $t('admin_page_user.create_user.submit') }}
+            </ButtonBase>
+        </div>
+    </ValidationObserver>
 </template>
 
 <script>
+	import AppInputText from "../../../components/Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
     import ImageInput from '/resources/js/components/Others/Forms/ImageInput'
@@ -97,6 +81,7 @@
     export default {
         name: 'Profile',
         components: {
+			AppInputText,
             ValidationProvider,
             ValidationObserver,
             SectionTitle,
@@ -215,9 +200,3 @@
         },
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-</style>
