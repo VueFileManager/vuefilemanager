@@ -9,18 +9,16 @@
 
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="createLanguage" ref="createForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
-
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Language Locale" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('select_locale') }}:</label>
-                    <SelectInput v-model="form.locale" :options="locales" :placeholder="$t('select_language_locale')" :isError="errors[0]" />
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
-
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Language Name" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('locale_name') }}:</label>
-                    <input v-model="form.name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme" :placeholder="$t('type_language_name')">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
+				<ValidationProvider tag="div" mode="passive" name="Language Locale" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('select_locale')" :error="errors[0]">
+						<SelectInput v-model="form.locale" :options="locales" :placeholder="$t('select_language_locale')" :isError="errors[0]" />
+					</AppInputText>
+				</ValidationProvider>
+				<ValidationProvider tag="div" mode="passive" name="Language Name" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('locale_name')" :error="errors[0]" :is-last="true">
+						<input v-model="form.name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('type_language_name')">
+					</AppInputText>
+				</ValidationProvider>
             </ValidationObserver>
         </PopupContent>
 
@@ -47,6 +45,7 @@
 </template>
 
 <script>
+import AppInputText from "../Admin/AppInputText";
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
 import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
@@ -63,6 +62,7 @@ export default {
     components: {
         ValidationProvider,
         ValidationObserver,
+		AppInputText,
         PopupWrapper,
         PopupActions,
         PopupContent,

@@ -4,13 +4,13 @@
             <FormLabel icon="smartphone">
                 {{ $t('2fa.settings.title') }}
             </FormLabel>
-            <AppInputSwitch :title="$t('popup_2fa.switch_title')" :description="$t('popup_2fa.switch_info')">
+            <AppInputSwitch :title="$t('popup_2fa.switch_title')" :description="$t('popup_2fa.switch_info')" :is-last="user && ! user.data.attributes.two_factor_authentication">
                 <SwitchInput @click.native.prevent.stop="open2faPopup"
 							 class="switch"
 							 :state="user.data.attributes.two_factor_authentication"
 				/>
             </AppInputSwitch>
-            <AppInputSwitch v-if="user && user.data.attributes.two_factor_authentication" :title="$t('popup_2fa.codes_title')" :description="$t('popup_2fa.codes_info')">
+            <AppInputSwitch v-if="user && user.data.attributes.two_factor_authentication" :title="$t('popup_2fa.codes_title')" :description="$t('popup_2fa.codes_info')" :is-last="true">
                 <ButtonBase
 					class="popup-button"
 					button-style="secondary"

@@ -50,63 +50,60 @@
 			</div>
 
 			<!--Content-->
-			<div class="form block-form content">
+			<div class="dynamic-content">
 
-				<div class="dynamic-content">
+				<Spinner v-if="! selectedLanguage" class="spinner" />
 
-					<Spinner v-if="! selectedLanguage" class="spinner" />
+				<div v-if="selectedLanguage">
 
-					<div v-if="selectedLanguage">
+					<!--Language Settings-->
+					<div v-if="! isSearching" class="card shadow-card">
+						<FormLabel icon="settings">
+							{{ $t('language_settings') }}
+						</FormLabel>
 
-						<!--Language Settings-->
-						<div v-if="! isSearching" class="card shadow-card">
-							<FormLabel icon="settings">
-								{{ $t('language_settings') }}
-							</FormLabel>
+						<ValidationProvider tag="div" mode="passive" name="Language name" rules="required" v-slot="{ errors }">
+							<AppInputText :title="$t('language_name')" :error="errors[0]">
+								<input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name" :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+							</AppInputText>
+						</ValidationProvider>
 
-							<ValidationProvider tag="div" mode="passive" name="Language name" rules="required" v-slot="{ errors }">
-								<AppInputText :title="$t('language_name')" :error="errors[0]">
-									<input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name" :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
-								</AppInputText>
-							</ValidationProvider>
+						<AppInputSwitch :title="$t('set_as_default_language')" :description="$t('If this language is set as default, app will appear in this language for all users.')" :is-last="true">
+							<SwitchInput
+								@input="setDefaultLanguage"
+								class="switch"
+								:class="{'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale }"
+								:state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
+							/>
+						</AppInputSwitch>
+					</div>
 
-							<AppInputSwitch :title="$t('set_as_default_language')" :description="$t('If this language is set as default, app will appear in this language for all users.')">
-								<SwitchInput
-									@input="setDefaultLanguage"
-									class="switch"
-									:class="{'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale }"
-									:state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
-								/>
-							</AppInputSwitch>
+					<div v-if="selectedLanguage" class="card shadow-card">
+						<!--Translations-->
+						<FormLabel>
+							{{ $t('edit_translations') }}
+						</FormLabel>
+
+						<InfoBox>
+							<p>Please preserve in your translations special string variables defined in format as <b class="text-theme">:variable</b> or <b class="text-theme">{variable}</b>.</p>
+						</InfoBox>
+
+						<!--Inline Search for mobile-->
+						<div class="sticky top-0 z-10 mb-8">
+							<SearchInput v-model="query" @reset-query="query = ''" />
 						</div>
 
-						<div class="card shadow-card">
-							<!--Translations-->
-							<FormLabel>
-								{{ $t('edit_translations') }}
-							</FormLabel>
-
-							<InfoBox>
-								<p>Please preserve in your translations special string variables defined in format as <b class="text-theme">:variable</b> or <b class="text-theme">{variable}</b>.</p>
-							</InfoBox>
-
-							<!--Inline Search for mobile-->
-							<div class="sticky top-0 z-10 mb-8">
-								<SearchInput v-model="query" @reset-query="query = ''" />
-							</div>
-
-							<ValidationProvider tag="div" name="Language string" rules="required" v-slot="{ errors }">
-								<AppInputText :title="referenceTranslations[key]" :error="errors[0]" v-for="(translation, key) in translationList" :key="key">
-									<textarea
-										v-model="selectedLanguage.data.attributes.translations[key]"
-										@input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
-										:rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
-										class="focus-border-theme input-dark"
-										:class="{'is-error': errors[0]}"
-									></textarea>
-								</AppInputText>
-							</ValidationProvider>
-						</div>
+						<ValidationProvider tag="div" name="Language string" rules="required" v-slot="{ errors }">
+							<AppInputText :title="referenceTranslations[key]" :error="errors[0]" v-for="(translation, key) in translationList" :key="key" :is-last="true">
+								<textarea
+									v-model="selectedLanguage.data.attributes.translations[key]"
+									@input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
+									:rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
+									class="focus-border-theme input-dark"
+									:class="{'is-error': errors[0]}"
+								></textarea>
+							</AppInputText>
+						</ValidationProvider>
 					</div>
 				</div>
 			</div>

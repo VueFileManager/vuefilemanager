@@ -9,7 +9,7 @@
 				<input @input="$updateText('/admin/settings', 'billing_name', billingInformation.billing_name)" v-model="billingInformation.billing_name" :placeholder="$t('admin_settings.billings.company_name_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
 
-			<AppInputText :title="$t('admin_settings.billings.vat')">
+			<AppInputText :title="$t('admin_settings.billings.vat')" :is-last="true">
 				<input @input="$updateText('/admin/settings', 'billing_vat_number', billingInformation.billing_vat_number)" v-model="billingInformation.billing_vat_number" :placeholder="$t('admin_settings.billings.vat_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
 		</div>
@@ -40,7 +40,7 @@
 				<input @input="$updateText('/admin/settings', 'billing_state', billingInformation.billing_state)" v-model="billingInformation.billing_state" :placeholder="$t('admin_settings.billings.state_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
 
-			<AppInputText :title="$t('admin_settings.billings.phone_number')">
+			<AppInputText :title="$t('admin_settings.billings.phone_number')" :is-last="true">
 				<input @input="$updateText('/admin/settings', 'billing_phone_number', billingInformation.billing_phone_number)" v-model="billingInformation.billing_phone_number" :placeholder="$t('admin_settings.billings.phone_number_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
 		</div>

@@ -10,7 +10,7 @@
             </InfoBox>
             <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Role" rules="required">
-					<AppInputText :title="$t('admin_page_user.select_role')" :error="errors[0]">
+					<AppInputText :title="$t('admin_page_user.select_role')" :error="errors[0]" :is-last="true">
 						<div class="flex space-x-4">
 							<SelectInput v-model="userRole" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
 							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
@@ -33,7 +33,7 @@
 				/>
             </AppInputText>
 			<!--Name-->
-            <AppInputText :title="$t('page_registration.label_name')">
+            <AppInputText :title="$t('page_registration.label_name')" :is-last="true">
                 <input :value="user.data.relationships.settings.data.attributes.name"
 					   :placeholder="$t('page_registration.placeholder_name')"
 					   type="text"
@@ -88,7 +88,7 @@
 					   class="focus-border-theme input-dark"
 				/>
             </AppInputText>
-            <AppInputText :title="$t('user_settings.phone_number')">
+            <AppInputText :title="$t('user_settings.phone_number')" :is-last="true">
                 <input :value="user.data.relationships.settings.data.attributes.phone_number"
 					   type="text"
 					   disabled

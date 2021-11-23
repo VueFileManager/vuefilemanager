@@ -10,7 +10,7 @@
 					   class="focus-border-theme input-dark"
 			   >
             </AppInputText>
-            <AppInputText :title="$t('page_registration.label_name')">
+            <AppInputText :title="$t('page_registration.label_name')" :is-last="true">
                 <input @keyup="changeUserName"
 					   v-model="userInfo.name"
 					   :placeholder="$t('page_registration.placeholder_name')"
@@ -21,7 +21,7 @@
         </div>
         <div class="card shadow-card">
             <FormLabel>{{ $t('user_settings.timezone') }}</FormLabel>
-            <AppInputText :title="$t('GMT')">
+            <AppInputText :title="$t('GMT')" :is-last="true">
                 <SelectInput @input="$updateText('/user/settings', 'timezone', userInfo.timezone)"
 							 v-model="userInfo.timezone"
 							 :default="userInfo.timezone"
@@ -83,7 +83,7 @@
 					   class="focus-border-theme input-dark"
 				/>
             </AppInputText>
-            <AppInputText :title="$t('user_settings.phone_number')">
+            <AppInputText :title="$t('user_settings.phone_number')" :is-last="true">
                 <input @keyup="$updateText('/user/settings', 'phone_number', billingInfo.phone_number)"
 					   v-model="billingInfo.phone_number"
 					   :placeholder="$t('user_settings.phone_number_plac')"

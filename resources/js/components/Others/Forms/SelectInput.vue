@@ -2,7 +2,7 @@
     <div class="select">
 
         <!--Area-->
-        <div class="input-area" :class="{'is-active': isOpen, 'is-error': isError}" @click="openMenu">
+        <div class="input-area bg-light-background rounded-lg" :class="{'is-active': isOpen, 'is-error': isError}" @click="openMenu">
 
             <!--If is selected-->
             <div class="selected" v-if="selected">
@@ -23,9 +23,9 @@
 
         <!--Options-->
         <transition name="slide-in">
-            <div class="input-options" v-if="isOpen">
+            <div class="input-options rounded-lg" v-if="isOpen">
                 <div v-if="options.length > 5" class="select-search">
-                    <input v-model="query" ref="search" type="text" :placeholder="$t('select_search_placeholder')" class="search-input focus-border-theme">
+                    <input v-model="query" ref="search" type="text" :placeholder="$t('select_search_placeholder')" class="search-input focus-border-theme rounded-lg">
                 </div>
                 <ul class="option-list">
                     <li class="option-item" @click="selectOption(option)" v-for="(option, i) in optionList" :key="i">
@@ -131,7 +131,6 @@
             background: $light_background;
             @include transition(150ms);
             @include font-size(14);
-            border-radius: 8px;
             padding: 13px 20px;
             appearance: none;
             font-weight: 700;
@@ -143,7 +142,6 @@
     .input-options {
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
         background: white;
-        border-radius: 8px;
         position: absolute;
         overflow: hidden;
         top: 65px;
@@ -174,11 +172,8 @@
         border-style: solid;
         border-color: transparent;
         justify-content: space-between;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
-        //background: $light_mode_input_background;
         @include transition(150ms);
         align-items: center;
-        border-radius: 8px;
         padding: 13px 20px;
         display: flex;
         outline: 0;

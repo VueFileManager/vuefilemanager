@@ -8,7 +8,7 @@
 		</InfoBox>
 		<ValidationObserver ref="deleteUser" @submit.prevent="deleteUser" v-slot="{ invalid }" tag="form">
 			<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="User name" rules="required">
-				<AppInputText :title="$t('admin_page_user.label_delete_user', {user: user.data.relationships.settings.data.attributes.name})" :error="errors[0]">
+				<AppInputText :title="$t('admin_page_user.label_delete_user', {user: user.data.relationships.settings.data.attributes.name})" :error="errors[0]" :is-last="true">
 					<div class="flex space-x-4">
 						<input v-model="userName"
 							   :placeholder="$t('admin_page_user.placeholder_delete_user')"

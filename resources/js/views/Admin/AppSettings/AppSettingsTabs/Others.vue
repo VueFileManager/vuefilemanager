@@ -34,7 +34,7 @@
 				/>
 			</AppInputSwitch>
 
-			<AppInputSwitch :title="$t('admin_settings.others.allow_user_verification')" :description="$t('admin_settings.others.allow_user_verification_help')">
+			<AppInputSwitch :title="$t('admin_settings.others.allow_user_verification')" :description="$t('admin_settings.others.allow_user_verification_help')" :is-last="true">
 				<SwitchInput
 					@input="$updateText('/admin/settings', 'user_verification', app.userVerification)"
 					v-model="app.userVerification"
@@ -60,7 +60,7 @@
 				<textarea rows="2" @input="$updateText('/admin/settings', 'mimetypes_blacklist', app.mimetypesBlacklist, true)" v-model="app.mimetypesBlacklist" :placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')" type="text" class="focus-border-theme input-dark" />
 			</AppInputText>
 
-			<AppInputText :title="$t('admin_settings.others.upload_limit')" :description="$t('admin_settings.others.upload_limit_help')">
+			<AppInputText :title="$t('admin_settings.others.upload_limit')" :description="$t('admin_settings.others.upload_limit_help')" :is-last="true">
 				<input @input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit, true)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" class="focus-border-theme input-dark" />
 			</AppInputText>
 		</div>

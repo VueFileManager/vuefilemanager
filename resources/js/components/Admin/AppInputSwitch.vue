@@ -1,5 +1,5 @@
 <template>
-	<div class="mb-7 flex justify-between w-full">
+	<div :class="{'mb-7': !isLast}" class="flex justify-between w-full">
 
 		<!--Label for input-->
 		<div class="leading-5">
@@ -28,6 +28,7 @@
 		name: 'AppInputSwitch',
 		props: [
 			'description',
+			'isLast',
 			'title',
 			'error',
 		]

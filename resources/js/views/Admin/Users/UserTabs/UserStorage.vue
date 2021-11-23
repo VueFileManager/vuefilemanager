@@ -10,7 +10,7 @@
             </InfoBox>
             <ValidationObserver ref="changeStorageCapacity" @submit.prevent="changeStorageCapacity" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
-					<AppInputText :title="$t('admin_page_user.label_change_capacity')" :error="errors[0]">
+					<AppInputText :title="$t('admin_page_user.label_change_capacity')" :error="errors[0]" :is-last="true">
 						<div class="flex space-x-4">
 							<input v-model="capacity"
 								   :placeholder="$t('admin_page_user.label_change_capacity')"

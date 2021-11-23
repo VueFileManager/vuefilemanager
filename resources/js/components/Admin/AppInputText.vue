@@ -1,5 +1,5 @@
 <template>
-	<div class="mb-7">
+	<div :class="{'mb-7': !isLast}">
 
 		<!--Label for input-->
 		<label class="text-sm font-bold text-gray-700 mb-1.5 block">
@@ -24,6 +24,7 @@
 		name: 'AppInputText',
 		props: [
 			'description',
+			'isLast',
 			'title',
 			'error',
 		]

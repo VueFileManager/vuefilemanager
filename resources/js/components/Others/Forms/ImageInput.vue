@@ -18,7 +18,7 @@
         />
 
         <div class="dropzone-message" v-show="! isData">
-            <image-icon size="28" class="icon-upload text-theme"></image-icon>
+            <image-icon size="28" class="icon-upload text-theme mx-auto mb-1"/>
             <span class="dropzone-title">
                 {{ $t('input_image.title') }}
             </span>

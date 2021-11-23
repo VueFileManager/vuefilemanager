@@ -9,7 +9,7 @@
 						{{ $t('Homepage') }}
 					</FormLabel>
 
-					<AppInputSwitch :title="$t('Allow Homepage')" :description="$t('When this is turned on, your visitors can visit your default homepage.')">
+					<AppInputSwitch :title="$t('Allow Homepage')" :description="$t('When this is turned on, your visitors can visit your default homepage.')" :is-last="true">
 						<SwitchInput @input="$updateText('/admin/settings', 'allow_homepage', app.allow_homepage)" v-model="app.allow_homepage" class="switch" :state="app.allow_homepage"/>
 					</AppInputSwitch>
 				</div>
