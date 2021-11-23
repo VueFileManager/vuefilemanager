@@ -1,68 +1,60 @@
 <template>
     <PageTab :is-loading="isLoading">
+		<div v-if="app" class="card shadow-card">
+			<FormLabel>
+				{{ $t('admin_settings.appearance.section_general') }}
+			</FormLabel>
 
-        <!--Personal Information-->
-        <PageTabGroup v-if="app">
-            <div class="form block-form">
+			<AppInputText :title="$t('admin_settings.appearance.title')">
+				<input @input="$updateText('/admin/settings', 'app_title', app.title)" v-model="app.title" :placeholder="$t('admin_settings.appearance.title_plac')" type="text" class="focus-border-theme input-dark"/>
+			</AppInputText>
 
-				<div class="card shadow-card">
-					<FormLabel>
-						{{ $t('admin_settings.appearance.section_general') }}
-					</FormLabel>
+			<AppInputText :title="$t('admin_settings.appearance.description')">
+				<input @input="$updateText('/admin/settings', 'app_description', app.description)" v-model="app.description" :placeholder="$t('admin_settings.appearance.description_plac')" type="text" class="focus-border-theme input-dark"/>
+			</AppInputText>
 
-					<AppInputText :title="$t('admin_settings.appearance.title')">
-						<input @input="$updateText('/admin/settings', 'app_title', app.title)" v-model="app.title" :placeholder="$t('admin_settings.appearance.title_plac')" type="text" class="focus-border-theme input-dark"/>
-					</AppInputText>
-
-					<AppInputText :title="$t('admin_settings.appearance.description')">
-						<input @input="$updateText('/admin/settings', 'app_description', app.description)" v-model="app.description" :placeholder="$t('admin_settings.appearance.description_plac')" type="text" class="focus-border-theme input-dark"/>
-					</AppInputText>
-
-					<AppInputSwitch :title="$t('color_theme')" :description="$t('color_theme_description')">
-						<input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color"/>
-					</AppInputSwitch>
-				</div>
-
-				<div class="card shadow-card">
-					<FormLabel>
-						{{ $t('Branding') }}
-					</FormLabel>
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.appearance.logo') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
-							<ImageInput @input="$updateImage('/admin/settings', 'app_logo', app.logo)" :image="$getImage(app.logo)" v-model="app.logo" :error="errors[0]"/>
-						</ValidationProvider>
-					</div>
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.appearance.logo_horizontal') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo Horizontal" v-slot="{ errors }">
-							<ImageInput @input="$updateImage('/admin/settings', 'app_logo_horizontal', app.logo_horizontal)" :image="$getImage(app.logo_horizontal)"
-										v-model="app.logo_horizontal" :error="errors[0]"/>
-						</ValidationProvider>
-					</div>
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.appearance.favicon') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
-							<ImageInput @input="$updateImage('/admin/settings', 'app_favicon', app.favicon)" :image="$getImage(app.favicon)" v-model="app.favicon" :error="errors[0]"/>
-						</ValidationProvider>
-					</div>
-					<div class="block-wrapper">
-						<label>{{ $t('og_image') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
-							<ImageInput @input="$updateImage('/admin/settings', 'app_og_image', app.og_image)" :image="$getImage(app.og_image)" v-model="app.og_image" :error="errors[0]"/>
-							<small class="input-help">{{ $t('og_image_description') }}</small>
-						</ValidationProvider>
-					</div>
-					<div class="block-wrapper">
-						<label>{{ $t('app_touch_icon') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
-							<ImageInput @input="$updateImage('/admin/settings', 'app_touch_icon', app.touch_icon)" :image="$getImage(app.touch_icon)" v-model="app.touch_icon" :error="errors[0]"/>
-							<small class="input-help">{{ $t('app_touch_icon_description') }}</small>
-						</ValidationProvider>
-					</div>
-				</div>
-            </div>
-        </PageTabGroup>
+			<AppInputSwitch :title="$t('color_theme')" :description="$t('color_theme_description')">
+				<input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color"/>
+			</AppInputSwitch>
+		</div>
+		<div v-if="app" class="card shadow-card">
+			<FormLabel>
+				{{ $t('Branding') }}
+			</FormLabel>
+			<div class="block-wrapper">
+				<label>{{ $t('admin_settings.appearance.logo') }}:</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
+					<ImageInput @input="$updateImage('/admin/settings', 'app_logo', app.logo)" :image="$getImage(app.logo)" v-model="app.logo" :error="errors[0]"/>
+				</ValidationProvider>
+			</div>
+			<div class="block-wrapper">
+				<label>{{ $t('admin_settings.appearance.logo_horizontal') }}:</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo Horizontal" v-slot="{ errors }">
+					<ImageInput @input="$updateImage('/admin/settings', 'app_logo_horizontal', app.logo_horizontal)" :image="$getImage(app.logo_horizontal)"
+								v-model="app.logo_horizontal" :error="errors[0]"/>
+				</ValidationProvider>
+			</div>
+			<div class="block-wrapper">
+				<label>{{ $t('admin_settings.appearance.favicon') }}:</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+					<ImageInput @input="$updateImage('/admin/settings', 'app_favicon', app.favicon)" :image="$getImage(app.favicon)" v-model="app.favicon" :error="errors[0]"/>
+				</ValidationProvider>
+			</div>
+			<div class="block-wrapper">
+				<label>{{ $t('og_image') }}:</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+					<ImageInput @input="$updateImage('/admin/settings', 'app_og_image', app.og_image)" :image="$getImage(app.og_image)" v-model="app.og_image" :error="errors[0]"/>
+					<small class="input-help">{{ $t('og_image_description') }}</small>
+				</ValidationProvider>
+			</div>
+			<div class="block-wrapper">
+				<label>{{ $t('app_touch_icon') }}:</label>
+				<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
+					<ImageInput @input="$updateImage('/admin/settings', 'app_touch_icon', app.touch_icon)" :image="$getImage(app.touch_icon)" v-model="app.touch_icon" :error="errors[0]"/>
+					<small class="input-help">{{ $t('app_touch_icon_description') }}</small>
+				</ValidationProvider>
+			</div>
+		</div>
     </PageTab>
 </template>
 

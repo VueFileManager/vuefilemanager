@@ -13,7 +13,6 @@
 				<input @input="$updateText('/admin/settings', 'billing_vat_number', billingInformation.billing_vat_number)" v-model="billingInformation.billing_vat_number" :placeholder="$t('admin_settings.billings.vat_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
 		</div>
-
 		<div v-if="billingInformation" class="card shadow-card">
 			<FormLabel>
 				{{ $t('admin_settings.billings.section_billing') }}

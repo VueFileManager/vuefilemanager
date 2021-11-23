@@ -1,76 +1,49 @@
 <template>
     <PageTab :is-loading="isLoading">
-
-        <!--Personal Information-->
-        <PageTabGroup>
-            <ValidationObserver @submit.prevent="EmailSetupSubmit" ref="EmailSetup" v-slot="{ invalid }" tag="form" class="form block-form">
-
-				<div class="card shadow-card">
-					<FormLabel>{{ $t('admin_settings.email.section_email') }}</FormLabel>
-
-					<InfoBox>
-						<p v-html="$t('admin_settings.email.email_disclaimer')"></p>
-					</InfoBox>
-
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.email.driver') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-							<input v-model="mail.driver" :placeholder="$t('admin_settings.email.driver_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.email.host') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-							<input v-model="mail.host" :placeholder="$t('admin_settings.email.host_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.email.port') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
-							<input v-model="mail.port" :placeholder="$t('admin_settings.email.port_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.email.username') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
-							<input v-model="mail.username" :placeholder="$t('admin_settings.email.username_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.email.password') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
-							<input v-model="mail.password" :placeholder="$t('admin_settings.email.password_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-
-					<div class="block-wrapper">
-						<label>{{ $t('admin_settings.email.encryption') }}:</label>
-						<ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Encryption" rules="required" v-slot="{ errors }">
-							<SelectInput v-model="mail.encryption" :options="encryptionList" :placeholder="$t('admin_settings.email.encryption_plac')" :isError="errors[0]"/>
-							<span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-						</ValidationProvider>
-					</div>
-
-					<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit"
-								button-style="theme" class="submit-button">
-						{{ $t('admin_settings.email.save_button') }}
-					</ButtonBase>
-				</div>
-            </ValidationObserver>
-        </PageTabGroup>
+        <ValidationObserver @submit.prevent="EmailSetupSubmit" ref="EmailSetup" v-slot="{ invalid }" tag="form" class="card shadow-card">
+            <FormLabel>{{ $t('admin_settings.email.section_email') }}</FormLabel>
+            <InfoBox>
+                <p v-html="$t('admin_settings.email.email_disclaimer')"></p>
+            </InfoBox>
+            <ValidationProvider tag="div" mode="passive" name="Mail Driver" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('admin_settings.email.driver')" :error="errors[0]">
+                    <input v-model="mail.driver" :placeholder="$t('admin_settings.email.driver_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+                </AppInputText>
+            </ValidationProvider>
+            <ValidationProvider tag="div" mode="passive" name="Mail Host" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('admin_settings.email.host')" :error="errors[0]">
+                    <input v-model="mail.host" :placeholder="$t('admin_settings.email.host_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+                </AppInputText>
+            </ValidationProvider>
+            <ValidationProvider tag="div" mode="passive" name="Mail Port" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('admin_settings.email.port')" :error="errors[0]">
+                    <input v-model="mail.port" :placeholder="$t('admin_settings.email.port_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+                </AppInputText>
+            </ValidationProvider>
+            <ValidationProvider tag="div" mode="passive" name="Mail Username" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('admin_settings.email.username')" :error="errors[0]">
+                    <input v-model="mail.username" :placeholder="$t('admin_settings.email.username_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+                </AppInputText>
+            </ValidationProvider>
+            <ValidationProvider tag="div" mode="passive" name="Mail Password" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('admin_settings.email.password')" :error="errors[0]">
+                    <input v-model="mail.password" :placeholder="$t('admin_settings.email.password_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+                </AppInputText>
+            </ValidationProvider>
+            <ValidationProvider tag="div" mode="passive" name="Mail Encryption" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('admin_settings.email.encryption')" :error="errors[0]">
+                    <SelectInput v-model="mail.encryption" :options="encryptionList" :placeholder="$t('admin_settings.email.encryption_plac')" :isError="errors[0]"/>
+                </AppInputText>
+            </ValidationProvider>
+            <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+                {{ $t('admin_settings.email.save_button') }}
+            </ButtonBase>
+        </ValidationObserver>
     </PageTab>
 </template>
 
 <script>
+	import AppInputText from "../../../../components/Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
     import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
@@ -88,6 +61,7 @@
     export default {
         name: 'AppAppearance',
         components: {
+			AppInputText,
             ValidationObserver,
             ValidationProvider,
             StorageItemDetail,
@@ -161,22 +135,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .block-form {
-        max-width: 100%;
-    }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    .dark {
-
-    }
-
-</style>

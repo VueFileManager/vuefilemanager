@@ -43,7 +43,6 @@
 				/>
 			</AppInputSwitch>
 		</div>
-
 		<div class="card shadow-card">
 			<FormLabel>
 				{{ $t('admin_settings.others.section_others') }}
@@ -65,7 +64,6 @@
 				<input @input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit, true)" v-model="app.uploadLimit" :placeholder="$t('admin_settings.others.upload_limit_plac')" type="number" min="0" step="1" class="focus-border-theme input-dark" />
 			</AppInputText>
 		</div>
-
 		<div class="card shadow-card">
 			<FormLabel>
 				{{ $t('admin_settings.others.section_cache') }}
