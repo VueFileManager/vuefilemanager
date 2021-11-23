@@ -135,7 +135,7 @@ export default {
 @import '/resources/sass/vuefilemanager/_mixins';
 
 .card {
-	@apply bg-white px-9 pt-8 pb-9 rounded-xl lg:mb-6 mb-4
+	@apply bg-white lg:p-8 p-6 rounded-lg lg:mb-6 mb-4
 }
 
 .input-dark {

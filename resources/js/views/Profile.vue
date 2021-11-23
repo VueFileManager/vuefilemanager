@@ -1,5 +1,5 @@
 <template>
-    <div class="sm:flex md:h-screen md:overflow-hidden">
+    <div class="sm:flex md:h-screen md:overflow-hidden" style="background: rgba(244, 245, 246, 0.6)">
 		<!--On Top of App Components-->
         <FilePreview />
 		<Spotlight />
@@ -12,14 +12,13 @@
 		<CreatePersonaTokenPopup />
 
 		<SidebarNavigation />
-        <PanelNavigationUser />
 
-        <div v-if="user" class="pr-6 w-full overflow-x-hidden relative pt-6" style="background: rgba(244, 245, 246, 0.6)">
+        <div v-if="user" class="px-6 w-full overflow-x-hidden relative pt-6 xl:max-w-screen-lg md:max-w-screen-md mx-auto">
             <div v-if="! isLoading" id="page-content">
 
-				<div class="card shadow-card">
+				<div class="card shadow-card pb-0 sticky top-0 z-10">
 					<!--User thumbnail-->
-                    <div class="page-detail-headline">
+                    <div class="mb-3">
                         <div class="user-thumbnail">
                             <div class="avatar">
                                 <UserImageInput
@@ -37,24 +36,27 @@
                                 <span class="email">{{ user.data.attributes.email }}</span>
                             </div>
                         </div>
-                        <div v-if="config.storageLimit && config.isSaaS && config.app_payments_active && !canShowIncompletePayment" class="headline-actions">
+						<!--<div v-if="config.storageLimit && config.isSaaS && config.app_payments_active && !canShowIncompletePayment" class="headline-actions">
 							<ButtonBase @click.native="$openUpgradeOptions" class="upgrade-button" button-style="secondary" type="button">
 								{{ $t('global.upgrade_plan') }}
 							</ButtonBase>
-                        </div>
+                        </div>-->
                     </div>
 
+
+					<CardNavigation :pages="pages" class="-mx-6" />
+
 					<!--Incomplete Payment Warning-->
-                    <InfoBox v-if="canShowIncompletePayment" type="error" class="message-box">
+					<!--<InfoBox v-if="canShowIncompletePayment" type="error" class="message-box">
                         <i18n path="incomplete_payment.description" tag="p">
                             <a :href="user.data.attributes.incomplete_payment">{{ $t('incomplete_payment.href') }}</a>
                         </i18n>
-                    </InfoBox>
+                    </InfoBox>-->
 
 					<!--Upgrade Storage Plan Warning-->
-                    <InfoBox v-if="canShowUpgradeWarning && !canShowIncompletePayment" type="error" class="message-box">
+					<!--<InfoBox v-if="canShowUpgradeWarning && !canShowIncompletePayment" type="error" class="message-box">
                         <p>{{ $t('upgrade_banner.title') }}</p>
-                    </InfoBox>
+                    </InfoBox>-->
 				</div>
 
 				<!--Router Content-->
@@ -73,34 +75,27 @@
 	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
 	import CreatePersonaTokenPopup from '/resources/js/components/Others/CreatePersonaTokenPopup'
 	import TwoFactorSetupPopup from '/resources/js/components/Others/TwoFactorSetupPopup'
-    import UserImageInput from '/resources/js/components/Others/UserImageInput'
+	import UserImageInput from '/resources/js/components/Others/UserImageInput'
 	import SidebarNavigation from "../components/Sidebar/SidebarNavigation"
-    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
-	import PanelNavigationUser from "./User/Components/PanelNavigationUser"
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import PageHeader from '/resources/js/components/Others/PageHeader'
-    import ColorLabel from '/resources/js/components/Others/ColorLabel'
-    import Spinner from '/resources/js/components/FilesView/Spinner'
-    import { mapGetters } from 'vuex'
+	import ColorLabel from '/resources/js/components/Others/ColorLabel'
+	import Spinner from '/resources/js/components/FilesView/Spinner'
+	import {mapGetters} from 'vuex'
+	import CardNavigation from "../components/Admin/CardNavigation";
 
-    export default {
+	export default {
         name: 'Settings',
         components: {
+			CardNavigation,
 			FilePreview,
 			Spotlight,
 			TwoFactorRecoveryCodesPopup,
 			CreatePersonaTokenPopup,
-			PanelNavigationUser,
 			TwoFactorSetupPopup,
 			SidebarNavigation,
             UserImageInput,
-            MobileHeader,
-            ButtonBase,
             ColorLabel,
-            PageHeader,
             Spinner,
-            InfoBox,
+
         },
         computed: {
             ...mapGetters([
@@ -124,6 +119,32 @@
             return {
                 avatar: undefined,
                 isLoading: false,
+				pages: [
+					{
+						title: this.$t('menu.profile'),
+						route: 'Profile',
+					},
+					{
+						title: this.$t('menu.storage'),
+						route: 'Storage',
+					},
+					{
+						title: this.$t('menu.password'),
+						route: 'Password',
+					},
+					{
+						title: this.$t('menu.subscription'),
+						route: 'Subscription',
+					},
+					{
+						title: this.$t('menu.payment_cards'),
+						route: 'PaymentMethods',
+					},
+					{
+						title: this.$t('menu.invoices'),
+						route: 'Invoice',
+					},
+				]
             }
         },
 	}
@@ -181,23 +202,6 @@
 
                 .email {
                     color: $dark_mode_text_secondary;
-                }
-            }
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-
-        .page-detail-headline {
-            display: block;
-            margin-bottom: 30px;
-            margin-top: 10px;
-
-            .headline-actions {
-                margin-top: 20px;
-
-                .upgrade-button {
-                    width: 100%;
                 }
             }
         }

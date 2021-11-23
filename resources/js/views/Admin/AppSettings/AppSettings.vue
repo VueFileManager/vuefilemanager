@@ -2,16 +2,7 @@
     <div>
 		<!--Page Tab links-->
 		<div class="card shadow-card py-0 sticky top-0 z-10">
-			<router-link
-				class="inline-block text-sm font-bold px-4 py-5 border-b-2 border-transparent border-bottom-theme"
-				:class="{'text-theme': $router.currentRoute.name === page.route, 'text-gray-600': $router.currentRoute.name !== page.route}"
-				v-for="(page, i) in pages"
-				:to="{name: page.route}"
-				:key="i"
-				replace
-			>
-				{{ page.title }}
-			</router-link>
+			<CardNavigation :pages="pages" class="-mx-6" />
 		</div>
 
 		<!--Page Content-->
@@ -20,12 +11,13 @@
 </template>
 
 <script>
+	import CardNavigation from "../../../components/Admin/CardNavigation";
 	import {mapGetters} from 'vuex'
 
 	export default {
 		name: 'AppSettings',
 		components: {
-
+			CardNavigation,
 		},
 		computed: {
 			...mapGetters([

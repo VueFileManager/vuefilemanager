@@ -5,11 +5,10 @@
 
         <PopupContent>
              <ValidationObserver @submit.prevent="confirmPassword" v-if="! qrCode" ref="passwordForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
-
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Password" rules="required" v-slot="{ errors }">
-                    <label class="input-label"> {{ $t('popup_2fa.input_label') }}:</label>
-                    <input v-model="password" :class="{'is-error': errors[0]}" type="password" ref="input" class="focus-border-theme" :placeholder="$t('page_sign_in.placeholder_password')">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                <ValidationProvider tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('popup_2fa.input_label')" :error="errors[0]" :is-last="true">
+						<input v-model="password" :class="{'is-error': errors[0]}" type="password" ref="input" class="focus-border-theme input-dark" :placeholder="$t('page_sign_in.placeholder_password')">
+					</AppInputText>
                 </ValidationProvider>
             </ValidationObserver>
 
@@ -56,6 +55,7 @@
 </template>
 
 <script>
+import AppInputText from "../Admin/AppInputText";
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
 import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
@@ -73,6 +73,7 @@ export default {
 	components: {
 		ValidationProvider,
 		ValidationObserver,
+		AppInputText,
 		PopupWrapper,
 		PopupActions,
 		PopupContent,

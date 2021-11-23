@@ -19,16 +19,7 @@
 					</div>
 				</div>
 
-				<router-link
-					class="inline-block text-sm font-bold px-4 py-5 border-b-2 border-transparent border-bottom-theme"
-					:class="{'text-theme': $router.currentRoute.name === page.route, 'text-gray-600': $router.currentRoute.name !== page.route}"
-					v-for="(page, i) in pages"
-					:to="{name: page.route}"
-					:key="i"
-					replace
-				>
-					{{ page.title }}
-				</router-link>
+				<CardNavigation :pages="pages" class="-mx-6" />
 			</div>
 
 			<!--Router Content-->
@@ -41,6 +32,7 @@
 </template>
 
 <script>
+	import CardNavigation from "../../../components/Admin/CardNavigation";
     import {UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon} from 'vue-feather-icons'
     import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
     import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
@@ -55,6 +47,7 @@
         name: 'Profile',
         components: {
             StorageItemDetail,
+			CardNavigation,
             CreditCardIcon,
             HardDriveIcon,
             SectionTitle,

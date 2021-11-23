@@ -5,24 +5,23 @@
 
         <PopupContent>
              <ValidationObserver v-if="! token" @submit.prevent="createTokenForm" ref="createToken" v-slot="{ invalid }" tag="form" class="form-wrapper">
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper password" name="Token Name" rules="required" v-slot="{ errors }">
-                    <label class="input-label"> {{ $t('popup_personal_token.label') }}:</label>
-                    <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme" :placeholder="$t('popup_personal_token.plc')">
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+
+                <ValidationProvider tag="div" mode="passive" name="Token Name" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('popup_personal_token.label')" :error="errors[0]" :is-last="true">
+    	                <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('popup_personal_token.plc')">
+					</AppInputText>
                 </ValidationProvider>
+
             </ValidationObserver>
 
-            <div v-if="token" class="form-wrapper">
-				<div v-if="token">
-					<div class="input-wrapper">
-						<label class="input-label">{{ $t('popup_personal_token.your_token') }}:</label>
-						<CopyInput size="small" :str="token['plainTextToken']" />
-					</div>
-				</div>
+			<AppInputText v-if="token" :title="$t('popup_personal_token.your_token')" class="form-wrapper" :is-last="true">
+				<CopyInput size="small" :str="token['plainTextToken']" />
+
 				<InfoBox style="margin-bottom: 0; margin-top: 20px">
-                	<p v-html="$t('popup_personal_token.copy_token')"></p>
-            	</InfoBox>
-            </div>
+					<p v-html="$t('popup_personal_token.copy_token')"></p>
+				</InfoBox>
+			</AppInputText>
+
         </PopupContent>
 
         <PopupActions v-if="! token">
@@ -57,6 +56,7 @@
 </template>
 
 <script>
+import AppInputText from "../Admin/AppInputText";
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
 import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
@@ -74,6 +74,7 @@ export default {
 	components: {
 		ValidationProvider,
 		ValidationObserver,
+		AppInputText,
 		PopupWrapper,
 		PopupActions,
 		PopupContent,

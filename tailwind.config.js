@@ -30,7 +30,7 @@ module.exports = {
         'light-background': '#f4f5f6',
       }),
       boxShadow: {
-        card: '0 2px 6px 0 rgba(0, 0, 0, 0.05)',
+        card: '0 2px 6px 0 rgba(0, 0, 0, 0.04)',
       }
     },
   },
