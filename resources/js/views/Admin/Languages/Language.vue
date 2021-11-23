@@ -94,7 +94,7 @@
 						</div>
 
 						<ValidationProvider tag="div" name="Language string" rules="required" v-slot="{ errors }">
-							<AppInputText :title="referenceTranslations[key]" :error="errors[0]" v-for="(translation, key) in translationList" :key="key" :is-last="true">
+							<AppInputText :title="referenceTranslations[key]" :error="errors[0]" v-for="(translation, key) in translationList" :key="key">
 								<textarea
 									v-model="selectedLanguage.data.attributes.translations[key]"
 									@input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"

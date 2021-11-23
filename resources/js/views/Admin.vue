@@ -1,5 +1,5 @@
 <template>
-    <div class="sm:flex md:h-screen md:overflow-hidden">
+    <div class="sm:flex md:h-screen md:overflow-hidden" style="background: rgba(244, 245, 246, 0.6)">
 		<!--On Top of App Components-->
         <FilePreview />
 		<Spotlight />
@@ -87,7 +87,7 @@
             </ContentGroup>
         </ContentSidebar>
 
-        <router-view class="lg:pl-0 pl-6 pr-6 w-full overflow-x-hidden relative lg:pt-6 pt-4" style="background: rgba(244, 245, 246, 0.6)" />
+        <router-view class="lg:pl-0 pl-6 pr-6 w-full overflow-x-hidden relative lg:pt-6 pt-4" />
     </div>
 </template>
 

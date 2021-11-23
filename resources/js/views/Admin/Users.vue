@@ -54,7 +54,7 @@
                             </td>
                             <td>
                                 <span class="cell-item">
-                                    {{ row.data.attributes.created_at_formatted }}
+                                    {{ row.data.attributes.created_at }}
                                 </span>
                             </td>
                             <td>

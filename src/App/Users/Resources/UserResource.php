@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Users\Resources;
 
 use Domain\Folders\Resources\FolderCollection;
@@ -20,7 +21,7 @@ class UserResource extends JsonResource
                 'id'            => $this->id,
                 'type'          => 'user',
                 'attributes'    => [
-                    'avatar'       => $this->settings->avatar,
+                    'avatar'                    => $this->settings->avatar,
                     'email'                     => is_demo() ? obfuscate_email($this->email) : $this->email,
                     'role'                      => $this->role,
                     'two_factor_authentication' => $this->two_factor_secret ? true : false,
@@ -33,13 +34,13 @@ class UserResource extends JsonResource
                     'settings'    => new SettingsResource($this->settings),
                     'favourites'  => new FolderCollection($this->favouriteFolders),
                     'limitations' => [
-                        'id'         => $this->id,
-                        'type'       => 'limitations',
-                        'data'       => [
+                        'id'   => $this->id,
+                        'type' => 'limitations',
+                        'data' => [
                             'attributes' => $this->limitations,
                         ],
                     ],
-                    $this->mergeWhen($this->hasSubscription(), fn () => [
+                    $this->mergeWhen($this->hasSubscription(), fn() => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),
                 ],
