@@ -1,6 +1,6 @@
 import i18n from '/resources/js/i18n/index'
 import store from '../store/index'
-import {debounce, isArray} from "lodash";
+import {debounce, isArray, orderBy} from "lodash";
 import {events} from '../bus'
 import axios from 'axios'
 
@@ -67,6 +67,55 @@ const FunctionHelpers = {
                     icon: role.icon ? role.icon : '',
                 }
             })
+        }
+
+        Vue.prototype.$mapStorageUsage = function (storage) {
+
+            let distribution = [
+                {
+                    progress: storage.data.meta.images.percentage,
+                    color: 'success',
+                    value: storage.data.meta.images.used,
+                    title: 'Images'
+                },
+                {
+                    progress: storage.data.meta.videos.percentage,
+                    color: 'danger',
+                    value: storage.data.meta.videos.used,
+                    title: 'Videos'
+                },
+                {
+                    progress: storage.data.meta.audios.percentage,
+                    color: 'warning',
+                    value: storage.data.meta.audios.used,
+                    title: 'Audios'
+                },
+                {
+                    progress: storage.data.meta.documents.percentage,
+                    color: 'info',
+                    value: storage.data.meta.documents.used,
+                    title: 'Documents'
+                },
+                {
+                    progress: storage.data.meta.others.percentage,
+                    color: 'purple',
+                    value: storage.data.meta.others.used,
+                    title: 'Others'
+                },
+            ]
+
+            // Order distribution by it's size
+            distribution = orderBy(distribution, ['progress'], ['desc'])
+
+            // Push at the end empty space data
+            distribution.push({
+                progress: 100 - storage.data.attributes.percentage,
+                color: 'secondary',
+                value: storage.data.meta.others.used,
+                title: 'Empty'
+            })
+
+            return distribution
         }
 
         Vue.prototype.$getImage = function (source) {

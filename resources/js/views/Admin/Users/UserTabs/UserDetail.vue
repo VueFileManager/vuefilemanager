@@ -105,7 +105,6 @@
     import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
     import PageTab from '/resources/js/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
     import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
     import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
@@ -128,7 +127,6 @@
             FormLabel,
             ValidationProvider,
             ValidationObserver,
-            StorageItemDetail,
             SelectInput,
             ButtonBase,
             SetupBox,

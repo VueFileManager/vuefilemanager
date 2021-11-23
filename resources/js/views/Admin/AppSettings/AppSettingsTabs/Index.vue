@@ -246,7 +246,6 @@
 import AppInputSwitch from "../../../../components/Admin/AppInputSwitch";
 import AppInputText from "../../../../components/Admin/AppInputText";
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
 import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
 import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
 import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
@@ -267,7 +266,6 @@ export default {
 		AppInputText,
         ValidationObserver,
         ValidationProvider,
-        StorageItemDetail,
         PageTabGroup,
         SwitchInput,
         SelectInput,

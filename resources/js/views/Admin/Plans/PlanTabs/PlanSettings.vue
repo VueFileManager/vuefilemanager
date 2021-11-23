@@ -59,7 +59,6 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
     import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
     import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
     import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
@@ -78,7 +77,6 @@
         components: {
             ValidationProvider,
             ValidationObserver,
-            StorageItemDetail,
             PageTabGroup,
             SwitchInput,
             SelectInput,

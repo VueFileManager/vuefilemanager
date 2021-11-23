@@ -34,7 +34,6 @@
 <script>
 	import CardNavigation from "../../../components/Admin/CardNavigation";
     import {UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon} from 'vue-feather-icons'
-    import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
     import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
     import SectionTitle from '/resources/js/components/Others/SectionTitle'
     import PageHeader from '/resources/js/components/Others/PageHeader'
@@ -46,7 +45,6 @@
     export default {
         name: 'Profile',
         components: {
-            StorageItemDetail,
 			CardNavigation,
             CreditCardIcon,
             HardDriveIcon,

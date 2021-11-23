@@ -50,7 +50,6 @@
 <script>
 	import AppInputText from "../../../../components/Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
     import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
     import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
     import ImageInput from '/resources/js/components/Others/Forms/ImageInput'
@@ -68,7 +67,6 @@
         components: {
             ValidationObserver,
             ValidationProvider,
-            StorageItemDetail,
 			AppInputText,
             PageTabGroup,
             SelectInput,

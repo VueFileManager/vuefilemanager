@@ -2,6 +2,7 @@
     <div class="form-label">
         <edit-2-icon v-if="!icon" size="22" class="icon text-theme dark-text-theme" />
         <settings-icon v-if="icon === 'settings'" size="22" class="icon text-theme dark-text-theme" />
+        <hard-drive-icon v-if="icon === 'hard-drive'" size="22" class="icon text-theme dark-text-theme" />
         <smartphone-icon v-if="icon === 'smartphone'" size="22" class="icon text-theme dark-text-theme" />
         <key-icon v-if="icon === 'key'" size="22" class="icon text-theme dark-text-theme" />
         <b class="label">
@@ -12,6 +13,7 @@
 
 <script>
     import {
+		HardDriveIcon,
 		KeyIcon,
 		Edit2Icon,
 		SettingsIcon,
@@ -25,6 +27,7 @@
 			KeyIcon,
             Edit2Icon,
             SettingsIcon,
+			HardDriveIcon,
 			SmartphoneIcon,
         }
     }

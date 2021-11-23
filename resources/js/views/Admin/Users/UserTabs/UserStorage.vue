@@ -1,6 +1,19 @@
 <template>
     <PageTab :is-loading="isLoading" v-if="storage">
 
+		<div class="card shadow-card">
+			<FormLabel icon="hard-drive">
+                {{ $t('Storage Usage') }}
+            </FormLabel>
+
+			<div v-if="distribution">
+				<b class="mb-3 block text-sm text-gray-400">
+					{{ $t('Total') }} {{ storage.data.attributes.used }} {{ $t('of') }} {{ storage.data.attributes.capacity }} {{ $t('Used') }}
+				</b>
+				<ProgressLine :data="distribution" />
+			</div>
+		</div>
+
         <div v-if="config.storageLimit && ! user.data.attributes.subscription" class="card shadow-card">
             <FormLabel>
                 {{ $t('user_box_storage.title') }}
@@ -28,32 +41,17 @@
                 </ValidationProvider>
             </ValidationObserver>
         </div>
-
-        <PageTabGroup>
-            <FormLabel>{{ $t('storage.sec_details') }}</FormLabel>
-            <StorageItemDetail
-                    type="disk"
-                    :title="$t('storage.total_used', {used: storage.attributes.used})"
-                    :percentage="storage.attributes.percentage"
-                    :used="$t('storage.total_capacity', {capacity: storage.attributes.capacity})"
-            />
-            <StorageItemDetail type="images" :title="$t('storage.images')" :percentage="storage.meta.images.percentage" :used="storage.meta.images.used" />
-            <StorageItemDetail type="videos" :title="$t('storage.videos')" :percentage="storage.meta.videos.percentage" :used="storage.meta.videos.used" />
-            <StorageItemDetail type="audios" :title="$t('storage.audios')" :percentage="storage.meta.audios.percentage" :used="storage.meta.audios.used" />
-            <StorageItemDetail type="documents" :title="$t('storage.documents')" :percentage="storage.meta.documents.percentage" :used="storage.meta.documents.used" />
-            <StorageItemDetail type="others" :title="$t('storage.others')" :percentage="storage.meta.others.percentage" :used="storage.meta.others.used" />
-        </PageTabGroup>
     </PageTab>
 </template>
 
 <script>
+	import ProgressLine from "../../../../components/Admin/ProgressLine";
 	import AppInputText from "../../../../components/Admin/AppInputText";
     import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
     import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
     import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
     import PageTab from '/resources/js/components/Others/Layout/PageTab'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import StorageItemDetail from '/resources/js/components/Others/StorageItemDetail'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
     import SetupBox from '/resources/js/components/Others/Forms/SetupBox'
     import {required} from 'vee-validate/dist/rules'
@@ -67,6 +65,7 @@
 			'user'
 		],
         components: {
+			ProgressLine,
 			AppInputText,
             PageTabGroup,
             FormLabel,
@@ -74,7 +73,6 @@
             InfoBox,
             ValidationProvider,
             ValidationObserver,
-            StorageItemDetail,
             ButtonBase,
             SetupBox,
             required,
@@ -88,6 +86,7 @@
                 isSendingRequest: false,
                 capacity: undefined,
                 storage: undefined,
+				distribution: undefined,
             }
         },
         methods: {
@@ -147,7 +146,10 @@
             getStorageDetails() {
                 axios.get('/api/admin/users/' + this.$route.params.id + '/storage')
                     .then(response => {
-                        this.storage = response.data.data
+						this.distribution = this.$mapStorageUsage(response.data)
+
+						this.storage = response.data
+
                         this.isLoading = false
                     })
             }
