@@ -1,5 +1,5 @@
 <template>
-    <div class="sm:flex md:h-screen md:overflow-hidden" style="background: rgb(249, 249, 250)">
+    <div class="sm:flex md:h-screen md:overflow-hidden dark:bg-dark-background bg-light-background">
 		<!--On Top of App Components-->
         <FilePreview />
 		<Spotlight />

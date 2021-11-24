@@ -27,11 +27,11 @@
 			</AppInputText>
 
 			<div class="flex space-x-4">
-				<AppInputText :title="$t('admin_settings.billings.city')">
+				<AppInputText :title="$t('admin_settings.billings.city')" class="w-full">
 					<input @input="$updateText('/admin/settings', 'billing_city', billingInformation.billing_city)" v-model="billingInformation.billing_city" :placeholder="$t('admin_settings.billings.city_plac')" type="text" class="focus-border-theme input-dark"/>
 				</AppInputText>
 
-				<AppInputText :title="$t('admin_settings.billings.postal_code')">
+				<AppInputText :title="$t('admin_settings.billings.postal_code')" class="w-full">
 					<input @input="$updateText('/admin/settings', 'billing_postal_code', billingInformation.billing_postal_code)" v-model="billingInformation.billing_postal_code" :placeholder="$t('admin_settings.billings.postal_code_plac')" type="text" class="focus-border-theme input-dark"/>
 				</AppInputText>
 			</div>

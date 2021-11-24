@@ -13,7 +13,7 @@ module.exports = {
         '3': '3px',
       },
       borderColor: theme => ({
-        'light': '#F8F8F8',
+        'light': '#F3F3F3',
         'dark-background': '#151515',
         'dark-secondary': '#1e2024',
       }),
@@ -25,8 +25,8 @@ module.exports = {
       },
       backgroundColor: theme => ({
         'dark-background': '#151515',
-        'dark-foreground': '#1e2024',
-        '2x-dark-foreground': '#282A2F',
+        'dark-foreground': '#161718',
+        '2x-dark-foreground': '#191b1e',
         'light-background': '#f4f5f6',
       }),
       boxShadow: {

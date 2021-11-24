@@ -11,14 +11,14 @@
 						:class="{ 'sortable': column.sortable, 'text-right': (Object.values(columns).length - 1) === index }"
 						v-if="! column.hidden"
 					>
-						<span class="text-gray-400 dark-text-theme text-xs">
+						<span class="dark:text-gray-500 text-gray-400 text-xs">
 							{{ column.label }}
 						</span>
 
 						<chevron-up-icon
 							v-if="column.sortable"
 							:class="{ 'arrow-down': filter.sort === 'ASC' }"
-							class="inline-block vue-feather text-gray-300"
+							class="inline-block vue-feather dark:text-gray-500 text-gray-300"
 							size="12"
 						/>
 					</th>
@@ -120,7 +120,9 @@
                 </li>
             </ul>
 
-            <span class="paginator-info">Showing {{ data.meta.from }} - {{ data.meta.to }} from {{ data.meta.total }} records</span>
+            <span class="mt-10 flex items-center justify-between text-xs text-gray-600">
+				Showing {{ data.meta.from }} - {{ data.meta.to }} from {{ data.meta.total }} records
+			</span>
         </div>
     </div>
 </template>
@@ -271,18 +273,6 @@ export default {
 		svg path {
 			fill: $text-muted;
 		}
-	}
-}
-
-.paginator-wrapper {
-	margin-top: 30px;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-
-	.paginator-info {
-		font-size: 13px;
-		color: $text-muted;
 	}
 }
 </style>

@@ -4,7 +4,7 @@
 			<div class="card shadow-card">
 				<DatatableWrapper @init="isLoading = false" api="/api/admin/pages" :paginator="false" :columns="columns" class="table table-users">
 					<template slot-scope="{ row }">
-						<tr  style="border-bottom: 1px dashed #f3f3f3;">
+						<tr class="border-b dark:border-opacity-5 border-light border-dashed">
 							<td class="py-4">
 								<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="text-sm font-bold cursor-pointer" tag="div">
 									{{ row.data.attributes.title }}
@@ -22,7 +22,7 @@
 							</td>
 							<td>
 								<div class="flex space-x-2 w-full justify-end">
-									<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 bg-light-background transition-colors" :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}">
+									<router-link class="flex items-center justify-center w-8 h-8 rounded-md dark:bg-2x-dark-foreground hover:bg-green-100 bg-light-background transition-colors" :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}">
 										<Edit2Icon size="15" class="opacity-75" />
 									</router-link>
 								</div>

@@ -8,7 +8,7 @@
 				:columns="columns"
 			>
                 <template slot-scope="{ row }">
-                    <tr style="border-bottom: 1px dashed #f3f3f3;">
+                    <tr class="border-b dark:border-opacity-5 border-light border-dashed">
                         <td class="py-4">
                             <span class="text-sm font-bold">
 								{{ row.data.attributes.plan_name }}

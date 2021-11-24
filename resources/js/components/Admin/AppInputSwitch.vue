@@ -3,7 +3,7 @@
 
 		<!--Label for input-->
 		<div class="leading-5">
-			<label class="text-sm font-bold text-gray-700 mb-1.5 block">
+			<label class="text-sm font-bold dark:text-gray-400 text-gray-700 mb-1.5 block">
 				{{ title }}:
 			</label>
 

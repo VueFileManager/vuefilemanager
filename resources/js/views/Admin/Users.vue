@@ -11,7 +11,7 @@
 			<!--Datatable-->
             <DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
                 <template slot-scope="{ row }">
-                    <tr style="border-bottom: 1px dashed #f3f3f3;">
+                    <tr class="border-b dark:border-opacity-5 border-light border-dashed">
                         <td class="py-3">
 							<router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
 								<div class="flex items-center">
@@ -67,10 +67,10 @@
                         </td>
                         <td>
                             <div class="flex space-x-2 w-full justify-end">
-                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 bg-light-background transition-colors" :to="{name: 'UserDetail', params: {id: row.data.id}}">
+                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                     <Edit2Icon size="15" class="opacity-75" />
                                 </router-link>
-                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 bg-light-background transition-colors" :to="{name: 'UserDelete', params: {id: row.data.id}}">
+                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDelete', params: {id: row.data.id}}">
                                     <Trash2Icon size="15" class="opacity-75" />
                                 </router-link>
                             </div>

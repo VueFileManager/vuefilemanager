@@ -135,11 +135,11 @@ export default {
 @import '/resources/sass/vuefilemanager/_mixins';
 
 .card {
-	@apply bg-white lg:p-8 p-6 rounded-lg lg:mb-6 mb-4
+	@apply dark:bg-dark-foreground bg-white lg:p-8 p-6 rounded-lg lg:mb-6 mb-4
 }
 
 .input-dark {
-	@apply w-full bg-light-background py-3 px-5 rounded-lg appearance-none border-transparent text-base font-bold border
+	@apply w-full dark:bg-2x-dark-foreground bg-light-background py-3 px-5 rounded-lg appearance-none border-transparent text-base font-bold border
 }
 
 [v-cloak],

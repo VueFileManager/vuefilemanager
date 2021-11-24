@@ -115,4 +115,32 @@
             }
         }
     }
+
+
+	.dark {
+
+		.chart {
+			background: #282A2F !important;
+		}
+
+		.chart-wrapper {
+
+			&:nth-child(1) {
+				.chart-progress {
+					border-color: #151515 !important;
+				}
+			}
+
+			.chart-progress {
+					border-color: #151515 !important;
+			}
+		}
+
+		.chart-progress {
+			&.secondary {
+				background: #282A2F !important;
+				box-shadow: 0 3px 10px rgba(#282A2F, 0.5) !important;
+			}
+		}
+	}
 </style>

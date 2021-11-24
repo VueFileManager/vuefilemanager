@@ -1,5 +1,5 @@
 <template>
-    <nav class="menu-bar flex-none xl:w-20 w-16 lg:grid hidden">
+    <nav class="menu-bar dark:bg-dark-foreground bg-light-background flex-none xl:w-20 w-16 lg:grid hidden">
         <div class="icon-navigation menu" v-if="user">
 
             <router-link :to="{name: 'Profile'}" class="icon-navigation-item user">
@@ -101,7 +101,6 @@
 	}
 
     .menu-bar {
-        background: $light_background;
         user-select: none;
         padding-top: 25px;
     }
@@ -214,10 +213,6 @@
                     background: #22262b;
                 }
             }
-        }
-
-        .menu-bar {
-            background: #1d1d1d;
         }
     }
 
