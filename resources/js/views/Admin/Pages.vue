@@ -4,7 +4,7 @@
 			<div class="card shadow-card">
 				<DatatableWrapper @init="isLoading = false" api="/api/admin/pages" :paginator="false" :columns="columns" class="table table-users">
 					<template slot-scope="{ row }">
-						<tr>
+						<tr  style="border-bottom: 1px dashed #f3f3f3;">
 							<td class="py-4">
 								<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="text-sm font-bold cursor-pointer" tag="div">
 									{{ row.data.attributes.title }}

@@ -1,74 +1,64 @@
 <template>
     <PageTab :is-loading="isLoading">
-        <PageTabGroup>
-            <DatatableWrapper
-                @init="isLoading = false"
-                :api="'/api/admin/users/' + this.$route.params.id + '/invoices'"
-                :paginator="false"
-                :columns="columns"
-                class="table"
-            >
-
-                <!--Table data content-->
+		<div class="card shadow-card">
+			<DatatableWrapper
+				@init="isLoading = false"
+				:api="'/api/subscription/users/' + this.$route.params.id + '/transactions'"
+				:paginator="true"
+				:columns="columns"
+			>
                 <template slot-scope="{ row }">
-                    <tr>
-                        <td>
-                            <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank" class="cell-item">
-                                {{ row.data.attributes.order }}
-                            </a>
+                    <tr style="border-bottom: 1px dashed #f3f3f3;">
+                        <td class="py-4">
+                            <span class="text-sm font-bold">
+								{{ row.data.attributes.plan_name }}
+							</span>
                         </td>
                         <td>
-                            <span class="cell-item">
-                                {{ row.data.attributes.total }}
+							<ColorLabel color="purple">
+                                {{ row.data.attributes.status }}
+							</ColorLabel>
+                        </td>
+                        <td>
+                            <span class="text-sm font-bold">
+                                {{ row.data.attributes.price }}
                             </span>
                         </td>
                         <td>
-                            <span class="cell-item" v-if="row.data.attributes.invoice_subscriptions[0].description">
-                                {{ row.data.attributes.invoice_subscriptions[0].description }}
+                            <span class="text-sm font-bold">
+                                {{ row.data.attributes.created_at }}
                             </span>
                         </td>
-                        <td>
-                            <span class="cell-item">
-                                {{ row.data.attributes.created_at_formatted }}
+                        <td class="text-right">
+                            <span class="text-sm font-bold w-full">
+                                {{ row.data.attributes.driver }}
                             </span>
-                        </td>
-                        <td>
-                            <div class="action-icons">
-                                <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank">
-                                    <external-link-icon size="15" class="icon"></external-link-icon>
-                                </a>
-                            </div>
                         </td>
                     </tr>
                 </template>
 
-                <!--Empty page-->
+				<!--Empty page-->
                 <template v-slot:empty-page>
-                    <InfoBox class="form-fixed-width">
+                    <InfoBox>
                         <p>{{ $t('admin_page_user.invoices.empty') }}</p>
                     </InfoBox>
                 </template>
             </DatatableWrapper>
-        </PageTabGroup>
+		</div>
     </PageTab>
 </template>
 
 <script>
     import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-    import EmptyPageContent from '/resources/js/components/Others/EmptyPageContent'
-    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
+	import ColorLabel from "/resources/js/components/Others/ColorLabel"
     import PageTab from '/resources/js/components/Others/Layout/PageTab'
     import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import {ExternalLinkIcon} from "vue-feather-icons";
-    import axios from 'axios'
 
     export default {
         name: 'UserInvoices',
         components: {
-            EmptyPageContent,
             DatatableWrapper,
-            ExternalLinkIcon,
-            PageTabGroup,
+			ColorLabel,
             InfoBox,
             PageTab,
         },
@@ -77,41 +67,31 @@
                 isLoading: true,
                 columns: [
                     {
-                        label: this.$t('admin_page_invoices.table.number'),
-                        field: 'data.attributes.order',
-                        sortable: false
+                        label: this.$t('Plan'),
+                        field: 'plan_name',
+                        sortable: true
+                    },
+                    {
+                        label: this.$t('Status'),
+                        field: 'status',
+                        sortable: true
                     },
                     {
                         label: this.$t('admin_page_invoices.table.total'),
-                        field: 'data.attributes.bag.amount',
-                        sortable: false
+                        field: 'amount',
+                        sortable: true
                     },
                     {
-                        label: this.$t('admin_page_invoices.table.plan'),
-                        field: 'data.attributes.bag.amount',
-                        sortable: false
+                        label: this.$t('Payed At'),
+                        field: 'created_at',
+                        sortable: true
                     },
                     {
-                        label: this.$t('admin_page_invoices.table.payed'),
-                        field: 'data.attributes.created_at',
-                        sortable: false
-                    },
-                    {
-                        label: this.$t('admin_page_user.table.action'),
-                        sortable: false
+                        label: this.$t('Service'),
+                        sortable: true
                     },
                 ],
             }
         },
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .block-form {
-        max-width: 100%;
-    }
-</style>

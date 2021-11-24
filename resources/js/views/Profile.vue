@@ -1,5 +1,5 @@
 <template>
-    <div class="sm:flex md:h-screen md:overflow-hidden" style="background: rgba(244, 245, 246, 0.6)">
+    <div class="sm:flex md:h-screen md:overflow-hidden" style="background: rgb(249, 249, 250)">
 		<!--On Top of App Components-->
         <FilePreview />
 		<Spotlight />
@@ -137,13 +137,13 @@
 						route: 'Subscription',
 					},
 					{
-						title: this.$t('menu.payment_cards'),
-						route: 'PaymentMethods',
-					},
-					{
-						title: this.$t('menu.invoices'),
+						title: this.$t('Transactions'),
 						route: 'Invoice',
 					},
+					/*{
+						title: this.$t('menu.payment_cards'),
+						route: 'PaymentMethods',
+					},*/
 				]
             }
         },

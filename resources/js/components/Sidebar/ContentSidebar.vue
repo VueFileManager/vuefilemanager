@@ -15,7 +15,7 @@
     @import '/resources/sass/vuefilemanager/_mixins';
 
     .content-sidebar {
-        background: rgba($light_background, 0.6);
+        background: rgb(249, 249, 250);
     }
 
     .dark .content-sidebar {

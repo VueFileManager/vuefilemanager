@@ -11,7 +11,7 @@
 			<!--Datatable-->
             <DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
                 <template slot-scope="{ row }">
-                    <tr>
+                    <tr style="border-bottom: 1px dashed #f3f3f3;">
                         <td class="py-3">
                             <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
                                 <DatatableCellImage
