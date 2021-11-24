@@ -59,7 +59,9 @@
             Spinner,
         },
         computed: {
-            ...mapGetters(['config']),
+            ...mapGetters([
+				'config'
+			]),
             admin() {
                 return this.$store.getters.user ? this.$store.getters.user : undefined
             },
@@ -74,7 +76,7 @@
 						route: 'UserDetail',
 					},
 					{
-						title: this.$t('admin_page_user.tabs.storage'),
+						title: this.$t('Storage'),
 						route: 'UserStorage',
 					},
 					{

@@ -4,6 +4,8 @@
         <FilePreview />
 		<Spotlight />
 
+		<ConfirmPopup />
+
 		<!--2FA popups-->
 		<TwoFactorRecoveryCodesPopup />
 		<TwoFactorSetupPopup />
@@ -70,6 +72,7 @@
 </template>
 
 <script>
+	import ConfirmPopup from "../components/Others/Popup/ConfirmPopup";
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
 	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
 	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
@@ -85,6 +88,7 @@
 	export default {
         name: 'Settings',
         components: {
+			ConfirmPopup,
 			CardNavigation,
 			FilePreview,
 			Spotlight,
