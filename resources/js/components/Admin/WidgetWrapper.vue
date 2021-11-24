@@ -1,6 +1,6 @@
 <template>
     <div class="widget">
-        <div class="widget-content bg-white">
+        <div class="widget-content dark:bg-dark-foreground bg-white">
             <div class="headline">
                 <div class="icon">
                     <users-icon v-if="icon === 'users'" size="19" class="text-theme dark-text-theme"/>
@@ -59,9 +59,6 @@
     }
 
     .dark {
-        .widget-content {
-            background: $dark_mode_foreground;
-        }
 
         .headline {
             .title {

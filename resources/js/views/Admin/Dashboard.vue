@@ -33,11 +33,11 @@
             </div>
 
             <!--Stripe notice-->
-            <InfoBox v-if="config.isSaaS && ! config.stripe_public_key" class="dashboard-notice">
+<!--            <InfoBox v-if="config.isSaaS && ! config.stripe_public_key" class="dashboard-notice">
                 <i18n path="notice.stripe_activation">
                     <router-link :to="{name: 'AppPayments'}">{{ $t('notice.stripe_activation_button') }}</router-link>
                 </i18n>
-            </InfoBox>
+            </InfoBox>-->
 
             <div class="widgets-total" :class="{'widgets-coll-3': config.isSaaS, 'widgets-coll-2': ! config.isSaaS}">
                 <WidgetTotals
@@ -47,7 +47,7 @@
                         :value="data.total_users"
                         link-route="Users"
                         :link-name="$t('admin_page_dashboard.w_total_users.link')"
-                ></WidgetTotals>
+                />
                 <WidgetTotals
                         class="widget"
                         icon="hard-drive"
@@ -55,7 +55,7 @@
                         :value="data.total_used_space"
                         link-route="Users"
                         :link-name="$t('admin_page_dashboard.w_total_space.link')"
-                ></WidgetTotals>
+                />
                 <WidgetTotals
                         v-if="config.isSaaS"
                         class="widget"
@@ -64,15 +64,15 @@
                         :value="data.total_premium_users"
                         link-route="Plans"
                         :link-name="$t('admin_page_dashboard.w_total_premium.link')"
-                ></WidgetTotals>
+                />
             </div>
-            <div class="widget-users">
+<!--            <div class="widget-users">
                 <WidgetLatestRegistrations
                         class="widget"
                         icon="users"
                         :title="$t('admin_page_dashboard.w_latest_users.title')"
                 />
-            </div>
+            </div>-->
         </div>
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>

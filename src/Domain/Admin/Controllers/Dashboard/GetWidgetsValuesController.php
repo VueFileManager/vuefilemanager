@@ -4,6 +4,7 @@ namespace Domain\Admin\Controllers\Dashboard;
 use ByteUnits\Metric;
 use App\Users\Models\User;
 use App\Http\Controllers\Controller;
+use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class GetWidgetsValuesController extends Controller
 {
@@ -19,6 +20,7 @@ class GetWidgetsValuesController extends Controller
             'app_version'         => config('vuefilemanager.version'),
             'total_users'         => User::count(),
             'total_used_space'    => $storage_usage,
+            'total_premium_users'    => Subscription::count(),
         ];
     }
 }

@@ -107,10 +107,14 @@
 				'config'
 			]),
             subscriptionStatus() {
-                return this.user.data.attributes.subscription ? this.$t('global.premium') : this.$t('global.free')
+                return this.user.data.relationships.subscription
+					? this.$t('global.premium')
+					: this.$t('global.free')
             },
             subscriptionColor() {
-                return this.user.data.attributes.subscription ? 'green' : 'purple'
+                return this.user.data.relationships.subscription
+					? 'green'
+					: 'purple'
             },
             canShowUpgradeWarning() {
                 return this.config.storageLimit && this.user.data.attributes.storage.used > 95

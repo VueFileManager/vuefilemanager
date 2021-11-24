@@ -37,18 +37,15 @@
                             </ColorLabel>
                         </td>
                         <td v-if="config.isSaaS">
-                            <span class="text-sm font-bold" v-if="row.data.attributes.subscription">
-                            	{{ $t('global.premium') }}
-                            </span>
-                            <span class="text-sm font-bold" v-else>
-                            	{{ $t('global.free') }}
+                            <span class="text-sm font-bold">
+                            	{{ row.data.relationships.subscription ? $t('global.premium') : $t('global.free') }}
                             </span>
                         </td>
                         <td>
                             <span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
                             	{{ row.data.attributes.storage.used_formatted }}
                             </span>
-                            <span v-if="row.data.attributes.storage.capacity == 0" class="text-sm font-bold">
+                            <span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
                             	-
                             </span>
                         </td>
@@ -56,7 +53,7 @@
                             <span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
                             	{{ row.data.attributes.storage.capacity_formatted }}
                             </span>
-                            <span v-if="row.data.attributes.storage.capacity == 0" class="text-sm font-bold">
+                            <span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
                             	-
                             </span>
                         </td>
