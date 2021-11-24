@@ -10,16 +10,7 @@
 				>
 					<template slot-scope="{ row }">
 						<tr style="border-bottom: 1px dashed #f3f3f3;">
-							<td class="py-3">
-
-								<!--Todo: refactor this component-->
-								<DatatableCellImage
-									:member="row.data.relationships.user"
-									:title="row.data.relationships.user.data.attributes.name"
-									:description="row.data.relationships.user.data.attributes.email"
-								/>
-							</td>
-							<td class="py-4">
+							<td class="py-5">
 								<span class="text-sm font-bold">
 									{{ row.data.attributes.plan_name }}
 								</span>
@@ -38,6 +29,23 @@
 								<span class="text-sm font-bold">
 									{{ row.data.attributes.created_at }}
 								</span>
+							</td>
+							<td>
+								<div class="flex items-center">
+									<MemberAvatar
+										:is-border="false"
+										:size="36"
+										:member="row.data.relationships.user"
+									/>
+									<div class="ml-3">
+										<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+											{{ row.data.relationships.user.data.attributes.name }}
+										</b>
+										<span class="block text-xs dark:text-gray-500 text-gray-600">
+											{{ row.data.relationships.user.data.attributes.email }}
+										</span>
+									</div>
+								</div>
 							</td>
 							<td class="text-right">
 								<span class="text-sm font-bold w-full">
@@ -78,6 +86,7 @@
 </template>
 
 <script>
+	import MemberAvatar from "../../components/FilesView/MemberAvatar";
 	import PageTab from "../../components/Others/Layout/PageTab";
     import DatatableCellImage from '/resources/js/components/Others/Tables/DatatableCellImage'
     import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
@@ -97,6 +106,7 @@
     export default {
         name: 'Invoices',
         components: {
+			MemberAvatar,
             DatatableCellImage,
             MobileActionButton,
             ExternalLinkIcon,
@@ -122,11 +132,6 @@
                 invoices: [],
 				columns: [
 					{
-						label: this.$t('User'),
-						field: 'user',
-						sortable: true
-					},
-					{
 						label: this.$t('Plan'),
 						field: 'plan_name',
 						sortable: true
@@ -144,6 +149,11 @@
 					{
 						label: this.$t('Payed At'),
 						field: 'created_at',
+						sortable: true
+					},
+					{
+						label: this.$t('User'),
+						field: 'user',
 						sortable: true
 					},
 					{

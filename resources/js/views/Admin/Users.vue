@@ -13,13 +13,23 @@
                 <template slot-scope="{ row }">
                     <tr style="border-bottom: 1px dashed #f3f3f3;">
                         <td class="py-3">
-                            <router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-                                <DatatableCellImage
-									:member="row"
-									:title="row.data.relationships.settings.data.attributes.name"
-									:description="row.data.attributes.email"
-								/>
-                            </router-link>
+							<router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
+								<div class="flex items-center">
+									<MemberAvatar
+										:is-border="false"
+										:size="44"
+										:member="row.data.relationships.settings"
+									/>
+									<div class="ml-3">
+										<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+											{{ row.data.relationships.settings.data.attributes.name }}
+										</b>
+										<span class="block text-xs dark:text-gray-500 text-gray-600">
+											{{ row.data.attributes.email }}
+										</span>
+									</div>
+								</div>
+							</router-link>
                         </td>
                         <td>
                             <ColorLabel :color="getRoleColor(row.data.attributes.role)">
@@ -76,6 +86,7 @@
 </template>
 
 <script>
+	import MemberAvatar from "../../components/FilesView/MemberAvatar";
     import DatatableCellImage from '/resources/js/components/Others/Tables/DatatableCellImage'
     import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
     import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
@@ -95,6 +106,7 @@
             DatatableCellImage,
             MobileActionButton,
             DatatableWrapper,
+			MemberAvatar,
             SectionTitle,
             MobileHeader,
             Trash2Icon,
