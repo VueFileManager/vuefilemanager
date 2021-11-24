@@ -1,71 +1,65 @@
 <template>
-    <div id="single-page">
+    <div>
+		<PageTab :is-loading="isLoading">
+			<div class="card shadow-card">
+				<DatatableWrapper
+					@init="isLoading = false"
+					api="/api/subscription/transactions"
+					:paginator="true"
+					:columns="columns"
+				>
+					<template slot-scope="{ row }">
+						<tr style="border-bottom: 1px dashed #f3f3f3;">
+							<td class="py-3">
 
-        <!--Page Content-->
-        <div id="page-content" v-show="! isLoading && config.stripe_public_key">
-            <MobileHeader :title="$t($router.currentRoute.meta.title)"/>
-            <PageHeader :title="$t($router.currentRoute.meta.title)"/>
-
-            <div class="content-page" v-if="config.stripe_public_key">
-                <DatatableWrapper @data="invoices = $event" @init="isLoading = false" api="/api/admin/invoices" :paginator="false" :columns="columns" class="table">
-                    <template slot-scope="{ row }">
-                        <tr>
-                            <td>
-                                <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank" class="cell-item">
-                                    {{ row.data.attributes.order }}
-                                </a>
-                            </td>
-                            <td>
-                                <span class="cell-item">
-                                    {{ row.data.attributes.total }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="cell-item">
-                                    {{ row.data.attributes.bag.description }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="cell-item">
-                                    {{ row.data.attributes.created_at_formatted }}
-                                </span>
-                            </td>
-                            <td>
-                                <router-link v-if="row.relationships" :to="{name: 'UserInvoices', params: {id: row.relationships.user.data.id}}">
-                                    <DatatableCellImage
-                                            image-size="small"
-                                            :image="row.relationships.user.data.attributes.avatar.sm"
-                                            :title="row.relationships.user.data.attributes.name"
-                                    />
-                                </router-link>
-                                <span v-else class="cell-item">
-                                    -
-                                </span>
-                            </td>
-                            <td>
-                                <div class="action-icons">
-                                    <a :href="$getInvoiceLink(row.data.attributes.customer, row.data.id)" target="_blank">
-                                        <external-link-icon size="15" class="icon"></external-link-icon>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    </template>
-                </DatatableWrapper>
-            </div>
-        </div>
-
+								<!--Todo: refactor this component-->
+								<DatatableCellImage
+									:member="row.data.relationships.user"
+									:title="row.data.relationships.user.data.attributes.name"
+									:description="row.data.relationships.user.data.attributes.email"
+								/>
+							</td>
+							<td class="py-4">
+								<span class="text-sm font-bold">
+									{{ row.data.attributes.plan_name }}
+								</span>
+							</td>
+							<td>
+								<ColorLabel color="purple">
+									{{ row.data.attributes.status }}
+								</ColorLabel>
+							</td>
+							<td>
+								<span class="text-sm font-bold">
+									{{ row.data.attributes.price }}
+								</span>
+							</td>
+							<td>
+								<span class="text-sm font-bold">
+									{{ row.data.attributes.created_at }}
+								</span>
+							</td>
+							<td class="text-right">
+								<span class="text-sm font-bold w-full">
+									{{ row.data.attributes.driver }}
+								</span>
+							</td>
+						</tr>
+					</template>
+				</DatatableWrapper>
+			</div>
+		</PageTab>
         <!--Empty invoices-->
-        <EmptyPageContent
+		<!--<EmptyPageContent
                 v-if="! isLoading && invoices.length === 0 && config.stripe_public_key"
                 icon="file-text"
                 :title="$t('admin_page_invoices.empty.title')"
                 :description="$t('admin_page_invoices.empty.description')"
         >
-        </EmptyPageContent>
+        </EmptyPageContent>-->
 
         <!--Stripe Not Configured-->
-        <EmptyPageContent
+		<!--<EmptyPageContent
                 v-if="! config.stripe_public_key"
                 icon="settings"
                 :title="$t('activation.stripe.title')"
@@ -74,7 +68,7 @@
             <router-link :to="{name: 'AppPayments'}">
                 <ButtonBase button-style="theme">{{ $t('activation.stripe.button') }}</ButtonBase>
             </router-link>
-        </EmptyPageContent>
+        </EmptyPageContent>-->
 
         <!--Spinner-->
         <div id="loader" v-if="isLoading">
@@ -84,6 +78,7 @@
 </template>
 
 <script>
+	import PageTab from "../../components/Others/Layout/PageTab";
     import DatatableCellImage from '/resources/js/components/Others/Tables/DatatableCellImage'
     import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
     import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
@@ -113,46 +108,49 @@
             PageHeader,
             ButtonBase,
             ColorLabel,
+			PageTab,
             Spinner,
         },
         computed: {
-            ...mapGetters(['config']),
+            ...mapGetters([
+				'config'
+			]),
         },
         data() {
             return {
                 isLoading: true,
                 invoices: [],
-                columns: [
-                    {
-                        label: this.$t('admin_page_invoices.table.number'),
-                        field: 'data.attributes.order',
-                        sortable: false
-                    },
-                    {
-                        label: this.$t('admin_page_invoices.table.total'),
-                        field: 'data.attributes.bag.amount',
-                        sortable: false
-                    },
-                    {
-                        label: this.$t('admin_page_invoices.table.plan'),
-                        field: 'data.attributes.bag.amount',
-                        sortable: false
-                    },
-                    {
-                        label: this.$t('admin_page_invoices.table.payed'),
-                        field: 'data.attributes.created_at',
-                        sortable: false
-                    },
-                    {
-                        label: this.$t('admin_page_invoices.table.user'),
-                        field: 'relationships.user.data.attributes.name',
-                        sortable: false
-                    },
-                    {
-                        label: this.$t('admin_page_user.table.action'),
-                        sortable: false
-                    },
-                ],
+				columns: [
+					{
+						label: this.$t('User'),
+						field: 'user',
+						sortable: true
+					},
+					{
+						label: this.$t('Plan'),
+						field: 'plan_name',
+						sortable: true
+					},
+					{
+						label: this.$t('Status'),
+						field: 'status',
+						sortable: true
+					},
+					{
+						label: this.$t('admin_page_invoices.table.total'),
+						field: 'amount',
+						sortable: true
+					},
+					{
+						label: this.$t('Payed At'),
+						field: 'created_at',
+						sortable: true
+					},
+					{
+						label: this.$t('Service'),
+						sortable: true
+					},
+				],
             }
         },
         created() {
@@ -165,96 +163,5 @@
 <style lang="scss" scoped>
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
-
-    .user-thumbnail {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-
-        .avatar {
-            margin-right: 20px;
-            line-height: 0;
-
-            img {
-                line-height: 0;
-                width: 48px;
-                height: 48px;
-                border-radius: 8px;
-            }
-        }
-
-        .info {
-
-            .name {
-                max-width: 150px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
-            }
-
-            .name {
-                @include font-size(15);
-                line-height: 1;
-            }
-        }
-    }
-
-    .table-tools {
-        background: white;
-        display: flex;
-        justify-content: space-between;
-        padding: 15px 0 10px;
-        position: sticky;
-        top: 40px;
-        z-index: 9;
-    }
-
-    .table {
-
-        .cell-item {
-            @include font-size(15);
-            white-space: nowrap;
-        }
-
-        .name {
-            font-weight: 700;
-            cursor: pointer;
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-        .table-tools {
-            padding: 0 0 5px;
-        }
-    }
-
-    .dark {
-
-        .table-tools {
-            background: $dark_mode_background;
-        }
-
-        .action-icons {
-
-            .icon {
-                cursor: pointer;
-
-                circle, path, line, polyline {
-                    stroke: $dark_mode_text_primary;
-                }
-            }
-        }
-
-        .user-thumbnail {
-
-            .info {
-
-                .email {
-                    color: $dark_mode_text_secondary;
-                }
-            }
-        }
-    }
 
 </style>
