@@ -742,6 +742,16 @@ class SetupDevEnvironment extends Command
                 'name'        => 'Finance Documents',
             ]);
 
+        collect([$companyProjectFolder, $financeDocumentsFolder])
+            ->each(function ($folder) use ($user) {
+                DB::table('team_folder_members')
+                    ->insert([
+                        'parent_id'  => $folder->id,
+                        'user_id'    => $user->id,
+                        'permission' => 'owner',
+                    ]);
+            });
+
         // Attach members
         $members = User::whereNotIn('email', ['howdy@hi5ve.digital'])
             ->get();

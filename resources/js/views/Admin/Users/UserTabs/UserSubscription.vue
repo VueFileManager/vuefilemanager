@@ -1,114 +1,122 @@
 <template>
-    <PageTab :is-loading="isLoading" class="form-fixed-width">
-        <PageTabGroup v-if="subscription && !isLoading">
-            <FormLabel>
-                {{ $t('user_subscription.title') }}
-            </FormLabel>
+    <PageTab :is-loading="isLoading">
+		<div v-if="subscription" class="card shadow-card">
+			<div class="md:flex md:space-x-10 mb-8">
+				<div class="md:mb-0 mb-6">
+					<b class="block leading-5 text-lg">
+						{{ status }}
+					</b>
+					<small class="text-gray-500">
+						{{ $t('We will send you a notification upon Subscription expiration') }}
+					</small>
+				</div>
+				<div>
+					<b class="block leading-5 text-lg">
+						{{ price }}
+					</b>
+					<small class="text-gray-500">
+						{{ subscription.relationships.plan.data.attributes.name }}
+					</small>
+				</div>
+			</div>
 
-            <!--Info about active subscription-->
-            <div v-if="! subscription.attributes.canceled" class="state active">
-                <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')"
-                                  :content="subscription.attributes.name + ' - ' + subscription.attributes.capacity_formatted"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.billed')" :content="$t('admin_page_user.subscription.interval_mo')"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
-                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.created_at')" :content="subscription.attributes.created_at"/>
-                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.renews_at')" :content="subscription.attributes.ends_at"/>
-                </ListInfo>
-            </div>
+			<div v-for="(limit, i) in limitations" :key="i" class="mb-6">
+				<b class="mb-3 block text-sm text-gray-400">
+					{{ limit.message }}
+				</b>
+				<ProgressLine :data="limit.distribution" />
+			</div>
+		</div>
 
-            <!--Info about canceled subscription-->
-            <div v-if="subscription.attributes.canceled" class="state canceled">
-                <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.attributes.name + ' - ' + subscription.attributes.capacity_formatted"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
-                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.canceled_at')" :content="subscription.attributes.canceled_at"/>
-                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.ends_at')" :content="subscription.attributes.ends_at"/>
-                </ListInfo>
-            </div>
-        </PageTabGroup>
-        <PageTabGroup v-if="! subscription && !isLoading">
-            <InfoBox>
-                <p>{{ $t('admin_page_user.subscription.empty') }}</p>
-            </InfoBox>
-        </PageTabGroup>
+		<div v-if="! subscription && !isLoading" class="card shadow-card">
+			<InfoBox style="margin-bottom: 0">
+				<p>{{ $t("User don't have any subscription") }}</p>
+			</InfoBox>
+		</div>
     </PageTab>
 </template>
 
 <script>
-    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
-    import ListInfoItem from '/resources/js/components/Others/ListInfoItem'
-    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import PageTab from '/resources/js/components/Others/Layout/PageTab'
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import ListInfo from '/resources/js/components/Others/ListInfo'
-    import {ExternalLinkIcon} from "vue-feather-icons"
-    import {mapGetters} from 'vuex'
-    import {events} from '/resources/js/bus'
-    import axios from 'axios'
+	import ProgressLine from "../../../../components/Admin/ProgressLine"
+	import PageTab from '/resources/js/components/Others/Layout/PageTab'
+	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+	import axios from 'axios'
 
-    export default {
-        name: 'UserSubscription',
-        components: {
-            ExternalLinkIcon,
-            DatatableWrapper,
-            ListInfoItem,
-            PageTabGroup,
-            ButtonBase,
-            FormLabel,
-            ListInfo,
-            InfoBox,
-            PageTab,
-        },
-        computed: {
-            status() {
-                if (this.subscription.attributes.incomplete) {
-                    return this.$t('global.incomplete')
-                }
-                if (this.subscription.attributes.canceled) {
-                    return this.$t('global.canceled')
-                }
-                if (this.subscription.attributes.active) {
-                    return this.$t('global.active')
-                }
-            }
-        },
-        data() {
-            return {
-                subscription: undefined,
-                isLoading: true,
-            }
-        },
-        created() {
-            axios.get('/api/admin/users/' + this.$route.params.id + '/subscription')
-                .then(response => {
-                    this.subscription = response.data.data
-                    this.isLoading = false
-                }).catch(error => {
-                    if (error.response.status == 404) {
-                        this.isLoading = false
-                    }
-            })
-        }
-    }
+	export default {
+		name: 'UserSubscription',
+		props: [
+			'user'
+		],
+		components: {
+			ProgressLine,
+			ButtonBase,
+			InfoBox,
+			PageTab,
+		},
+		computed: {
+			status() {
+				return {
+					'active': `Active until ${this.subscription.attributes.renews_at}`,
+					'cancelled': `Active until ${this.subscription.attributes.ends_at}`,
+				}[this.subscription.attributes.status]
+			},
+			price() {
+				return {
+					'month': `${this.subscription.relationships.plan.data.attributes.price} Per Month`,
+					'year': `${this.subscription.relationships.plan.data.attributes.price} Per Year`,
+				}[this.subscription.relationships.plan.data.attributes.interval]
+			},
+		},
+		data() {
+			return {
+				subscription: undefined,
+				isLoading: true,
+				limitations: [],
+			}
+		},
+		created() {
+			axios.get(`/api/subscription/users/${this.$route.params.id}/subscription`)
+				.then(response => {
+					this.subscription = response.data.data
+
+					Object
+						.entries(this.user.data.meta.limitations)
+						.map(([key, item]) => {
+
+							let payload = {
+								color: {
+									'max_storage_amount': 'warning',
+									'max_team_members': 'purple',
+								},
+								message: {
+									'max_storage_amount': `Total ${item.use} of ${item.total} Used`,
+									'max_team_members': `Total ${item.use} of ${item.total} Members`,
+								},
+								title: {
+									'max_storage_amount': `Storage`,
+									'max_team_members': `Team Members`,
+								}
+							}
+
+							this.limitations.push({
+								message: payload.message[key],
+								distribution: [
+									{
+										progress: item.percentage,
+										color: payload.color[key],
+										title: payload.title[key],
+									}
+								]
+							})
+						})
+
+					this.isLoading = false
+				})
+				.catch(error => {
+					if (error.response.status === 404)
+						this.isLoading = false
+				})
+		}
+	}
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .cancel-plan {
-        margin-top: 10px;
-    }
-
-    .list-info {
-        display: flex;
-        flex-wrap: wrap;
-
-        .list-item {
-            flex: 0 0 50%;
-        }
-    }
-</style>

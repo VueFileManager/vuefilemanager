@@ -44,6 +44,9 @@ class UserResource extends JsonResource
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),
                 ],
+                'meta' => [
+                    'limitations' => $this->accountLimitations(),
+                ],
             ],
         ];
     }

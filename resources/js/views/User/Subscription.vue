@@ -1,244 +1,230 @@
 <template>
     <PageTab :is-loading="isLoading">
-        <PageTabGroup v-if="subscription && !isLoading">
-            <FormLabel>
-                {{ $t('user_subscription.title') }}
-            </FormLabel>
+		<div v-if="subscription" class="card shadow-card">
+			<div class="md:flex md:space-x-10 mb-8">
+				<div class="md:mb-0 mb-6">
+					<b class="block leading-5 text-lg">
+						{{ status }}
+					</b>
+					<small class="text-gray-500">
+						{{ $t('We will send you a notification upon Subscription expiration') }}
+					</small>
+				</div>
+				<div>
+					<b class="block leading-5 text-lg">
+						{{ price }}
+					</b>
+					<small class="text-gray-500">
+						{{ subscription.relationships.plan.data.attributes.name }}
+					</small>
+				</div>
+			</div>
 
-            <!--Info about active subscription-->
-            <div v-if="! subscription.data.attributes.canceled" class="state active">
-                <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')"
-                                  :content="subscription.data.attributes.name + ' - ' + subscription.data.attributes.capacity_formatted"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.billed')" :content="$t('admin_page_user.subscription.interval_mo')"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
-                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.created_at')" :content="subscription.data.attributes.created_at"/>
-                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.renews_at')" :content="subscription.data.attributes.ends_at"/>
-                </ListInfo>
-                <div class="plan-action">
-                    <ButtonBase
-                            :disabled="isDeleting"
-                            @click.native="cancelSubscription"
-                            :button-style="cancelButtonStyle"
-                            class="confirm-button">
-                        {{ cancelButtonText }}
-                    </ButtonBase>
-                </div>
-            </div>
+			<div v-for="(limit, i) in limitations" :key="i" class="mb-6">
+				<b class="mb-3 block text-sm text-gray-400">
+					{{ limit.message }}
+				</b>
+				<ProgressLine :data="limit.distribution" />
+			</div>
 
-            <!--Info about canceled subscription-->
-            <div v-if="subscription.data.attributes.canceled" class="state canceled">
-                <ListInfo class="list-info">
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.plan')" :content="subscription.data.attributes.name + ' - ' + subscription.data.attributes.capacity_formatted"/>
-                    <ListInfoItem class="list-item" :title="$t('user_subscription.status')" :content="status"/>
-                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.canceled_at')" :content="subscription.data.attributes.canceled_at"/>
-                    <ListInfoItem class="list-item capitalize" :title="$t('user_subscription.ends_at')" :content="subscription.data.attributes.ends_at"/>
-                </ListInfo>
-                <div class="plan-action">
-                    <ButtonBase
-                            :disabled="isResuming"
-                            @click.native="resumeSubscription"
-                            :button-style="resumeButtonStyle"
-                            class="confirm-button">
-                        {{ resumeButtonText }}
-                    </ButtonBase>
-                </div>
-            </div>
-        </PageTabGroup>
-        <InfoBox v-if="! subscription && !isLoading">
-            <p>{{ $t('user_subscription.empty') }}</p>
-        </InfoBox>
+			<div class="flex space-x-4 mt-8">
+				<ButtonBase class="popup-button" button-style="secondary">
+					{{ $t('Cancel Subscription') }}
+				</ButtonBase>
+				<ButtonBase @click.native="$openUpgradeOptions" class="popup-button" button-style="theme">
+					{{ $t('Upgrade Plan') }}
+				</ButtonBase>
+			</div>
+		</div>
+
+		<div v-if="! subscription && !isLoading" class="card shadow-card">
+			<InfoBox style="margin-bottom: 0">
+				<p>{{ $t("You don't have any subscription") }}</p>
+			</InfoBox>
+		</div>
     </PageTab>
 </template>
 
 <script>
-    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
-    import ListInfoItem from '/resources/js/components/Others/ListInfoItem'
-    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import PageTab from '/resources/js/components/Others/Layout/PageTab'
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import ListInfo from '/resources/js/components/Others/ListInfo'
-    import {ExternalLinkIcon} from "vue-feather-icons"
-    import {mapGetters} from 'vuex'
-    import {events} from '/resources/js/bus'
-    import axios from 'axios'
+	import ProgressLine from "../../components/Admin/ProgressLine";
+	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import PageTab from '/resources/js/components/Others/Layout/PageTab'
+	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+	import {mapGetters} from 'vuex'
+	import {events} from '/resources/js/bus'
+	import axios from 'axios'
 
-    export default {
-        name: 'UserSubscription',
-        components: {
-            ExternalLinkIcon,
-            DatatableWrapper,
-            ListInfoItem,
-            PageTabGroup,
-            ButtonBase,
-            FormLabel,
-            ListInfo,
-            InfoBox,
-            PageTab,
-        },
-        computed: {
-            cancelButtonText() {
-                return this.isConfirmedCancel ? this.$t('popup_share_edit.confirm') : this.$t('user_subscription.cancel_plan')
-            },
-            cancelButtonStyle() {
-                return this.isConfirmedCancel ? 'danger-solid' : 'secondary'
-            },
-            resumeButtonText() {
-                return this.isConfirmedResume ? this.$t('popup_share_edit.confirm') : this.$t('user_subscription.resume_plan')
-            },
-            resumeButtonStyle() {
-                return this.isConfirmedResume ? 'theme-solid' : 'secondary'
-            },
-            status() {
-                if (this.subscription.data.attributes.incomplete) {
-                    return this.$t('global.incomplete')
-                }
-                if (this.subscription.data.attributes.canceled) {
-                    return this.$t('global.canceled')
-                }
-                if (this.subscription.data.attributes.active) {
-                    return this.$t('global.active')
-                }
-            }
-        },
-        data() {
-            return {
-                subscription: undefined,
-                isConfirmedCancel: false,
-                isConfirmedResume: false,
-                isDeleting: false,
-                isResuming: false,
-                isLoading: true,
-            }
-        },
-        methods: {
-            cancelSubscription() {
+	export default {
+		name: 'UserSubscription',
+		components: {
+			ProgressLine,
+			ButtonBase,
+			InfoBox,
+			PageTab,
+		},
+		computed: {
+			...mapGetters([
+				'user',
+			]),
+			status() {
+				return {
+					'active': `Active until ${this.subscription.attributes.renews_at}`,
+					'cancelled': `Active until ${this.subscription.attributes.ends_at}`,
+				}[this.subscription.attributes.status]
+			},
+			price() {
+				return {
+					'month': `${this.subscription.relationships.plan.data.attributes.price} Per Month`,
+					'year': `${this.subscription.relationships.plan.data.attributes.price} Per Year`,
+				}[this.subscription.relationships.plan.data.attributes.interval]
+			},
+		},
+		data() {
+			return {
+				subscription: undefined,
+				limitations: [],
+				isConfirmedCancel: false,
+				isConfirmedResume: false,
+				isDeleting: false,
+				isResuming: false,
+				isLoading: true,
+			}
+		},
+		methods: {
+			cancelSubscription() {
 
-                // Set confirm button
-                if (!this.isConfirmedCancel) {
-                    this.isConfirmedCancel = true
-                    return
-                }
+				// Set confirm button
+				if (!this.isConfirmedCancel) {
+					this.isConfirmedCancel = true
+					return
+				}
 
-                // Start deleting spinner button
-                this.isDeleting = true
-                this.isLoading = true
+				// Start deleting spinner button
+				this.isDeleting = true
+				this.isLoading = true
 
-                // Send delete request
-                axios
-                    .post('/api/user/subscription/cancel')
-                    .then(() => {
+				// Send delete request
+				axios
+					.post('/api/user/subscription/cancel')
+					.then(() => {
 
-                        // Update user data
-                        this.$store.dispatch('getAppData').then(() => {
-                            this.fetchSubscriptionDetail()
-                        })
+						// Update user data
+						this.$store.dispatch('getAppData').then(() => {
+							this.fetchSubscriptionDetail()
+						})
 
-                        events.$emit('alert:open', {
-                            emoji: '👍',
-                            title: this.$t('popup_subscription_cancel.title'),
-                            message: this.$t('popup_subscription_cancel.message'),
-                            buttonStyle: 'theme',
-                            button: this.$t('popup_subscription_cancel.button')
-                        })
-                    })
-                    .catch(() => {
-                        events.$emit('alert:open', {
-                            title: this.$t('popup_error.title'),
-                            message: this.$t('popup_error.message'),
-                        })
-                    })
-                    .finally(() => {
+						events.$emit('alert:open', {
+							emoji: '👍',
+							title: this.$t('popup_subscription_cancel.title'),
+							message: this.$t('popup_subscription_cancel.message'),
+							buttonStyle: 'theme',
+							button: this.$t('popup_subscription_cancel.button')
+						})
+					})
+					.catch(() => {
+						events.$emit('alert:open', {
+							title: this.$t('popup_error.title'),
+							message: this.$t('popup_error.message'),
+						})
+					})
+					.finally(() => {
 
-                        // End deleting spinner button
-                        this.isDeleting = false
-                        this.isLoading = false
-                        this.isConfirmedCancel = false
-                    })
-            },
-            resumeSubscription() {
+						// End deleting spinner button
+						this.isDeleting = false
+						this.isLoading = false
+						this.isConfirmedCancel = false
+					})
+			},
+			resumeSubscription() {
 
-                // Set confirm button
-                if (! this.isConfirmedResume) {
-                    this.isConfirmedResume = true
-                    return
-                }
+				// Set confirm button
+				if (!this.isConfirmedResume) {
+					this.isConfirmedResume = true
+					return
+				}
 
-                // Start deleting spinner button
-                this.isResuming = true
-                this.isLoading = true
+				// Start deleting spinner button
+				this.isResuming = true
+				this.isLoading = true
 
-                // Send delete request
-                axios
-                    .post('/api/user/subscription/resume')
-                    .then(() => {
+				// Send delete request
+				axios
+					.post('/api/user/subscription/resume')
+					.then(() => {
 
-                        // Update user data
-                        this.$store.dispatch('getAppData').then(() => {
-                            this.fetchSubscriptionDetail()
-                        })
+						// Update user data
+						this.$store.dispatch('getAppData').then(() => {
+							this.fetchSubscriptionDetail()
+						})
 
-                        events.$emit('alert:open', {
-                            emoji: '👍',
-                            title: this.$t('popup_subscription_resumed.title'),
-                            message: this.$t('popup_subscription_resumed.message'),
-                            buttonStyle: 'theme',
-                            button: this.$t('popup_subscription_resumed.button')
-                        })
-                    })
-                    .catch(() => {
-                        events.$emit('alert:open', {
-                            title: this.$t('popup_error.title'),
-                            message: this.$t('popup_error.message'),
-                        })
-                    })
-                    .finally(() => {
+						events.$emit('alert:open', {
+							emoji: '👍',
+							title: this.$t('popup_subscription_resumed.title'),
+							message: this.$t('popup_subscription_resumed.message'),
+							buttonStyle: 'theme',
+							button: this.$t('popup_subscription_resumed.button')
+						})
+					})
+					.catch(() => {
+						events.$emit('alert:open', {
+							title: this.$t('popup_error.title'),
+							message: this.$t('popup_error.message'),
+						})
+					})
+					.finally(() => {
 
-                        // End deleting spinner button
-                        this.isResuming = false
-                        this.isLoading = false
-                        this.isConfirmedResume = false
-                    })
-            },
-            fetchSubscriptionDetail() {
-                axios.get('/api/user/subscription')
-                    .then(response => {
+						// End deleting spinner button
+						this.isResuming = false
+						this.isLoading = false
+						this.isConfirmedResume = false
+					})
+			},
+			fetchSubscriptionDetail() {
+				axios.get('/api/subscription/detail')
+					.then(response => {
 
-                        if (response.status == 204) {
-                            this.subscription = undefined
-                        }
+						this.subscription = response.data.data
 
-                        if (response.status == 200) {
-                            this.subscription = response.data
-                        }
+						Object
+							.entries(this.user.data.meta.limitations)
+							.map(([key, item]) => {
 
-                    }).finally(() => {
-                        this.isLoading = false
-                })
-            }
-        },
-        created() {
-            this.fetchSubscriptionDetail()
-        }
-    }
+								let payload = {
+									color: {
+										'max_storage_amount': 'warning',
+										'max_team_members': 'purple',
+									},
+									message: {
+										'max_storage_amount': `Total ${item.use} of ${item.total} Used`,
+										'max_team_members': `Total ${item.use} of ${item.total} Members`,
+									},
+									title: {
+										'max_storage_amount': `Storage`,
+										'max_team_members': `Team Members`,
+									}
+								}
+
+								this.limitations.push({
+									message: payload.message[key],
+									distribution: [
+										{
+											progress: item.percentage,
+											color: payload.color[key],
+											title: payload.title[key],
+										}
+									]
+								})
+							})
+
+						this.isLoading = false
+					})
+					.finally(() => {
+						this.isLoading = false
+					})
+			}
+		},
+		created() {
+			this.fetchSubscriptionDetail()
+		}
+	}
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .plan-action {
-        margin-top: 10px;
-    }
-
-    .list-info {
-        display: flex;
-        flex-wrap: wrap;
-
-        .list-item {
-            flex: 0 0 50%;
-        }
-    }
-</style>

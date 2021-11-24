@@ -1,13 +1,13 @@
 <template>
     <div class="progress-wrapper">
-        <div class="chart">
+        <div class="chart rounded">
             <div v-for="(chart, i) in data" :key="i" :style="{width: chart.progress + '%'}" class="chart-wrapper">
 				<!--<DotLabel class="label" :class="{'offset-top': chart.progress < 5}" :color="chart.color" :title="chart.value" />-->
                 <span :class="['chart-progress', chart.color]"></span>
             </div>
         </div>
         <footer>
-            <DotLabel v-for="(chart, i) in data" :key="i" :color="chart.color" :title="chart.title" />
+            <DotLabel v-for="(chart, i) in data" :key="i" :color="chart.color" :title="chart.title" v-if="chart && chart.title" />
         </footer>
     </div>
 </template>
@@ -35,6 +35,7 @@
             display: flex;
             align-items: center;
             margin-bottom: 14px;
+			background: #e1e1ef;
 
             .chart-wrapper {
 

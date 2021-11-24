@@ -125,12 +125,12 @@
 						route: 'Profile',
 					},
 					{
-						title: this.$t('menu.storage'),
-						route: 'Storage',
-					},
-					{
 						title: this.$t('menu.password'),
 						route: 'Password',
+					},
+					{
+						title: this.$t('menu.storage'),
+						route: 'Storage',
 					},
 					{
 						title: this.$t('menu.subscription'),
