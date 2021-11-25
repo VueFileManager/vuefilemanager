@@ -104,7 +104,7 @@
 
 				// Send post request
 				axios
-					.post('/api/subscription/cancel')
+					.post('/api/subscriptions/cancel')
 					.then(() => {
 
 						// Update user data
@@ -128,7 +128,7 @@
 					})
 			},
 			fetchSubscriptionDetail() {
-				axios.get('/api/subscription/detail')
+				axios.get('/api/subscriptions/detail')
 					.then(response => {
 
 						this.subscription = response.data.data

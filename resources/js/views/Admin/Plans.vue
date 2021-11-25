@@ -10,7 +10,7 @@
 			</div>
 
 			<!--Datatable-->
-            <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/subscription/plans" :paginator="true" :columns="columns">
+            <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/subscriptions/plans" :paginator="true" :columns="columns">
                 <template slot-scope="{ row }">
                     <tr class="border-b dark:border-opacity-5 border-light border-dashed">
 						<td class="py-4">

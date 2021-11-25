@@ -54,7 +54,7 @@
 			}
 		},
 		created() {
-			axios.get('/api/subscription/plans/' + this.$route.params.id)
+			axios.get('/api/subscriptions/plans/' + this.$route.params.id)
 				.then(response => {
 					this.plan = response.data.data
 				})

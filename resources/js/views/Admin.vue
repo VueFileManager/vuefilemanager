@@ -67,6 +67,14 @@
                             {{ $t('admin_menu.users') }}
                         </div>
                     </router-link>
+                    <router-link :to="{name: 'Subscriptions'}" class="menu-list-item link">
+                        <div class="icon text-theme">
+                            <dollar-sign-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('Subscriptions') }}
+                        </div>
+                    </router-link>
                     <router-link :to="{name: 'Plans'}" class="menu-list-item link">
                         <div class="icon text-theme">
                             <database-icon size="17" />
@@ -116,7 +124,7 @@
 <script>
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
 	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
-    import { HelpCircleIcon, RefreshCwIcon, UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
+    import { DollarSignIcon, HelpCircleIcon, RefreshCwIcon, UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
     import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
     import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
     import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
@@ -139,6 +147,7 @@
             MobileNavigation,
             CreateLanguage,
             ContentSidebar,
+			DollarSignIcon,
 			HelpCircleIcon,
 			RefreshCwIcon,
             CreditCardIcon,

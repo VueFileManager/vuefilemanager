@@ -208,7 +208,7 @@
 			}
 		},
 		created() {
-			axios.get('/api/subscription/plans')
+			axios.get('/api/subscriptions/plans')
 				.then(response => {
 					this.plans = response.data.data
 				})

@@ -4,7 +4,7 @@
 			<div class="card shadow-card">
 				<DatatableWrapper
 					@init="isLoading = false"
-					api="/api/subscription/transactions"
+					api="/api/subscriptions/transactions"
 					:paginator="true"
 					:columns="columns"
 				>

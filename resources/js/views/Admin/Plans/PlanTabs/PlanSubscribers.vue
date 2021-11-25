@@ -1,6 +1,6 @@
 <template>
     <PageTab :is-loading="isLoading">
-		<DatatableWrapper @data="subscribers = $event" @init="isLoading = false" :api="`/api/subscription/plans/${this.$route.params.id}/subscribers`" :paginator="true" :columns="columns" class="card shadow-card">
+		<DatatableWrapper @data="subscribers = $event" @init="isLoading = false" :api="`/api/subscriptions/plans/${this.$route.params.id}/subscribers`" :paginator="true" :columns="columns" class="card shadow-card">
 
 			<!--Table data content-->
 			<template slot-scope="{ row }">

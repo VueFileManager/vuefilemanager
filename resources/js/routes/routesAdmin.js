@@ -30,6 +30,16 @@ const routesAdmin = [
 				},
 			},
 			{
+				name: 'Subscriptions',
+				path: '/admin/subscriptions',
+				component: () =>
+					import(/* webpackChunkName: "chunks/subscriptions" */ '../views/Admin/Subscriptions'),
+				meta: {
+					requiresAuth: true,
+					title: 'Subscriptions'
+				},
+			},
+			{
 				name: 'Pages',
 				path: '/admin/pages',
 				component: () =>

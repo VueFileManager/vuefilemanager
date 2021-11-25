@@ -3,7 +3,7 @@
 		<div class="card shadow-card">
 			<DatatableWrapper
 				@init="isLoading = false"
-				:api="'/api/subscription/users/' + this.$route.params.id + '/transactions'"
+				:api="'/api/subscriptions/users/' + this.$route.params.id + '/transactions'"
 				:paginator="true"
 				:columns="columns"
 			>
