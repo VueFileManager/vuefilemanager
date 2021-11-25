@@ -325,7 +325,7 @@ const FunctionHelpers = {
 
             return {
                 'paypal': '/assets/payments/paypal.svg',
-                'paystack': '/assets/payments/paystack.svg',
+                'paystack': store.getters.isDarkMode ? '/assets/payments/paystack-dark.svg' : '/assets/payments/paystack.svg',
             }[driver]
         }
 
