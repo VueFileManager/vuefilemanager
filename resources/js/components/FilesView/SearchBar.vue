@@ -7,7 +7,7 @@
 					{{ $t('inputs.placeholder_search_files') }}
 				</span>
 			</div>
-			<span class="font-bold xl:text-sm text-xs dark:text-gray-600 text-gray-400 border rounded px-1 py-0.5 tracking-normal">
+			<span class="font-bold xl:text-sm text-xs dark:text-gray-600 text-gray-400 dark:border-opacity-5 border rounded px-1 py-0.5 tracking-normal">
 				{{ metaKeyIcon }}+K
 			</span>
 		</div>

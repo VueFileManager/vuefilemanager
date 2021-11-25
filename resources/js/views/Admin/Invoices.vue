@@ -16,21 +16,6 @@
 								</span>
 							</td>
 							<td>
-								<ColorLabel color="purple">
-									{{ row.data.attributes.status }}
-								</ColorLabel>
-							</td>
-							<td>
-								<span class="text-sm font-bold">
-									{{ row.data.attributes.price }}
-								</span>
-							</td>
-							<td>
-								<span class="text-sm font-bold">
-									{{ row.data.attributes.created_at }}
-								</span>
-							</td>
-							<td>
 								<div class="flex items-center">
 									<MemberAvatar
 										:is-border="false"
@@ -47,10 +32,23 @@
 									</div>
 								</div>
 							</td>
-							<td class="text-right">
-								<span class="text-sm font-bold w-full">
-									{{ row.data.attributes.driver }}
+							<td>
+								<ColorLabel color="purple">
+									{{ row.data.attributes.status }}
+								</ColorLabel>
+							</td>
+							<td>
+								<span class="text-sm font-bold">
+									{{ row.data.attributes.price }}
 								</span>
+							</td>
+							<td>
+								<span class="text-sm font-bold">
+									{{ row.data.attributes.created_at }}
+								</span>
+							</td>
+							<td class="text-right">
+								<img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
 							</td>
 						</tr>
 					</template>
@@ -137,6 +135,11 @@
 						sortable: true
 					},
 					{
+						label: this.$t('User'),
+						field: 'user',
+						sortable: true
+					},
+					{
 						label: this.$t('Status'),
 						field: 'status',
 						sortable: true
@@ -149,11 +152,6 @@
 					{
 						label: this.$t('Payed At'),
 						field: 'created_at',
-						sortable: true
-					},
-					{
-						label: this.$t('User'),
-						field: 'user',
 						sortable: true
 					},
 					{

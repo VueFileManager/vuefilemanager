@@ -30,9 +30,7 @@
                             </span>
                         </td>
                         <td class="text-right">
-                            <span class="text-sm font-bold w-full">
-                                {{ row.data.attributes.driver }}
-                            </span>
+                            <img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
                         </td>
                     </tr>
                 </template>

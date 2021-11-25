@@ -305,6 +305,14 @@ const FunctionHelpers = {
             this.$store.dispatch(...routes[this.$router.currentRoute.name])
         }
 
+        Vue.prototype.$getPaymentLogo = function (driver) {
+
+            return {
+                'paypal': '/assets/payments/paypal.svg',
+                'paystack': '/assets/payments/paystack.svg',
+            }[driver]
+        }
+
         Vue.prototype.$goToFileView = function (id) {
 
             let locations = {
