@@ -6,7 +6,7 @@
 			<template slot-scope="{ row }">
 				<tr class="border-b dark:border-opacity-5 border-light border-dashed">
 					<td>
-						<div class="flex items-center">
+						<router-link class="flex items-center" :to="{name: 'UserDetail', params: {id: row.data.relationships.user.data.id}}">
 							<MemberAvatar
 								:is-border="false"
 								:size="36"
@@ -20,7 +20,7 @@
 									{{ row.data.relationships.user.data.attributes.email }}
 								</span>
 							</div>
-						</div>
+						</router-link>
 					</td>
 					<td>
 						<ColorLabel :color="getSubscriptionStatusColor(row.data.attributes.status)">
