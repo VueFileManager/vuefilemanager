@@ -8,6 +8,7 @@
                     </MobileActionButton>
                 </router-link>
             </div>
+
 			<!--Datatable-->
             <DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="table table-users">
                 <template slot-scope="{ row }">
