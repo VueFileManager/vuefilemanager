@@ -32,7 +32,7 @@
             </tbody>
         </table>
 
-        <slot v-if="! isLoading  && ! hasData" name="empty-page"></slot>
+        <slot v-if="! isLoading && ! hasData" name="empty-page"></slot>
 
 		<!--Paginator-->
         <div v-if="paginator && hasData" class="paginator-wrapper">

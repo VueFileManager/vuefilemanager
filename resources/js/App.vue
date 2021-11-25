@@ -142,6 +142,10 @@ export default {
 	@apply w-full dark:bg-2x-dark-foreground bg-light-background py-3 px-5 rounded-lg appearance-none border-transparent text-base font-bold border
 }
 
+.text-limit {
+	@apply whitespace-nowrap overflow-ellipsis overflow-x-hidden block
+}
+
 [v-cloak],
 [v-cloak] > * {
     display: none

@@ -313,6 +313,15 @@ const FunctionHelpers = {
             }[driver]
         }
 
+        Vue.prototype.getSubscriptionStatusColor = function (status) {
+
+            return {
+                'active': 'green',
+                'cancelled': 'yellow',
+                'completed': 'purple',
+            }[status]
+        }
+
         Vue.prototype.$goToFileView = function (id) {
 
             let locations = {

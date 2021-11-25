@@ -17,9 +17,9 @@
 							<SwitchInput @input="changeStatus($event, row.data.id)" class="switch" :state="row.data.attributes.visible"/>
 						</td>
                         <td>
-                            <span class="text-sm font-bold">
+							<router-link class="text-sm font-bold" :to="{name: 'PlanSettings', params: {id: row.data.id}}">
                             	{{ row.data.attributes.name }}
-                            </span>
+							</router-link>
                         </td>
                         <td>
                             <span class="text-sm font-bold">
