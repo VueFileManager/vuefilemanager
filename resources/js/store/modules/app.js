@@ -302,6 +302,16 @@ const defaultState = {
             value: 168,
         },
     ],
+    intervalList: [
+        {
+            label: 'Monthly',
+            value: 'month',
+        },
+        {
+            label: 'Annually',
+            value: 'year',
+        },
+    ],
     currencyList: [
         {
             label: 'USD - United States Dollar',
@@ -1063,6 +1073,7 @@ const getters = {
     expirationList: state => state.expirationList,
     requestedPlan: state => state.requestedPlan,
     currencyList: state => state.currencyList,
+    intervalList: state => state.intervalList,
     countries: state => state.countries,
     timezones: state => state.timezones,
     api: state => state.config.api,

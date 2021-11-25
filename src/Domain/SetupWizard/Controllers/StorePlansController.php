@@ -3,7 +3,6 @@ namespace Domain\SetupWizard\Controllers;
 
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use Domain\Subscriptions\Services\StripeService;
 use Domain\SetupWizard\Requests\StoreStripePlansRequest;
 
 /**
@@ -11,10 +10,6 @@ use Domain\SetupWizard\Requests\StoreStripePlansRequest;
  */
 class StorePlansController extends Controller
 {
-    public function __construct(
-        public StripeService $stripe,
-    ) {
-    }
 
     public function __invoke(
         StoreStripePlansRequest $request

@@ -7,17 +7,17 @@
 
 			<!--Visible-->
 			<AppInputSwitch :title="$t('admin_page_plans.form.status')" :description="$t('admin_page_plans.form.status_help')">
-				<SwitchInput @input="$updateText('/admin/plans/' + $route.params.id, 'visible', plan.attributes.visible)" v-model="visible" class="switch" :state="plan.attributes.visible"/>
+				<SwitchInput @input="$updateInput('/subscriptions/plans/' + $route.params.id, 'visible', plan.attributes.visible)" v-model="visible" class="switch" :state="plan.attributes.visible"/>
 			</AppInputSwitch>
 
 			<!--Name-->
 			<AppInputText :title="$t('admin_page_plans.form.name')">
-				<input @input="$updateText('/admin/plans/' + $route.params.id, 'name', plan.attributes.name)" v-model="plan.attributes.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" class="focus-border-theme input-dark"/>
+				<input @input="$updateInput('/subscriptions/plans/' + $route.params.id, 'name', plan.attributes.name)" v-model="plan.attributes.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
 
 			<!--Description-->
 			<AppInputText :title="$t('admin_page_plans.form.description')">
-				<textarea @input="$updateText('/admin/plans/' + $route.params.id, 'description', plan.attributes.description)" v-model="plan.attributes.description" :placeholder="$t('admin_page_plans.form.description_plac')" class="focus-border-theme input-dark"></textarea>
+				<textarea @input="$updateInput('/subscriptions/plans/' + $route.params.id, 'description', plan.attributes.description)" v-model="plan.attributes.description" :placeholder="$t('admin_page_plans.form.description_plac')" class="focus-border-theme input-dark"></textarea>
 			</AppInputText>
 
 			<InfoBox style="margin-bottom: 0">
@@ -31,12 +31,12 @@
 
 			<!--Storage Capacity-->
 			<AppInputText :title="$t('admin_page_plans.form.storage')" :description="$t('admin_page_plans.form.storage_helper')">
-				<input @input="$updateText('/admin/plans/' + $route.params.id, 'max_storage_amount', plan.attributes.max_storage_amount)" v-model="plan.attributes.features.max_storage_amount" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
+				<input @input="$updateInput(`/subscriptions/plans/${$route.params.id}/features`, 'max_storage_amount', plan.attributes.features.max_storage_amount)" v-model="plan.attributes.features.max_storage_amount" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
 			</AppInputText>
 
 			<!--Team Members-->
 			<AppInputText :title="$t('Max Team Members')" is-last="true">
-				<input @input="$updateText('/admin/plans/' + $route.params.id, 'max_team_members', plan.attributes.max_team_members)" v-model="plan.attributes.features.max_team_members" :placeholder="$t('Add max team members in number')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
+				<input @input="$updateInput(`/subscriptions/plans/${$route.params.id}/features`, 'max_team_members', plan.attributes.features.max_team_members)" v-model="plan.attributes.features.max_team_members" :placeholder="$t('Add max team members in number')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
 			</AppInputText>
 		</div>
 	</div>

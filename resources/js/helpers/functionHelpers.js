@@ -20,6 +20,22 @@ const FunctionHelpers = {
                 })
         }, 150)
 
+        Vue.prototype.$updateInput = debounce(function (route, name, value, allowEmpty = false) {
+
+            if ((value === '' || value === ' ' || typeof value === 'object') && !allowEmpty) return
+
+            axios.post(this.$store.getters.api + route, {
+                    [name]: value,
+                    _method: 'patch'
+                })
+                .catch(() => {
+                    events.$emit('alert:open', {
+                        title: this.$t('popup_error.title'),
+                        message: this.$t('popup_error.message'),
+                    })
+                })
+        }, 150)
+
         Vue.prototype.$updateImage = function (route, name, image) {
 
             // Create form
