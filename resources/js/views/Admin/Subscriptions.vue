@@ -1,7 +1,7 @@
 <template>
     <div>
 		<!--Datatable-->
-		<DatatableWrapper @init="isLoading = false" api="/api/subscriptions" :paginator="true" :columns="columns" class="card shadow-card">
+		<DatatableWrapper @init="isLoading = false" api="/api/subscriptions/admin" :paginator="true" :columns="columns" class="card shadow-card">
 
 			<!--Table data content-->
 			<template slot-scope="{ row }">
@@ -93,6 +93,7 @@
 </template>
 
 <script>
+	import InfoBox from "../../components/Others/Forms/InfoBox";
 	import ColorLabel from "../../components/Others/ColorLabel";
 	import MemberAvatar from "../../components/FilesView/MemberAvatar";
     import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
@@ -105,6 +106,7 @@
     export default {
         name: 'Subscriptions',
         components: {
+			InfoBox,
 			ColorLabel,
 			MemberAvatar,
             EmptyPageContent,

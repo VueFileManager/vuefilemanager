@@ -76,7 +76,7 @@
 			}
 		},
 		created() {
-			axios.get(`/api/subscriptions/users/${this.$route.params.id}/subscription`)
+			axios.get(`/api/subscriptions/admin/users/${this.$route.params.id}/subscription`)
 				.then(response => {
 					this.subscription = response.data.data
 
