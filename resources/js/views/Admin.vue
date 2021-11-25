@@ -29,14 +29,6 @@
                             {{ $t('admin_menu.dashboard') }}
                         </div>
                     </router-link>
-                    <router-link :to="{name: 'Users'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <users-icon size="17" />
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_menu.users') }}
-                        </div>
-                    </router-link>
                     <router-link :to="{name: 'AppOthers'}" class="menu-list-item link">
                         <div class="icon text-theme">
                             <settings-icon size="17" />
@@ -65,8 +57,16 @@
             </ContentGroup>
 
             <!--SaaS-->
-            <ContentGroup v-if="config.isSaaS" title="Subscription" class="navigator">
+            <ContentGroup :title="$t('Assets')" class="navigator">
                 <div class="menu-list-wrapper vertical">
+					<router-link :to="{name: 'Users'}" class="menu-list-item link">
+                        <div class="icon text-theme">
+                            <users-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('admin_menu.users') }}
+                        </div>
+                    </router-link>
                     <router-link :to="{name: 'Plans'}" class="menu-list-item link">
                         <div class="icon text-theme">
                             <database-icon size="17" />
@@ -80,11 +80,33 @@
                             <file-text-icon size="17" />
                         </div>
                         <div class="label text-theme">
-                            {{ $t('admin_menu.invoices') }}
+                            {{ $t('Transactions') }}
                         </div>
                     </router-link>
                 </div>
             </ContentGroup>
+
+            <!--Others-->
+<!--            <ContentGroup :title="$t('Assets')" class="navigator">
+                <div class="menu-list-wrapper vertical">
+					<router-link :to="{name: 'Users'}" class="menu-list-item link">
+                        <div class="icon text-theme">
+                            <refresh-cw-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('Changelog') }}
+                        </div>
+                    </router-link>
+                    <router-link :to="{name: 'Plans'}" class="menu-list-item link">
+                        <div class="icon text-theme">
+                            <help-circle-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('Support') }}
+                        </div>
+                    </router-link>
+                </div>
+            </ContentGroup>-->
         </ContentSidebar>
 
         <router-view class="lg:pl-0 pl-6 pr-6 w-full overflow-x-hidden relative lg:pt-6 pt-4" />
@@ -94,7 +116,7 @@
 <script>
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
 	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
-    import { UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
+    import { HelpCircleIcon, RefreshCwIcon, UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
     import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
     import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
     import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
@@ -117,6 +139,8 @@
             MobileNavigation,
             CreateLanguage,
             ContentSidebar,
+			HelpCircleIcon,
+			RefreshCwIcon,
             CreditCardIcon,
             FileTextIcon,
             ContentGroup,

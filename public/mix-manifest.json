@@ -2,7 +2,7 @@
     "/js/main.js": "/js/main.js",
     "/css/app.css": "/css/app.css",
     "/css/tailwind.css": "/css/tailwind.css",
-    "/chunks/admin.js": "/chunks/admin.js?id=a42e2299eb6b3f03ef97",
+    "/chunks/admin.js": "/chunks/admin.js?id=a0c20801a574eca39093",
     "/chunks/admin-account.js": "/chunks/admin-account.js?id=1d297064a7b806655c53",
     "/chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-index~chu~c7a13fb0.js": "/chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/app-index~chu~c7a13fb0.js?id=b6966627bd253eda63ba",
     "/chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/~3e4fdd8b.js": "/chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/~3e4fdd8b.js?id=d7a8e5b5b913858da427",
@@ -219,5 +219,16 @@
     "/chunks/invoices.1f385c813a3c1b4200ea.hot-update.js": "/chunks/invoices.1f385c813a3c1b4200ea.hot-update.js",
     "/chunks/invoices.4966345236521ec325ca.hot-update.js": "/chunks/invoices.4966345236521ec325ca.hot-update.js",
     "/chunks/user-invoices.db36cd846bc10bc4c965.hot-update.js": "/chunks/user-invoices.db36cd846bc10bc4c965.hot-update.js",
-    "/chunks/settings-invoices.07829b26fc7d758b28ca.hot-update.js": "/chunks/settings-invoices.07829b26fc7d758b28ca.hot-update.js"
+    "/chunks/settings-invoices.07829b26fc7d758b28ca.hot-update.js": "/chunks/settings-invoices.07829b26fc7d758b28ca.hot-update.js",
+    "/chunks/admin.32bb85f7973d44921feb.hot-update.js": "/chunks/admin.32bb85f7973d44921feb.hot-update.js",
+    "/chunks/admin.61c5c1108c163859bb12.hot-update.js": "/chunks/admin.61c5c1108c163859bb12.hot-update.js",
+    "/chunks/admin.4c42fccfad562ff84db2.hot-update.js": "/chunks/admin.4c42fccfad562ff84db2.hot-update.js",
+    "/chunks/admin.452e65468423e1fddf3f.hot-update.js": "/chunks/admin.452e65468423e1fddf3f.hot-update.js",
+    "/chunks/admin.43d0ac8118424ddcbd35.hot-update.js": "/chunks/admin.43d0ac8118424ddcbd35.hot-update.js",
+    "/chunks/admin.d0d84d85acad56f04a7b.hot-update.js": "/chunks/admin.d0d84d85acad56f04a7b.hot-update.js",
+    "/chunks/admin.76bfacf283060311fbd2.hot-update.js": "/chunks/admin.76bfacf283060311fbd2.hot-update.js",
+    "/chunks/admin.395f3f63ae78b853df8a.hot-update.js": "/chunks/admin.395f3f63ae78b853df8a.hot-update.js",
+    "/chunks/admin.573a6e1ca9bd529a5c8d.hot-update.js": "/chunks/admin.573a6e1ca9bd529a5c8d.hot-update.js",
+    "/chunks/admin.0c0cac7fa6eaaddd78a7.hot-update.js": "/chunks/admin.0c0cac7fa6eaaddd78a7.hot-update.js",
+    "/chunks/admin.983a61bebc862cbccb59.hot-update.js": "/chunks/admin.983a61bebc862cbccb59.hot-update.js"
 }
