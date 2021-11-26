@@ -26,7 +26,7 @@ class TeamFolderInvitationFactory extends Factory
             'parent_id'  => $this->faker->uuid,
             'inviter_id' => $this->faker->uuid,
             'email'      => $this->faker->email,
-            'permission' => $this->faker->randomElement(['can-edit', 'can-view', 'can-view-and-download']),
+            'permission' => $this->faker->randomElement(['can-edit', 'can-view']),
             'status'     => $this->faker->randomElement(['pending', 'accepted', 'rejected']),
         ];
     }

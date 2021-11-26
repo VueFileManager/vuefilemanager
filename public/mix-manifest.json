@@ -60,7 +60,7 @@
     "/chunks/plan-settings.js": "/chunks/plan-settings.js?id=c07a2a970dc5414a7d51",
     "/chunks/plan-subscribers.js": "/chunks/plan-subscribers.js?id=5151a942550b58d3ba69",
     "/chunks/plans.js": "/chunks/plans.js?id=0aa91553ed338315d39a",
-    "/chunks/platform.js": "/chunks/platform.js?id=e25d3e8c863a76737a4b",
+    "/chunks/platform.js": "/chunks/platform.js?id=ddb79fb6130d8c6d85fe",
     "/chunks/platform~chunks/shared.js": "/chunks/platform~chunks/shared.js?id=e64e3b67ccb89de9dd55",
     "/chunks/platform~chunks/shared~chunks/shared-with-me~chunks/team-folders.js": "/chunks/platform~chunks/shared~chunks/shared-with-me~chunks/team-folders.js?id=7d983dfdc91de607d737",
     "/chunks/profile.js": "/chunks/profile.js?id=8688d9c7ff850e6989e6",
@@ -559,5 +559,12 @@
     "/js/main.c85b0e6c1c407b517efa.hot-update.js": "/js/main.c85b0e6c1c407b517efa.hot-update.js",
     "/js/main.6d054575b90412bd027d.hot-update.js": "/js/main.6d054575b90412bd027d.hot-update.js",
     "/js/main.1b9dd6c7b70765387854.hot-update.js": "/js/main.1b9dd6c7b70765387854.hot-update.js",
-    "/js/main.1be136e3d8e2c392d8aa.hot-update.js": "/js/main.1be136e3d8e2c392d8aa.hot-update.js"
+    "/js/main.1be136e3d8e2c392d8aa.hot-update.js": "/js/main.1be136e3d8e2c392d8aa.hot-update.js",
+    "/chunks/platform.9b9c3e26dbe41d5f8465.hot-update.js": "/chunks/platform.9b9c3e26dbe41d5f8465.hot-update.js",
+    "/chunks/platform.3b1ff5b0e9effcce5ee9.hot-update.js": "/chunks/platform.3b1ff5b0e9effcce5ee9.hot-update.js",
+    "/chunks/platform.686e9ec6741d10aa9bc0.hot-update.js": "/chunks/platform.686e9ec6741d10aa9bc0.hot-update.js",
+    "/chunks/platform.dfdf9807b5e5a42df629.hot-update.js": "/chunks/platform.dfdf9807b5e5a42df629.hot-update.js",
+    "/chunks/platform.106a731410cf0cfa904f.hot-update.js": "/chunks/platform.106a731410cf0cfa904f.hot-update.js",
+    "/chunks/platform.8317102f76e6a7ccb6dd.hot-update.js": "/chunks/platform.8317102f76e6a7ccb6dd.hot-update.js",
+    "/chunks/platform.2ddb2dd6bf6a6992a1f4.hot-update.js": "/chunks/platform.2ddb2dd6bf6a6992a1f4.hot-update.js"
 }

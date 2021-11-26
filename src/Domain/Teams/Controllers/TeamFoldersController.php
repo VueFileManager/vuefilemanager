@@ -1,6 +1,8 @@
 <?php
 namespace Domain\Teams\Controllers;
 
+use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
+use Domain\Teams\Models\TeamFolderMember;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
@@ -25,6 +27,7 @@ class TeamFoldersController extends Controller
     public function __construct(
         public InviteMembersIntoTeamFolderAction $inviteMembers,
         public SetTeamFolderPropertyForAllChildrenAction $setTeamFolderPropertyForAllChildren,
+        public CheckMaxTeamMembersLimitAction $checkMaxTeamMembersLimit,
     ) {
     }
 
@@ -58,6 +61,10 @@ class TeamFoldersController extends Controller
     ): ResponseFactory | Response {
         $data = CreateTeamFolderData::fromRequest($request);
 
+        // Check if user didn't exceed max team members limit
+        ($this->checkMaxTeamMembersLimit)($data->invitations, $request->user());
+
+        // Create folder
         $folder = Folder::create([
             'user_id'     => $request->user()->id,
             'name'        => $data->name,
@@ -65,12 +72,11 @@ class TeamFoldersController extends Controller
         ]);
 
         // Attach owner into members
-        DB::table('team_folder_members')
-            ->insert([
-                'parent_id'  => $folder->id,
-                'user_id'    => $request->user()->id,
-                'permission' => 'owner',
-            ]);
+        TeamFolderMember::create([
+            'parent_id'  => $folder->id,
+            'user_id'    => $request->user()->id,
+            'permission' => 'owner',
+        ]);
 
         // Invite team members
         $this->inviteMembers->onQueue()->execute($data->invitations, $folder);
@@ -85,6 +91,9 @@ class TeamFoldersController extends Controller
         UpdateMembersAction $updateMembers,
     ): ResponseFactory | Response {
         $this->authorize('owner', $folder);
+
+        // Check if user didn't exceed max team members limit
+        ($this->checkMaxTeamMembersLimit)($request->input('invitations'), $request->user());
 
         $updateInvitations(
             $folder,

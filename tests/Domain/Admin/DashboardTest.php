@@ -32,6 +32,7 @@ class DashboardTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 'license'             => 'Regular',
+                'total_premium_users' => 0,
                 'app_version'         => config('vuefilemanager.version'),
                 'total_users'         => 1,
                 'total_used_space'    => '2.00MB',

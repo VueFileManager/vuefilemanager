@@ -477,7 +477,7 @@ if (! function_exists('get_storage_fill_percentage')) {
         }
 
         // Return in 2 decimal
-        return number_format((float) $progress, 2, '.', '');
+        return (float) number_format((float) $progress, 2, '.', '');
     }
 }
 

@@ -91,6 +91,7 @@
 	import InfoBox from "../Others/Forms/InfoBox";
 	import {events} from '/resources/js/bus'
 	import axios from "axios";
+	import {mapGetters} from "vuex";
 
 	export default {
 		name: 'CreateTeamFolderPopup',
@@ -109,6 +110,9 @@
 			InfoBox,
 		},
 		computed: {
+			...mapGetters([
+				'user'
+			]),
 			popupTitle() {
 				return this.item ? this.$t('Convert as Team Folder') : this.$t('Create Team Folder')
 			},
@@ -193,6 +197,17 @@
 				if (!email) {
 					this.$refs.teamFolderForm.setErrors({
 						'Email': this.$t("You have to type valid email")
+					});
+
+					return
+				}
+
+				// Get team folder limitations
+				let limit = this.user.data.meta.limitations.max_team_members
+
+				if (limit.percentage >= 100 && ! limit.meta.allowed_emails.includes(email)) {
+					this.$refs.teamFolderForm.setErrors({
+						'Email': this.$t("You have to upgrade your account to add this new member.")
 					});
 
 					return

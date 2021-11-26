@@ -45,7 +45,7 @@ class UserResource extends JsonResource
                     ]),
                 ],
                 'meta' => [
-                    'limitations' => $this->accountLimitations(),
+                    'limitations' => $this->limitations->summary(),
                 ],
             ],
         ];

@@ -1,5 +1,6 @@
 <?php
-namespace Tests\Feature\Accounts;
+
+namespace Tests\App\Users;
 
 use Storage;
 use Notification;
@@ -117,8 +118,7 @@ class UserAccountTest extends TestCase
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
-                fn ($size) =>
-                Storage::disk('local')
+                fn($size) => Storage::disk('local')
                     ->assertExists("avatars/{$size['name']}-{$user->settings->getRawOriginal('avatar')}")
             );
     }
@@ -137,26 +137,27 @@ class UserAccountTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 'data' => [
-                    'id'            => (string) $user->id,
+                    'id'            => (string)$user->id,
                     'type'          => 'user',
                     'attributes'    => [
-                        'email'                       => $user->email,
-                        'role'                        => $user->role,
-                        'two_factor_authentication'   => false,
-                        'folders'                     => [],
-                        'storage'                     => [
+                        'avatar'                    => null,
+                        'email'                     => $user->email,
+                        'role'                      => $user->role,
+                        'two_factor_authentication' => false,
+                        'folders'                   => [],
+                        'storage'                   => [
                             'used'               => 0,
-                            'used_formatted'     => '0.00%',
+                            'used_formatted'     => '0%',
                             'capacity'           => '1',
                             'capacity_formatted' => '1GB',
                         ],
-                        'created_at'           => format_date($user->created_at, '%d. %B. %Y'),
-                        'updated_at'           => format_date($user->updated_at, '%d. %B. %Y'),
+                        'created_at'                => format_date($user->created_at, '%d. %b. %Y'),
+                        'updated_at'                => format_date($user->updated_at, '%d. %b. %Y'),
                     ],
                     'relationships' => [
-                        'settings'   => [
+                        'settings'    => [
                             'data' => [
-                                'id'         => (string) $user->id,
+                                'id'         => (string)$user->id,
                                 'type'       => 'settings',
                                 'attributes' => [
                                     'avatar'       => $user->settings->avatar,
@@ -171,13 +172,13 @@ class UserAccountTest extends TestCase
                                 ],
                             ],
                         ],
-                        'favourites' => [
+                        'favourites'  => [
                             'data' => [],
                         ],
                         'limitations' => [
-                            'id'         => $user->id,
-                            'type'       => 'limitations',
-                            'data'       => [
+                            'id'   => $user->id,
+                            'type' => 'limitations',
+                            'data' => [
                                 'attributes' => $user->limitations,
                             ],
                         ],

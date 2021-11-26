@@ -109,34 +109,6 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    // TODO: caching & refactoring
-    public function accountLimitations(): array
-    {
-        $members = \DB::table('team_folder_members')
-            ->where('user_id', $this->id)
-            ->pluck('parent_id');
-
-        $membersUse = \DB::table('team_folder_members')
-            ->where('user_id', '!=', $this->id)
-            ->whereIn('parent_id', $members)
-            ->pluck('user_id')
-            ->unique()
-            ->count();
-
-        return [
-            'max_storage_amount' => [
-                'use'        => Metric::bytes($this->usedCapacity)->format(),
-                'total'      => format_gigabytes($this->limitations->max_storage_amount),
-                'percentage' => (float)get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
-            ],
-            'max_team_members'   => [
-                'use'        => $membersUse,
-                'total'      => (int)$this->limitations->max_team_members,
-                'percentage' => ($membersUse / $this->limitations->max_team_members) * 100,
-            ],
-        ];
-    }
-
     /**
      * Get user used storage capacity in bytes
      */
@@ -209,6 +181,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(File::class);
     }
 
+    public function folders(): HasMany
+    {
+        return $this->hasMany(Folder::class);
+    }
+
     /**
      * Send the password reset notification.
      */
@@ -227,7 +204,7 @@ class User extends Authenticatable implements MustVerifyEmail
             // Create default limitations
             $user->limitations()->create([
                 'max_storage_amount' => get_settings('default_storage_amount') ?? 1,
-                'max_team_members'   => 3,
+                'max_team_members'   => 5,
             ]);
 
             // Create user directory for his files
