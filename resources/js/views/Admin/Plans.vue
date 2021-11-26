@@ -10,11 +10,11 @@
 			</div>
 
 			<!--Datatable-->
-            <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/subscriptions/plans" :paginator="true" :columns="columns">
+            <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/subscriptions/admin/plans" :paginator="true" :columns="columns">
                 <template slot-scope="{ row }">
                     <tr class="border-b dark:border-opacity-5 border-light border-dashed">
 						<td class="py-4">
-							<SwitchInput @input="changeStatus($event, row.data.id)" class="switch" :state="row.data.attributes.visible"/>
+							<SwitchInput @input="$updateInput(`/subscriptions/admin/plans/${row.data.id}`, 'visible', row.data.attributes.visible)" v-model="row.data.attributes.visible" class="switch" :state="row.data.attributes.visible"/>
 						</td>
                         <td>
 							<router-link class="text-sm font-bold" :to="{name: 'PlanSettings', params: {id: row.data.id}}">
@@ -161,11 +161,6 @@
                         sortable: false
                     },
                 ],
-            }
-        },
-        methods: {
-            changeStatus(val, id) {
-                this.$updateText('/subscription/plans/' + id, 'visible', val)
             }
         },
         created() {

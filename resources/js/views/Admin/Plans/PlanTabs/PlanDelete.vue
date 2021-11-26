@@ -8,9 +8,9 @@
 		</InfoBox>
 		<ValidationObserver ref="deletePlan" @submit.prevent="deletePlan" v-slot="{ invalid }" tag="form">
 			<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Plan name" :rules="'required|is:' + plan.attributes.name">
-				<AppInputText :title="$t('admin_page_user.label_delete_user', {user: plan.attributes.name})" :is-last="true">
+				<AppInputText :title="$t('admin_page_user.label_delete_user', {user: plan.attributes.name})" :error="errors[0]" :is-last="true">
 					<div class="flex space-x-4">
-						<input v-model="planName" :placeholder="$t('admin_page_plans.form.name_delete_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+						<input v-model="planName" :placeholder="$t('admin_page_plans.form.name_delete_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
 						<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="submit-button">
 							{{ $t('admin_page_plans.delete_plan_button') }}
 						</ButtonBase>
@@ -54,7 +54,6 @@
         },
         methods: {
             async deletePlan() {
-
                 // Validate fields
                 const isValid = await this.$refs.deletePlan.validate();
 
@@ -63,11 +62,7 @@
                 this.isSendingRequest = true
 
                 axios
-                    .post('/api/subscriptions/admin/plans/' + this.$route.params.id,
-                        {
-                            data: {
-                                name: this.planName
-                            },
+                    .post(`/api/subscriptions/admin/plans/${this.$route.params.id}`, {
                             _method: 'delete'
                         }
                     )

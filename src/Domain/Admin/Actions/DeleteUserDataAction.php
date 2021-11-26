@@ -14,11 +14,18 @@ class DeleteUserDataAction
     {
         // Delete user avatar if exists
         if ($user->settings->getRawOriginal('avatar')) {
+
+            // TODO: delete all generated avatars
             Storage::delete($user->settings->getRawOriginal('avatar'));
         }
 
         // Delete all user files
         Storage::deleteDirectory("files/$user->id");
+
+        // Delete user subscriptions
+        if ($user->subscription) {
+            $user->subscription->delete();
+        }
 
         // Delete all user records in database
         collect(['folders', 'files', 'user_settings', 'shares', 'favourite_folder', 'traffic'])

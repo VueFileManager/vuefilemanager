@@ -1,6 +1,6 @@
 <template>
     <div>
-		<div class="card shadow-card pb-0 sticky top-0 z-10">
+		<div v-if="plan" class="card shadow-card pb-0 sticky top-0 z-10">
 
 			<div class="mb-2">
 				<h1 class="font-bold text-xl">

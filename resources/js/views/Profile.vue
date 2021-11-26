@@ -5,6 +5,7 @@
 		<Spotlight />
 
 		<ConfirmPopup />
+		<SelectPlanSubscriptionPopup />
 
 		<!--2FA popups-->
 		<TwoFactorRecoveryCodesPopup />
@@ -72,6 +73,7 @@
 </template>
 
 <script>
+	import SelectPlanSubscriptionPopup from "../components/Subscription/SelectPlanSubscriptionPopup";
 	import ConfirmPopup from "../components/Others/Popup/ConfirmPopup";
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
 	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
@@ -88,6 +90,7 @@
 	export default {
         name: 'Settings',
         components: {
+			SelectPlanSubscriptionPopup,
 			ConfirmPopup,
 			CardNavigation,
 			FilePreview,

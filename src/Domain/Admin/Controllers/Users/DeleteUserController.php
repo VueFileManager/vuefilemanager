@@ -22,10 +22,9 @@ class DeleteUserController extends Controller
             return response('Done.', 204);
         }
 
-        // TODO: secure deletion
-        /*if ($user->subscription) {
-            abort(202, "You can\'t delete this account while user have active subscription.");
-        }*/
+        if ($user->subscription && $user->subscription->active()) {
+            abort(202, "You can\'t delete this account since user has active subscription.");
+        }
 
         if ($user->id === Auth::id()) {
             abort(406, "You can\'t delete your account");

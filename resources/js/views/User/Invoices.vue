@@ -15,7 +15,7 @@
 							</span>
                         </td>
                         <td>
-							<ColorLabel color="purple">
+							<ColorLabel :color="$getTransactionStatusColor(row.data.attributes.status)">
                                 {{ row.data.attributes.status }}
 							</ColorLabel>
                         </td>

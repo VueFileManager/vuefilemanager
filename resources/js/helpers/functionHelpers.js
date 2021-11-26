@@ -329,12 +329,21 @@ const FunctionHelpers = {
             }[driver]
         }
 
-        Vue.prototype.getSubscriptionStatusColor = function (status) {
+        Vue.prototype.$getSubscriptionStatusColor = function (status) {
 
             return {
                 'active': 'green',
                 'cancelled': 'yellow',
                 'completed': 'purple',
+            }[status]
+        }
+
+        Vue.prototype.$getTransactionStatusColor = function (status) {
+
+            return {
+                'completed': 'green',
+                'cancelled': 'yellow',
+                'error': 'red',
             }[status]
         }
 

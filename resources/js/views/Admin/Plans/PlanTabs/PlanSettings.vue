@@ -7,17 +7,17 @@
 
 			<!--Visible-->
 			<AppInputSwitch :title="$t('admin_page_plans.form.status')" :description="$t('admin_page_plans.form.status_help')">
-				<SwitchInput @input="$updateInput('/subscriptions/plans/' + $route.params.id, 'visible', plan.attributes.visible)" v-model="visible" class="switch" :state="plan.attributes.visible"/>
+				<SwitchInput @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'visible', plan.attributes.visible)" v-model="plan.attributes.visible" class="switch" :state="plan.attributes.visible"/>
 			</AppInputSwitch>
 
 			<!--Name-->
 			<AppInputText :title="$t('admin_page_plans.form.name')">
-				<input @input="$updateInput('/subscriptions/plans/' + $route.params.id, 'name', plan.attributes.name)" v-model="plan.attributes.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" class="focus-border-theme input-dark"/>
+				<input @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'name', plan.attributes.name)" v-model="plan.attributes.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
 
 			<!--Description-->
 			<AppInputText :title="$t('admin_page_plans.form.description')">
-				<textarea @input="$updateInput('/subscriptions/plans/' + $route.params.id, 'description', plan.attributes.description)" v-model="plan.attributes.description" :placeholder="$t('admin_page_plans.form.description_plac')" class="focus-border-theme input-dark"></textarea>
+				<textarea @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'description', plan.attributes.description)" v-model="plan.attributes.description" :placeholder="$t('admin_page_plans.form.description_plac')" class="focus-border-theme input-dark"></textarea>
 			</AppInputText>
 
 			<InfoBox style="margin-bottom: 0">

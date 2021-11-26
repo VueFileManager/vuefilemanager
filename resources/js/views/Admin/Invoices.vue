@@ -16,7 +16,7 @@
 								</span>
 							</td>
 							<td>
-								<div class="flex items-center">
+								<div v-if="row.data.relationships.user" class="flex items-center">
 									<MemberAvatar
 										:is-border="false"
 										:size="36"
@@ -31,9 +31,12 @@
 										</span>
 									</div>
 								</div>
+								<span v-if="! row.data.relationships.user" class="text-xs text-gray-500 font-bold">
+									{{ $t('User was deleted') }}
+								</span>
 							</td>
 							<td>
-								<ColorLabel color="purple">
+								<ColorLabel :color="$getTransactionStatusColor(row.data.attributes.status)">
 									{{ row.data.attributes.status }}
 								</ColorLabel>
 							</td>

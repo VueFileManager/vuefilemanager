@@ -24,7 +24,7 @@
 						</router-link>
 					</td>
 					<td>
-						<ColorLabel :color="getSubscriptionStatusColor(row.data.attributes.status)">
+						<ColorLabel :color="$getSubscriptionStatusColor(row.data.attributes.status)">
 							{{ row.data.attributes.status }}
 						</ColorLabel>
 					</td>

@@ -6,8 +6,6 @@
         <ToasterWrapper />
         <CookieDisclaimer />
 
-		<SelectPlanSubscriptionPopup />
-
         <!--Show spinner before translations is loaded-->
         <Spinner v-if="! isLoaded"/>
 
@@ -19,7 +17,6 @@
 </template>
 
 <script>
-import SelectPlanSubscriptionPopup from "./components/Subscription/SelectPlanSubscriptionPopup";
 import ToasterWrapper from '/resources/js/components/Others/Notifications/ToasterWrapper'
 import CookieDisclaimer from '/resources/js/components/Others/CookieDisclaimer'
 import Spinner from '/resources/js/components/FilesView/Spinner'
@@ -31,7 +28,6 @@ import {events} from './bus'
 export default {
     name: 'app',
     components: {
-		SelectPlanSubscriptionPopup,
         CookieDisclaimer,
         ToasterWrapper,
         Vignette,
@@ -135,7 +131,7 @@ export default {
 @import '/resources/sass/vuefilemanager/_mixins';
 
 .card {
-	@apply dark:bg-dark-foreground bg-white lg:p-8 p-6 rounded-lg lg:mb-6 mb-4
+	@apply dark:bg-dark-foreground bg-white lg:p-6 p-4 rounded-xl lg:mb-6 mb-4
 }
 
 .input-dark {
