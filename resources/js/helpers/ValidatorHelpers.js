@@ -1,0 +1,27 @@
+import store from '../store/index'
+
+const ValidatorHelpers = {
+	install(Vue) {
+
+		Vue.prototype.$cantInviteMember = function (email, invitations) {
+			// Get max team members limitations
+			let limit = store.getters.user.data.meta.limitations.max_team_members
+
+			// Get emails from invitations and currently active members
+			let newInvitationEmails = invitations.map(item => item['email'])
+			let allowedMemberEmails = limit.meta.allowed_emails
+
+			// Get unique list of member emails
+			let totalUniqueEmails = [...new Set(newInvitationEmails.concat(Object.values(allowedMemberEmails)))]
+
+			// If there is more unique emails than can be in limit, disable ability to add member
+			return totalUniqueEmails.length >= limit.total && !totalUniqueEmails.includes(email);
+		}
+
+		Vue.prototype.$isInvalidEmail = function (email) {
+			return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null
+		}
+	}
+}
+
+export default ValidatorHelpers

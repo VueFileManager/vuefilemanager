@@ -1,9 +1,9 @@
 <template>
 	<ContentSidebar>
 		<!--Empty storage warning-->
-		<ContentGroup v-if="user && config.storageLimit && storage.used > 95">
+<!--		<ContentGroup v-if="user && config.storageLimit && storage.used > 95">
 			<UpgradeSidebarBanner/>
-		</ContentGroup>
+		</ContentGroup>-->
 
 		<!--Locations-->
 		<ContentGroup :title="$t('sidebar.locations_title')">

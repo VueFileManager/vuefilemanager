@@ -6,6 +6,7 @@ import router from "./router";
 import App from "./App.vue";
 import store from "./store";
 import {events} from "./bus";
+import ValidatorHelpers from "./helpers/ValidatorHelpers";
 import functionHelpers from "./helpers/functionHelpers";
 import itemHelpers from "./helpers/itemHelpers"
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -86,6 +87,7 @@ library.add(
 Vue.component("FontAwesomeIcon", FontAwesomeIcon);
 
 Vue.use(VueRouter);
+Vue.use(ValidatorHelpers);
 Vue.use(functionHelpers);
 Vue.use(itemHelpers);
 
