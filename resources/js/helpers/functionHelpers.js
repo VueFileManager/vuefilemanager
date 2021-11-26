@@ -236,18 +236,19 @@ const FunctionHelpers = {
                         totalUploadedSize: uploadedSize
                     }).then(() => {
                         uploadedSize = uploadedSize + chunk.size
-                    }).catch((error) => {
+                    }).catch(error => {
 
                         // Count attempts
                         attempts++
 
                         // Show Error
-                        if (attempts === 3)
-                            this.$isSomethingWrong()
+                        //if (attempts === 3)
 
                         // Break uploading process
-                        if ([500, 422].includes(error.response.status))
+                        if ([500, 422].includes(error.response.status)) {
                             isNotGeneralError = false
+                            this.$isSomethingWrong()
+                        }
                     })
                 } while (isNotGeneralError && attempts !== 0 && attempts !== 3)
 

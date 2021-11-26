@@ -3,6 +3,7 @@
 namespace App\Users\Models;
 
 use ByteUnits\Metric;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
@@ -141,8 +142,9 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function getUsedCapacityAttribute(): int
     {
-        return $this->filesWithTrashed
-            ->map(fn($item) => $item->getRawOriginal())->sum('filesize');
+        return DB::table('files')
+            ->where('user_id', $this->id)
+            ->sum('filesize');
     }
 
     /**

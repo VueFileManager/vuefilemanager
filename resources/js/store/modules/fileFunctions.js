@@ -225,9 +225,6 @@ const actions = {
                         }
                     }
 
-                    console.log(error.response);
-                    console.log(error.response.status);
-
                     events.$emit('alert:open', {
                         emoji: '😬😬😬',
                         title: messages[error.response.status]['title'],
