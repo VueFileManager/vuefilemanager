@@ -17,7 +17,7 @@
 							</td>
 							<td>
 								<span class="text-sm font-bold">
-									<SwitchInput @input="changeStatus($event, row.data.attributes.slug)" class="switch" :state="row.data.attributes.visibility"/>
+									<SwitchInput @input="$updateText(`/admin/pages/${row.data.id}`, 'visibility', row.data.attributes.visibility)" v-model="row.data.attributes.visibility" :state="row.data.attributes.visibility" class="switch"/>
 								</span>
 							</td>
 							<td>
@@ -95,73 +95,5 @@
                 ],
             }
         },
-        methods: {
-            changeStatus(val, slug) {
-                this.$updateText('/admin/pages/' + slug, 'visibility', val)
-            }
-        },
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .table-tools {
-        background: white;
-        display: flex;
-        justify-content: space-between;
-        padding: 15px 0 10px;
-        position: sticky;
-        top: 40px;
-        z-index: 9;
-    }
-
-    .table {
-
-        .cell-item {
-            @include font-size(15);
-            white-space: nowrap;
-        }
-
-        .name {
-            font-weight: 700;
-            cursor: pointer;
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-        .table-tools {
-            padding: 0 0 5px;
-        }
-    }
-
-    .dark {
-
-        .table-tools {
-            background: $dark_mode_background;
-        }
-
-        .action-icons {
-
-            .icon {
-                cursor: pointer;
-
-                circle, path, line, polyline {
-                    stroke: $dark_mode_text_primary;
-                }
-            }
-        }
-
-        .user-thumbnail {
-
-            .info {
-
-                .email {
-                    color: $dark_mode_text_secondary;
-                }
-            }
-        }
-    }
-
-</style>

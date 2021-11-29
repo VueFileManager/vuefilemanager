@@ -139,7 +139,7 @@
 					},
 					{
 						label: this.$t('User'),
-						field: 'user',
+						field: 'user_id',
 						sortable: true
 					},
 					{
@@ -159,6 +159,7 @@
 					},
 					{
 						label: this.$t('Service'),
+						field: 'driver',
 						sortable: true
 					},
 				],

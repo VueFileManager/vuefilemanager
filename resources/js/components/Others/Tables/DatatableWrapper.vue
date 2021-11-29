@@ -8,7 +8,7 @@
 						v-for="(column, index) in columns"
 						@click="sort(column.field, column.sortable)"
 						:key="index"
-						:class="{ 'sortable': column.sortable, 'text-right': (Object.values(columns).length - 1) === index }"
+						:class="{ 'sortable cursor-pointer': column.sortable, 'text-right': (Object.values(columns).length - 1) === index }"
 						v-if="! column.hidden"
 					>
 						<span class="dark:text-gray-500 text-gray-400 text-xs">

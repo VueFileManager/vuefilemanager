@@ -14,7 +14,7 @@
                 <template slot-scope="{ row }">
                     <tr class="border-b dark:border-opacity-5 border-light border-dashed">
 						<td class="py-4">
-							<SwitchInput @input="$updateInput(`/subscriptions/admin/plans/${row.data.id}`, 'visible', row.data.attributes.visible)" v-model="row.data.attributes.visible" class="switch" :state="row.data.attributes.visible"/>
+							<SwitchInput @input="$updateInput(`/subscriptions/admin/plans/${row.data.id}`, 'visible', row.data.attributes.visible)" v-model="row.data.attributes.visible" :state="row.data.attributes.visible" class="switch"/>
 						</td>
                         <td>
 							<router-link class="text-sm font-bold" :to="{name: 'PlanSettings', params: {id: row.data.id}}">
@@ -110,7 +110,9 @@
             Spinner,
         },
         computed: {
-            ...mapGetters(['config']),
+            ...mapGetters([
+				'config'
+			]),
             isEmptyPlans() {
                 return ! this.isLoading && this.plans.length === 0 && this.config.stripe_public_key
             },
@@ -128,32 +130,30 @@
                 columns: [
                     {
                         label: this.$t('Visibility'),
-                        field: 'data.attributes.status',
-                        sortable: false
+                        field: 'visible',
+                        sortable: true
                     },
                     {
                         label: this.$t('Name'),
-                        field: 'data.attributes.name',
-                        sortable: false
+                        field: 'name',
+                        sortable: true
                     },
                     {
                         label: this.$t('Price'),
-                        field: 'data.attributes.subscribers',
-                        sortable: false
+                        field: 'amount',
+                        sortable: true
                     },
                     {
                         label: this.$t('Interval'),
-                        field: 'data.attributes.price',
-                        sortable: false
+                        field: 'interval',
+                        sortable: true
                     },
                     {
                         label: this.$t('admin_page_plans.table.subscribers'),
-                        field: 'data.attributes.capacity',
                         sortable: false
                     },
                     {
                         label: this.$t('Storage'),
-                        field: 'data.attributes.capacity',
                         sortable: false
                     },
                     {

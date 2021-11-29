@@ -91,30 +91,33 @@
                 columns: [
                     {
                         label: this.$t('admin_page_user.table.name'),
-                        field: 'name',
+                        field: 'user_id',
                         sortable: true
                     },
                     {
                         label: this.$t('Status'),
-                        field: 'used',
-                        sortable: false
+                        field: 'status',
+                        sortable: true
                     },
                     {
                         label: this.$t('Plan'),
-                        field: 'name',
+                        field: 'plan.name',
                         sortable: true
                     },
                     {
                         label: this.$t('Renews At'),
-                        sortable: false
+                        field: 'created_at',
+                        sortable: true
                     },
                     {
                         label: this.$t('Ends At'),
-                        sortable: false
+                        field: 'ends_at',
+                        sortable: true
                     },
                     {
                         label: this.$t('Service'),
-                        sortable: false
+                        field: 'driver',
+                        sortable: true
                     },
                 ],
             }

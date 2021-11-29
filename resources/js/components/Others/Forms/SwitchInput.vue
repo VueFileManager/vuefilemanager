@@ -8,7 +8,7 @@
         <div class="switch-content text-right">
             <div
                     class="switch"
-                    :class="{ active: isSwitched }"
+                    :class="{ active: state }"
                     @click="changeState"
             >
                 <div class="switch-button"></div>
@@ -20,7 +20,13 @@
 <script>
     export default {
         name:'SwitchInput',
-        props: ['label', 'name', 'state', 'info'],
+        props: [
+			'label',
+			'name',
+			'state',
+			'info',
+			'input',
+		],
         data() {
             return {
                 isSwitched: undefined

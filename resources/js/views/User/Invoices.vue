@@ -87,6 +87,7 @@
 					},
 					{
 						label: this.$t('Service'),
+						field: 'driver',
 						sortable: true
 					},
 				],

@@ -149,19 +149,15 @@
                 },
                 {
                     label: this.$t('admin_page_user.table.plan'),
-                    field: 'subscription',
                     sortable: false,
-                    hidden: ! this.config.isSaaS,
                 },
                 {
                     label: this.$t('admin_page_user.table.storage_used'),
-                    field: 'used',
-                    sortable: true
+                    sortable: false
                 },
                 {
                     label: this.$t('Max Storage'),
-                    field: 'settings.max_storage_amount',
-                    sortable: true,
+                    sortable: false,
                     hidden: ! this.config.storageLimit,
                 },
                 {
@@ -171,7 +167,6 @@
                 },
                 {
                     label: this.$t('admin_page_user.table.action'),
-                    field: 'data.action',
                     sortable: false
                 },
             ]
