@@ -46,6 +46,10 @@
                         </div>-->
                     </div>
 
+					<ButtonBase @click.native="$openUpgradeOptions" class="upgrade-button" button-style="secondary" type="button">
+						{{ $t('global.upgrade_plan') }}
+					</ButtonBase>
+
 
 					<CardNavigation :pages="pages" class="-mx-3" />
 
@@ -73,6 +77,7 @@
 </template>
 
 <script>
+	import ButtonBase from "../components/FilesView/ButtonBase";
 	import SelectPlanSubscriptionPopup from "../components/Subscription/SelectPlanSubscriptionPopup";
 	import ConfirmPopup from "../components/Others/Popup/ConfirmPopup";
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
@@ -91,6 +96,7 @@
         name: 'Settings',
         components: {
 			SelectPlanSubscriptionPopup,
+			ButtonBase,
 			ConfirmPopup,
 			CardNavigation,
 			FilePreview,
