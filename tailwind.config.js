@@ -28,6 +28,7 @@ module.exports = {
         'dark-foreground': '#161718',
         '2x-dark-foreground': '#191b1e',
         'light-background': '#f4f5f6',
+        'light-300': '#e1e1ef',
       }),
       boxShadow: {
         card: '0 2px 6px 0 rgba(0, 0, 0, 0.04)',

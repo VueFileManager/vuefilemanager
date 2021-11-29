@@ -1,13 +1,36 @@
 <template>
-    <div class="progress-wrapper">
-        <div class="chart rounded">
+    <div>
+        <div class="flex items-center mb-4 rounded dark:bg-2x-dark-foreground bg-light-300">
             <div v-for="(chart, i) in data" :key="i" :style="{width: chart.progress + '%'}" class="chart-wrapper">
 				<!--<DotLabel class="label" :class="{'offset-top': chart.progress < 5}" :color="chart.color" :title="chart.value" />-->
-                <span :class="['chart-progress', chart.color]"></span>
+
+				<!--Only singe line-->
+				<span
+					v-if="data.length === 1"
+					:class="[{
+						'border-r-2 dark:border-gray-800 border-white rounded-tl-lg rounded-bl-lg': chart.progress < 100,
+						'border-none rounded-lg': chart.progress >= 100
+						}, chart.color]"
+					class="chart-progress w-full h-2 block"
+				>
+
+				</span>
+
+				<!--Multiple line-->
+				<span
+					v-if="data.length > 1"
+					:class="[{
+						'rounded-tl-lg rounded-bl-lg border-r-2 dark:border-gray-800 border-white': i === 0,
+						'border-r-2 dark:border-gray-800 border-white': i < (data.length - 1),
+						'rounded-tr-lg rounded-br-lg': i === (data.length - 1),
+					}, chart.color]"
+					class="chart-progress w-full h-2 block"
+				></span>
             </div>
         </div>
-        <footer>
-            <DotLabel v-for="(chart, i) in data" :key="i" :color="chart.color" :title="chart.title" v-if="chart && chart.title" />
+
+        <footer class="flex items-center">
+            <DotLabel v-for="(chart, i) in data" :key="i" :color="chart.color" :title="chart.title" class="mr-5" />
         </footer>
     </div>
 </template>
@@ -15,132 +38,54 @@
 <script>
     import DotLabel from "./DotLabel";
 
-    export default {
-        name: 'ProgressLine',
-        props: [
-            'data',
-        ],
-        components: {
-            DotLabel
-        }
-    }
+	export default {
+		name: 'ProgressLine',
+		props: [
+			'data',
+		],
+		components: {
+			DotLabel,
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
+	.chart-progress {
+		&.success {
+			background: #0ABB87;
+			box-shadow: 0 3px 10px rgba(#0ABB87, 0.5);
+		}
 
+		&.danger {
+			background: #fd397a;
+			box-shadow: 0 3px 10px rgba(#fd397a, 0.5);
+		}
 
-    .progress-wrapper {
+		&.warning {
+			background: #ffb822;
+			box-shadow: 0 3px 10px rgba(#ffb822, 0.5);
+		}
 
-        .chart {
-            display: flex;
-            align-items: center;
-            margin-bottom: 14px;
+		&.info {
+			background: #5578eb;
+			box-shadow: 0 3px 10px rgba(#5578eb, 0.5);
+		}
+
+		&.purple {
+			background: #9d66fe;
+			box-shadow: 0 3px 10px rgba(#9d66fe, 0.5);
+		}
+
+		&.secondary {
 			background: #e1e1ef;
+			box-shadow: 0 3px 10px rgba(#e1e1ef, 0.5);
+		}
+	}
 
-            .chart-wrapper {
-
-                .label {
-                    justify-content: flex-end;
-                    padding-right: 5px;
-                    margin-bottom: 10px;
-
-                    &.offset-top {
-                        //@include transform(translateY(50px));
-                    }
-                }
-
-                &:nth-child(1) {
-                    .chart-progress {
-                        border-bottom-left-radius: 8px;
-                        border-top-left-radius: 8px;
-                        border-right: 2px solid white;
-                    }
-                }
-
-				.chart-progress {
-					border-right: 2px solid white;
-				}
-
-                &:nth-child(6) {
-                    .chart-progress {
-                        border-bottom-right-radius: 8px;
-                        border-top-right-radius: 8px;
-                    }
-                }
-            }
-
-            .chart-progress {
-                width: 100%;
-                height: 8px;
-                display: block;
-
-                &.success {
-                    background: #0ABB87;
-                    box-shadow: 0 3px 10px rgba(#0ABB87, 0.5);
-                }
-
-                &.danger {
-                    background: #fd397a;
-                    box-shadow: 0 3px 10px rgba(#fd397a, 0.5);
-                }
-
-                &.warning {
-                    background: #ffb822;
-                    box-shadow: 0 3px 10px rgba(#ffb822, 0.5);
-                }
-
-                &.info {
-                    background: #5578eb;
-                    box-shadow: 0 3px 10px rgba(#5578eb, 0.5);
-                }
-
-                &.purple {
-                    background: #9d66fe;
-                    box-shadow: 0 3px 10px rgba(#9d66fe, 0.5);
-                }
-
-                &.secondary {
-                    background: #e1e1ef;
-                    box-shadow: 0 3px 10px rgba(#e1e1ef, 0.5);
-                }
-            }
-        }
-
-        footer {
-            display: flex;
-            align-items: center;
-
-            .label {
-                margin-right: 22px;
-            }
-        }
-    }
-
-
-	.dark {
-
-		.chart {
+	.dark .chart-progress {
+		&.secondary {
 			background: #282A2F !important;
-		}
-
-		.chart-wrapper {
-
-			&:nth-child(1) {
-				.chart-progress {
-					border-color: #151515 !important;
-				}
-			}
-
-			.chart-progress {
-					border-color: #151515 !important;
-			}
-		}
-
-		.chart-progress {
-			&.secondary {
-				background: #282A2F !important;
-				box-shadow: 0 3px 10px rgba(#282A2F, 0.5) !important;
-			}
+			box-shadow: 0 3px 10px rgba(#282A2F, 0.5) !important;
 		}
 	}
 </style>

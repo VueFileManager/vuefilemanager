@@ -47,7 +47,7 @@
                     </div>
 
 
-					<CardNavigation :pages="pages" class="-mx-6" />
+					<CardNavigation :pages="pages" class="-mx-3" />
 
 					<!--Incomplete Payment Warning-->
 					<!--<InfoBox v-if="canShowIncompletePayment" type="error" class="message-box">
