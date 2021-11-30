@@ -46,6 +46,26 @@ class TeamLimitsTest extends TestCase
                         'email'      => 'test@doe.com',
                         'permission' => 'can-edit',
                     ],
+                    [
+                        'email'      => 'test2@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'test3@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'test4@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'test5@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'test6@doe.com',
+                        'permission' => 'can-edit',
+                    ],
                 ],
             ])
             ->assertStatus(423);

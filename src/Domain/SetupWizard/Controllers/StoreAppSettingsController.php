@@ -61,8 +61,12 @@ class StoreAppSettingsController extends Controller
                 'value' => $request->input('storageLimitation'),
             ],
             [
-                'name'  => 'default_storage_amount',
+                'name'  => 'default_max_storage_amount',
                 'value' => $request->input('defaultStorage') ?? 5,
+            ],
+            [
+                'name'  => 'default_max_team_member',
+                'value' => $request->input('defaultMaxTeamMember') ?? 10,
             ],
         ])->each(function ($col) {
             Setting::forceCreate([

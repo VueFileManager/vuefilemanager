@@ -19,7 +19,7 @@ class SignFlowTest extends TestCase
     {
         collect([
             [
-                'name'  => 'default_storage_amount',
+                'name'  => 'default_max_storage_amount',
                 'value' => 12,
             ],
             [

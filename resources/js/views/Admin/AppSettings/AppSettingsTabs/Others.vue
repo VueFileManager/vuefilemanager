@@ -15,7 +15,7 @@
 			</AppInputSwitch>
 
 			<AppInputText v-if="app.storageLimitation" :title="$t('admin_settings.others.default_storage')">
-				<input @input="$updateText('/admin/settings', 'default_storage_amount', app.defaultStorage)"
+				<input @input="$updateText('/admin/settings', 'default_max_storage_amount', app.defaultStorage)"
 					   v-model="app.defaultStorage"
 					   min="1"
 					   max="999999999"
@@ -140,7 +140,7 @@
 		mounted() {
 			axios.get('/api/admin/settings', {
 					params: {
-						column: 'contact_email|google_analytics|default_storage_amount|registration|storage_limitation|mimetypes_blacklist|upload_limit|user_verification'
+						column: 'contact_email|google_analytics|default_max_storage_amount|registration|storage_limitation|mimetypes_blacklist|upload_limit|user_verification'
 					}
 				})
 				.then(response => {
@@ -149,7 +149,7 @@
 					this.app = {
 						contactMail: response.data.contact_email,
 						googleAnalytics: response.data.google_analytics,
-						defaultStorage: response.data.default_storage_amount,
+						defaultStorage: response.data.default_max_storage_amount,
 						userRegistration: parseInt(response.data.registration),
 						storageLimitation: parseInt(response.data.storage_limitation),
 						mimetypesBlacklist: response.data.mimetypes_blacklist,

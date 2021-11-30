@@ -95,7 +95,7 @@ class UserSubscriptionTest extends TestCase
         SubscriptionWasExpired::dispatch($user->subscription);
 
         $this->assertDatabaseHas('user_limitations', [
-            'max_storage_amount' => 1,
+            'max_storage_amount' => 5,
             'max_team_members'   => 5,
         ]);
     }

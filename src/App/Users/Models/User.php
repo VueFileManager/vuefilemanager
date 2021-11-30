@@ -209,8 +209,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
             // Create default limitations
             $user->limitations()->create([
-                'max_storage_amount' => get_settings('default_storage_amount') ?? 1,
-                'max_team_members'   => 5,
+                'max_storage_amount' => get_settings('default_max_storage_amount') ?? 1,
+                'max_team_members'   => get_settings('default_max_team_member') ?? 10,
             ]);
 
             // Create user directory for his files

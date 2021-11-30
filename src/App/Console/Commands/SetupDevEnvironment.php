@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -35,10 +36,11 @@ class SetupDevEnvironment extends Command
 
     public function __construct(
         private CreateDiskDirectoriesAction $createDiskDirectories,
-        private SeedDefaultSettingsAction $seedDefaultSettings,
-        private SeedDefaultLanguageAction $seedDefaultLanguage,
-        private SeedDefaultPagesAction $seedDefaultPages,
-    ) {
+        private SeedDefaultSettingsAction   $seedDefaultSettings,
+        private SeedDefaultLanguageAction   $seedDefaultLanguage,
+        private SeedDefaultPagesAction      $seedDefaultPages,
+    )
+    {
         parent::__construct();
         $this->setUpFaker();
     }
@@ -71,10 +73,10 @@ class SetupDevEnvironment extends Command
 
         $this->info('Creating default demo content...');
         $this->create_admin_default_content();
-        $this->generate_traffic();
         $this->create_team_folders_content();
         $this->create_share_with_me_team_folders_content();
         $this->create_share_records();
+        $this->generate_traffic();
 
         $this->info('Clearing application cache...');
         $this->clear_cache();
@@ -104,36 +106,19 @@ class SetupDevEnvironment extends Command
         $user
             ->settings()
             ->create([
-                'avatar'             => $avatar_name,
-                'name'               => 'Jane Doe',
-                'address'            => $this->faker->address,
-                'state'              => $this->faker->state,
-                'city'               => $this->faker->city,
-                'postal_code'        => $this->faker->postcode,
-                'country'            => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
-                'phone_number'       => $this->faker->phoneNumber,
-                'timezone'           => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
+                'avatar'       => $avatar_name,
+                'name'         => 'Jane Doe',
+                'address'      => $this->faker->address,
+                'state'        => $this->faker->state,
+                'city'         => $this->faker->city,
+                'postal_code'  => $this->faker->postcode,
+                'country'      => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
+                'phone_number' => $this->faker->phoneNumber,
+                'timezone'     => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
             ]);
 
         // Show user credentials
         $this->info('Default admin account created. Email: howdy@hi5ve.digital and Password: vuefilemanager');
-    }
-
-    private function generate_traffic(): void
-    {
-        $user = User::whereEmail('howdy@hi5ve.digital')
-            ->first();
-
-        foreach (range(0, 45) as $day) {
-            DB::table('traffic')->insert([
-                'id'         => Str::uuid(),
-                'user_id'    => $user->id,
-                'upload'     => random_int(1111111, 9999999),
-                'download'   => random_int(11111111, 99999999),
-                'created_at' => now()->subDays($day),
-                'updated_at' => now()->subDays($day),
-            ]);
-        }
     }
 
     /**
@@ -179,15 +164,15 @@ class SetupDevEnvironment extends Command
             $newbie
                 ->settings()
                 ->create([
-                    'avatar'             => $avatar_name,
-                    'name'               => $this->faker->name,
-                    'address'            => $this->faker->address,
-                    'state'              => $this->faker->state,
-                    'city'               => $this->faker->city,
-                    'postal_code'        => $this->faker->postcode,
-                    'country'            => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
-                    'phone_number'       => $this->faker->phoneNumber,
-                    'timezone'           => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
+                    'avatar'       => $avatar_name,
+                    'name'         => $this->faker->name,
+                    'address'      => $this->faker->address,
+                    'state'        => $this->faker->state,
+                    'city'         => $this->faker->city,
+                    'postal_code'  => $this->faker->postcode,
+                    'country'      => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
+                    'phone_number' => $this->faker->phoneNumber,
+                    'timezone'     => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
                 ]);
 
             $this->info("Generated user with email: $newbie->email and Password: vuefilemanager");
@@ -776,7 +761,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[0]->id, $members[1]->id])
             ->each(
-                fn ($id) => DB::table('team_folder_members')
+                fn($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $companyProjectFolder->id,
                         'user_id'    => $id,
@@ -786,7 +771,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[2]->id, $members[3]->id])
             ->each(
-                fn ($id) => DB::table('team_folder_members')
+                fn($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $financeDocumentsFolder->id,
                         'user_id'    => $id,
@@ -797,7 +782,7 @@ class SetupDevEnvironment extends Command
         // Create invitations
         collect([$members[4], $members[5]])
             ->each(
-                fn ($user) => TeamFolderInvitation::factory()
+                fn($user) => TeamFolderInvitation::factory()
                     ->create([
                         'email'      => $user->email,
                         'parent_id'  => $companyProjectFolder->id,
@@ -1030,8 +1015,12 @@ class SetupDevEnvironment extends Command
                 'value' => 1,
             ],
             [
-                'name'  => 'default_storage_amount',
+                'name'  => 'default_max_storage_amount',
                 'value' => 5,
+            ],
+            [
+                'name'  => 'default_max_team_member',
+                'value' => 10,
             ],
             [
                 'name'  => 'setup_wizard_success',
@@ -1089,6 +1078,30 @@ class SetupDevEnvironment extends Command
             ->each(function ($file) {
                 Storage::putFileAs('system', storage_path("demo/app/$file"), $file, 'private');
             });
+    }
+
+
+    /**
+     * Generate demo traffic data
+     */
+    private function generate_traffic(): void
+    {
+        $user = User::all();
+
+        foreach (range(0, 45) as $day) {
+
+            $user
+                ->each(fn($user) => DB::table('traffic')
+                    ->insert([
+                        'id'         => Str::uuid(),
+                        'user_id'    => $user->id,
+                        'upload'     => random_int(1111111, 9999999),
+                        'download'   => random_int(11111111, 99999999),
+                        'created_at' => now()->subDays($day),
+                        'updated_at' => now()->subDays($day),
+                    ])
+                );
+        }
     }
 
     /**
@@ -1171,7 +1184,7 @@ class SetupDevEnvironment extends Command
                 // Create thumbnail only if image is larger than predefined image sizes
                 if ($intervention->getWidth() > $size['size']) {
                     // Generate thumbnail
-                    $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
+                    $intervention->resize($size['size'], null, fn($constraint) => $constraint->aspectRatio())->stream();
 
                     // Store thumbnail to disk
                     Storage::put("files/$user->id/{$size['name']}-{$file_name}", $intervention);

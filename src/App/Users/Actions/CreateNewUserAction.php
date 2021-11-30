@@ -24,7 +24,7 @@ class CreateNewUserAction extends Controller
         RegisterUserRequest $request
     ): Application | ResponseFactory | Response {
         $settings = get_settings([
-            'default_storage_amount', 'registration', 'user_verification',
+            'default_max_storage_amount', 'registration', 'user_verification',
         ]);
 
         // Check if account registration is enabled

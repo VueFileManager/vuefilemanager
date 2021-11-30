@@ -125,8 +125,12 @@ class SetupProdEnvironment extends Command
                 'value' => 1,
             ],
             [
-                'name'  => 'default_storage_amount',
+                'name'  => 'default_max_storage_amount',
                 'value' => 5,
+            ],
+            [
+                'name'  => 'default_max_team_member',
+                'value' => 10,
             ],
             [
                 'name'  => 'setup_wizard_success',

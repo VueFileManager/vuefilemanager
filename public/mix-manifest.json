@@ -24,7 +24,7 @@
     "/chunks/app-language.js": "/chunks/app-language.js?id=21a381da055e57280eed",
     "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~7dbb6a42.js": "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~7dbb6a42.js?id=3cbb19b80e635b3524e5",
     "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~1a92dd55.js": "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~1a92dd55.js?id=75317652be9e911b6013",
-    "/chunks/app-others.js": "/chunks/app-others.js?id=d763956aafc730e5bdcb",
+    "/chunks/app-others.js": "/chunks/app-others.js?id=2789aac07c894eeb29ea",
     "/chunks/app-payments.js": "/chunks/app-payments.js?id=8ca6c120a8ba6f3659f6",
     "/chunks/app-settings.js": "/chunks/app-settings.js?id=2a96295eef59bd6c8921",
     "/chunks/app-setup.js": "/chunks/app-setup.js?id=1b7698981735d7173309",
@@ -250,5 +250,6 @@
     "/chunks/user-storage.0e8d7663b9f8cd40de17.hot-update.js": "/chunks/user-storage.0e8d7663b9f8cd40de17.hot-update.js",
     "/chunks/user-storage.4eff070ff2a92236c8b2.hot-update.js": "/chunks/user-storage.4eff070ff2a92236c8b2.hot-update.js",
     "/chunks/settings-storage.4ecc7c38e789439da637.hot-update.js": "/chunks/settings-storage.4ecc7c38e789439da637.hot-update.js",
-    "/chunks/user-storage.4ecc7c38e789439da637.hot-update.js": "/chunks/user-storage.4ecc7c38e789439da637.hot-update.js"
+    "/chunks/user-storage.4ecc7c38e789439da637.hot-update.js": "/chunks/user-storage.4ecc7c38e789439da637.hot-update.js",
+    "/chunks/app-others.753478462556c2b747a9.hot-update.js": "/chunks/app-others.753478462556c2b747a9.hot-update.js"
 }
