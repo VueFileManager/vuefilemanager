@@ -485,7 +485,7 @@ if (! function_exists('user_storage_percentage')) {
     /**
      * Get user capacity fill by percentage
      */
-    function user_storage_percentage($id, int $additionals = null)
+    function user_storage_percentage($id, ?int $additionals = null)
     {
         $user = User::findOrFail($id);
 

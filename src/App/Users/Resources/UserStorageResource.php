@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Users\Resources;
 
 use ByteUnits\Metric;
@@ -22,12 +21,12 @@ class UserStorageResource extends JsonResource
 
         return [
             'data' => [
-                'id'         => (string)$this->id,
+                'id'         => (string) $this->id,
                 'type'       => 'storage',
                 'attributes' => [
                     'used'       => Metric::bytes($this->usedCapacity)->format(),
                     'capacity'   => format_gigabytes($this->limitations->max_storage_amount),
-                    'percentage' => (float)get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
+                    'percentage' => (float) get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
                 ],
                 'meta'       => [
                     'traffic'   => [
@@ -40,23 +39,23 @@ class UserStorageResource extends JsonResource
                     ],
                     'images'    => [
                         'used'       => Metric::bytes($images)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($images, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($images, $this->limitations->max_storage_amount),
                     ],
                     'audios'    => [
                         'used'       => Metric::bytes($audios)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($audios, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($audios, $this->limitations->max_storage_amount),
                     ],
                     'videos'    => [
                         'used'       => Metric::bytes($videos)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($videos, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($videos, $this->limitations->max_storage_amount),
                     ],
                     'documents' => [
                         'used'       => Metric::bytes($documents)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($documents, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($documents, $this->limitations->max_storage_amount),
                     ],
                     'others'    => [
                         'used'       => Metric::bytes($others)->format(),
-                        'percentage' => (float)get_storage_fill_percentage($others, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($others, $this->limitations->max_storage_amount),
                     ],
                 ],
             ],
@@ -127,8 +126,8 @@ class UserStorageResource extends JsonResource
             ->where('created_at', '>', $period)
             ->sum('upload');
 
-        $upload = $trafficRecords->map(fn($record) => round(($record->upload / $uploadMax) * 100, 2));
-        $download = $trafficRecords->map(fn($record) => round(($record->download / $downloadMax) * 100, 2));
+        $upload = $trafficRecords->map(fn ($record)   => round(($record->upload / $uploadMax) * 100, 2));
+        $download = $trafficRecords->map(fn ($record) => round(($record->download / $downloadMax) * 100, 2));
 
         return [$downloadTotal, $uploadTotal, $upload, $download];
     }

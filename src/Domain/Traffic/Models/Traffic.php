@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
- * @method static whereYear(string $string, string $string1, int $year)
- * @method static currentMonth()
  * @property string id
  * @property string user_id
  * @property int upload
@@ -18,29 +16,21 @@ class Traffic extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'user_id',
-        'upload',
-        'download',
-    ];
+    protected $guarded = [];
 
     public $incrementing = false;
 
     protected $keyType = 'string';
 
-    public function scopeCurrentMonth($query): Builder
+    public function scopeCurrentDay($query): Builder
     {
-        return $query
-            ->whereYear('created_at', '=', now()->year)
-            ->whereMonth('created_at', '=', now()->month);
+        return $query->whereDate('created_at', today());
     }
 
     protected static function boot()
     {
         parent::boot();
 
-        static::creating(function ($model) {
-            $model->id = (string) Str::uuid();
-        });
+        static::creating(fn ($model) => $model->id = (string) Str::uuid());
     }
 }

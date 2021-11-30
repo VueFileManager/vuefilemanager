@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Teams;
 
 use Tests\TestCase;
@@ -29,7 +28,8 @@ class TeamLimitsTest extends TestCase
             ->count(5)
             ->create();
 
-        $members->each(fn($member) => TeamFolderMember::factory()
+        $members->each(
+            fn ($member) => TeamFolderMember::factory()
             ->create([
                 'parent_id' => $user->folders[0]->id,
                 'user_id'   => $member->id,

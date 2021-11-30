@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Teams\Models;
 
-use Database\Factories\TeamFolderMemberFactory;
 use Illuminate\Database\Eloquent\Model;
+use Database\Factories\TeamFolderMemberFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**

@@ -1,13 +1,12 @@
 <?php
-
 namespace App\Users\Models;
 
-use ByteUnits\Metric;
 use DB;
+use ByteUnits\Metric;
 use Illuminate\Database\Eloquent\Model;
 use Database\Factories\UserLimitationFactory;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * @property int max_storage_amount
@@ -23,7 +22,7 @@ class UserLimitation extends Model
     protected $guarded = [];
 
     protected $hidden = [
-        'user_id', 'user'
+        'user_id', 'user',
     ];
 
     public $incrementing = false;
@@ -99,7 +98,7 @@ class UserLimitation extends Model
             'use'        => $totalUsedEmails->count(),
             'total'      => (int) $this->max_team_members,
             'percentage' => ($totalUsedEmails->count() / $this->max_team_members) * 100,
-            'meta' => [
+            'meta'       => [
                 'allowed_emails' => $totalUsedEmails,
             ],
         ];

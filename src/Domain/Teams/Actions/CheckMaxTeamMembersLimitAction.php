@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Teams\Actions;
 
 use App\Users\Models\User;

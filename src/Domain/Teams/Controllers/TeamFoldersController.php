@@ -1,8 +1,6 @@
 <?php
 namespace Domain\Teams\Controllers;
 
-use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
-use Domain\Teams\Models\TeamFolderMember;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
@@ -10,6 +8,7 @@ use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Domain\Teams\Models\TeamFolderMember;
 use Domain\Teams\DTO\CreateTeamFolderData;
 use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderResource;
@@ -18,6 +17,7 @@ use Domain\Folders\Resources\FolderCollection;
 use Domain\Teams\Actions\UpdateInvitationsAction;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Requests\CreateTeamFolderRequest;
+use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
 use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
 use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;

@@ -1,7 +1,6 @@
 <?php
 namespace Tests\Domain\Traffic;
 
-use Illuminate\Support\Facades\DB;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -10,6 +9,7 @@ use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 
 class TrafficTest extends TestCase
 {
@@ -50,7 +50,7 @@ class TrafficTest extends TestCase
     /**
      * @test
      */
-    public function it_record_current_month_and_go_to_the_next_month_and_record_it()
+    public function it_record_current_day_and_go_to_the_next_day_and_record_it()
     {
         $this
             ->actingAs($this->user)
@@ -67,7 +67,7 @@ class TrafficTest extends TestCase
             'created_at'  => now(),
         ]);
 
-        $this->travel(1)->months();
+        $this->travel(1)->day();
 
         $secondFile = UploadedFile::fake()
             ->image('fake-file-2.jpg', 1200);
@@ -200,8 +200,8 @@ class TrafficTest extends TestCase
             DB::table('traffic')->insert([
                 'id'         => Str::uuid(),
                 'user_id'    => $user->id,
-                'upload'     => random_int(11111111, 99999999),
-                'download'   => random_int(11111111, 99999999),
+                'upload'     => 10000 * $day,
+                'download'   => 1000000 * $day,
                 'created_at' => now()->subDays($day),
                 'updated_at' => now()->subDays($day),
             ]);
@@ -209,6 +209,10 @@ class TrafficTest extends TestCase
 
         $this->actingAs($user)
             ->get('/api/user/storage')
-            ->assertOk();
+            ->assertOk()
+            ->assertJsonFragment([
+                'download' => '465.00MB',
+                'upload'   => '4.65MB',
+            ]);
     }
 }

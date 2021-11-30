@@ -10,7 +10,6 @@ use Domain\SetupWizard\Requests\StoreStripePlansRequest;
  */
 class StorePlansController extends Controller
 {
-
     public function __invoke(
         StoreStripePlansRequest $request
     ): Response {

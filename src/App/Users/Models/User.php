@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Users\Models;
 
 use ByteUnits\Metric;
-use Domain\Traffic\Models\Traffic;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Laravel\Sanctum\HasApiTokens;
+use Domain\Traffic\Models\Traffic;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Database\Factories\UserFactory;
 use Domain\Settings\Models\Setting;
 use Kyslik\ColumnSortable\Sortable;
@@ -95,7 +94,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $is_storage_limit = get_settings('storage_limitation') ?? 1;
 
-        if (!$is_storage_limit) {
+        if (! $is_storage_limit) {
             return [
                 'used'           => $this->usedCapacity,
                 'used_formatted' => Metric::bytes($this->usedCapacity)->format(),
@@ -103,7 +102,7 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return [
-            'used'               => (float)get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
+            'used'               => (float) get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
             'used_formatted'     => get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount) . '%',
             'capacity'           => $this->limitations->max_storage_amount,
             'capacity_formatted' => format_gigabytes($this->limitations->max_storage_amount),

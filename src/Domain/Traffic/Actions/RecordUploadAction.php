@@ -12,7 +12,7 @@ class RecordUploadAction
         int $file_size,
         string $user_id,
     ): void {
-        $record = Traffic::currentMonth()
+        $record = Traffic::currentDay()
             ->firstOrCreate([
                 'user_id' => $user_id,
             ]);

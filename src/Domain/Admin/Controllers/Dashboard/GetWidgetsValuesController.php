@@ -16,10 +16,10 @@ class GetWidgetsValuesController extends Controller
         )->format();
 
         return [
-            'license'             => get_settings('license'),
-            'app_version'         => config('vuefilemanager.version'),
-            'total_users'         => User::count(),
-            'total_used_space'    => $storage_usage,
+            'license'                => get_settings('license'),
+            'app_version'            => config('vuefilemanager.version'),
+            'total_users'            => User::count(),
+            'total_used_space'       => $storage_usage,
             'total_premium_users'    => Subscription::count(),
         ];
     }

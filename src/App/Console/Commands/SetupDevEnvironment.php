@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -36,11 +35,10 @@ class SetupDevEnvironment extends Command
 
     public function __construct(
         private CreateDiskDirectoriesAction $createDiskDirectories,
-        private SeedDefaultSettingsAction   $seedDefaultSettings,
-        private SeedDefaultLanguageAction   $seedDefaultLanguage,
-        private SeedDefaultPagesAction      $seedDefaultPages,
-    )
-    {
+        private SeedDefaultSettingsAction $seedDefaultSettings,
+        private SeedDefaultLanguageAction $seedDefaultLanguage,
+        private SeedDefaultPagesAction $seedDefaultPages,
+    ) {
         parent::__construct();
         $this->setUpFaker();
     }
@@ -761,7 +759,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[0]->id, $members[1]->id])
             ->each(
-                fn($id) => DB::table('team_folder_members')
+                fn ($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $companyProjectFolder->id,
                         'user_id'    => $id,
@@ -771,7 +769,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[2]->id, $members[3]->id])
             ->each(
-                fn($id) => DB::table('team_folder_members')
+                fn ($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $financeDocumentsFolder->id,
                         'user_id'    => $id,
@@ -782,7 +780,7 @@ class SetupDevEnvironment extends Command
         // Create invitations
         collect([$members[4], $members[5]])
             ->each(
-                fn($user) => TeamFolderInvitation::factory()
+                fn ($user) => TeamFolderInvitation::factory()
                     ->create([
                         'email'      => $user->email,
                         'parent_id'  => $companyProjectFolder->id,
@@ -1080,7 +1078,6 @@ class SetupDevEnvironment extends Command
             });
     }
 
-
     /**
      * Generate demo traffic data
      */
@@ -1089,17 +1086,17 @@ class SetupDevEnvironment extends Command
         $user = User::all();
 
         foreach (range(0, 45) as $day) {
-
             $user
-                ->each(fn($user) => DB::table('traffic')
-                    ->insert([
-                        'id'         => Str::uuid(),
-                        'user_id'    => $user->id,
-                        'upload'     => random_int(1111111, 9999999),
-                        'download'   => random_int(11111111, 99999999),
-                        'created_at' => now()->subDays($day),
-                        'updated_at' => now()->subDays($day),
-                    ])
+                ->each(
+                    fn ($user) => DB::table('traffic')
+                ->insert([
+                    'id'         => Str::uuid(),
+                    'user_id'    => $user->id,
+                    'upload'     => random_int(1111111, 9999999),
+                    'download'   => random_int(11111111, 99999999),
+                    'created_at' => now()->subDays($day),
+                    'updated_at' => now()->subDays($day),
+                ])
                 );
         }
     }
@@ -1184,7 +1181,7 @@ class SetupDevEnvironment extends Command
                 // Create thumbnail only if image is larger than predefined image sizes
                 if ($intervention->getWidth() > $size['size']) {
                     // Generate thumbnail
-                    $intervention->resize($size['size'], null, fn($constraint) => $constraint->aspectRatio())->stream();
+                    $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
 
                     // Store thumbnail to disk
                     Storage::put("files/$user->id/{$size['name']}-{$file_name}", $intervention);

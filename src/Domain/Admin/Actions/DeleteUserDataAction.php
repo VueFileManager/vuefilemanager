@@ -14,7 +14,6 @@ class DeleteUserDataAction
     {
         // Delete user avatar if exists
         if ($user->settings->getRawOriginal('avatar')) {
-
             // TODO: delete all generated avatars
             Storage::delete($user->settings->getRawOriginal('avatar'));
         }
