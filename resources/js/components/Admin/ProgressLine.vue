@@ -11,7 +11,7 @@
 						'border-r-2 dark:border-gray-800 border-white rounded-tl-lg rounded-bl-lg': chart.progress < 100,
 						'border-none rounded-lg': chart.progress >= 100
 						}, chart.color]"
-					class="chart-progress w-full h-2 block"
+					class="chart-progress w-full h-2.5 block"
 				>
 
 				</span>
@@ -24,7 +24,7 @@
 						'border-r-2 dark:border-gray-800 border-white': i < (data.length - 1),
 						'rounded-tr-lg rounded-br-lg': i === (data.length - 1),
 					}, chart.color]"
-					class="chart-progress w-full h-2 block"
+					class="chart-progress w-full h-2.5 block"
 				></span>
             </div>
         </div>

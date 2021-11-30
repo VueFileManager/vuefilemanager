@@ -1,15 +1,52 @@
 <template>
     <PageTab>
-		<div class="card shadow-card">
+		<div v-if="distribution" class="card shadow-card">
 			<FormLabel icon="hard-drive">
                 {{ $t('Storage Usage') }}
             </FormLabel>
 
-			<div v-if="distribution">
-				<b class="mb-3 block text-sm text-gray-400">
-					{{ $t('Total') }} {{ storage.data.attributes.used }} {{ $t('of') }} {{ storage.data.attributes.capacity }} {{ $t('Used') }}
-				</b>
-				<ProgressLine :data="distribution" />
+			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+				{{ storage.data.attributes.used }}
+			</b>
+
+			<b class="mb-3 block text-sm text-gray-400 mb-5">
+				{{ $t('Total of') }} {{ storage.data.attributes.capacity }} {{ $t('Used') }}
+			</b>
+
+			<ProgressLine :data="distribution" />
+		</div>
+		<div v-if="distribution" class="card shadow-card">
+			<FormLabel icon="hard-drive">
+                {{ $t('Upload') }}
+            </FormLabel>
+
+			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+				154.98MB
+			</b>
+
+			<b class="mb-3 block text-sm text-gray-400 mb-5">
+				{{ $t('In last 30 days') }}
+			</b>
+
+			<div class="flex items-end justify-between h-28">
+				<span class="w-2.5 block rounded-lg lg:mr-2 mr-1.5" :style="{height: Math.random() * 100 + '%', backgroundColor: '#9d66fe'}" v-for="(item, i) in Array(45).fill(0)" :key="i"></span>
+			</div>
+		</div>
+		<div v-if="distribution" class="card shadow-card">
+			<FormLabel icon="hard-drive">
+                {{ $t('Download') }}
+            </FormLabel>
+
+			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+				927.12MB
+			</b>
+
+			<b class="mb-3 block text-sm text-gray-400 mb-5">
+				{{ $t('In last 30 days') }}
+			</b>
+
+			<div class="flex items-end justify-between h-28">
+				<span class="w-2.5 bg-theme block rounded-lg lg:mr-2 mr-1.5" :style="{height: Math.random() * 100 + '%', backgroundColor: '#ffb822'}" v-for="(item, i) in Array(45).fill(0)" :key="i"></span>
 			</div>
 		</div>
     </PageTab>
@@ -49,41 +86,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    #single-page {
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        position: relative;
-
-        .content-page {
-            overflow-y: auto;
-            height: 100%;
-            padding-bottom: 100px;
-            max-width: 700px;
-            width: 100%;
-            margin: 0 auto;
-        }
-    }
-
-    @media only screen and (max-width: 960px) {
-
-        #single-page {
-
-            .content-page {
-                padding-left: 15px;
-                padding-right: 15px;
-            }
-        }
-    }
-
-    .dark {
-
-
-    }
-
-</style>
