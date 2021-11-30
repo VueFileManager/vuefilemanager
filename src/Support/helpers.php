@@ -605,7 +605,7 @@ if (! function_exists('get_thumbnail_file_list')) {
      */
     function get_thumbnail_file_list(string $basename): Collection
     {
-        return collect(config('vuefilemanager.image_sizes'))
+        return  collect(array_merge(config('vuefilemanager.image_sizes.queue'), config('vuefilemanager.image_sizes.execute')))
             ->map(fn ($item) => $item['name'] . '-' . $basename);
     }
 }

@@ -29,25 +29,33 @@ return [
     ],
 
     'image_sizes' => [
-        [
-            'size' => 1440,
-            'name' => 'xl',
+
+        'execute' => [
+            [
+                'size' => 120,
+                'name' => 'xs',
+            ],
+            [
+                'size' => 240,
+                'name' => 'sm',
+            ],
         ],
-        [
-            'size' => 960,
-            'name' => 'lg',
-        ],
-        [
-            'size' => 480,
-            'name' => 'md',
-        ],
-        [
-            'size' => 240,
-            'name' => 'sm',
-        ],
-        [
-            'size' => 120,
-            'name' => 'xs',
-        ],
+
+        'queue' => [
+            [
+                'size' => 480,
+                'name' => 'md',
+            ],
+            [
+                'size' => 960,
+                'name' => 'lg',
+            ],
+            [
+                'size' => 1440,
+                'name' => 'xl',
+            ],
+            
+        ]
+        
     ],
 ];
