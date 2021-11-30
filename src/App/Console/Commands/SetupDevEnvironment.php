@@ -71,6 +71,7 @@ class SetupDevEnvironment extends Command
 
         $this->info('Creating default demo content...');
         $this->create_admin_default_content();
+        $this->generate_traffic();
         $this->create_team_folders_content();
         $this->create_share_with_me_team_folders_content();
         $this->create_share_records();
@@ -116,6 +117,23 @@ class SetupDevEnvironment extends Command
 
         // Show user credentials
         $this->info('Default admin account created. Email: howdy@hi5ve.digital and Password: vuefilemanager');
+    }
+
+    private function generate_traffic(): void
+    {
+        $user = User::whereEmail('howdy@hi5ve.digital')
+            ->first();
+
+        foreach (range(0, 45) as $day) {
+            DB::table('traffic')->insert([
+                'id'         => Str::uuid(),
+                'user_id'    => $user->id,
+                'upload'     => random_int(1111111, 9999999),
+                'download'   => random_int(11111111, 99999999),
+                'created_at' => now()->subDays($day),
+                'updated_at' => now()->subDays($day),
+            ]);
+        }
     }
 
     /**

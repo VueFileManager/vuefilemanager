@@ -21,16 +21,14 @@
             </FormLabel>
 
 			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
-				154.98MB
+				{{ storage.data.meta.traffic.upload }}
 			</b>
 
 			<b class="mb-3 block text-sm text-gray-400 mb-5">
-				{{ $t('In last 30 days') }}
+				{{ $t('In last 45 days') }}
 			</b>
 
-			<div class="flex items-end justify-between h-28">
-				<span class="w-2.5 block rounded-lg lg:mr-2 mr-1.5" :style="{height: Math.random() * 100 + '%', backgroundColor: '#9d66fe'}" v-for="(item, i) in Array(45).fill(0)" :key="i"></span>
-			</div>
+			<BarChart :data="storage.data.meta.traffic.chart.upload" color="#FFBD2D" />
 		</div>
 		<div v-if="distribution" class="card shadow-card">
 			<FormLabel icon="hard-drive">
@@ -38,34 +36,33 @@
             </FormLabel>
 
 			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
-				927.12MB
+				{{ storage.data.meta.traffic.download }}
 			</b>
 
 			<b class="mb-3 block text-sm text-gray-400 mb-5">
-				{{ $t('In last 30 days') }}
+				{{ $t('In last 45 days') }}
 			</b>
 
-			<div class="flex items-end justify-between h-28">
-				<span class="w-2.5 bg-theme block rounded-lg lg:mr-2 mr-1.5" :style="{height: Math.random() * 100 + '%', backgroundColor: '#ffb822'}" v-for="(item, i) in Array(45).fill(0)" :key="i"></span>
-			</div>
+			<BarChart :data="storage.data.meta.traffic.chart.download" color="#9d66fe" />
 		</div>
     </PageTab>
 </template>
 
 <script>
 	import ProgressLine from "../../components/Admin/ProgressLine";
-    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-    import PageTab from '/resources/js/components/Others/Layout/PageTab'
-    import Spinner from '/resources/js/components/FilesView/Spinner'
-    import axios from 'axios'
+	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+	import PageTab from '/resources/js/components/Others/Layout/PageTab'
+	import axios from 'axios'
+	import BarChart from "./BarChart";
 
-    export default {
+	export default {
         name: 'Storage',
         components: {
+			BarChart,
 			ProgressLine,
             FormLabel,
             PageTab,
-            Spinner,
+
         },
         data() {
             return {

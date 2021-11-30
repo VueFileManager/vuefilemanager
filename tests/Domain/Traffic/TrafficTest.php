@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Traffic;
 
+use Illuminate\Support\Facades\DB;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -185,5 +186,29 @@ class TrafficTest extends TestCase
             'user_id'  => $this->user->id,
             'download' => $document->getSize(),
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_get_user_traffic_test()
+    {
+        $user = User::factory()
+            ->create();
+
+        foreach (range(0, 30) as $day) {
+            DB::table('traffic')->insert([
+                'id'         => Str::uuid(),
+                'user_id'    => $user->id,
+                'upload'     => random_int(11111111, 99999999),
+                'download'   => random_int(11111111, 99999999),
+                'created_at' => now()->subDays($day),
+                'updated_at' => now()->subDays($day),
+            ]);
+        }
+
+        $this->actingAs($user)
+            ->get('/api/user/storage')
+            ->assertOk();
     }
 }

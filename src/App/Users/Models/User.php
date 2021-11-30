@@ -3,6 +3,7 @@
 namespace App\Users\Models;
 
 use ByteUnits\Metric;
+use Domain\Traffic\Models\Traffic;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
@@ -184,6 +185,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function folders(): HasMany
     {
         return $this->hasMany(Folder::class);
+    }
+
+    public function traffics(): HasMany
+    {
+        return $this->hasMany(Traffic::class);
     }
 
     /**
