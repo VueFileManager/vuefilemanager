@@ -1,5 +1,5 @@
 <template>
-	<div :class="{'mb-7': !isLast}" class="flex justify-between w-full">
+	<div :class="{'mb-7': !isLast}" class="flex justify-between space-x-8 w-full">
 
 		<!--Label for input-->
 		<div class="leading-5">

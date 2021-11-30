@@ -19,7 +19,7 @@
 						class="font-bold"
 						currency="ZAR"
 						:plan="selectedPlan.data.meta.driver_plan_id.paystack"
-						:amount="selectedPlan.data.attributes.amount"
+						:amount="selectedPlan.data.attributes.amount * 100"
 						:email="user.data.attributes.email"
 						:paystackkey="config.paystack_public_key"
 						:reference="reference"

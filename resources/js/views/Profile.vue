@@ -46,9 +46,9 @@
                         </div>-->
                     </div>
 
-					<ButtonBase @click.native="$openUpgradeOptions" class="upgrade-button" button-style="secondary" type="button">
+<!--					<ButtonBase @click.native="$openUpgradeOptions" class="upgrade-button" button-style="secondary" type="button">
 						{{ $t('global.upgrade_plan') }}
-					</ButtonBase>
+					</ButtonBase>-->
 
 
 					<CardNavigation :pages="pages" class="-mx-3" />

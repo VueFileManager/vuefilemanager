@@ -1,6 +1,9 @@
 <template>
     <PageTab :is-loading="isLoading">
 		<div v-if="subscription" class="card shadow-card">
+			<FormLabel>
+				{{ $t('Details') }}
+			</FormLabel>
 			<div class="md:flex md:space-x-10 mb-8">
 				<div class="md:mb-0 mb-6">
 					<b class="block leading-5 text-lg">
@@ -20,21 +23,43 @@
 				</div>
 			</div>
 
-			<div v-for="(limit, i) in limitations" :key="i" class="mb-6">
+			<div v-for="(limit, i) in limitations" :key="i" :class="{'mb-6': (Object.keys(limitations).length - 1) !== i}">
 				<b class="mb-3 block text-sm text-gray-400">
 					{{ limit.message }}
 				</b>
 				<ProgressLine :data="limit.distribution" />
 			</div>
 
-			<div class="flex space-x-4 mt-8">
+		</div>
+
+		<div v-if="subscription" class="card shadow-card">
+			<FormLabel>
+				{{ $t('Update Payments') }}
+			</FormLabel>
+
+			<AppInputSwitch :title="$t('Update your Payment Method')" :description="$t('You will be redirected to your payment provider to edit your payment method.')" :is-last="true">
+				<ButtonBase @click.native="updatePaymentMethod" :loading="isGeneratedUpdateLink" class="popup-button" button-style="theme">
+					{{ $t('Update Payments') }}
+				</ButtonBase>
+			</AppInputSwitch>
+		</div>
+
+		<div v-if="subscription" class="card shadow-card">
+			<FormLabel>
+				{{ $t('Edit your Subscription') }}
+			</FormLabel>
+
+			<AppInputSwitch :title="$t('Cancel Subscription')" :description="$t('You can cancel your subscription now. You\'ll continue to have access to the features you\'ve paid for until the end of your billing cycle.')">
 				<ButtonBase @click.native="cancelSubscriptionConfirmation" :loading="isCancelling" class="popup-button" button-style="secondary">
-					{{ $t('Cancel Subscription') }}
+					{{ $t('Cancel Now') }}
 				</ButtonBase>
-				<ButtonBase @click.native="$openUpgradeOptions" class="popup-button" button-style="theme">
-					{{ $t('Upgrade Plan') }}
+			</AppInputSwitch>
+
+			<AppInputSwitch :title="$t('Upgrade Plan')" :description="$t('You can upgrade your plan at any time you want.')" :is-last="true">
+				<ButtonBase @click.native="$openUpgradeOptions" class="popup-button" button-style="secondary">
+					{{ $t('Upgrade Now') }}
 				</ButtonBase>
-			</div>
+			</AppInputSwitch>
 		</div>
 
 		<div v-if="! subscription && !isLoading" class="card shadow-card">
@@ -46,19 +71,23 @@
 </template>
 
 <script>
-	import ProgressLine from "../../components/Admin/ProgressLine";
 	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
 	import PageTab from '/resources/js/components/Others/Layout/PageTab'
 	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-	import {mapGetters} from 'vuex'
+	import AppInputSwitch from "../../components/Admin/AppInputSwitch"
+	import FormLabel from "../../components/Others/Forms/FormLabel"
+	import ProgressLine from "../../components/Admin/ProgressLine"
 	import {events} from '/resources/js/bus'
+	import {mapGetters} from 'vuex'
 	import axios from 'axios'
 
 	export default {
 		name: 'UserSubscription',
 		components: {
+			AppInputSwitch,
 			ProgressLine,
 			ButtonBase,
+			FormLabel,
 			InfoBox,
 			PageTab,
 		},
@@ -81,13 +110,30 @@
 		},
 		data() {
 			return {
+				isGeneratedUpdateLink: false,
 				subscription: undefined,
+				isCancelling: false,
 				limitations: [],
 				isLoading: true,
-				isCancelling: false,
 			}
 		},
 		methods: {
+			updatePaymentMethod() {
+
+				this.isGeneratedUpdateLink = true
+
+				axios.post(`/api/subscriptions/edit/${this.subscription.id}`)
+					.then(response => {
+						window.location = response.data.url
+					})
+					.catch(() => {
+						events.$emit('toaster', {
+							type: 'danger',
+							message: this.$t('popup_error.title'),
+						})
+						this.isGeneratedUpdateLink = false
+					})
+			},
 			cancelSubscriptionConfirmation() {
 				events.$emit('confirm:open', {
 					title: this.$t('Are you sure you want to cancel subscription?'),
