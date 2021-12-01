@@ -20,7 +20,9 @@ class UserSetting extends Model
 
     protected $keyType = 'string';
 
-    protected $table = 'user_settings';
+    protected $casts = [
+        'id' => 'string',
+    ];
 
     /**
      * Format avatar to full url

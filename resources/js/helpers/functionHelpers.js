@@ -494,8 +494,8 @@ const FunctionHelpers = {
             this.$store.dispatch('fileInfoToggle', true)
         }
 
-        Vue.prototype.$openSpotlight = function () {
-            events.$emit('spotlight:show')
+        Vue.prototype.$openSpotlight = function (filter = undefined) {
+            events.$emit('spotlight:show', filter)
         }
 
         Vue.prototype.$enableMultiSelectMode = function () {

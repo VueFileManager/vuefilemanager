@@ -302,8 +302,9 @@ export default {
 		}
 	},
 	created() {
-		events.$on('spotlight:show', () => {
+		events.$on('spotlight:show', filter => {
 			this.isVisible = true
+			this.activeFilter = filter
 
 			this.$nextTick(() => this.$refs.searchInput.focus())
 		})

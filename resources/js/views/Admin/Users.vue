@@ -7,6 +7,10 @@
                         {{ $t('admin_page_user.create_user.submit') }}
                     </MobileActionButton>
                 </router-link>
+
+				<MobileActionButton @click.native="$openSpotlight('users')" icon="search">
+					{{ $t('Search') }}
+				</MobileActionButton>
             </div>
 
 			<!--Datatable-->
