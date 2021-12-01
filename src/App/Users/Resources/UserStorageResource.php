@@ -101,27 +101,28 @@ class UserStorageResource extends JsonResource
     {
         $period = now()->subDays(45)->endOfDay();
 
-        $uploadMax = \DB::table('traffic')
+        $uploadMax = DB::table('traffic')
             ->where('user_id', $this->id)
             ->where('created_at', '>', $period)
             ->max('upload');
 
-        $downloadMax = \DB::table('traffic')
+        $downloadMax = DB::table('traffic')
             ->where('user_id', $this->id)
             ->where('created_at', '>', $period)
             ->max('download');
 
-        $trafficRecords = \DB::table('traffic')
+        $trafficRecords = DB::table('traffic')
             ->where('user_id', $this->id)
             ->where('created_at', '>', $period)
+            ->orderBy('created_at')
             ->get();
 
-        $downloadTotal = \DB::table('traffic')
+        $downloadTotal = DB::table('traffic')
             ->where('user_id', $this->id)
             ->where('created_at', '>', $period)
             ->sum('download');
 
-        $uploadTotal = \DB::table('traffic')
+        $uploadTotal = DB::table('traffic')
             ->where('user_id', $this->id)
             ->where('created_at', '>', $period)
             ->sum('upload');
