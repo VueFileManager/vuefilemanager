@@ -1140,7 +1140,10 @@ class SetupDevEnvironment extends Command
         $this->info("Generating thumbnails for $file...");
 
         // Generate avatar sizes
-        collect(array_merge(config('vuefilemanager.image_sizes.queue'), config('vuefilemanager.image_sizes.execute')))
+        collect([
+            config('vuefilemanager.image_sizes.queue'),
+            config('vuefilemanager.image_sizes.execute'),
+        ])->collapse()
             ->each(function ($size) use ($intervention, $file_name, $user) {
                 // Create thumbnail only if image is larger than predefined image sizes
                 if ($intervention->getWidth() > $size['size']) {
