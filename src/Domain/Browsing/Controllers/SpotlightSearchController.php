@@ -2,25 +2,56 @@
 namespace Domain\Browsing\Controllers;
 
 use DB;
+use App\Users\Models\User;
 use Illuminate\Support\Arr;
 use Domain\Files\Models\File;
+use App\Users\Models\UserSetting;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
 use Domain\Items\Requests\SearchRequest;
 use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderCollection;
+use App\Users\Resources\UsersMinimalCollection;
 
-class SearchFilesAndFoldersController
+class SpotlightSearchController
 {
     public function __invoke(
         SearchRequest $request
-    ): array {
-        $user_id = Auth::id();
-
+    ): UsersMinimalCollection|array {
         // Prepare queries
         $query = remove_accents(
             $request->input('query')
         );
+
+        // Search users
+        if ($request->get('filter') === 'users') {
+            return $this->searchUsers($query);
+        }
+
+        // Search files
+        return $this->searchFiles($query);
+    }
+
+    private function searchUsers($query): UsersMinimalCollection
+    {
+        // Prevent to show non admin user searching
+        if (Auth::user()->role !== 'admin') {
+            abort(401);
+        }
+
+        // Get user ids
+        $results = UserSetting::search($query)
+            ->get()
+            ->pluck('user_id');
+
+        return new UsersMinimalCollection(
+            User::find($results)
+        );
+    }
+
+    private function searchFiles(string $query): array
+    {
+        $user_id = Auth::id();
 
         // Get "shared with me" folders
         $sharedWithMeFolderIds = DB::table('team_folder_members')
