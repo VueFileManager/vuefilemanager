@@ -323,10 +323,10 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$getPaymentLogo = function (driver) {
-
             return {
                 'paypal': '/assets/payments/paypal.svg',
                 'paystack': store.getters.isDarkMode ? '/assets/payments/paystack-dark.svg' : '/assets/payments/paystack.svg',
+                'stripe': '/assets/payments/stripe.svg',
             }[driver]
         }
 
