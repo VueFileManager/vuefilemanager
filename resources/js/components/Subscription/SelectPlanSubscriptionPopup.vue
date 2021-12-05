@@ -11,6 +11,15 @@
 
 			<PopupContent class="px-4">
 				<b class="text-center block mb-3 mt-8">
+					Stripe
+				</b>
+				<ButtonBase @click.native="payByStripe" class="block w-full mb-6" button-style="theme" type="button">
+					<span class="text-theme">
+						Pay With Stripe
+					</span>
+				</ButtonBase>
+
+				<b class="text-center block mb-3 mt-8">
 					PayStack
 				</b>
 				<ButtonBase class="block w-full mb-6" button-style="theme" type="button">
@@ -102,6 +111,7 @@
 	import paystack from 'vue-paystack';
 	import {mapGetters} from "vuex";
 	import {events} from "../../bus";
+	import axios from "axios";
 
 	export default {
 		name: 'SelectPlanSubscriptionPopup',
@@ -156,6 +166,14 @@
 			}
 		},
 		methods: {
+			payByStripe() {
+				axios.post('/api/subscriptions/stripe/checkout', {
+						planCode: this.selectedPlan.data.meta.driver_plan_id.stripe
+					})
+					.then(response => {
+						window.location = response.data.url
+					})
+			},
 			async showPaymentOptions() {
 				// Show payment buttons page
 				this.isPaymentOptionPage = true
