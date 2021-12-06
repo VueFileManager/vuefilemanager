@@ -93,6 +93,29 @@ class SpotlightSearchController
         return [
             'folders' => new FolderCollection($folders),
             'files'   => new FilesCollection($files),
+            'actions' => [
+                [
+                    'title' => 'Go To Trash',
+                    'action' => [
+                        'type' => 'route',
+                        'value' => 'Create User',
+                    ],
+                ],
+                [
+                    'title' => 'Create User',
+                    'action' => [
+                        'type' => 'route',
+                        'value' => 'Create User',
+                    ],
+                ],
+                [
+                    'title' => 'Create Plan',
+                    'action' => [
+                        'type' => 'route',
+                        'value' => 'Create User',
+                    ],
+                ],
+            ],
         ];
     }
 }

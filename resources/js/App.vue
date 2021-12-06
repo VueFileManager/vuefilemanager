@@ -162,7 +162,7 @@ export default {
 }
 
 .vue-feather {
-	path, circle, line, rect, polyline {
+	path, circle, line, rect, polyline, ellipse {
 		color: inherit;
 	}
 }

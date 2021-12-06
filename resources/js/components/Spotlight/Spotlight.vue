@@ -52,13 +52,36 @@
 			<!--Results-->
 			<div v-if="isNotEmptyQuery" class="spotlight-results relative z-50 px-4 pb-4">
 
+				<!--Show actions-->
+				<b class="text-xs text-gray-500 mb-1.5 block">Actions</b>
+				<div v-if="actions.length !== 0" v-for="(result, i) in actions" :key="i" class="relative">
+
+					<div
+						class="flex items-center px-3.5 py-2.5"
+						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': i === index}"
+					>
+						<trash2-icon v-if="result.title === 'Go To Trash'" size="18" class="vue-feather text-theme"/>
+						<database-icon v-if="result.title === 'Create Plan'" size="18" class="vue-feather text-theme"/>
+						<user-plus-icon v-if="result.title === 'Create User'" size="18" class="vue-feather text-theme"/>
+						<b class="font-bold text-sm ml-3.5">
+							{{ result.title }}
+						</b>
+					</div>
+
+					<!--Keyboard shortcut hint-->
+					<div v-if="! $isMobile()" class="absolute right-4 top-1/2 transform -translate-y-1/2">
+						<span class="text-xs text-gray-400">{{ i === 0 ? '↵' : metaKeyIcon + i }}</span>
+					</div>
+				</div>
+
 				<!--Show results-->
-				<div v-if="results.length !== 0" v-for="(result, i) in results" :key="result.data.id" class="relative">
+				<b class="text-xs text-gray-500 mb-1.5 block mt-3">Files & Folders</b>
+				<div v-if="results.length !== 0" v-for="(result, i) in results" :key="(i + actions.length)" class="relative">
 
 					<!--Users result-->
 					<div
-						v-if="activeFilter === 'users'"
-						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': i === index}"
+						v-if="activeFilter === 'users' && !result.action"
+						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': (i + actions.length) === index}"
 						class="flex items-center px-2.5 py-3.5"
 					>
 						<MemberAvatar
@@ -78,9 +101,9 @@
 
 					<!--Item result-->
 					<ItemList
-						v-if="! activeFilter"
+						v-if="! activeFilter && !result.action"
 						:entry="result"
-						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': i === index}"
+						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': (i + actions.length) === index}"
 						:highlight="false"
 						:mobile-handler="false"
 						@click.native="openItem(result)"
@@ -88,7 +111,7 @@
 
 					<!--Keyboard shortcut hint-->
 					<div v-if="! $isMobile()" class="absolute right-4 top-1/2 transform -translate-y-1/2">
-						<span class="text-xs text-gray-400">{{ i === 0 ? '↵' : metaKeyIcon + i }}</span>
+						<span class="text-xs text-gray-400">{{ (i + actions.length) === 0 ? '↵' : metaKeyIcon + (i + actions.length) }}</span>
 					</div>
 				</div>
 
@@ -104,7 +127,7 @@
 <script>
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import MemberAvatar from "../FilesView/MemberAvatar"
-import {SearchIcon, XIcon} from 'vue-feather-icons'
+import {SearchIcon, XIcon, UserPlusIcon, DatabaseIcon, Trash2Icon} from 'vue-feather-icons'
 import ItemList from "../FilesView/ItemList"
 import {events} from '/resources/js/bus'
 import {mapGetters} from 'vuex'
@@ -114,7 +137,10 @@ import axios from "axios"
 export default {
 	name: 'Spotlight',
 	components: {
+		DatabaseIcon,
+		UserPlusIcon,
 		MemberAvatar,
+		Trash2Icon,
 		SearchIcon,
 		ItemList,
 		Spinner,
@@ -159,9 +185,11 @@ export default {
 			backspaceHits: 0,
 			isVisible: false,
 			isLoading: false,
-			results: [],
 			query: '',
 			index: 0,
+
+			results: [],
+			actions: [],
 		}
 	},
 	methods: {
@@ -289,6 +317,7 @@ export default {
 						let folders = response.data.folders.data
 
 						this.results = folders.concat(files)
+						this.actions = response.data.actions
 					}
 				})
 				.catch(() => this.$isSomethingWrong())
