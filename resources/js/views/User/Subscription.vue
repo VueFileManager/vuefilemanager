@@ -32,7 +32,7 @@
 
 		</div>
 
-		<div v-if="subscription" class="card shadow-card">
+		<div v-if="subscription && ['paystack', 'paypal'].includes(subscription.attributes.driver)" class="card shadow-card">
 			<FormLabel>
 				{{ $t('Update Payments') }}
 			</FormLabel>
@@ -98,7 +98,7 @@
 			status() {
 				return {
 					'active': `Active until ${this.subscription.attributes.renews_at}`,
-					'cancelled': `Active until ${this.subscription.attributes.ends_at}`,
+					'cancelled': `Ends at ${this.subscription.attributes.ends_at}`,
 				}[this.subscription.attributes.status]
 			},
 			price() {
