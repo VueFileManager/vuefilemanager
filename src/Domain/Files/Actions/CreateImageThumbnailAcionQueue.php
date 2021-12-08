@@ -20,14 +20,17 @@ class CreateImageThumbnailAcionQueue
     {      
         // Get image from disk
         $image = Storage::disk('local')->get("temp/$user_id/{$file_name}");
+
+        // Get image width
+        $image_width = getimagesize(storage_path("app/temp/$user_id/{$file_name}"))[0];
   
         collect($thumnails_sizes)
-            ->each(function ($size) use ($image, $user_id, $file_name) {
-                
-                // Create intervention image
-                $intervention = Image::make($image)->orientate();
-                
-                if ($intervention->getWidth() > $size['size']) {
+            ->each(function ($size) use ($image, $user_id, $file_name, $image_width) {
+                                
+                if ($image_width > $size['size']) {
+
+                    // Create intervention image
+                    $intervention = Image::make($image)->orientate();
 
                     // Generate thumbnail
                     $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
