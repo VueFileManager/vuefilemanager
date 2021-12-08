@@ -35,12 +35,12 @@ mix.js('resources/js/main.js', 'public/js')
             clientLogLevel: 'none'
         }
     })
-    .options({
-        hmrOptions: {
-            host: '192.168.1.112',
-            port: '8080'
-        },
-    })
+    // .options({
+    //     hmrOptions: {
+    //         host: '192.168.1.112',
+    //         port: '8080'
+    //     },
+    // })
     .disableNotifications();
 
 if (mix.inProduction()) {

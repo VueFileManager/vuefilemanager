@@ -16,20 +16,17 @@ class CreateImageThumbnailAcionQueue
      *
      * @return mixed
      */
-    public function execute($file_name, $user_id, $thumnails_sizes)
-    {
-       
+    public function execute($file_name, $user_id, $thumnails_sizes, $source)
+    {      
         // Get image from disk
         $image = Storage::disk('local')->get("temp/$user_id/{$file_name}");
-
-        // Create intervention image
-        $intervention = Image::make($image)->orientate();
-
+  
         collect($thumnails_sizes)
-            ->each(function ($size) use ($intervention, $user_id, $file_name) {
-
-                dd($intervention->getWidth());
-
+            ->each(function ($size) use ($image, $user_id, $file_name) {
+                
+                // Create intervention image
+                $intervention = Image::make($image)->orientate();
+                
                 if ($intervention->getWidth() > $size['size']) {
 
                     // Generate thumbnail
@@ -39,6 +36,12 @@ class CreateImageThumbnailAcionQueue
                     Storage::put("files/$user_id/{$size['name']}-{$file_name}", $intervention);
                 }
             });
+
+        if($source === 'queue') {
+            
+            // Delete file after generate a thumbnail
+            Storage::disk('local')->delete("temp/$user_id/{$file_name}");
+        }
 
     }
 }

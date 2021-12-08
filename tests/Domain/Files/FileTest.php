@@ -53,7 +53,10 @@ class FileTest extends TestCase
             "chunks/$file->basename"
         );
 
-        collect(array_merge(config('vuefilemanager.image_sizes.queue'), config('vuefilemanager.image_sizes.execute')))
+        collect([
+            config('vuefilemanager.image_sizes.queue'),
+            config('vuefilemanager.image_sizes.execute'),
+        ])->collapse()
             ->each(
                 fn ($item) =>
                 $disk->assertExists(

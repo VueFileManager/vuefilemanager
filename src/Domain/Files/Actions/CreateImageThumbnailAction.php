@@ -40,10 +40,10 @@ class CreateImageThumbnailAction
             Storage::disk('local')->copy("files/$user_id/{$file_name}", "temp/$user_id/{$file_name}");
 
             // Create thumbnail instantly
-            $this->action->execute($file_name, $user_id, config('vuefilemanager.image_sizes.execute'));
+            $this->action->execute($file_name, $user_id, config('vuefilemanager.image_sizes.execute'), 'execute');
 
             // Create thumbnail queue job
-            $this->action->onQueue()->execute($file_name, $user_id, config('vuefilemanager.image_sizes.queue'));
+            $this->action->onQueue()->execute($file_name, $user_id, config('vuefilemanager.image_sizes.queue'), 'queue');
         }
     }
 }
