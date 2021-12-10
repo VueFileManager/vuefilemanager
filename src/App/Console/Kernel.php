@@ -8,6 +8,7 @@ use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
+use Support\Scheduler\Actions\ReportUsageAction;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,7 +27,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        if (! is_storage_driver(['local'])) {
+        if (! is_storage_driver('local')) {
             $schedule->call(
                 fn () => resolve(DeleteFailedFilesAction::class)()
             )->everySixHours();
@@ -38,7 +39,11 @@ class Kernel extends ConsoleKernel
 
         $schedule->call(
             fn () => resolve(DeleteUnverifiedUsersAction::class)()
-        )->daily();
+        )->daily()->at('00:05');
+
+        $schedule->call(
+            fn () => resolve(ReportUsageAction::class)()
+        )->daily()->at('00:10');
 
         // Run queue jobs every minute
         $schedule->command('queue:work --stop-when-empty')
@@ -48,10 +53,10 @@ class Kernel extends ConsoleKernel
         // Backup app database daily
         $schedule->command('backup:clean')
             ->daily()
-            ->at('01:00');
+            ->at('00:15');
         $schedule->command('backup:run --only-db')
             ->daily()
-            ->at('01:30');
+            ->at('00:20');
     }
 
     /**

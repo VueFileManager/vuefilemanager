@@ -1,6 +1,9 @@
 <?php
+
 namespace Tests\Domain\Traffic;
 
+use Domain\Traffic\Models\Traffic;
+use Illuminate\Database\Eloquent\Model;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -9,12 +12,11 @@ use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\DB;
 
 class TrafficTest extends TestCase
 {
     public UploadedFile $file;
-    public User $user;
+    public Model $user;
 
     public function setUp(): void
     {
@@ -62,9 +64,9 @@ class TrafficTest extends TestCase
             ])->assertStatus(201);
 
         $this->assertDatabaseHas('traffic', [
-            'user_id'     => $this->user->id,
-            'upload'      => 991,
-            'created_at'  => now(),
+            'user_id'    => $this->user->id,
+            'upload'     => 991,
+            'created_at' => now(),
         ]);
 
         $this->travel(1)->day();
@@ -82,9 +84,9 @@ class TrafficTest extends TestCase
             ])->assertStatus(201);
 
         $this->assertDatabaseHas('traffic', [
-            'user_id'     => $this->user->id,
-            'upload'      => 991,
-            'created_at'  => now(),
+            'user_id'    => $this->user->id,
+            'upload'     => 991,
+            'created_at' => now(),
         ]);
 
         $this->assertDatabaseCount('traffic', 2);
@@ -193,21 +195,18 @@ class TrafficTest extends TestCase
      */
     public function it_get_user_traffic_test()
     {
-        $user = User::factory()
-            ->create();
-
         foreach (range(0, 30) as $day) {
-            DB::table('traffic')->insert([
-                'id'         => Str::uuid(),
-                'user_id'    => $user->id,
-                'upload'     => 10000 * $day,
-                'download'   => 1000000 * $day,
-                'created_at' => now()->subDays($day),
-                'updated_at' => now()->subDays($day),
-            ]);
+            Traffic::factory()
+                ->create([
+                    'user_id'    => $this->user->id,
+                    'upload'     => 10000 * $day,
+                    'download'   => 1000000 * $day,
+                    'created_at' => now()->subDays($day),
+                    'updated_at' => now()->subDays($day),
+                ]);
         }
 
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->get('/api/user/storage')
             ->assertOk()
             ->assertJsonFragment([

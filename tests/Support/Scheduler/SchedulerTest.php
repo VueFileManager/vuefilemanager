@@ -1,7 +1,11 @@
 <?php
+
 namespace Tests\Support\Scheduler;
 
+use Domain\Files\Models\File;
+use Domain\Traffic\Models\Traffic;
 use Storage;
+use Support\Scheduler\Actions\ReportUsageAction;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Sharing\Models\Share;
@@ -9,9 +13,71 @@ use Illuminate\Http\UploadedFile;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
+use VueFileManager\Subscription\Domain\Plans\Models\Plan;
+use VueFileManager\Subscription\Domain\Plans\Models\PlanMeteredFeature;
+use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class SchedulerTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function it_report_usage_of_subscription()
+    {
+        $user = User::factory()
+            ->create();
+
+        $plan = Plan::factory()
+            ->create([
+                'type' => 'metered',
+            ]);
+
+        PlanMeteredFeature::factory()
+            ->count(2)
+            ->sequence(
+                ['key' => 'storage'],
+                ['key' => 'bandwidth'],
+            )
+            ->create([
+                'plan_id' => $plan->id,
+            ]);
+
+        $subscription = Subscription::factory()
+            ->create([
+                'status'  => 'active',
+                'type'    => 'pre-paid',
+                'plan_id' => $plan->id,
+                'user_id' => $user->id,
+            ]);
+
+        File::factory()
+            ->create([
+                'user_id'  => $user->id,
+                'filesize' => 125000000,
+            ]);
+
+        Traffic::factory()
+            ->create([
+                'user_id'  => $user->id,
+                'download' => 155000000,
+                'created_at' => now()->subDay(),
+            ]);
+
+        resolve(ReportUsageAction::class)();
+
+        $this
+            ->assertDatabaseHas('usages', [
+                'metered_feature_id' => $plan->meteredFeatures()->get()[0]->id,
+                'subscription_id'    => $subscription->id,
+                'quantity'           => 0.125,
+            ])
+            ->assertDatabaseHas('usages', [
+                'metered_feature_id' => $plan->meteredFeatures()->get()[1]->id,
+                'subscription_id'    => $subscription->id,
+                'quantity'           => 0.155,
+            ]);
+    }
+
     /**
      * @test
      */

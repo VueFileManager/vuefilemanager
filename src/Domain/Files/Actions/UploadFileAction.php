@@ -76,7 +76,7 @@ class UploadFileAction
             $disk_local->move("chunks/$chunkName", "files/$user_id/$fileName");
 
             // Move files to external storage
-            if (! is_storage_driver(['local'])) {
+            if (! is_storage_driver('local')) {
                 ($this->moveFileToExternalStorage)($fileName, $user_id);
             }
 

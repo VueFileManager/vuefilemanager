@@ -93,7 +93,7 @@ class File extends Model
         $links = [];
 
         // Generate thumbnail link for external storage service
-        if ($this->type === 'image' && ! is_storage_driver(['local'])) {
+        if ($this->type === 'image' && ! is_storage_driver('local')) {
             foreach (config('vuefilemanager.image_sizes') as $item) {
                 $filePath = "files/{$this->user_id}/{$item['name']}-{$this->basename}";
 
@@ -127,7 +127,7 @@ class File extends Model
     public function getFileUrlAttribute(): string
     {
         // Get file from external storage
-        if (! is_storage_driver(['local'])) {
+        if (! is_storage_driver('local')) {
             $file_pretty_name = is_storage_driver('backblaze')
                 ? Str::snake(mb_strtolower($this->attributes['name']))
                 : get_pretty_name($this->attributes['basename'], $this->attributes['name'], $this->attributes['mimetype']);

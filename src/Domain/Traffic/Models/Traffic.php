@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Traffic\Models;
 
+use Database\Factories\TrafficFactory;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,6 +22,11 @@ class Traffic extends Model
     public $incrementing = false;
 
     protected $keyType = 'string';
+
+    protected static function newFactory(): TrafficFactory
+    {
+        return TrafficFactory::new();
+    }
 
     public function scopeCurrentDay($query): Builder
     {
