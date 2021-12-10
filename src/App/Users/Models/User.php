@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use VueFileManager\Subscription\App\User\Traits\Billable;
+use VueFileManager\Subscription\Domain\Credits\Traits\Credits;
 
 /**
  * @property string id
@@ -45,6 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use Sortable;
     use Billable;
+    use Credits;
 
     protected $guarded = [
         'id',

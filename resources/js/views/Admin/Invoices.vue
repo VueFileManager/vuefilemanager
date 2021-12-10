@@ -12,7 +12,7 @@
 						<tr class="border-b dark:border-opacity-5 border-light border-dashed">
 							<td class="py-5">
 								<span class="text-sm font-bold">
-									{{ row.data.attributes.plan_name }}
+									{{ row.data.attributes.note }}
 								</span>
 							</td>
 							<td>
@@ -41,8 +41,8 @@
 								</ColorLabel>
 							</td>
 							<td>
-								<span class="text-sm font-bold">
-									{{ row.data.attributes.price }}
+								<span class="text-sm font-bold" :class="$getTransactionTypeTextColor(row.data.attributes.type)">
+									{{ $getTransactionMark(row.data.attributes.type) + row.data.attributes.price }}
 								</span>
 							</td>
 							<td>
@@ -51,7 +51,7 @@
 								</span>
 							</td>
 							<td class="text-right">
-								<img class="block max-h-5 m-auto" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
+								<img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
 							</td>
 						</tr>
 					</template>
@@ -133,8 +133,8 @@
                 invoices: [],
 				columns: [
 					{
-						label: this.$t('Plan'),
-						field: 'plan_name',
+						label: this.$t('Note'),
+						field: 'note',
 						sortable: true
 					},
 					{

@@ -44,7 +44,7 @@
 						</span>
 					</td>
 					<td class="text-right">
-						<img class="block max-h-5 m-auto" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
+						<img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
 					</td>
 				</tr>
 			</template>
@@ -100,7 +100,7 @@
                         sortable: true
                     },
                     {
-                        label: this.$t('Plan'),
+                        label: this.$t('Note'),
                         field: 'plan.name',
                         sortable: true
                     },

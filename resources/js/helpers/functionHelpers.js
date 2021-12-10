@@ -327,6 +327,7 @@ const FunctionHelpers = {
                 'paypal': '/assets/payments/paypal.svg',
                 'paystack': store.getters.isDarkMode ? '/assets/payments/paystack-dark.svg' : '/assets/payments/paystack.svg',
                 'stripe': '/assets/payments/stripe.svg',
+                'system': this.$getImage(store.getters.config.app_logo_horizontal),
             }[driver]
         }
 
@@ -346,6 +347,24 @@ const FunctionHelpers = {
                 'cancelled': 'yellow',
                 'error': 'red',
             }[status]
+        }
+
+        Vue.prototype.$getTransactionTypeTextColor = function (type) {
+
+            return {
+                'withdrawal': 'text-red-500',
+                'credit': 'text-green-500',
+                'charge': '',
+            }[type]
+        }
+
+        Vue.prototype.$getTransactionMark = function (type) {
+
+            return {
+                'withdrawal': '-',
+                'credit': '+',
+                'charge': '',
+            }[type]
         }
 
         Vue.prototype.$goToFileView = function (id) {

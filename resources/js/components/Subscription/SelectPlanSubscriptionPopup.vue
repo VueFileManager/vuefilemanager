@@ -197,16 +197,30 @@
 				const userId = this.user.data.id
 				const app = this
 
-				// Initialize paypal buttons
-				await paypal.Buttons({
+				// Initialize paypal buttons for subscription
+				/*await paypal.Buttons({
 					createSubscription: function(data, actions) {
 						return actions.subscription.create({
-							'plan_id': planId,
-							'custom_id': userId
+							plan_id: planId,
+							custom_id: userId
 						});
 					},
 					onApprove: function(data, actions) {
 						app.paymentSuccessful()
+					}
+				}).render('#paypal-button-container');*/
+
+				// Initialize paypal buttons for subscription
+				await paypal.Buttons({
+					createOrder: function(data, actions) {
+						return actions.order.create({
+							purchase_units: [{
+								amount: {
+									value: '10.49',
+								},
+								custom_id: userId
+							}]
+						});
 					}
 				}).render('#paypal-button-container');
 			},
