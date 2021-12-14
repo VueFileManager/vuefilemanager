@@ -40,7 +40,7 @@
 		</MobileContextMenu>
 
 		<FileActionsMobile>
-			<MobileActionButton @click.native="$openSpotlight" icon="search">
+			<MobileActionButton @click.native="$openSpotlight()" icon="search">
 				{{ $t('Spotlight') }}
 			</MobileActionButton>
 			<MobileActionButton @click.native="$showMobileMenu('file-filter')" :icon="$getCurrentSectionIcon()">

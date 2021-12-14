@@ -83,11 +83,13 @@ class SpotlightSearchController
         // Search files and folders
         $files = File::search($query)
             ->constrain($fileConstrain)
-            ->get();
+            ->get()
+            ->take(3);
 
         $folders = Folder::search($query)
             ->constrain($folderConstrain)
-            ->get();
+            ->get()
+            ->take(3);
 
         // Collect folders and files to single array
         return [

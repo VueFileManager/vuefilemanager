@@ -1,5 +1,5 @@
 <template>
-    <div @click="$openSpotlight" class="relative dark:bg-dark-foreground bg-light-background rounded-lg cursor-pointer">
+    <div @click="$openSpotlight()" class="relative dark:bg-dark-foreground bg-light-background rounded-lg cursor-pointer">
         <div class="flex justify-between items-center px-5 py-2.5 xl:w-72 w-56 text-left">
 			<div class="flex items-center">
 				<search-icon size="18" class="vue-feather dark:text-gray-600 text-gray-400" />

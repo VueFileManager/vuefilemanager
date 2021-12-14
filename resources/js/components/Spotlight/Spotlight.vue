@@ -56,7 +56,7 @@
 				<b v-if="actions.length !== 0" class="text-xs text-gray-500 mb-1.5 block">
 					{{ $t('Actions') }}
 				</b>
-				<div v-if="actions.length !== 0" v-for="(result, i) in actions" :key="i" class="relative">
+				<div v-if="actions.length !== 0" v-for="(result, i) in actions" :key="result.action.value" class="relative">
 
 					<div
 						class="flex items-center px-3.5 py-2.5"
@@ -82,7 +82,7 @@
 				<b v-if="! activeFilter" class="text-xs text-gray-500 mb-1.5 block mt-3">
 					{{ $t('Files & Folders') }}
 				</b>
-				<div v-if="results.length !== 0" v-for="(result, i) in results" :key="(i + actions.length)" class="relative">
+				<div v-if="results.length !== 0" v-for="(result, i) in results" :key="result.data.id" class="relative">
 
 					<!--Users result-->
 					<div
@@ -126,12 +126,32 @@
 					{{ $t('messages.nothing_was_found') }}
 				</span>
 			</div>
+
+			<!--Hints-->
+			<div v-if="! $isMobile()" class="flex items-center px-5 pb-2">
+				<div class="flex items-center mr-4">
+					<ArrowUpIcon size="12" class="vue-feather text-gray-400"/>
+					<ArrowDownIcon size="12" class="vue-feather text-gray-400"/>
+
+					<span class="text-xs ml-1.5 text-gray-400">
+						{{ $t('Navigate') }}
+					</span>
+				</div>
+
+				<div class="flex items-center">
+					<CornerDownLeftIcon size="12" class="vue-feather text-gray-400"/>
+
+					<span class="text-xs ml-1.5 text-gray-400">
+						{{ $t('Go') }}
+					</span>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import {DatabaseIcon, SearchIcon, Trash2Icon, UserPlusIcon, XIcon, HomeIcon, SettingsIcon} from 'vue-feather-icons'
+import {DatabaseIcon, SearchIcon, Trash2Icon, UserPlusIcon, XIcon, HomeIcon, SettingsIcon, ArrowUpIcon, ArrowDownIcon, CornerDownLeftIcon} from 'vue-feather-icons'
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import MemberAvatar from "../FilesView/MemberAvatar"
 import ItemList from "../FilesView/ItemList"
@@ -161,7 +181,7 @@ export default {
 
 			// Browse actions
 			if (! this.activeFilter) {
-				this.actions = this.actionList.filter(el => el.title.toLowerCase().indexOf(query) > -1)
+				this.actions = this.actionList.filter(el => el.title.toLowerCase().indexOf(query) > -1).slice(0, 3)
 			}
 
 			this.findResult(query)
@@ -174,8 +194,10 @@ export default {
 				e.preventDefault()
 			}
 
+			const allowedRange = this.results.length + this.actions.length
+
 			// Allow only numbers within result range
-			if (Number.isInteger(parseInt(e.key)) && parseInt(e.key) < this.results.length) {
+			if (Number.isInteger(parseInt(e.key)) && parseInt(e.key) < allowedRange) {
 				this.index = parseInt(e.key)
 
 				this.showSelected()
@@ -327,6 +349,9 @@ export default {
 		},
 	},
 	components: {
+		CornerDownLeftIcon,
+		ArrowDownIcon,
+		ArrowUpIcon,
 		SettingsIcon,
 		HomeIcon,
 		DatabaseIcon,

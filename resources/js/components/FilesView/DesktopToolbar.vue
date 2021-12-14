@@ -24,7 +24,7 @@
 				<ToolbarGroup v-if="$checkPermission(['master', 'editor']) && ! $isThisRoute($route, ['SharedWithMe'])">
 
 					<span class="lg:hidden block">
-						<ToolbarButton @click.stop.native="$openSpotlight" source="search" :action="$t('Search files or folders')" />
+						<ToolbarButton @click.stop.native="$openSpotlight()" source="search" :action="$t('Search files or folders')" />
 					</span>
 
 					<PopoverWrapper>
@@ -45,7 +45,7 @@
 				<!--Create button for shared with me page-->
 				<ToolbarGroup v-if="$isThisRoute($route, ['SharedWithMe'])">
 					<span class="lg:hidden block">
-						<ToolbarButton @click.stop.native="$openSpotlight" source="search" :action="$t('Search files or folders')" />
+						<ToolbarButton @click.stop.native="$openSpotlight()" source="search" :action="$t('Search files or folders')" />
 					</span>
 
 					<PopoverWrapper>
