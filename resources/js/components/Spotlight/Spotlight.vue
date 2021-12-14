@@ -17,8 +17,8 @@
 				</div>
 
 				<!--Filter-->
-				<div v-if="activeFilter" @click="removeFilter" class="bg-light-background rounded-lg px-2 py-1 mr-3 flex items-center cursor-pointer">
-					<b class="font-bold pr-1.5 text-sm">
+				<div v-if="activeFilter" @click="removeFilter" class="dark:bg-4x-dark-foreground bg-light-background rounded-lg px-2 py-1 mr-3 flex items-center cursor-pointer">
+					<b class="font-bold pr-1.5 text-sm dark-text-theme">
 						{{ activeFilter }}
 					</b>
 					<x-icon size="12" />
@@ -49,54 +49,73 @@
 				</div>
 			</div>
 
+			<!--Show tips-->
+			<div v-if="isEmptyQuery && ! activeFilter" class="relative z-50 px-4 pb-4">
+
+				<CategoryName>
+					{{ $t('Suggested Filters') }}
+				</CategoryName>
+
+				<FilterSuggestion
+					v-for="filter in filters"
+					:key="filter.slug"
+					:keyword="filter.keyword"
+					:description="filter.description"
+					@click.native="setFilter(filter.slug)"
+				/>
+			</div>
+
 			<!--Results-->
-			<div v-if="isNotEmptyQuery" class="spotlight-results relative z-50 px-4 pb-4">
+			<div v-if="isNotEmptyQuery" class="relative z-50 px-4 pb-4">
 
 				<!--Show actions-->
-				<b v-if="actions.length !== 0" class="text-xs text-gray-500 mb-1.5 block">
+				<CategoryName v-if="actions.length !== 0">
 					{{ $t('Actions') }}
-				</b>
-				<div v-if="actions.length !== 0" v-for="(result, i) in actions" :key="result.action.value" class="relative">
+				</CategoryName>
 
-					<div
-						class="flex items-center px-3.5 py-2.5"
-						:class="{'dark:bg-4x-dark-foreground bg-light-background rounded-xl': i === index}"
-					>
-						<settings-icon v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
-						<home-icon v-if="result.action.value === 'Files'" size="18" class="vue-feather text-theme"/>
-						<trash2-icon v-if="result.action.value === 'Trash'" size="18" class="vue-feather text-theme"/>
-						<database-icon v-if="result.action.value === 'PlanCreate'" size="18" class="vue-feather text-theme"/>
-						<user-plus-icon v-if="result.action.value === 'UserCreate'" size="18" class="vue-feather text-theme"/>
-						<users-icon v-if="['TeamFolders', 'Users'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
-						<user-check-icon v-if="result.action.value === 'SharedWithMe'" size="18" class="vue-feather text-theme"/>
-						<link-icon v-if="result.action.value === 'MySharedItems'" size="18" class="vue-feather text-theme"/>
-						<upload-cloud-icon v-if="result.action.value === 'RecentUploads'" size="18" class="vue-feather text-theme"/>
-						<file-text-icon v-if="['Invoices', 'Invoice'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
-						<database-icon v-if="result.action.value === 'Plans'" size="18" class="vue-feather text-theme"/>
-						<dollar-sign-icon v-if="['Subscriptions', 'Subscription'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
-						<globe-icon v-if="result.action.value === 'Language'" size="18" class="vue-feather text-theme"/>
-						<monitor-icon v-if="result.action.value === 'Pages'" size="18" class="vue-feather text-theme"/>
-						<box-icon v-if="result.action.value === 'Dashboard'" size="18" class="vue-feather text-theme"/>
-						<hard-drive-icon v-if="result.action.value === 'Storage'" size="18" class="vue-feather text-theme"/>
-						<moon-icon v-if="result.action.value === 'dark-mode'" size="18" class="vue-feather text-theme"/>
-						<power-icon v-if="result.action.value === 'log-out'" size="18" class="vue-feather text-theme"/>
-						<trash-icon v-if="result.action.value === 'empty-trash'" size="18" class="vue-feather text-theme"/>
+				<div v-if="actions.length !== 0" class="mb-2">
+					<div v-for="(result, i) in actions" :key="result.action.value" class="relative">
+						<div
+							class="flex items-center px-3.5 py-2.5"
+							:class="{'dark:bg-4x-dark-foreground bg-light-background rounded-xl': i === index}"
+						>
+							<settings-icon v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+							<home-icon v-if="result.action.value === 'Files'" size="18" class="vue-feather text-theme"/>
+							<trash2-icon v-if="result.action.value === 'Trash'" size="18" class="vue-feather text-theme"/>
+							<database-icon v-if="result.action.value === 'PlanCreate'" size="18" class="vue-feather text-theme"/>
+							<user-plus-icon v-if="result.action.value === 'UserCreate'" size="18" class="vue-feather text-theme"/>
+							<users-icon v-if="['TeamFolders', 'Users'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+							<user-check-icon v-if="result.action.value === 'SharedWithMe'" size="18" class="vue-feather text-theme"/>
+							<link-icon v-if="result.action.value === 'MySharedItems'" size="18" class="vue-feather text-theme"/>
+							<upload-cloud-icon v-if="result.action.value === 'RecentUploads'" size="18" class="vue-feather text-theme"/>
+							<file-text-icon v-if="['Invoices', 'Invoice'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+							<database-icon v-if="result.action.value === 'Plans'" size="18" class="vue-feather text-theme"/>
+							<dollar-sign-icon v-if="['Subscriptions', 'Subscription'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+							<globe-icon v-if="result.action.value === 'Language'" size="18" class="vue-feather text-theme"/>
+							<monitor-icon v-if="result.action.value === 'Pages'" size="18" class="vue-feather text-theme"/>
+							<box-icon v-if="result.action.value === 'Dashboard'" size="18" class="vue-feather text-theme"/>
+							<hard-drive-icon v-if="result.action.value === 'Storage'" size="18" class="vue-feather text-theme"/>
+							<moon-icon v-if="result.action.value === 'dark-mode'" size="18" class="vue-feather text-theme"/>
+							<power-icon v-if="result.action.value === 'log-out'" size="18" class="vue-feather text-theme"/>
+							<trash-icon v-if="result.action.value === 'empty-trash'" size="18" class="vue-feather text-theme"/>
 
-						<b class="font-bold text-sm ml-3.5">
-							{{ result.title }}
-						</b>
-					</div>
+							<b class="font-bold text-sm ml-3.5">
+								{{ result.title }}
+							</b>
+						</div>
 
-					<!--Keyboard shortcut hint-->
-					<div v-if="! $isMobile()" class="absolute right-4 top-1/2 transform -translate-y-1/2">
-						<span class="text-xs text-gray-400">{{ i === 0 ? '↵' : metaKeyIcon + i }}</span>
+						<!--Keyboard shortcut hint-->
+						<div v-if="! $isMobile()" class="absolute right-4 top-1/2 transform -translate-y-1/2">
+							<span class="text-xs text-gray-400">{{ i === 0 ? '↵' : metaKeyIcon + i }}</span>
+						</div>
 					</div>
 				</div>
 
 				<!--Show results-->
-				<b v-if="! activeFilter && results.length !== 0" class="text-xs text-gray-500 mb-1.5 block mt-3">
+				<CategoryName v-if="! activeFilter && results.length !== 0">
 					{{ $t('Files & Folders') }}
-				</b>
+				</CategoryName>
+
 				<div v-if="results.length !== 0" v-for="(result, i) in results" :key="result.data.id" class="relative">
 
 					<!--Users result-->
@@ -166,10 +185,36 @@
 </template>
 
 <script>
-import {TrashIcon, MoonIcon, PowerIcon, HardDriveIcon, UploadCloudIcon, FileTextIcon, DollarSignIcon, GlobeIcon, MonitorIcon, BoxIcon, UsersIcon, UserCheckIcon, LinkIcon, DatabaseIcon, SearchIcon, Trash2Icon, UserPlusIcon, XIcon, HomeIcon, SettingsIcon, ArrowUpIcon, ArrowDownIcon, CornerDownLeftIcon} from 'vue-feather-icons'
+import {
+	ArrowDownIcon,
+	ArrowUpIcon,
+	BoxIcon,
+	CornerDownLeftIcon,
+	DatabaseIcon,
+	DollarSignIcon,
+	FileTextIcon,
+	GlobeIcon,
+	HardDriveIcon,
+	HomeIcon,
+	LinkIcon,
+	MonitorIcon,
+	MoonIcon,
+	PowerIcon,
+	SearchIcon,
+	SettingsIcon,
+	Trash2Icon,
+	TrashIcon,
+	UploadCloudIcon,
+	UserCheckIcon,
+	UserPlusIcon,
+	UsersIcon,
+	XIcon
+} from 'vue-feather-icons'
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import MemberAvatar from "../FilesView/MemberAvatar"
+import FilterSuggestion from "./FilterSuggestion"
 import ItemList from "../FilesView/ItemList"
+import CategoryName from "./CategoryName"
 import {events} from '/resources/js/bus'
 import {mapGetters} from 'vuex'
 import {debounce} from 'lodash'
@@ -177,208 +222,9 @@ import axios from "axios"
 
 export default {
 	name: 'Spotlight',
-	watch: {
-		query(query) {
-			if (query === '' || typeof query === 'undefined')
-				this.results = []
-				this.actions = []
-
-			// Reset selection index
-			this.index = 0
-
-			// Go for filter keyword
-			let getFilterQuery = query.substr(0, 2)
-
-			// search for the users
-			if (getFilterQuery === 'u ' && this.isAdmin && ! this.activeFilter) {
-				this.setFilter('users')
-			}
-
-			// Browse actions
-			if (! this.activeFilter) {
-				this.actions = this.actionList.filter(el => el.title.toLowerCase().indexOf(query) > -1).slice(0, 3)
-			}
-
-			this.findResult(query)
-		},
-	},
-	methods: {
-		showByShortcut(e) {
-			// Preserve select and reload native shortcut
-			if (!['a', 'r', 'v'].includes(e.key)) {
-				e.preventDefault()
-			}
-
-			const allowedRange = this.results.length + this.actions.length
-
-			// Allow only numbers within result range
-			if (Number.isInteger(parseInt(e.key)) && parseInt(e.key) < allowedRange) {
-				this.index = parseInt(e.key)
-
-				this.showSelected()
-			}
-		},
-		showSelected() {
-			let index = this.index
-			let resultIndex = index - this.actions.length
-
-			// Open Action
-			if (this.actions.length > 0 && index < this.actions.length ) {
-				this.openAction(this.actions[index])
-				return
-			}
-
-			// Open user
-			if (this.activeFilter === 'users') {
-				this.openUser(this.results[resultIndex])
-			}
-
-			// Open file or folder
-			if (! this.activeFilter) {
-				this.openItem(this.results[resultIndex])
-			}
-		},
-		openAction(arg) {
-			if (arg.action.type === 'route') {
-				this.$router.push({name: arg.action.value})
-			}
-
-			if (arg.action.type === 'function') {
-
-				if (arg.action.value === 'dark-mode') {
-					this.$store.dispatch('toggleDarkMode', !this.isDarkMode)
-				}
-
-				if (arg.action.value === 'log-out') {
-					this.$store.dispatch('logOut')
-				}
-
-				if (arg.action.value === 'empty-trash') {
-					this.$emptyTrashQuietly()
-				}
-			}
-
-			this.exitSpotlight()
-		},
-		openUser(user) {
-			this.$router.push({name: 'UserDetail', params: {id: user.data.id}})
-
-			this.exitSpotlight()
-		},
-		openItem(file) {
-
-			// Show folder
-			if (file.data.type === 'folder') {
-
-				if (file.data.attributes.isTeamFolder) {
-
-					if (file.data.relationships.owner.data.id === this.user.data.id) {
-						this.$router.push({name: 'TeamFolders', params: {id: file.data.id}})
-					} else {
-						this.$router.push({name: 'SharedWithMe', params: {id: file.data.id}})
-					}
-				} else {
-					this.$router.push({name: 'Files', params: {id: file.data.id}})
-				}
-			} else {
-
-				// Show file
-				if (['video', 'audio', 'image'].includes(file.data.type) || file.data.attributes.mimetype === 'pdf') {
-					this.$store.commit('ADD_TO_FAST_PREVIEW', file)
-
-					events.$emit('file-preview:show')
-				} else {
-					this.$downloadFile(file.data.attributes.file_url, file.data.attributes.name + '.' + file.data.attributes.mimetype)
-				}
-			}
-
-			this.exitSpotlight()
-		},
-		findResult: debounce(function (value) {
-			// Prevent empty searching
-			if (value === '' || typeof value === 'undefined') return
-
-			this.isLoading = true
-
-			// Get route
-			let route = undefined
-
-			if (this.$store.getters.sharedDetail) {
-				let permission = this.$store.getters.sharedDetail.data.attributes.protected
-					? 'private'
-					: 'public'
-
-				route = `/api/browse/search/${permission}/${this.$router.currentRoute.params.token}`
-
-			} else {
-				route = '/api/browse/search'
-			}
-
-			axios
-				.get(`${route}?filter=${this.activeFilter}`, {
-					params: {query: value}
-				})
-				.then(response => {
-
-					// Show user result
-					if (this.activeFilter === 'users') {
-						this.results = response.data.data
-					}
-
-					// Show file result
-					if (! this.activeFilter) {
-						let files = response.data.files.data
-						let folders = response.data.folders.data
-
-						this.results = folders.concat(files)
-					}
-				})
-				.catch(() => this.$isSomethingWrong())
-				.finally(() => this.isLoading = false)
-		}, 150),
-		exitSpotlight() {
-			this.actions = []
-			this.results = []
-			this.query = ''
-			this.isVisible = false
-			events.$emit('popup:close')
-		},
-		onPageDown() {
-			let results = this.results.length
-			let actions = this.actions.length
-
-			let totalResultLength = (results + actions) - 1
-
-			if (this.index < totalResultLength)
-				this.index++
-		},
-		onPageUp() {
-			if (this.index > 0) this.index--
-		},
-		setFilter(filter) {
-			// Set active filter
-			this.activeFilter = filter
-
-			// Set default values
-			this.results = []
-			this.query = ''
-		},
-		undoFilter() {
-			if (this.activeFilter && this.query === '' && this.backspaceHits !== 2) {
-				this.backspaceHits++
-			}
-
-			if (this.backspaceHits === 2) {
-				this.removeFilter()
-			}
-		},
-		removeFilter() {
-			// Set default values
-			this.activeFilter = undefined
-			this.backspaceHits = 0
-		},
-	},
 	components: {
+		CategoryName,
+		FilterSuggestion,
 		TrashIcon,
 		MoonIcon,
 		PowerIcon,
@@ -611,6 +457,9 @@ export default {
 		},
 		isNotEmptyQuery() {
 			return this.query !== ''
+		},
+		isEmptyQuery() {
+			return this.query === '' || this.query === undefined
 		}
 	},
 	data() {
@@ -624,7 +473,218 @@ export default {
 
 			results: [],
 			actions: [],
+
+			filters: [
+				{
+					keyword: 'u',
+					description: this.$t('Search through your users...'),
+					slug: 'users',
+				},
+			]
 		}
+	},
+	watch: {
+		query(query) {
+			if (query === '' || typeof query === 'undefined')
+				this.results = []
+				this.actions = []
+
+			// Reset selection index
+			this.index = 0
+
+			// Go for filter keyword
+			let getFilterQuery = query.substr(0, 2)
+
+			// search for the users
+			if (getFilterQuery === 'u ' && this.isAdmin && ! this.activeFilter) {
+				this.setFilter('users')
+			}
+
+			// Browse actions
+			if (! this.activeFilter) {
+				this.actions = this.actionList.filter(el => el.title.toLowerCase().indexOf(query) > -1).slice(0, 3)
+			}
+
+			this.findResult(query)
+		},
+	},
+	methods: {
+		showByShortcut(e) {
+			// Preserve select and reload native shortcut
+			if (!['a', 'r', 'v'].includes(e.key)) {
+				e.preventDefault()
+			}
+
+			const allowedRange = this.results.length + this.actions.length
+
+			// Allow only numbers within result range
+			if (Number.isInteger(parseInt(e.key)) && parseInt(e.key) < allowedRange) {
+				this.index = parseInt(e.key)
+
+				this.showSelected()
+			}
+		},
+		showSelected() {
+			let index = this.index
+			let resultIndex = index - this.actions.length
+
+			// Open Action
+			if (this.actions.length > 0 && index < this.actions.length ) {
+				this.openAction(this.actions[index])
+				return
+			}
+
+			// Open user
+			if (this.activeFilter === 'users') {
+				this.openUser(this.results[resultIndex])
+			}
+
+			// Open file or folder
+			if (! this.activeFilter) {
+				this.openItem(this.results[resultIndex])
+			}
+		},
+		openAction(arg) {
+			if (arg.action.type === 'route') {
+				this.$router.push({name: arg.action.value})
+			}
+
+			if (arg.action.type === 'function') {
+
+				if (arg.action.value === 'dark-mode') {
+					this.$store.dispatch('toggleDarkMode', !this.isDarkMode)
+				}
+
+				if (arg.action.value === 'log-out') {
+					this.$store.dispatch('logOut')
+				}
+
+				if (arg.action.value === 'empty-trash') {
+					this.$emptyTrashQuietly()
+				}
+			}
+
+			this.exitSpotlight()
+		},
+		openUser(user) {
+			this.$router.push({name: 'UserDetail', params: {id: user.data.id}})
+
+			this.exitSpotlight()
+		},
+		openItem(file) {
+
+			// Show folder
+			if (file.data.type === 'folder') {
+
+				if (file.data.attributes.isTeamFolder) {
+
+					if (file.data.relationships.owner.data.id === this.user.data.id) {
+						this.$router.push({name: 'TeamFolders', params: {id: file.data.id}})
+					} else {
+						this.$router.push({name: 'SharedWithMe', params: {id: file.data.id}})
+					}
+				} else {
+					this.$router.push({name: 'Files', params: {id: file.data.id}})
+				}
+			} else {
+
+				// Show file
+				if (['video', 'audio', 'image'].includes(file.data.type) || file.data.attributes.mimetype === 'pdf') {
+					this.$store.commit('ADD_TO_FAST_PREVIEW', file)
+
+					events.$emit('file-preview:show')
+				} else {
+					this.$downloadFile(file.data.attributes.file_url, file.data.attributes.name + '.' + file.data.attributes.mimetype)
+				}
+			}
+
+			this.exitSpotlight()
+		},
+		findResult: debounce(function (value) {
+			// Prevent empty searching
+			if (value === '' || typeof value === 'undefined') return
+
+			this.isLoading = true
+
+			// Get route
+			let route = undefined
+
+			if (this.$store.getters.sharedDetail) {
+				let permission = this.$store.getters.sharedDetail.data.attributes.protected
+					? 'private'
+					: 'public'
+
+				route = `/api/browse/search/${permission}/${this.$router.currentRoute.params.token}`
+
+			} else {
+				route = '/api/browse/search'
+			}
+
+			axios
+				.get(`${route}?filter=${this.activeFilter}`, {
+					params: {query: value}
+				})
+				.then(response => {
+
+					// Show user result
+					if (this.activeFilter === 'users') {
+						this.results = response.data.data
+					}
+
+					// Show file result
+					if (! this.activeFilter) {
+						let files = response.data.files.data
+						let folders = response.data.folders.data
+
+						this.results = folders.concat(files)
+					}
+				})
+				.catch(() => this.$isSomethingWrong())
+				.finally(() => this.isLoading = false)
+		}, 150),
+		exitSpotlight() {
+			this.actions = []
+			this.results = []
+			this.query = ''
+			this.isVisible = false
+			events.$emit('popup:close')
+		},
+		onPageDown() {
+			let results = this.results.length
+			let actions = this.actions.length
+
+			let totalResultLength = (results + actions) - 1
+
+			if (this.index < totalResultLength)
+				this.index++
+		},
+		onPageUp() {
+			if (this.index > 0) this.index--
+		},
+		setFilter(filter) {
+			// Set active filter
+			this.activeFilter = filter
+
+			// Set default values
+			this.results = []
+			this.query = ''
+
+			this.$nextTick(() => this.$refs.searchInput.focus())
+		},
+		undoFilter() {
+			if (this.activeFilter && this.query === '' && this.backspaceHits !== 2) {
+				this.backspaceHits++
+			}
+
+			if (this.backspaceHits === 2) {
+				this.removeFilter()
+			}
+		},
+		removeFilter() {
+			// Set default values
+			this.activeFilter = undefined
+			this.backspaceHits = 0
+		},
 	},
 	created() {
 		events.$on('spotlight:show', filter => {
