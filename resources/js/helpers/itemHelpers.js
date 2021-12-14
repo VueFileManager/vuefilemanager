@@ -5,6 +5,9 @@ const itemHelpers = {
 		Vue.prototype.$emptyTrash = function () {
 			this.$store.dispatch('emptyTrash')
 		}
+		Vue.prototype.$emptyTrashQuietly = function () {
+			this.$store.dispatch('emptyTrashQuietly')
+		}
 
 		Vue.prototype.$shareCancel = function () {
 			this.$store.dispatch('shareCancel')

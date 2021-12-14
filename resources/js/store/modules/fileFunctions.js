@@ -365,6 +365,24 @@ const actions = {
                 commit('CLIPBOARD_CLEAR')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
+    },
+    emptyTrashQuietly: ({commit, getters}) => {
+        axios
+            .post(getters.api + '/trash/dump', {
+                _method: 'delete'
+            })
+            .then(() => {
+
+                if (router.currentRoute.name === 'Trash') {
+                    commit('LOADING_STATE', {loading: false, data: []})
+                }
+
+                events.$emit('toaster', {
+                    type: 'success',
+                    message: i18n.t('Your trash was successfully cleared.'),
+                })
+            })
+            .catch(() => Vue.prototype.$isSomethingWrong())
     }
 }
 

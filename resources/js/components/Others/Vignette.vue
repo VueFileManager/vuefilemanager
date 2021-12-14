@@ -61,12 +61,9 @@
     }
 
     // Dark mode
-    .dark {
-
-        .vignette {
-            background: $dark_mode_vignette;
-        }
-    }
+    .dark .vignette {
+		background: $dark_mode_vignette;
+	}
 
 
     .vignette-enter-active {

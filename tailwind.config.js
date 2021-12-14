@@ -27,6 +27,7 @@ module.exports = {
         'dark-background': '#151515',
         'dark-foreground': '#161718',
         '2x-dark-foreground': '#191b1e',
+        '4x-dark-foreground': '#1e2124',
         'light-background': '#f4f5f6',
         'light-300': '#e1e1ef',
       }),

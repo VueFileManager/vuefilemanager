@@ -124,7 +124,7 @@
 			},
 			timeStamp() {
 				return this.entry.data.attributes.deleted_at
-					? this.$t('entry_thumbnail.deleted_at', {time: this.entry.data.attributes.deleted_at})
+					? this.$t('item_thumbnail.deleted_at', {time: this.entry.data.attributes.deleted_at})
 					: this.entry.data.attributes.created_at
 			},
 			canEditName() {

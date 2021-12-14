@@ -5,7 +5,7 @@
 		tabindex="-1"
 		class="md:absolute fixed w-full h-full dark:bg-dark-foreground md:bg-transparent bg-white md:z-auto z-50"
 	>
-		<div class="relative w-full md:max-w-xl z-50 md:rounded-xl mx-auto 2xl:mt-20 md:mt-8 overflow-y-auto bg-white dark:bg-dark-foreground">
+		<div class="relative w-full md:max-w-xl z-50 md:rounded-xl mx-auto 2xl:mt-20 md:mt-8 overflow-y-auto bg-white dark:bg-2x-dark-foreground">
 
 			<!--Query bar-->
 			<div class="z-50 flex items-center px-5 py-4 mx-auto">
@@ -60,18 +60,16 @@
 
 					<div
 						class="flex items-center px-3.5 py-2.5"
-						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': i === index}"
+						:class="{'dark:bg-4x-dark-foreground bg-light-background rounded-xl': i === index}"
 					>
 						<settings-icon v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 						<home-icon v-if="result.action.value === 'Files'" size="18" class="vue-feather text-theme"/>
 						<trash2-icon v-if="result.action.value === 'Trash'" size="18" class="vue-feather text-theme"/>
 						<database-icon v-if="result.action.value === 'PlanCreate'" size="18" class="vue-feather text-theme"/>
 						<user-plus-icon v-if="result.action.value === 'UserCreate'" size="18" class="vue-feather text-theme"/>
-
 						<users-icon v-if="['TeamFolders', 'Users'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 						<user-check-icon v-if="result.action.value === 'SharedWithMe'" size="18" class="vue-feather text-theme"/>
 						<link-icon v-if="result.action.value === 'MySharedItems'" size="18" class="vue-feather text-theme"/>
-
 						<upload-cloud-icon v-if="result.action.value === 'RecentUploads'" size="18" class="vue-feather text-theme"/>
 						<file-text-icon v-if="['Invoices', 'Invoice'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 						<database-icon v-if="result.action.value === 'Plans'" size="18" class="vue-feather text-theme"/>
@@ -80,6 +78,9 @@
 						<monitor-icon v-if="result.action.value === 'Pages'" size="18" class="vue-feather text-theme"/>
 						<box-icon v-if="result.action.value === 'Dashboard'" size="18" class="vue-feather text-theme"/>
 						<hard-drive-icon v-if="result.action.value === 'Storage'" size="18" class="vue-feather text-theme"/>
+						<moon-icon v-if="result.action.value === 'dark-mode'" size="18" class="vue-feather text-theme"/>
+						<power-icon v-if="result.action.value === 'log-out'" size="18" class="vue-feather text-theme"/>
+						<trash-icon v-if="result.action.value === 'empty-trash'" size="18" class="vue-feather text-theme"/>
 
 						<b class="font-bold text-sm ml-3.5">
 							{{ result.title }}
@@ -93,7 +94,7 @@
 				</div>
 
 				<!--Show results-->
-				<b v-if="! activeFilter" class="text-xs text-gray-500 mb-1.5 block mt-3">
+				<b v-if="! activeFilter && results.length !== 0" class="text-xs text-gray-500 mb-1.5 block mt-3">
 					{{ $t('Files & Folders') }}
 				</b>
 				<div v-if="results.length !== 0" v-for="(result, i) in results" :key="result.data.id" class="relative">
@@ -101,7 +102,7 @@
 					<!--Users result-->
 					<div
 						v-if="activeFilter === 'users' && !result.action"
-						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': (i + actions.length) === index}"
+						:class="{'dark:bg-4x-dark-foreground bg-light-background rounded-xl': (i + actions.length) === index}"
 						class="flex items-center px-2.5 py-3.5"
 					>
 						<MemberAvatar
@@ -123,7 +124,7 @@
 					<ItemList
 						v-if="! activeFilter && !result.action"
 						:entry="result"
-						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': (i + actions.length) === index}"
+						:class="{'dark:bg-4x-dark-foreground bg-light-background rounded-xl': (i + actions.length) === index}"
 						:highlight="false"
 						:mobile-handler="false"
 						@click.native="openItem(result)"
@@ -136,7 +137,7 @@
 				</div>
 
 				<!--Show Empty message-->
-				<span v-if="results.length === 0" class="p-2.5 text-sm text-gray-700">
+				<span v-if="results.length === 0 && actions.length === 0" class="p-2.5 text-sm dark:text-gray-400 text-gray-700">
 					{{ $t('messages.nothing_was_found') }}
 				</span>
 			</div>
@@ -165,7 +166,7 @@
 </template>
 
 <script>
-import {HardDriveIcon, UploadCloudIcon, FileTextIcon, DollarSignIcon, GlobeIcon, MonitorIcon, BoxIcon, UsersIcon, UserCheckIcon, LinkIcon, DatabaseIcon, SearchIcon, Trash2Icon, UserPlusIcon, XIcon, HomeIcon, SettingsIcon, ArrowUpIcon, ArrowDownIcon, CornerDownLeftIcon} from 'vue-feather-icons'
+import {TrashIcon, MoonIcon, PowerIcon, HardDriveIcon, UploadCloudIcon, FileTextIcon, DollarSignIcon, GlobeIcon, MonitorIcon, BoxIcon, UsersIcon, UserCheckIcon, LinkIcon, DatabaseIcon, SearchIcon, Trash2Icon, UserPlusIcon, XIcon, HomeIcon, SettingsIcon, ArrowUpIcon, ArrowDownIcon, CornerDownLeftIcon} from 'vue-feather-icons'
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import MemberAvatar from "../FilesView/MemberAvatar"
 import ItemList from "../FilesView/ItemList"
@@ -240,6 +241,21 @@ export default {
 		openAction(arg) {
 			if (arg.action.type === 'route') {
 				this.$router.push({name: arg.action.value})
+			}
+
+			if (arg.action.type === 'function') {
+
+				if (arg.action.value === 'dark-mode') {
+					this.$store.dispatch('toggleDarkMode', !this.isDarkMode)
+				}
+
+				if (arg.action.value === 'log-out') {
+					this.$store.dispatch('logOut')
+				}
+
+				if (arg.action.value === 'empty-trash') {
+					this.$emptyTrashQuietly()
+				}
 			}
 
 			this.exitSpotlight()
@@ -363,6 +379,9 @@ export default {
 		},
 	},
 	components: {
+		TrashIcon,
+		MoonIcon,
+		PowerIcon,
 		HardDriveIcon,
 		UploadCloudIcon,
 		FileTextIcon,
@@ -389,7 +408,8 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'user'
+			'isDarkMode',
+			'user',
 		]),
 		actionList() {
 			let adminActions = [
@@ -551,12 +571,36 @@ export default {
 				},
 			]
 
+			let functionList = [
+				{
+					title: this.$t('Toggle Dark/Light Mode'),
+					action: {
+						type: 'function',
+						value: 'dark-mode',
+					},
+				},
+				{
+					title: this.$t('Log Out'),
+					action: {
+						type: 'function',
+						value: 'log-out',
+					},
+				},
+				{
+					title: this.$t('Empty Your Trash'),
+					action: {
+						type: 'function',
+						value: 'empty-trash',
+					},
+				},
+			]
+
 			if (this.user.data.attributes.role === 'admin') {
-				return [].concat.apply([], [adminActions, adminLocations, fileLocations, userSettings])
+				return [].concat.apply([], [functionList, userSettings, fileLocations, adminActions, adminLocations])
 			}
 
 			if (this.user.data.attributes.role === 'user') {
-				return [].concat.apply([], [fileLocations, userSettings])
+				return [].concat.apply([], [functionList, userSettings, fileLocations])
 			}
 		},
 		isAdmin() {

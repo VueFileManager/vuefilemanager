@@ -45,7 +45,7 @@ const actions = {
                 clearTimeout(popup)
                 commit('DESTROY_DATA')
 
-                router.push({name: 'SignIn'})
+                router.push({name: 'Homepage'})
             })
     },
     addToFavourites: (context, folder) => {
