@@ -30,7 +30,7 @@
 					v-model="query"
 					@keydown.delete="undoFilter"
 					@keydown.enter="showSelected"
-					@keydown.meta="proceedToSelect"
+					@keydown.meta="showByShortcut"
 					@keyup.down="onPageDown"
 					@keyup.up="onPageUp"
 					type="text"
@@ -53,13 +53,17 @@
 			<div v-if="isNotEmptyQuery" class="spotlight-results relative z-50 px-4 pb-4">
 
 				<!--Show actions-->
-				<b class="text-xs text-gray-500 mb-1.5 block">Actions</b>
+				<b v-if="actions.length !== 0" class="text-xs text-gray-500 mb-1.5 block">
+					{{ $t('Actions') }}
+				</b>
 				<div v-if="actions.length !== 0" v-for="(result, i) in actions" :key="i" class="relative">
 
 					<div
 						class="flex items-center px-3.5 py-2.5"
 						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': i === index}"
 					>
+						<settings-icon v-if="result.title === 'Go To Settings'" size="18" class="vue-feather text-theme"/>
+						<home-icon v-if="result.title === 'Go To Home'" size="18" class="vue-feather text-theme"/>
 						<trash2-icon v-if="result.title === 'Go To Trash'" size="18" class="vue-feather text-theme"/>
 						<database-icon v-if="result.title === 'Create Plan'" size="18" class="vue-feather text-theme"/>
 						<user-plus-icon v-if="result.title === 'Create User'" size="18" class="vue-feather text-theme"/>
@@ -75,7 +79,9 @@
 				</div>
 
 				<!--Show results-->
-				<b class="text-xs text-gray-500 mb-1.5 block mt-3">Files & Folders</b>
+				<b v-if="! activeFilter" class="text-xs text-gray-500 mb-1.5 block mt-3">
+					{{ $t('Files & Folders') }}
+				</b>
 				<div v-if="results.length !== 0" v-for="(result, i) in results" :key="(i + actions.length)" class="relative">
 
 					<!--Users result-->
@@ -116,7 +122,7 @@
 				</div>
 
 				<!--Show Empty message-->
-				<span v-if="results.length === 0" class="fond-extrabold p-2.5 text-base">
+				<span v-if="results.length === 0" class="p-2.5 text-sm text-gray-700">
 					{{ $t('messages.nothing_was_found') }}
 				</span>
 			</div>
@@ -125,9 +131,9 @@
 </template>
 
 <script>
+import {DatabaseIcon, SearchIcon, Trash2Icon, UserPlusIcon, XIcon, HomeIcon, SettingsIcon} from 'vue-feather-icons'
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import MemberAvatar from "../FilesView/MemberAvatar"
-import {SearchIcon, XIcon, UserPlusIcon, DatabaseIcon, Trash2Icon} from 'vue-feather-icons'
 import ItemList from "../FilesView/ItemList"
 import {events} from '/resources/js/bus'
 import {mapGetters} from 'vuex'
@@ -136,34 +142,11 @@ import axios from "axios"
 
 export default {
 	name: 'Spotlight',
-	components: {
-		DatabaseIcon,
-		UserPlusIcon,
-		MemberAvatar,
-		Trash2Icon,
-		SearchIcon,
-		ItemList,
-		Spinner,
-		XIcon,
-	},
-	computed: {
-		...mapGetters([
-			'user'
-		]),
-		isAdmin() {
-			return this.user.data.attributes.role === 'admin'
-		},
-		metaKeyIcon() {
-			return this.$isApple() ? '⌘' : 'alt'
-		},
-		isNotEmptyQuery() {
-			return this.query !== ''
-		}
-	},
 	watch: {
 		query(query) {
 			if (query === '' || typeof query === 'undefined')
 				this.results = []
+				this.actions = []
 
 			// Reset selection index
 			this.index = 0
@@ -176,46 +159,16 @@ export default {
 				this.setFilter('users')
 			}
 
+			// Browse actions
+			if (! this.activeFilter) {
+				this.actions = this.actionList.filter(el => el.title.toLowerCase().indexOf(query) > -1)
+			}
+
 			this.findResult(query)
 		}
 	},
-	data() {
-		return {
-			activeFilter: undefined,
-			backspaceHits: 0,
-			isVisible: false,
-			isLoading: false,
-			query: '',
-			index: 0,
-
-			results: [],
-			actions: [],
-		}
-	},
 	methods: {
-		undoFilter() {
-			if (this.activeFilter && this.query === '' && this.backspaceHits !== 2) {
-				this.backspaceHits++
-			}
-
-			if (this.backspaceHits === 2) {
-				this.removeFilter()
-			}
-		},
-		setFilter(filter) {
-			// Set active filter
-			this.activeFilter = filter
-
-			// Set default values
-			this.results = []
-			this.query = ''
-		},
-		removeFilter() {
-			// Set default values
-			this.activeFilter = undefined
-			this.backspaceHits = 0
-		},
-		proceedToSelect(e) {
+		showByShortcut(e) {
 			// Preserve select and reload native shortcut
 			if (!['a', 'r', 'v'].includes(e.key)) {
 				e.preventDefault()
@@ -229,15 +182,31 @@ export default {
 			}
 		},
 		showSelected() {
-			let selectedItem = this.results[this.index]
+			let index = this.index
+			let resultIndex = index - this.actions.length
 
+			// Open Action
+			if (this.actions.length > 0 && index < this.actions.length ) {
+				this.openAction(this.actions[index])
+				return
+			}
+
+			// Open user
 			if (this.activeFilter === 'users') {
-				this.openUser(selectedItem)
+				this.openUser(this.results[resultIndex])
 			}
 
+			// Open file or folder
 			if (! this.activeFilter) {
-				this.openItem(selectedItem)
+				this.openItem(this.results[resultIndex])
 			}
+		},
+		openAction(arg) {
+			if (arg.action.type === 'route') {
+				this.$router.push({name: arg.action.value})
+			}
+
+			this.exitSpotlight()
 		},
 		openUser(user) {
 			this.$router.push({name: 'UserDetail', params: {id: user.data.id}})
@@ -272,13 +241,6 @@ export default {
 			}
 
 			this.exitSpotlight()
-		},
-		onPageDown() {
-			if (this.index < (this.results.length - 1))
-				this.index++
-		},
-		onPageUp() {
-			if (this.index > 0) this.index--
 		},
 		findResult: debounce(function (value) {
 			// Prevent empty searching
@@ -317,17 +279,128 @@ export default {
 						let folders = response.data.folders.data
 
 						this.results = folders.concat(files)
-						this.actions = response.data.actions
 					}
 				})
 				.catch(() => this.$isSomethingWrong())
 				.finally(() => this.isLoading = false)
 		}, 150),
 		exitSpotlight() {
+			this.actions = []
 			this.results = []
 			this.query = ''
 			this.isVisible = false
 			events.$emit('popup:close')
+		},
+		onPageDown() {
+			let results = this.results.length
+			let actions = this.actions.length
+
+			let totalResultLength = (results + actions) - 1
+
+			if (this.index < totalResultLength)
+				this.index++
+		},
+		onPageUp() {
+			if (this.index > 0) this.index--
+		},
+		setFilter(filter) {
+			// Set active filter
+			this.activeFilter = filter
+
+			// Set default values
+			this.results = []
+			this.query = ''
+		},
+		undoFilter() {
+			if (this.activeFilter && this.query === '' && this.backspaceHits !== 2) {
+				this.backspaceHits++
+			}
+
+			if (this.backspaceHits === 2) {
+				this.removeFilter()
+			}
+		},
+		removeFilter() {
+			// Set default values
+			this.activeFilter = undefined
+			this.backspaceHits = 0
+		},
+	},
+	components: {
+		SettingsIcon,
+		HomeIcon,
+		DatabaseIcon,
+		UserPlusIcon,
+		MemberAvatar,
+		Trash2Icon,
+		SearchIcon,
+		ItemList,
+		Spinner,
+		XIcon,
+	},
+	computed: {
+		...mapGetters([
+			'user'
+		]),
+		isAdmin() {
+			return this.user.data.attributes.role === 'admin'
+		},
+		metaKeyIcon() {
+			return this.$isApple() ? '⌘' : 'alt'
+		},
+		isNotEmptyQuery() {
+			return this.query !== ''
+		}
+	},
+	data() {
+		return {
+			activeFilter: undefined,
+			backspaceHits: 0,
+			isVisible: false,
+			isLoading: false,
+			query: '',
+			index: 0,
+
+			results: [],
+			actions: [],
+
+			actionList: [
+				{
+					title: 'Go To Home',
+					action: {
+						type: 'route',
+						value: 'Files',
+					},
+				},
+				{
+					title: 'Go To Settings',
+					action: {
+						type: 'route',
+						value: 'AppOthers',
+					},
+				},
+				{
+					title: 'Go To Trash',
+					action: {
+						type: 'route',
+						value: 'Trash',
+					},
+				},
+				{
+					title: 'Create User',
+					action: {
+						type: 'route',
+						value: 'UserCreate',
+					},
+				},
+				{
+					title: 'Create Plan',
+					action: {
+						type: 'route',
+						value: 'PlanCreate',
+					},
+				},
+			]
 		}
 	},
 	created() {
