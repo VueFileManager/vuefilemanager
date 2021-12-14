@@ -62,11 +62,25 @@
 						class="flex items-center px-3.5 py-2.5"
 						:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl': i === index}"
 					>
-						<settings-icon v-if="result.title === 'Go To Settings'" size="18" class="vue-feather text-theme"/>
-						<home-icon v-if="result.title === 'Go To Home'" size="18" class="vue-feather text-theme"/>
-						<trash2-icon v-if="result.title === 'Go To Trash'" size="18" class="vue-feather text-theme"/>
-						<database-icon v-if="result.title === 'Create Plan'" size="18" class="vue-feather text-theme"/>
-						<user-plus-icon v-if="result.title === 'Create User'" size="18" class="vue-feather text-theme"/>
+						<settings-icon v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+						<home-icon v-if="result.action.value === 'Files'" size="18" class="vue-feather text-theme"/>
+						<trash2-icon v-if="result.action.value === 'Trash'" size="18" class="vue-feather text-theme"/>
+						<database-icon v-if="result.action.value === 'PlanCreate'" size="18" class="vue-feather text-theme"/>
+						<user-plus-icon v-if="result.action.value === 'UserCreate'" size="18" class="vue-feather text-theme"/>
+
+						<users-icon v-if="['TeamFolders', 'Users'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+						<user-check-icon v-if="result.action.value === 'SharedWithMe'" size="18" class="vue-feather text-theme"/>
+						<link-icon v-if="result.action.value === 'MySharedItems'" size="18" class="vue-feather text-theme"/>
+
+						<upload-cloud-icon v-if="result.action.value === 'RecentUploads'" size="18" class="vue-feather text-theme"/>
+						<file-text-icon v-if="['Invoices', 'Invoice'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+						<database-icon v-if="result.action.value === 'Plans'" size="18" class="vue-feather text-theme"/>
+						<dollar-sign-icon v-if="['Subscriptions', 'Subscription'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+						<globe-icon v-if="result.action.value === 'Language'" size="18" class="vue-feather text-theme"/>
+						<monitor-icon v-if="result.action.value === 'Pages'" size="18" class="vue-feather text-theme"/>
+						<box-icon v-if="result.action.value === 'Dashboard'" size="18" class="vue-feather text-theme"/>
+						<hard-drive-icon v-if="result.action.value === 'Storage'" size="18" class="vue-feather text-theme"/>
+
 						<b class="font-bold text-sm ml-3.5">
 							{{ result.title }}
 						</b>
@@ -151,7 +165,7 @@
 </template>
 
 <script>
-import {DatabaseIcon, SearchIcon, Trash2Icon, UserPlusIcon, XIcon, HomeIcon, SettingsIcon, ArrowUpIcon, ArrowDownIcon, CornerDownLeftIcon} from 'vue-feather-icons'
+import {HardDriveIcon, UploadCloudIcon, FileTextIcon, DollarSignIcon, GlobeIcon, MonitorIcon, BoxIcon, UsersIcon, UserCheckIcon, LinkIcon, DatabaseIcon, SearchIcon, Trash2Icon, UserPlusIcon, XIcon, HomeIcon, SettingsIcon, ArrowUpIcon, ArrowDownIcon, CornerDownLeftIcon} from 'vue-feather-icons'
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import MemberAvatar from "../FilesView/MemberAvatar"
 import ItemList from "../FilesView/ItemList"
@@ -185,7 +199,7 @@ export default {
 			}
 
 			this.findResult(query)
-		}
+		},
 	},
 	methods: {
 		showByShortcut(e) {
@@ -349,6 +363,16 @@ export default {
 		},
 	},
 	components: {
+		HardDriveIcon,
+		UploadCloudIcon,
+		FileTextIcon,
+		DollarSignIcon,
+		GlobeIcon,
+		MonitorIcon,
+		BoxIcon,
+		UsersIcon,
+		UserCheckIcon,
+		LinkIcon,
 		CornerDownLeftIcon,
 		ArrowDownIcon,
 		ArrowUpIcon,
@@ -367,6 +391,174 @@ export default {
 		...mapGetters([
 			'user'
 		]),
+		actionList() {
+			let adminActions = [
+				{
+					title: this.$t('Create User'),
+					action: {
+						type: 'route',
+						value: 'UserCreate',
+					},
+				},
+				{
+					title: this.$t('Create Plan'),
+					action: {
+						type: 'route',
+						value: 'PlanCreate',
+					},
+				},
+			]
+
+			let adminLocations = [
+				{
+					title: this.$t('Go To Dashboard'),
+					action: {
+						type: 'route',
+						value: 'Dashboard',
+					},
+				},
+				{
+					title: this.$t('Go To Settings'),
+					action: {
+						type: 'route',
+						value: 'AppOthers',
+					},
+				},
+				{
+					title: this.$t('Go To Pages'),
+					action: {
+						type: 'route',
+						value: 'Pages',
+					},
+				},
+				{
+					title: this.$t('Go To Languages'),
+					action: {
+						type: 'route',
+						value: 'Language',
+					},
+				},
+				{
+					title: this.$t('Show all Users'),
+					action: {
+						type: 'route',
+						value: 'Users',
+					},
+				},
+				{
+					title: this.$t('Show all Subscriptions'),
+					action: {
+						type: 'route',
+						value: 'Subscriptions',
+					},
+				},
+				{
+					title: this.$t('Show all Plans'),
+					action: {
+						type: 'route',
+						value: 'Plans',
+					},
+				},
+				{
+					title: this.$t('Show all Transactions'),
+					action: {
+						type: 'route',
+						value: 'Invoices',
+					},
+				},
+			]
+
+			let fileLocations = [
+				{
+					title: this.$t('Go Home'),
+					action: {
+						type: 'route',
+						value: 'Files',
+					},
+				},
+				{
+					title: this.$t('Go To Recent Uploads'),
+					action: {
+						type: 'route',
+						value: 'RecentUploads',
+					},
+				},
+				{
+					title: this.$t('Go To Publicly Shared'),
+					action: {
+						type: 'route',
+						value: 'MySharedItems',
+					},
+				},
+				{
+					title: this.$t('Go To Trash'),
+					action: {
+						type: 'route',
+						value: 'Trash',
+					},
+				},
+				{
+					title: this.$t('Go To Team Folders'),
+					action: {
+						type: 'route',
+						value: 'TeamFolders',
+					},
+				},
+				{
+					title: this.$t('Go To Shared with Me'),
+					action: {
+						type: 'route',
+						value: 'SharedWithMe',
+					},
+				},
+			]
+
+			let userSettings = [
+				{
+					title: this.$t('Update Profile Settings'),
+					action: {
+						type: 'route',
+						value: 'Profile',
+					},
+				},
+				{
+					title: this.$t('Update Security & API'),
+					action: {
+						type: 'route',
+						value: 'Password',
+					},
+				},
+				{
+					title: this.$t('Show My Storage Details'),
+					action: {
+						type: 'route',
+						value: 'Storage',
+					},
+				},
+				{
+					title: this.$t('Show my Subscription'),
+					action: {
+						type: 'route',
+						value: 'Subscription',
+					},
+				},
+				{
+					title: this.$t('Show My Transactions'),
+					action: {
+						type: 'route',
+						value: 'Invoice',
+					},
+				},
+			]
+
+			if (this.user.data.attributes.role === 'admin') {
+				return [].concat.apply([], [adminActions, adminLocations, fileLocations, userSettings])
+			}
+
+			if (this.user.data.attributes.role === 'user') {
+				return [].concat.apply([], [fileLocations, userSettings])
+			}
+		},
 		isAdmin() {
 			return this.user.data.attributes.role === 'admin'
 		},
@@ -388,44 +580,6 @@ export default {
 
 			results: [],
 			actions: [],
-
-			actionList: [
-				{
-					title: 'Go To Home',
-					action: {
-						type: 'route',
-						value: 'Files',
-					},
-				},
-				{
-					title: 'Go To Settings',
-					action: {
-						type: 'route',
-						value: 'AppOthers',
-					},
-				},
-				{
-					title: 'Go To Trash',
-					action: {
-						type: 'route',
-						value: 'Trash',
-					},
-				},
-				{
-					title: 'Create User',
-					action: {
-						type: 'route',
-						value: 'UserCreate',
-					},
-				},
-				{
-					title: 'Create Plan',
-					action: {
-						type: 'route',
-						value: 'PlanCreate',
-					},
-				},
-			]
 		}
 	},
 	created() {
