@@ -39,16 +39,6 @@ const routesUser = [
 				},
 			},
 			{
-				name: 'Invoice',
-				path: '/user/settings/invoices',
-				component: () =>
-					import(/* webpackChunkName: "chunks/settings-invoices" */ '../views/User/Invoices'),
-				meta: {
-					requiresAuth: true,
-					title: 'routes_title.invoices'
-				},
-			},
-			{
 				name: 'Subscription',
 				path: '/user/settings/subscription',
 				component: () =>

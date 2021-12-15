@@ -149,17 +149,9 @@
 						title: this.$t('menu.subscription'),
 						route: 'Subscription',
 					},
-					{
-						title: this.$t('Transactions'),
-						route: 'Invoice',
-					},
 				]
 
 				let meteredSubscription = [
-					{
-						title: this.$t('Billing'),
-						route: 'MeteredSubscription',
-					},
 					{
 						title: this.$t('menu.profile'),
 						route: 'Profile',
@@ -172,12 +164,16 @@
 						title: this.$t('menu.storage'),
 						route: 'Storage',
 					},
+					{
+						title: this.$t('Billing'),
+						route: 'MeteredSubscription',
+					},
 				]
 
 				return {
 					fixed: fixedSubscription,
 					metered: meteredSubscription,
-				}['metered']
+				}[this.config.subscriptionType]
 			}
         },
         data() {

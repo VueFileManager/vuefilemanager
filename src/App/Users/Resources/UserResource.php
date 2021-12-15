@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Users\Resources;
 
 use Domain\Folders\Resources\FolderCollection;
@@ -30,20 +31,31 @@ class UserResource extends JsonResource
                     'updated_at'                => format_date($this->updated_at, '%d. %B. %Y'),
                 ],
                 'relationships' => [
+                    'balance'     => [
+                        'data' => [
+                            'id'         => $this->balance->id,
+                            'type'       => 'balance',
+                            'attributes' => [
+                                'formatted' => format_currency($this->balance->amount, $this->balance->currency),
+                                'balance'   => $this->balance->amount,
+                                'currency'  => $this->balance->currency,
+                            ],
+                        ],
+                    ],
                     'settings'    => new SettingsResource($this->settings),
                     'favourites'  => new FolderCollection($this->favouriteFolders),
                     'limitations' => [
-                        'id'   => $this->id,
-                        'type' => 'limitations',
                         'data' => [
+                            'id'   => $this->id,
+                            'type' => 'limitations',
                             'attributes' => $this->limitations,
                         ],
                     ],
-                    $this->mergeWhen($this->hasSubscription(), fn () => [
+                    $this->mergeWhen($this->hasSubscription(), fn() => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),
                 ],
-                'meta' => [
+                'meta'          => [
                     'limitations' => $this->limitations->summary(),
                 ],
             ],

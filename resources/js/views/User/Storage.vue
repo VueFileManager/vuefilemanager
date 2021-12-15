@@ -53,7 +53,7 @@
 	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
 	import PageTab from '/resources/js/components/Others/Layout/PageTab'
 	import axios from 'axios'
-	import BarChart from "./BarChart";
+	import BarChart from "../../components/UI/BarChart";
 
 	export default {
         name: 'Storage',

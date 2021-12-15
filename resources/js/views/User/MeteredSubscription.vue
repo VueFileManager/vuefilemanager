@@ -8,7 +8,7 @@
             </FormLabel>
 
 			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
-				$52.90
+				{{ user.data.relationships.balance.data.attributes.formatted }}
 			</b>
 
 			<ValidationObserver ref="changeStorageCapacity" @submit.prevent="makePayment" v-slot="{ invalid }" tag="form" class="mt-6">
@@ -47,7 +47,7 @@
 			</b>
 
 			<div>
-				<div class="flex items-center justify-between py-2 border-b dark:border-opacity-5 border-light border-dashed" v-for="usage in usages">
+				<div class="flex items-center justify-between py-2 border-b dark:border-opacity-5 border-light border-dashed" v-for="(usage, i) in usages" :ke="i">
 					<div class="w-2/4 leading-none">
 						<b class="text-sm font-bold leading-none">
 							{{ usage.title }}
@@ -205,7 +205,39 @@
 						usage: '12',
 						amount: '$1.20',
 					},
-				]
+					{
+						title: 'Platform Fee',
+						usage: '1',
+						amount: '$2.00',
+					},
+				],
+				columns: [
+					{
+						label: this.$t('Note'),
+						field: 'note',
+						sortable: true
+					},
+					{
+						label: this.$t('Status'),
+						field: 'status',
+						sortable: true
+					},
+					{
+						label: this.$t('admin_page_invoices.table.total'),
+						field: 'amount',
+						sortable: true
+					},
+					{
+						label: this.$t('Payed At'),
+						field: 'created_at',
+						sortable: true
+					},
+					{
+						label: this.$t('Service'),
+						field: 'driver',
+						sortable: true
+					},
+				],
 			}
 		},
 		methods: {

@@ -5,14 +5,14 @@
 		<div v-if="user" class="mb-auto text-center">
 
 			<MemberAvatar
-				class="mb-1 mx-auto inline-block"
+				class="mx-auto inline-block"
 				:size="44"
 				:is-border="false"
 				:member="user"
 			/>
 
 			<!--Usage-->
-			<div class="text-center leading-3 mb-7">
+			<div v-if="config.subscriptionType === 'metered'" class="text-center leading-3 mt-1">
 				<b class="text-xs font-bold leading-3 block text-theme">
 					$22,93
 				</b>
@@ -22,19 +22,21 @@
 			</div>
 
 			<!--Navigation-->
-            <router-link
-				v-for="item in navigation"
-				:to="{name: item.route}"
-				:title="item.title"
-				:class="[{'router-link-active': isSection(item.section)}, item.icon]"
-				class="block mb-1.5"
-			>
-                <div class="button-icon p-3 cursor-pointer inline-block dark:hover:bg-4x-dark-foreground hover:bg-light-300 text-theme rounded-xl">
-                    <hard-drive-icon v-if="item.icon === 'home'" size="20" />
-                    <settings-icon v-if="item.icon === 'settings'" size="20" />
-                    <user-icon v-if="item.icon === 'user'" size="20" />
-                </div>
-            </router-link>
+			<div class="mt-7">
+				<router-link
+					v-for="item in navigation"
+					:to="{name: item.route}"
+					:title="item.title"
+					:class="[{'router-link-active': isSection(item.section)}, item.icon]"
+					class="block mb-1.5"
+				>
+					<div class="button-icon p-3 cursor-pointer inline-block dark:hover:bg-4x-dark-foreground hover:bg-light-300 text-theme rounded-xl">
+						<hard-drive-icon v-if="item.icon === 'home'" size="20" />
+						<settings-icon v-if="item.icon === 'settings'" size="20" />
+						<user-icon v-if="item.icon === 'user'" size="20" />
+					</div>
+				</router-link>
+			</div>
 
 			<!--Toggle Dark/Light mode-->
 			<div @click="toggleDarkMode" :title="$t('dark_mode_toggle')" class="block mt-6">
@@ -84,6 +86,7 @@
 		computed: {
 			...mapGetters([
 				'isDarkMode',
+				'config',
 				'user',
 			]),
 			navigation() {

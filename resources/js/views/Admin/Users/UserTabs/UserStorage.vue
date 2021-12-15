@@ -88,7 +88,7 @@
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
     import SetupBox from '/resources/js/components/Others/Forms/SetupBox'
     import {required} from 'vee-validate/dist/rules'
-	import BarChart from "../../../User/BarChart"
+	import BarChart from "../../../../components/UI/BarChart"
     import {events} from '/resources/js/bus'
     import {mapGetters} from "vuex"
     import axios from 'axios'

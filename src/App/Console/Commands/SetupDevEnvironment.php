@@ -957,6 +957,10 @@ class SetupDevEnvironment extends Command
         // Get options
         collect([
             [
+                'name'  => 'subscription_type', // TODO: add to setup wizard
+                'value' => 'metered',
+            ],
+            [
                 'name'  => 'setup_wizard_database',
                 'value' => 1,
             ],
