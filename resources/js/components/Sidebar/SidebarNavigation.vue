@@ -14,7 +14,7 @@
 			<!--Usage-->
 			<div v-if="config.subscriptionType === 'metered'" class="text-center leading-3 mt-1">
 				<b class="text-xs font-bold leading-3 block text-theme">
-					$22,93
+					{{ user.data.meta.usages.costEstimate }}
 				</b>
 				<span class="text-xs text-gray-500">
 					{{ $t('usage') }}

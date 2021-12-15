@@ -39,21 +39,21 @@
             </FormLabel>
 
 			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
-				$22.93
+				{{ user.data.meta.usages.costEstimate }}
 			</b>
 
 			<b class="mb-3 block text-sm text-gray-400 mb-5">
-				From 2. December till now
+				{{ user.data.relationships.subscription.data.attributes.updated_at }} {{ $t('till now') }}
 			</b>
 
 			<div>
-				<div class="flex items-center justify-between py-2 border-b dark:border-opacity-5 border-light border-dashed" v-for="(usage, i) in usages" :ke="i">
+				<div class="flex items-center justify-between py-2 border-b dark:border-opacity-5 border-light border-dashed" v-for="(usage, i) in user.data.meta.usages.featureEstimates" :key="i">
 					<div class="w-2/4 leading-none">
 						<b class="text-sm font-bold leading-none">
-							{{ usage.title }}
+							{{ $t(usage.feature) }}
 						</b>
 						<small class="text-xs text-gray-500 pt-2 leading-none block">
-							{{ usage.description }}
+							{{ $t(`feature_usage_desc_${usage.feature}`) }}
 						</small>
 					</div>
 					<div class="text-left w-1/4">
@@ -63,7 +63,7 @@
 					</div>
 					<div class="text-right w-1/4">
 						<span class="text-sm font-bold text-theme">
-							{{ usage.amount }}
+							{{ usage.cost }}
 						</span>
 					</div>
 				</div>
@@ -186,31 +186,6 @@
 			return {
 				isLoading: false,
 				paymentAmount: undefined,
-				usages: [
-					{
-						title: 'Storage',
-						description: this.$t('Total storage amount you are using.'),
-						usage: '12.23GB',
-						amount: '$4.98',
-					},
-					{
-						title: 'Bandwidth',
-						description: this.$t('Data amount you transferred to/from your account.'),
-						usage: '3.61GB',
-						amount: '$2.89',
-					},
-					{
-						title: 'Members',
-						description: this.$t('Total members you invited to your team folders.'),
-						usage: '12',
-						amount: '$1.20',
-					},
-					{
-						title: 'Platform Fee',
-						usage: '1',
-						amount: '$2.00',
-					},
-				],
 				columns: [
 					{
 						label: this.$t('Note'),

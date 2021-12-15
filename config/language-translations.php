@@ -206,6 +206,14 @@ return [
         'max_storage_amount'                                  => '{value} GB Storage Size',
         'interval.month'                                      => 'Monthly',
         'interval.year'                                       => 'Yearly',
+
+        // v2
+        'bandwidth'                                           => 'Bandwidth',
+        'storage'                                             => 'Storage',
+        'feature_usage_desc_bandwidth'                        => 'Data amount you transferred to/from your account.',
+        'feature_usage_desc_storage'                          => 'Total storage amount you are using.',
+        'feature_usage_desc_members'                          => 'Total members you invited to your team folders.',
+        'feature_usage_desc_platform'                         => 'Total storage amount you are using.',
     ],
     'regular'  => [
         'actions.close'                                      => 'Close',

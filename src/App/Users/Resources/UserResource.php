@@ -2,8 +2,10 @@
 
 namespace App\Users\Resources;
 
+use ByteUnits\Metric;
 use Domain\Folders\Resources\FolderCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use VueFileManager\Subscription\Domain\Credits\Resources\BalanceResource;
 use VueFileManager\Subscription\Domain\Subscriptions\Resources\SubscriptionResource;
 
 class UserResource extends JsonResource
@@ -16,6 +18,11 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+        $subscriptionType = get_settings('subscription_type');
+
+        $isMeteredSubscription = $subscriptionType === 'metered';
+        $isFixedSubscription = $subscriptionType === 'fixed';
+
         return [
             'data' => [
                 'id'            => $this->id,
@@ -31,34 +38,68 @@ class UserResource extends JsonResource
                     'updated_at'                => format_date($this->updated_at, '%d. %B. %Y'),
                 ],
                 'relationships' => [
-                    'balance'     => [
-                        'data' => [
-                            'id'         => $this->balance->id,
-                            'type'       => 'balance',
-                            'attributes' => [
-                                'formatted' => format_currency($this->balance->amount, $this->balance->currency),
-                                'balance'   => $this->balance->amount,
-                                'currency'  => $this->balance->currency,
-                            ],
-                        ],
-                    ],
-                    'settings'    => new SettingsResource($this->settings),
-                    'favourites'  => new FolderCollection($this->favouriteFolders),
-                    'limitations' => [
-                        'data' => [
-                            'id'   => $this->id,
-                            'type' => 'limitations',
-                            'attributes' => $this->limitations,
-                        ],
-                    ],
+                    'settings'   => new SettingsResource($this->settings),
+                    'favourites' => new FolderCollection($this->favouriteFolders),
                     $this->mergeWhen($this->hasSubscription(), fn() => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),
+                    $this->mergeWhen($isMeteredSubscription, fn() => [
+                        'balance' => new BalanceResource($this->balance),
+                    ]),
                 ],
                 'meta'          => [
-                    'limitations' => $this->limitations->summary(),
+                    $this->mergeWhen($isFixedSubscription, fn() => [
+                        'limitations' => $this->limitations->summary(),
+                    ]),
+                    $this->mergeWhen($isMeteredSubscription, fn() => [
+                        'usages' => $this->getUsageEstimates(),
+                    ]),
                 ],
             ],
+        ];
+    }
+
+    private function getUsageEstimates()
+    {
+        $estimates = $this
+            ->subscription
+            ->plan
+            ->meteredFeatures
+            ->map(function ($feature) {
+
+                // Get first tier
+                $tier = $feature->tiers()->first();
+
+                $usageQuery = $this->subscription
+                    ->usages()
+                    ->where('created_at', '>=', now()->subDays(30))
+                    ->where('subscription_id', $this->subscription->id)
+                    ->where('metered_feature_id', $feature->id);
+
+                $usage = match ($feature->aggregate_strategy) {
+                    'sum_of_usage' => $usageQuery->sum('quantity'),
+                    'maximum_usage' => $usageQuery->max('quantity'),
+                };
+
+                $amount = ($tier->per_unit / 1000) * $usage;
+
+                $formattedUsage = match ($feature->key) {
+                    'bandwidth' => Metric::megabytes($usage)->format(),
+                    'storage' => Metric::megabytes($usage)->format(),
+                };
+
+                // return sum of money
+                return [
+                    'feature' => $feature->key,
+                    'amount'  => $amount,
+                    'cost'    => format_currency($amount, $this->subscription->plan->currency),
+                    'usage'   => $formattedUsage,
+                ];
+            });
+
+        return [
+            'costEstimate'     => format_currency($estimates->sum('amount'), $this->subscription->plan->currency),
+            'featureEstimates' => $estimates->toArray(),
         ];
     }
 }
