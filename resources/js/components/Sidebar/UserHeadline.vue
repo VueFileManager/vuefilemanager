@@ -1,6 +1,11 @@
 <template>
     <div class="user-headline">
-        <UserAvatar size="large"/>
+		<MemberAvatar
+			class="inline-block"
+			:size="52"
+			:is-border="false"
+			:member="user"
+		/>
         <div class="user-meta">
             <b class="name">{{ user.data.relationships.settings.data.attributes.name }}</b>
             <span class="email text-theme">{{ user.data.attributes.email }}</span>
@@ -9,13 +14,13 @@
 </template>
 
 <script>
-    import UserAvatar from '/resources/js/components/Others/UserAvatar'
+	import MemberAvatar from "../FilesView/MemberAvatar";
     import { mapGetters } from 'vuex'
 
     export default {
         name: 'UserHeadline',
         components: {
-            UserAvatar,
+			MemberAvatar
         },
         computed: {
             ...mapGetters([
