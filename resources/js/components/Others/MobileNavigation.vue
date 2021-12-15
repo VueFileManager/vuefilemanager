@@ -4,6 +4,17 @@
         <!--User avatar-->
         <UserHeadline v-if="!clickedSubmenu" class="user-info" />
 
+		<div class="block px-5 pt-2">
+			<div class="bg-light-background px-3 py-1.5 rounded-lg">
+				<span class="text-sm font-semibold">
+					{{ $t('Your current estimated usage:') }}
+				</span>
+				<span class="text-sm font-bold text-theme">
+					$22,93
+				</span>
+			</div>
+		</div>
+
         <!--Go back button-->
         <div v-if="clickedSubmenu" @click.stop="showSubmenu(undefined)" class="go-back">
             <chevron-left-icon size="19" class="text-theme" />
