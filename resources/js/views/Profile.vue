@@ -130,13 +130,9 @@
             },
             canShowIncompletePayment() {
                 return this.user.data.attributes.incomplete_payment
-            }
-        },
-        data() {
-            return {
-                avatar: undefined,
-                isLoading: false,
-				pages: [
+            },
+			pages() {
+				let fixedSubscription = [
 					{
 						title: this.$t('menu.profile'),
 						route: 'Profile',
@@ -157,11 +153,37 @@
 						title: this.$t('Transactions'),
 						route: 'Invoice',
 					},
-					/*{
-						title: this.$t('menu.payment_cards'),
-						route: 'PaymentMethods',
-					},*/
 				]
+
+				let meteredSubscription = [
+					{
+						title: this.$t('Billing'),
+						route: 'MeteredSubscription',
+					},
+					{
+						title: this.$t('menu.profile'),
+						route: 'Profile',
+					},
+					{
+						title: this.$t('menu.password'),
+						route: 'Password',
+					},
+					{
+						title: this.$t('menu.storage'),
+						route: 'Storage',
+					},
+				]
+
+				return {
+					fixed: fixedSubscription,
+					metered: meteredSubscription,
+				}['metered']
+			}
+        },
+        data() {
+            return {
+                avatar: undefined,
+                isLoading: false,
             }
         },
 	}

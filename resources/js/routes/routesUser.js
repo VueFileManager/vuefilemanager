@@ -59,6 +59,16 @@ const routesUser = [
 				},
 			},
 			{
+				name: 'MeteredSubscription',
+				path: '/user/settings/billing',
+				component: () =>
+					import(/* webpackChunkName: "chunks/settings-subscription" */ '../views/User/MeteredSubscription'),
+				meta: {
+					requiresAuth: true,
+					title: 'routes_title.subscription'
+				},
+			},
+			{
 				name: 'PaymentMethods',
 				path: '/user/settings/payment-methods',
 				component: () =>
