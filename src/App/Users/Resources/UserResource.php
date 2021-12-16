@@ -2,8 +2,10 @@
 
 namespace App\Users\Resources;
 
+use App\Users\Actions\FormatUsageEstimatesAction;
 use ByteUnits\Metric;
 use Domain\Folders\Resources\FolderCollection;
+use VueFileManager\Subscription\Domain\Usage\Actions\SumUsageForCurrentPeriodAction;
 use Illuminate\Http\Resources\Json\JsonResource;
 use VueFileManager\Subscription\Domain\Credits\Resources\BalanceResource;
 use VueFileManager\Subscription\Domain\Subscriptions\Resources\SubscriptionResource;
@@ -61,44 +63,17 @@ class UserResource extends JsonResource
 
     private function getUsageEstimates()
     {
-        $estimates = $this
-            ->subscription
-            ->plan
-            ->meteredFeatures
-            ->map(function ($feature) {
+        // Get plan currency
+        $currency = $this->subscription->plan->currency;
 
-                // Get first tier
-                $tier = $feature->tiers()->first();
+        // Get usage
+        $usage = resolve(SumUsageForCurrentPeriodAction::class)($this->subscription);
 
-                $usageQuery = $this->subscription
-                    ->usages()
-                    ->where('created_at', '>=', now()->subDays(30))
-                    ->where('subscription_id', $this->subscription->id)
-                    ->where('metered_feature_id', $feature->id);
-
-                $usage = match ($feature->aggregate_strategy) {
-                    'sum_of_usage' => $usageQuery->sum('quantity'),
-                    'maximum_usage' => $usageQuery->max('quantity'),
-                };
-
-                $amount = ($tier->per_unit / 1000) * $usage;
-
-                $formattedUsage = match ($feature->key) {
-                    'bandwidth' => Metric::megabytes($usage)->format(),
-                    'storage' => Metric::megabytes($usage)->format(),
-                };
-
-                // return sum of money
-                return [
-                    'feature' => $feature->key,
-                    'amount'  => $amount,
-                    'cost'    => format_currency($amount, $this->subscription->plan->currency),
-                    'usage'   => $formattedUsage,
-                ];
-            });
+        // Format usages
+        $estimates = resolve(FormatUsageEstimatesAction::class)($currency, $usage);
 
         return [
-            'costEstimate'     => format_currency($estimates->sum('amount'), $this->subscription->plan->currency),
+            'costEstimate'     => format_currency($estimates->sum('amount'), $currency),
             'featureEstimates' => $estimates->toArray(),
         ];
     }
