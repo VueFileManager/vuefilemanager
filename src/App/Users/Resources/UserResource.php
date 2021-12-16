@@ -27,6 +27,7 @@ class UserResource extends JsonResource
                     'email'                     => is_demo() ? obfuscate_email($this->email) : $this->email,
                     'role'                      => $this->role,
                     'two_factor_authentication' => $this->two_factor_secret ? true : false,
+                    'socialite_account'         => $this->password ? false : true,
                     'folders'                   => $this->folder_tree,
                     'storage'                   => $this->storage,
                     'created_at_formatted'      => format_date($this->created_at, '%d. %B. %Y'),

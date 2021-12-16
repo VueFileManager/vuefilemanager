@@ -1012,4 +1012,35 @@ if (! function_exists('replace_occurrence')) {
             $string
         );
     }
+
+if(! function_exists('get_socialite_avatar')) {
+    /**
+     * Get socialite avatar create and store his thumbnails
+     */
+        function get_socialite_avatar($avatar)
+        {
+            $image = file_get_contents($avatar);
+    
+            // Generate avatar name
+            $avatar_name = Str::uuid() . '.jpg';
+    
+            // Create intervention image
+            $intervention = Image::make($image);
+    
+            // Generate avatar sizes
+            collect(config('vuefilemanager.avatar_sizes'))
+                ->each(function ($size) use ($intervention, $avatar_name) {
+                    
+                    // fit thumbnail
+                    $intervention->fit($size['size'], $size['size'])->stream();
+    
+                    // Store thumbnail to disk
+                    Storage::put("avatars/{$size['name']}-{$avatar_name}", $intervention);
+                });
+    
+            // Return path to image
+            return $avatar_name;
+        }
+    }
+
 }

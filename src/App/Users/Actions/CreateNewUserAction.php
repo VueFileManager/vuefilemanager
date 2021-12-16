@@ -22,11 +22,13 @@ class CreateNewUserAction extends Controller
      * Validate and create a new user.
      */
     public function __invoke(
-        RegisterUserRequest $request
+        $data
     ): Application | ResponseFactory | Response {
         $settings = get_settings([
             'storage_default', 'registration', 'user_verification',
         ]);
+
+        $socialite_auth = ! isset($data['password']) ?? true;
 
         // Check if account registration is enabled
         if (! intval($settings['registration'])) {
@@ -35,12 +37,12 @@ class CreateNewUserAction extends Controller
 
         // Create user
         $user = User::create([
-            'password' => bcrypt($request->input('password')),
-            'email'    => $request->input('email'),
+            'password' => ! $socialite_auth ? bcrypt($data['password']) : null,
+            'email'    => $data['email'],
         ]);
 
         // Mark as verified if verification is disabled
-        if (! intval($settings['user_verification'])) {
+        if (! intval($settings['user_verification']) || $socialite_auth) {
             $user->markEmailAsVerified();
         }
 
@@ -49,8 +51,9 @@ class CreateNewUserAction extends Controller
         $user
             ->settings()
             ->create([
-                'name'             => $request->input('name'),
+                'name'             => $data['name'],
                 'storage_capacity' => $settings['storage_default'],
+                'avatar'           => $data->avatar ? $data->avatar : null,
             ]);
 
         UserSettings::reguard();
@@ -58,7 +61,7 @@ class CreateNewUserAction extends Controller
         event(new Registered($user));
 
         // Log in if verification is disabled
-        if (! intval($settings['user_verification'])) {
+        if (! intval($settings['user_verification']) || $socialite_auth) {
             $this->guard->login($user);
         }
 

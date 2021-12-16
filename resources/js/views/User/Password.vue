@@ -1,6 +1,6 @@
 <template>
     <PageTab>
-        <PageTabGroup>
+        <PageTabGroup v-if="! user.data.attributes.socialite_account">
             <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="form block-form">
                 <FormLabel>{{ $t('user_password.title') }}</FormLabel>
                 <div class="block-wrapper">
@@ -32,7 +32,7 @@
                 </div>
             </ValidationObserver>
         </PageTabGroup>
-        <PageTabGroup class="form block-form">
+        <PageTabGroup  v-if="! user.data.attributes.socialite_account" class="form block-form">
             <FormLabel icon="smartphone">{{ $t('2fa.settings.title') }}</FormLabel>
             <div class="block-wrapper">
 				<div class="input-wrapper">

@@ -161,6 +161,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
 
@@ -228,6 +229,7 @@ return [
         'Image'        => Intervention\Image\Facades\Image::class,
         'Stripe'       => Cartalyst\Stripe\Laravel\Facades\Stripe::class,
         'Crawler'      => Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect::class,
+        'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
     ],
 
     'deploy_secret'   => env('APP_DEPLOY_SECRET'),
