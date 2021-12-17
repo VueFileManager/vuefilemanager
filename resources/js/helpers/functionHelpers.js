@@ -124,12 +124,14 @@ const FunctionHelpers = {
             distribution = orderBy(distribution, ['progress'], ['desc'])
 
             // Push at the end empty space data
-            distribution.push({
-                progress: 100 - storage.data.attributes.percentage,
-                color: 'secondary',
-                value: storage.data.meta.others.used,
-                title: 'Empty'
-            })
+            if (config.subscriptionType !== 'metered') {
+                distribution.push({
+                    progress: 100 - storage.data.attributes.percentage,
+                    color: 'secondary',
+                    value: storage.data.meta.others.used,
+                    title: 'Empty'
+                })
+            }
 
             return distribution
         }

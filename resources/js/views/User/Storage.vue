@@ -5,15 +5,15 @@
                 {{ $t('Storage Usage') }}
             </FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			<b class="text-3xl font-extrabold -mt-3 block">
 				{{ storage.data.attributes.used }}
 			</b>
 
-			<b class="mb-3 block text-sm text-gray-400 mb-5">
+			<b v-if="config.subscriptionType !== 'metered'" class="mt-0.5 block text-sm text-gray-400">
 				{{ $t('Total of') }} {{ storage.data.attributes.capacity }} {{ $t('Used') }}
 			</b>
 
-			<ProgressLine :data="distribution" />
+			<ProgressLine :data="distribution" class="mt-5" />
 		</div>
 		<div v-if="distribution" class="card shadow-card">
 			<FormLabel icon="hard-drive">
@@ -54,6 +54,7 @@
 	import PageTab from '/resources/js/components/Others/Layout/PageTab'
 	import axios from 'axios'
 	import BarChart from "../../components/UI/BarChart";
+	import {mapGetters} from "vuex";
 
 	export default {
         name: 'Storage',
@@ -64,6 +65,11 @@
             PageTab,
 
         },
+		computed: {
+			...mapGetters([
+				'config'
+			])
+		},
         data() {
             return {
                 isLoading: true,

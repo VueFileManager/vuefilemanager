@@ -16,8 +16,12 @@ class UserStorageResource extends JsonResource
     public function toArray($request)
     {
         list($images, $audios, $videos, $documents, $others) = $this->get_file_type_distribution();
-
         list($downloadTotal, $uploadTotal, $upload, $download) = $this->get_traffic_distribution();
+
+        $totalCapacity = match (get_settings('subscription_type')) {
+            'metered' => $this->usedCapacity / 1000000000,
+            'fixed' => $this->limitations->max_storage_amount,
+        };
 
         return [
             'data' => [
@@ -25,8 +29,8 @@ class UserStorageResource extends JsonResource
                 'type'       => 'storage',
                 'attributes' => [
                     'used'       => Metric::bytes($this->usedCapacity)->format(),
-                    'capacity'   => format_gigabytes($this->limitations->max_storage_amount),
-                    'percentage' => (float) get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
+                    'capacity'   => format_gigabytes($totalCapacity),
+                    'percentage' => (float) get_storage_fill_percentage($this->usedCapacity, $totalCapacity),
                 ],
                 'meta'       => [
                     'traffic'   => [
@@ -39,23 +43,23 @@ class UserStorageResource extends JsonResource
                     ],
                     'images'    => [
                         'used'       => Metric::bytes($images)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($images, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($images, $totalCapacity),
                     ],
                     'audios'    => [
                         'used'       => Metric::bytes($audios)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($audios, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($audios, $totalCapacity),
                     ],
                     'videos'    => [
                         'used'       => Metric::bytes($videos)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($videos, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($videos, $totalCapacity),
                     ],
                     'documents' => [
                         'used'       => Metric::bytes($documents)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($documents, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($documents, $totalCapacity),
                     ],
                     'others'    => [
                         'used'       => Metric::bytes($others)->format(),
-                        'percentage' => (float) get_storage_fill_percentage($others, $this->limitations->max_storage_amount),
+                        'percentage' => (float) get_storage_fill_percentage($others, $totalCapacity),
                     ],
                 ],
             ],

@@ -461,13 +461,13 @@ if (! function_exists('get_storage_fill_percentage')) {
      * Get storage usage in percent
      *
      * @param $used
-     * @param $capacity
+     * @param $from
      * @return string
      */
-    function get_storage_fill_percentage($used, $capacity)
+    function get_storage_fill_percentage($used, $from)
     {
         // Format gigabytes to bytes
-        $total = intval(Metric::gigabytes($capacity)->numberOfBytes());
+        $total = intval(Metric::gigabytes($from)->numberOfBytes());
 
         // Count progress
         if ($total == 0) {
