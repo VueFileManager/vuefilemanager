@@ -3,7 +3,6 @@
 namespace App\Users\Resources;
 
 use App\Users\Actions\FormatUsageEstimatesAction;
-use ByteUnits\Metric;
 use Domain\Folders\Resources\FolderCollection;
 use VueFileManager\Subscription\Domain\Usage\Actions\SumUsageForCurrentPeriodAction;
 use Illuminate\Http\Resources\Json\JsonResource;

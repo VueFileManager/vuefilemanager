@@ -6,9 +6,7 @@ use App\Users\Actions\FormatUsageEstimatesAction;
 use Tests\TestCase;
 use App\Users\Models\User;
 use VueFileManager\Subscription\Domain\Plans\Models\Plan;
-use VueFileManager\Subscription\Domain\Plans\Models\PlanFeature;
-use VueFileManager\Subscription\Domain\Plans\Models\PlanMeteredFeature;
-use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
+use VueFileManager\Subscription\Domain\Plans\Models\PlanFixedFeature;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasCreated;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasExpired;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasUpdated;
@@ -21,7 +19,7 @@ class UserSubscriptionTest extends TestCase
     public function it_set_user_limitations_for_new_subscription()
     {
         $plan = Plan::factory()
-            ->has(PlanFeature::factory()
+            ->has(PlanFixedFeature::factory()
                 ->count(2)
                 ->sequence(
                     [
@@ -32,7 +30,7 @@ class UserSubscriptionTest extends TestCase
                         'key'   => 'max_team_members',
                         'value' => 20,
                     ],
-                ), 'features')
+                ), 'fixedFeatures')
             ->create();
 
         $user = User::factory()
@@ -55,7 +53,7 @@ class UserSubscriptionTest extends TestCase
     public function it_set_user_limitations_for_updated_subscription()
     {
         $plan = Plan::factory()
-            ->has(PlanFeature::factory()
+            ->has(PlanFixedFeature::factory()
                 ->count(2)
                 ->sequence(
                     [
@@ -66,7 +64,7 @@ class UserSubscriptionTest extends TestCase
                         'key'   => 'max_team_members',
                         'value' => 20,
                     ],
-                ), 'features')
+                ), 'fixedFeatures')
             ->create();
 
         $user = User::factory()

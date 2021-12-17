@@ -11,16 +11,16 @@ class SubscriptionEventSubscriber
     public function handleSubscriptionWasCreated($event)
     {
         $event->subscription->user->limitations()->update([
-            'max_storage_amount' => $event->subscription->feature('max_storage_amount'),
-            'max_team_members'   => $event->subscription->feature('max_team_members'),
+            'max_storage_amount' => $event->subscription->fixedFeature('max_storage_amount'),
+            'max_team_members'   => $event->subscription->fixedFeature('max_team_members'),
         ]);
     }
 
     public function handleSubscriptionWasUpdated($event)
     {
         $event->subscription->user->limitations()->update([
-            'max_storage_amount' => $event->subscription->feature('max_storage_amount'),
-            'max_team_members'   => $event->subscription->feature('max_team_members'),
+            'max_storage_amount' => $event->subscription->fixedFeature('max_storage_amount'),
+            'max_team_members'   => $event->subscription->fixedFeature('max_team_members'),
         ]);
     }
 
