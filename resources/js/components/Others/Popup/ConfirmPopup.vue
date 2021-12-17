@@ -5,7 +5,7 @@
         </div>
 
         <PopupContent class="content">
-            <h1 v-if="title" class="title">{{ title }}</h1>
+            <h1 v-if="title" class="text-2xl font-bold max-w-sm mx-auto">{{ title }}</h1>
             <p v-if="message" class="message">{{ message }}</p>
         </PopupContent>
 
@@ -72,7 +72,7 @@
                 this.message = args.message
                 this.emoji = '🤔'
                 this.confirmationData = args.action
-                this.buttonColor = 'danger-solid'
+                this.buttonColor = 'danger'
 
                 if (args.buttonColor) {
                     this.buttonColor = args.buttonColor
@@ -102,13 +102,6 @@
         padding-bottom: 10px;
         padding-left: 20px;
         padding-right: 20px;
-
-        .title {
-            @include font-size(22);
-            text-transform: uppercase;
-            font-weight: 800;
-            color: $text;
-        }
 
         .message {
             @include font-size(16);

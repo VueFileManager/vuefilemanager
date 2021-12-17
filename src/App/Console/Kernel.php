@@ -4,11 +4,11 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
+use Support\Scheduler\Actions\ReportUsageAction;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
-use Support\Scheduler\Actions\ReportUsageAction;
 
 class Kernel extends ConsoleKernel
 {

@@ -1093,14 +1093,14 @@ class SetupDevEnvironment extends Command
             $user
                 ->each(
                     fn ($user) => DB::table('traffic')
-                ->insert([
-                    'id'         => Str::uuid(),
-                    'user_id'    => $user->id,
-                    'upload'     => random_int(1111111, 9999999),
-                    'download'   => random_int(11111111, 99999999),
-                    'created_at' => now()->subDays($day),
-                    'updated_at' => now()->subDays($day),
-                ])
+                        ->insert([
+                            'id'         => Str::uuid(),
+                            'user_id'    => $user->id,
+                            'upload'     => random_int(1111111, 9999999),
+                            'download'   => random_int(11111111, 99999999),
+                            'created_at' => now()->subDays($day),
+                            'updated_at' => now()->subDays($day),
+                        ])
                 );
         }
     }

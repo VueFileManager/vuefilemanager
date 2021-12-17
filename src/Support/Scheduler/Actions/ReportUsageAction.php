@@ -1,5 +1,4 @@
 <?php
-
 namespace Support\Scheduler\Actions;
 
 use DB;
@@ -12,7 +11,7 @@ class ReportUsageAction
         Subscription::whereIn('type', ['pre-paid', 'auto-renew'])
             ->where('status', 'active')
             ->cursor()
-            ->each(function($subscription) {
+            ->each(function ($subscription) {
                 $this->recordBandwidth($subscription);
                 $this->recordStorageCapacity($subscription);
             });

@@ -1,9 +1,6 @@
 <?php
-
 namespace Tests\Domain\Traffic;
 
-use Domain\Traffic\Models\Traffic;
-use Illuminate\Database\Eloquent\Model;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -12,6 +9,8 @@ use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
+use Domain\Traffic\Models\Traffic;
+use Illuminate\Database\Eloquent\Model;
 
 class TrafficTest extends TestCase
 {

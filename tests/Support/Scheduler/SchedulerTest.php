@@ -1,19 +1,18 @@
 <?php
-
 namespace Tests\Support\Scheduler;
 
-use Domain\Files\Models\File;
-use Domain\Traffic\Models\Traffic;
 use Storage;
-use Support\Scheduler\Actions\ReportUsageAction;
 use Tests\TestCase;
 use App\Users\Models\User;
+use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Illuminate\Http\UploadedFile;
+use Domain\Traffic\Models\Traffic;
+use Support\Scheduler\Actions\ReportUsageAction;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
+use VueFileManager\Subscription\Domain\Plans\Models\Plan;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
-use VueFileManager\Subscription\Domain\Plans\Models\Plan;
 use VueFileManager\Subscription\Domain\Plans\Models\PlanMeteredFeature;
 use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
@@ -58,8 +57,8 @@ class SchedulerTest extends TestCase
 
         Traffic::factory()
             ->create([
-                'user_id'  => $user->id,
-                'download' => 155000000,
+                'user_id'    => $user->id,
+                'download'   => 155000000,
                 'created_at' => now()->subDay(),
             ]);
 

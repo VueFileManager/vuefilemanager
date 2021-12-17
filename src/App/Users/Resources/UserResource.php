@@ -1,13 +1,13 @@
 <?php
-
 namespace App\Users\Resources;
 
-use App\Users\Actions\FormatUsageEstimatesAction;
 use Domain\Folders\Resources\FolderCollection;
-use VueFileManager\Subscription\Domain\Usage\Actions\SumUsageForCurrentPeriodAction;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Users\Actions\FormatUsageEstimatesAction;
 use VueFileManager\Subscription\Domain\Credits\Resources\BalanceResource;
+use VueFileManager\Subscription\Domain\BillingAlerts\Resources\BillingAlertResource;
 use VueFileManager\Subscription\Domain\Subscriptions\Resources\SubscriptionResource;
+use VueFileManager\Subscription\Domain\Usage\Actions\SumUsageForCurrentPeriodAction;
 
 class UserResource extends JsonResource
 {
@@ -41,18 +41,21 @@ class UserResource extends JsonResource
                 'relationships' => [
                     'settings'   => new SettingsResource($this->settings),
                     'favourites' => new FolderCollection($this->favouriteFolders),
-                    $this->mergeWhen($this->hasSubscription(), fn() => [
+                    $this->mergeWhen($this->hasSubscription(), fn () => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription, fn() => [
+                    $this->mergeWhen($isMeteredSubscription, fn () => [
                         'balance' => new BalanceResource($this->balance),
+                    ]),
+                    $this->mergeWhen($isMeteredSubscription, fn () => [
+                        'alert' => new BillingAlertResource($this->billingAlert),
                     ]),
                 ],
                 'meta'          => [
-                    $this->mergeWhen($isFixedSubscription, fn() => [
+                    $this->mergeWhen($isFixedSubscription, fn () => [
                         'limitations' => $this->limitations->summary(),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription, fn() => [
+                    $this->mergeWhen($isMeteredSubscription, fn () => [
                         'usages' => $this->getUsageEstimates(),
                     ]),
                 ],

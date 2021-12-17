@@ -1,10 +1,9 @@
 <?php
-
 namespace Tests\App\Users;
 
-use App\Users\Actions\FormatUsageEstimatesAction;
 use Tests\TestCase;
 use App\Users\Models\User;
+use App\Users\Actions\FormatUsageEstimatesAction;
 use VueFileManager\Subscription\Domain\Plans\Models\Plan;
 use VueFileManager\Subscription\Domain\Plans\Models\PlanFixedFeature;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasCreated;
@@ -20,17 +19,17 @@ class UserSubscriptionTest extends TestCase
     {
         $plan = Plan::factory()
             ->has(PlanFixedFeature::factory()
-                ->count(2)
-                ->sequence(
-                    [
-                        'key'   => 'max_storage_amount',
-                        'value' => 200,
-                    ],
-                    [
-                        'key'   => 'max_team_members',
-                        'value' => 20,
-                    ],
-                ), 'fixedFeatures')
+            ->count(2)
+            ->sequence(
+                [
+                    'key'   => 'max_storage_amount',
+                    'value' => 200,
+                ],
+                [
+                    'key'   => 'max_team_members',
+                    'value' => 20,
+                ],
+            ), 'fixedFeatures')
             ->create();
 
         $user = User::factory()
@@ -54,17 +53,17 @@ class UserSubscriptionTest extends TestCase
     {
         $plan = Plan::factory()
             ->has(PlanFixedFeature::factory()
-                ->count(2)
-                ->sequence(
-                    [
-                        'key'   => 'max_storage_amount',
-                        'value' => 200,
-                    ],
-                    [
-                        'key'   => 'max_team_members',
-                        'value' => 20,
-                    ],
-                ), 'fixedFeatures')
+            ->count(2)
+            ->sequence(
+                [
+                    'key'   => 'max_storage_amount',
+                    'value' => 200,
+                ],
+                [
+                    'key'   => 'max_team_members',
+                    'value' => 20,
+                ],
+            ), 'fixedFeatures')
             ->create();
 
         $user = User::factory()
@@ -111,13 +110,13 @@ class UserSubscriptionTest extends TestCase
         $usages = collect([
             [
                 'feature' => 'bandwidth',
-                "amount"  => 7546.96,
-                "usage"   => 26024,
+                'amount'  => 7546.96,
+                'usage'   => 26024,
             ], [
-                "feature" => "storage",
-                "amount"  => 476.28,
-                "usage"   => 3969,
-            ]
+                'feature' => 'storage',
+                'amount'  => 476.28,
+                'usage'   => 3969,
+            ],
         ]);
 
         // Format usage estimates
@@ -126,16 +125,16 @@ class UserSubscriptionTest extends TestCase
 
         $expected = [
             [
-                "feature" => "bandwidth",
-                "amount"  => 7.54696,
-                "cost"    => "$7.55",
-                "usage"   => "26.02GB",
+                'feature' => 'bandwidth',
+                'amount'  => 7.54696,
+                'cost'    => '$7.55',
+                'usage'   => '26.02GB',
             ], [
-                "feature" => "storage",
-                "amount"  => 0.47628,
-                "cost"    => "$0.48",
-                "usage"   => "3.97GB",
-            ]
+                'feature' => 'storage',
+                'amount'  => 0.47628,
+                'cost'    => '$0.48',
+                'usage'   => '3.97GB',
+            ],
         ];
 
         $this->assertEquals($expected, $estimates);

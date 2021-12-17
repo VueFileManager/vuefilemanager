@@ -30,10 +30,10 @@ class TeamLimitsTest extends TestCase
 
         $members->each(
             fn ($member) => TeamFolderMember::factory()
-            ->create([
-                'parent_id' => $user->folders[0]->id,
-                'user_id'   => $member->id,
-            ])
+                ->create([
+                    'parent_id' => $user->folders[0]->id,
+                    'user_id'   => $member->id,
+                ])
         );
 
         // Try invite new member
