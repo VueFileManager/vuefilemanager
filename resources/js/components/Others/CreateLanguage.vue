@@ -16,7 +16,7 @@
 				</ValidationProvider>
 				<ValidationProvider tag="div" mode="passive" name="Language Name" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('locale_name')" :error="errors[0]" :is-last="true">
-						<input v-model="form.name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('type_language_name')">
+						<input v-model="form.name" :class="{'border-red-700': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('type_language_name')">
 					</AppInputText>
 				</ValidationProvider>
             </ValidationObserver>

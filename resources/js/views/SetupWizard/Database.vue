@@ -34,7 +34,7 @@
                 <div class="block-wrapper">
                     <label>Host:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Host" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.host" placeholder="Type your database host" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="databaseCredentials.host" placeholder="Type your database host" type="text" :class="{'border-red-700': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -42,7 +42,7 @@
                 <div class="block-wrapper">
                     <label>Port:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Port" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.port" placeholder="Type your database port" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="databaseCredentials.port" placeholder="Type your database port" type="text" :class="{'border-red-700': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -50,7 +50,7 @@
                 <div class="block-wrapper">
                     <label>Database Name:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Database Name" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.name" placeholder="Select your database name" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="databaseCredentials.name" placeholder="Select your database name" type="text" :class="{'border-red-700': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -58,7 +58,7 @@
                 <div class="block-wrapper">
                     <label>Database Username:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Database Username" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.username" placeholder="Select your database name" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="databaseCredentials.username" placeholder="Select your database name" type="text" :class="{'border-red-700': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -66,7 +66,7 @@
                 <div class="block-wrapper">
                     <label>Database Password:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Database Password" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.password" placeholder="Select your database password" type="text" :class="{'is-error': errors[0]}" />
+                        <input v-model="databaseCredentials.password" placeholder="Select your database password" type="text" :class="{'border-red-700': errors[0]}" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>

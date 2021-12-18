@@ -16,7 +16,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
                                         v-slot="{ errors }">
                         <input v-model="recoverPassword.email" :placeholder="$t('page_login.placeholder_email')" type="email"
-                               :class="{'is-error': errors[0]}"/>
+                               :class="{'border-red-700': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -26,7 +26,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="recoverPassword.newPassword" :placeholder="$t('page_create_password.label_new_pass')" type="password"
-                               :class="{'is-error': errors[0]}"/>
+                               :class="{'border-red-700': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -36,7 +36,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Password"
                                         rules="required" v-slot="{ errors }">
                         <input v-model="recoverPassword.newPasswordConfirm" :placeholder="$t('page_create_password.label_confirm_pass')"
-                               type="password" :class="{'is-error': errors[0]}"/>
+                               type="password" :class="{'border-red-700': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>

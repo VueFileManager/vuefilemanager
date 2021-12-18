@@ -28,7 +28,7 @@
 					<!--Set password-->
 					<ValidationProvider v-if="shareOptions.isPassword" tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
 						<AppInputText :error="errors[0]" class="-mt-2">
-							<input v-model="shareOptions.password" :class="{'is-error': errors[0]}" type="text" class="focus-border-theme input-dark" :placeholder="$t('page_sign_in.placeholder_password')">
+							<input v-model="shareOptions.password" :class="{'border-red-700': errors[0]}" type="text" class="focus-border-theme input-dark" :placeholder="$t('page_sign_in.placeholder_password')">
 						</AppInputText>
 					</ValidationProvider>
 				</div>

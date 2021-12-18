@@ -7,7 +7,7 @@
              <ValidationObserver @submit.prevent="confirmPassword" v-if="! qrCode" ref="passwordForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
                 <ValidationProvider tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('popup_2fa.input_label')" :error="errors[0]" :is-last="true">
-						<input v-model="password" :class="{'is-error': errors[0]}" type="password" ref="input" class="focus-border-theme input-dark" :placeholder="$t('page_sign_in.placeholder_password')">
+						<input v-model="password" :class="{'border-red-700': errors[0]}" type="password" ref="input" class="focus-border-theme input-dark" :placeholder="$t('page_sign_in.placeholder_password')">
 					</AppInputText>
                 </ValidationProvider>
             </ValidationObserver>

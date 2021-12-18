@@ -13,7 +13,7 @@
                 <!--Set folder name-->
                 <ValidationProvider tag="div" mode="passive" name="Title" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
-    	                <input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('popup_create_folder.placeholder')">
+    	                <input v-model="name" :class="{'border-red-700': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('popup_create_folder.placeholder')">
 					</AppInputText>
                 </ValidationProvider>
 

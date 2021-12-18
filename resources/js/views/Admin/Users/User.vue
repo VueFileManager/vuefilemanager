@@ -39,6 +39,7 @@
     import PageHeader from '/resources/js/components/Others/PageHeader'
     import ColorLabel from '/resources/js/components/Others/ColorLabel'
     import Spinner from '/resources/js/components/FilesView/Spinner'
+	import {events} from '/resources/js/bus'
     import {mapGetters} from 'vuex'
     import axios from 'axios'
 
@@ -80,12 +81,8 @@
 						route: 'UserStorage',
 					},
 					{
-						title: this.$t('admin_page_user.tabs.subscription'),
+						title: this.$t('Billing'),
 						route: 'UserSubscription',
-					},
-					{
-						title: this.$t('Transactions'),
-						route: 'UserInvoices',
 					},
 					{
 						title: this.$t('admin_page_user.tabs.password'),
@@ -109,6 +106,8 @@
         },
         created() {
             this.fetchUser()
+
+			events.$on('reload:user', () => this.fetchUser())
         }
     }
 </script>

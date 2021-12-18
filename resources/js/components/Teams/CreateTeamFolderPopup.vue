@@ -16,7 +16,7 @@
                 <!--Set folder name-->
                 <ValidationProvider v-if="isNewFolderTeamCreation" tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
-						<input v-model="name" :class="{'is-error': errors[0]}" type="text" ref="name" class="focus-border-theme input-dark" :placeholder="$t('popup_create_folder.placeholder')">
+						<input v-model="name" :class="{'border-red-700': errors[0]}" type="text" ref="name" class="focus-border-theme input-dark" :placeholder="$t('popup_create_folder.placeholder')">
 					</AppInputText>
                 </ValidationProvider>
 
@@ -31,7 +31,7 @@
 							>
 								Add
 							</span>
-							<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'is-error': errors[0]}" type="email" class="focus-border-theme input-dark" :placeholder="$t('Type member email...')">
+							<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'border-red-700': errors[0]}" type="email" class="focus-border-theme input-dark" :placeholder="$t('Type member email...')">
 						</div>
 					</AppInputText>
 				</ValidationProvider>

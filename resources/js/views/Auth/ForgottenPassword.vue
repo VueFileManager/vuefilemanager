@@ -14,7 +14,7 @@
                                     v-slot="{ errors }">
                     <input v-model="recoverEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
                            class="focus-border-theme"
-                           :class="{'is-error': errors[0]}"/>
+                           :class="{'border-red-700': errors[0]}"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 

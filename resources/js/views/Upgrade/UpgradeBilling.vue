@@ -94,7 +94,7 @@
                                             <input v-model="billing.name"
                                                    :placeholder="$t('user_settings.name_plac')"
                                                    type="text"
-                                                   :class="{'is-error': errors[0]}"
+                                                   :class="{'border-red-700': errors[0]}"
                                                    class="focus-border-theme"
                                             />
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -109,7 +109,7 @@
                                             <input v-model="billing.address"
                                                    :placeholder="$t('user_settings.address_plac')"
                                                    type="text"
-                                                   :class="{'is-error': errors[0]}"
+                                                   :class="{'border-red-700': errors[0]}"
                                                    class="focus-border-theme"
                                             />
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -125,7 +125,7 @@
                                                 <input v-model="billing.city"
                                                        :placeholder="$t('user_settings.city_plac')"
                                                        type="text"
-                                                       :class="{'is-error': errors[0]}"
+                                                       :class="{'border-red-700': errors[0]}"
                                                        class="focus-border-theme"
                                                 />
                                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -140,7 +140,7 @@
                                                 <input v-model="billing.postal_code"
                                                        :placeholder="$t('user_settings.postal_code_plac')"
                                                        type="text"
-                                                       :class="{'is-error': errors[0]}"
+                                                       :class="{'border-red-700': errors[0]}"
                                                        class="focus-border-theme"
                                                 />
                                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -170,7 +170,7 @@
                                             <input v-model="billing.state"
                                                    :placeholder="$t('user_settings.state_plac')"
                                                    type="text"
-                                                   :class="{'is-error': errors[0]}"
+                                                   :class="{'border-red-700': errors[0]}"
                                                    class="focus-border-theme"
                                             />
                                             <small class="input-help">
@@ -188,7 +188,7 @@
                                             <input v-model="billing.phone_number"
                                                    :placeholder="$t('user_settings.phone_number_plac')"
                                                    type="text"
-                                                   :class="{'is-error': errors[0]}"
+                                                   :class="{'border-red-700': errors[0]}"
                                                    class="focus-border-theme"
                                             />
                                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>

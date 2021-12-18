@@ -30,14 +30,14 @@
                     <div class="block-wrapper">
                         <label>Key:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Key" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.key" placeholder="Paste your key" type="text" :class="{'is-error': errors[0]}"/>
+                            <input v-model="storage.key" placeholder="Paste your key" type="text" :class="{'border-red-700': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Secret:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Secret" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.secret" placeholder="Paste your secret" type="text" :class="{'is-error': errors[0]}"/>
+                            <input v-model="storage.secret" placeholder="Paste your secret" type="text" :class="{'border-red-700': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
@@ -54,14 +54,14 @@
                     <div class="block-wrapper" v-if="storage.driver !== 's3'">
                         <label>Endpoint URL:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Endpoint" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{'is-error': errors[0]}" readonly/>
+                            <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{'border-red-700': errors[0]}" readonly/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Bucket:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Bucket" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{'is-error': errors[0]}"/>
+                            <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{'border-red-700': errors[0]}"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             <small class="input-help">
                                 Provide your created unique bucket name
@@ -87,7 +87,7 @@
                 <div class="block-wrapper">
                     <label>Mail Host:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.host" placeholder="Type your mail host" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="mail.host" placeholder="Type your mail host" type="text" :class="{'border-red-700': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -95,7 +95,7 @@
                 <div class="block-wrapper">
                     <label>Mail Port:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.port" placeholder="Type your mail port" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="mail.port" placeholder="Type your mail port" type="text" :class="{'border-red-700': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -103,7 +103,7 @@
                 <div class="block-wrapper">
                     <label>Mail Username:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.username" placeholder="Type your mail username" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="mail.username" placeholder="Type your mail username" type="text" :class="{'border-red-700': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -111,7 +111,7 @@
                 <div class="block-wrapper">
                     <label>Mail Password:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.password" placeholder="Type your mail password" type="text" :class="{'is-error': errors[0]}"/>
+                        <input v-model="mail.password" placeholder="Type your mail password" type="text" :class="{'border-red-700': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>

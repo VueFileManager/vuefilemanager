@@ -35,12 +35,12 @@
 				</ValidationProvider>
 				<ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('admin_settings.payments.stripe_pub_key')" :error="errors[0]">
-						<input v-model="stripeCredentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+						<input v-model="stripeCredentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
 					</AppInputText>
 				</ValidationProvider>
 				<ValidationProvider tag="div" mode="passive" name="Secret Key" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('admin_settings.payments.stripe_sec_key')" :error="errors[0]">
-						<input v-model="stripeCredentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+						<input v-model="stripeCredentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
 					</AppInputText>
 				</ValidationProvider>
 				<ValidationProvider tag="div" mode="passive" name="Webhook URL" rules="required" v-slot="{ errors }">
@@ -53,7 +53,7 @@
 				</ValidationProvider>
 				<ValidationProvider tag="div" mode="passive" name="Webhook Secret" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('Webhook Secret')" :error="errors[0]">
-						<input v-model="stripeCredentials.webhookSecret" :placeholder="$t('admin_settings.payments.stripe_webhook_key_plac')" type="text" :class="{'is-error': errors[0]}" class="focus-border-theme input-dark" />
+						<input v-model="stripeCredentials.webhookSecret" :placeholder="$t('admin_settings.payments.stripe_webhook_key_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
 					</AppInputText>
 				</ValidationProvider>
 				<InfoBox v-if="isError" type="error">

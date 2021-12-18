@@ -13,14 +13,14 @@
 			<!--Email-->
             <ValidationProvider tag="div" mode="passive" name="email" rules="required" v-slot="{ errors }">
                 <AppInputText :title="$t('page_registration.label_email')" :error="errors[0]">
-                    <input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                    <input v-model="user.email" :placeholder="$t('admin_page_user.create_user.label_email')" type="email" class="focus-border-theme input-dark" :class="{'border-red-700': errors[0]}"/>
                 </AppInputText>
             </ValidationProvider>
 
 			<!--Name-->
             <ValidationProvider tag="div" mode="passive" name="user name" rules="required" v-slot="{ errors }">
                 <AppInputText :title="$t('page_registration.label_name')" :error="errors[0]">
-                    <input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                    <input v-model="user.name" :placeholder="$t('admin_page_user.create_user.label_name')" type="text" class="focus-border-theme input-dark" :class="{'border-red-700': errors[0]}"/>
                 </AppInputText>
             </ValidationProvider>
 
@@ -28,12 +28,12 @@
             <div class="flex space-x-4">
                 <ValidationProvider tag="div" mode="passive" name="password" rules="required" v-slot="{ errors }" class="w-full">
                     <AppInputText :title="$t('page_registration.label_pass')" :error="errors[0]">
-                        <input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                        <input v-model="user.password" :placeholder="$t('page_registration.placeholder_pass')" type="password" class="focus-border-theme input-dark" :class="{'border-red-700': errors[0]}"/>
                     </AppInputText>
                 </ValidationProvider>
                 <ValidationProvider tag="div" mode="passive" name="password confirm" rules="required" v-slot="{ errors }" class="w-full">
                     <AppInputText :title="$t('page_registration.label_confirm_pass')" :error="errors[0]">
-                        <input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                        <input v-model="user.password_confirmation" :placeholder="$t('admin_page_user.create_user.label_conf_pass')" type="password" class="focus-border-theme input-dark" :class="{'border-red-700': errors[0]}"/>
                     </AppInputText>
                 </ValidationProvider>
             </div>
@@ -51,7 +51,7 @@
 			<!--Storage Capacity-->
             <ValidationProvider tag="div" mode="passive" name="storage capacity" rules="required" v-slot="{ errors }">
                 <AppInputText :title="$t('admin_page_user.label_change_capacity')" :error="errors[0]">
-                    <input v-model="user.max_storage_amount" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme input-dark" :class="{'is-error': errors[0]}"/>
+                    <input v-model="user.max_storage_amount" min="1" max="999999999" :placeholder="$t('admin_page_user.label_change_capacity')" type="number" class="focus-border-theme input-dark" :class="{'border-red-700': errors[0]}"/>
                 </AppInputText>
             </ValidationProvider>
         </div>

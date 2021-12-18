@@ -16,7 +16,7 @@
                 <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('popup_rename.label')" :error="errors[0]">
 						<div class="flex items-center relative">
-							<input v-model="pickedItem.data.attributes.name" :class="{'is-error': errors[0]}" ref="input" type="text" class="focus-border-theme input-dark" :placeholder="$t('popup_rename.placeholder')">
+							<input v-model="pickedItem.data.attributes.name" :class="{'border-red-700': errors[0]}" ref="input" type="text" class="focus-border-theme input-dark" :placeholder="$t('popup_rename.placeholder')">
 							<div @click="pickedItem.data.attributes.name = ''" class="absolute right-4">
 								<x-icon class="close-icon hover-text-theme" size="14" />
 							</div>

@@ -140,16 +140,6 @@ const routesAdmin = [
 						},
 					},
 					{
-						name: 'UserInvoices',
-						path: '/admin/user/:id/invoices',
-						component: () =>
-							import(/* webpackChunkName: "chunks/user-invoices" */ '../views/Admin/Users/UserTabs/UserInvoices'),
-						meta: {
-							requiresAuth: true,
-							title: 'routes_title.invoices'
-						},
-					},
-					{
 						name: 'UserPassword',
 						path: '/admin/user/:id/password',
 						component: () =>

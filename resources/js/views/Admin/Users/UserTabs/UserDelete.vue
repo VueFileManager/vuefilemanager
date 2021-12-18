@@ -14,7 +14,7 @@
 							   :placeholder="$t('admin_page_user.placeholder_delete_user')"
 							   type="text"
 							   class="focus-border-theme input-dark"
-							   :class="{'is-error': errors[0]}"
+							   :class="{'border-red-700': errors[0]}"
 						/>
 						<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="submit-button">
 							{{ $t('admin_page_user.delete_user') }}

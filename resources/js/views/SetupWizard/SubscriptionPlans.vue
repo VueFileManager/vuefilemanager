@@ -28,7 +28,7 @@
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Name"
                                                 rules="required" v-slot="{ errors }">
                                 <input v-model="plan.attributes.name" placeholder="Type your plan name"
-                                       type="text" :class="{'is-error': errors[0]}"/>
+                                       type="text" :class="{'border-red-700': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -38,7 +38,7 @@
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Description"
                                                 v-slot="{ errors }">
                                 <textarea v-model="plan.attributes.description"
-                                          placeholder="Type your plan description" :class="{'is-error': errors[0]}"></textarea>
+                                          placeholder="Type your plan description" :class="{'border-red-700': errors[0]}"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -49,7 +49,7 @@
                                                 rules="required" v-slot="{ errors }">
                                 <input v-model="plan.attributes.price" placeholder="Type your plan price" type="number"
                                        step="0.01" min="1" max="999999999999"
-                                       :class="{'is-error': errors[0]}"/>
+                                       :class="{'border-red-700': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -63,7 +63,7 @@
                                        max="999999999"
                                        placeholder="Type storage capacity in GB"
                                        type="number"
-                                       :class="{'is-error': errors[0]}"/>
+                                       :class="{'border-red-700': errors[0]}"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
