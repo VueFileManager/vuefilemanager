@@ -37,8 +37,9 @@ class CreateNewUserAction extends Controller
 
         // Create user
         $user = User::create([
-            'password' => ! $socialite_auth ? bcrypt($data['password']) : null,
-            'email'    => $data['email'],
+            'password'       => ! $socialite_auth ? bcrypt($data['password']) : null,
+            'oauth_provider' => $socialite_auth ? $data->oauth_provider : null,
+            'email'          => $data['email'],
         ]);
 
         // Mark as verified if verification is disabled

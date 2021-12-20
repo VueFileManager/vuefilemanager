@@ -21,7 +21,7 @@ class SocialiteAuthenticationController extends Controller
 
        return response()->json([
            'url' => $url
-       ]);
+       ], 200);
     }
 
     public function callback($provider)
@@ -30,7 +30,7 @@ class SocialiteAuthenticationController extends Controller
         $provider_user = Socialite::driver($provider)->stateless()->user();
 
         // Check if user exist already
-        $user = User::whereEmail($provider_user->email)->first();        
+        $user = User::whereEmail($provider_user->email)->first();
 
         if($user) {
             // Login User
@@ -38,7 +38,10 @@ class SocialiteAuthenticationController extends Controller
 
         } else {
             // Add user avatar from socialite
-            $provider_user->avatar = get_socialite_avatar($provider_user->avatar);
+            $provider_user->avatar = store_socialite_avatar($provider_user->avatar);
+
+            // Add provider name
+            $provider_user->oauth_provider = $provider;
 
             // Create User
             ($this->createNewUser)($provider_user);

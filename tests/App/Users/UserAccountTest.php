@@ -33,6 +33,21 @@ class UserAccountTest extends TestCase
             ->assertExists('files/' . User::first()->id);
     }
     /**
+     * @test
+     */
+    public function it_socialite_redirect()
+    {
+        $response = $this->call('GET', 'api/socialite/google/redirect');
+
+        $this->assertStringContainsString('accounts.google.com/o/oauth2/auth', $response['url']);
+    }
+   /** 
+    * @test
+    */
+    public function it_socialite_callback()
+    {   
+    }
+    /**
      * todo: finish test
      */
     public function it_test_user_timezone()
@@ -146,6 +161,7 @@ class UserAccountTest extends TestCase
                         'email'                     => $user->email,
                         'role'                      => $user->role,
                         'two_factor_authentication' => false,
+                        'socialite_account'         => false,
                         'folders'                   => [],
                         'storage'                   => [
                             'used'               => 0,

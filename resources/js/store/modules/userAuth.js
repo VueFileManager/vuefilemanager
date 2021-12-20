@@ -48,6 +48,17 @@ const actions = {
                 router.push({name: 'SignIn'})
             })
     },
+    socialiteRedirect: ({commit}, provider) => {
+
+        axios
+            .get(`/api/socialite/${provider}/redirect`)
+            .then((response) => {
+                if(response.data.url) {
+                    window.location.href = response.data.url
+                }                
+            })
+            .catch(() => this.$isSomethingWrong())
+    },
     addToFavourites: (context, folder) => {
         let addFavourites = []
         let items = [folder]

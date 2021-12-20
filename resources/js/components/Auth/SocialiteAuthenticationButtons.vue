@@ -1,9 +1,15 @@
 <template>
-    <div class="wrapper">
-        <div class="icon-wrapper">
-            <facebook-icon  @click="socialite('facebook')" class="icon"/>
-            <github-icon @click="socialite('github')" class="icon"/>
-            <h1 @click="socialite('google')" class="icon">G</h1>
+    <div class="wrapper flex flex-row w-1/2 ml-2">
+        <div class="w-1/3 grid justify-items-center items-center cursor-pointer">
+            <facebook-icon  @click="socialiteRedirect('facebook')" />
+        </div>
+
+        <div class="w-1/3 grid justify-items-center items-center cursor-pointer">
+            <github-icon @click="socialiteRedirect('github')" />
+        </div>
+
+        <div class="w-1/3 grid justify-items-center items-center cursor-pointer">
+            <h1 @click="socialiteRedirect('google')">G</h1>
         </div>
     </div>
 </template>
@@ -18,18 +24,11 @@ export default {
         GithubIcon,
     },
     methods: {
-        socialite(provider) {
+        socialiteRedirect(provider) {
 
             this.isLoading = true
 
-            axios
-                .get(`/api/socialite/${provider}/redirect`)
-                .then((response) => {
-                    if(response.data.url) {
-                        window.location.href = response.data.url
-                    }                
-                })
-                .catch(() => this.$isSomethingWrong())
+            this.$store.dispatch('socialiteRedirect', provider)
         },
     }
     
@@ -39,21 +38,7 @@ export default {
 <style lang="scss" scoped>
 
 .wrapper {
-    display: flex;
-    justify-content: center;
-    margin: 50px 0px 0px 0px;
-
-    .icon-wrapper {
-        width: 200px;
-        display: flex;
-        align-content: center;
-        justify-content: space-between;
-
-        .icon { 
-            align-self: center;
-            cursor: pointer;
-        }
-    }
+    margin: 50px auto 0px auto;
 }
 
 </style>

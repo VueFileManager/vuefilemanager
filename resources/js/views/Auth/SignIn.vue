@@ -237,8 +237,15 @@
 
                         this.checkedAccount = response.data
 
-                        // Show sign in password page
-                        this.goToAuthPage('sign-in')
+                        if(response.data.oauth_provider) {
+                            // Redirect user to socialite login if he's accout is registered by socialite
+                            this.$store.dispatch('socialiteRedirect', response.data.oauth_provider)
+
+                        } else {
+                            // Show sign in password page
+                            this.goToAuthPage('sign-in')
+
+                        }
                     })
                     .catch(error => {
 
