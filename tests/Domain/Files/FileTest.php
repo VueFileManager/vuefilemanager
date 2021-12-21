@@ -53,10 +53,13 @@ class FileTest extends TestCase
             "chunks/$file->basename"
         );
 
-        collect(config('vuefilemanager.image_sizes'))
+        collect([
+            config('vuefilemanager.image_sizes.later'),
+            config('vuefilemanager.image_sizes.immediately'),
+        ])
+            ->collapse()
             ->each(
-                fn ($item) =>
-                $disk->assertExists(
+                fn($item) => $disk->assertExists(
                     "files/{$user->id}/{$item['name']}-{$file->basename}"
                 )
             );

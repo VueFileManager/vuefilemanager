@@ -14,9 +14,9 @@ use App\Users\Actions\CheckStorageCapacityAction;
 class UploadFileAction
 {
     public function __construct(
-        public RecordUploadAction $recordUpload,
-        public CheckStorageCapacityAction $checkStorageCapacity,
-        public CreateImageThumbnailAction $createImageThumbnail,
+        public RecordUploadAction              $recordUpload,
+        public CheckStorageCapacityAction      $checkStorageCapacity,
+        public ProcessImageThumbnailAction     $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
     ) {
     }
@@ -69,12 +69,13 @@ class UploadFileAction
             // Check if user has enough space to upload file
             ($this->checkStorageCapacity)($user_id, $fileSize, $chunkName);
 
-            // Create multiple image thumbnails
-            ($this->createImageThumbnail)($fileName, $file, $user_id);
 
             // Move finished file from chunk to file-manager directory
             $disk_local->move("chunks/$chunkName", "files/$user_id/$fileName");
 
+            // Create multiple image thumbnails
+            ($this->createImageThumbnail)($fileName, $file, $user_id);
+            
             // Move files to external storage
             if (! is_storage_driver('local')) {
                 ($this->moveFileToExternalStorage)($fileName, $user_id);

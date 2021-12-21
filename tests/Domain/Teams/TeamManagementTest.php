@@ -622,8 +622,10 @@ class TeamManagementTest extends TestCase
         // Put fake image into correct directory
         Storage::putFileAs("files/$member->id", $fakeFile, $fakeFile->name);
 
+        $thumbnail_sizes = collect([config('vuefilemanager.image_sizes.later'), config('vuefilemanager.image_sizes.immediately')])->collapse();
+
         // Create fake image thumbnails
-        collect(config('vuefilemanager.image_sizes'))
+        $thumbnail_sizes
             ->each(function ($item) use ($member) {
                 $fakeFile = UploadedFile::fake()
                     ->create("{$item['name']}-fake-image.jpeg", 2000, 'image/jpeg');
@@ -651,7 +653,7 @@ class TeamManagementTest extends TestCase
         Storage::assertExists("files/$user->id/fake-file.zip");
 
         // Assert if image thumbnails was moved correctly to the new destination
-        collect(config('vuefilemanager.image_sizes'))
+        $thumbnail_sizes
             ->each(function ($item) use ($user) {
                 Storage::assertExists("files/$user->id/{$item['name']}-fake-image.jpeg");
             });

@@ -91,10 +91,11 @@ class File extends Model
     public function getThumbnailAttribute(): array | null
     {
         $links = [];
+        $thumbnail_sizes = collect(config('vuefilemanager.image_sizes'))->collapse()->all();
 
         // Generate thumbnail link for external storage service
-        if ($this->type === 'image' && ! is_storage_driver('local')) {
-            foreach (config('vuefilemanager.image_sizes') as $item) {
+        if ($this->type === 'image' && ! is_storage_driver(['local'])) {
+            foreach ($thumbnail_sizes as $item) {
                 $filePath = "files/{$this->user_id}/{$item['name']}-{$this->basename}";
 
                 $links[$item['name']] = Storage::temporaryUrl($filePath, now()->addHour());
@@ -105,7 +106,7 @@ class File extends Model
 
         // Generate thumbnail link for local storage
         if ($this->type === 'image') {
-            foreach (config('vuefilemanager.image_sizes') as $item) {
+            foreach ($thumbnail_sizes as $item) {
                 $route = route('thumbnail', ['name' => $item['name'] . '-' . $this->basename]);
 
                 if ($this->public_access) {
