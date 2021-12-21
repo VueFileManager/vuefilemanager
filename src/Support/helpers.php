@@ -602,10 +602,10 @@ if (! function_exists('get_thumbnail_file_list')) {
     function get_thumbnail_file_list(string $basename): Collection
     {
         return collect([
-                config('vuefilemanager.image_sizes.later'),
-                config('vuefilemanager.image_sizes.immediately'),
-                ])->collapse()
-                    ->map(fn ($item) => $item['name'] . '-' . $basename);
+            config('vuefilemanager.image_sizes.later'),
+            config('vuefilemanager.image_sizes.immediately'),
+        ])->collapse()
+            ->map(fn ($item) => $item['name'] . '-' . $basename);
     }
 }
 

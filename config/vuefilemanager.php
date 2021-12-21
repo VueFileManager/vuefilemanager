@@ -29,7 +29,6 @@ return [
     ],
 
     'image_sizes' => [
-
         'immediately' => [
             [
                 'size' => 120,
@@ -54,8 +53,6 @@ return [
                 'size' => 1440,
                 'name' => 'xl',
             ],
-            
-        ]
-        
+        ],
     ],
 ];

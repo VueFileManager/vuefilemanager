@@ -14,12 +14,11 @@ use App\Users\Actions\CheckStorageCapacityAction;
 class UploadFileAction
 {
     public function __construct(
-        public RecordUploadAction              $recordUpload,
-        public CheckStorageCapacityAction      $checkStorageCapacity,
-        public ProcessImageThumbnailAction     $createImageThumbnail,
+        public RecordUploadAction $recordUpload,
+        public CheckStorageCapacityAction $checkStorageCapacity,
+        public ProcessImageThumbnailAction $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
-    ) {
-    }
+    ) {}
 
     /**
      * Upload new file
@@ -68,7 +67,6 @@ class UploadFileAction
 
             // Check if user has enough space to upload file
             ($this->checkStorageCapacity)($user_id, $fileSize, $chunkName);
-
 
             // Move finished file from chunk to file-manager directory
             $disk_local->move("chunks/$chunkName", "files/$user_id/$fileName");

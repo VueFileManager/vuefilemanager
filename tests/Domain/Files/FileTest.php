@@ -59,7 +59,7 @@ class FileTest extends TestCase
         ])
             ->collapse()
             ->each(
-                fn($item) => $disk->assertExists(
+                fn ($item) => $disk->assertExists(
                     "files/{$user->id}/{$item['name']}-{$file->basename}"
                 )
             );

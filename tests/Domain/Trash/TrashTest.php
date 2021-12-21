@@ -115,11 +115,10 @@ class TrashTest extends TestCase
             "files/$user->id/fake-image.jpg"
         );
 
-        foreach($thumbnail_sizes as $size) {
+        foreach ($thumbnail_sizes as $size) {
             $disk->assertMissing(
                 "files/$user->id/{$size['name']}-fake-image.jpg"
             );
         }
-        
     }
 }

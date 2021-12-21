@@ -3,10 +3,8 @@ namespace Domain\Files\Actions;
 
 use Illuminate\Support\Facades\Storage;
 
-
 class ProcessImageThumbnailAction
 {
-    
     public function __construct(
         public GenerateImageThumbnailAction $generateImageThumbnail,
     ) {}
@@ -27,10 +25,8 @@ class ProcessImageThumbnailAction
         $file,
         string $userId
     ): void {
-
         // Create thumbnail from image
         if (in_array($file->getClientMimeType(), $this->availableFormats)) {
-
             // Make copy of file for the thumbnail generation
             Storage::disk('local')->copy("files/$userId/{$fileName}", "temp/$userId/{$fileName}");
 

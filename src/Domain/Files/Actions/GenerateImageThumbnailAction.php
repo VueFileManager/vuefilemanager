@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Files\Actions;
 
 use Illuminate\Support\Facades\Storage;
@@ -22,9 +21,7 @@ class GenerateImageThumbnailAction
 
         collect(config("vuefilemanager.image_sizes.$execution"))
             ->each(function ($size) use ($image, $userId, $fileName, $imageWidth) {
-
                 if ($imageWidth > $size['size']) {
-
                     // Create intervention image
                     $intervention = Image::make($image)->orientate();
 

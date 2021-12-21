@@ -39,16 +39,14 @@ class DumpTrashController extends Controller
 
             // Delete thumbnail if exist
             if ($file->thumbnail) {
-
                 collect([
                     config('vuefilemanager.image_sizes.later'),
                     config('vuefilemanager.image_sizes.immediately'),
                 ])->collapse()
                     ->each(function ($size) use ($file) {
-                      
                         Storage::delete("/files/$file->user_id/{$size['name']}-{$file->basename}");
-                });
-        }
+                    });
+            }
 
             // Delete file permanently
             $file->forceDelete();

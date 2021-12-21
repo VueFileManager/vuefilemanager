@@ -20,7 +20,7 @@ class UserStorageResource extends JsonResource
 
         $totalCapacity = match (get_settings('subscription_type')) {
             'metered' => $this->usedCapacity / 1000000000,
-            'fixed' => $this->limitations->max_storage_amount,
+            'fixed'   => $this->limitations->max_storage_amount,
         };
 
         return [
