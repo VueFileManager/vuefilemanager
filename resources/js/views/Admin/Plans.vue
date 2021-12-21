@@ -2,7 +2,7 @@
     <div>
 		<div class="card shadow-card">
 			<div class="mb-6">
-				<router-link :to="{name: 'PlanCreate'}">
+				<router-link :to="{name: createPlanRoute}">
 					<MobileActionButton icon="plus">
 						{{ $t('admin_page_plans.create_plan_button') }}
 					</MobileActionButton>
@@ -12,12 +12,48 @@
 			<!--Datatable-->
             <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/subscriptions/admin/plans" :paginator="true" :columns="columns">
                 <template slot-scope="{ row }">
-                    <tr class="border-b dark:border-opacity-5 border-light border-dashed">
+
+					<!--Metered subscription-->
+                    <tr v-if="config.subscriptionType === 'metered'" class="border-b dark:border-opacity-5 border-light border-dashed">
+                        <td>
+							<router-link class="text-sm font-bold" :to="{name: 'PlanMeteredSettings', params: {id: row.data.id}}">
+                            	{{ row.data.attributes.name }}
+							</router-link>
+                        </td>
+                        <td>
+                            <span class="text-sm font-bold">
+                            	{{ row.data.attributes.currency }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="text-sm font-bold capitalize">
+                            	{{ row.data.attributes.interval }}
+                            </span>
+                        </td>
+						<td>
+                            <span class="text-sm font-bold">
+                            	{{ row.data.attributes.subscribers }}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="flex space-x-2 w-full justify-end">
+                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'PlanSettings', params: {id: row.data.id}}">
+                                    <Edit2Icon size="15" class="opacity-75" />
+                                </router-link>
+                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'PlanDelete', params: {id: row.data.id}}">
+                                    <Trash2Icon size="15" class="opacity-75" />
+                                </router-link>
+                            </div>
+                        </td>
+                    </tr>
+
+					<!--Fixed subscription-->
+                    <tr v-if="config.subscriptionType === 'fixed'" class="border-b dark:border-opacity-5 border-light border-dashed">
 						<td class="py-4">
 							<SwitchInput @input="$updateInput(`/subscriptions/admin/plans/${row.data.id}`, 'visible', row.data.attributes.visible)" v-model="row.data.attributes.visible" :state="row.data.attributes.visible" class="switch"/>
 						</td>
                         <td>
-							<router-link class="text-sm font-bold" :to="{name: 'PlanSettings', params: {id: row.data.id}}">
+							<router-link class="text-sm font-bold" :to="{name: 'PlanFixedSettings', params: {id: row.data.id}}">
                             	{{ row.data.attributes.name }}
 							</router-link>
                         </td>
@@ -63,7 +99,7 @@
                 :title="$t('admin_page_plans.empty.title')"
                 :description="$t('admin_page_plans.empty.description')"
         >
-            <router-link :to="{name: 'PlanCreate'}" tag="p">
+            <router-link :to="{name: 'CreateFixedPlan'}" tag="p">
                 <ButtonBase button-style="theme">{{ $t('admin_page_plans.empty.button') }}</ButtonBase>
             </router-link>
         </EmptyPageContent>-->
@@ -116,51 +152,80 @@
             isEmptyPlans() {
                 return ! this.isLoading && this.plans.length === 0 && this.config.stripe_public_key
             },
-            stripeIsNotConfigured() {
-                return ! this.config.stripe_public_key
-            },
-            stripeConfiguredWithPlans() {
-                return ! this.isLoading && this.config.stripe_public_key
-            }
+			createPlanRoute() {
+				return {
+					metered: 'CreateMeteredPlan',
+					fixed: 'CreateFixedPlan',
+				}[this.config.subscriptionType]
+			},
+			columns() {
+				return {
+					metered: [
+						{
+							label: this.$t('Name'),
+							field: 'name',
+							sortable: true
+						},
+						{
+							label: this.$t('Currency'),
+							field: 'currency',
+							sortable: true
+						},
+						{
+							label: this.$t('Interval'),
+							field: 'interval',
+							sortable: true
+						},
+						{
+							label: this.$t('admin_page_plans.table.subscribers'),
+							sortable: false
+						},
+						{
+							label: this.$t('admin_page_user.table.action'),
+							sortable: false
+						},
+					],
+					fixed: [
+						{
+							label: this.$t('Visibility'),
+							field: 'visible',
+							sortable: true
+						},
+						{
+							label: this.$t('Name'),
+							field: 'name',
+							sortable: true
+						},
+						{
+							label: this.$t('Price'),
+							field: 'amount',
+							sortable: true
+						},
+						{
+							label: this.$t('Interval'),
+							field: 'interval',
+							sortable: true
+						},
+						{
+							label: this.$t('admin_page_plans.table.subscribers'),
+							sortable: false
+						},
+						{
+							label: this.$t('Storage'),
+							sortable: false
+						},
+						{
+							label: this.$t('admin_page_user.table.action'),
+							sortable: false
+						},
+					],
+				}[this.config.subscriptionType]
+			}
         },
         data() {
             return {
                 isLoading: true,
                 plans: [],
-                columns: [
-                    {
-                        label: this.$t('Visibility'),
-                        field: 'visible',
-                        sortable: true
-                    },
-                    {
-                        label: this.$t('Name'),
-                        field: 'name',
-                        sortable: true
-                    },
-                    {
-                        label: this.$t('Price'),
-                        field: 'amount',
-                        sortable: true
-                    },
-                    {
-                        label: this.$t('Interval'),
-                        field: 'interval',
-                        sortable: true
-                    },
-                    {
-                        label: this.$t('admin_page_plans.table.subscribers'),
-                        sortable: false
-                    },
-                    {
-                        label: this.$t('Storage'),
-                        sortable: false
-                    },
-                    {
-                        label: this.$t('admin_page_user.table.action'),
-                        sortable: false
-                    },
-                ],
             }
         },
         created() {

@@ -330,7 +330,7 @@ const FunctionHelpers = {
                 'paystack': store.getters.isDarkMode ? '/assets/payments/paystack-dark.svg' : '/assets/payments/paystack.svg',
                 'stripe': '/assets/payments/stripe.svg',
                 'system': this.$getImage(store.getters.config.app_logo_horizontal),
-            }[driver]
+            }[driver] || this.$getImage(store.getters.config.app_logo_horizontal)
         }
 
         Vue.prototype.$getSubscriptionStatusColor = function (status) {

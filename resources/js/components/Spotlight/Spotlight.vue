@@ -82,7 +82,7 @@
 							<settings-icon v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 							<home-icon v-if="result.action.value === 'Files'" size="18" class="vue-feather text-theme"/>
 							<trash2-icon v-if="result.action.value === 'Trash'" size="18" class="vue-feather text-theme"/>
-							<database-icon v-if="result.action.value === 'PlanCreate'" size="18" class="vue-feather text-theme"/>
+							<database-icon v-if="result.action.value === 'CreateFixedPlan'" size="18" class="vue-feather text-theme"/>
 							<user-plus-icon v-if="result.action.value === 'UserCreate'" size="18" class="vue-feather text-theme"/>
 							<users-icon v-if="['TeamFolders', 'Users'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 							<user-check-icon v-if="result.action.value === 'SharedWithMe'" size="18" class="vue-feather text-theme"/>
@@ -270,7 +270,7 @@ export default {
 					title: this.$t('Create Plan'),
 					action: {
 						type: 'route',
-						value: 'PlanCreate',
+						value: 'CreateFixedPlan',
 					},
 				},
 			]

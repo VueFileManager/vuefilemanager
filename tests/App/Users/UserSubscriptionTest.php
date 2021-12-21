@@ -116,6 +116,10 @@ class UserSubscriptionTest extends TestCase
                 'feature' => 'storage',
                 'amount'  => 476.28,
                 'usage'   => 3969,
+            ], [
+                'feature' => 'flat-fee',
+                'amount'  => 2.49,
+                'usage'   => 1,
             ],
         ]);
 
@@ -124,16 +128,23 @@ class UserSubscriptionTest extends TestCase
             ->toArray();
 
         $expected = [
-            [
+            'bandwidth' => [
                 'feature' => 'bandwidth',
                 'amount'  => 7.54696,
                 'cost'    => '$7.55',
                 'usage'   => '26.02GB',
-            ], [
+            ],
+            'storage' => [
                 'feature' => 'storage',
                 'amount'  => 0.47628,
                 'cost'    => '$0.48',
                 'usage'   => '3.97GB',
+            ],
+            'flat-fee' => [
+                'feature' => 'flat-fee',
+                'amount'  => 2.49,
+                'cost'    => '$2.49',
+                'usage'   => '1 Pcs.',
             ],
         ];
 

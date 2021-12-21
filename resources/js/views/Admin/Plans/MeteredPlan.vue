@@ -7,11 +7,11 @@
 					{{ plan.attributes.name }}
 				</h1>
 				<small class="text-sm font-bold text-gray-500">
-					{{ plan.attributes.price }} / {{ $t(`interval.${plan.attributes.interval}`) }}
+					{{ $t('30 Days intervals') }}
 				</small>
 			</div>
 
-			<CardNavigation :pages="pages" class="-mx-3.5" />
+			<CardNavigation :pages="pages" class="-mx-1.5" />
 		</div>
 
 		<router-view v-if="! isLoading" :plan="plan" />
@@ -28,7 +28,7 @@
 	import axios from 'axios'
 
 	export default {
-		name: 'Plan',
+		name: 'MeteredPlan',
 		components: {
 			CardNavigation,
 			Spinner,
@@ -40,15 +40,15 @@
 				pages: [
 					{
 						title: this.$t('admin_page_plans.tabs.settings'),
-						route: 'PlanSettings',
+						route: 'PlanMeteredSettings',
 					},
 					{
 						title: this.$t('admin_page_plans.tabs.subscribers'),
-						route: 'PlanSubscribers',
+						route: 'PlanMeteredSubscribers',
 					},
 					{
 						title: this.$t('admin_page_plans.tabs.delete'),
-						route: 'PlanDelete',
+						route: 'PlanMeteredDelete',
 					},
 				]
 			}

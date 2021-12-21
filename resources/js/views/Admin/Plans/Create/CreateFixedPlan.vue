@@ -81,7 +81,7 @@
 </template>
 
 <script>
-	import AppInputText from "../../../components/Admin/AppInputText";
+	import AppInputText from "../../../../components/Admin/AppInputText";
 	import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 	import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
 	import ImageInput from '/resources/js/components/Others/Forms/ImageInput'
@@ -97,7 +97,7 @@
 	import axios from 'axios'
 
 	export default {
-		name: 'PlanCreate',
+		name: 'CreateFixedPlan',
 		components: {
 			ValidationProvider,
 			ValidationObserver,

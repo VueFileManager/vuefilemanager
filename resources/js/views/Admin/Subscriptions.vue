@@ -68,7 +68,7 @@
                 :title="$t('admin_page_plans.empty.title')"
                 :description="$t('admin_page_plans.empty.description')"
         >
-            <router-link :to="{name: 'PlanCreate'}" tag="p">
+            <router-link :to="{name: 'CreateFixedPlan'}" tag="p">
                 <ButtonBase button-style="theme">{{ $t('admin_page_plans.empty.button') }}</ButtonBase>
             </router-link>
         </EmptyPageContent>-->

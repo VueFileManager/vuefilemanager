@@ -90,10 +90,20 @@ const routesAdmin = [
 				},
 			},
 			{
-				name: 'PlanCreate',
-				path: '/admin/plan/create',
+				name: 'CreateFixedPlan',
+				path: '/admin/plan/create/fixed',
 				component: () =>
-					import(/* webpackChunkName: "chunks/plan-create" */ '../views/Admin/Plans/PlanCreate'),
+					import(/* webpackChunkName: "chunks/plan-create/fixed" */ '../views/Admin/Plans/Create/CreateFixedPlan'),
+				meta: {
+					requiresAuth: true,
+					title: 'routes_title.plan_create'
+				},
+			},
+			{
+				name: 'CreateMeteredPlan',
+				path: '/admin/plan/create/metered',
+				component: () =>
+					import(/* webpackChunkName: "chunks/plan-create/metered" */ '../views/Admin/Plans/Create/CreateMeteredPlan'),
 				meta: {
 					requiresAuth: true,
 					title: 'routes_title.plan_create'
@@ -162,40 +172,82 @@ const routesAdmin = [
 				]
 			},
 			{
-				name: 'Plan',
+				name: 'PlanFixed',
 				path: '/admin/plan/:id',
 				component: () =>
-					import(/* webpackChunkName: "chunks/plan" */ '../views/Admin/Plans/Plan'),
+					import(/* webpackChunkName: "chunks/plan" */ '../views/Admin/Plans/FixedPlan'),
 				meta: {
 					requiresAuth: true,
 					title: 'routes_title.plan'
 				},
 				children: [
 					{
-						name: 'PlanSubscribers',
-						path: '/admin/plan/:id/subscribers',
+						name: 'PlanFixedSubscribers',
+						path: '/admin/plan/:id/fixed/subscribers',
 						component: () =>
-							import(/* webpackChunkName: "chunks/plan-subscribers" */ '../views/Admin/Plans/PlanTabs/PlanSubscribers'),
+							import(/* webpackChunkName: "chunks/plan-subscribers" */ '../views/Admin/Plans/Tabs/PlanSubscribers'),
 						meta: {
 							requiresAuth: true,
 							title: 'routes_title.subscribers'
 						},
 					},
 					{
-						name: 'PlanSettings',
-						path: '/admin/plan/:id/settings',
+						name: 'PlanFixedSettings',
+						path: '/admin/plan/:id/fixed/settings',
 						component: () =>
-							import(/* webpackChunkName: "chunks/plan-settings" */ '../views/Admin/Plans/PlanTabs/PlanSettings'),
+							import(/* webpackChunkName: "chunks/plan-settings" */ '../views/Admin/Plans/Tabs/PlanFixedSettings'),
 						meta: {
 							requiresAuth: true,
 							title: 'routes_title.plan_settings',
 						},
 					},
 					{
-						name: 'PlanDelete',
-						path: '/admin/plan/:id/delete',
+						name: 'PlanFixedDelete',
+						path: '/admin/plan/:id/fixed/delete',
 						component: () =>
-							import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/PlanTabs/PlanDelete'),
+							import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
+						meta: {
+							requiresAuth: true,
+							title: 'routes_title.plan_delete',
+						},
+					},
+				]
+			},
+			{
+				name: 'PlanMetered',
+				path: '/admin/plan/:id',
+				component: () =>
+					import(/* webpackChunkName: "chunks/plan" */ '../views/Admin/Plans/MeteredPlan'),
+				meta: {
+					requiresAuth: true,
+					title: 'routes_title.plan'
+				},
+				children: [
+					{
+						name: 'PlanMeteredSubscribers',
+						path: '/admin/plan/:id/metered/subscribers',
+						component: () =>
+							import(/* webpackChunkName: "chunks/plan-subscribers" */ '../views/Admin/Plans/Tabs/PlanSubscribers'),
+						meta: {
+							requiresAuth: true,
+							title: 'routes_title.subscribers'
+						},
+					},
+					{
+						name: 'PlanMeteredSettings',
+						path: '/admin/plan/:id/metered/settings',
+						component: () =>
+							import(/* webpackChunkName: "chunks/plan-settings" */ '../views/Admin/Plans/Tabs/PlanMeteredSettings'),
+						meta: {
+							requiresAuth: true,
+							title: 'routes_title.plan_settings',
+						},
+					},
+					{
+						name: 'PlanMeteredDelete',
+						path: '/admin/plan/:id/metered/delete',
+						component: () =>
+							import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
 						meta: {
 							requiresAuth: true,
 							title: 'routes_title.plan_delete',
