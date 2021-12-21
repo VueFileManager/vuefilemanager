@@ -646,7 +646,7 @@ class TeamManagementTest extends TestCase
         // Put fake image into correct directory
         Storage::putFileAs("files/$member->id", $fakeFile, $fakeFile->name);
 
-        $thumbnail_sizes = collect([config('vuefilemanager.image_sizes.queue'), config('vuefilemanager.image_sizes.execute')])->collapse();
+        $thumbnail_sizes = collect([config('vuefilemanager.image_sizes.later'), config('vuefilemanager.image_sizes.immediately')])->collapse();
 
         // Create fake image thumbnails
         $thumbnail_sizes

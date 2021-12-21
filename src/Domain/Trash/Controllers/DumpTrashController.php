@@ -41,8 +41,8 @@ class DumpTrashController extends Controller
             if ($file->thumbnail) {
 
                 collect([
-                    config('vuefilemanager.image_sizes.queue'),
-                    config('vuefilemanager.image_sizes.execute'),
+                    config('vuefilemanager.image_sizes.later'),
+                    config('vuefilemanager.image_sizes.immediately'),
                 ])->collapse()
                     ->each(function ($size) use ($file) {
                       

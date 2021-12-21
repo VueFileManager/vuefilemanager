@@ -54,12 +54,12 @@ class FileTest extends TestCase
         );
 
         collect([
-            config('vuefilemanager.image_sizes.queue'),
-            config('vuefilemanager.image_sizes.execute'),
-        ])->collapse()
+            config('vuefilemanager.image_sizes.later'),
+            config('vuefilemanager.image_sizes.immediately'),
+        ])
+            ->collapse()
             ->each(
-                fn ($item) =>
-                $disk->assertExists(
+                fn($item) => $disk->assertExists(
                     "files/{$user->id}/{$item['name']}-{$file->basename}"
                 )
             );

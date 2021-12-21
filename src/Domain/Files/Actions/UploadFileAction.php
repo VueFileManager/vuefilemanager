@@ -14,9 +14,9 @@ use App\Users\Actions\CheckStorageCapacityAction;
 class UploadFileAction
 {
     public function __construct(
-        public RecordUploadAction $recordUpload,
-        public CheckStorageCapacityAction $checkStorageCapacity,
-        public CreateImageThumbnailAction $createImageThumbnail,
+        public RecordUploadAction              $recordUpload,
+        public CheckStorageCapacityAction      $checkStorageCapacity,
+        public ProcessImageThumbnailAction     $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
     ) {
     }

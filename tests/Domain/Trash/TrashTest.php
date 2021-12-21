@@ -109,7 +109,7 @@ class TrashTest extends TestCase
 
         $disk = Storage::disk('local');
 
-        $thumbnail_sizes = array_merge(config('vuefilemanager.image_sizes.execute'), config('vuefilemanager.image_sizes.queue'));
+        $thumbnail_sizes = collect(config('vuefilemanager.image_sizes'))->collapse()->all();
 
         $disk->assertMissing(
             "files/$user->id/fake-image.jpg"

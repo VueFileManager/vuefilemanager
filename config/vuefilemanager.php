@@ -30,7 +30,7 @@ return [
 
     'image_sizes' => [
 
-        'execute' => [
+        'immediately' => [
             [
                 'size' => 120,
                 'name' => 'xs',
@@ -41,7 +41,7 @@ return [
             ],
         ],
 
-        'queue' => [
+        'later' => [
             [
                 'size' => 480,
                 'name' => 'md',
