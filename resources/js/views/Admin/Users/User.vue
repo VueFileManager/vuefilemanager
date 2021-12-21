@@ -19,7 +19,7 @@
 					</div>
 				</div>
 
-				<CardNavigation :pages="pages" class="-mx-3" />
+				<CardNavigation :pages="pages" class="-mx-1" />
 			</div>
 
 			<!--Router Content-->

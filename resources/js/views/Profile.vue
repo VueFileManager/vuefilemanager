@@ -51,7 +51,7 @@
 					</ButtonBase>-->
 
 
-					<CardNavigation :pages="pages" class="-mx-3" />
+					<CardNavigation :pages="pages" class="-mx-1" />
 
 					<!--Incomplete Payment Warning-->
 					<!--<InfoBox v-if="canShowIncompletePayment" type="error" class="message-box">
