@@ -66,12 +66,29 @@
             admin() {
                 return this.$store.getters.user ? this.$store.getters.user : undefined
             },
-        },
-        data() {
-            return {
-                isLoading: true,
-                user: undefined,
-				pages: [
+			pages() {
+				if (this.config.subscriptionType === 'none') {
+					return [
+						{
+							title: this.$t('admin_page_user.tabs.detail'),
+							route: 'UserDetail',
+						},
+						{
+							title: this.$t('Storage'),
+							route: 'UserStorage',
+						},
+						{
+							title: this.$t('admin_page_user.tabs.password'),
+							route: 'UserPassword',
+						},
+						{
+							title: this.$t('Delete Account'),
+							route: 'UserDelete',
+						},
+					]
+				}
+
+				return [
 					{
 						title: this.$t('admin_page_user.tabs.detail'),
 						route: 'UserDetail',
@@ -93,6 +110,12 @@
 						route: 'UserDelete',
 					},
 				]
+			}
+        },
+        data() {
+            return {
+                isLoading: true,
+                user: undefined,
             }
         },
         methods: {

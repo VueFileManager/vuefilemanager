@@ -1,5 +1,5 @@
 <template>
-    <nav class="pt-7 select-none dark:bg-dark-foreground bg-light-background flex-none xl:w-20 w-16 lg:grid hidden">
+    <nav class="menu-bar pt-7 select-none dark:bg-dark-foreground bg-light-background flex-none xl:w-20 w-16 lg:grid hidden">
 
 		<!--Navigation-->
 		<div v-if="user" class="mb-auto text-center">
@@ -146,6 +146,10 @@
 
 <style scoped lang="scss">
     @import '/resources/sass/vuefilemanager/_variables';
+
+	.menu-bar {
+		background: linear-gradient(180deg, rgba(246, 245, 241, 0.8) 0%, rgba(243, 244, 246, 0.8) 100%);
+	}
 
 	.router-link-active {
 

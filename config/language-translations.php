@@ -635,7 +635,7 @@ return [
         'user_box_password.title'                            => 'Change User Password',
         'user_box_role.description'                          => 'You can change role for current user. Admin role can edit or create new users, change storage capacity and any other application settings.',
         'user_box_role.title'                                => 'Change User Role',
-        'user_box_storage.description'                       => "Change user storage capacity by input bellow. You have to type only number e.g. value '5' means, user will have 5GB of storage capacity.",
+        'user_box_storage.description'                       => "Change user storage capacity by input above. You have to type only number e.g. value '5' means, user will have 5GB of storage capacity.",
         'user_box_storage.title'                             => 'Change User Storage Capacity',
         'user_password.title'                                => 'Change Your Password',
         'user_settings.address'                              => 'Address',

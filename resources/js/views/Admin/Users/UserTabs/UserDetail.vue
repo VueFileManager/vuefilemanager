@@ -5,12 +5,9 @@
             <FormLabel>
                 {{ $t('user_box_role.title') }}
             </FormLabel>
-            <InfoBox>
-                <p>{{ $t('user_box_role.description') }}</p>
-            </InfoBox>
             <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Role" rules="required">
-					<AppInputText :title="$t('admin_page_user.select_role')" :error="errors[0]" :is-last="true">
+					<AppInputText :title="$t('admin_page_user.select_role')" :description="$t('user_box_role.description')" :error="errors[0]" :is-last="true">
 						<div class="flex space-x-4">
 							<SelectInput v-model="userRole" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
 							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">

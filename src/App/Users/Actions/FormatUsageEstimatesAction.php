@@ -8,7 +8,7 @@ class FormatUsageEstimatesAction
 {
     public function __invoke(string $currency, Collection $usage)
     {
-        return $usage->map(function ($estimate) use ($currency) {
+        return $usage->mapWithKeys(function ($estimate) use ($currency) {
             // Format usage
             $usage = match ($estimate['feature']) {
                 'bandwidth' => Metric::megabytes($estimate['usage'])->format(),
@@ -19,10 +19,12 @@ class FormatUsageEstimatesAction
             $amount = $estimate['amount'] / 1000;
 
             return [
-                'feature' => $estimate['feature'],
-                'amount'  => $amount,
-                'cost'    => format_currency($amount, $currency),
-                'usage'   => $usage,
+                $estimate['feature'] => [
+                    'feature' => $estimate['feature'],
+                    'amount'  => $amount,
+                    'cost'    => format_currency($amount, $currency),
+                    'usage'   => $usage,
+                ]
             ];
         });
     }

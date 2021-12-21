@@ -1,6 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading" v-if="storage">
 
+		<!--Storage Usage-->
 		<div v-if="distribution" class="card shadow-card">
 			<FormLabel icon="hard-drive">
                 {{ $t('Storage Usage') }}
@@ -10,12 +11,14 @@
 				{{ storage.data.attributes.used }}
 			</b>
 
-			<b class="mb-3 block text-sm text-gray-400 mb-5">
+			<b v-if="['fixed', 'none'].includes(config.subscriptionType)" class="mt-0.5 block text-sm text-gray-400">
 				{{ $t('Total of') }} {{ storage.data.attributes.capacity }} {{ $t('Used') }}
 			</b>
 
-			<ProgressLine :data="distribution" />
+			<ProgressLine v-if="storage.data.attributes.used !== '0B'" :data="distribution" class="mt-5" />
 		</div>
+
+		<!--Upload-->
 		<div v-if="distribution" class="card shadow-card">
 			<FormLabel icon="hard-drive">
                 {{ $t('Upload') }}
@@ -31,6 +34,8 @@
 
 			<BarChart :data="storage.data.meta.traffic.chart.upload" color="#FFBD2D" />
 		</div>
+
+		<!--Download-->
 		<div v-if="distribution" class="card shadow-card">
 			<FormLabel icon="hard-drive">
                 {{ $t('Download') }}
@@ -47,16 +52,14 @@
 			<BarChart :data="storage.data.meta.traffic.chart.download" color="#9d66fe" />
 		</div>
 
-        <div v-if="config.storageLimit && ! user.data.attributes.subscription" class="card shadow-card">
+		<!--Set Storage Size-->
+        <div v-if="config.storageLimit && ! user.data.attributes.subscription && config.subscriptionType !== 'metered'" class="card shadow-card">
             <FormLabel>
                 {{ $t('user_box_storage.title') }}
             </FormLabel>
-            <InfoBox>
-                <p>{{ $t('user_box_storage.description') }}</p>
-            </InfoBox>
             <ValidationObserver ref="changeStorageCapacity" @submit.prevent="changeStorageCapacity" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
-					<AppInputText :title="$t('admin_page_user.label_change_capacity')" :error="errors[0]" :is-last="true">
+					<AppInputText :title="$t('admin_page_user.label_change_capacity')" :description="$t('user_box_storage.description')" :error="errors[0]" :is-last="true">
 						<div class="flex space-x-4">
 							<input v-model="capacity"
 								   :placeholder="$t('admin_page_user.label_change_capacity')"

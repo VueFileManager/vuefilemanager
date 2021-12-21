@@ -56,7 +56,7 @@
             stripe_public_key: '{{ config('cashier.key') ?? null }}',
             app_payments_active: {{ $settings->payments_active ?? 0 }},
 
-			subscriptionType: '{{ $settings->subscription_type ?? null }}',
+			subscriptionType: '{{ $settings->subscription_type ?? 'none' }}',
 
             allowHomepage: {{ $settings->allow_homepage ?? 1 }},
             userRegistration: {{ $settings->registration ?? 1 }},
