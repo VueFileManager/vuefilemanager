@@ -14,13 +14,13 @@ class FormatUsageEstimatesAction
             $usage = match ($estimate['feature']) {
                 'bandwidth' => Metric::megabytes($estimate['usage'])->format(),
                 'storage' => Metric::megabytes($estimate['usage'])->format(),
-                'flat-fee' => intval($estimate['usage']) . ' ' . __('Pcs.'),
+                'flatFee' => intval($estimate['usage']) . ' ' . __('Pcs.'),
             };
 
             // Normalize units
             $amount = match ($estimate['feature']) {
                 'bandwidth', 'storage' => $estimate['amount'] / 1000,
-                'flat-fee' => $estimate['amount'],
+                'flatFee' => $estimate['amount'],
             };
 
             return [

@@ -12,12 +12,21 @@ class ReportUsageAction
             ->where('status', 'active')
             ->cursor()
             ->each(function ($subscription) {
-                $this->recordBandwidth($subscription);
-                $this->recordStorageCapacity($subscription);
+                if ($subscription->plan->meteredFeatures()->where('key', 'bandwidth')->exists()) {
+                    $this->recordBandwidth($subscription);
+                }
+
+                if ($subscription->plan->meteredFeatures()->where('key', 'storage')->exists()) {
+                    $this->recordStorageUsage($subscription);
+                }
+
+                if ($subscription->plan->meteredFeatures()->where('key', 'flatFee')->exists()) {
+                    $this->recordFlatFee($subscription);
+                }
             });
     }
 
-    private function recordStorageCapacity(Subscription $subscription): void
+    private function recordStorageUsage(Subscription $subscription): void
     {
         // Sum all file size
         $filesize = DB::table('files')
@@ -44,5 +53,11 @@ class ReportUsageAction
 
         // Record storage capacity usage
         $subscription->recordUsage('bandwidth', $amount);
+    }
+
+    private function recordFlatFee(Subscription $subscription): void
+    {
+        // Record flat fee
+        $subscription->recordUsage('flatFee', 1);
     }
 }

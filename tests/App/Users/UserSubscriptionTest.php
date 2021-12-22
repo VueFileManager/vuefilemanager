@@ -117,7 +117,7 @@ class UserSubscriptionTest extends TestCase
                 'amount'  => 476.28,
                 'usage'   => 3969,
             ], [
-                'feature' => 'flat-fee',
+                'feature' => 'flatFee',
                 'amount'  => 2.49,
                 'usage'   => 1,
             ],
@@ -140,8 +140,8 @@ class UserSubscriptionTest extends TestCase
                 'cost'    => '$0.48',
                 'usage'   => '3.97GB',
             ],
-            'flat-fee' => [
-                'feature' => 'flat-fee',
+            'flatFee' => [
+                'feature' => 'flatFee',
                 'amount'  => 2.49,
                 'cost'    => '$2.49',
                 'usage'   => '1 Pcs.',

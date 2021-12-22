@@ -17,7 +17,7 @@
 
     .info-box {
         padding: 20px;
-        border-radius: 8px;
+        border-radius: 10px;
         margin-bottom: 32px;
         background: $light_background;
         text-align: left;

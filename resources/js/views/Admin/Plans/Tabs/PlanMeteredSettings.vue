@@ -5,39 +5,39 @@
 				{{ $t('Details') }}
 			</FormLabel>
 
-			<!--Visible-->
-			<AppInputSwitch :title="$t('admin_page_plans.form.status')" :description="$t('admin_page_plans.form.status_help')">
-				<SwitchInput @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'visible', plan.attributes.visible)" v-model="plan.attributes.visible" class="switch" :state="plan.attributes.visible"/>
-			</AppInputSwitch>
-
 			<!--Name-->
 			<AppInputText :title="$t('admin_page_plans.form.name')">
 				<input @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'name', plan.attributes.name)" v-model="plan.attributes.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
 
 			<!--Description-->
-			<AppInputText :title="$t('admin_page_plans.form.description')">
+			<AppInputText :title="$t('admin_page_plans.form.description')" :is-last="true">
 				<textarea @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'description', plan.attributes.description)" v-model="plan.attributes.description" :placeholder="$t('admin_page_plans.form.description_plac')" class="focus-border-theme input-dark"></textarea>
+			</AppInputText>
+		</div>
+		<div class="card shadow-card">
+			<FormLabel>
+				{{ $t('Charged Features') }}
+			</FormLabel>
+
+			<!--Bandwidth-->
+			<AppInputText v-if="plan.attributes.features.bandwidth" :title="$t('Bandwidth Price per 1GB')" :description="$t('Charge your user by the amount of data he upload or download.')" class="w-full">
+				<input :value="formatCurrency(plan.attributes.currency, plan.attributes.features.bandwidth.tiers[0].per_unit)" type="text" class="focus-border-theme input-dark" disabled/>
+			</AppInputText>
+
+			<!--Storage-->
+			<AppInputText v-if="plan.attributes.features.storage" :title="$t('Storage Price per 1GB')" :description="$t('Charge your user by the amount of data he has stored on the disk per 1GB.')" class="w-full">
+				<input :value="formatCurrency(plan.attributes.currency, plan.attributes.features.storage.tiers[0].per_unit)" type="text" class="focus-border-theme input-dark" disabled/>
+			</AppInputText>
+
+			<!--Flat Fee-->
+			<AppInputText v-if="plan.attributes.features.flatFee" :title="$t('Flat Fee per Cycle')" :description="$t('Charge monthly flat fee.')" class="w-full">
+				<input :value="formatCurrency(plan.attributes.currency, plan.attributes.features.flatFee.tiers[0].per_unit)" type="text" class="focus-border-theme input-dark" disabled/>
 			</AppInputText>
 
 			<InfoBox style="margin-bottom: 0">
 				<p>{{ $t('Price change is not possible. If you would like to change your price or currency, please feel free to create a new plan.') }}</p>
 			</InfoBox>
-		</div>
-		<div class="card shadow-card">
-			<FormLabel>
-				{{ $t('Features') }}
-			</FormLabel>
-
-			<!--Storage Capacity-->
-			<AppInputText :title="$t('admin_page_plans.form.storage')" :description="$t('admin_page_plans.form.storage_helper')">
-				<input @input="$updateInput(`/subscriptions/plans/${$route.params.id}/features`, 'max_storage_amount', plan.attributes.features.max_storage_amount)" v-model="plan.attributes.features.max_storage_amount" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
-			</AppInputText>
-
-			<!--Team Members-->
-			<AppInputText :title="$t('Max Team Members')" is-last="true">
-				<input @input="$updateInput(`/subscriptions/plans/${$route.params.id}/features`, 'max_team_members', plan.attributes.features.max_team_members)" v-model="plan.attributes.features.max_team_members" :placeholder="$t('Add max team members in number')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
-			</AppInputText>
 		</div>
 	</div>
 </template>
@@ -66,6 +66,16 @@
         data() {
 			return {
 				visible: undefined
+			}
+		},
+		methods: {
+			formatCurrency(currency, amount) {
+				let formatter = new Intl.NumberFormat('en-US', {
+					style: 'currency',
+					currency: currency,
+				});
+
+				return formatter.format(amount);
 			}
 		},
 		created() {

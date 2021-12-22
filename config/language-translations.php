@@ -210,8 +210,8 @@ return [
         // v2
         'bandwidth'                                           => 'Bandwidth',
         'storage'                                             => 'Storage',
-        'flat-fee'                                            => 'Flat Fee',
-        'feature_usage_desc_flat-fee'                         => 'Price for the service.',
+        'flatFee'                                            => 'Flat Fee',
+        'feature_usage_desc_flatFee'                         => 'Price for the service.',
         'feature_usage_desc_bandwidth'                        => 'Data amount you transferred to/from your account.',
         'feature_usage_desc_storage'                          => 'Total storage amount you are using.',
         'feature_usage_desc_members'                          => 'Total members you invited to your team folders.',
