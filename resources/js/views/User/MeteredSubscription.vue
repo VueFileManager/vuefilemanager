@@ -287,7 +287,7 @@
 					})
 					.catch(() => {
 						events.$emit('toaster', {
-							type: 'success',
+							type: 'danger',
 							message: this.$t('popup_error.title'),
 						})
 					})
@@ -318,7 +318,7 @@
 					})
 					.catch(() => {
 						events.$emit('toaster', {
-							type: 'success',
+							type: 'danger',
 							message: this.$t('popup_error.title'),
 						})
 					})

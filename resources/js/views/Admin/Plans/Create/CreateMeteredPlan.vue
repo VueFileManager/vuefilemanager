@@ -59,6 +59,19 @@
 				</AppInputText>
 			</ValidationProvider>
 
+			<!--Member-->
+			<div>
+				<AppInputSwitch :title="$t('Price per 1 Member')" :description="$t('Charge your user by the total members he use in his Team Folders.')">
+					<SwitchInput v-model="plan.features.member.active" class="switch" :state="plan.features.member.active" />
+				</AppInputSwitch>
+			</div>
+
+			<ValidationProvider v-if="plan.features.member.active" class="-mt-3" tag="div" mode="passive" name="Member Price" rules="required" v-slot="{ errors }">
+				<AppInputText class="w-full">
+					<input v-model="plan.features.member.per_unit" :placeholder="$t('Type the price per 1 member...')" type="number" step="0.01" min="0.01" max="999999999999" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+				</AppInputText>
+			</ValidationProvider>
+
 			<!--Flat Fee-->
 			<div>
 				<AppInputSwitch :title="$t('Flat Fee per Cycle')" :description="$t('Charge monthly flat fee.')" :is-last="! plan.features.flatFee.active">
@@ -143,6 +156,12 @@
 							first_unit: 1,
 							aggregate_strategy: 'maximum_usage',
 						},
+						member: {
+							active: false,
+							per_unit: undefined,
+							first_unit: 1,
+							aggregate_strategy: 'maximum_usage',
+						},
 						flatFee: {
 							active: false,
 							per_unit: undefined,
@@ -202,7 +221,7 @@
 					})
 					.catch(error => {
 						events.$emit('toaster', {
-							type: 'error',
+							type: 'danger',
 							message: this.$t('popup_error.title'),
 						})
 					})

@@ -1,6 +1,7 @@
 <?php
 namespace Support\Scheduler\Actions;
 
+use App\Users\Models\User;
 use DB;
 use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
@@ -22,6 +23,10 @@ class ReportUsageAction
 
                 if ($subscription->plan->meteredFeatures()->where('key', 'flatFee')->exists()) {
                     $this->recordFlatFee($subscription);
+                }
+
+                if ($subscription->plan->meteredFeatures()->where('key', 'member')->exists()) {
+                    $this->recordMemberUsage($subscription);
                 }
             });
     }
@@ -59,5 +64,36 @@ class ReportUsageAction
     {
         // Record flat fee
         $subscription->recordUsage('flatFee', 1);
+    }
+
+    // TODO: Refactor this function to get total used team members, same function here UserLimitation.php@getMaxTeamMembers
+    private function recordMemberUsage(Subscription $subscription): void
+    {
+        $userTeamFolderIds = DB::table('team_folder_members')
+            ->where('user_id', $subscription->user_id)
+            ->pluck('parent_id');
+
+        $memberIds = DB::table('team_folder_members')
+            ->where('user_id', '!=', $subscription->user_id)
+            ->whereIn('parent_id', $userTeamFolderIds)
+            ->pluck('user_id')
+            ->unique();
+
+        // Get member emails
+        $memberEmails = User::whereIn('id', $memberIds)
+            ->pluck('email');
+
+        // Get active invitation emails
+        $InvitationEmails = DB::table('team_folder_invitations')
+            ->where('status', 'pending')
+            ->where('inviter_id', $subscription->user_id)
+            ->pluck('email')
+            ->unique();
+
+        // Get allowed emails in the limit
+        $totalUsedEmails = $memberEmails->merge($InvitationEmails)
+            ->unique();
+
+        $subscription->recordUsage('member', $totalUsedEmails->count());
     }
 }

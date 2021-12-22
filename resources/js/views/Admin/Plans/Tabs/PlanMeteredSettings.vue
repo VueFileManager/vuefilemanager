@@ -30,6 +30,11 @@
 				<input :value="formatCurrency(plan.attributes.currency, plan.attributes.features.storage.tiers[0].per_unit)" type="text" class="focus-border-theme input-dark" disabled/>
 			</AppInputText>
 
+			<!--Member-->
+			<AppInputText v-if="plan.attributes.features.member" :title="$t('Price per 1 Member')" :description="$t('Charge your user by the total members he use in his Team Folders.')" class="w-full">
+				<input :value="formatCurrency(plan.attributes.currency, plan.attributes.features.member.tiers[0].per_unit)" type="text" class="focus-border-theme input-dark" disabled/>
+			</AppInputText>
+
 			<!--Flat Fee-->
 			<AppInputText v-if="plan.attributes.features.flatFee" :title="$t('Flat Fee per Cycle')" :description="$t('Charge monthly flat fee.')" class="w-full">
 				<input :value="formatCurrency(plan.attributes.currency, plan.attributes.features.flatFee.tiers[0].per_unit)" type="text" class="focus-border-theme input-dark" disabled/>
@@ -70,6 +75,7 @@
 		},
 		methods: {
 			formatCurrency(currency, amount) {
+				// TODO: add user locale
 				let formatter = new Intl.NumberFormat('en-US', {
 					style: 'currency',
 					currency: currency,

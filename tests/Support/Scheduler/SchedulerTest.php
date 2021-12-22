@@ -32,11 +32,12 @@ class SchedulerTest extends TestCase
             ]);
 
         PlanMeteredFeature::factory()
-            ->count(3)
+            ->count(4)
             ->sequence(
                 ['key' => 'storage'],
                 ['key' => 'bandwidth'],
                 ['key' => 'flatFee'],
+                ['key' => 'member'],
             )
             ->create([
                 'plan_id' => $plan->id,

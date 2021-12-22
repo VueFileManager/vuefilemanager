@@ -120,6 +120,10 @@ class UserSubscriptionTest extends TestCase
                 'feature' => 'flatFee',
                 'amount'  => 2.49,
                 'usage'   => 1,
+            ], [
+                'feature' => 'member',
+                'amount'  => 0.20,
+                'usage'   => 2,
             ],
         ]);
 
@@ -145,6 +149,12 @@ class UserSubscriptionTest extends TestCase
                 'amount'  => 2.49,
                 'cost'    => '$2.49',
                 'usage'   => '1 Pcs.',
+            ],
+            'member' => [
+                'feature' => 'member',
+                'amount'  => 0.20,
+                'cost'    => '$0.20',
+                'usage'   => '2 Mem.',
             ],
         ];
 

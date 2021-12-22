@@ -82,7 +82,7 @@
 							<settings-icon v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 							<home-icon v-if="result.action.value === 'Files'" size="18" class="vue-feather text-theme"/>
 							<trash2-icon v-if="result.action.value === 'Trash'" size="18" class="vue-feather text-theme"/>
-							<database-icon v-if="result.action.value === 'CreateFixedPlan'" size="18" class="vue-feather text-theme"/>
+							<database-icon v-if="['CreateFixedPlan', 'CreateMeteredPlan'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 							<user-plus-icon v-if="result.action.value === 'UserCreate'" size="18" class="vue-feather text-theme"/>
 							<users-icon v-if="['TeamFolders', 'Users'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 							<user-check-icon v-if="result.action.value === 'SharedWithMe'" size="18" class="vue-feather text-theme"/>
@@ -90,7 +90,7 @@
 							<upload-cloud-icon v-if="result.action.value === 'RecentUploads'" size="18" class="vue-feather text-theme"/>
 							<file-text-icon v-if="['Invoices', 'Invoice'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 							<database-icon v-if="result.action.value === 'Plans'" size="18" class="vue-feather text-theme"/>
-							<dollar-sign-icon v-if="['Subscriptions', 'Subscription'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+							<dollar-sign-icon v-if="['Subscriptions', 'Subscription', 'MeteredSubscription'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 							<globe-icon v-if="result.action.value === 'Language'" size="18" class="vue-feather text-theme"/>
 							<monitor-icon v-if="result.action.value === 'Pages'" size="18" class="vue-feather text-theme"/>
 							<box-icon v-if="result.action.value === 'Dashboard'" size="18" class="vue-feather text-theme"/>
@@ -255,6 +255,7 @@ export default {
 	computed: {
 		...mapGetters([
 			'isDarkMode',
+			'config',
 			'user',
 		]),
 		actionList() {
@@ -270,7 +271,9 @@ export default {
 					title: this.$t('Create Plan'),
 					action: {
 						type: 'route',
-						value: 'CreateFixedPlan',
+						value: this.config.subscriptionType === 'fixed'
+							? 'CreateFixedPlan'
+							: 'CreateMeteredPlan',
 					},
 				},
 			]
@@ -405,7 +408,9 @@ export default {
 					title: this.$t('Show my Subscription'),
 					action: {
 						type: 'route',
-						value: 'Subscription',
+						value: this.config.subscriptionType === 'fixed'
+							? 'Subscription'
+							: 'MeteredSubscription',
 					},
 				},
 				{
