@@ -14,6 +14,9 @@
 		<!--Access Token Popup-->
 		<CreatePersonaTokenPopup />
 
+		<!--Payments Popup-->
+		<SelectSingleChargeMethodPopup />
+
 		<SidebarNavigation />
 
         <div v-if="user" class="px-6 w-full overflow-x-hidden relative pt-6 xl:max-w-screen-lg md:max-w-screen-md mx-auto">
@@ -77,6 +80,7 @@
 </template>
 
 <script>
+	import SelectSingleChargeMethodPopup from "../components/Others/SelectSingleChargeMethodPopup";
 	import ButtonBase from "../components/FilesView/ButtonBase";
 	import SelectPlanSubscriptionPopup from "../components/Subscription/SelectPlanSubscriptionPopup";
 	import ConfirmPopup from "../components/Others/Popup/ConfirmPopup";
@@ -91,10 +95,12 @@
 	import Spinner from '/resources/js/components/FilesView/Spinner'
 	import {mapGetters} from 'vuex'
 	import CardNavigation from "../components/Admin/CardNavigation";
+	import {events} from "../bus";
 
 	export default {
         name: 'Settings',
         components: {
+			SelectSingleChargeMethodPopup,
 			SelectPlanSubscriptionPopup,
 			ButtonBase,
 			ConfirmPopup,

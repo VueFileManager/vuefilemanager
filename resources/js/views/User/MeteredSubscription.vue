@@ -11,11 +11,11 @@
 				{{ user.data.relationships.balance.data.attributes.formatted }}
 			</b>
 
-			<ValidationObserver ref="changeStorageCapacity" @submit.prevent="makePayment" v-slot="{ invalid }" tag="form" class="mt-6">
+			<ValidationObserver ref="fundAccount" @submit.prevent="makePayment" v-slot="{ invalid }" tag="form" class="mt-6">
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
 					<AppInputText :description="$t('The amount will be increased as soon as we register your charge from payment gateway.')" :error="errors[0]" :is-last="true">
-						<div class="flex space-x-4">
-							<input v-model="paymentAmount"
+						<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
+							<input v-model="chargeAmount"
 								   :placeholder="$t('Fund Your Account Balance...')"
 								   type="number"
 								   min="1"
@@ -23,7 +23,7 @@
 								   class="focus-border-theme input-dark"
 								   :class="{'border-red-700': errors[0]}"
 							/>
-							<ButtonBase type="submit" button-style="theme" class="submit-button">
+							<ButtonBase type="submit" button-style="theme" class="sm:w-auto w-full">
 								{{ $t('Make a Payment') }}
 							</ButtonBase>
 						</div>
@@ -52,7 +52,7 @@
 						<b class="text-sm font-bold leading-none">
 							{{ $t(usage.feature) }}
 						</b>
-						<small class="text-xs text-gray-500 pt-2 leading-none block">
+						<small class="text-xs text-gray-500 pt-2 leading-none sm:block hidden">
 							{{ $t(`feature_usage_desc_${usage.feature}`) }}
 						</small>
 					</div>
@@ -91,7 +91,7 @@
 			<ValidationObserver v-if="showUpdateBillingAlertForm" ref="updatebillingAlertForm" @submit.prevent="updateBillingAlert" v-slot="{ invalid }" tag="form" class="mt-6">
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" rules="required">
 					<AppInputText :description="$t('You will receive an email whenever your monthly balance reaches the specified amount above.')" :error="errors[0]" :is-last="true">
-						<div class="flex space-x-4">
+						<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
 							<input v-model="billingAlertAmount"
 								   :placeholder="$t('Alert Amount...')"
 								   type="number"
@@ -100,7 +100,7 @@
 								   class="focus-border-theme input-dark"
 								   :class="{'border-red-700': errors[0]}"
 							/>
-							<ButtonBase :loadint="isSendingBillingAlert" :disabled="isSendingBillingAlert" type="submit" button-style="theme" class="submit-button">
+							<ButtonBase :loadint="isSendingBillingAlert" :disabled="isSendingBillingAlert" type="submit" button-style="theme" class="sm:w-auto w-full">
 								{{ $t('Update Alert') }}
 							</ButtonBase>
 						</div>
@@ -231,7 +231,7 @@
 				billingAlertAmount: undefined,
 				showUpdateBillingAlertForm: false,
 
-				paymentAmount: undefined,
+				chargeAmount: undefined,
 				columns: [
 					{
 						label: this.$t('Note'),
@@ -336,8 +336,14 @@
 					}
 				})
 			},
-			makePayment() {
-				// TODO: make a payment
+			async makePayment() {
+				// Validate fields
+				const isValid = await this.$refs.fundAccount.validate();
+
+				if (!isValid) return;
+
+				// Show payment methods popup
+				this.$store.dispatch('callSingleChargeProcess', this.chargeAmount)
 			},
 		},
 		created() {

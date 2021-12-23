@@ -7,6 +7,7 @@
             <key-icon v-if="icon === 'key'" size="17" class="title-icon text-theme dark-text-theme" />
             <users-icon v-if="icon === 'users'" size="17" class="title-icon text-theme dark-text-theme" />
             <user-plus-icon v-if="icon === 'user-plus'" size="17" class="title-icon text-theme dark-text-theme" />
+            <credit-card-icon v-if="icon === 'credit-card'" size="17" class="title-icon text-theme dark-text-theme" />
         </div>
         <div class="label">
             <h1 class="title">{{ title }}</h1>
@@ -16,7 +17,7 @@
 </template>
 
 <script>
-    import {KeyIcon, UserPlusIcon, CornerDownRightIcon, LinkIcon, XIcon, Edit2Icon, ShareIcon, UsersIcon} from 'vue-feather-icons'
+    import {CreditCardIcon, KeyIcon, UserPlusIcon, CornerDownRightIcon, LinkIcon, XIcon, Edit2Icon, ShareIcon, UsersIcon} from 'vue-feather-icons'
     import {events} from '/resources/js/bus'
 
     export default {
@@ -26,6 +27,7 @@
         ],
         components: {
             CornerDownRightIcon,
+			CreditCardIcon,
 			UserPlusIcon,
 			UsersIcon,
             ShareIcon,

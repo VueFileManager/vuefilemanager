@@ -28,6 +28,7 @@
         .bg-theme {background: {{ $color }}}
         .bg-theme-50 {background: {{ $color }}05}
         .bg-theme-100 {background: {{ $color }}10}
+        .bg-theme-200 {background: {{ $color }}20}
         .bg-theme-800 {background: {{ $color }}80}
         .hover-bg-theme:hover {background: {{ $color }}}
         .hover-bg-theme-100:hover {background: {{ $color }}10 !important;}

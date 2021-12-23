@@ -188,7 +188,7 @@
 					});
 				} catch (error) {
 					events.$emit('toaster', {
-						type: 'error',
+						type: 'danger',
 						message: this.$t('failed to load the PayPal components'),
 					})
 				}
@@ -210,7 +210,7 @@
 					}
 				}).render('#paypal-button-container');*/
 
-				// Initialize paypal buttons for subscription
+				// Initialize paypal buttons for single charge
 				await paypal.Buttons({
 					createOrder: function(data, actions) {
 						return actions.order.create({

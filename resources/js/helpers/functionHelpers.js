@@ -326,7 +326,7 @@ const FunctionHelpers = {
 
         Vue.prototype.$getPaymentLogo = function (driver) {
             return {
-                'paypal': '/assets/payments/paypal.svg',
+                'paypal': store.getters.isDarkMode ? '/assets/payments/paypal-dark.svg' : '/assets/payments/paypal.svg',
                 'paystack': store.getters.isDarkMode ? '/assets/payments/paystack-dark.svg' : '/assets/payments/paystack.svg',
                 'stripe': '/assets/payments/stripe.svg',
                 'system': this.$getImage(store.getters.config.app_logo_horizontal),
