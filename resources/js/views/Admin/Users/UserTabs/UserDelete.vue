@@ -3,20 +3,17 @@
 		<FormLabel>
 			{{ $t('user_box_delete.title') }}
 		</FormLabel>
-		<InfoBox>
-			<p>{{ $t('user_box_delete.description') }}</p>
-		</InfoBox>
 		<ValidationObserver ref="deleteUser" @submit.prevent="deleteUser" v-slot="{ invalid }" tag="form">
 			<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="User name" rules="required">
-				<AppInputText :title="$t('admin_page_user.label_delete_user', {user: user.data.relationships.settings.data.attributes.name})" :error="errors[0]" :is-last="true">
-					<div class="flex space-x-4">
+				<AppInputText :title="$t('admin_page_user.label_delete_user', {user: user.data.relationships.settings.data.attributes.name})" :description="$t('user_box_delete.description')" :error="errors[0]" :is-last="true">
+					<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
 						<input v-model="userName"
 							   :placeholder="$t('admin_page_user.placeholder_delete_user')"
 							   type="text"
 							   class="focus-border-theme input-dark"
 							   :class="{'border-red-700': errors[0]}"
 						/>
-						<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="submit-button">
+						<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="sm:w-auto w-full">
 							{{ $t('admin_page_user.delete_user') }}
 						</ButtonBase>
 					</div>

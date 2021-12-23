@@ -3,15 +3,12 @@
 		<FormLabel>
 			{{ $t('admin_page_plans.form.title_delete') }}
 		</FormLabel>
-		<InfoBox>
-			<p>{{ $t('admin_page_plans.disclaimer_delete_plan') }}</p>
-		</InfoBox>
 		<ValidationObserver ref="deletePlan" @submit.prevent="deletePlan" v-slot="{ invalid }" tag="form">
 			<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Plan name" :rules="'required|is:' + plan.attributes.name">
-				<AppInputText :title="$t('admin_page_user.label_delete_user', {user: plan.attributes.name})" :error="errors[0]" :is-last="true">
-					<div class="flex space-x-4">
+				<AppInputText :title="$t('admin_page_user.label_delete_user', {user: plan.attributes.name})" :description="$t('admin_page_plans.disclaimer_delete_plan')" :error="errors[0]" :is-last="true">
+					<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
 						<input v-model="planName" :placeholder="$t('admin_page_plans.form.name_delete_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
-						<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="submit-button">
+						<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="sm:w-auto w-full">
 							{{ $t('admin_page_plans.delete_plan_button') }}
 						</ButtonBase>
 					</div>

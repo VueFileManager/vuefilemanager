@@ -343,7 +343,6 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$getTransactionStatusColor = function (status) {
-
             return {
                 'completed': 'green',
                 'cancelled': 'yellow',
@@ -351,11 +350,19 @@ const FunctionHelpers = {
             }[status]
         }
 
+        Vue.prototype.$getTransactionTypeColor = function (type) {
+            return {
+                'credit': 'green',
+                'charge': 'purple',
+                'withdrawal': 'red',
+            }[type]
+        }
+
         Vue.prototype.$getTransactionTypeTextColor = function (type) {
 
             return {
-                'withdrawal': 'text-red-500',
-                'credit': 'text-green-500',
+                'withdrawal': 'text-red',
+                'credit': 'text-green',
                 'charge': '',
             }[type]
         }

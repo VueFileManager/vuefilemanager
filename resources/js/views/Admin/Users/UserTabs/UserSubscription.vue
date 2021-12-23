@@ -33,8 +33,11 @@
 							</span>
                         </td>
                         <td>
-							<ColorLabel :color="$getTransactionStatusColor(row.data.attributes.status)">
+							<ColorLabel v-if="config.subscriptionType === 'fixed'" :color="$getTransactionStatusColor(row.data.attributes.status)">
                                 {{ row.data.attributes.status }}
+							</ColorLabel>
+							<ColorLabel v-if="config.subscriptionType === 'metered'" :color="$getTransactionTypeColor(row.data.attributes.type)">
+                                {{ row.data.attributes.type }}
 							</ColorLabel>
                         </td>
                         <td>
