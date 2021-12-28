@@ -1,7 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
 
-		<!--Balance-->
+		<!-- Balance -->
 		<div class="card shadow-card">
 			<FormLabel icon="hard-drive">
                 {{ $t('Balance') }}
@@ -11,25 +11,50 @@
 				{{ user.data.relationships.balance.data.attributes.formatted }}
 			</b>
 
-			<ValidationObserver ref="fundAccount" @submit.prevent="makePayment" v-slot="{ invalid }" tag="form" class="mt-6">
-                <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
-					<AppInputText :description="$t('The amount will be increased as soon as we register your charge from payment gateway.')" :error="errors[0]" :is-last="true">
-						<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
-							<input v-model="chargeAmount"
-								   :placeholder="$t('Fund Your Account Balance...')"
-								   type="number"
-								   min="1"
-								   max="999999999"
-								   class="focus-border-theme input-dark"
-								   :class="{'border-red-700': errors[0]}"
-							/>
-							<ButtonBase type="submit" button-style="theme" class="sm:w-auto w-full">
-								{{ $t('Make a Payment') }}
-							</ButtonBase>
-						</div>
-					</AppInputText>
-                </ValidationProvider>
-            </ValidationObserver>
+			<div v-if="! storeCreditCardForm">
+
+				<!-- Make payment form -->
+				<ValidationObserver ref="fundAccount" @submit.prevent="makePayment" v-slot="{ invalid }" tag="form" class="mt-6">
+					<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
+						<AppInputText :description="$t('The amount will be increased as soon as we register your charge from payment gateway.')" :error="errors[0]" :is-last="true">
+							<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
+								<input v-model="chargeAmount"
+									   :placeholder="$t('Fund Your Account Balance...')"
+									   type="number"
+									   min="1"
+									   max="999999999"
+									   class="focus-border-theme input-dark"
+									   :class="{'border-red-700': errors[0]}"
+								/>
+								<ButtonBase type="submit" button-style="theme" class="sm:w-auto w-full">
+									{{ $t('Make a Payment') }}
+								</ButtonBase>
+							</div>
+						</AppInputText>
+					</ValidationProvider>
+				</ValidationObserver>
+
+				<!-- Show credit card form -->
+				<div @click="showStoreCreditCardForm" class="flex items-center md:justify-start justify-center border-t mt-5 pt-5 dark:border-opacity-5 border-light border-dashed">
+					<credit-card-icon size="14" class="vue-feather text-theme" />
+					<b class="cursor-pointer text-xs font-bold ml-2">
+						{{ $t('Store credit card and charge automatically.') }}
+					</b>
+				</div>
+			</div>
+
+			<!-- Store credit card form-->
+			<form v-if="storeCreditCardForm" @submit.prevent="storeStripePaymentMethod" id="payment-form" class="mt-6">
+			  <div id="payment-element">
+				<!-- Elements will create form elements here -->
+			  </div>
+				<ButtonBase type="submit" :loading="stripeData.storingStripePaymentMethod" button-style="theme" class="w-full mt-4">
+					{{ $t('Store Card') }}
+				</ButtonBase>
+			  <div id="error-message">
+				<!-- Display error message to your customers here -->
+			  </div>
+			</form>
 		</div>
 
 		<!--Usage Estimates-->
@@ -185,6 +210,7 @@
 
 <script>
     import {
+		CreditCardIcon,
 		XIcon,
 		Trash2Icon,
 		Edit2Icon,
@@ -201,11 +227,16 @@
 	import ProgressLine from "../../components/Admin/ProgressLine"
 	import {mapGetters} from 'vuex'
 	import axios from 'axios'
-	import {events} from "../../bus";
+	import {events} from "../../bus"
+	import {loadStripe} from '@stripe/stripe-js'
+
+	// Define stripe variables
+	let stripe, elements = undefined
 
 	export default {
 		name: 'MeteredSubscription',
 		components: {
+			CreditCardIcon,
 			DatatableWrapper,
 			ValidationProvider,
 			ValidationObserver,
@@ -223,6 +254,7 @@
 		},
 		computed: {
 			...mapGetters([
+				'isDarkMode',
 				'config',
 				'user',
 			]),
@@ -235,7 +267,6 @@
 				billingAlertAmount: undefined,
 				showUpdateBillingAlertForm: false,
 
-				chargeAmount: undefined,
 				columns: [
 					{
 						label: this.$t('Note'),
@@ -263,6 +294,13 @@
 						sortable: true
 					},
 				],
+
+				chargeAmount: undefined,
+				storeCreditCardForm: false,
+
+				stripeData: {
+					storingStripePaymentMethod: false
+				}
 			}
 		},
 		methods: {
@@ -349,6 +387,74 @@
 				// Show payment methods popup
 				this.$store.dispatch('callSingleChargeProcess', this.chargeAmount)
 			},
+			async storeStripePaymentMethod() {
+
+				this.storingStripePaymentMethod = true
+
+				const {error} = await stripe.confirmSetup({
+					//`Elements` instance that was used to create the Payment Element
+					elements,
+					redirect: 'if_required',
+					confirmParams: {
+						return_url: window.location.href,
+					}
+				});
+
+				if (error) {
+					// This point will only be reached if there is an immediate error when
+					// confirming the payment. Show error to your customer (e.g., payment
+					// details incomplete)
+					const messageContainer = document.querySelector('#error-message');
+					messageContainer.textContent = error.message;
+				} else {
+					console.log('done!');
+					// Your customer will be redirected to your `return_url`. For some payment
+					// methods like iDEAL, your customer will be redirected to an intermediate
+					// site first to authorize the payment, then redirected to the `return_url`.
+				}
+
+				this.storingStripePaymentMethod = false
+			},
+			async stripeInit() {
+
+				// Init stripe js
+				stripe = await loadStripe(this.config.stripe_public_key);
+
+				const options = {
+					clientSecret: 'seti_1KBfG8B9m4sTKy1q7mOlCzVF_secret_KrO282HxFZpgXK2XGw8Ctj4XEMqizaG',
+					appearance: {
+						theme: 'stripe',
+						variables: {
+							colorPrimary: this.config.app_color,
+							fontFamily: 'Nunito',
+							borderRadius: '8px',
+							colorText: this.isDarkMode ? '#bec6cf' : '#1B2539',
+							colorBackground: this.isDarkMode ? '#191b1e' : '#fff',
+							fontWeightNormal: '700',
+							fontSizeSm: '0.875rem',
+							colorSuccessText: '#0ABB87',
+							colorSuccess: '#0ABB87',
+							colorWarning: '#fd397a',
+							colorWarningText: '#fd397a',
+							colorDangerText: '#fd397a',
+							colorTextSecondary: '#6b7280',
+							spacingGridRow: '20px',
+						}
+					},
+				}
+
+				// Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
+				elements = stripe.elements(options);
+
+				// Create and mount the Payment Element
+				const paymentElement = elements.create('payment');
+
+				paymentElement.mount('#payment-element');
+			},
+			showStoreCreditCardForm() {
+				this.storeCreditCardForm = !this.storeCreditCardForm
+				this.stripeInit()
+			}
 		},
 		created() {
 			events.$on('action:confirmed', data => {

@@ -53,7 +53,6 @@
             app_logo_horizontal: '{{ $settings->app_logo_horizontal ?? null }}',
             app_description: '{{ $settings->app_description ?? __t('app_description') }}',
 
-            stripe_public_key: '{{ config('cashier.key') ?? null }}',
             app_payments_active: {{ $settings->payments_active ?? 0 }},
 
 			subscriptionType: '{{ $settings->subscription_type ?? 'none' }}',
@@ -83,6 +82,7 @@
             // Payment drivers
             paystack_public_key: '{{ env('PAYSTACK_PUBLIC_KEY') }}',
             paypal_client_id: '{{ env('PAYPAL_CLIENT_ID') }}',
+            stripe_public_key: '{{ env('STRIPE_PUBLIC_KEY') ?? null }}',
         }
     </script>
 
