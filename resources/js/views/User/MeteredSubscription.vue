@@ -11,7 +11,7 @@
 				{{ user.data.relationships.balance.data.attributes.formatted }}
 			</b>
 
-			<div v-if="! storeCreditCardForm">
+			<div v-if="! isCreditCardForm">
 
 				<!-- Make payment form -->
 				<ValidationObserver ref="fundAccount" @submit.prevent="makePayment" v-slot="{ invalid }" tag="form" class="mt-6">
@@ -44,16 +44,19 @@
 			</div>
 
 			<!-- Store credit card form-->
-			<form v-if="storeCreditCardForm" @submit.prevent="storeStripePaymentMethod" id="payment-form" class="mt-6">
-			  <div id="payment-element">
+			<form v-if="isCreditCardForm" @submit.prevent="storeStripePaymentMethod" id="payment-form" class="mt-6">
+				<div v-if="stripeData.isInitialization" class="h-10 relative mb-6">
+					<Spinner />
+				</div>
+				<div id="payment-element">
 				<!-- Elements will create form elements here -->
-			  </div>
-				<ButtonBase type="submit" :loading="stripeData.storingStripePaymentMethod" button-style="theme" class="w-full mt-4">
-					{{ $t('Store Card') }}
+				</div>
+				<ButtonBase :loading="stripeData.storingStripePaymentMethod" type="submit" button-style="theme" class="w-full mt-4">
+					{{ $t('Store Credit Card') }}
 				</ButtonBase>
-			  <div id="error-message">
-				<!-- Display error message to your customers here -->
-			  </div>
+				<div id="error-message">
+					<!-- Display error message to your customers here -->
+				</div>
 			</form>
 		</div>
 
@@ -215,6 +218,7 @@
 		Trash2Icon,
 		Edit2Icon,
 	} from "vue-feather-icons";
+	import Spinner from "../../components/FilesView/Spinner";
 	import ColorLabel from "../../components/Others/ColorLabel";
 	import DatatableWrapper from "../../components/Others/Tables/DatatableWrapper";
 	import AppInputText from "../../components/Admin/AppInputText";
@@ -251,6 +255,7 @@
 			FormLabel,
 			InfoBox,
 			PageTab,
+			Spinner,
 		},
 		computed: {
 			...mapGetters([
@@ -296,9 +301,10 @@
 				],
 
 				chargeAmount: undefined,
-				storeCreditCardForm: false,
+				isCreditCardForm: false,
 
 				stripeData: {
+					isInitialization: true,
 					storingStripePaymentMethod: false
 				}
 			}
@@ -389,7 +395,7 @@
 			},
 			async storeStripePaymentMethod() {
 
-				this.storingStripePaymentMethod = true
+				this.stripeData.storingStripePaymentMethod = true
 
 				const {error} = await stripe.confirmSetup({
 					//`Elements` instance that was used to create the Payment Element
@@ -407,52 +413,64 @@
 					const messageContainer = document.querySelector('#error-message');
 					messageContainer.textContent = error.message;
 				} else {
-					console.log('done!');
 					// Your customer will be redirected to your `return_url`. For some payment
 					// methods like iDEAL, your customer will be redirected to an intermediate
 					// site first to authorize the payment, then redirected to the `return_url`.
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('Your credit card was stored successfully'),
+					})
 				}
 
-				this.storingStripePaymentMethod = false
+				this.stripeData.storingStripePaymentMethod = false
 			},
 			async stripeInit() {
 
 				// Init stripe js
 				stripe = await loadStripe(this.config.stripe_public_key);
 
-				const options = {
-					clientSecret: 'seti_1KBfG8B9m4sTKy1q7mOlCzVF_secret_KrO282HxFZpgXK2XGw8Ctj4XEMqizaG',
-					appearance: {
-						theme: 'stripe',
-						variables: {
-							colorPrimary: this.config.app_color,
-							fontFamily: 'Nunito',
-							borderRadius: '8px',
-							colorText: this.isDarkMode ? '#bec6cf' : '#1B2539',
-							colorBackground: this.isDarkMode ? '#191b1e' : '#fff',
-							fontWeightNormal: '700',
-							fontSizeSm: '0.875rem',
-							colorSuccessText: '#0ABB87',
-							colorSuccess: '#0ABB87',
-							colorWarning: '#fd397a',
-							colorWarningText: '#fd397a',
-							colorDangerText: '#fd397a',
-							colorTextSecondary: '#6b7280',
-							spacingGridRow: '20px',
-						}
-					},
-				}
+				await axios.get('/api/stripe/setup-intent')
+					.then(response => {
+						// Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
+						elements = stripe.elements({
+							clientSecret: response.data,
+							appearance: {
+								theme: 'stripe',
+								variables: {
+									colorPrimary: this.config.app_color,
+									fontFamily: 'Nunito',
+									borderRadius: '8px',
+									colorText: this.isDarkMode ? '#bec6cf' : '#1B2539',
+									colorBackground: this.isDarkMode ? '#191b1e' : '#fff',
+									fontWeightNormal: '700',
+									fontSizeSm: '0.875rem',
+									colorSuccessText: '#0ABB87',
+									colorSuccess: '#0ABB87',
+									colorWarning: '#fd397a',
+									colorWarningText: '#fd397a',
+									colorDangerText: '#fd397a',
+									colorTextSecondary: '#6b7280',
+									spacingGridRow: '20px',
+								}
+							},
+						});
 
-				// Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
-				elements = stripe.elements(options);
+						// Create and mount the Payment Element
+						const paymentElement = elements.create('payment');
 
-				// Create and mount the Payment Element
-				const paymentElement = elements.create('payment');
+						paymentElement.mount('#payment-element');
+					})
+					.catch(() => {
+						events.$emit('toaster', {
+							type: 'danger',
+							message: this.$t('popup_error.title'),
+						})
+					})
 
-				paymentElement.mount('#payment-element');
+				this.stripeData.isInitialization = false
 			},
 			showStoreCreditCardForm() {
-				this.storeCreditCardForm = !this.storeCreditCardForm
+				this.isCreditCardForm = !this.isCreditCardForm
 				this.stripeInit()
 			}
 		},
