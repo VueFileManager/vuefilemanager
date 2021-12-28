@@ -2,8 +2,8 @@
     <PageTab :is-loading="isLoading">
 
 		<!-- Balance -->
-		<div class="card shadow-card">
-			<FormLabel icon="hard-drive">
+		<div v-if="! hasPaymentMethod" class="card shadow-card">
+			<FormLabel icon="dollar">
                 {{ $t('Balance') }}
             </FormLabel>
 
@@ -11,58 +11,31 @@
 				{{ user.data.relationships.balance.data.attributes.formatted }}
 			</b>
 
-			<div v-if="! isCreditCardForm">
-
-				<!-- Make payment form -->
-				<ValidationObserver ref="fundAccount" @submit.prevent="makePayment" v-slot="{ invalid }" tag="form" class="mt-6">
-					<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
-						<AppInputText :description="$t('The amount will be increased as soon as we register your charge from payment gateway.')" :error="errors[0]" :is-last="true">
-							<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
-								<input v-model="chargeAmount"
-									   :placeholder="$t('Fund Your Account Balance...')"
-									   type="number"
-									   min="1"
-									   max="999999999"
-									   class="focus-border-theme input-dark"
-									   :class="{'border-red-700': errors[0]}"
-								/>
-								<ButtonBase type="submit" button-style="theme" class="sm:w-auto w-full">
-									{{ $t('Make a Payment') }}
-								</ButtonBase>
-							</div>
-						</AppInputText>
-					</ValidationProvider>
-				</ValidationObserver>
-
-				<!-- Show credit card form -->
-				<div @click="showStoreCreditCardForm" class="flex items-center md:justify-start justify-center border-t mt-5 pt-5 dark:border-opacity-5 border-light border-dashed">
-					<credit-card-icon size="14" class="vue-feather text-theme" />
-					<b class="cursor-pointer text-xs font-bold ml-2">
-						{{ $t('Store credit card and charge automatically.') }}
-					</b>
-				</div>
-			</div>
-
-			<!-- Store credit card form-->
-			<form v-if="isCreditCardForm" @submit.prevent="storeStripePaymentMethod" id="payment-form" class="mt-6">
-				<div v-if="stripeData.isInitialization" class="h-10 relative mb-6">
-					<Spinner />
-				</div>
-				<div id="payment-element">
-				<!-- Elements will create form elements here -->
-				</div>
-				<ButtonBase :loading="stripeData.storingStripePaymentMethod" type="submit" button-style="theme" class="w-full mt-4">
-					{{ $t('Store Credit Card') }}
-				</ButtonBase>
-				<div id="error-message">
-					<!-- Display error message to your customers here -->
-				</div>
-			</form>
+			<!-- Make payment form -->
+			<ValidationObserver ref="fundAccount" @submit.prevent="makePayment" v-slot="{ invalid }" tag="form" class="mt-6">
+				<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
+					<AppInputText :description="$t('The amount will be increased as soon as we register your charge from payment gateway.')" :error="errors[0]" :is-last="true">
+						<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
+							<input v-model="chargeAmount"
+								   :placeholder="$t('Fund Your Account Balance...')"
+								   type="number"
+								   min="1"
+								   max="999999999"
+								   class="focus-border-theme input-dark"
+								   :class="{'border-red-700': errors[0]}"
+							/>
+							<ButtonBase type="submit" button-style="theme" class="sm:w-auto w-full">
+								{{ $t('Make a Payment') }}
+							</ButtonBase>
+						</div>
+					</AppInputText>
+				</ValidationProvider>
+			</ValidationObserver>
 		</div>
 
 		<!--Usage Estimates-->
 		<div class="card shadow-card">
-			<FormLabel icon="hard-drive">
+			<FormLabel icon="bar-chart">
                 {{ $t('Usage Estimates') }}
             </FormLabel>
 
@@ -155,6 +128,61 @@
 					</AppInputText>
                 </ValidationProvider>
             </ValidationObserver>
+		</div>
+
+		<!-- Payment method for automatically handle payments -->
+		<div class="card shadow-card">
+			<FormLabel icon="credit-card">
+                {{ $t('Payment Method') }}
+            </FormLabel>
+
+			<!-- User doesn't have registered payment method -->
+			<div v-if="! hasPaymentMethod">
+				<!-- Show credit card form -->
+				<ButtonBase @click.native="showStoreCreditCardForm" v-if="! isCreditCardForm" :loading="stripeData.storingStripePaymentMethod" type="submit" button-style="theme" class="w-full mt-4">
+					{{ $t('Add Auto Payment Method') }}
+				</ButtonBase>
+
+				<!-- Store credit card form -->
+				<form v-if="isCreditCardForm" @submit.prevent="storeStripePaymentMethod" id="payment-form" class="mt-6">
+					<div v-if="stripeData.isInitialization" class="h-10 relative mb-6">
+						<Spinner />
+					</div>
+					<div id="payment-element">
+					<!-- Elements will create form elements here -->
+					</div>
+					<ButtonBase :loading="stripeData.storingStripePaymentMethod" type="submit" button-style="theme" class="w-full mt-4">
+						{{ $t('Store My Credit Card') }}
+					</ButtonBase>
+					<div id="error-message">
+						<!-- Display error message to your customers here -->
+					</div>
+				</form>
+			</div>
+
+			<!-- User has registered payment method -->
+			<div v-if="hasPaymentMethod">
+				<b v-if="user.data.relationships.balance.data.attributes.balance > 0" class="mb-3 block text-sm mb-5">
+					{{ $t('You have $10.00 in credit that will be automatically withdrawn on your next payment.') }}
+				</b>
+
+				<div class="flex items-center justify-between py-3 px-4 input-dark">
+					<div class="flex items-center">
+						<img src="/assets/gateways/visa.svg" alt="" class="h-5 mr-3 rounded">
+						<b class="text-sm font-bold leading-none">
+							Visa •••• 4242
+						</b>
+					</div>
+					<b class="text-sm font-bold leading-none">
+						Expires Nov 2022
+					</b>
+					<Trash2Icon size="15" class="cursor-pointer" />
+				</div>
+
+				<small class="text-xs text-gray-500 pt-3 leading-none sm:block hidden">
+					{{ $t('We are settling your payment automatically via your saved credit card.') }}
+				</small>
+			</div>
 		</div>
 
 		<!--Transactions-->
@@ -267,6 +295,8 @@
 		data() {
 			return {
 				isLoading: false,
+
+				hasPaymentMethod: true,
 
 				isSendingBillingAlert: false,
 				billingAlertAmount: undefined,
@@ -433,7 +463,7 @@
 					.then(response => {
 						// Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
 						elements = stripe.elements({
-							clientSecret: response.data,
+							clientSecret: response.data.client_secret,
 							appearance: {
 								theme: 'stripe',
 								variables: {
