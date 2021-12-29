@@ -166,6 +166,7 @@
 					{{ $t('You have $10.00 in credit that will be automatically withdrawn on your next payment.') }}
 				</b>
 
+				<!-- Card -->
 				<div
 					v-for="card in user.data.relationships.creditCard.data"
 					:key="card.data.id"
@@ -180,7 +181,7 @@
 					<b class="text-sm font-bold leading-none">
 						{{ $t('Expires') }} {{ card.data.attributes.expiration }}
 					</b>
-					<Trash2Icon size="15" class="cursor-pointer" />
+					<Trash2Icon @click="deleteCreditCard(card.data.id)" size="15" class="cursor-pointer" />
 				</div>
 
 				<small class="text-xs text-gray-500 pt-3 leading-none sm:block hidden">
@@ -409,16 +410,6 @@
 						this.isSendingBillingAlert = false
 					})
 			},
-			deleteBillingAlert() {
-				events.$emit('confirm:open', {
-					title: this.$t('Are you sure you want to delete your alert?'),
-					message: this.$t('You will no longer receive any notifications that your billing limit has been exceeded.'),
-					action: {
-						id: this.user.data.relationships.alert.data.id,
-						operation: 'delete-billing-alert',
-					}
-				})
-			},
 			async makePayment() {
 				// Validate fields
 				const isValid = await this.$refs.fundAccount.validate();
@@ -455,6 +446,8 @@
 						type: 'success',
 						message: this.$t('Your credit card was stored successfully'),
 					})
+
+					// TODO: L9 - load credit card after was stored in database
 				}
 
 				this.stripeData.storingStripePaymentMethod = false
@@ -504,6 +497,26 @@
 
 				this.stripeData.isInitialization = false
 			},
+			deleteBillingAlert() {
+				events.$emit('confirm:open', {
+					title: this.$t('Are you sure you want to delete your alert?'),
+					message: this.$t('You will no longer receive any notifications that your billing limit has been exceeded.'),
+					action: {
+						id: this.user.data.relationships.alert.data.id,
+						operation: 'delete-billing-alert',
+					}
+				})
+			},
+			deleteCreditCard(id) {
+				events.$emit('confirm:open', {
+					title: this.$t('Are you sure you want to delete your credit card?'),
+					message: this.$t('We will no longer settle your payments automatically and you will have to fund your account for the next payments.'),
+					action: {
+						id: id,
+						operation: 'delete-credit-card',
+					}
+				})
+			},
 			showStoreCreditCardForm() {
 				this.isCreditCardForm = !this.isCreditCardForm
 				this.stripeInit()
@@ -523,6 +536,18 @@
 							events.$emit('toaster', {
 								type: 'success',
 								message: this.$t('Your billing alert was deleted.'),
+							})
+						})
+						.catch(() => this.$isSomethingWrong())
+
+				if (data.operation === 'delete-credit-card')
+					axios.delete(`/api/stripe/credit-cards/${data.id}`)
+						.then(() => {
+							this.$store.dispatch('getAppData')
+
+							events.$emit('toaster', {
+								type: 'success',
+								message: this.$t('Your credit card was deleted.'),
 							})
 						})
 						.catch(() => this.$isSomethingWrong())
