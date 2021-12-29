@@ -166,15 +166,19 @@
 					{{ $t('You have $10.00 in credit that will be automatically withdrawn on your next payment.') }}
 				</b>
 
-				<div class="flex items-center justify-between py-3 px-4 input-dark">
+				<div
+					v-for="card in user.data.relationships.creditCard.data"
+					:key="card.data.id"
+					class="flex items-center justify-between py-3 px-4 input-dark"
+				>
 					<div class="flex items-center">
-						<img src="/assets/gateways/visa.svg" alt="" class="h-5 mr-3 rounded">
-						<b class="text-sm font-bold leading-none">
-							Visa •••• 4242
+						<img :src="`/assets/gateways/${card.data.attributes.brand}.svg`" alt="" class="h-5 mr-3 rounded">
+						<b class="text-sm font-bold leading-none capitalize">
+							{{ card.data.attributes.brand }} •••• {{ card.data.attributes.last4 }}
 						</b>
 					</div>
 					<b class="text-sm font-bold leading-none">
-						Expires Nov 2022
+						{{ $t('Expires') }} {{ card.data.attributes.expiration }}
 					</b>
 					<Trash2Icon size="15" class="cursor-pointer" />
 				</div>
@@ -291,12 +295,13 @@
 				'config',
 				'user',
 			]),
+			hasPaymentMethod() {
+				return this.user.data.relationships.creditCard && this.user.data.relationships.creditCard.data.length > 0
+			},
 		},
 		data() {
 			return {
 				isLoading: false,
-
-				hasPaymentMethod: true,
 
 				isSendingBillingAlert: false,
 				billingAlertAmount: undefined,

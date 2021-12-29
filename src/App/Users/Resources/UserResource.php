@@ -4,6 +4,7 @@ namespace App\Users\Resources;
 use Domain\Folders\Resources\FolderCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Users\Actions\FormatUsageEstimatesAction;
+use VueFileManager\Subscription\Domain\CreditCards\Resources\CreditCardCollection;
 use VueFileManager\Subscription\Domain\Credits\Resources\BalanceResource;
 use VueFileManager\Subscription\Domain\BillingAlerts\Resources\BillingAlertResource;
 use VueFileManager\Subscription\Domain\Subscriptions\Resources\SubscriptionResource;
@@ -49,6 +50,9 @@ class UserResource extends JsonResource
                     ]),
                     $this->mergeWhen($isMeteredSubscription, fn () => [
                         'alert' => new BillingAlertResource($this->billingAlert),
+                    ]),
+                    $this->mergeWhen($isMeteredSubscription, fn () => [
+                        'creditCard' => new CreditCardCollection($this->creditCards),
                     ]),
                 ],
                 'meta'          => [
