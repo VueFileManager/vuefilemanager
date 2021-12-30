@@ -7,6 +7,7 @@ use App\Users\Actions\FormatUsageEstimatesAction;
 use VueFileManager\Subscription\Domain\CreditCards\Resources\CreditCardCollection;
 use VueFileManager\Subscription\Domain\Credits\Resources\BalanceResource;
 use VueFileManager\Subscription\Domain\BillingAlerts\Resources\BillingAlertResource;
+use VueFileManager\Subscription\Domain\FailedPayments\Resources\FailedPaymentsCollection;
 use VueFileManager\Subscription\Domain\Subscriptions\Resources\SubscriptionResource;
 use VueFileManager\Subscription\Domain\Usage\Actions\SumUsageForCurrentPeriodAction;
 
@@ -52,7 +53,10 @@ class UserResource extends JsonResource
                         'alert' => new BillingAlertResource($this->billingAlert),
                     ]),
                     $this->mergeWhen($isMeteredSubscription, fn () => [
-                        'creditCard' => new CreditCardCollection($this->creditCards),
+                        'creditCards' => new CreditCardCollection($this->creditCards),
+                    ]),
+                    $this->mergeWhen($isMeteredSubscription, fn () => [
+                        'failedPayments' => new FailedPaymentsCollection($this->failedPayments),
                     ]),
                 ],
                 'meta'          => [
@@ -61,6 +65,9 @@ class UserResource extends JsonResource
                     ]),
                     $this->mergeWhen($isMeteredSubscription, fn () => [
                         'usages' => $this->getUsageEstimates(),
+                    ]),
+                    $this->mergeWhen($isMeteredSubscription, fn () => [
+                        'totalDebt' => format_currency($this->failedPayments->sum('amount'), $this->failedPayments->first()->currency),
                     ]),
                 ],
             ],

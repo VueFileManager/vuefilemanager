@@ -1,6 +1,7 @@
 <template>
     <div class="flex items-center mb-8">
         <edit-2-icon v-if="!icon" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
+        <frown-icon v-if="icon === 'frown'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <file-text-icon v-if="icon === 'file-text'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <dollar-sign-icon v-if="icon === 'dollar'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <credit-card-icon v-if="icon === 'credit-card'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
@@ -25,6 +26,7 @@
 		BarChartIcon,
 		SettingsIcon,
 		FileTextIcon,
+		FrownIcon,
 		Edit2Icon,
 		BellIcon,
 		KeyIcon,
@@ -43,6 +45,7 @@
 			BarChartIcon,
 			SettingsIcon,
 			FileTextIcon,
+			FrownIcon,
 			Edit2Icon,
 			BellIcon,
 			KeyIcon,

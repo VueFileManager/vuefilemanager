@@ -1,6 +1,53 @@
 <template>
     <PageTab :is-loading="isLoading">
 
+		<!--Usage Estimates-->
+		<div v-if="user.data.relationships.failedPayments && user.data.relationships.failedPayments.data.length > 0" class="card shadow-card">
+			<FormLabel icon="frown">
+                {{ $t('Failed Payments') }}
+            </FormLabel>
+
+			<b class="text-3xl text-red font-extrabold -mt-3 block mb-0.5">
+				-{{ user.data.meta.totalDebt }}
+			</b>
+
+			<b class="mb-3 block text-sm text-gray-400 mb-5">
+				{{ $t('We are unable to charge your usage for items below') }}
+			</b>
+
+			<!--Failed Payments-->
+			<div
+				v-for="payment in user.data.relationships.failedPayments.data"
+				:key="payment.data.id"
+				class="flex items-center justify-between py-2 border-b dark:border-opacity-5 border-light border-dashed"
+			>
+				<div class="w-2/4 leading-none">
+					<b class="text-sm font-bold leading-none">
+						{{ payment.data.attributes.note }}
+					</b>
+				</div>
+				<div class="text-left w-1/4">
+					<span class="text-sm font-bold text-gray-560">
+						{{ $t(payment.data.attributes.source) }}
+					</span>
+				</div>
+				<div class="text-right w-1/4">
+					<span class="text-sm font-bold">
+						{{ payment.data.attributes.created_at }}
+					</span>
+				</div>
+				<div class="text-right w-1/4">
+					<span class="text-sm font-bold text-theme">
+						{{ payment.data.attributes.amount }}
+					</span>
+				</div>
+			</div>
+
+			<InfoBox type="error" class="mt-4" style="margin-bottom: 0">
+				<p v-html="$t('Uh-oh! We are unable to charge your usage. Please register new credit card or fund your account with sufficient amount and we\'ll give it another try!')"></p>
+			</InfoBox>
+		</div>
+
 		<!-- Balance -->
 		<div v-if="! hasPaymentMethod" class="card shadow-card">
 			<FormLabel icon="dollar">
@@ -168,7 +215,7 @@
 
 				<!-- Card -->
 				<div
-					v-for="card in user.data.relationships.creditCard.data"
+					v-for="card in user.data.relationships.creditCards.data"
 					:key="card.data.id"
 					class="flex items-center justify-between py-3 px-4 input-dark"
 				>
@@ -297,7 +344,7 @@
 				'user',
 			]),
 			hasPaymentMethod() {
-				return this.user.data.relationships.creditCard && this.user.data.relationships.creditCard.data.length > 0
+				return this.user.data.relationships.creditCards && this.user.data.relationships.creditCards.data.length > 0
 			},
 		},
 		data() {
