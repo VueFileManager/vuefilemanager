@@ -358,6 +358,13 @@ const FunctionHelpers = {
             }[type]
         }
 
+        Vue.prototype.$getTransactionStatusColor = function (type) {
+            return {
+                'completed': 'green',
+                'error': 'red',
+            }[type]
+        }
+
         Vue.prototype.$getTransactionTypeTextColor = function (type) {
 
             return {

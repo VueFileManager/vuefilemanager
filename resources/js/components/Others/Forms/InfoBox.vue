@@ -87,6 +87,18 @@
         .info-box {
             background: $dark_mode_foreground;
 
+			&.error {
+				background: rgba($danger, 0.1);
+
+				p, a {
+					color: $danger;
+				}
+
+				a {
+					text-decoration: underline;
+				}
+			}
+
             p {
                 color: $dark_mode_text_primary;
             }

@@ -1,5 +1,5 @@
 <template>
-    <b class="color-label" :class="color">
+    <b class="color-label text-xs rounded-lg" :class="color">
         <slot></slot>
     </b>
 </template>
@@ -17,9 +17,7 @@
 
     .color-label {
         text-transform: capitalize;
-        @include font-size(12);
         display: inline-block;
-        border-radius: 6px;
         font-weight: 700;
         padding: 4px 6px;
 

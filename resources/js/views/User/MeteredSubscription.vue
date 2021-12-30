@@ -1,7 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
 
-		<!--Usage Estimates-->
+		<!--Failed Payments-->
 		<div v-if="user.data.relationships.failedPayments && user.data.relationships.failedPayments.data.length > 0" class="card shadow-card">
 			<FormLabel icon="frown">
                 {{ $t('Failed Payments') }}
@@ -27,7 +27,7 @@
 					</b>
 				</div>
 				<div class="text-left w-1/4">
-					<span class="text-sm font-bold text-gray-560">
+					<span class="text-sm font-bold text-gray-560 capitalize">
 						{{ $t(payment.data.attributes.source) }}
 					</span>
 				</div>
@@ -43,7 +43,7 @@
 				</div>
 			</div>
 
-			<InfoBox type="error" class="mt-4" style="margin-bottom: 0">
+			<InfoBox type="error" class="mt-7" style="margin-bottom: 0">
 				<p v-html="$t('Uh-oh! We are unable to charge your usage. Please register new credit card or fund your account with sufficient amount and we\'ll give it another try!')"></p>
 			</InfoBox>
 		</div>
@@ -257,12 +257,14 @@
 							</span>
                         </td>
                         <td>
-							<ColorLabel v-if="config.subscriptionType === 'fixed'" :color="$getTransactionStatusColor(row.data.attributes.status)">
+							<ColorLabel class="capitalize" :color="$getTransactionStatusColor(row.data.attributes.status)">
                                 {{ row.data.attributes.status }}
 							</ColorLabel>
-							<ColorLabel v-if="config.subscriptionType === 'metered'" :color="$getTransactionTypeColor(row.data.attributes.type)">
-                                {{ row.data.attributes.type }}
-							</ColorLabel>
+                        </td>
+						<td class="py-4">
+                            <span class="text-sm font-bold capitalize">
+								{{ $t(row.data.attributes.type) }}
+							</span>
                         </td>
                         <td>
                             <span class="text-sm font-bold" :class="$getTransactionTypeTextColor(row.data.attributes.type)">
@@ -363,6 +365,11 @@
 					},
 					{
 						label: this.$t('Status'),
+						field: 'status',
+						sortable: true
+					},
+					{
+						label: this.$t('Type'),
 						field: 'status',
 						sortable: true
 					},
