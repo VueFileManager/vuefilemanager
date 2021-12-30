@@ -210,7 +210,7 @@
 			<!-- User has registered payment method -->
 			<div v-if="hasPaymentMethod">
 				<b v-if="user.data.relationships.balance.data.attributes.balance > 0" class="mb-3 block text-sm mb-5">
-					{{ $t('You have $10.00 in credit that will be automatically withdrawn on your next payment.') }}
+					{{ $t('credit_to_auto_withdraw', {credit: user.data.relationships.balance.data.attributes.formatted}) }}
 				</b>
 
 				<!-- Card -->
