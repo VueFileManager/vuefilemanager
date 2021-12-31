@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use ByteUnits\Metric;
 use App\Users\Models\User;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
@@ -1012,7 +1013,8 @@ if(! function_exists('get_socialite_avatar')) {
      */
     function store_socialite_avatar($avatar)
     {
-        $image = file_get_contents($avatar);
+        // Get image from external source
+        $image = Http::get($avatar)->body();
 
         // Generate avatar name
         $avatar_name = Str::uuid() . '.jpg';

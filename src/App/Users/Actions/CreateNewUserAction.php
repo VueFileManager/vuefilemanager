@@ -39,25 +39,25 @@ class CreateNewUserAction extends Controller
         $user = User::create([
             'password'       => ! $socialite_auth ? bcrypt($data['password']) : null,
             'oauth_provider' => $socialite_auth ? $data->oauth_provider : null,
-            'email'          => $data['email'],
+            'email'          => $data['email'] ?? $data->email,
         ]);
-
-        // Mark as verified if verification is disabled
-        if (! intval($settings['user_verification']) || $socialite_auth) {
-            $user->markEmailAsVerified();
-        }
 
         UserSettings::unguard();
 
         $user
             ->settings()
             ->create([
-                'name'             => $data['name'],
+                'name'             => $data['name'] ?? $data->name,
                 'storage_capacity' => $settings['storage_default'],
                 'avatar'           => $data->avatar ? $data->avatar : null,
             ]);
 
         UserSettings::reguard();
+
+        // Mark as verified if verification is disabled
+        if (! intval($settings['user_verification']) || $socialite_auth) {
+            $user->markEmailAsVerified();
+        }
 
         event(new Registered($user));
 

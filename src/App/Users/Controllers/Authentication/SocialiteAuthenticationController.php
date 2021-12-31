@@ -21,13 +21,17 @@ class SocialiteAuthenticationController extends Controller
 
        return response()->json([
            'url' => $url
-       ], 200);
+       ]);
     }
 
     public function callback($provider)
     {
         // Get socialite user
-        $provider_user = Socialite::driver($provider)->stateless()->user();
+        if (app()->runningInConsole()) {
+            $provider_user = Socialite::driver($provider)->user();
+        } else {
+            $provider_user = Socialite::driver($provider)->stateless()->user();
+        }
 
         // Check if user exist already
         $user = User::whereEmail($provider_user->email)->first();
