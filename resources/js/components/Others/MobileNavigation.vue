@@ -10,7 +10,7 @@
 					{{ $t('Your current estimated usage:') }}
 				</span>
 				<span class="text-sm font-bold text-theme">
-					$22,93
+					{{ user.data.meta.usages.costEstimate }}
 				</span>
 			</div>
 		</div>

@@ -2,6 +2,10 @@
     <div id="desktop-toolbar" class="lg:block hidden">
         <div class="toolbar-wrapper">
 			<div @click="goBack" class="location">
+				<div v-if="! isVisibleNavigationBars" @click="toggleNavigationBars" class="mr-2">
+					<menu-icon size="17" />
+				</div>
+
 				<chevron-left-icon :class="{'opacity-0 -translate-x-3': ! currentFolder, 'opacity-100 translate-x-0': currentFolder }" class="icon-back transform transition-all duration-200" size="17" />
 
 				<span :class="{'-translate-x-4': ! currentFolder}" class="location-title transform transition-all duration-200">
@@ -122,7 +126,7 @@
 	import TeamMembersButton from "../Teams/Components/TeamMembersButton"
 	import PopoverItem from '/resources/js/components/Desktop/PopoverItem'
 	import TeamFolderPreview from "../Teams/Components/TeamFolderPreview"
-	import {ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
+	import {MenuIcon, ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
 	import SearchBar from '/resources/js/components/FilesView/SearchBar'
 	import Option from '/resources/js/components/FilesView/Option'
 	import {events} from '/resources/js/bus'
@@ -145,10 +149,12 @@
 			OptionGroup,
 			PopoverItem,
 			SearchBar,
+			MenuIcon,
 			Option,
 		},
 		computed: {
 			...mapGetters([
+				'isVisibleNavigationBars',
 				'currentTeamFolder',
 				'currentFolder',
 				'sharedDetail',
@@ -242,6 +248,9 @@
 			}
 		},
 		methods: {
+			toggleNavigationBars() {
+				this.$store.dispatch('toggleNavigationBars')
+			},
 			goBack() {
 				if (this.isNotHomepage) this.$router.back()
 			},

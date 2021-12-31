@@ -1,5 +1,9 @@
 <template>
-	<ContentSidebar>
+	<ContentSidebar class="relative" v-if="isVisibleNavigationBars">
+		<div @click="toggleNavigationBars" class="inline-block absolute top-2.5 right-0 p-3 cursor-pointer transition-all duration-200 hover:opacity-70 opacity-0">
+			<chevrons-left-icon size="18"/>
+		</div>
+
 		<!--Empty storage warning-->
 <!--		<ContentGroup v-if="user && config.storageLimit && storage.used > 95">
 			<UpgradeSidebarBanner/>
@@ -96,7 +100,7 @@
 </template>
 
 <script>
-	import {FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon} from "vue-feather-icons";
+	import { ChevronsLeftIcon, FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon} from "vue-feather-icons";
 	import UpgradeSidebarBanner from '/resources/js/components/Others/UpgradeSidebarBanner'
 	import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
 	import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
@@ -111,6 +115,7 @@ export default {
 		TreeMenuNavigator,
 		ContentSidebar,
 		ContentGroup,
+		ChevronsLeftIcon,
 		UploadCloudIcon,
 		UserCheckIcon,
 		FolderIcon,
@@ -122,6 +127,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
+			'isVisibleNavigationBars',
 			'clipboard',
 			'config',
 			'user',
@@ -143,6 +149,9 @@ export default {
 		}
 	},
 	methods: {
+		toggleNavigationBars() {
+			this.$store.dispatch('toggleNavigationBars')
+		},
 		resetData() {
 			this.$store.commit('SET_CURRENT_TEAM_FOLDER', null)
 			this.$store.commit('CLIPBOARD_CLEAR')

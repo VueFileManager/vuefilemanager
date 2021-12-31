@@ -96,6 +96,7 @@
 							<box-icon v-if="result.action.value === 'Dashboard'" size="18" class="vue-feather text-theme"/>
 							<hard-drive-icon v-if="result.action.value === 'Storage'" size="18" class="vue-feather text-theme"/>
 							<moon-icon v-if="result.action.value === 'dark-mode'" size="18" class="vue-feather text-theme"/>
+							<maximize2-icon v-if="result.action.value === 'full-screen-mode'" size="18" class="vue-feather text-theme"/>
 							<power-icon v-if="result.action.value === 'log-out'" size="18" class="vue-feather text-theme"/>
 							<trash-icon v-if="result.action.value === 'empty-trash'" size="18" class="vue-feather text-theme"/>
 
@@ -186,6 +187,7 @@
 
 <script>
 import {
+	Maximize2Icon,
 	ArrowDownIcon,
 	ArrowUpIcon,
 	BoxIcon,
@@ -225,6 +227,7 @@ export default {
 	components: {
 		CategoryName,
 		FilterSuggestion,
+		Maximize2Icon,
 		TrashIcon,
 		MoonIcon,
 		PowerIcon,
@@ -431,6 +434,13 @@ export default {
 					},
 				},
 				{
+					title: this.$t('Toggle Full-Screen Mode'),
+					action: {
+						type: 'function',
+						value: 'full-screen-mode',
+					},
+				},
+				{
 					title: this.$t('Log Out'),
 					action: {
 						type: 'function',
@@ -558,6 +568,10 @@ export default {
 
 				if (arg.action.value === 'dark-mode') {
 					this.$store.dispatch('toggleDarkMode', !this.isDarkMode)
+				}
+
+				if (arg.action.value === 'full-screen-mode') {
+					this.$store.dispatch('toggleNavigationBars')
 				}
 
 				if (arg.action.value === 'log-out') {

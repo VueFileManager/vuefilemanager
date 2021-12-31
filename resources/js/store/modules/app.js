@@ -2,6 +2,7 @@ import i18n from '/resources/js/i18n/index'
 import axios from "axios";
 
 const defaultState = {
+    isVisibleNavigationBars: localStorage.getItem('is_navigation_bars') !== 'false',
     darkMode: localStorage.getItem('is_dark_mode') === 'true' || false,
     isVisibleSidebar: localStorage.getItem('file_info_visibility') === 'true' || false,
     itemViewType: localStorage.getItem('preview_type') || 'list',
@@ -990,6 +991,14 @@ const actions = {
         // Change preview
         commit('TOGGLE_DARK_MODE', visibility)
     },
+    toggleNavigationBars: ({commit, state}) => {
+
+        // Store dark mode into localStorage
+        localStorage.setItem('is_navigation_bars', ! state.isVisibleNavigationBars)
+
+        // Change preview
+        commit('TOGGLE_NAVIGATION_BARS')
+    },
     changePreviewType: ({commit, state}, preview) => {
 
         // Get preview type
@@ -1061,12 +1070,16 @@ const mutations = {
     TOGGLE_DARK_MODE(state, visibility) {
         state.darkMode = visibility
     },
+    TOGGLE_NAVIGATION_BARS(state) {
+        state.isVisibleNavigationBars = ! state.isVisibleNavigationBars
+    },
     STORE_REQUESTED_PLAN(state, plan) {
         state.requestedPlan = plan
     },
 }
 
 const getters = {
+    isVisibleNavigationBars: state => state.isVisibleNavigationBars,
     isVisibleSidebar: state => state.isVisibleSidebar,
     teamPermissions: state => state.teamPermissions,
     itemViewType: state => state.itemViewType,

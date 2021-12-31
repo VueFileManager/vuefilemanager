@@ -94,7 +94,8 @@
         name: 'Admin',
         computed: {
             ...mapGetters([
-				'config'
+				'isVisibleNavigationBars',
+				'config',
 			]),
 			assetMenu() {
 				return {

@@ -1,5 +1,5 @@
 <template>
-    <nav class="menu-bar pt-7 select-none dark:bg-dark-foreground bg-light-background flex-none xl:w-20 w-16 lg:grid hidden">
+    <nav v-if="isVisibleNavigationBars" class="menu-bar pt-7 select-none dark:bg-dark-foreground bg-light-background flex-none xl:w-20 w-16 lg:grid hidden">
 
 		<!--Navigation-->
 		<div v-if="user" class="mb-auto text-center">
@@ -85,6 +85,7 @@
 		},
 		computed: {
 			...mapGetters([
+				'isVisibleNavigationBars',
 				'isDarkMode',
 				'config',
 				'user',
