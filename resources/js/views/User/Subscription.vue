@@ -2,26 +2,15 @@
     <PageTab :is-loading="isLoading">
 		<div v-if="subscription" class="card shadow-card">
 			<FormLabel>
-				{{ $t('Details') }}
+				{{ $t('Subscription') }}
 			</FormLabel>
-			<div class="md:flex md:space-x-10 mb-8">
-				<div class="md:mb-0 mb-6">
-					<b class="block leading-5 text-lg">
-						{{ status }}
-					</b>
-					<small class="text-gray-500">
-						{{ $t('We will send you a notification upon Subscription expiration') }}
-					</small>
-				</div>
-				<div>
-					<b class="block leading-5 text-lg">
-						{{ price }}
-					</b>
-					<small class="text-gray-500">
-						{{ subscription.relationships.plan.data.attributes.name }}
-					</small>
-				</div>
-			</div>
+
+			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+				{{ status }}
+			</b>
+			<b class="mb-3 block text-sm text-gray-400 mb-8">
+				{{ subscription.relationships.plan.data.attributes.name }} / {{ price }}
+			</b>
 
 			<div v-for="(limit, i) in limitations" :key="i" :class="{'mb-6': (Object.keys(limitations).length - 1) !== i}">
 				<b class="mb-3 block text-sm text-gray-400">
@@ -211,6 +200,7 @@
 							type: 'danger',
 							message: this.$t('popup_error.title'),
 						})
+
 						this.isGeneratedUpdateLink = false
 					})
 			},

@@ -5,7 +5,7 @@
         <PopupContent style="padding: 0 20px">
 
 			<!--PayPal implementation-->
-			<div :class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl px-4 mb-2': paypalMethodsLoaded}">
+			<div v-if="config.isPayPal" :class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl px-4 mb-2': paypalMethodsLoaded}">
 				<PaymentMethod
 					@click.native="pickedPaymentMethod('paypal')"
 					driver="paypal"
@@ -24,6 +24,7 @@
 
 			<!--Paystack implementation-->
 			<PaymentMethod
+				v-if="config.isPaystack"
 				driver="paystack"
 				:description="$t('Available Bank Account, USSD, Mobile Money, Apple Pay')"
 			>

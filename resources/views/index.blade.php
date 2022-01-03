@@ -53,8 +53,6 @@
             app_logo_horizontal: '{{ $settings->app_logo_horizontal ?? null }}',
             app_description: '{{ $settings->app_description ?? __t('app_description') }}',
 
-            app_payments_active: {{ $settings->payments_active ?? 0 }},
-
 			subscriptionType: '{{ $settings->subscription_type ?? 'none' }}',
 
             allowHomepage: {{ $settings->allow_homepage ?? 1 }},
@@ -79,10 +77,20 @@
             installation: '{{ $installation ?? 'initial' }}',
             statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
 
-            // Payment drivers
-            paystack_public_key: '{{ env('PAYSTACK_PUBLIC_KEY') }}',
+            // Payments
+            app_payments_active: {{ $settings->payments_active ?? 0 }},
+
+            // PayPal
+            isPayPal: true,
             paypal_client_id: '{{ env('PAYPAL_CLIENT_ID') }}',
-            stripe_public_key: '{{ env('STRIPE_PUBLIC_KEY') ?? null }}',
+
+            // Paystack
+            isPaystack: true,
+            paystack_public_key: '{{ env('PAYSTACK_PUBLIC_KEY') }}',
+
+            // Stripe
+            isStripe: true,
+            stripe_public_key: '{{ env('STRIPE_PUBLIC_KEY') }}',
         }
     </script>
 

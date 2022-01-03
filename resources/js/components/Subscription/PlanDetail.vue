@@ -1,10 +1,16 @@
 <template>
-	<label class="py-3 px-4 cursor-pointer border-b border-light rounded-lg block select-none" :class="{'bg-light-background': isSelected}">
-		<div class="flex items-center mb-1.5">
+	<div
+		class="py-3 px-4 cursor-pointer rounded-lg block select-none"
+		:class="{'bg-light-background': isSelected}"
+	>
+		<div class="flex items-center justify-between mb-1.5">
 			<CheckBox :is-clicked="isSelected" />
-			<b class="pl-4 text-lg">
+			<b class="pl-4 text-lg text-left flex-1">
 				{{ plan.data.attributes.name }}
 			</b>
+			<span class="ml-9 inline-block py-1 px-2 text-theme font-extrabold text-sm rounded-xl bg-theme-100 whitespace-nowrap">
+				{{ plan.data.attributes.price }} / {{ $t(`interval.${plan.data.attributes.interval}`) }}
+			</span>
 		</div>
 		<ul class="ml-9 mb-3">
 			<li class="flex items-center mb-1.5" v-for="(value, key, i) in plan.data.attributes.features" :key="i">
@@ -17,10 +23,7 @@
 				</small>
 			</li>
 		</ul>
-		<span class="ml-9 inline-block py-1 px-2 text-theme font-extrabold text-sm rounded-xl bg-theme-100">
-			{{ plan.data.attributes.price }} / {{ $t(`interval.${plan.data.attributes.interval}`) }}
-		</span>
-	</label>
+	</div>
 </template>
 <script>
 import {CheckIcon} from 'vue-feather-icons'

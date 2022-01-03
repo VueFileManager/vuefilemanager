@@ -177,8 +177,8 @@
             </ValidationObserver>
 		</div>
 
-		<!-- Payment method for automatically handle payments -->
-		<div class="card shadow-card">
+		<!-- Payment method for automatically handle payments - only for Stripe -->
+		<div v-if="config.isStripe" class="card shadow-card">
 			<FormLabel icon="credit-card">
                 {{ $t('Payment Method') }}
             </FormLabel>

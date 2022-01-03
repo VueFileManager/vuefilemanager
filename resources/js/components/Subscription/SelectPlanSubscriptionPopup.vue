@@ -1,10 +1,7 @@
 <template>
     <PopupWrapper name="select-plan-subscription">
 
-        <!--Title-->
-		<b class="text-center block text-2xl font-extrabold mt-6">
-			{{ $t('Upgrade Your Account') }}
-		</b>
+		<PopupHeader :title="$t('Upgrade Your Account')" icon="credit-card" />
 
 		<!--Payment Options-->
 		<div v-if="isPaymentOptionPage">
@@ -54,22 +51,19 @@
 			<PopupContent>
 
 				<!--Toggle amid monthly and yearly billing-->
-				<div class="text-center my-5">
-					<label :class="{'text-gray-400': isYearlyPlans}" class="font-bold cursor-pointer text-xs">
-						{{ $t('Billed Monthly') }}
-					</label>
-					<div class="relative inline-block w-14 mx-4 align-middle select-none">
-						<SwitchInput class="transform scale-90" v-model="isYearlyPlans" />
-					</div>
+				<div class="px-5 mb-2 text-right">
 					<label :class="{'text-gray-400': !isYearlyPlans}" class="font-bold cursor-pointer text-xs">
 						{{ $t('Billed Annually') }}
 					</label>
+					<div class="relative inline-block w-14 align-middle select-none">
+						<SwitchInput class="transform scale-90" v-model="isYearlyPlans" :state="isYearlyPlans" />
+					</div>
 				</div>
 
 				<!--Form to set team folder-->
 				<div class="px-4" v-if="plans">
 					<PlanDetail
-						v-for="plan in plans"
+						v-for="(plan, i) in plans"
 						:plan="plan"
 						:key="plan.data.id"
 						v-if="plan.data.attributes.interval === intervalPlanType"
