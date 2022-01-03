@@ -165,7 +165,7 @@
             }
         },
 		created() {
-			// setTimeout(() => this.$openUpgradeOptions(), 300)
+			setTimeout(() => this.$openUpgradeOptions(), 300)
 		}
 	}
 </script>

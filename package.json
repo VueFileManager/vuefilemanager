@@ -10,19 +10,16 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "axios": "^0.21",
+        "axios": "^0.21.4",
         "cross-env": "^5.1",
         "laravel-mix": "^5.0.9",
         "resolve-url-loader": "^2.3.1",
         "sass-loader": "^8.0.2",
-        "tailwindcss-debug-screens": "^2.2.0",
-        "vue-template-compiler": "^2.6.12"
+        "tailwindcss-debug-screens": "^2.2.1",
+        "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^1.2.35",
-        "@fortawesome/free-solid-svg-icons": "^5.15.3",
-        "@fortawesome/vue-fontawesome": "^0.1.10",
-        "@paypal/paypal-js": "^4.1.0",
+        "@paypal/paypal-js": "^4.2.2",
         "@stripe/stripe-js": "^1.22.0",
         "autoprefixer": "^9.8.8",
         "lodash": "^4.17.21",
@@ -30,13 +27,13 @@
         "pdfvuer": "1.7.5",
         "postcss": "^7.0.39",
         "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
-        "twemoji": "^13.0.2",
-        "vee-validate": "^3.4.5",
-        "vue": "^2.6.12",
+        "twemoji": "^13.1.0",
+        "vee-validate": "^3.4.14",
+        "vue": "^2.6.14",
         "vue-feather-icons": "^5.1.0",
-        "vue-i18n": "^8.24.4",
+        "vue-i18n": "^8.26.8",
         "vue-paystack": "^2.0.4",
-        "vue-router": "^3.5.1",
+        "vue-router": "^3.5.3",
         "vuex": "^3.6.2"
     }
 }

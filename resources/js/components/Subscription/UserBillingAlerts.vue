@@ -39,7 +39,7 @@
 		<ValidationObserver v-if="! user.data.relationships.alert" ref="billingAlertForm" @submit.prevent="setBillingAlert" v-slot="{ invalid }" tag="form" class="mt-6">
 			<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" rules="required">
 				<AppInputText :description="$t('You will receive an email whenever your monthly balance reaches the specified amount above.')" :error="errors[0]" :is-last="true">
-					<div class="flex space-x-4">
+					<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
 						<input v-model="billingAlertAmount"
 							   :placeholder="$t('Alert Amount...')"
 							   type="number"
@@ -48,7 +48,7 @@
 							   class="focus-border-theme input-dark"
 							   :class="{'border-red-700': errors[0]}"
 						/>
-						<ButtonBase :loadint="isSendingBillingAlert" :disabled="isSendingBillingAlert" type="submit" button-style="theme" class="submit-button">
+						<ButtonBase :loadint="isSendingBillingAlert" :disabled="isSendingBillingAlert" type="submit" button-style="theme" class="sm:w-auto w-full">
 							{{ $t('Set Alert') }}
 						</ButtonBase>
 					</div>

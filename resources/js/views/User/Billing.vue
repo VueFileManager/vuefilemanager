@@ -23,6 +23,8 @@
 
 		<!-- Fixed subscription components -->
 		<div v-if="config.subscriptionType === 'fixed'">
+			<!-- Empty subscription -->
+			<UserEmptySubscription />
 
 			<!-- Subscription Detail -->
 			<UserFixedSubscriptionDetail />
@@ -38,9 +40,6 @@
 
 			<!-- Transactions -->
 			<UserTransactionsForFixedBilling />
-
-			<!-- Empty subscription -->
-			<UserEmptySubscription />
 		</div>
 
     </PageTab>

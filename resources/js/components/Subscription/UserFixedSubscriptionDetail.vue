@@ -7,6 +7,7 @@
 		<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
 			{{ status }}
 		</b>
+
 		<b class="mb-3 block text-sm text-gray-400 mb-8">
 			{{ subscription.data.relationships.plan.data.attributes.name }} / {{ price }}
 		</b>

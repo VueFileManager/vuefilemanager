@@ -6,7 +6,7 @@
 				{{ description }}
 			</small>
 		</div>
-		<div v-if="$slots.default" class="bg-theme-200 inline-block px-3 py-1 rounded-lg">
+		<div v-if="$slots.default" class="bg-theme-200 inline-block px-3 py-1 rounded-lg relative">
 			<slot></slot>
 		</div>
 	</div>

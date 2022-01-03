@@ -39,8 +39,8 @@
 
 			<!--Empty page-->
 			<template v-slot:empty-page>
-				<InfoBox>
-					<p>{{ $t('admin_page_user.invoices.empty') }}</p>
+				<InfoBox style="margin-bottom: 0">
+					<p>{{ $t('user_invoices.empty') }}</p>
 				</InfoBox>
 			</template>
 		</DatatableWrapper>

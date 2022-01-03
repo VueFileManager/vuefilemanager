@@ -37,7 +37,7 @@
 					:amount="singleChargeAmount * 100"
 					:email="user.data.attributes.email"
 					:paystackkey="config.paystack_public_key"
-					:reference="reference"
+					:reference="$generatePaystackReference()"
 					:callback="paystackPaymentSuccessful"
 					:close="paystackClosed"
 				>
@@ -94,16 +94,6 @@ export default {
 			'config',
 			'user',
 		]),
-		reference() {
-			let text = "";
-			let possible =
-				"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-			for (let i = 0; i < 10; i++)
-				text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-			return text;
-		},
 	},
 	methods: {
 		pickedPaymentMethod(driver) {

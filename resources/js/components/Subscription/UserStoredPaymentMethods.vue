@@ -1,5 +1,5 @@
 <template>
-	<div v-if="config.isStripe" class="card shadow-card">
+	<div v-if="config.isStripe && hasSubscription" class="card shadow-card">
 		<FormLabel icon="credit-card">
 			{{ $t('Payment Method') }}
 		</FormLabel>
@@ -75,6 +75,9 @@
 				'config',
 				'user',
 			]),
+			hasSubscription() {
+				return this.$store.getters.user.data.relationships.subscription
+			},
 			hasPaymentMethod() {
 				return this.user.data.relationships.creditCards && this.user.data.relationships.creditCards.data.length > 0
 			},

@@ -13,25 +13,31 @@
 					driver="stripe"
 					:description="$t('Pay by your credit card or Apple Pay')"
 				>
-					<span v-if="! paypalMethodsLoaded" @click="payByStripe" class="text-sm text-theme font-bold cursor-pointer">
+					<div v-if="stripe.isGettingCheckoutLink" class="transform scale-50 translate-y-3">
+						<Spinner />
+					</div>
+					<span @click="payByStripe" :class="{'opacity-0': stripe.isGettingCheckoutLink}" class="text-sm text-theme font-bold cursor-pointer">
 						{{ $t('Select') }}
 					</span>
 				</PaymentMethod>
 
 				<!--PayPal implementation-->
-				<div v-if="config.isPayPal" :class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl px-4 mb-2': paypalMethodsLoaded}">
+				<div
+					v-if="config.isPayPal"
+					:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl px-4 mb-2': paypal.isMethodsLoaded}"
+				>
 					<PaymentMethod
 						@click.native="pickedPaymentMethod('paypal')"
 						driver="paypal"
 						:description="$t('Available PayPal Credit, Debit or Credit Card.')"
 					>
-						<span v-if="! paypalMethodsLoaded" class="text-sm text-theme font-bold cursor-pointer">
+						<span v-if="! paypal.isMethodsLoaded" class="text-sm text-theme font-bold cursor-pointer">
 							{{ $t('Select') }}
 						</span>
 					</PaymentMethod>
 
 					<!--PayPal Buttons-->
-					<div v-if="paypalMethodsLoaded">
+					<div v-if="paypal.isMethodsLoaded">
 						<div id="paypal-button-container"></div>
 					</div>
 				</div>
@@ -51,7 +57,7 @@
 						:amount="selectedPlan.data.attributes.amount * 100"
 						:email="user.data.attributes.email"
 						:paystackkey="config.paystack_public_key"
-						:reference="reference"
+						:reference="$generatePaystackReference()"
 						:callback="paymentSuccessful"
 						:close="paystackClosed"
 					>
@@ -77,7 +83,7 @@
 		<div v-if="! isPaymentOptionPage">
 			<PopupContent>
 
-				<!--Toggle amid monthly and yearly billing-->
+				<!--Toggle yearly billing-->
 				<div class="px-5 mb-2 text-right">
 					<label :class="{'text-gray-400': !isYearlyPlans}" class="font-bold cursor-pointer text-xs">
 						{{ $t('Billed Annually') }}
@@ -87,18 +93,17 @@
 					</div>
 				</div>
 
-				<!--Form to set team folder-->
+				<!--List available plans-->
 				<div class="px-4" v-if="plans">
 					<PlanDetail
 						v-for="(plan, i) in plans"
 						:plan="plan"
 						:key="plan.data.id"
-						v-if="plan.data.attributes.interval === intervalPlanType"
+						v-if="plan.data.attributes.interval === intervalPlanType && userActivePlanId !== plan.data.id"
 						:is-selected="selectedPlan && selectedPlan.data.id === plan.data.id"
 						@click.native="selectPlan(plan)"
 					/>
 				</div>
-
 			</PopupContent>
 
 			<!--Actions-->
@@ -122,8 +127,8 @@
 
 <script>
 	import PaymentMethod from "../Others/PaymentMethod";
-	import { loadScript } from "@paypal/paypal-js";
-    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
+	import {loadScript} from "@paypal/paypal-js";
+	import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
 	import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
 	import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
 	import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
@@ -134,10 +139,12 @@
 	import {mapGetters} from "vuex";
 	import {events} from "../../bus";
 	import axios from "axios";
+	import Spinner from "../FilesView/Spinner";
 
 	export default {
 		name: 'SelectPlanSubscriptionPopup',
 		components: {
+			Spinner,
 			PaymentMethod,
 			paystack,
 			PlanDetail,
@@ -158,16 +165,6 @@
 				'config',
 				'user',
 			]),
-			reference() {
-				let text = "";
-				let possible =
-					"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-				for (let i = 0; i < 10; i++)
-					text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-				return text;
-			},
 			intervalPlanType() {
 				return this.isYearlyPlans
 					? 'year'
@@ -177,12 +174,19 @@
 				return this.selectedPlan
 					? 'theme'
 					: 'secondary'
-			}
+			},
+			userActivePlanId() {
+				return this.user && this.user.data.relationships.subscription.data.relationships.plan.data.id
+			},
 		},
 		data() {
 			return {
-				paypalMethodsLoaded: false,
-
+				stripe: {
+					isGettingCheckoutLink: false,
+				},
+				paypal: {
+					isMethodsLoaded: false,
+				},
 				isPaymentOptionPage: false,
 				isYearlyPlans: false,
 				isLoading: false,
@@ -195,12 +199,12 @@
 				if (driver === 'paystack') {
 					this.$closePopup()
 				}
-				if (driver === 'paypal' && !this.paypalMethodsLoaded) {
+				if (driver === 'paypal' && !this.paypal.isMethodsLoaded) {
 					this.PayPalInitialization()
 				}
 			},
 			async PayPalInitialization() {
-				this.paypalMethodsLoaded = true
+				this.paypal.isMethodsLoaded = true
 
 				let paypal;
 
@@ -222,18 +226,20 @@
 
 				// Initialize paypal buttons for single charge
 				await paypal.Buttons({
-					createSubscription: function(data, actions) {
+					createSubscription: function (data, actions) {
 						return actions.subscription.create({
 							plan_id: planId,
 							custom_id: userId
 						});
 					},
-					onApprove: function(data, actions) {
+					onApprove: function (data, actions) {
 						app.paymentSuccessful()
 					}
 				}).render('#paypal-button-container');
 			},
 			payByStripe() {
+				this.stripe.isGettingCheckoutLink = true
+
 				axios.post('/api/stripe/checkout', {
 						planCode: this.selectedPlan.data.meta.driver_plan_id.stripe
 					})

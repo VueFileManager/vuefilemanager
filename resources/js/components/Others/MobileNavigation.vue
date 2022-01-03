@@ -39,11 +39,7 @@
                 <Option @click.native="goToRoute('Profile')" :title="$t('menu.profile')" icon="user" is-hover-disabled="true" />
                 <Option @click.native="goToRoute('Storage')" :title="$t('menu.storage')" icon="hard-drive" is-hover-disabled="true" />
                 <Option @click.native="goToRoute('Password')" :title="$t('menu.password')" icon="lock" is-hover-disabled="true" />
-            </OptionGroup>
-            <OptionGroup v-if="clickedSubmenu === 'settings' && config.isSaaS">
-                <Option v-if="" @click.native="goToRoute('Subscription')" :title="$t('menu.subscription')" icon="cloud" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('PaymentMethods')" :title="$t('menu.payment_cards')" icon="credit-card" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Invoice')" :title="$t('menu.invoices')" icon="file-text" is-hover-disabled="true" />
+				<Option @click.native="goToRoute('Billing')" v-if="config.isSaaS" :title="$t('Billing')" icon="cloud" is-hover-disabled="true" />
             </OptionGroup>
 
             <!--Submenu: Admin settings-->
