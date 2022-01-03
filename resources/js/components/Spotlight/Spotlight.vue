@@ -90,7 +90,7 @@
 							<upload-cloud-icon v-if="result.action.value === 'RecentUploads'" size="18" class="vue-feather text-theme"/>
 							<file-text-icon v-if="['Invoices', 'Invoice'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 							<database-icon v-if="result.action.value === 'Plans'" size="18" class="vue-feather text-theme"/>
-							<dollar-sign-icon v-if="['Subscriptions', 'Subscription', 'MeteredSubscription'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+							<dollar-sign-icon v-if="['Subscriptions', 'Billing'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
 							<globe-icon v-if="result.action.value === 'Language'" size="18" class="vue-feather text-theme"/>
 							<monitor-icon v-if="result.action.value === 'Pages'" size="18" class="vue-feather text-theme"/>
 							<box-icon v-if="result.action.value === 'Dashboard'" size="18" class="vue-feather text-theme"/>
@@ -408,12 +408,10 @@ export default {
 					},
 				},
 				{
-					title: this.$t('Show my Subscription'),
+					title: this.$t('Show my Billing'),
 					action: {
 						type: 'route',
-						value: this.config.subscriptionType === 'fixed'
-							? 'Subscription'
-							: 'MeteredSubscription',
+						value: 'Billing',
 					},
 				},
 				{

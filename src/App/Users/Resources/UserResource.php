@@ -43,6 +43,7 @@ class UserResource extends JsonResource
                 'relationships' => [
                     'settings'   => new SettingsResource($this->settings),
                     'favourites' => new FolderCollection($this->favouriteFolders),
+                    'creditCards' => new CreditCardCollection($this->creditCards),
                     $this->mergeWhen($this->hasSubscription(), fn () => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),
@@ -51,9 +52,6 @@ class UserResource extends JsonResource
                     ]),
                     $this->mergeWhen($isMeteredSubscription, fn () => [
                         'alert' => new BillingAlertResource($this->billingAlert),
-                    ]),
-                    $this->mergeWhen($isMeteredSubscription, fn () => [
-                        'creditCards' => new CreditCardCollection($this->creditCards),
                     ]),
                     $this->mergeWhen($isMeteredSubscription, fn () => [
                         'failedPayments' => new FailedPaymentsCollection($this->failedPayments),

@@ -39,43 +39,13 @@ const routesUser = [
 				},
 			},
 			{
-				name: 'Subscription',
-				path: '/user/settings/subscription',
-				component: () =>
-					import(/* webpackChunkName: "chunks/settings-subscription" */ '../views/User/Subscription'),
-				meta: {
-					requiresAuth: true,
-					title: 'routes_title.subscription'
-				},
-			},
-			{
-				name: 'MeteredSubscription',
+				name: 'Billing',
 				path: '/user/settings/billing',
 				component: () =>
-					import(/* webpackChunkName: "chunks/settings-subscription" */ '../views/User/MeteredSubscription'),
+					import(/* webpackChunkName: "chunks/billing" */ '../views/User/Billing'),
 				meta: {
 					requiresAuth: true,
 					title: 'routes_title.subscription'
-				},
-			},
-			{
-				name: 'PaymentMethods',
-				path: '/user/settings/payment-methods',
-				component: () =>
-					import(/* webpackChunkName: "chunks/settings-payment-methods" */ '../views/User/PaymentMethods'),
-				meta: {
-					requiresAuth: true,
-					title: 'routes_title.payment_methods'
-				},
-			},
-			{
-				name: 'CreatePaymentMethod',
-				path: '/user/settings/create-payment-method',
-				component: () =>
-					import(/* webpackChunkName: "chunks/settings-create-payment-methods" */ '../views/User/CreatePaymentMethod'),
-				meta: {
-					requiresAuth: true,
-					title: 'Create Payment Method'
 				},
 			},
 		]

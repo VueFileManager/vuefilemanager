@@ -12,11 +12,11 @@
 	</div>
 </template>
 <script>
-export default {
-	name: 'PaymentMethod',
-	props: [
-		'description',
-		'driver',
-	]
-}
+	export default {
+		name: 'PaymentMethod',
+		props: [
+			'description',
+			'driver',
+		]
+	}
 </script>

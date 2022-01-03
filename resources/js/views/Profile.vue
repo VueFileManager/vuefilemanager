@@ -138,26 +138,7 @@
                 return this.user.data.attributes.incomplete_payment
             },
 			pages() {
-				let fixedSubscription = [
-					{
-						title: this.$t('menu.profile'),
-						route: 'Profile',
-					},
-					{
-						title: this.$t('menu.password'),
-						route: 'Password',
-					},
-					{
-						title: this.$t('menu.storage'),
-						route: 'Storage',
-					},
-					{
-						title: this.$t('menu.subscription'),
-						route: 'Subscription',
-					},
-				]
-
-				let meteredSubscription = [
+				return [
 					{
 						title: this.$t('menu.profile'),
 						route: 'Profile',
@@ -172,14 +153,9 @@
 					},
 					{
 						title: this.$t('Billing'),
-						route: 'MeteredSubscription',
+						route: 'Billing',
 					},
 				]
-
-				return {
-					fixed: fixedSubscription,
-					metered: meteredSubscription,
-				}[this.config.subscriptionType]
 			}
         },
         data() {
@@ -188,6 +164,9 @@
                 isLoading: false,
             }
         },
+		created() {
+			// setTimeout(() => this.$openUpgradeOptions(), 300)
+		}
 	}
 </script>
 

@@ -5,22 +5,45 @@
 
 		<!--Payment Options-->
 		<div v-if="isPaymentOptionPage">
-
 			<PopupContent class="px-4">
-				<b class="text-center block mb-3 mt-8">
-					Stripe
-				</b>
-				<ButtonBase @click.native="payByStripe" class="block w-full mb-6" button-style="theme" type="button">
-					<span class="text-theme">
-						Pay With Stripe
-					</span>
-				</ButtonBase>
 
-				<b class="text-center block mb-3 mt-8">
-					PayStack
-				</b>
-				<ButtonBase class="block w-full mb-6" button-style="theme" type="button">
+				<!--Stripe implementation-->
+				<PaymentMethod
+					v-if="config.isStripe"
+					driver="stripe"
+					:description="$t('Pay by your credit card or Apple Pay')"
+				>
+					<span v-if="! paypalMethodsLoaded" @click="payByStripe" class="text-sm text-theme font-bold cursor-pointer">
+						{{ $t('Select') }}
+					</span>
+				</PaymentMethod>
+
+				<!--PayPal implementation-->
+				<div v-if="config.isPayPal" :class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl px-4 mb-2': paypalMethodsLoaded}">
+					<PaymentMethod
+						@click.native="pickedPaymentMethod('paypal')"
+						driver="paypal"
+						:description="$t('Available PayPal Credit, Debit or Credit Card.')"
+					>
+						<span v-if="! paypalMethodsLoaded" class="text-sm text-theme font-bold cursor-pointer">
+							{{ $t('Select') }}
+						</span>
+					</PaymentMethod>
+
+					<!--PayPal Buttons-->
+					<div v-if="paypalMethodsLoaded">
+						<div id="paypal-button-container"></div>
+					</div>
+				</div>
+
+				<!--Paystack implementation-->
+				<PaymentMethod
+					v-if="config.isPaystack"
+					driver="paystack"
+					:description="$t('Available Bank Account, USSD, Mobile Money, Apple Pay')"
+				>
 					<paystack
+						v-if="user && config"
 						:channels="['bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer']"
 						class="font-bold"
 						currency="ZAR"
@@ -32,18 +55,22 @@
 						:callback="paymentSuccessful"
 						:close="paystackClosed"
 					>
-						<span class="text-theme">
-							Pay With PayStack
+						<span class="text-sm text-theme font-bold cursor-pointer">
+							{{ $t('Select') }}
 						</span>
 					 </paystack>
-				</ButtonBase>
-
-				<b class="text-center block mb-3">
-					PayPal
-				</b>
-				<!--PayPal Button-->
-				<div id="paypal-button-container"></div>
+				</PaymentMethod>
 			</PopupContent>
+
+			<PopupActions>
+				<ButtonBase
+					class="popup-button"
+					@click.native="$closePopup()"
+					button-style="secondary"
+				>
+					{{ $t('Cancel Payment') }}
+				</ButtonBase>
+			</PopupActions>
 		</div>
 
 		<!--Select Payment Plans-->
@@ -55,8 +82,8 @@
 					<label :class="{'text-gray-400': !isYearlyPlans}" class="font-bold cursor-pointer text-xs">
 						{{ $t('Billed Annually') }}
 					</label>
-					<div class="relative inline-block w-14 align-middle select-none">
-						<SwitchInput class="transform scale-90" v-model="isYearlyPlans" :state="isYearlyPlans" />
+					<div class="relative inline-block w-12 align-middle select-none">
+						<SwitchInput class="transform scale-75" v-model="isYearlyPlans" :state="isYearlyPlans" />
 					</div>
 				</div>
 
@@ -85,7 +112,7 @@
 				<ButtonBase
 					class="popup-button"
 					:button-style="buttonStyle"
-					@click.native="showPaymentOptions"
+					@click.native="isPaymentOptionPage = true"
 				>{{ $t('Upgrade Account') }}
 				</ButtonBase>
 			</PopupActions>
@@ -94,6 +121,7 @@
 </template>
 
 <script>
+	import PaymentMethod from "../Others/PaymentMethod";
 	import { loadScript } from "@paypal/paypal-js";
     import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
 	import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
@@ -110,6 +138,7 @@
 	export default {
 		name: 'SelectPlanSubscriptionPopup',
 		components: {
+			PaymentMethod,
 			paystack,
 			PlanDetail,
 			SwitchInput,
@@ -152,6 +181,8 @@
 		},
 		data() {
 			return {
+				paypalMethodsLoaded: false,
+
 				isPaymentOptionPage: false,
 				isYearlyPlans: false,
 				isLoading: false,
@@ -160,19 +191,17 @@
 			}
 		},
 		methods: {
-			payByStripe() {
-				axios.post('/api/subscriptions/stripe/checkout', {
-						planCode: this.selectedPlan.data.meta.driver_plan_id.stripe
-					})
-					.then(response => {
-						window.location = response.data.url
-					})
+			pickedPaymentMethod(driver) {
+				if (driver === 'paystack') {
+					this.$closePopup()
+				}
+				if (driver === 'paypal' && !this.paypalMethodsLoaded) {
+					this.PayPalInitialization()
+				}
 			},
-			async showPaymentOptions() {
-				// Show payment buttons page
-				this.isPaymentOptionPage = true
+			async PayPalInitialization() {
+				this.paypalMethodsLoaded = true
 
-				// PayPal
 				let paypal;
 
 				try {
@@ -183,7 +212,7 @@
 				} catch (error) {
 					events.$emit('toaster', {
 						type: 'danger',
-						message: this.$t('failed to load the PayPal components'),
+						message: this.$t('Failed to load the PayPal service'),
 					})
 				}
 
@@ -191,8 +220,8 @@
 				const userId = this.user.data.id
 				const app = this
 
-				// Initialize paypal buttons for subscription
-				/*await paypal.Buttons({
+				// Initialize paypal buttons for single charge
+				await paypal.Buttons({
 					createSubscription: function(data, actions) {
 						return actions.subscription.create({
 							plan_id: planId,
@@ -202,21 +231,15 @@
 					onApprove: function(data, actions) {
 						app.paymentSuccessful()
 					}
-				}).render('#paypal-button-container');*/
-
-				// Initialize paypal buttons for single charge
-				await paypal.Buttons({
-					createOrder: function(data, actions) {
-						return actions.order.create({
-							purchase_units: [{
-								amount: {
-									value: '10.49',
-								},
-								custom_id: userId
-							}]
-						});
-					}
 				}).render('#paypal-button-container');
+			},
+			payByStripe() {
+				axios.post('/api/stripe/checkout', {
+						planCode: this.selectedPlan.data.meta.driver_plan_id.stripe
+					})
+					.then(response => {
+						window.location = response.data.url
+					})
 			},
 			selectPlan(plan) {
 				this.selectedPlan = plan
