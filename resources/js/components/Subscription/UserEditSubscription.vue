@@ -10,9 +10,9 @@
 			</ButtonBase>
 		</AppInputSwitch>
 
-		<AppInputSwitch :title="$t('Upgrade Plan')" :description="$t('You can upgrade your plan at any time you want.')" :is-last="true">
+		<AppInputSwitch :title="$t('Change Plan')" :description="$t('You can upgrade your plan at any time you want.')" :is-last="true">
 			<ButtonBase @click.native="$openUpgradeOptions" class="sm:w-auto w-full" button-style="secondary">
-				{{ $t('Upgrade Now') }}
+				{{ $t('Change Now') }}
 			</ButtonBase>
 		</AppInputSwitch>
 	</div>

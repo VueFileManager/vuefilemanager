@@ -5,7 +5,6 @@
 		<Spotlight />
 
 		<ConfirmPopup />
-		<SelectPlanSubscriptionPopup />
 
 		<!--2FA popups-->
 		<TwoFactorRecoveryCodesPopup />
@@ -15,6 +14,7 @@
 		<CreatePersonaTokenPopup />
 
 		<!--Payments Popup-->
+		<SelectPlanSubscriptionPopup />
 		<SelectSingleChargeMethodPopup />
 
 		<SidebarNavigation />
@@ -165,7 +165,7 @@
             }
         },
 		created() {
-			setTimeout(() => this.$openUpgradeOptions(), 300)
+			//setTimeout(() => this.$openUpgradeOptions(), 300)
 		}
 	}
 </script>

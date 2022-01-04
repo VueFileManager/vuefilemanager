@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="py-3 px-4 cursor-pointer rounded-lg block select-none"
-		:class="{'bg-light-background': isSelected}"
+		:class="{'dark:bg-2x-dark-foreground bg-light-background': isSelected}"
 	>
 		<div class="flex items-center justify-between mb-1.5">
 			<CheckBox :is-clicked="isSelected" />
