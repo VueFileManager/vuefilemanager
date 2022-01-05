@@ -149,6 +149,12 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$uploadFiles = async function (files) {
+            // Show alert message when upload is disabled
+            if (! store.getters.user.data.meta.restrictions.canUpload) {
+                Vue.prototype.$temporarilyDisabledUpload()
+
+                return
+            }
 
             if (files.length === 0) return
 
@@ -171,6 +177,12 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$uploadDraggedFiles = async function (event, parent_id) {
+            // Show alert message when upload is disabled
+            if (! store.getters.user.data.meta.restrictions.canUpload) {
+                Vue.prototype.$temporarilyDisabledUpload()
+
+                return
+            }
 
             // Prevent submit empty files
             if (event.dataTransfer.items.length === 0) return
@@ -258,6 +270,13 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$downloadFile = function (url, filename) {
+            // Show alert message when download is disabled
+            if (! store.getters.user.data.meta.restrictions.canDownload) {
+                Vue.prototype.$temporarilyDisabledDownload()
+
+                return
+            }
+
             var anchor = document.createElement('a')
 
             anchor.href = url
@@ -414,13 +433,6 @@ const FunctionHelpers = {
             } else {
                 return currentPermission === type
             }
-        }
-
-        Vue.prototype.$isSomethingWrong = function () {
-            events.$emit('alert:open', {
-                title: i18n.t('popup_error.title'),
-                message: i18n.t('popup_error.message')
-            })
         }
 
         Vue.prototype.$checkFileMimetype = function (files) {

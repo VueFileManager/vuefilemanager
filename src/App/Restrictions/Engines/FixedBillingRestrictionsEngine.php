@@ -34,7 +34,7 @@ class FixedBillingRestrictionsEngine implements RestrictionsEngine
         return true;
     }
 
-    public function canInviteTeamMembers(User $user, array $newInvites): bool
+    public function canInviteTeamMembers(User $user, array $newInvites = []): bool
     {
         return resolve(CheckMaxTeamMembersLimitAction::class)($user, $newInvites);
     }

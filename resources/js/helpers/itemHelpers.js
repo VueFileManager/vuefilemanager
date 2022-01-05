@@ -24,12 +24,26 @@ const itemHelpers = {
 		}
 
 		Vue.prototype.$createFolder = function () {
+			// Show alert message when create folder is disabled
+			if (! store.getters.user.data.meta.restrictions.canCreateFolder) {
+				Vue.prototype.$temporarilyDisabledFolderCreate()
+
+				return
+			}
+
 			store.dispatch('createFolder', {
 				name: i18n.t('popup_create_folder.folder_default_name')
 			})
 		}
 
 		Vue.prototype.$downloadSelection = function (item) {
+			// Show alert message when download is disabled
+			if (! store.getters.user.data.meta.restrictions.canDownload) {
+				Vue.prototype.$temporarilyDisabledDownload()
+
+				return
+			}
+
 			let clipboard = store.getters.clipboard
 
 			if (clipboard.length > 1 || (clipboard.length === 1 && clipboard[0].data.type === 'folder'))
@@ -62,6 +76,13 @@ const itemHelpers = {
 		},
 
 		Vue.prototype.$createTeamFolder = function () {
+			// Show alert message when create folder is disabled
+			if (! store.getters.user.data.meta.restrictions.canCreateTeamFolder) {
+				Vue.prototype.$temporarilyDisabledFolderCreate()
+
+				return
+			}
+
 			events.$emit('popup:open', {name: 'create-team-folder'})
 		}
 

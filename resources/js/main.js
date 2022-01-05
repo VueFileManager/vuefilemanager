@@ -10,12 +10,14 @@ import {events} from "./bus";
 import SubscriptionHelpers from "./helpers/SubscriptionHelpers";
 import ValidatorHelpers from "./helpers/ValidatorHelpers";
 import functionHelpers from "./helpers/functionHelpers";
+import AlertHelpers from "./helpers/AlertHelpers";
 import itemHelpers from "./helpers/itemHelpers"
 
 Vue.use(VueRouter);
 Vue.use(SubscriptionHelpers);
 Vue.use(ValidatorHelpers);
 Vue.use(functionHelpers);
+Vue.use(AlertHelpers);
 Vue.use(itemHelpers);
 
 Vue.config.productionTip = false;

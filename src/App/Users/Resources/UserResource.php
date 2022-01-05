@@ -58,6 +58,13 @@ class UserResource extends JsonResource
                     ]),
                 ],
                 'meta'          => [
+                    'restrictions' => [
+                        'canUpload'            => $this->canUpload(),
+                        'canDownload'          => $this->canDownload(),
+                        'canCreateFolder'      => $this->canCreateFolder(),
+                        'canCreateTeamFolder'  => $this->canCreateTeamFolder(),
+                        'canInviteTeamMembers' => $this->canInviteTeamMembers(),
+                    ],
                     $this->mergeWhen($isFixedSubscription, fn () => [
                         'limitations' => $this->limitations->summary(),
                     ]),

@@ -30,7 +30,7 @@ class MeteredBillingRestrictionsEngine implements RestrictionsEngine
         return ! ($user->failedPayments()->count() >= 3);
     }
 
-    public function canInviteTeamMembers(User $user, array $newInvites): bool
+    public function canInviteTeamMembers(User $user, array $newInvites = []): bool
     {
         return true;
     }
