@@ -40,4 +40,45 @@ class MeteredBillingLimitationTest extends TestCase
 
         $this->assertEquals(false, $user->canUpload());
     }
+
+    /**
+     * @test
+     */
+    public function it_can_create_new_folder()
+    {
+        $user = User::factory()
+            ->create();
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/create-folder', [
+                'name'      => 'New Folder',
+            ])
+            ->assertStatus(201);
+
+        $this->assertDatabaseHas('folders', [
+            'name' => 'New Folder',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_cant_create_new_folder_because_user_has_3_failed_payments()
+    {
+        $user = User::factory()
+            ->hasFailedpayments(3)
+            ->create();
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/create-folder', [
+                'name'      => 'New Folder',
+            ])
+            ->assertStatus(401);
+
+        $this->assertDatabaseMissing('folders', [
+            'name' => 'New Folder',
+        ]);
+    }
 }

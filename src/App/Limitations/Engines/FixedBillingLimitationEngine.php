@@ -15,8 +15,7 @@ class FixedBillingLimitationEngine implements LimitationEngine
         );
 
         // Check if storage usage exceed predefined capacity
-        return ! ($usedPercentage >= 100)
-         ;
+        return ! ($usedPercentage >= 100);
     }
 
     public function canDownload(User $user): bool

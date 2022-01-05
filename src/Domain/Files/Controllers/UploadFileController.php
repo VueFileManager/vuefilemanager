@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Files\Controllers;
 
+use App\Users\Exceptions\InvalidUserActionException;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -27,8 +28,15 @@ class UploadFileController extends Controller
             return ($this->fakeUploadFile)($request);
         }
 
-        $file = ($this->uploadFiles)($request);
+        try {
+            $file = ($this->uploadFiles)($request);
 
-        return response(new FileResource($file), 201);
+            return response(new FileResource($file), 201);
+        } catch (InvalidUserActionException $e) {
+            return response([
+                'type'    => 'error',
+                'message' => $e->getMessage(),
+            ], 401);
+        }
     }
 }

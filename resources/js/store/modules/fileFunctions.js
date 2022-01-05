@@ -117,7 +117,12 @@ const actions = {
                     dispatch('getAppData')
 
             })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            .catch(error => {
+                events.$emit('alert:open', {
+                    title: error.response.data.message,
+                    message: i18n.t('popup_error.message')
+                })
+            })
     },
     renameItem: ({commit, getters, dispatch}, data) => {
 
@@ -222,13 +227,16 @@ const actions = {
                         '413': {
                             title: i18n.t('popup_paylod_error.title'),
                             message: i18n.t('popup_paylod_error.message')
-                        }
+                        },
+                        '401': {
+                            title: error.response.data.message,
+                        },
                     }
 
                     events.$emit('alert:open', {
                         emoji: '😬😬😬',
                         title: messages[error.response.status]['title'],
-                        message: messages[error.response.status]['message']
+                        message: messages[error.response.status]['message'] || null
                     })
 
                     commit('PROCESSING_FILE', false)

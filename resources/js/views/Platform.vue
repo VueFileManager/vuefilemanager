@@ -110,7 +110,8 @@
 		},
 		computed: {
 			...mapGetters([
-				'isVisibleSidebar'
+				'isVisibleSidebar',
+				'isLimitedUser',
 			])
 		},
 		data() {

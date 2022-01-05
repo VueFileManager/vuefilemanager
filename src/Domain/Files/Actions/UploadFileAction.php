@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Files\Actions;
 
+use App\Users\Exceptions\InvalidUserActionException;
 use Illuminate\Support\Str;
 use Domain\Sharing\Models\Share;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,8 @@ class UploadFileAction
 
     /**
      * Upload new file
+     *
+     * @throws InvalidUserActionException
      */
     public function __invoke(
         UploadRequest $request,
@@ -68,7 +71,7 @@ class UploadFileAction
             if (! $user->canUpload($fileSize)) {
                 Storage::disk('local')->delete("chunks/$chunkName");
 
-                abort(423, 'You exceed your storage limit!');
+                throw new InvalidUserActionException();
             }
 
             // Move finished file from chunk to file-manager directory

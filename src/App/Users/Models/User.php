@@ -88,17 +88,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return UserFactory::new();
     }
 
-    public function __call($method, $parameters)
-    {
-        if (str_starts_with($method, 'can')) {
-            return resolve(LimitationManager::class)
-                ->driver()
-                ->$method($this, ...$parameters);
-        }
-
-        return parent::__call($method, $parameters);
-    }
-
     /**
      * Get user used storage details
      */
@@ -209,6 +198,17 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token): void
     {
         $this->notify(new ResetPassword($token));
+    }
+
+    public function __call($method, $parameters)
+    {
+        if (str_starts_with($method, 'can')) {
+            return resolve(LimitationManager::class)
+                ->driver()
+                ->$method($this, ...$parameters);
+        }
+
+        return parent::__call($method, $parameters);
     }
 
     protected static function boot()

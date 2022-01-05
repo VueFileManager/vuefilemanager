@@ -143,9 +143,6 @@ export default {
 			if ('two-factor-recovery-codes' === name)
 				this.getRecoveryCodes()
 		})
-	},
-	destroyed() {
-		events.$off('popup:open')
 	}
 }
 </script>

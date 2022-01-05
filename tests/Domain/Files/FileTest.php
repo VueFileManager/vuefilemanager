@@ -126,7 +126,7 @@ class FileTest extends TestCase
                 'file'      => $file,
                 'parent_id' => null,
                 'is_last'   => 'true',
-            ])->assertStatus(423);
+            ])->assertStatus(401);
 
         Storage::disk('local')->assertMissing(
             "files/$user->id/fake-file.jpeg"

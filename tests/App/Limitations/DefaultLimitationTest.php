@@ -85,4 +85,24 @@ class DefaultLimitationTest extends TestCase
         $this->assertEquals(1, $user->limitations->max_storage_amount);
         $this->assertEquals(false, $user->canUpload(999999999));
     }
+
+    /**
+     * @test
+     */
+    public function it_can_create_new_folder()
+    {
+        $user = User::factory()
+            ->create();
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/create-folder', [
+                'name'      => 'New Folder',
+            ])
+            ->assertStatus(201);
+
+        $this->assertDatabaseHas('folders', [
+            'name' => 'New Folder',
+        ]);
+    }
 }

@@ -9,6 +9,13 @@
         <!--Show spinner before translations is loaded-->
         <Spinner v-if="! isLoaded"/>
 
+        <!--Show warning bar when user functionality is restricted-->
+		<div v-if="isLimitedUser" class="bg-red-500 text-center py-1">
+			<router-link :to="{name: 'Billing'}" class="text-white font-bold text-xs">
+				{{ $t('Your functionality is restricted. Please review your billing settings.') }}
+			</router-link>
+		</div>
+
         <!--App view-->
         <router-view v-if="isLoaded" />
 
@@ -41,7 +48,9 @@ export default {
     },
 	computed: {
 		...mapGetters([
-			'isDarkMode'
+			'isLimitedUser',
+			'isDarkMode',
+			'user',
 		]),
 	},
 	watch: {

@@ -7,6 +7,7 @@ use Domain\Folders\Resources\FolderResource;
 use Domain\Folders\Actions\CreateFolderAction;
 use Domain\Folders\Requests\CreateFolderRequest;
 use Support\Demo\Actions\FakeCreateFolderAction;
+use App\Users\Exceptions\InvalidUserActionException;
 
 class CreateFolderController extends Controller
 {
@@ -28,8 +29,17 @@ class CreateFolderController extends Controller
             return response(new FolderResource($fakeFolder), 201);
         }
 
-        $folder = ($this->createFolder)($request);
+        try {
+            // Create new folder
+            $folder = ($this->createFolder)($request);
 
-        return response(new FolderResource($folder), 201);
+            // Return new folder
+            return response(new FolderResource($folder), 201);
+        } catch (InvalidUserActionException $e) {
+            return response([
+                'type'    => 'error',
+                'message' => $e->getMessage(),
+            ], 401);
+        }
     }
 }

@@ -1,16 +1,18 @@
-import {events} from "../bus";
+import i18n from '/resources/js/i18n/index'
+import store from '../store/index'
+import {events} from '../bus'
 
 const itemHelpers = {
 	install(Vue) {
 		Vue.prototype.$emptyTrash = function () {
-			this.$store.dispatch('emptyTrash')
+			store.dispatch('emptyTrash')
 		}
 		Vue.prototype.$emptyTrashQuietly = function () {
-			this.$store.dispatch('emptyTrashQuietly')
+			store.dispatch('emptyTrashQuietly')
 		}
 
 		Vue.prototype.$shareCancel = function () {
-			this.$store.dispatch('shareCancel')
+			store.dispatch('shareCancel')
 		}
 
 		Vue.prototype.$renameFileOrFolder = function (entry) {
@@ -22,16 +24,16 @@ const itemHelpers = {
 		}
 
 		Vue.prototype.$createFolder = function () {
-			this.$store.dispatch('createFolder', {
-				name: this.$t('popup_create_folder.folder_default_name')
+			store.dispatch('createFolder', {
+				name: i18n.t('popup_create_folder.folder_default_name')
 			})
 		}
 
 		Vue.prototype.$downloadSelection = function (item) {
-			let clipboard = this.$store.getters.clipboard
+			let clipboard = store.getters.clipboard
 
 			if (clipboard.length > 1 || (clipboard.length === 1 && clipboard[0].data.type === 'folder'))
-				this.$store.dispatch('downloadZip')
+				store.dispatch('downloadZip')
 			else {
 				Vue.prototype.$downloadFile(item.data.attributes.file_url, item.data.attributes.name + '.' + item.data.attributes.mimetype)
 			}
@@ -39,8 +41,8 @@ const itemHelpers = {
 
 		Vue.prototype.$dissolveTeamFolder = function (folder) {
 			events.$emit('confirm:open', {
-				title: this.$t('Are you sure you want to dissolve this team?'),
-				message: this.$t('All team members will lose access to your files and existing folder will be moved into your "Files" section.'),
+				title: i18n.t('Are you sure you want to dissolve this team?'),
+				message: i18n.t('All team members will lose access to your files and existing folder will be moved into your "Files" section.'),
 				action: {
 					id: folder.data.id,
 					operation: 'dissolve-team-folder',
@@ -50,8 +52,8 @@ const itemHelpers = {
 
 		Vue.prototype.$detachMeFromTeamFolder = function (folder) {
 			events.$emit('confirm:open', {
-				title: this.$t('Are you sure you want to leave this team?'),
-				message: this.$t("You will don't have access to the files and all your previously uploaded content will be part of this Team Folder you are leaving."),
+				title: i18n.t('Are you sure you want to leave this team?'),
+				message: i18n.t("You will don't have access to the files and all your previously uploaded content will be part of this Team Folder you are leaving."),
 				action: {
 					id: folder.data.id,
 					operation: 'leave-team-folder',
@@ -72,25 +74,25 @@ const itemHelpers = {
 		}
 
 		Vue.prototype.$removeFavourite = function (folder) {
-			this.$store.dispatch('removeFromFavourites', folder)
+			store.dispatch('removeFromFavourites', folder)
 		}
 
 		Vue.prototype.$deleteFileOrFolder = function (entry) {
-			if (!this.$store.getters.clipboard.includes(entry)) {
-				this.$store.dispatch('deleteItem', entry)
+			if (!store.getters.clipboard.includes(entry)) {
+				store.dispatch('deleteItem', entry)
 			}
 
-			if (this.$store.getters.clipboard.includes(entry)) {
-				this.$store.dispatch('deleteItem')
+			if (store.getters.clipboard.includes(entry)) {
+				store.dispatch('deleteItem')
 			}
 		}
 
 		Vue.prototype.$restoreFileOrFolder = function (entry) {
-			if (!this.$store.getters.clipboard.includes(entry))
-				this.$store.dispatch('restoreItem', entry)
+			if (!store.getters.clipboard.includes(entry))
+				store.dispatch('restoreItem', entry)
 
-			if (this.$store.getters.clipboard.includes(entry))
-				this.$store.dispatch('restoreItem', null)
+			if (store.getters.clipboard.includes(entry))
+				store.dispatch('restoreItem', null)
 		}
 
 		Vue.prototype.$shareFileOrFolder = function (entry) {

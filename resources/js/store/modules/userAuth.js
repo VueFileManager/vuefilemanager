@@ -143,6 +143,7 @@ const mutations = {
 }
 
 const getters = {
+    isLimitedUser: state => state.user && state.user.data.relationships.failedPayments && state.user.data.relationships.failedPayments.data.length === 3,
     permission: state => state.permission,
     user: state => state.user,
 }
