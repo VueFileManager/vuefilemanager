@@ -11,13 +11,15 @@ class SeedDefaultLanguageAction
      */
     public function __invoke(): void
     {
-        Language::create([
+        Language::updateOrCreate([
             'name'   => 'English',
+        ], [
             'locale' => 'en',
         ]);
 
-        Setting::create([
+        Setting::updateOrCreate([
             'name'  => 'language',
+        ], [
             'value' => 'en',
         ]);
     }

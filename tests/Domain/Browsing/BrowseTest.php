@@ -296,14 +296,14 @@ class BrowseTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
-        Share::factory(Share::class)
+        Share::factory()
             ->create([
                 'type'    => 'folder',
                 'item_id' => $folder->id,
                 'user_id' => $user->id,
             ]);
 
-        Share::factory(Share::class)
+        Share::factory()
             ->create([
                 'type'    => 'file',
                 'item_id' => $file->id,

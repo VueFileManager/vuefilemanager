@@ -5,7 +5,6 @@ use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
-use Domain\Settings\Models\Setting;
 
 class DashboardTest extends TestCase
 {
@@ -21,17 +20,12 @@ class DashboardTest extends TestCase
             ->count(2)
             ->create(['filesize' => 1000000]);
 
-        Setting::forceCreate([
-            'name'  => 'license',
-            'value' => 'Regular',
-        ]);
-
         $this
             ->actingAs($user)
             ->getJson('/api/admin/dashboard')
             ->assertStatus(200)
             ->assertExactJson([
-                'license'             => 'Regular',
+                'license'             => 'extended',
                 'total_premium_users' => 0,
                 'app_version'         => config('vuefilemanager.version'),
                 'total_users'         => 1,

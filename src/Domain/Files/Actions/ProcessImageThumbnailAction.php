@@ -7,7 +7,8 @@ class ProcessImageThumbnailAction
 {
     public function __construct(
         public GenerateImageThumbnailAction $generateImageThumbnail,
-    ) {}
+    ) {
+    }
 
     private array $availableFormats = [
         'image/gif',

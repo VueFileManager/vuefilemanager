@@ -68,7 +68,7 @@ class SharedZippingTest extends TestCase
                             ]);
                     });
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $sharedFolder->id,
                         'user_id'      => $user->id,
@@ -131,7 +131,7 @@ class SharedZippingTest extends TestCase
                         'user_id' => $user->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $folder->id,
                         'user_id'      => $user->id,
@@ -206,7 +206,7 @@ class SharedZippingTest extends TestCase
                             ]);
                     });
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $children->id,
                         'user_id'      => $user->id,
@@ -251,7 +251,7 @@ class SharedZippingTest extends TestCase
                         'user_id' => $user->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'user_id'      => $user->id,
                         'type'         => 'folder',

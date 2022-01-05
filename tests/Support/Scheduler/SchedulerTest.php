@@ -84,7 +84,7 @@ class SchedulerTest extends TestCase
      */
     public function it_delete_expired_shared_links()
     {
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'expire_in'  => 24,
                 'created_at' => now()->subDay(),

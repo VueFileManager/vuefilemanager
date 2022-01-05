@@ -16,18 +16,6 @@ class AppUpgradeTest extends TestCase
         $user = User::factory()
             ->create(['role' => 'admin']);
 
-        DB::table('settings')
-            ->insert([
-                [
-                    'name'  => 'language',
-                    'value' => 'en',
-                ],
-                [
-                    'name'  => 'license',
-                    'value' => 'Extended',
-                ],
-            ]);
-
         collect(['en', 'sk'])
             ->map(function ($locale) {
                 DB::table('languages')

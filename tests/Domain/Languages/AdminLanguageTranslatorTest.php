@@ -3,7 +3,6 @@ namespace Tests\Domain\Languages;
 
 use Tests\TestCase;
 use App\Users\Models\User;
-use Domain\Settings\Models\Setting;
 use Domain\Localization\Models\Language;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
@@ -14,11 +13,6 @@ class AdminLanguageTranslatorTest extends TestCase
      */
     public function it_create_language()
     {
-        Setting::create([
-            'name'  => 'license',
-            'value' => 'Extended',
-        ]);
-
         $admin = User::factory()
             ->create(['role' => 'admin']);
 

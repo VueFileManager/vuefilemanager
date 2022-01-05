@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Users\Actions;
 
 use ByteUnits\Metric;
@@ -14,7 +13,7 @@ class FormatUsageEstimatesAction
             $usage = match ($estimate['feature']) {
                 'bandwidth', 'storage' => Metric::megabytes($estimate['usage'])->format(),
                 'flatFee' => intval($estimate['usage']) . ' ' . __('Pcs.'),
-                'member' => intval($estimate['usage']) . ' ' . __('Mem.'),
+                'member'  => intval($estimate['usage']) . ' ' . __('Mem.'),
             };
 
             // Normalize units
@@ -29,7 +28,7 @@ class FormatUsageEstimatesAction
                     'amount'  => $amount,
                     'cost'    => format_currency($amount, $currency),
                     'usage'   => $usage,
-                ]
+                ],
             ];
         });
     }

@@ -102,7 +102,7 @@ class TrafficTest extends TestCase
                 'author'  => 'user',
             ]);
 
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'item_id'      => $folder->id,
                 'user_id'      => $this->user->id,
@@ -172,7 +172,7 @@ class TrafficTest extends TestCase
                 'name'     => $document->name,
             ]);
 
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'item_id'      => $file->id,
                 'user_id'      => $this->user->id,

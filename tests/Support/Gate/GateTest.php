@@ -61,7 +61,7 @@ class GateTest extends TestCase
                         'parent_id' => $root->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $root->id,
                         'user_id'      => $user->id,

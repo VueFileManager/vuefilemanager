@@ -60,7 +60,7 @@ class UserLimitation extends Model
         return [
             'use'        => Metric::bytes($userCapacity)->format(),
             'total'      => format_gigabytes($this->max_storage_amount),
-            'percentage' => get_storage_fill_percentage($userCapacity, $this->max_storage_amount),
+            'percentage' => get_storage_percentage($userCapacity, $this->max_storage_amount),
         ];
     }
 

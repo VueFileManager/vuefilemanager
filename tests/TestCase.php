@@ -1,6 +1,7 @@
 <?php
 namespace Tests;
 
+use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Notification;
@@ -25,6 +26,26 @@ abstract class TestCase extends BaseTestCase
 
         resolve(CreateDiskDirectoriesAction::class)();
 
+        $this->storeDefaultSettings();
+
         //$this->withoutExceptionHandling();
+    }
+
+    public function storeDefaultSettings()
+    {
+        DB::table('settings')->insert([
+            [
+                'name'  => 'storage_limitation',
+                'value' => 1,
+            ],
+            [
+                'name'  => 'license',
+                'value' => 'extended',
+            ],
+            [
+                'name'  => 'language',
+                'value' => 'en',
+            ],
+        ]);
     }
 }

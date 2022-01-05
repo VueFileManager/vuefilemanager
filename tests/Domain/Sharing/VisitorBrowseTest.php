@@ -14,7 +14,7 @@ class VisitorBrowseTest extends TestCase
      */
     public function it_get_share_record()
     {
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'is_protected' => 0,
             ]);
@@ -43,7 +43,7 @@ class VisitorBrowseTest extends TestCase
      */
     public function it_get_share_page()
     {
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'type'         => 'folder',
                 'is_protected' => false,
@@ -80,7 +80,7 @@ class VisitorBrowseTest extends TestCase
         $file = File::factory()
             ->create();
 
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'item_id'      => $file->id,
                 'user_id'      => $file->user_id,
@@ -107,7 +107,7 @@ class VisitorBrowseTest extends TestCase
         $file = File::factory()
             ->create();
 
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'item_id'      => $file->id,
                 'user_id'      => $file->user_id,
@@ -140,7 +140,7 @@ class VisitorBrowseTest extends TestCase
                         'user_id' => $user->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $root->id,
                         'user_id'      => $user->id,
@@ -219,7 +219,7 @@ class VisitorBrowseTest extends TestCase
                         'user_id' => $user->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $folder_level_1->id,
                         'user_id'      => $user->id,
@@ -322,7 +322,7 @@ class VisitorBrowseTest extends TestCase
                 $folder = Folder::factory(Folder::class)
                     ->create();
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $folder->id,
                         'user_id'      => $folder->user_id,
@@ -376,7 +376,7 @@ class VisitorBrowseTest extends TestCase
                 $folder = Folder::factory(Folder::class)
                     ->create();
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $folder->id,
                         'user_id'      => $folder->user_id,
@@ -427,7 +427,7 @@ class VisitorBrowseTest extends TestCase
                         'name' => 'Document',
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $file->id,
                         'user_id'      => $file->user_id,

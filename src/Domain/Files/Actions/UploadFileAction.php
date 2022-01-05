@@ -9,16 +9,15 @@ use Illuminate\Support\Facades\Storage;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordUploadAction;
-use App\Users\Actions\CheckStorageCapacityAction;
 
 class UploadFileAction
 {
     public function __construct(
         public RecordUploadAction $recordUpload,
-        public CheckStorageCapacityAction $checkStorageCapacity,
         public ProcessImageThumbnailAction $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
-    ) {}
+    ) {
+    }
 
     /**
      * Upload new file
@@ -58,7 +57,7 @@ class UploadFileAction
             $disk_local = Storage::disk('local');
 
             // Get user data
-            $user_id = $shared->user_id ?? Auth::id();
+            $user = $shared->user ?? Auth::user();
 
             // File Info
             $fileSize = $disk_local->size("chunks/$chunkName");
@@ -66,21 +65,25 @@ class UploadFileAction
             $file_mimetype = $disk_local->mimeType("chunks/$chunkName");
 
             // Check if user has enough space to upload file
-            ($this->checkStorageCapacity)($user_id, $fileSize, $chunkName);
+            if (! $user->canUpload($fileSize)) {
+                Storage::disk('local')->delete("chunks/$chunkName");
+
+                abort(423, 'You exceed your storage limit!');
+            }
 
             // Move finished file from chunk to file-manager directory
-            $disk_local->move("chunks/$chunkName", "files/$user_id/$fileName");
+            $disk_local->move("chunks/$chunkName", "files/$user->id/$fileName");
 
             // Create multiple image thumbnails
-            ($this->createImageThumbnail)($fileName, $file, $user_id);
+            ($this->createImageThumbnail)($fileName, $file, $user->id);
             
             // Move files to external storage
             if (! is_storage_driver('local')) {
-                ($this->moveFileToExternalStorage)($fileName, $user_id);
+                ($this->moveFileToExternalStorage)($fileName, $user->id);
             }
 
             // Store user upload size
-            ($this->recordUpload)($fileSize, $user_id);
+            ($this->recordUpload)($fileSize, $user->id);
 
             // Return new file
             return UserFile::create([
@@ -92,7 +95,7 @@ class UploadFileAction
                 'basename'  => $fileName,
                 'author'    => $shared ? 'visitor' : 'user',
                 'filesize'  => $fileSize,
-                'user_id'   => $user_id,
+                'user_id'   => $user->id,
             ]);
         }
     }

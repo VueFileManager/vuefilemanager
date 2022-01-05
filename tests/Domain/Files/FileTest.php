@@ -103,11 +103,6 @@ class FileTest extends TestCase
      */
     public function user_with_full_storage_capacity_try_to_upload_new_file()
     {
-        Setting::create([
-            'name'  => 'storage_limitation',
-            'value' => 1,
-        ]);
-
         $file = UploadedFile::fake()
             ->image('fake-file.jpeg', 1000);
 

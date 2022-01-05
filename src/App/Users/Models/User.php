@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Database\Factories\UserFactory;
 use Domain\Settings\Models\Setting;
 use Kyslik\ColumnSortable\Sortable;
+use App\Limitations\LimitationManager;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use App\Users\Notifications\ResetPassword;
@@ -87,6 +88,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return UserFactory::new();
     }
 
+    public function __call($method, $parameters)
+    {
+        if (str_starts_with($method, 'can')) {
+            return resolve(LimitationManager::class)
+                ->driver()
+                ->$method($this, ...$parameters);
+        }
+
+        return parent::__call($method, $parameters);
+    }
+
     /**
      * Get user used storage details
      */
@@ -102,8 +114,8 @@ class User extends Authenticatable implements MustVerifyEmail
         }
 
         return [
-            'used'               => (float) get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
-            'used_formatted'     => get_storage_fill_percentage($this->usedCapacity, $this->limitations->max_storage_amount) . '%',
+            'used'               => (float) get_storage_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
+            'used_formatted'     => get_storage_percentage($this->usedCapacity, $this->limitations->max_storage_amount) . '%',
             'capacity'           => $this->limitations->max_storage_amount,
             'capacity_formatted' => format_gigabytes($this->limitations->max_storage_amount),
         ];

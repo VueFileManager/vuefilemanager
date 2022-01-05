@@ -33,6 +33,20 @@ if (! function_exists('obfuscate_email')) {
     }
 }
 
+if (! function_exists('get_limitation_driver')) {
+    /**
+     * Get driver for limitation API
+     */
+    function get_limitation_driver(): string
+    {
+        return match (get_settings('subscription_type')) {
+            'fixed'   => 'fixed',
+            'metered' => 'metered',
+            default   => 'default',
+        };
+    }
+}
+
 if (! function_exists('get_email_provider')) {
     /**
      * Get single or multiple values from settings table
@@ -456,18 +470,14 @@ if (! function_exists('format_bytes')) {
     }
 }
 
-if (! function_exists('get_storage_fill_percentage')) {
+if (! function_exists('get_storage_percentage')) {
     /**
      * Get storage usage in percent
-     *
-     * @param $used
-     * @param $from
-     * @return string
      */
-    function get_storage_fill_percentage($used, $from)
+    function get_storage_percentage(int $used, int $maxAmount): float
     {
         // Format gigabytes to bytes
-        $total = intval(Metric::gigabytes($from)->numberOfBytes());
+        $total = intval(Metric::gigabytes($maxAmount)->numberOfBytes());
 
         // Count progress
         if ($total == 0) {
@@ -485,17 +495,17 @@ if (! function_exists('user_storage_percentage')) {
     /**
      * Get user capacity fill by percentage
      */
-    function user_storage_percentage($id, ?int $additionals = null)
+    function user_storage_percentage($id, ?int $additional = null)
     {
         $user = User::findOrFail($id);
 
         $used = $user->usedCapacity;
 
-        if ($additionals) {
-            $used = $user->usedCapacity + $additionals;
+        if ($additional) {
+            $used = $user->usedCapacity + $additional;
         }
 
-        return get_storage_fill_percentage($used, $user->limitations->max_storage_amount);
+        return get_storage_percentage($used, $user->limitations->max_storage_amount);
     }
 }
 

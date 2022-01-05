@@ -28,11 +28,6 @@ class HomepageTest extends TestCase
             'value' => 'setup-done',
         ]);
 
-        Setting::create([
-            'name'  => 'license',
-            'value' => 'Extended',
-        ]);
-
         $this->get('/')
             ->assertStatus(200)
             ->assertSee('setup-done')
@@ -64,7 +59,7 @@ class HomepageTest extends TestCase
                 'name'    => 'Folder Title',
             ]);
 
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'item_id'      => $folder->id,
                 'user_id'      => $user->id,
@@ -125,7 +120,7 @@ class HomepageTest extends TestCase
                 'type'     => 'image',
             ]);
 
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'item_id'      => $file->id,
                 'user_id'      => $user->id,

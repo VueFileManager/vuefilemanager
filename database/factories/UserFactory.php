@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Factories;
 
 use App\Users\Models\User;
@@ -22,6 +23,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
+            'id'                => Str::uuid(),
             'role'              => $this->faker->randomElement(
                 ['user', 'admin']
             ),
@@ -44,16 +46,16 @@ class UserFactory extends Factory
             $user
                 ->settings()
                 ->create([
-                    'name'             => $this->faker->name,
-                    'address'          => $this->faker->address,
-                    'state'            => $this->faker->state,
-                    'city'             => $this->faker->city,
-                    'postal_code'      => $this->faker->postcode,
-                    'country'          => $this->faker->randomElement(
+                    'name'         => $this->faker->name,
+                    'address'      => $this->faker->address,
+                    'state'        => $this->faker->state,
+                    'city'         => $this->faker->city,
+                    'postal_code'  => $this->faker->postcode,
+                    'country'      => $this->faker->randomElement(
                         ['SK', 'CZ', 'DE', 'FR']
                     ),
-                    'phone_number'     => $this->faker->phoneNumber,
-                    'timezone'         => $this->faker->randomElement(
+                    'phone_number' => $this->faker->phoneNumber,
+                    'timezone'     => $this->faker->randomElement(
                         ['+1.0', '+2.0', '+3.0']
                     ),
                 ]);

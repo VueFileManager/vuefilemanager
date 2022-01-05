@@ -1,8 +1,8 @@
 <?php
 namespace Support\Scheduler\Actions;
 
-use App\Users\Models\User;
 use DB;
+use App\Users\Models\User;
 use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class ReportUsageAction

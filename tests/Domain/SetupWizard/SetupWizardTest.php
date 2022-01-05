@@ -154,6 +154,8 @@ class SetupWizardTest extends TestCase
      */
     public function it_store_app_settings()
     {
+        Setting::all()->each->delete();
+
         $this->postJson('/api/setup/app-setup', [
             'title'             => 'VueFileManager',
             'description'       => 'The best file manager on the internet',
@@ -207,6 +209,8 @@ class SetupWizardTest extends TestCase
      */
     public function it_create_admin_account()
     {
+        Setting::all()->each->delete();
+
         $this->post('/admin-setup', [
             'email'                 => 'john@doe.com',
             'password'              => 'VerySecretPassword',

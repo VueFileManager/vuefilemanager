@@ -35,7 +35,7 @@ class FileResource extends JsonResource
                     'parent_id'  => $this->parent_id,
                     'updated_at' => $this->updated_at,
                     'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
-                    'deleted_at' => Carbon::parse($this->deleted_at)->diffForHumans(),
+                    'deleted_at' => $this->deleted_at ? Carbon::parse($this->deleted_at)->diffForHumans() : null,
                     /*'updated_at' => format_date(
                         set_time_by_user_timezone($this->updated_at), __t('time')
                     ),

@@ -33,7 +33,7 @@ class VisitorManipulatingTest extends TestCase
                         'user_id'   => $user->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $folder->id,
                         'user_id'      => $user->id,
@@ -102,7 +102,7 @@ class VisitorManipulatingTest extends TestCase
                         'parent_id' => $root->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $root->id,
                         'user_id'      => $user->id,
@@ -165,7 +165,7 @@ class VisitorManipulatingTest extends TestCase
                         'user_id' => $user->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $folder->id,
                         'user_id'      => $user->id,
@@ -229,7 +229,7 @@ class VisitorManipulatingTest extends TestCase
                         'user_id' => $user->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $folder->id,
                         'user_id'      => $user->id,
@@ -305,7 +305,7 @@ class VisitorManipulatingTest extends TestCase
                         'author'  => 'user',
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $folder->id,
                         'user_id'      => $user->id,
@@ -385,7 +385,7 @@ class VisitorManipulatingTest extends TestCase
                         'parent_id' => $root->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $root->id,
                         'user_id'      => $user->id,
@@ -458,7 +458,7 @@ class VisitorManipulatingTest extends TestCase
                         'parent_id' => $root->id,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $root->id,
                         'user_id'      => $user->id,

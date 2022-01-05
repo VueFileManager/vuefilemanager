@@ -4,12 +4,12 @@ namespace App\Users\Resources;
 use Domain\Folders\Resources\FolderCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Users\Actions\FormatUsageEstimatesAction;
-use VueFileManager\Subscription\Domain\CreditCards\Resources\CreditCardCollection;
 use VueFileManager\Subscription\Domain\Credits\Resources\BalanceResource;
+use VueFileManager\Subscription\Domain\CreditCards\Resources\CreditCardCollection;
 use VueFileManager\Subscription\Domain\BillingAlerts\Resources\BillingAlertResource;
-use VueFileManager\Subscription\Domain\FailedPayments\Resources\FailedPaymentsCollection;
 use VueFileManager\Subscription\Domain\Subscriptions\Resources\SubscriptionResource;
 use VueFileManager\Subscription\Domain\Usage\Actions\SumUsageForCurrentPeriodAction;
+use VueFileManager\Subscription\Domain\FailedPayments\Resources\FailedPaymentsCollection;
 
 class UserResource extends JsonResource
 {
@@ -41,8 +41,8 @@ class UserResource extends JsonResource
                     'updated_at'                => format_date($this->updated_at, '%d. %B. %Y'),
                 ],
                 'relationships' => [
-                    'settings'   => new SettingsResource($this->settings),
-                    'favourites' => new FolderCollection($this->favouriteFolders),
+                    'settings'    => new SettingsResource($this->settings),
+                    'favourites'  => new FolderCollection($this->favouriteFolders),
                     'creditCards' => new CreditCardCollection($this->creditCards),
                     $this->mergeWhen($this->hasSubscription(), fn () => [
                         'subscription' => new SubscriptionResource($this->subscription),

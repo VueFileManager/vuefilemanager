@@ -202,7 +202,7 @@ class SetupDevEnvironment extends Command
                 'created_at' => now(),
             ]);
 
-        Share::factory(Share::class)
+        Share::factory()
             ->create([
                 'type'         => 'folder',
                 'item_id'      => $shared_folder->id,
@@ -337,7 +337,7 @@ class SetupDevEnvironment extends Command
                 'created_at' => now()->subMinutes(4),
             ]);
 
-        Share::factory(Share::class)
+        Share::factory()
             ->create([
                 'type'         => 'folder',
                 'item_id'      => $documents->id,

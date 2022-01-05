@@ -34,7 +34,7 @@ class VisitorAccessToItemsTest extends TestCase
                         'name'     => $document->name,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $file->id,
                         'user_id'      => $user->id,
@@ -75,7 +75,7 @@ class VisitorAccessToItemsTest extends TestCase
                 'name'    => 'fake-thumbnail.jpg',
             ]);
 
-        $share = Share::factory(Share::class)
+        $share = Share::factory()
             ->create([
                 'type'         => 'file',
                 'is_protected' => true,
@@ -114,7 +114,7 @@ class VisitorAccessToItemsTest extends TestCase
                         'mimetype'  => 'jpg',
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $file->id,
                         'user_id'      => $user->id,
@@ -166,7 +166,7 @@ class VisitorAccessToItemsTest extends TestCase
                         'basename' => $fileName,
                     ]);
 
-                $share = Share::factory(Share::class)
+                $share = Share::factory()
                     ->create([
                         'item_id'      => $file->id,
                         'user_id'      => $user->id,

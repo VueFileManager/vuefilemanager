@@ -269,7 +269,7 @@ class AdminTest extends TestCase
         });
 
         // Create shares
-        Share::factory(Share::class)
+        Share::factory()
             ->count(2)
             ->create(['user_id' => $user->id]);
 
