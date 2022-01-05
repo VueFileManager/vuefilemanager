@@ -1,9 +1,9 @@
 <?php
-namespace App\Limitations;
+namespace App\Restrictions;
 
 use App\Users\Models\User;
 
-interface LimitationEngine
+interface RestrictionsEngine
 {
     public function canUpload(User $user, int $fileSize = 0): bool;
 

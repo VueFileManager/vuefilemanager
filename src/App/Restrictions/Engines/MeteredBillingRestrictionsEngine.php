@@ -1,10 +1,10 @@
 <?php
-namespace App\Limitations\Engines;
+namespace App\Restrictions\Engines;
 
 use App\Users\Models\User;
-use App\Limitations\LimitationEngine;
+use App\Restrictions\RestrictionsEngine;
 
-class MeteredBillingLimitationEngine implements LimitationEngine
+class MeteredBillingRestrictionsEngine implements RestrictionsEngine
 {
     public function canUpload(User $user, int $fileSize = 0): bool
     {

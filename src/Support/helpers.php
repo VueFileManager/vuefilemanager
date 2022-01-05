@@ -33,11 +33,11 @@ if (! function_exists('obfuscate_email')) {
     }
 }
 
-if (! function_exists('get_limitation_driver')) {
+if (! function_exists('get_restriction_driver')) {
     /**
      * Get driver for limitation API
      */
-    function get_limitation_driver(): string
+    function get_restriction_driver(): string
     {
         return match (get_settings('subscription_type')) {
             'fixed'   => 'fixed',

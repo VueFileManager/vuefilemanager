@@ -1,11 +1,11 @@
 <?php
-namespace App\Limitations\Engines;
+namespace App\Restrictions\Engines;
 
 use App\Users\Models\User;
-use App\Limitations\LimitationEngine;
+use App\Restrictions\RestrictionsEngine;
 use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
 
-class FixedBillingLimitationEngine implements LimitationEngine
+class FixedBillingRestrictionsEngine implements RestrictionsEngine
 {
     public function canUpload(User $user, int $fileSize = 0): bool
     {

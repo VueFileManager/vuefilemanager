@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Database\Factories\UserFactory;
 use Domain\Settings\Models\Setting;
 use Kyslik\ColumnSortable\Sortable;
-use App\Limitations\LimitationManager;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
+use App\Restrictions\RestrictionsManager;
 use App\Users\Notifications\ResetPassword;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -203,7 +203,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function __call($method, $parameters)
     {
         if (str_starts_with($method, 'can')) {
-            return resolve(LimitationManager::class)
+            return resolve(RestrictionsManager::class)
                 ->driver()
                 ->$method($this, ...$parameters);
         }

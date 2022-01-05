@@ -2,6 +2,7 @@
 namespace Domain\Files\Controllers\FileAccess;
 
 use Gate;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Domain\Files\Models\File as UserFile;
 use Domain\Files\Actions\DownloadFileAction;
@@ -18,10 +19,18 @@ class GetFileController extends Controller
 
     public function __invoke(
         string $filename,
-    ): BinaryFileResponse {
+    ): Response|BinaryFileResponse {
         $file = UserFile::withTrashed()
             ->where('basename', $filename)
             ->firstOrFail();
+
+        // Check if user can download file
+        if (! $file->owner->canDownload()) {
+            return response([
+                'type'    => 'error',
+                'message' => 'This user action is not allowed.',
+            ], 401);
+        }
 
         if (! Gate::any(['can-edit', 'can-view'], [$file, null])) {
             abort(403, 'Access Denied');

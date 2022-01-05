@@ -1,13 +1,14 @@
 <?php
-namespace Tests\App\Limitations;
+namespace Tests\App\Restrictions;
 
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
+use Domain\Sharing\Models\Share;
 use Domain\Settings\Models\Setting;
 use Domain\Teams\Models\TeamFolderMember;
 
-class FixedBillingLimitationTest extends TestCase
+class FixedBillingRestrictionsTest extends TestCase
 {
     public function setUp(): void
     {
@@ -91,10 +92,10 @@ class FixedBillingLimitationTest extends TestCase
             ->create()
             ->each(
                 fn ($member) => TeamFolderMember::factory()
-            ->create([
-                'parent_id' => $user->folders[0]->id,
-                'user_id'   => $member->id,
-            ])
+                    ->create([
+                        'parent_id' => $user->folders[0]->id,
+                        'user_id'   => $member->id,
+                    ])
             );
 
         // Try invite new members, it has to fail
@@ -144,5 +145,55 @@ class FixedBillingLimitationTest extends TestCase
                 ],
             ])
             ->assertCreated();
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_private_file()
+    {
+        $user = User::factory()
+            ->create();
+
+        $file = File::factory()
+            ->create([
+                'user_id'  => $user->id,
+                'basename' => 'fake-file.pdf',
+                'name'     => 'fake-file.pdf',
+            ]);
+
+        // 404 but, ok, because there is not stored temporary file in test
+        $this
+            ->actingAs($user)
+            ->get("file/$file->name")
+            ->assertStatus(404);
+    }
+
+    /**
+     * @test
+     */
+    public function it_can_get_shared_file()
+    {
+        $user = User::factory()
+            ->create();
+
+        $file = File::factory()
+            ->create([
+                'basename' => 'fake-file.pdf',
+                'name'     => 'fake-file.pdf',
+            ]);
+
+        $share = Share::factory()
+            ->create([
+                'item_id'      => $file->id,
+                'user_id'      => $user->id,
+                'type'         => 'file',
+                'is_protected' => false,
+            ]);
+
+        // 404 but, ok, because there is not stored temporary file in test
+        $this
+            ->get("file/$file->name/$share->token")
+            ->assertStatus(404);
     }
 }

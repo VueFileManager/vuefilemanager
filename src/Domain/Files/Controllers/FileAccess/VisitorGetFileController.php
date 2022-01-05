@@ -2,6 +2,7 @@
 namespace Domain\Files\Controllers\FileAccess;
 
 use Domain\Files\Models\File;
+use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Files\Actions\DownloadFileAction;
@@ -26,7 +27,15 @@ class VisitorGetFileController extends Controller
     public function __invoke(
         $filename,
         Share $shared,
-    ): BinaryFileResponse {
+    ): BinaryFileResponse|Response {
+        // Check if user can download file
+        if (! $shared->user->canDownload()) {
+            return response([
+                'type'    => 'error',
+                'message' => 'This user action is not allowed.',
+            ], 401);
+        }
+
         // Check ability to access protected share files
         ($this->protectShareRecord)($shared);
 

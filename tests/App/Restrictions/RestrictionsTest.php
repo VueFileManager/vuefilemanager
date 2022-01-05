@@ -1,10 +1,10 @@
 <?php
-namespace Tests\App\Limitations;
+namespace Tests\App\Restrictions;
 
 use Tests\TestCase;
 use Domain\Settings\Models\Setting;
 
-class LimitationTest extends TestCase
+class RestrictionsTest extends TestCase
 {
     /**
      * @test
@@ -17,7 +17,7 @@ class LimitationTest extends TestCase
             'value' => 'metered',
         ]);
 
-        $this->assertEquals('metered', get_limitation_driver());
+        $this->assertEquals('metered', get_restriction_driver());
     }
     /**
      * @test
@@ -30,7 +30,7 @@ class LimitationTest extends TestCase
             'value' => 'fixed',
         ]);
 
-        $this->assertEquals('fixed', get_limitation_driver());
+        $this->assertEquals('fixed', get_restriction_driver());
     }
     /**
      * @test
@@ -42,6 +42,6 @@ class LimitationTest extends TestCase
 
         $subscriptionType?->delete();
 
-        $this->assertEquals('default', get_limitation_driver());
+        $this->assertEquals('default', get_restriction_driver());
     }
 }
