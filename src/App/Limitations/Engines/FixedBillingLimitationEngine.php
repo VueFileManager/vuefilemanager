@@ -3,6 +3,7 @@ namespace App\Limitations\Engines;
 
 use App\Users\Models\User;
 use App\Limitations\LimitationEngine;
+use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
 
 class FixedBillingLimitationEngine implements LimitationEngine
 {
@@ -26,5 +27,15 @@ class FixedBillingLimitationEngine implements LimitationEngine
     public function canCreateFolder(User $user): bool
     {
         return true;
+    }
+
+    public function canCreateTeamFolder(User $user): bool
+    {
+        return true;
+    }
+
+    public function canInviteTeamMembers(User $user, array $newInvites): bool
+    {
+        return resolve(CheckMaxTeamMembersLimitAction::class)($user, $newInvites);
     }
 }

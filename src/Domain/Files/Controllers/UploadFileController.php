@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Controllers;
 
-use App\Users\Exceptions\InvalidUserActionException;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -9,6 +8,7 @@ use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Resources\FileResource;
 use Domain\Files\Actions\UploadFileAction;
 use Support\Demo\Actions\FakeUploadFileAction;
+use App\Users\Exceptions\InvalidUserActionException;
 
 class UploadFileController extends Controller
 {
@@ -29,6 +29,7 @@ class UploadFileController extends Controller
         }
 
         try {
+            // Upload and store file record
             $file = ($this->uploadFiles)($request);
 
             return response(new FileResource($file), 201);

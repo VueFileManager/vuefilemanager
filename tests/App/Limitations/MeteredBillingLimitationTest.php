@@ -49,16 +49,30 @@ class MeteredBillingLimitationTest extends TestCase
         $user = User::factory()
             ->create();
 
+        // Create basic folder
         $this
             ->actingAs($user)
             ->postJson('/api/create-folder', [
-                'name'      => 'New Folder',
+                'name' => 'New Folder',
             ])
             ->assertStatus(201);
 
-        $this->assertDatabaseHas('folders', [
-            'name' => 'New Folder',
-        ]);
+        // Create team folder
+        $this
+            ->actingAs($user)
+            ->postJson('/api/teams/folders', [
+                'name'        => 'New Team Folder',
+                'invitations' => [
+                    [
+                        'email'      => 'john@doe.com',
+                        'permission' => 'can-edit',
+                        'type'       => 'invitation',
+                    ],
+                ],
+            ])
+            ->assertStatus(201);
+
+        $this->assertDatabaseCount('folders', 2);
     }
 
     /**
@@ -70,15 +84,29 @@ class MeteredBillingLimitationTest extends TestCase
             ->hasFailedpayments(3)
             ->create();
 
+        // Create basic folder
         $this
             ->actingAs($user)
             ->postJson('/api/create-folder', [
-                'name'      => 'New Folder',
+                'name' => 'New Folder',
             ])
             ->assertStatus(401);
 
-        $this->assertDatabaseMissing('folders', [
-            'name' => 'New Folder',
-        ]);
+        // Create team folder
+        $this
+            ->actingAs($user)
+            ->postJson('/api/teams/folders', [
+                'name'        => 'New Folder',
+                'invitations' => [
+                    [
+                        'email'      => 'john@doe.com',
+                        'permission' => 'can-edit',
+                        'type'       => 'invitation',
+                    ],
+                ],
+            ])
+            ->assertStatus(401);
+
+        $this->assertDatabaseCount('folders', 0);
     }
 }

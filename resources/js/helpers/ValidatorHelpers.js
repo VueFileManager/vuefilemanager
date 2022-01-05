@@ -4,6 +4,11 @@ const ValidatorHelpers = {
 	install(Vue) {
 
 		Vue.prototype.$cantInviteMember = function (email, invitations) {
+
+			if (store.getters.config.subscriptionType === 'metered') {
+				return false
+			}
+
 			// Get max team members limitations
 			let limit = store.getters.user.data.meta.limitations.max_team_members
 

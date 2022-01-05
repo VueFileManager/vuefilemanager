@@ -10,4 +10,8 @@ interface LimitationEngine
     public function canDownload(User $user): bool;
 
     public function canCreateFolder(User $user): bool;
+
+    public function canCreateTeamFolder(User $user): bool;
+
+    public function canInviteTeamMembers(User $user, array $newInvites): bool;
 }

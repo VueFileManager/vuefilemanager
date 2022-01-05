@@ -5,7 +5,7 @@ use App\Users\Models\User;
 
 class CheckMaxTeamMembersLimitAction
 {
-    public function __invoke(array $invitations, User $user)
+    public function __invoke(User $user, array $newInvites): bool
     {
         // Get user limitation summary
         $limits = $user->limitations->summary();
@@ -14,7 +14,7 @@ class CheckMaxTeamMembersLimitAction
         $allowedEmails = $limits['max_team_members']['meta']['allowed_emails'];
 
         // Get new email invites from request
-        $invitationEmails = collect($invitations)
+        $invitationEmails = collect($newInvites)
             ->pluck('email');
 
         // Count total unique members
@@ -24,8 +24,6 @@ class CheckMaxTeamMembersLimitAction
             ->count();
 
         // Check if there is more unique members than total max team members are allowed
-        if ($totalMembers > $limits['max_team_members']['total']) {
-            abort(423, 'You exceed your members limit.');
-        }
+        return ! ($totalMembers > $limits['max_team_members']['total']);
     }
 }

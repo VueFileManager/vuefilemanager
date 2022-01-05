@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Domain\Teams\Models\TeamFolderMember;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Requests\ConvertIntoTeamFolderRequest;
-use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
 use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
 
@@ -15,7 +14,6 @@ class ConvertFolderIntoTeamFolderController extends Controller
 {
     public function __construct(
         public InviteMembersIntoTeamFolderAction $inviteMembers,
-        public CheckMaxTeamMembersLimitAction $checkMaxTeamMembersLimit,
         public SetTeamFolderPropertyForAllChildrenAction $setTeamFolderPropertyForAllChildren,
     ) {
     }
@@ -25,7 +23,12 @@ class ConvertFolderIntoTeamFolderController extends Controller
         Folder $folder
     ): ResponseFactory|Response {
         // Check if user didn't exceed max team members limit
-        ($this->checkMaxTeamMembersLimit)($request->input('invitations'), $folder->owner);
+        if (! $folder->owner->canInviteTeamMembers($request->input('invitations'))) {
+            return response([
+                'type'    => 'error',
+                'message' => 'You exceed your members limit.',
+            ], 401);
+        }
 
         // Update root team folder
         $folder->update([

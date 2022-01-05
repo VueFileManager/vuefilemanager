@@ -17,7 +17,6 @@ use Domain\Folders\Resources\FolderCollection;
 use Domain\Teams\Actions\UpdateInvitationsAction;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Requests\CreateTeamFolderRequest;
-use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
 use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
 use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
@@ -27,7 +26,6 @@ class TeamFoldersController extends Controller
     public function __construct(
         public InviteMembersIntoTeamFolderAction $inviteMembers,
         public SetTeamFolderPropertyForAllChildrenAction $setTeamFolderPropertyForAllChildren,
-        public CheckMaxTeamMembersLimitAction $checkMaxTeamMembersLimit,
     ) {
     }
 
@@ -61,8 +59,21 @@ class TeamFoldersController extends Controller
     ): ResponseFactory | Response {
         $data = CreateTeamFolderData::fromRequest($request);
 
+        // Check if user can create team folder
+        if (! $request->user()->canCreateTeamFolder()) {
+            return response([
+                'type'    => 'error',
+                'message' => 'This user action is not allowed.',
+            ], 401);
+        }
+
         // Check if user didn't exceed max team members limit
-        ($this->checkMaxTeamMembersLimit)($data->invitations, $request->user());
+        if (! $request->user()->canInviteTeamMembers($data->invitations)) {
+            return response([
+                'type'    => 'error',
+                'message' => 'You exceed your members limit.',
+            ], 401);
+        }
 
         // Create folder
         $folder = Folder::create([
@@ -93,7 +104,12 @@ class TeamFoldersController extends Controller
         $this->authorize('owner', $folder);
 
         // Check if user didn't exceed max team members limit
-        ($this->checkMaxTeamMembersLimit)($request->input('invitations'), $request->user());
+        if (! $request->user()->canInviteTeamMembers($request->input('invitations'))) {
+            return response([
+                'type'    => 'error',
+                'message' => 'You exceed your members limit.',
+            ], 401);
+        }
 
         $updateInvitations(
             $folder,

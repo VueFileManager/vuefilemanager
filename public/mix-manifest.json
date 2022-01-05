@@ -70,7 +70,7 @@
     "/chunks/profile~chunks/settings-password.js": "/chunks/profile~chunks/settings-password.js?id=dfa4128d68360d5e1b3b",
     "/chunks/purchase-code.js": "/chunks/purchase-code.js?id=9e948882ae2315eb6132",
     "/chunks/recent-uploads.js": "/chunks/recent-uploads.js?id=8577d4c771602671b38a",
-    "/chunks/settings.js": "/chunks/settings.js?id=4466d97a0211f77d9317",
+    "/chunks/settings.js": "/chunks/settings.js?id=b8e396ca81993a2ac3c9",
     "/chunks/settings-password.js": "/chunks/settings-password.js?id=b6eb94764cc7b47f835e",
     "/chunks/settings-storage.js": "/chunks/settings-storage.js?id=76b45c336e8e12b23e81",
     "/chunks/settings~chunks/settings-password.js": "/chunks/settings~chunks/settings-password.js?id=aafc9cd6aa47b01bc25a",
@@ -198,5 +198,7 @@
     "/js/main.51906e2db8a6c36f5304.hot-update.js": "/js/main.51906e2db8a6c36f5304.hot-update.js",
     "/js/main.c09b0f39fe6d0b43515b.hot-update.js": "/js/main.c09b0f39fe6d0b43515b.hot-update.js",
     "/js/main.de28ca938da3825e62b3.hot-update.js": "/js/main.de28ca938da3825e62b3.hot-update.js",
-    "/js/main.be91e0ed3d68ecb1af06.hot-update.js": "/js/main.be91e0ed3d68ecb1af06.hot-update.js"
+    "/js/main.be91e0ed3d68ecb1af06.hot-update.js": "/js/main.be91e0ed3d68ecb1af06.hot-update.js",
+    "/chunks/settings.91678a5fa053e1ee00a7.hot-update.js": "/chunks/settings.91678a5fa053e1ee00a7.hot-update.js",
+    "/js/main.000dc4eab65b819bb1e4.hot-update.js": "/js/main.000dc4eab65b819bb1e4.hot-update.js"
 }

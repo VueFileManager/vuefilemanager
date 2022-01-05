@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Actions;
 
-use App\Users\Exceptions\InvalidUserActionException;
 use Illuminate\Support\Str;
 use Domain\Sharing\Models\Share;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordUploadAction;
+use App\Users\Exceptions\InvalidUserActionException;
 
 class UploadFileAction
 {

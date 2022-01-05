@@ -23,4 +23,15 @@ class MeteredBillingLimitationEngine implements LimitationEngine
         // Disable create folder when user has more than 3 failed payments
         return ! ($user->failedPayments()->count() >= 3);
     }
+
+    public function canCreateTeamFolder(User $user): bool
+    {
+        // Disable create folder when user has more than 3 failed payments
+        return ! ($user->failedPayments()->count() >= 3);
+    }
+
+    public function canInviteTeamMembers(User $user, array $newInvites): bool
+    {
+        return true;
+    }
 }

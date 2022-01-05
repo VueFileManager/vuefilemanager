@@ -5,6 +5,7 @@ use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Settings\Models\Setting;
+use Domain\Teams\Models\TeamFolderMember;
 
 class FixedBillingLimitationTest extends TestCase
 {
@@ -13,7 +14,7 @@ class FixedBillingLimitationTest extends TestCase
         parent::setUp();
 
         Setting::updateOrCreate([
-            'name'  => 'subscription_type',
+            'name' => 'subscription_type',
         ], [
             'value' => 'fixed',
         ]);
@@ -58,12 +59,90 @@ class FixedBillingLimitationTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/create-folder', [
-                'name'      => 'New Folder',
+                'name' => 'New Folder',
             ])
             ->assertStatus(201);
 
         $this->assertDatabaseHas('folders', [
             'name' => 'New Folder',
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_cant_invite_team_members_into_team_folder_because_user_exceeded_members_limit()
+    {
+        $user = User::factory()
+            ->hasFolders([
+                'team_folder' => true,
+            ])
+            ->create();
+
+        TeamFolderMember::create([
+            'parent_id'  => $user->folders[0]->id,
+            'user_id'    => $user->id,
+            'permission' => 'owner',
+        ]);
+
+        // Create team folder members
+        $members = User::factory()
+            ->count(5)
+            ->create()
+            ->each(
+                fn ($member) => TeamFolderMember::factory()
+            ->create([
+                'parent_id' => $user->folders[0]->id,
+                'user_id'   => $member->id,
+            ])
+            );
+
+        // Try invite new members, it has to fail
+        $this
+            ->actingAs($user)
+            ->post('/api/teams/folders', [
+                'name'        => 'Company Project',
+                'invitations' => [
+                    [
+                        'email'      => 'test@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'test2@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'test3@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'test4@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'test5@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                    [
+                        'email'      => 'test6@doe.com',
+                        'permission' => 'can-edit',
+                    ],
+                ],
+            ])
+            ->assertStatus(401);
+
+        // Invite existing member, it has to go through
+        $this
+            ->actingAs($user)
+            ->post('/api/teams/folders', [
+                'name'        => 'Company Project',
+                'invitations' => [
+                    [
+                        'email'      => $members[0]->email,
+                        'permission' => 'can-edit',
+                    ],
+                ],
+            ])
+            ->assertCreated();
     }
 }

@@ -3,6 +3,7 @@ namespace App\Limitations\Engines;
 
 use App\Users\Models\User;
 use App\Limitations\LimitationEngine;
+use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
 
 class DefaultLimitationEngine implements LimitationEngine
 {
@@ -20,8 +21,7 @@ class DefaultLimitationEngine implements LimitationEngine
         );
 
         // 2. Check if storage usage exceed predefined capacity
-        return ! ($usedPercentage >= 100)
-         ;
+        return ! ($usedPercentage >= 100);
     }
 
     public function canDownload(User $user): bool
@@ -32,5 +32,15 @@ class DefaultLimitationEngine implements LimitationEngine
     public function canCreateFolder(User $user): bool
     {
         return true;
+    }
+
+    public function canCreateTeamFolder(User $user): bool
+    {
+        return true;
+    }
+
+    public function canInviteTeamMembers(User $user, array $newInvites): bool
+    {
+        return resolve(CheckMaxTeamMembersLimitAction::class)($user, $newInvites);
     }
 }
