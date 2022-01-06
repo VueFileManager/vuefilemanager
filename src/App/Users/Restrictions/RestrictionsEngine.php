@@ -1,5 +1,5 @@
 <?php
-namespace App\Restrictions;
+namespace App\Users\Restrictions;
 
 use App\Users\Models\User;
 

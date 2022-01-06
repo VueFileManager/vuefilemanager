@@ -1,8 +1,8 @@
 <?php
-namespace App\Restrictions\Engines;
+namespace App\Users\Restrictions\Engines;
 
 use App\Users\Models\User;
-use App\Restrictions\RestrictionsEngine;
+use App\Users\Restrictions\RestrictionsEngine;
 use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
 
 class FixedBillingRestrictionsEngine implements RestrictionsEngine

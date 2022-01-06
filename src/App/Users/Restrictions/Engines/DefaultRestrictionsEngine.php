@@ -1,8 +1,8 @@
 <?php
-namespace App\Restrictions\Engines;
+namespace App\Users\Restrictions\Engines;
 
 use App\Users\Models\User;
-use App\Restrictions\RestrictionsEngine;
+use App\Users\Restrictions\RestrictionsEngine;
 use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
 
 class DefaultRestrictionsEngine implements RestrictionsEngine
@@ -41,7 +41,7 @@ class DefaultRestrictionsEngine implements RestrictionsEngine
 
     public function canInviteTeamMembers(User $user, array $newInvites = []): bool
     {
-        return resolve(CheckMaxTeamMembersLimitAction::class)($user, $newInvites);
+        return true;
     }
 
     public function canVisitShared(User $user): bool

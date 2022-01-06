@@ -14,7 +14,7 @@ use Domain\Settings\Models\Setting;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
-use App\Restrictions\RestrictionsManager;
+use App\Users\Restrictions\RestrictionsManager;
 use App\Users\Notifications\ResetPassword;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;

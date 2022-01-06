@@ -35,7 +35,8 @@
                             <div class="info">
                                 <b class="name">
                                     {{ user.data.relationships.settings.data.attributes.name }}
-                                    <ColorLabel v-if="config.isSaaS" :color="subscriptionColor">
+
+                                    <ColorLabel v-if="this.config.subscriptionType === 'fixed'" :color="subscriptionColor">
                                         {{ subscriptionStatus }}
                                     </ColorLabel>
                                 </b>
@@ -96,8 +97,8 @@
         },
         computed: {
             ...mapGetters([
+				'config',
             	'user',
-				'config'
 			]),
             subscriptionStatus() {
                 return this.user.data.relationships.subscription
@@ -116,7 +117,7 @@
                 return this.user.data.attributes.incomplete_payment
             },
 			pages() {
-				return [
+				let list = [
 					{
 						title: this.$t('menu.profile'),
 						route: 'Profile',
@@ -129,11 +130,17 @@
 						title: this.$t('menu.storage'),
 						route: 'Storage',
 					},
-					{
+				]
+
+				// Push billing item if subscription is set
+				if (['fixed', 'metered'].includes(this.config.subscriptionType)) {
+					list.push({
 						title: this.$t('Billing'),
 						route: 'Billing',
-					},
-				]
+					})
+				}
+
+				return list
 			}
         },
         data() {

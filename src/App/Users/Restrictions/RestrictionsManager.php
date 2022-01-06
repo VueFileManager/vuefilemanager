@@ -1,10 +1,10 @@
 <?php
-namespace App\Restrictions;
+namespace App\Users\Restrictions;
 
 use Illuminate\Support\Manager;
-use App\Restrictions\Engines\DefaultRestrictionsEngine;
-use App\Restrictions\Engines\FixedBillingRestrictionsEngine;
-use App\Restrictions\Engines\MeteredBillingRestrictionsEngine;
+use App\Users\Restrictions\Engines\DefaultRestrictionsEngine;
+use App\Users\Restrictions\Engines\FixedBillingRestrictionsEngine;
+use App\Users\Restrictions\Engines\MeteredBillingRestrictionsEngine;
 
 class RestrictionsManager extends Manager
 {

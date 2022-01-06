@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex items-center mb-4 rounded dark:bg-2x-dark-foreground bg-light-300">
-            <div v-for="(chart, i) in data" :key="i" :style="{width: chart.progress + '%'}" class="chart-wrapper">
+            <div v-for="(chart, i) in data" :key="i" :style="{width: (chart.progress > 1 ? chart.progress : 0) + '%'}" class="chart-wrapper">
 				<!--<DotLabel class="label" :class="{'offset-top': chart.progress < 5}" :color="chart.color" :title="chart.value" />-->
 
 				<!--Only singe line-->

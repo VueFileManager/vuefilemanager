@@ -1,13 +1,30 @@
-import {events} from "../bus";
-import i18n from "../i18n";
+import store from '../store/index'
+import {events} from "../bus"
+import i18n from "../i18n"
 
 const AlertHelpers = {
 	install(Vue) {
 
 		Vue.prototype.$temporarilyDisabledUpload = function () {
+
+			let messages = {
+				metered: {
+					title: i18n.t('Upload is temporarily disabled'),
+					message: i18n.t('Please review your billing settings.')
+				},
+				fixed: {
+					title: i18n.t('Upload is temporarily disabled'),
+					message: i18n.t('Please review your billing settings.')
+				},
+				none: {
+					title: i18n.t('You exceeded your upload limit'),
+					message: i18n.t('Unfortunately, you can not upload your file.')
+				},
+			}
+
 			events.$emit('alert:open', {
-				title: i18n.t('Upload is temporarily disabled'),
-				message: i18n.t('Please review your billing settings.')
+				title: messages[store.getters.config.subscriptionType]['title'],
+				message: messages[store.getters.config.subscriptionType]['message']
 			})
 		}
 
