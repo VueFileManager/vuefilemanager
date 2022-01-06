@@ -99,6 +99,7 @@
 							<maximize2-icon v-if="result.action.value === 'full-screen-mode'" size="18" class="vue-feather text-theme"/>
 							<power-icon v-if="result.action.value === 'log-out'" size="18" class="vue-feather text-theme"/>
 							<trash-icon v-if="result.action.value === 'empty-trash'" size="18" class="vue-feather text-theme"/>
+							<grid-icon v-if="result.action.value === 'toggle-grid-list'" size="18" class="vue-feather text-theme"/>
 
 							<b class="font-bold text-sm ml-3.5">
 								{{ result.title }}
@@ -187,6 +188,7 @@
 
 <script>
 import {
+	GridIcon,
 	Maximize2Icon,
 	ArrowDownIcon,
 	ArrowUpIcon,
@@ -225,6 +227,7 @@ import axios from "axios"
 export default {
 	name: 'Spotlight',
 	components: {
+		GridIcon,
 		CategoryName,
 		FilterSuggestion,
 		Maximize2Icon,
@@ -425,6 +428,13 @@ export default {
 
 			let functionList = [
 				{
+					title: this.$t('Toggle Grid/List View'),
+					action: {
+						type: 'function',
+						value: 'toggle-grid-list',
+					},
+				},
+				{
 					title: this.$t('Toggle Dark/Light Mode'),
 					action: {
 						type: 'function',
@@ -563,6 +573,10 @@ export default {
 			}
 
 			if (arg.action.type === 'function') {
+
+				if (arg.action.value === 'toggle-grid-list') {
+					this.$store.dispatch('togglePreviewType')
+				}
 
 				if (arg.action.value === 'dark-mode') {
 					this.$store.dispatch('toggleDarkMode', !this.isDarkMode)

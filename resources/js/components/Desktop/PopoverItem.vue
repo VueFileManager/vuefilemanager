@@ -3,7 +3,7 @@
 		<!--Overlay component-->
 		<div
 			@click.capture="hidePopover"
-			class="absolute top-12 z-20 w-52 dark:bg-dark-foreground bg-white shadow-xl rounded-lg overflow-hidden"
+			class="absolute top-12 z-20 w-60 dark:bg-dark-foreground bg-white shadow-xl rounded-lg overflow-hidden"
 			:class="{'right-0': side === 'left', 'left-0': side === 'right'}"
 		>
 			<slot></slot>

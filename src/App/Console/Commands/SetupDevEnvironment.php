@@ -1165,13 +1165,8 @@ class SetupDevEnvironment extends Command
      */
     private function generate_thumbnails($file, $user): array
     {
-        $image = \Illuminate\Support\Facades\File::get(storage_path($file));
-
-        // Create avatar name
+        // Create image name
         $file_name = Str::uuid() . '.jpg';
-
-        // Create intervention image
-        $intervention = Image::make($image)->orientate();
 
         $this->info("Generating thumbnails for $file...");
 
@@ -1180,7 +1175,12 @@ class SetupDevEnvironment extends Command
             config('vuefilemanager.image_sizes.later'),
             config('vuefilemanager.image_sizes.immediately'),
         ])->collapse()
-            ->each(function ($size) use ($intervention, $file_name, $user) {
+            ->each(function ($size) use ($file_name, $user, $file) {
+                $image = \Illuminate\Support\Facades\File::get(storage_path($file));
+
+                // Create intervention image
+                $intervention = Image::make($image)->orientate();
+
                 // Create thumbnail only if image is larger than predefined image sizes
                 if ($intervention->getWidth() > $size['size']) {
                     // Generate thumbnail

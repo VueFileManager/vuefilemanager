@@ -742,7 +742,7 @@ return [
         'actions.create'                                     => 'Create Something',
         'actions.search'                                     => 'Search',
         'mobile.create'                                      => 'Create',
-        'popup.share.email_send'                             => 'Send on Emails',
+        'popup.share.email_send'                             => 'Send link to Email',
         'popup.share.email_description'                      => 'Send your share link via email to many recipients.',
         'expiration'                                         => 'Expiration',
         'popup.share.expiration_description'                 => 'Your link expire after exact period of time.',

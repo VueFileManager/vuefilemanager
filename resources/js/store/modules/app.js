@@ -999,10 +999,10 @@ const actions = {
         // Change preview
         commit('TOGGLE_NAVIGATION_BARS')
     },
-    changePreviewType: ({commit, state}, preview) => {
+    togglePreviewType: ({commit, state}, preview) => {
 
         // Get preview type
-        let previewType = preview
+        let previewType = preview || state.itemViewType === 'list' ? 'grid' : 'list'
 
         // Store preview type to localStorage
         localStorage.setItem('preview_type', previewType)

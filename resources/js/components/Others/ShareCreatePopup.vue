@@ -22,7 +22,7 @@
                 <!--Password Switch-->
 				<div>
 					<AppInputSwitch :title="$t('shared_form.label_password_protection')" :description="$t('popup.share.password_description')">
-						<SwitchInput v-model="shareOptions.isPassword" class="switch" :state="0" />
+						<SwitchInput v-model="shareOptions.isPassword" class="switch" :state="shareOptions.isPassword" />
 					</AppInputSwitch>
 
 					<!--Set password-->
@@ -36,7 +36,7 @@
                 <!--Expiration switch-->
 				<div>
 					<AppInputSwitch :title="$t('expiration')" :description="$t('popup.share.expiration_description')">
-						<SwitchInput v-model="isExpiration" class="switch" :state="0" />
+						<SwitchInput v-model="isExpiration" class="switch" :state="isExpiration" />
 					</AppInputSwitch>
 
                     <!--Set expiration-->
@@ -48,7 +48,7 @@
                 <!--Send on emails switch-->
 				<div>
 					<AppInputSwitch :title="$t('popup.share.email_send')" :description="$t('popup.share.email_description')">
-						<SwitchInput v-model="isEmailSharing" class="switch" :state="0" />
+						<SwitchInput v-model="isEmailSharing" class="switch" :state="isEmailSharing" />
 					</AppInputSwitch>
 
                     <!--Set expiration-->

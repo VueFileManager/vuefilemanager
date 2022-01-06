@@ -81,7 +81,7 @@ export default {
 			this.$getDataByLocation()
         },
         changePreview(previewType) {
-            this.$store.dispatch('changePreviewType', previewType)
+            this.$store.dispatch('togglePreviewType', previewType)
         }
     },
     mounted() {
