@@ -1,10 +1,12 @@
 <template>
     <AuthContentWrapper ref="auth">
+
         <AuthContent :visible="true">
 			<Headline
-				:title="$t('page_shared_404.title')"
-				:description="$t('page_shared_404.subtitle')"
+				:title="$t('Temporary Unavailable')"
+				:description="$t('Unfortunately, this shared link is temporary unavailable. Please try it later.')"
 			/>
+
             <span class="additional-link">{{ $t('page_registration.have_an_account') }}
                 <router-link :to="{name: 'SignIn'}">
                     {{ $t('page_forgotten_password.password_remember_button') }}

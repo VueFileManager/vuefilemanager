@@ -43,4 +43,9 @@ class DefaultRestrictionsEngine implements RestrictionsEngine
     {
         return resolve(CheckMaxTeamMembersLimitAction::class)($user, $newInvites);
     }
+
+    public function canVisitShared(User $user): bool
+    {
+        return true;
+    }
 }

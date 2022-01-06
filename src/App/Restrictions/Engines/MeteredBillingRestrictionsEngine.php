@@ -34,4 +34,10 @@ class MeteredBillingRestrictionsEngine implements RestrictionsEngine
     {
         return true;
     }
+
+    public function canVisitShared(User $user): bool
+    {
+        // Disable share visit when user has more than 3 failed payments
+        return ! ($user->failedPayments()->count() >= 3);
+    }
 }

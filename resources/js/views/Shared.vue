@@ -35,7 +35,7 @@
 
 			<MobileToolbar />
 
-					<!--File list & info sidebar-->
+			<!--File list & info sidebar-->
 			<div class="flex space-x-6 md:overflow-hidden md:h-full">
 
 				<router-view

@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
@@ -16,12 +17,16 @@ class SharePublicIndexController extends Controller
      */
     public function __construct(
         public RecordDownloadAction $recordDownload,
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         Share $share,
-    ): View | StreamedResponse {
+    ): View | StreamedResponse | RedirectResponse {
+        // Check if user can see shared record
+        if (! $share->user->canVisitShared()) {
+            return redirect('/temporary-unavailable');
+        }
+
         // Delete share_session if exist
         if ($share->is_protected) {
             cookie()->queue('share_session', '', -1);

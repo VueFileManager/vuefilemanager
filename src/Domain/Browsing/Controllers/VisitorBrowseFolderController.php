@@ -2,6 +2,7 @@
 namespace Domain\Browsing\Controllers;
 
 use Domain\Files\Models\File;
+use Domain\Folders\Resources\FolderResource;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Domain\Files\Resources\FilesCollection;
@@ -30,6 +31,7 @@ class VisitorBrowseFolderController
         // Check if user can get directory
         ($this->verifyAccessToItem)($id, $shared);
 
+        // Get requested folder
         $requestedFolder = Folder::findOrFail($id);
 
         // Get files and folders
@@ -49,7 +51,7 @@ class VisitorBrowseFolderController
         return [
             'folders' => new FolderCollection($folders),
             'files'   => new FilesCollection($files),
-            'root'    => $requestedFolder,
+            'root'    => new FolderResource($requestedFolder),
         ];
     }
 }

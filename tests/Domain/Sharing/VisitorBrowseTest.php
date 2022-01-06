@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Sharing;
 
 use Tests\TestCase;
@@ -43,8 +44,12 @@ class VisitorBrowseTest extends TestCase
      */
     public function it_get_share_page()
     {
+        $user = User::factory()
+            ->create();
+
         $share = Share::factory()
             ->create([
+                'user_id'      => $user->id,
                 'type'         => 'folder',
                 'is_protected' => false,
             ]);
@@ -69,7 +74,7 @@ class VisitorBrowseTest extends TestCase
     public function it_try_to_get_deleted_share_page()
     {
         $this->get('/share/19ZMPNiass4ZqWwQ')
-            ->assertNotFound(404);
+            ->assertNotFound();
     }
 
     /**
@@ -188,7 +193,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/folders/$root->id/$share->token")
                         ->assertStatus(200)
                         ->assertJsonFragment([
@@ -303,7 +308,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/navigation/$share->token")
                         ->assertStatus(200)
                         ->assertExactJson($tree);
@@ -355,7 +360,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([
@@ -406,7 +411,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([]);
@@ -453,7 +458,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (! $is_protected) {
+                if (!$is_protected) {
                     $this->getJson("/api/browse/file/$share->token")
                         ->assertStatus(200)
                         ->assertJsonFragment([

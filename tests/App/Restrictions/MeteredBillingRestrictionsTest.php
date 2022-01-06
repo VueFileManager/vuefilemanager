@@ -213,4 +213,24 @@ class MeteredBillingRestrictionsTest extends TestCase
             ->get("file/$file->name/$share->token")
             ->assertStatus(404);
     }
+
+    /**
+     * @test
+     */
+    public function it_cant_get_share_page()
+    {
+        $user = User::factory()
+            ->hasFailedpayments(3)
+            ->create();
+
+        $share = Share::factory()
+            ->create([
+                'user_id'      => $user->id,
+                'type'         => 'folder',
+                'is_protected' => false,
+            ]);
+
+        $this->get("/share/$share->token")
+            ->assertRedirect('/temporary-unavailable');
+    }
 }

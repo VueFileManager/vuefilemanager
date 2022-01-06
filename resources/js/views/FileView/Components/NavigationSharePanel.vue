@@ -8,7 +8,7 @@
 						<home-icon size="17"/>
 					</div>
 					<div class="label">
-						{{ $t('sidebar.home') }}
+						{{ $t('Home') }}
 					</div>
 				</a>
 			</div>
@@ -75,7 +75,13 @@ export default {
 	},
 	methods: {
 		goHome() {
-			this.$router.replace({name: 'Public', params: {token: this.$route.params.token, id: this.sharedDetail.item_id}})
+			this.$router.replace({
+				name: 'Public',
+				params: {
+					token: this.sharedDetail.data.attributes.token,
+					id: this.sharedDetail.data.attributes.item_id
+				}
+			})
 		},
 		dragLeave() {
 			this.area = false

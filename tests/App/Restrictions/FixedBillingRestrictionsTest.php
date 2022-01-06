@@ -196,4 +196,23 @@ class FixedBillingRestrictionsTest extends TestCase
             ->get("file/$file->name/$share->token")
             ->assertStatus(404);
     }
+
+    /**
+     * @test
+     */
+    public function it_can_get_share_page()
+    {
+        $user = User::factory()
+            ->create();
+
+        $share = Share::factory()
+            ->create([
+                'user_id'      => $user->id,
+                'type'         => 'folder',
+                'is_protected' => false,
+            ]);
+
+        $this->get("/share/$share->token")
+            ->assertViewIs('index');
+    }
 }
