@@ -84,10 +84,12 @@ export default {
     methods: {
 		clickFilter(e) {
 
+			// Handle click for mobile device
 			if (this.$isMobile()) {
 				this.clickedItem(e)
 			}
 
+			// Handle click & double click for desktop
 			if (! this.$isMobile()) {
 				this.clicks++
 

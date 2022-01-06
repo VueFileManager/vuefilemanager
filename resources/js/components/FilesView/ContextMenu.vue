@@ -90,6 +90,8 @@ export default {
 		}
 	},
 	created() {
+		events.$on('context-menu:hide', () => this.closeAndResetContextMenu())
+
 		events.$on('context-menu:show', (event, item) => {
 			// Store item
 			this.item = item
@@ -109,8 +111,6 @@ export default {
 				this.positionX = container.offsetLeft
 			}
 		})
-
-		events.$on('unClick', () => this.closeAndResetContextMenu())
 	}
 }
 </script>

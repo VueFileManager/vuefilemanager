@@ -15,6 +15,7 @@
 		@click.self="deselect"
 	>
 		<ItemHandler
+			@click.native="hideContextMenu"
 			@dragstart="dragStart(item)"
 			@drop.stop.native.prevent="dragFinish(item, $event)"
 			@contextmenu.native.prevent="contextMenu($event, item)"
@@ -123,7 +124,14 @@
 			contextMenu(event, item) {
 				events.$emit('context-menu:show', event, item)
 			},
+			hideContextMenu() {
+				events.$emit('context-menu:hide')
+			},
 			deselect() {
+				// Hide context menu
+				events.$emit('context-menu:hide')
+
+				// Clear clipboard
 				this.$store.commit('CLIPBOARD_CLEAR')
 			}
 		},
