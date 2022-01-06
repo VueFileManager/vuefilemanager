@@ -1,5 +1,5 @@
 <template>
-    <div @click="unClick" v-cloak>
+    <div v-cloak>
 
         <!--UI components-->
         <Alert />
@@ -19,6 +19,7 @@
         <!--App view-->
         <router-view v-if="isLoaded" />
 
+        <!--Background under popups-->
         <Vignette/>
     </div>
 </template>
@@ -59,9 +60,6 @@ export default {
 		}
 	},
     methods: {
-        unClick() {
-            events.$emit('unClick')
-        },
 		toggleDarkMode() {
 			const webApp = document.getElementsByTagName("html")[0];
 

@@ -1,6 +1,19 @@
 <template>
-	<div v-if="isVisible" class="popover-item z-20" :class="side">
-		<slot></slot>
+	<div v-if="isVisible">
+		<!--Overlay component-->
+		<div
+			@click.capture="hidePopover"
+			class="absolute top-12 z-20 w-52 dark:bg-dark-foreground bg-white shadow-xl rounded-lg overflow-hidden"
+			:class="{'right-0': side === 'left', 'left-0': side === 'right'}"
+		>
+			<slot></slot>
+		</div>
+
+		<!--Clickable layer to close overlays-->
+		<div
+			@click="hidePopover"
+			class="fixed top-0 left-0 right-0 bottom-0 z-10 cursor-pointer"
+		></div>
 	</div>
 </template>
 
@@ -18,45 +31,17 @@
 				isVisible: false,
 			}
 		},
+		methods: {
+			hidePopover() {
+				setTimeout(() => this.isVisible = false, 10)
+			}
+		},
 		mounted() {
 			events.$on('popover:open', name => {
-				if (this.name === name) this.isVisible = !this.isVisible
+				if (this.name === name) {
+					this.isVisible = !this.isVisible
+				}
 			})
-
-			events.$on('popover:close', name => {
-				if (this.name === name) this.isVisible = false
-			})
-
-			// todo: events.$on('unClick', () => this.isVisible = false)
 		}
 	}
 </script>
-
-<style scoped lang="scss">
-	@import "resources/sass/vuefilemanager/_variables";
-	@import "resources/sass/vuefilemanager/_mixins";
-
-	.popover-item {
-		min-width: 250px;
-		position: absolute;
-		box-shadow: $shadow;
-		background: white;
-		border-radius: 8px;
-		overflow: hidden;
-		top: 50px;
-
-		&.left {
-			right: 0;
-		}
-
-		&.right {
-			left: 0;
-		}
-	}
-
-	.dark {
-		.popover-item {
-			background: $dark_mode_foreground;
-		}
-	}
-</style>

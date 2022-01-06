@@ -186,22 +186,13 @@ export default {
             this.selectOpen = false
         },
         resetEmoji() {
-
             this.selectedEmoji = undefined
 
             this.$emit('input', 'default')
         }
     },
     mounted() {
-
         this.selectOpen = false
-
-        events.$on('unClick', () => {
-
-            this.selectOpen = false
-
-            this.isLoadedEmojis = false
-        })
     }
 }
 </script>

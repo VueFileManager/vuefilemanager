@@ -34,7 +34,6 @@ import {
 		methods: {
 			emmitFiles(e) {
 				this.$uploadFiles(e.target.files)
-				events.$emit('popover:close', 'desktop-create')
 			}
 		}
     }
