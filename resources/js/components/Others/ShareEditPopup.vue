@@ -12,7 +12,7 @@
 			<!--Get share link-->
             <div v-if="! sendToRecipientsMenu || (sendToRecipientsMenu && isEmailSended)" class="input-wrapper copy-input">
                 <label class="input-label">{{ $t('shared_form.label_share_vie_email') }}:</label>
-                <CopyShareLink size="small" :item="pickedItem" />
+                <CopyShareLink :item="pickedItem" />
             </div>
 
 			<!--Share via email-->

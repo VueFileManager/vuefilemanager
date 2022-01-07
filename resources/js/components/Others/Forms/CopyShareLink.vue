@@ -1,54 +1,61 @@
 <template>
-    <div class="inline-wrapper icon-append copy-input" :class="size">
-        <input ref="sel" :value="item.data.relationships.shared.data.attributes.link" id="link-input" type="text" class="input-text input-dark" readonly>
-        <div class="multi-icon">
-            <div @click="copyUrl" class="icon-item group hover-bg-theme-100">
-                <link-icon v-if="! isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
-                <check-icon v-if="isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
+    <div class="flex items-center relative">
+        <input ref="sel" :value="item.data.relationships.shared.data.attributes.link" :id="id" type="text" class="pr-16 py-2 pl-3 text-sm focus-border-theme input-dark" readonly>
+
+		<!--Copy icon-->
+		<div class="flex items-center">
+            <div @click="copyUrl" class="absolute right-9 p-1">
+                <copy-icon v-if="! isCopiedLink" size="14" class="cursor-pointer hover-text-theme vue-feather"/>
+                <check-icon v-if="isCopiedLink" size="14" class="cursor-pointer hover-text-theme vue-feather"/>
             </div>
-            <div @click.stop.prevent="moreOptions" class="icon-item group hover-bg-theme-100">
-                <more-horizontal-icon size="14" class="group-hover-text-theme hover-text-theme" />
+            <div @click.stop.prevent="moreOptions" class="absolute right-2.5 p-1">
+                <more-horizontal-icon size="14" class="cursor-pointer hover-text-theme vue-feather" />
             </div>
         </div>
 
-		<ul v-if="isOpenedMoreOptions" class="input-options">
-			<li class="option-item" @click="sendOnEmail">
-				<div class="option-icon">
+		<!--Hidden options-->
+		<ul v-if="isOpenedMoreOptions" class="shadow-xl bg-white rounded-lg absolute top-12 left-0 right-0 z-10 overflow-y-auto overflow-x-hidden">
+			<li @click="sendViaEmail" class="flex items-center py-2.5 px-5 block cursor-pointer hover:bg-light-background">
+				<div class="w-8">
 					<send-icon size="14" />
 				</div>
-				<span class="option-value">{{ $t('sharelink.share_via_email') }}</span>
+				<span class="text-sm font-bold">
+					{{ $t('sharelink.share_via_email') }}
+				</span>
 			</li>
-			<li class="option-item" @click="copyIframe">
-				<div class="option-icon">
+			<li @click="copyIframe" class="flex items-center py-2.5 px-5 block cursor-pointer hover:bg-light-background">
+				<div class="w-8">
 					<code-icon size="14" />
 				</div>
-				<span class="option-value">{{ $t('sharelink.copy_embed') }}</span>
+				<span class="text-sm font-bold">
+					{{ $t('sharelink.copy_embed') }}
+				</span>
 			</li>
 		</ul>
 
-		<textarea v-model="iframeCode" ref="iframe" class="iframe-output"></textarea>
+		<textarea v-model="iframeCode" ref="iframe" class="absolute right-full opacity-0 pointer-events-none"></textarea>
     </div>
 </template>
 
 <script>
-import { LinkIcon, CheckIcon, SendIcon, MoreHorizontalIcon, CodeIcon } from 'vue-feather-icons'
+import { CopyIcon, CheckIcon, SendIcon, MoreHorizontalIcon, CodeIcon } from 'vue-feather-icons'
 import { events } from '/resources/js/bus'
 
 export default {
     name: 'CopyShareLink',
     props: [
-		'size',
 		'item',
 	],
     components: {
 		MoreHorizontalIcon,
         CheckIcon,
+		CopyIcon,
 		CodeIcon,
-        LinkIcon,
         SendIcon
     },
     data() {
         return {
+			id: 'link-input-' + Math.floor(Math.random() * 10000000),
 			iframeCode: '',
             isCopiedLink: false,
 			isOpenedMoreOptions: false,
@@ -58,7 +65,7 @@ export default {
         moreOptions() {
             this.isOpenedMoreOptions = ! this.isOpenedMoreOptions
         },
-		sendOnEmail() {
+		sendViaEmail() {
             events.$emit('popup:open', {
                 name: 'share-edit',
                 item: this.item,
@@ -88,7 +95,7 @@ export default {
         copyUrl() {
 
             // Get input value
-            var copyText = document.getElementById('link-input')
+            var copyText = document.getElementById(this.id)
 
             // select link
             copyText.select()
@@ -108,173 +115,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '/resources/sass/vuefilemanager/_variables';
-@import '/resources/sass/vuefilemanager/_mixins';
-@import "resources/sass/vuefilemanager/_inapp-forms.scss";
-@import "resources/sass/vuefilemanager/_forms.scss";
-
-.input-options {
-	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
-	background: white;
-	border-radius: 8px;
-	position: absolute;
-	overflow: hidden;
-	top: 45px;
-	left: 0;
-	right: 0;
-	z-index: 9;
-	max-height: 295px;
-	overflow-y: auto;
-
-	.option-item {
-		padding: 13px 20px;
-		display: block;
-		cursor: pointer;
-
-		&:hover {
-			color: $theme;
-			background: $light_background;
-		}
-
-		&:last-child {
-			border-bottom: none;
-		}
-	}
-
-	.option-icon {
-		width: 20px;
-		display: inline-block;
-		@include font-size(10);
-
-		svg {
-			margin-top: -4px;
-			vertical-align: middle;
-		}
-	}
-
-	.option-value {
-		@include font-size(14);
-		font-weight: 700;
-		width: 100%;
-		vertical-align: middle;
-
-		&.placehoder {
-			color: rgba($text, 0.5);
-		}
-	}
-}
-
-.multi-icon {
-    display: flex;
-    align-items: center;
-    background: $light_background;
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
-
-    line,
-    path,
-    polygon,
-	circle{
-        color: $text;
-    }
-
-    .icon-item {
-        padding: 12px 10px;
-        display: flex;
-        align-items: center;
-        border-left: 1px solid $light_mode_border_darken;
-        cursor: pointer;
-
-        &:hover {
-
-            line,
-            polyline,
-            path,
-            circle,
-            polygon {
-                color: inherit;
-            }
-        }
-
-        &:first-child {
-            border-left: none;
-        }
-
-        &:last-child {
-            border-bottom-right-radius: 8px;
-            border-top-right-radius: 8px;
-        }
-    }
-}
-
-.copy-input {
-	position: relative;
-    border: 1px solid $light_mode_border_darken;
-    border-radius: 8px;
-
-    &.small {
-
-        &.icon-append {
-
-            .icon {
-                padding: 10px;
-            }
-        }
-
-        input {
-            padding: 6px 10px;
-            @include font-size(13);
-        }
-    }
-
-    .icon {
-        cursor: pointer;
-    }
-
-    input {
-        text-overflow: ellipsis;
-        box-shadow: none;
-
-        &:disabled {
-            color: $text;
-            cursor: pointer;
-        }
-    }
-}
-
-.iframe-output {
-	position: absolute;
-	right: -9999px;
-}
-
-.dark {
-
-    .copy-input {
-        border-color: #333333;
-    }
-
-    .multi-icon {
-        background: $dark_mode_foreground;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
-
-        line,
-        path,
-        circle,
-        polygon {
-            color: inherit !important;
-        }
-
-        .icon-item {
-            border-color: #333333;
-        }
-    }
-
-    .copy-input {
-        input {
-            color: $dark_mode_text_primary;
-        }
-    }
-}
-</style>

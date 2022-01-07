@@ -60,7 +60,7 @@
 
             <!--Copy generated link-->
 			<AppInputText v-if="isGeneratedShared" :title="$t('shared_form.label_share_vie_email')" class="px-6" :is-last="true">
-				<CopyShareLink size="small" :item="pickedItem" />
+				<CopyShareLink :item="pickedItem" />
 			</AppInputText>
         </PopupContent>
 
