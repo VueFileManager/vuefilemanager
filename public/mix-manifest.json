@@ -65,7 +65,7 @@
     "/chunks/plan-subscribers.js": "/chunks/plan-subscribers.js?id=7eff560fea52770a642f",
     "/chunks/plans.js": "/chunks/plans.js?id=854c232c29d88c5b541a",
     "/chunks/platform.js": "/chunks/platform.js?id=0ed7318456309ffedae9",
-    "/chunks/platform~chunks/shared.js": "/chunks/platform~chunks/shared.js?id=99c84e49c4fdd36d03f9",
+    "/chunks/platform~chunks/shared.js": "/chunks/platform~chunks/shared.js?id=56ff7e5469e693363eb7",
     "/chunks/platform~chunks/shared~chunks/shared-with-me~chunks/team-folders.js": "/chunks/platform~chunks/shared~chunks/shared-with-me~chunks/team-folders.js?id=ca9ca67afd5839597647",
     "/chunks/profile.js": "/chunks/profile.js?id=8688d9c7ff850e6989e6",
     "/chunks/profile~chunks/settings-password.js": "/chunks/profile~chunks/settings-password.js?id=a52c81995d29f51dfe05",
@@ -296,5 +296,13 @@
     "/chunks/platform~chunks/shared.3d9e808725684fd9a21c.hot-update.js": "/chunks/platform~chunks/shared.3d9e808725684fd9a21c.hot-update.js",
     "/chunks/platform~chunks/shared.7ed015a6ed75e79acc32.hot-update.js": "/chunks/platform~chunks/shared.7ed015a6ed75e79acc32.hot-update.js",
     "/chunks/platform~chunks/shared.9aa6ce5c73104843403d.hot-update.js": "/chunks/platform~chunks/shared.9aa6ce5c73104843403d.hot-update.js",
-    "/chunks/platform~chunks/shared.f1b2c8b446d29ab06219.hot-update.js": "/chunks/platform~chunks/shared.f1b2c8b446d29ab06219.hot-update.js"
+    "/chunks/platform~chunks/shared.f1b2c8b446d29ab06219.hot-update.js": "/chunks/platform~chunks/shared.f1b2c8b446d29ab06219.hot-update.js",
+    "/chunks/platform~chunks/shared.7a8e5d008b1c1aebf4d5.hot-update.js": "/chunks/platform~chunks/shared.7a8e5d008b1c1aebf4d5.hot-update.js",
+    "/chunks/platform~chunks/shared.7f253cd7f22b2cd27ca5.hot-update.js": "/chunks/platform~chunks/shared.7f253cd7f22b2cd27ca5.hot-update.js",
+    "/chunks/platform~chunks/shared.e43c571564588c443159.hot-update.js": "/chunks/platform~chunks/shared.e43c571564588c443159.hot-update.js",
+    "/chunks/platform~chunks/shared.2c3eb08dedad750b9358.hot-update.js": "/chunks/platform~chunks/shared.2c3eb08dedad750b9358.hot-update.js",
+    "/chunks/platform~chunks/shared.eb223e497a06999eb212.hot-update.js": "/chunks/platform~chunks/shared.eb223e497a06999eb212.hot-update.js",
+    "/chunks/platform~chunks/shared.f78faac74984f20a1030.hot-update.js": "/chunks/platform~chunks/shared.f78faac74984f20a1030.hot-update.js",
+    "/chunks/platform~chunks/shared.28ba5d4236262fdb48d4.hot-update.js": "/chunks/platform~chunks/shared.28ba5d4236262fdb48d4.hot-update.js",
+    "/chunks/platform~chunks/shared.dc0566d0f8c651e45db3.hot-update.js": "/chunks/platform~chunks/shared.dc0566d0f8c651e45db3.hot-update.js"
 }

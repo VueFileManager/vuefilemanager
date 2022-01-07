@@ -14,8 +14,8 @@
         </div>
 
 		<!--Hidden options-->
-		<ul v-if="isOpenedMoreOptions" class="shadow-xl bg-white rounded-lg absolute top-12 left-0 right-0 z-10 overflow-y-auto overflow-x-hidden">
-			<li @click="sendViaEmail" class="flex items-center py-2.5 px-5 block cursor-pointer hover:bg-light-background">
+		<ul v-if="isOpenedMoreOptions" class="shadow-xl rounded-lg absolute top-12 left-0 right-0 z-10 overflow-y-auto overflow-x-hidden select-none">
+			<li @click="sendViaEmail" class="flex items-center py-2.5 px-5 block cursor-pointer dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground hover:bg-light-background">
 				<div class="w-8">
 					<send-icon size="14" />
 				</div>
@@ -23,7 +23,7 @@
 					{{ $t('sharelink.share_via_email') }}
 				</span>
 			</li>
-			<li @click="copyIframe" class="flex items-center py-2.5 px-5 block cursor-pointer hover:bg-light-background">
+			<li @click="copyIframe" class="flex items-center py-2.5 px-5 block cursor-pointer dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground hover:bg-light-background">
 				<div class="w-8">
 					<code-icon size="14" />
 				</div>
