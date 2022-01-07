@@ -1,39 +1,44 @@
 <template>
-    <div class="inline-wrapper icon-append copy-input" :class="size" @click="copyUrl">
-        <input ref="sel" :value="str" id="link-input" type="text" class="focus-border-theme input-dark" readonly>
-        <div class="multi-icon">
-            <div class="icon-item group hover-bg-theme-100">
-                <copy-icon v-if="! isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
-                <check-icon v-if="isCopiedLink" size="14" class="group-hover-text-theme hover-text-theme"/>
-            </div>
+    <div @click="copyUrl" class="flex items-center relative">
+        <input ref="sel" :value="str" :id="id" type="text" class="pr-8 focus-border-theme input-dark" readonly>
+
+		<!--Copy icon-->
+        <div class="absolute right-0 px-4">
+			<copy-icon v-if="! isCopiedLink" size="16" class="cursor-pointer hover-text-theme vue-feather"/>
+			<check-icon v-if="isCopiedLink" size="16" class="cursor-pointer text-theme vue-feather"/>
         </div>
     </div>
 </template>
 
 <script>
-import { CopyIcon, CheckIcon, SendIcon } from 'vue-feather-icons'
+import {
+	CopyIcon,
+	CheckIcon,
+	SendIcon
+} from 'vue-feather-icons'
 
 export default {
     name: 'CopyInput',
     props: [
 		'size',
-		'str'
+		'str',
 	],
     components: {
         CheckIcon,
         CopyIcon,
-        SendIcon
+        SendIcon,
     },
     data() {
         return {
-            isCopiedLink: false
+            isCopiedLink: false,
+			id: 'link-input-' + Math.floor(Math.random() * 10000000),
         }
     },
     methods: {
         copyUrl() {
 
             // Get input value
-            var copyText = document.getElementById('link-input')
+            let copyText = document.getElementById(this.id)
 
             // select link
             copyText.select()
@@ -53,119 +58,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-@import '/resources/sass/vuefilemanager/_variables';
-@import '/resources/sass/vuefilemanager/_mixins';
-@import "resources/sass/vuefilemanager/_inapp-forms.scss";
-@import "resources/sass/vuefilemanager/_forms.scss";
-
-.multi-icon {
-    display: flex;
-    align-items: center;
-    background: $light_background;
-    border-bottom-right-radius: 8px;
-    border-top-right-radius: 8px;
-
-    line,
-	rect,
-    path,
-    polygon {
-        color: $text;
-    }
-
-    .icon-item {
-        padding: 13px 10px;
-        display: flex;
-        align-items: center;
-        border-left: 1px solid $light_mode_border_darken;
-        cursor: pointer;
-
-        &:hover {
-
-            line,
-            polyline,
-            path,
-			rect,
-            polygon {
-                color: inherit;
-            }
-        }
-
-        &:first-child {
-            border-left: none;
-        }
-
-        &:last-child {
-            border-bottom-right-radius: 8px;
-            border-top-right-radius: 8px;
-        }
-    }
-
-
-}
-
-// Single page
-.copy-input {
-    border: 1px solid $light_mode_border_darken;
-    border-radius: 8px;
-
-    &.small {
-
-        &.icon-append {
-
-            .icon {
-                padding: 10px;
-            }
-        }
-
-        input {
-            padding: 6px 10px;
-            @include font-size(13);
-        }
-    }
-
-    .icon {
-        cursor: pointer;
-    }
-
-    input {
-        text-overflow: ellipsis;
-        box-shadow: none;
-
-        &:disabled {
-            color: $text;
-            cursor: pointer;
-        }
-    }
-}
-
-.dark {
-
-    .copy-input {
-        border-color: #333333;
-    }
-
-    .multi-icon {
-        background: $dark_mode_foreground;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
-
-        line,
-        path,
-		rect,
-        polygon {
-            color: inherit !important;
-        }
-
-        .icon-item {
-            border-color: #333333;
-        }
-    }
-
-    .copy-input {
-        input {
-            color: $dark_mode_text_primary;
-        }
-    }
-}
-</style>

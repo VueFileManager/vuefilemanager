@@ -185,11 +185,11 @@ return [
             ],
             [
                 'name'  => 'paystack_payment_description',
-                'value' => 'Available Bank Account, USSD, Mobile Money, Apple Pay',
+                'value' => 'Available Bank Account, USSD, Mobile Money, Apple Pay.',
             ],
             [
                 'name'  => 'stripe_payment_description',
-                'value' => 'Available credit card or Apple Pay',
+                'value' => 'Available credit card or Apple Pay.',
             ],
         ],
     ],

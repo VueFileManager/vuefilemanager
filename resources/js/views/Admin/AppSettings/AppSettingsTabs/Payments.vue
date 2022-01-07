@@ -1,7 +1,7 @@
 <template>
     <PageTab>
 		<!--Global payment settings-->
-		<div class="card shadow-card">
+		<div v-if="false" class="card shadow-card">
 			<FormLabel icon="dollar">
 				{{ $t('Subscription Payments') }}
 			</FormLabel>
