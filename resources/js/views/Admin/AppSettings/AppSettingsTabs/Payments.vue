@@ -6,7 +6,7 @@
 				{{ $t('Subscription Payments') }}
 			</FormLabel>
 
-			<AppInputSwitch :title="$t('Allow Subscription Payments')" :description="$t('User can subscribe to fixed or metered plan')" :is-last="! allowedPayments">
+			<AppInputSwitch :title="$t('Allow Subscription Payments')" :description="$t('User can subscribe to fixed or metered plan')" :is-last="! allowedPayments" class="flex">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_payments', allowedPayments)" v-model="allowedPayments" :state="allowedPayments" />
 			</AppInputSwitch>
 
@@ -17,11 +17,9 @@
 
 		<!--Stripe method configuration-->
 		<div v-if="allowedPayments" class="card shadow-card">
-			<FormLabel icon="credit-card">
-				{{ $t('Stripe') }}
-			</FormLabel>
+			<img :src="$getPaymentLogo('stripe')" alt="Stripe" class="mb-4 h-8">
 
-			<AppInputSwitch :title="$t('Allow Stripe Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! stripe.allowedService">
+			<AppInputSwitch :title="$t('Allow Stripe Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! stripe.allowedService" class="flex">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_stripe', stripe.allowedService)" v-model="stripe.allowedService" :state="stripe.allowedService" />
 			</AppInputSwitch>
 
@@ -49,9 +47,9 @@
 					ref="credentialsForm"
 					v-slot="{ invalid }"
 					tag="form"
-					class="p-5 border rounded-xl"
+					class="p-5 dark:border-dark-secondary border rounded-xl"
 				>
-					<FormLabel icon="shield">
+					<FormLabel v-if="! stripe.isConfigured" icon="shield">
 						{{ $t('Configure Your Credentials') }}
 					</FormLabel>
 					<ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
@@ -74,15 +72,13 @@
 
 		<!--Paystack method configuration-->
 		<div v-if="allowedPayments" class="card shadow-card">
-			<FormLabel icon="credit-card">
-				{{ $t('Paystack') }}
-			</FormLabel>
+			<img :src="$getPaymentLogo('paystack')" alt="Paystack" class="mb-4 h-7">
 
-			<AppInputSwitch :title="$t('Allow Paystack Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paystack.allowedService">
+			<AppInputSwitch :title="$t('Allow Paystack Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paystack.allowedService" class="flex">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_paystack', paystack.allowedService)" v-model="paystack.allowedService" :state="paystack.allowedService" />
 			</AppInputSwitch>
 
-			<!--Stripe credentials are set up-->
+			<!--Paystack credentials are set up-->
 			<div v-if="paystack.allowedService">
 				<div v-if="paystack.isConfigured">
 					<AppInputText @input="$updateText('/admin/settings', 'paystack_payment_description', paystack.paymentDescription)" :title="$t('Payment Description')" :description="$t('The description showed below user payment method selection.')">
@@ -106,9 +102,9 @@
 					ref="credentialsForm"
 					v-slot="{ invalid }"
 					tag="form"
-					class="p-5 border rounded-xl"
+					class="p-5 dark:border-dark-secondary border rounded-xl"
 				>
-					<FormLabel icon="shield">
+					<FormLabel v-if="! paystack.isConfigured" icon="shield">
 						{{ $t('Configure Your Credentials') }}
 					</FormLabel>
 					<ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
@@ -131,11 +127,9 @@
 
 		<!--PayPal method configuration-->
 		<div v-if="allowedPayments" class="card shadow-card">
-			<FormLabel icon="credit-card">
-				{{ $t('PayPal') }}
-			</FormLabel>
+			<img :src="$getPaymentLogo('paypal')" alt="PayPal" class="mb-4 h-8">
 
-			<AppInputSwitch :title="$t('Allow PayPal Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paypal.allowedService">
+			<AppInputSwitch :title="$t('Allow PayPal Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paypal.allowedService" class="flex">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_paypal', paypal.allowedService)" v-model="paypal.allowedService" :state="paypal.allowedService" />
 			</AppInputSwitch>
 
@@ -163,9 +157,9 @@
 					ref="credentialsForm"
 					v-slot="{ invalid }"
 					tag="form"
-					class="p-5 border rounded-xl"
+					class="p-5 dark:border-dark-secondary border rounded-xl"
 				>
-					<FormLabel icon="shield">
+					<FormLabel v-if="! paypal.isConfigured" icon="shield">
 						{{ $t('Configure Your Credentials') }}
 					</FormLabel>
 					<ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
@@ -251,8 +245,8 @@
 					isVisibleCredentialsForm: false,
 					paymentDescription: undefined,
 					credentials: {
-						key: 'test',
-						secret: 'test',
+						key: undefined,
+						secret: undefined,
 					}
 				},
 				paystack: {

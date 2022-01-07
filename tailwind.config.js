@@ -5,13 +5,14 @@ module.exports = {
 		debugScreens: {
 			position: ['bottom', 'right'],
 		},
-		textColor: {
+		/*textColor: {
 			'green': '#0ABB87',
 			'red': '#fd397a',
 			'yellow': '#ffb822',
 			'purple': '#9d66fe',
 			'blue': '#5578eb',
-		},
+			'white': '#fff',
+		},*/
 		extend: {
 			scale: {
 				'97': '.97',
