@@ -8,7 +8,7 @@
             <p v-if="storage.used > 95" class="reach-capacity">{{ $t('upgrade_banner.title') }}</p>
             <p v-else class="reach-capacity">{{ $t('upgrade_banner.description') }}</p>
         </div>
-        <div v-if="config.app_payments_active" class="footer">
+        <div v-if="config.app_allowed_payments" class="footer">
             <router-link :to="{name: 'UpgradePlan'}" class="button">
                 {{ $t('upgrade_banner.button') }}
             </router-link>

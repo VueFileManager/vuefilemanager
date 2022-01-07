@@ -8,6 +8,15 @@ const routesOthers = [
 			requiresAuth: false
 		},
 	},
+	{
+		name: 'TemporaryUnavailable',
+		path: '/temporary-unavailable',
+		component: () =>
+			import(/* webpackChunkName: "chunks/temporary-unavailable" */ '../views/TemporaryUnavailable'),
+		meta: {
+			requiresAuth: false
+		},
+	},
 ]
 
 export default routesOthers

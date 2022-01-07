@@ -110,7 +110,6 @@ const routesAdmin = [
 				},
 			},
 			{
-				name: 'User',
 				path: '/admin/user/:id',
 				component: () =>
 					import(/* webpackChunkName: "chunks/user" */ '../views/Admin/Users/User'),

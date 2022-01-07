@@ -152,7 +152,7 @@ return [
         'toaster.card_new_add'                                => 'Your card was successfully added',
         'toaster.card_set'                                    => 'Your card was successfully set as default.',
         'toaster.plan_created'                                => 'Your plan was successfully created!',
-        'toaster.stripe_set'                                  => 'Your Stripe account was successfully set!',
+        'toaster.credentials_set'                             => 'Your {service} credentials was successfully set!',
         'user_invoices.empty'                                 => "You don't have any invoices yet.",
         'user_invoices.title'                                 => 'Invoices',
         'user_payments.add_card'                              => 'Add Payment Card',

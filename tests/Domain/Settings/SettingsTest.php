@@ -136,35 +136,24 @@ class SettingsTest extends TestCase
     }
 
     /**
-     * TODO: complete test
+     * @test
      */
-    public function it_set_stripe()
+    public function it_store_payment_service_credentials()
     {
         $admin = User::factory()
             ->create(['role' => 'admin']);
 
         $this
             ->actingAs($admin)
-            ->postJson('/api/admin/settings/stripe', [
-                'currency'      => 'EUR',
+            ->post('/api/admin/settings/payment-service', [
+                'service'           => 'stripe',
                 'key'           => '123456789',
                 'secret'        => '123456789',
-                'webhookSecret' => '123456789',
             ])->assertStatus(204);
 
         $this->assertDatabaseHas('settings', [
-            'name'  => 'stripe_currency',
-            'value' => 'EUR',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'payments_configured',
-            'value' => 1,
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'payments_active',
-            'value' => 1,
+            'name'  => 'allowed_stripe',
+            'value' => '1',
         ]);
     }
 

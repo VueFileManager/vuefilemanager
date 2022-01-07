@@ -15,6 +15,7 @@ use Domain\Admin\Controllers\Dashboard\GetWidgetsValuesController;
 use Domain\Localization\Controllers\UpdateLanguageStringController;
 use Domain\Admin\Controllers\Users\ShowUserStorageCapacityController;
 use Domain\Admin\Controllers\Users\ChangeUserStorageCapacityController;
+use Domain\Settings\Controllers\StorePaymentServiceCredentialsController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
@@ -29,10 +30,6 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/{user}/storage', ShowUserStorageCapacityController::class);
     Route::patch('/{user}/role', ChangeUserRoleController::class);
     Route::delete('/{user}/delete', DeleteUserController::class);
-
-    // Subscription
-    //Route::get('/{user}/subscription', ShowUserSubscriptionController::class);
-    //Route::get('/{user}/invoices', ShowUserInvoicesController::class);
 });
 
 Route::apiResource('/users', UserController::class);
@@ -48,8 +45,7 @@ Route::group(['prefix' => 'settings'], function () {
     Route::get('/flush-cache', FlushCacheController::class);
     Route::post('/email', SetEmailController::class);
 
-    // TODO: stripe setup
-    //Route::post('/stripe', SetStripeController::class);
+    Route::post('/payment-service', StorePaymentServiceCredentialsController::class);
 });
 
 // Language

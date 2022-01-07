@@ -18,7 +18,7 @@ const actions = {
 const mutations = {
 	SET_SINGLE_CHARGE_AMOUNT(state, amount) {
 		state.singleChargeAmount = amount
-	}
+	},
 }
 
 const getters = {

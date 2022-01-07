@@ -50,26 +50,6 @@ const routesUser = [
 			},
 		]
 	},
-	{
-		name: 'UpgradePlan',
-		path: '/user/upgrade/plan',
-		component: () =>
-			import(/* webpackChunkName: "chunks/upgrade-plan" */ '../views/Upgrade/UpgradePlan'),
-		meta: {
-			requiresAuth: true,
-			title: 'routes_title.upgrade_plan'
-		},
-	},
-	{
-		name: 'UpgradeBilling',
-		path: '/user/upgrade/billing',
-		component: () =>
-			import(/* webpackChunkName: "chunks/upgrade-billing" */ '../views/Upgrade/UpgradeBilling'),
-		meta: {
-			requiresAuth: true,
-			title: 'routes_title.upgrade_billing'
-		},
-	},
 ]
 
 export default routesUser

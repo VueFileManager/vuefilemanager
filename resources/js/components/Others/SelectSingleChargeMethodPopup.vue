@@ -5,7 +5,10 @@
         <PopupContent style="padding: 0 20px">
 
 			<!--PayPal implementation-->
-			<div v-if="config.isPayPal" :class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl px-4 mb-2': paypalMethodsLoaded}">
+			<div
+				v-if="config.isPayPal"
+				:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl px-4 mb-2': paypalMethodsLoaded}"
+			>
 				<PaymentMethod
 					@click.native="pickedPaymentMethod('paypal')"
 					driver="paypal"

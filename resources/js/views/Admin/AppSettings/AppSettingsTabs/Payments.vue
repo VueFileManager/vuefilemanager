@@ -1,12 +1,13 @@
 <template>
     <PageTab>
+		<!--Global payment settings-->
 		<div class="card shadow-card">
 			<FormLabel icon="dollar">
 				{{ $t('Subscription Payments') }}
 			</FormLabel>
 
 			<AppInputSwitch :title="$t('Allow Subscription Payments')" :description="$t('User can subscribe to fixed or metered plan')" :is-last="! allowedPayments">
-				<SwitchInput @input="$updateText('/admin/settings', 'allowedPayments', allowedPayments)" v-model="allowedPayments" :state="allowedPayments" />
+				<SwitchInput @input="$updateText('/admin/settings', 'allowed_payments', allowedPayments)" v-model="allowedPayments" :state="allowedPayments" />
 			</AppInputSwitch>
 
 			<AppInputText v-if="allowedPayments" :title="$t('Subscription Type')" :is-last="true">
@@ -20,14 +21,14 @@
 				{{ $t('Stripe') }}
 			</FormLabel>
 
-			<AppInputSwitch :title="$t('Allow Stripe Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! stripe.allowStripe">
-				<SwitchInput @input="$updateText('/admin/settings', 'payments_active', stripe.allowStripe)" v-model="stripe.allowStripe" :state="stripe.allowStripe" />
+			<AppInputSwitch :title="$t('Allow Stripe Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! stripe.allowedService">
+				<SwitchInput @input="$updateText('/admin/settings', 'allowed_stripe', stripe.allowedService)" v-model="stripe.allowedService" :state="stripe.allowedService" />
 			</AppInputSwitch>
 
 			<!--Stripe credentials are set up-->
-			<div v-if="stripe.allowStripe">
+			<div v-if="stripe.allowedService">
 				<div v-if="stripe.isConfigured">
-					<AppInputText :title="$t('Payment Description')" :description="$t('The description showed below user payment method selection.')">
+					<AppInputText @input="$updateText('/admin/settings', 'stripe_payment_description', stripe.paymentDescription)" :title="$t('Payment Description')" :description="$t('The description showed below user payment method selection.')">
 						<textarea rows="2" @input="$updateText('/admin/settings', 'stripe_payment_description', stripe.paymentDescription, true)" v-model="stripe.paymentDescription" :placeholder="$t('Describe in short which methods user can pay with this payment method...')" type="text" class="focus-border-theme input-dark" />
 					</AppInputText>
 
@@ -42,7 +43,14 @@
 				</div>
 
 				<!--Set up Stripe credentials-->
-				<ValidationObserver v-if="! stripe.isConfigured || stripe.isVisibleCredentialsForm" @submit.prevent="stripeCredentialsSubmit" ref="stripeCredentials" v-slot="{ invalid }" tag="form" class="p-5 border rounded-xl">
+				<ValidationObserver
+					v-if="! stripe.isConfigured || stripe.isVisibleCredentialsForm"
+					@submit.prevent="storeCredentials('stripe')"
+					ref="credentialsForm"
+					v-slot="{ invalid }"
+					tag="form"
+					class="p-5 border rounded-xl"
+				>
 					<FormLabel icon="shield">
 						{{ $t('Configure Your Stripe Credentials') }}
 					</FormLabel>
@@ -122,13 +130,33 @@
 		},
 		data() {
 			return {
-				isLoading: true,
+				allowedPayments: false,
+				isLoading: false,
 				isError: false,
 				errorMessage: '',
-				allowedPayments: true,
 				stripe: {
-					allowStripe: true,
-					isConfigured: true,
+					allowedService: true,
+					isConfigured: false,
+					isVisibleCredentialsForm: false,
+					paymentDescription: undefined,
+					credentials: {
+						key: 'test',
+						secret: 'test',
+					}
+				},
+				paystack: {
+					allowedService: true,
+					isConfigured: false,
+					isVisibleCredentialsForm: false,
+					paymentDescription: undefined,
+					credentials: {
+						key: undefined,
+						secret: undefined,
+					}
+				},
+				paypal: {
+					allowedService: true,
+					isConfigured: false,
 					isVisibleCredentialsForm: false,
 					paymentDescription: undefined,
 					credentials: {
@@ -139,58 +167,88 @@
 			}
 		},
 		methods: {
-			async stripeCredentialsSubmit() {
+			async storeCredentials(service) {
 
 				// Validate fields
-				const isValid = await this.$refs.stripeCredentials.validate();
+				const isValid = await this.$refs.credentialsForm.validate();
 
 				if (!isValid) return;
 
 				// Start loading
 				this.isLoading = true
 
+				let credentials = {
+					stripe: {
+						service: 'stripe',
+						key: this.stripe.credentials.key,
+						secret: this.stripe.credentials.secret,
+					},
+					paystack: {
+						service: 'paystack',
+						key: this.paystack.credentials.key,
+						secret: this.paystack.credentials.secret,
+					},
+					paypal: {
+						service: 'paypal',
+						key: this.paypal.credentials.key,
+						secret: this.paypal.credentials.secret,
+					},
+				}
+
 				// Send request to get verify account
 				axios
-					.post('/api/admin/settings/stripe', this.stripeCredentials)
+					.post('/api/admin/settings/payment-service', credentials[service])
 					.then(() => {
 
-						// Store Stripe Public
-						this.$store.commit('SET_STRIPE_PUBLIC_KEY', this.stripeCredentials.key)
+						// Update Credentials
+						let commitKey = {
+							stripe: 'SET_STRIPE_CREDENTIALS',
+							paystack: 'SET_PAYSTACK_CREDENTIALS',
+							paypal: 'SET_PAYPAL_CREDENTIALS',
+						}[service]
+
+						// Commit credentials
+						this.$store.commit(commitKey, credentials[service])
+
+						this[service].allowedService = true
+						this[service].isConfigured = true
+						this[service].isVisibleCredentialsForm = false
 
 						// Show toaster
 						events.$emit('toaster', {
 							type: 'success',
-							message: this.$t('toaster.stripe_set'),
+							message: this.$t('toaster.credentials_set', {service: service}),
 						})
 					})
 					.catch(error => {
 
-						if (error.response.status = 401) {
+						if (error.response.status === 500) {
 							this.isError = true
 							this.errorMessage = error.response.data.message
 						}
 					})
-					.finally(() => {
-
-						// End loading
-						this.isLoading = false
-					})
+					.finally(() => this.isLoading = false)
 			},
 		},
 		mounted() {
-			axios.get('/api/admin/settings', {
-					params: {
-						column: 'payments_active|payments_configured'
-					}
-				})
-				.then(response => {
-					this.isLoading = false
+			this.stripe.paymentDescription = this.config.stripe_payment_description
+			this.paystack.paymentDescription = this.config.paystack_payment_description
+			this.paypal.paymentDescription = this.config.paypal_payment_description
 
-					this.payments = {
-						configured: parseInt(response.data.payments_configured),
-						status: parseInt(response.data.payments_active),
-					}
-				})
+			this.stripe.allowedService = this.config.isStripe
+			this.paystack.allowedService = this.config.isPaystack
+			this.paypal.allowedService = this.config.isPayPal
+
+			if (this.config.stripe_public_key)
+				this.stripe.isConfigured = true
+
+			if (this.config.paystack_public_key)
+				this.paystack.isConfigured = true
+
+			if (this.config.paypal_client_id)
+				this.paypal.isConfigured = true
+
+			this.allowedPayments = this.config.allowed_payments
 		}
 	}
 </script>

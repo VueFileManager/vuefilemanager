@@ -4,7 +4,7 @@
         <!--User avatar-->
         <UserHeadline v-if="!clickedSubmenu" class="user-info" />
 
-		<div v-if="config.subscriptionType === 'metered'" class="block px-5 pt-2">
+		<div v-if="config.subscriptionType === 'metered' && user" class="block px-5 pt-2">
 			<div class="bg-light-background px-3 py-1.5 rounded-lg">
 				<span class="text-sm font-semibold">
 					{{ $t('Your current estimated usage:') }}

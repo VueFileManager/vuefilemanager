@@ -53,7 +53,6 @@
             app_logo_horizontal: '{{ $settings->app_logo_horizontal ?? null }}',
             app_description: '{{ $settings->app_description ?? __t('app_description') }}',
 
-			subscriptionType: '{{ $settings->subscription_type ?? 'none' }}',
 
             allowHomepage: {{ $settings->allow_homepage ?? 1 }},
             userRegistration: {{ $settings->registration ?? 1 }},
@@ -78,19 +77,23 @@
             statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
 
             // Payments
-            app_payments_active: {{ $settings->payments_active ?? 0 }},
+            allowed_payments: {{ $settings->allowed_payments ?? 0 }},
+			subscriptionType: '{{ $settings->subscription_type ?? 'none' }}',
 
             // PayPal
-            isPayPal: true,
+            isPayPal: {{ $settings->allowed_paypal ?? 0 }},
             paypal_client_id: '{{ env('PAYPAL_CLIENT_ID') }}',
+			paypal_payment_description: '{{ $settings->paypal_payment_description ?? '' }}',
 
             // Paystack
-            isPaystack: true,
+            isPaystack: {{ $settings->allowed_paystack ?? 0 }},
             paystack_public_key: '{{ env('PAYSTACK_PUBLIC_KEY') }}',
+			paystack_payment_description: '{{ $settings->paystack_payment_description ?? '' }}',
 
             // Stripe
-            isStripe: true,
+            isStripe: {{ $settings->allowed_stripe ?? 0 }},
             stripe_public_key: '{{ env('STRIPE_PUBLIC_KEY') }}',
+			stripe_payment_description: '{{ $settings->stripe_payment_description ?? '' }}',
         }
     </script>
 

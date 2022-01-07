@@ -82,9 +82,6 @@ const mutations = {
     SET_SAAS(state, data) {
         state.config.isSaaS = data
     },
-    SET_STRIPE_PUBLIC_KEY(state, data) {
-        state.config.stripe_public_key = data
-    },
     FILE_INFO_TOGGLE(state, isVisible) {
         state.isVisibleSidebar = isVisible
 
@@ -107,6 +104,18 @@ const mutations = {
     },
     STORE_REQUESTED_PLAN(state, plan) {
         state.requestedPlan = plan
+    },
+    SET_STRIPE_CREDENTIALS(state, data) {
+        state.config.stripe_public_key = data.key
+        state.config.isStripe = true
+    },
+    SET_PAYSTACK_CREDENTIALS(state, data) {
+        state.config.paystack_public_key = data.key
+        state.config.isPaystack = true
+    },
+    SET_PAYPAL_CREDENTIALS(state, data) {
+        state.config.paypal_client_id = data.key
+        state.config.isPayPal = true
     },
 }
 
