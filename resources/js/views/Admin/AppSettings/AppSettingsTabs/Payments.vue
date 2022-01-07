@@ -1,7 +1,7 @@
 <template>
     <PageTab>
 		<!--Global payment settings-->
-		<div v-if="false" class="card shadow-card">
+		<div class="card shadow-card">
 			<FormLabel icon="dollar">
 				{{ $t('Subscription Payments') }}
 			</FormLabel>
@@ -11,7 +11,7 @@
 			</AppInputSwitch>
 
 			<AppInputText v-if="allowedPayments" :title="$t('Subscription Type')" :is-last="true">
-				<SelectInput :default="config.subscriptionType" :options="subscriptionTypes" :placeholder="$t('Select your subscription type')"/>
+				<SelectInput @change="subscriptionTypeChange" :default="config.subscriptionType" :options="subscriptionTypes" :placeholder="$t('Select your subscription type')"/>
 			</AppInputText>
 		</div>
 
@@ -278,9 +278,6 @@
 			}
 		},
 		methods: {
-			getWebhookEndpoint(service) {
-				return `${this.config.host}/api/subscriptions/${service}/webhook`
-			},
 			async storeCredentials(service) {
 
 				// Validate fields
@@ -343,6 +340,19 @@
 					})
 					.finally(() => this.isLoading = false)
 			},
+			subscriptionTypeChange(type) {
+				events.$emit('confirm:open', {
+					title: this.$t('Are you sure you want to change subscription type?'),
+					message: this.$t('We strongly do not recommend change this value if there is any subscribed user to prevent any failures. You can operate only with one type of subscription and you can not change it on the fly!'),
+					action: {
+						type: type,
+						operation: 'change-subscription-type',
+					}
+				})
+			},
+			getWebhookEndpoint(service) {
+				return `${this.config.host}/api/subscriptions/${service}/webhook`
+			},
 		},
 		mounted() {
 			// Set payment description
@@ -365,6 +375,12 @@
 				this.paypal.isConfigured = true
 
 			this.allowedPayments = this.config.allowed_payments
+		},
+		created() {
+			events.$on('action:confirmed', data => {
+				if (data.operation === 'change-subscription-type')
+					this.$updateText('/admin/settings', 'subscription_type', data.type)
+			})
 		}
 	}
 </script>

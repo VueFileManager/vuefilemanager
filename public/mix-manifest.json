@@ -25,7 +25,7 @@
     "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~8729b0a3.js": "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~8729b0a3.js?id=50f7067283a882b798bd",
     "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~d6690165.js": "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~d6690165.js?id=2f03fbbe27b922063d16",
     "/chunks/app-others.js": "/chunks/app-others.js?id=c1e42f111fd531672466",
-    "/chunks/app-payments.js": "/chunks/app-payments.js?id=616abaab42fb4c218f33",
+    "/chunks/app-payments.js": "/chunks/app-payments.js?id=29d3eca5072589a2e90a",
     "/chunks/app-payments~chunks/settings.js": "/chunks/app-payments~chunks/settings.js?id=5e454564895beb88469a",
     "/chunks/app-settings.js": "/chunks/app-settings.js?id=5968eed91e41e99efd4c",
     "/chunks/app-setup.js": "/chunks/app-setup.js?id=c3a013b11ae7bde6f39d",
@@ -111,7 +111,7 @@
     "/js/main.59268d7137186ca402d1.hot-update.js": "/js/main.59268d7137186ca402d1.hot-update.js",
     "/js/main.c98453190ce6c083df12.hot-update.js": "/js/main.c98453190ce6c083df12.hot-update.js",
     "/js/main.e57f172a93364f29473f.hot-update.js": "/js/main.e57f172a93364f29473f.hot-update.js",
-    "/chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/~5c92142b.js": "/chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/~5c92142b.js?id=c5ecf257f0c440700c57",
+    "/chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/~5c92142b.js": "/chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/~5c92142b.js?id=64515032580a7453047f",
     "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~d6def0d7.js": "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~d6def0d7.js?id=a1836cdd057c0e63adc0",
     "/chunks/upgrade-billing.e57f172a93364f29473f.hot-update.js": "/chunks/upgrade-billing.e57f172a93364f29473f.hot-update.js",
     "/chunks/upgrade-plan.e57f172a93364f29473f.hot-update.js": "/chunks/upgrade-plan.e57f172a93364f29473f.hot-update.js",
@@ -304,5 +304,13 @@
     "/chunks/platform~chunks/shared.eb223e497a06999eb212.hot-update.js": "/chunks/platform~chunks/shared.eb223e497a06999eb212.hot-update.js",
     "/chunks/platform~chunks/shared.f78faac74984f20a1030.hot-update.js": "/chunks/platform~chunks/shared.f78faac74984f20a1030.hot-update.js",
     "/chunks/platform~chunks/shared.28ba5d4236262fdb48d4.hot-update.js": "/chunks/platform~chunks/shared.28ba5d4236262fdb48d4.hot-update.js",
-    "/chunks/platform~chunks/shared.dc0566d0f8c651e45db3.hot-update.js": "/chunks/platform~chunks/shared.dc0566d0f8c651e45db3.hot-update.js"
+    "/chunks/platform~chunks/shared.dc0566d0f8c651e45db3.hot-update.js": "/chunks/platform~chunks/shared.dc0566d0f8c651e45db3.hot-update.js",
+    "/chunks/app-payments.d25b43b5b2e68fe3f50c.hot-update.js": "/chunks/app-payments.d25b43b5b2e68fe3f50c.hot-update.js",
+    "/chunks/app-payments.77ab542719793b66f46f.hot-update.js": "/chunks/app-payments.77ab542719793b66f46f.hot-update.js",
+    "/chunks/app-payments.af039d64763fdd5a2242.hot-update.js": "/chunks/app-payments.af039d64763fdd5a2242.hot-update.js",
+    "/chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/~5c92142b.fc8438f0f260498077c0.hot-update.js": "/chunks/admin~chunks/admin-account~chunks/app-appearance~chunks/app-billings~chunks/app-email~chunks/~5c92142b.fc8438f0f260498077c0.hot-update.js",
+    "/chunks/app-payments.6f52ec1bb375979ba087.hot-update.js": "/chunks/app-payments.6f52ec1bb375979ba087.hot-update.js",
+    "/chunks/app-payments.b39833caf629fd9e6d8c.hot-update.js": "/chunks/app-payments.b39833caf629fd9e6d8c.hot-update.js",
+    "/chunks/app-payments.5a782bee8b4050c01568.hot-update.js": "/chunks/app-payments.5a782bee8b4050c01568.hot-update.js",
+    "/chunks/app-payments.ea108f979a2eb808b96c.hot-update.js": "/chunks/app-payments.ea108f979a2eb808b96c.hot-update.js"
 }

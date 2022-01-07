@@ -88,6 +88,7 @@
 
                 // Emit selected
                 this.$emit('input', option.value)
+                this.$emit('change', option.value)
 
                 // Get selected
                 this.selected = option
