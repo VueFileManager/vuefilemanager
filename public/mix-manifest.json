@@ -25,7 +25,7 @@
     "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~8729b0a3.js": "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~8729b0a3.js?id=50f7067283a882b798bd",
     "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~d6690165.js": "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~d6690165.js?id=2f03fbbe27b922063d16",
     "/chunks/app-others.js": "/chunks/app-others.js?id=c1e42f111fd531672466",
-    "/chunks/app-payments.js": "/chunks/app-payments.js?id=c80a8540cddefca47fdc",
+    "/chunks/app-payments.js": "/chunks/app-payments.js?id=89d41188daef178a94b0",
     "/chunks/app-payments~chunks/settings.js": "/chunks/app-payments~chunks/settings.js?id=ec4c3e5b27d7ee2e2cd1",
     "/chunks/app-settings.js": "/chunks/app-settings.js?id=5968eed91e41e99efd4c",
     "/chunks/app-setup.js": "/chunks/app-setup.js?id=c3a013b11ae7bde6f39d",
@@ -169,5 +169,18 @@
     "/chunks/app-payments.aeec43cdbbeaa4ad7dec.hot-update.js": "/chunks/app-payments.aeec43cdbbeaa4ad7dec.hot-update.js",
     "/chunks/app-payments.32e4b86a736bb5e1a9a4.hot-update.js": "/chunks/app-payments.32e4b86a736bb5e1a9a4.hot-update.js",
     "/chunks/settings.cb10530f167c29f4c3a7.hot-update.js": "/chunks/settings.cb10530f167c29f4c3a7.hot-update.js",
-    "/chunks/settings.6891f54dfd161e22dd43.hot-update.js": "/chunks/settings.6891f54dfd161e22dd43.hot-update.js"
+    "/chunks/settings.6891f54dfd161e22dd43.hot-update.js": "/chunks/settings.6891f54dfd161e22dd43.hot-update.js",
+    "/chunks/app-payments.844503b4ec8cf9b17d31.hot-update.js": "/chunks/app-payments.844503b4ec8cf9b17d31.hot-update.js",
+    "/chunks/app-payments.4b05525f36db1bfb33e8.hot-update.js": "/chunks/app-payments.4b05525f36db1bfb33e8.hot-update.js",
+    "/chunks/app-payments.f09cab90ffb5dcae0c93.hot-update.js": "/chunks/app-payments.f09cab90ffb5dcae0c93.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.8780e277510f49a894d1.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.8780e277510f49a894d1.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.1e2bb3b282293c048668.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.1e2bb3b282293c048668.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.1299c350afabed75285c.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.1299c350afabed75285c.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.6b7004d63dd153d40239.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.6b7004d63dd153d40239.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.c875fb119f496efb663d.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.c875fb119f496efb663d.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.0d77fcead7b02d62828e.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.0d77fcead7b02d62828e.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.3c23d5015727c88ad982.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.3c23d5015727c88ad982.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.4f8cae58dbe64014a0b2.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.4f8cae58dbe64014a0b2.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.7dc07358ab58b00c9140.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.7dc07358ab58b00c9140.hot-update.js",
+    "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.b0ed5f0ca43eb55bb28f.hot-update.js": "/chunks/admin~chunks/platform~chunks/settings~chunks/shared.b0ed5f0ca43eb55bb28f.hot-update.js"
 }

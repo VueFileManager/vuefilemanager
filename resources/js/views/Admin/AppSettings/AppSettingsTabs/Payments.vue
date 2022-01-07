@@ -128,6 +128,63 @@
 				</ValidationObserver>
 			</div>
 		</div>
+
+		<!--PayPal method configuration-->
+		<div v-if="allowedPayments" class="card shadow-card">
+			<FormLabel icon="credit-card">
+				{{ $t('PayPal') }}
+			</FormLabel>
+
+			<AppInputSwitch :title="$t('Allow PayPal Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paypal.allowedService">
+				<SwitchInput @input="$updateText('/admin/settings', 'allowed_paypal', paypal.allowedService)" v-model="paypal.allowedService" :state="paypal.allowedService" />
+			</AppInputSwitch>
+
+			<!--Stripe credentials are set up-->
+			<div v-if="paypal.allowedService">
+				<div v-if="paypal.isConfigured">
+					<AppInputText @input="$updateText('/admin/settings', 'paypal_payment_description', paypal.paymentDescription)" :title="$t('Payment Description')" :description="$t('The description showed below user payment method selection.')">
+						<textarea rows="2" @input="$updateText('/admin/settings', 'paypal_payment_description', paypal.paymentDescription, true)" v-model="paypal.paymentDescription" :placeholder="$t('Describe in short which methods user can pay with this payment method...')" type="text" class="focus-border-theme input-dark" />
+					</AppInputText>
+
+					<AppInputText :title="$t('Your Webhook URL')" :description="$t('Please copy your url and paste it to the service webhook setup.')">
+						<CopyInput size="small" :str="getWebhookEndpoint('paypal')" />
+					</AppInputText>
+
+					<div @click="paypal.isVisibleCredentialsForm = !paypal.isVisibleCredentialsForm" class="flex items-center cursor-pointer" :class="{'mb-4': paypal.isVisibleCredentialsForm}">
+						<edit2-icon size="14" class="vue-feather text-theme mr-2.5" />
+						<b class="text-sm">{{ $t('Update Your Credentials') }}</b>
+					</div>
+				</div>
+
+				<!--Set up Paypal credentials-->
+				<ValidationObserver
+					v-if="! paypal.isConfigured || paypal.isVisibleCredentialsForm"
+					@submit.prevent="storeCredentials('paypal')"
+					ref="credentialsForm"
+					v-slot="{ invalid }"
+					tag="form"
+					class="p-5 border rounded-xl"
+				>
+					<FormLabel icon="shield">
+						{{ $t('Configure Your Credentials') }}
+					</FormLabel>
+					<ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
+						<AppInputText :title="$t('admin_settings.payments.stripe_pub_key')" :error="errors[0]">
+							<input v-model="paypal.credentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+						</AppInputText>
+					</ValidationProvider>
+					<ValidationProvider tag="div" mode="passive" name="Secret Key" rules="required" v-slot="{ errors }">
+						<AppInputText :title="$t('admin_settings.payments.stripe_sec_key')" :error="errors[0]">
+							<input v-model="paypal.credentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+						</AppInputText>
+					</ValidationProvider>
+
+					<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+						{{ $t('Store Credentials') }}
+					</ButtonBase>
+				</ValidationObserver>
+			</div>
+		</div>
 	</PageTab>
 </template>
 

@@ -53,7 +53,6 @@
             app_logo_horizontal: '{{ $settings->app_logo_horizontal ?? null }}',
             app_description: '{{ $settings->app_description ?? __t('app_description') }}',
 
-
             allowHomepage: {{ $settings->allow_homepage ?? 1 }},
             userRegistration: {{ $settings->registration ?? 1 }},
             userVerification: {{ $settings->user_verification ?? 0 }},

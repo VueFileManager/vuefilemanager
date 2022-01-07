@@ -177,6 +177,20 @@ return [
                 'name'  => 'app_color',
                 'value' => '#00BC7E',
             ],
+
+            // Subscription
+            [
+                'name'  => 'paypal_payment_description',
+                'value' => 'Available PayPal Credit, Debit or Credit Card.',
+            ],
+            [
+                'name'  => 'paystack_payment_description',
+                'value' => 'Available Bank Account, USSD, Mobile Money, Apple Pay',
+            ],
+            [
+                'name'  => 'stripe_payment_description',
+                'value' => 'Available credit card or Apple Pay',
+            ],
         ],
     ],
 ];

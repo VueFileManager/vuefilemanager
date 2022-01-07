@@ -17,17 +17,6 @@ class StorePaymentServiceCredentialsController
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
-        // Try to get stripe account details
-        /*try {
-            if (!app()->runningUnitTests()) {
-                Stripe::make($request->input('secret'), '2020-03-02')
-                    ->account()
-                    ->details();
-            }
-        } catch (UnauthorizedException $e) {
-            throw new HttpException(401, $e->getMessage());
-        }*/
-
         $options = [
             'stripe'   => [
                 'name'  => 'allowed_stripe',
