@@ -32,13 +32,13 @@
 						<textarea rows="2" @input="$updateText('/admin/settings', 'stripe_payment_description', stripe.paymentDescription, true)" v-model="stripe.paymentDescription" :placeholder="$t('Describe in short which methods user can pay with this payment method...')" type="text" class="focus-border-theme input-dark" />
 					</AppInputText>
 
-					<AppInputText :title="$t('Your Stripe Webhook URL')" :description="$t('Please copy your url and paste it to the Stripe webhook setup.')">
-						<CopyInput size="small" :str="stripeWebhookEndpoint" />
+					<AppInputText :title="$t('Your Webhook URL')" :description="$t('Please copy your url and paste it to the service webhook setup.')">
+						<CopyInput size="small" :str="getWebhookEndpoint('stripe')" />
 					</AppInputText>
 
 					<div @click="stripe.isVisibleCredentialsForm = !stripe.isVisibleCredentialsForm" class="flex items-center cursor-pointer" :class="{'mb-4': stripe.isVisibleCredentialsForm}">
 						<edit2-icon size="14" class="vue-feather text-theme mr-2.5" />
-						<b class="text-sm">{{ $t('Update Stripe Credentials') }}</b>
+						<b class="text-sm">{{ $t('Update Your Credentials') }}</b>
 					</div>
 				</div>
 
@@ -52,7 +52,7 @@
 					class="p-5 border rounded-xl"
 				>
 					<FormLabel icon="shield">
-						{{ $t('Configure Your Stripe Credentials') }}
+						{{ $t('Configure Your Credentials') }}
 					</FormLabel>
 					<ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
 						<AppInputText :title="$t('admin_settings.payments.stripe_pub_key')" :error="errors[0]">
@@ -66,7 +66,64 @@
 					</ValidationProvider>
 
 					<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
-						{{ $t('Store Stripe Credentials') }}
+						{{ $t('Store Credentials') }}
+					</ButtonBase>
+				</ValidationObserver>
+			</div>
+		</div>
+
+		<!--Paystack method configuration-->
+		<div v-if="allowedPayments" class="card shadow-card">
+			<FormLabel icon="credit-card">
+				{{ $t('Paystack') }}
+			</FormLabel>
+
+			<AppInputSwitch :title="$t('Allow Paystack Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paystack.allowedService">
+				<SwitchInput @input="$updateText('/admin/settings', 'allowed_paystack', paystack.allowedService)" v-model="paystack.allowedService" :state="paystack.allowedService" />
+			</AppInputSwitch>
+
+			<!--Stripe credentials are set up-->
+			<div v-if="paystack.allowedService">
+				<div v-if="paystack.isConfigured">
+					<AppInputText @input="$updateText('/admin/settings', 'paystack_payment_description', paystack.paymentDescription)" :title="$t('Payment Description')" :description="$t('The description showed below user payment method selection.')">
+						<textarea rows="2" @input="$updateText('/admin/settings', 'paystack_payment_description', paystack.paymentDescription, true)" v-model="paystack.paymentDescription" :placeholder="$t('Describe in short which methods user can pay with this payment method...')" type="text" class="focus-border-theme input-dark" />
+					</AppInputText>
+
+					<AppInputText :title="$t('Your Webhook URL')" :description="$t('Please copy your url and paste it to the service webhook setup.')">
+						<CopyInput size="small" :str="getWebhookEndpoint('paystack')" />
+					</AppInputText>
+
+					<div @click="paystack.isVisibleCredentialsForm = !paystack.isVisibleCredentialsForm" class="flex items-center cursor-pointer" :class="{'mb-4': paystack.isVisibleCredentialsForm}">
+						<edit2-icon size="14" class="vue-feather text-theme mr-2.5" />
+						<b class="text-sm">{{ $t('Update Your Credentials') }}</b>
+					</div>
+				</div>
+
+				<!--Set up Paystack credentials-->
+				<ValidationObserver
+					v-if="! paystack.isConfigured || paystack.isVisibleCredentialsForm"
+					@submit.prevent="storeCredentials('paystack')"
+					ref="credentialsForm"
+					v-slot="{ invalid }"
+					tag="form"
+					class="p-5 border rounded-xl"
+				>
+					<FormLabel icon="shield">
+						{{ $t('Configure Your Credentials') }}
+					</FormLabel>
+					<ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
+						<AppInputText :title="$t('admin_settings.payments.stripe_pub_key')" :error="errors[0]">
+							<input v-model="paystack.credentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+						</AppInputText>
+					</ValidationProvider>
+					<ValidationProvider tag="div" mode="passive" name="Secret Key" rules="required" v-slot="{ errors }">
+						<AppInputText :title="$t('admin_settings.payments.stripe_sec_key')" :error="errors[0]">
+							<input v-model="paystack.credentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+						</AppInputText>
+					</ValidationProvider>
+
+					<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+						{{ $t('Store Credentials') }}
 					</ButtonBase>
 				</ValidationObserver>
 			</div>
@@ -121,9 +178,6 @@
 				'subscriptionTypes',
 				'config',
 			]),
-			stripeWebhookEndpoint() {
-				return `${this.config.host}/api/subscriptions/stripe/webhook`
-			},
 			submitButtonText() {
 				return this.isLoading ? this.$t('admin_settings.payments.button_testing') : this.$t('admin_settings.payments.button_submit')
 			}
@@ -167,6 +221,9 @@
 			}
 		},
 		methods: {
+			getWebhookEndpoint(service) {
+				return `${this.config.host}/api/subscriptions/${service}/webhook`
+			},
 			async storeCredentials(service) {
 
 				// Validate fields
@@ -231,10 +288,12 @@
 			},
 		},
 		mounted() {
+			// Set payment description
 			this.stripe.paymentDescription = this.config.stripe_payment_description
 			this.paystack.paymentDescription = this.config.paystack_payment_description
 			this.paypal.paymentDescription = this.config.paypal_payment_description
 
+			// Set if service is allowed
 			this.stripe.allowedService = this.config.isStripe
 			this.paystack.allowedService = this.config.isPaystack
 			this.paypal.allowedService = this.config.isPayPal

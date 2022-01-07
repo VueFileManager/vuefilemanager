@@ -12,7 +12,7 @@
 				<PaymentMethod
 					@click.native="pickedPaymentMethod('paypal')"
 					driver="paypal"
-					:description="$t('Available PayPal Credit, Debit or Credit Card.')"
+					:description="config.paypal_payment_description"
 				>
 					<span v-if="! paypalMethodsLoaded" class="text-sm text-theme font-bold cursor-pointer">
 						{{ $t('Select') }}
@@ -29,7 +29,7 @@
 			<PaymentMethod
 				v-if="config.isPaystack"
 				driver="paystack"
-				:description="$t('Available Bank Account, USSD, Mobile Money, Apple Pay')"
+				:description="config.paystack_payment_description"
 			>
 				<paystack
 					@click.native="pickedPaymentMethod('paystack')"
