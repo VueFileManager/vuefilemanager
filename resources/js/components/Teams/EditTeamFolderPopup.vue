@@ -26,7 +26,7 @@
 							</span>
 
 							<!--TODO: Fix !pr-20 after JIT official release-->
-							<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'border-red-700': errors[0]}" type="email" class="focus-border-theme !pr-20 input-dark" :placeholder="$t('Type member email...')">
+							<input @keypress.enter.stop.prevent="addMember" ref="email" v-model="email" :class="{'border-red': errors[0]}" type="email" class="focus-border-theme !pr-20 input-dark" :placeholder="$t('Type member email...')">
 						</div>
 					</AppInputText>
 				</ValidationProvider>

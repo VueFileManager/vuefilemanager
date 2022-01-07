@@ -52,7 +52,7 @@
                         <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
 							   type="password"
 							   class="focus-border-theme input-dark"
-							   :class="{'border-red-700': errors[0]}"
+							   :class="{'border-red': errors[0]}"
 						/>
                     </AppInputText>
                 </ValidationProvider>
@@ -62,7 +62,7 @@
 							   :placeholder="$t('page_create_password.label_confirm_pass')"
 							   type="password"
 							   class="focus-border-theme input-dark"
-							   :class="{'border-red-700': errors[0]}"
+							   :class="{'border-red': errors[0]}"
 						/>
                     </AppInputText>
                 </ValidationProvider>

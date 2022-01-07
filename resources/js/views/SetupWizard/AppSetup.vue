@@ -18,7 +18,7 @@
                 <div class="block-wrapper">
                     <label>App Title:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                        <input v-model="app.title" placeholder="Type your app title" type="text" :class="{'border-red-700': errors[0]}"/>
+                        <input v-model="app.title" placeholder="Type your app title" type="text" :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="block-wrapper">
                     <label>App Description:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                        <input v-model="app.description" placeholder="Type your app description" type="text" :class="{'border-red-700': errors[0]}"/>
+                        <input v-model="app.description" placeholder="Type your app description" type="text" :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -74,7 +74,7 @@
                     <label>Contact Email:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Contact Email"
                                         rules="required" v-slot="{ errors }">
-                        <input v-model="app.contactMail" placeholder="Type your contact email" type="email" :class="{'border-red-700': errors[0]}"/>
+                        <input v-model="app.contactMail" placeholder="Type your contact email" type="email" :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -84,7 +84,7 @@
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Google Analytics Code"
                                         v-slot="{ errors }">
                         <input v-model="app.googleAnalytics" placeholder="Paste your Google Analytics Code"
-                               type="text" :class="{'border-red-700': errors[0]}"/>
+                               type="text" :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -109,7 +109,7 @@
                                max="999999999"
                                placeholder="Set default storage space in GB"
                                type="number"
-                               :class="{'border-red-700': errors[0]}"
+                               :class="{'border-red': errors[0]}"
                         />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>

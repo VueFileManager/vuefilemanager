@@ -64,7 +64,7 @@
 
 						<ValidationProvider tag="div" mode="passive" name="Language name" rules="required" v-slot="{ errors }">
 							<AppInputText :title="$t('language_name')" :error="errors[0]">
-								<input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name" :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+								<input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name" :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 							</AppInputText>
 						</ValidationProvider>
 
@@ -100,7 +100,7 @@
 									@input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
 									:rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
 									class="focus-border-theme input-dark"
-									:class="{'border-red-700': errors[0]}"
+									:class="{'border-red': errors[0]}"
 								></textarea>
 							</AppInputText>
 						</ValidationProvider>

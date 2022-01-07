@@ -9,14 +9,14 @@
 			<!--Name-->
 			<ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
 				<AppInputText :title="$t('admin_page_plans.form.name')">
-					<input v-model="plan.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+					<input v-model="plan.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 				</AppInputText>
 			</ValidationProvider>
 
 			<!--Description-->
 			<ValidationProvider tag="div" mode="passive" name="Description" v-slot="{ errors }">
 				<AppInputText :title="$t('admin_page_plans.form.description')">
-					<textarea v-model="plan.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"></textarea>
+					<textarea v-model="plan.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
 				</AppInputText>
 			</ValidationProvider>
 
@@ -41,7 +41,7 @@
 
 				<ValidationProvider v-if="plan.features.bandwidth.active" class="-mt-3" tag="div" mode="passive" name="Bandwidth Price" rules="required" v-slot="{ errors }">
 					<AppInputText class="w-full">
-						<input v-model="plan.features.bandwidth.per_unit" :placeholder="$t('Type the price per 1GB...')" type="number" step="0.01" min="0.01" max="999999999999" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+						<input v-model="plan.features.bandwidth.per_unit" :placeholder="$t('Type the price per 1GB...')" type="number" step="0.01" min="0.01" max="999999999999" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 					</AppInputText>
 				</ValidationProvider>
 			</div>
@@ -55,7 +55,7 @@
 
 			<ValidationProvider v-if="plan.features.storage.active" class="-mt-3" tag="div" mode="passive" name="Storage Price" rules="required" v-slot="{ errors }">
 				<AppInputText class="w-full">
-					<input v-model="plan.features.storage.per_unit" :placeholder="$t('Type the price per 1GB...')" type="number" step="0.01" min="0.01" max="999999999999" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+					<input v-model="plan.features.storage.per_unit" :placeholder="$t('Type the price per 1GB...')" type="number" step="0.01" min="0.01" max="999999999999" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 				</AppInputText>
 			</ValidationProvider>
 
@@ -68,7 +68,7 @@
 
 			<ValidationProvider v-if="plan.features.member.active" class="-mt-3" tag="div" mode="passive" name="Member Price" rules="required" v-slot="{ errors }">
 				<AppInputText class="w-full">
-					<input v-model="plan.features.member.per_unit" :placeholder="$t('Type the price per 1 member...')" type="number" step="0.01" min="0.01" max="999999999999" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+					<input v-model="plan.features.member.per_unit" :placeholder="$t('Type the price per 1 member...')" type="number" step="0.01" min="0.01" max="999999999999" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 				</AppInputText>
 			</ValidationProvider>
 
@@ -80,7 +80,7 @@
 
 				<ValidationProvider v-if="plan.features.flatFee.active" class="-mt-3" tag="div" mode="passive" name="FlatFee Price" rules="required" v-slot="{ errors }">
 					<AppInputText class="w-full" :is-last="true">
-						<input v-model="plan.features.flatFee.per_unit" :placeholder="$t('Type the price...')" type="number" step="0.01" min="0.01" max="999999999999" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+						<input v-model="plan.features.flatFee.per_unit" :placeholder="$t('Type the price...')" type="number" step="0.01" min="0.01" max="999999999999" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 					</AppInputText>
 				</ValidationProvider>
 			</div>

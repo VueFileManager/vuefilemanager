@@ -9,14 +9,14 @@
 			<!--Name-->
 			<ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
 				<AppInputText :title="$t('admin_page_plans.form.name')">
-					<input v-model="plan.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+					<input v-model="plan.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 				</AppInputText>
 			</ValidationProvider>
 
 			<!--Description-->
 			<ValidationProvider tag="div" mode="passive" name="Description" v-slot="{ errors }">
 				<AppInputText :title="$t('admin_page_plans.form.description')" :is-last="true">
-					<textarea v-model="plan.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"></textarea>
+					<textarea v-model="plan.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
 				</AppInputText>
 			</ValidationProvider>
 		</div>
@@ -30,7 +30,7 @@
 				<!--Price-->
 				<ValidationProvider tag="div" mode="passive" name="Price" rules="required" v-slot="{ errors }" class="w-full">
 					<AppInputText :title="$t('admin_page_plans.form.price')" class="w-full">
-						<input v-model="plan.amount" :placeholder="$t('admin_page_plans.form.price_plac')" type="number" step="0.01" min="1" max="999999999999" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+						<input v-model="plan.amount" :placeholder="$t('admin_page_plans.form.price_plac')" type="number" step="0.01" min="1" max="999999999999" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 					</AppInputText>
 				</ValidationProvider>
 
@@ -58,14 +58,14 @@
 			<!--Storage Capacity-->
 			<ValidationProvider tag="div" mode="passive" name="Max Storage Capacity" rules="required" v-slot="{ errors }">
 				<AppInputText :title="$t('admin_page_plans.form.storage')" :description="$t('admin_page_plans.form.storage_helper')">
-					<input v-model="plan.features.max_storage_amount" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+					<input v-model="plan.features.max_storage_amount" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 				</AppInputText>
 			</ValidationProvider>
 
 			<!--Team Members-->
 			<ValidationProvider tag="div" mode="passive" name="Max Team Members" rules="required" v-slot="{ errors }">
 				<AppInputText :title="$t('Team Members')" :description="$t('To set unlimited team members, type -1 into form')" :is-last="true">
-					<input v-model="plan.features.max_team_members" :placeholder="$t('Add max team members in number')" type="number" min="1" max="999999999" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
+					<input v-model="plan.features.max_team_members" :placeholder="$t('Add max team members in number')" type="number" min="1" max="999999999" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 				</AppInputText>
 			</ValidationProvider>
 		</div>

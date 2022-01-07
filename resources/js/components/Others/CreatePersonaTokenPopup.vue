@@ -8,7 +8,7 @@
 
                 <ValidationProvider tag="div" mode="passive" name="Token Name" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('popup_personal_token.label')" :error="errors[0]" :is-last="true">
-    	                <input v-model="name" :class="{'border-red-700': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('popup_personal_token.plc')">
+    	                <input v-model="name" :class="{'border-red': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('popup_personal_token.plc')">
 					</AppInputText>
                 </ValidationProvider>
 

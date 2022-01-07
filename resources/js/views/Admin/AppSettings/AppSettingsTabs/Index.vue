@@ -25,7 +25,7 @@
                     <div class="block-wrapper">
                         <label>Title:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                            <input @input="$updateText('/admin/settings', 'header_title', app.header_title)" v-model="app.header_title" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"/>
+                            <input @input="$updateText('/admin/settings', 'header_title', app.header_title)" v-model="app.header_title" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
@@ -33,7 +33,7 @@
                     <div class="block-wrapper">
                         <label>Description:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                            <textarea @input="$updateText('/admin/settings', 'header_description', app.header_description)" rows="2" v-model="app.header_description" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"></textarea>
+                            <textarea @input="$updateText('/admin/settings', 'header_description', app.header_description)" rows="2" v-model="app.header_description" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
@@ -65,7 +65,7 @@
                         <div class="block-wrapper">
                             <label>Title:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                                <input @input="$updateText('/admin/settings', 'features_title', app.features_title)" v-model="app.features_title" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"/>
+                                <input @input="$updateText('/admin/settings', 'features_title', app.features_title)" v-model="app.features_title" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -73,7 +73,7 @@
                         <div class="block-wrapper">
                             <label>Description:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                                <textarea @input="$updateText('/admin/settings', 'features_description', app.features_description)" rows="2" v-model="app.features_description" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"></textarea>
+                                <textarea @input="$updateText('/admin/settings', 'features_description', app.features_description)" rows="2" v-model="app.features_description" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -104,42 +104,42 @@
                         <div class="block-wrapper">
                             <label>First Box Title:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Feature Title 1" rules="required" v-slot="{ errors }">
-                                <input @input="$updateText('/admin/settings', 'feature_title_1', app.feature_title_1)" v-model="app.feature_title_1" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"/>
+                                <input @input="$updateText('/admin/settings', 'feature_title_1', app.feature_title_1)" v-model="app.feature_title_1" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
                             <label>First Box Description:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Feature Description 1" rules="required" v-slot="{ errors }">
-                                <textarea @input="$updateText('/admin/settings', 'feature_description_1', app.feature_description_1)" rows="2" v-model="app.feature_description_1" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"></textarea>
+                                <textarea @input="$updateText('/admin/settings', 'feature_description_1', app.feature_description_1)" rows="2" v-model="app.feature_description_1" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
                             <label>Second Box Title:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Feature Title 2" rules="required" v-slot="{ errors }">
-                                <input @input="$updateText('/admin/settings', 'feature_title_2', app.feature_title_2)" v-model="app.feature_title_2" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"/>
+                                <input @input="$updateText('/admin/settings', 'feature_title_2', app.feature_title_2)" v-model="app.feature_title_2" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
                             <label>Second Box Description:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Feature Description 2" rules="required" v-slot="{ errors }">
-                                <textarea @input="$updateText('/admin/settings', 'feature_description_2', app.feature_description_2)" rows="2" v-model="app.feature_description_2" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"></textarea>
+                                <textarea @input="$updateText('/admin/settings', 'feature_description_2', app.feature_description_2)" rows="2" v-model="app.feature_description_2" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
                             <label>Third Box Title:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Feature Title 3" rules="required" v-slot="{ errors }">
-                                <input @input="$updateText('/admin/settings', 'feature_title_3', app.feature_title_3)" v-model="app.feature_title_3" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"/>
+                                <input @input="$updateText('/admin/settings', 'feature_title_3', app.feature_title_3)" v-model="app.feature_title_3" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
                             <label>Third Box Description:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Feature Description 3" rules="required" v-slot="{ errors }">
-                                <textarea @input="$updateText('/admin/settings', 'feature_description_3', app.feature_description_3)" rows="2" v-model="app.feature_description_3" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"></textarea>
+                                <textarea @input="$updateText('/admin/settings', 'feature_description_3', app.feature_description_3)" rows="2" v-model="app.feature_description_3" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -170,7 +170,7 @@
                         <div class="block-wrapper">
                             <label>Title:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                                <input @input="$updateText('/admin/settings', 'pricing_title', app.pricing_title)" v-model="app.pricing_title" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"/>
+                                <input @input="$updateText('/admin/settings', 'pricing_title', app.pricing_title)" v-model="app.pricing_title" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -178,7 +178,7 @@
                         <div class="block-wrapper">
                             <label>Description:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                                <textarea @input="$updateText('/admin/settings', 'pricing_description', app.pricing_description)" rows="2" v-model="app.pricing_description" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"></textarea>
+                                <textarea @input="$updateText('/admin/settings', 'pricing_description', app.pricing_description)" rows="2" v-model="app.pricing_description" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -210,7 +210,7 @@
                         <div class="block-wrapper">
                             <label>Title:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                                <input @input="$updateText('/admin/settings', 'get_started_title', app.get_started_title)" v-model="app.get_started_title" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"/>
+                                <input @input="$updateText('/admin/settings', 'get_started_title', app.get_started_title)" v-model="app.get_started_title" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"/>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -218,7 +218,7 @@
                         <div class="block-wrapper">
                             <label>Description:</label>
                             <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                            <textarea @input="$updateText('/admin/settings', 'get_started_description', app.get_started_description)" rows="2" v-model="app.get_started_description" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"></textarea>
+                            <textarea @input="$updateText('/admin/settings', 'get_started_description', app.get_started_description)" rows="2" v-model="app.get_started_description" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
                                 <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
@@ -232,7 +232,7 @@
                     <div class="block-wrapper">
                         <label>Footer content:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                            <input @input="$updateText('/admin/settings', 'footer_content', app.footer_content)" v-model="app.footer_content" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark"/>
+                            <input @input="$updateText('/admin/settings', 'footer_content', app.footer_content)" v-model="app.footer_content" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"/>
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>

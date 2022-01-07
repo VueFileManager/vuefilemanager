@@ -14,7 +14,7 @@
 
             <ValidationObserver @submit.prevent="verifyPurchaseCode" ref="verifyPurchaseCode" v-slot="{ invalid }" tag="form" class="form inline-form">
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Purchase Code" rules="required" v-slot="{ errors }">
-                    <input v-model="purchaseCode" placeholder="Paste your purchase code" type="text" :class="{'border-red-700': errors[0]}"/>
+                    <input v-model="purchaseCode" placeholder="Paste your purchase code" type="text" :class="{'border-red': errors[0]}"/>
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
                 <AuthButton icon="chevron-right" text="Verify" :loading="isLoading" :disabled="isLoading"/>

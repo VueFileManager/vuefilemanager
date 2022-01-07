@@ -9,7 +9,7 @@
             <ValidationObserver @submit.prevent="authenticateProtected" ref="authenticateProtected" v-slot="{ invalid }" tag="form" class="form inline-form">
 
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Password" rules="required" v-slot="{ errors }">
-                    <input v-model="password" :placeholder="$t('page_shared.placeholder_pass')" type="password" :class="{'border-red-700': errors[0]}" />
+                    <input v-model="password" :placeholder="$t('page_shared.placeholder_pass')" type="password" :class="{'border-red': errors[0]}" />
                     <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 

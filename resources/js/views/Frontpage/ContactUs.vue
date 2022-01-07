@@ -23,7 +23,7 @@
                                         v-slot="{ errors }">
                         <input v-model="contact.email" :placeholder="$t('page_contact_us.form.email_plac')" type="email"
                                class="focus-border-theme"
-                               :class="{'border-red-700': errors[0]}"/>
+                               :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -34,7 +34,7 @@
                                         v-slot="{ errors }">
                         <textarea v-model="contact.message" :placeholder="$t('page_contact_us.form.message_plac')" rows="6"
                                   class="focus-border-theme"
-                                  :class="{'border-red-700': errors[0]}"
+                                  :class="{'border-red': errors[0]}"
                         ></textarea>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>

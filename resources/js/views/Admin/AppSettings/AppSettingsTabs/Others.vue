@@ -66,14 +66,14 @@
 		</div>
 		<div class="card shadow-card">
 			<FormLabel>
-				{{ $t('admin_settings.others.section_cache') }}
+				{{ $t('Cache') }}
 			</FormLabel>
-			<InfoBox>
-				{{ $t('admin_settings.others.cache_disclaimer') }}
-			</InfoBox>
-			<ButtonBase @click.native="flushCache" :loading="isFlushingCache" :disabled="isFlushingCache" type="submit" button-style="theme" class="submit-button">
-				{{ $t('admin_settings.others.cache_clear') }}
-			</ButtonBase>
+
+			<AppInputSwitch :title="$t('admin_settings.others.section_cache')" :description="$t('admin_settings.others.cache_disclaimer')" :is-last="true">
+				<ButtonBase @click.native="flushCache" :loading="isFlushingCache" :disabled="isFlushingCache" class="sm:w-auto w-full" button-style="theme">
+					{{ $t('admin_settings.others.cache_clear') }}
+				</ButtonBase>
+			</AppInputSwitch>
 		</div>
     </PageTab>
 </template>

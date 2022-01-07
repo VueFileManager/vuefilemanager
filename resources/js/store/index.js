@@ -6,6 +6,7 @@ import fileBrowser from './modules/fileBrowser'
 import payments from './modules/payments'
 import userAuth from './modules/userAuth'
 import sharing from './modules/sharing'
+import lists from './modules/lists'
 import teams from './modules/teams'
 import app from './modules/app'
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
         payments,
         userAuth,
         sharing,
+        lists,
         teams,
         app,
     }

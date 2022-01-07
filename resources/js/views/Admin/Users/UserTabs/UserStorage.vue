@@ -67,7 +67,7 @@
 								   min="1"
 								   max="999999999"
 								   class="focus-border-theme input-dark"
-								   :class="{'border-red-700': errors[0]}"
+								   :class="{'border-red': errors[0]}"
 							/>
 							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
 								{{ $t('admin_page_user.change_capacity') }}

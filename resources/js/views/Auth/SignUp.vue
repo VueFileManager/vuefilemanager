@@ -15,7 +15,7 @@
                                         v-slot="{ errors }">
                         <input v-model="register.email" :placeholder="$t('page_registration.placeholder_email')" type="email"
                                class="focus-border-theme"
-                               :class="{'border-red-700': errors[0]}"/>
+                               :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -26,7 +26,7 @@
                                         v-slot="{ errors }">
                         <input v-model="register.name" :placeholder="$t('page_registration.placeholder_name')" type="text"
                                class="focus-border-theme"
-                               :class="{'border-red-700': errors[0]}"/>
+                               :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -37,7 +37,7 @@
                                         rules="required" v-slot="{ errors }">
                         <input v-model="register.password" :placeholder="$t('page_registration.placeholder_pass')" type="password"
                                class="focus-border-theme"
-                               :class="{'border-red-700': errors[0]}"/>
+                               :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -48,7 +48,7 @@
                                         rules="required" v-slot="{ errors }">
                         <input v-model="register.password_confirmation" :placeholder="$t('page_registration.placeholder_confirm_pass')"
                                class="focus-border-theme"
-                               type="password" :class="{'border-red-700': errors[0]}"/>
+                               type="password" :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>

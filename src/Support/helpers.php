@@ -474,7 +474,7 @@ if (! function_exists('get_storage_percentage')) {
     /**
      * Get storage usage in percent
      */
-    function get_storage_percentage(int $used, int $maxAmount): float
+    function get_storage_percentage(int $used, float $maxAmount): float
     {
         // Format gigabytes to bytes
         $total = intval(Metric::gigabytes($maxAmount)->numberOfBytes());

@@ -1,113 +1,120 @@
 <template>
-    <PageTab :is-loading="isLoading">
+    <PageTab>
+		<div class="card shadow-card">
+			<FormLabel icon="dollar">
+				{{ $t('Subscription Payments') }}
+			</FormLabel>
 
-		<!--Stripe Information-->
-		<PageTabGroup v-if="config.stripe_public_key && payments">
-			<div class="card shadow-card">
-				<FormLabel>
-					{{ $t('admin_settings.payments.section_payments') }}
-				</FormLabel>
-				<InfoBox>
-					<p v-html="$t('admin_settings.payments.credentials_disclaimer')"></p>
-				</InfoBox>
-				<AppInputSwitch :title="$t('admin_settings.payments.allow_payments')">
-					<SwitchInput @input="$updateText('/admin/settings', 'payments_active', payments.status)" v-model="payments.status" class="switch" :state="payments.status" />
-				</AppInputSwitch>
-				<AppInputText :title="$t('admin_settings.payments.webhook_url')">
-					<input :value="stripeWebhookEndpoint" type="text" class="focus-border-theme input-dark" disabled />
-				</AppInputText>
+			<AppInputSwitch :title="$t('Allow Subscription Payments')" :description="$t('User can subscribe to fixed or metered plan')" :is-last="! allowedPayments">
+				<SwitchInput @input="$updateText('/admin/settings', 'allowedPayments', allowedPayments)" v-model="allowedPayments" :state="allowedPayments" />
+			</AppInputSwitch>
+
+			<AppInputText v-if="allowedPayments" :title="$t('Subscription Type')" :is-last="true">
+				<SelectInput :default="config.subscriptionType" :options="subscriptionTypes" :placeholder="$t('Select your subscription type')"/>
+			</AppInputText>
+		</div>
+
+		<!--Stripe method configuration-->
+		<div v-if="allowedPayments" class="card shadow-card">
+			<FormLabel icon="credit-card">
+				{{ $t('Stripe') }}
+			</FormLabel>
+
+			<AppInputSwitch :title="$t('Allow Stripe Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! stripe.allowStripe">
+				<SwitchInput @input="$updateText('/admin/settings', 'payments_active', stripe.allowStripe)" v-model="stripe.allowStripe" :state="stripe.allowStripe" />
+			</AppInputSwitch>
+
+			<!--Stripe credentials are set up-->
+			<div v-if="stripe.allowStripe">
+				<div v-if="stripe.isConfigured">
+					<AppInputText :title="$t('Payment Description')" :description="$t('The description showed below user payment method selection.')">
+						<textarea rows="2" @input="$updateText('/admin/settings', 'stripe_payment_description', stripe.paymentDescription, true)" v-model="stripe.paymentDescription" :placeholder="$t('Describe in short which methods user can pay with this payment method...')" type="text" class="focus-border-theme input-dark" />
+					</AppInputText>
+
+					<AppInputText :title="$t('Your Stripe Webhook URL')" :description="$t('Please copy your url and paste it to the Stripe webhook setup.')">
+						<CopyInput size="small" :str="stripeWebhookEndpoint" />
+					</AppInputText>
+
+					<div @click="stripe.isVisibleCredentialsForm = !stripe.isVisibleCredentialsForm" class="flex items-center cursor-pointer" :class="{'mb-4': stripe.isVisibleCredentialsForm}">
+						<edit2-icon size="14" class="vue-feather text-theme mr-2.5" />
+						<b class="text-sm">{{ $t('Update Stripe Credentials') }}</b>
+					</div>
+				</div>
+
+				<!--Set up Stripe credentials-->
+				<ValidationObserver v-if="! stripe.isConfigured || stripe.isVisibleCredentialsForm" @submit.prevent="stripeCredentialsSubmit" ref="stripeCredentials" v-slot="{ invalid }" tag="form" class="p-5 border rounded-xl">
+					<FormLabel icon="shield">
+						{{ $t('Configure Your Stripe Credentials') }}
+					</FormLabel>
+					<ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
+						<AppInputText :title="$t('admin_settings.payments.stripe_pub_key')" :error="errors[0]">
+							<input v-model="stripe.credentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+						</AppInputText>
+					</ValidationProvider>
+					<ValidationProvider tag="div" mode="passive" name="Secret Key" rules="required" v-slot="{ errors }">
+						<AppInputText :title="$t('admin_settings.payments.stripe_sec_key')" :error="errors[0]">
+							<input v-model="stripe.credentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+						</AppInputText>
+					</ValidationProvider>
+
+					<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+						{{ $t('Store Stripe Credentials') }}
+					</ButtonBase>
+				</ValidationObserver>
 			</div>
-		</PageTabGroup>
-
-		<!--Stripe Set up-->
-		<PageTabGroup v-if="! config.stripe_public_key">
-			<ValidationObserver @submit.prevent="stripeCredentialsSubmit" ref="stripeCredentials" v-slot="{ invalid }" tag="form" class="card shadow-card">
-				<FormLabel>
-					{{ $t('admin_settings.payments.stripe_setup') }}
-				</FormLabel>
-				<InfoBox>
-					<p v-html="$t('admin_settings.payments.stripe_create_acc')"></p>
-				</InfoBox>
-				<ValidationProvider tag="div" mode="passive" name="Currency" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('admin_settings.payments.stripe_currency')" :error="errors[0]">
-						<SelectInput v-model="stripeCredentials.currency" :options="currencyList" :placeholder="$t('admin_settings.payments.stripe_currency_plac')" :isError="errors[0]" />
-					</AppInputText>
-				</ValidationProvider>
-				<ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('admin_settings.payments.stripe_pub_key')" :error="errors[0]">
-						<input v-model="stripeCredentials.key" :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
-					</AppInputText>
-				</ValidationProvider>
-				<ValidationProvider tag="div" mode="passive" name="Secret Key" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('admin_settings.payments.stripe_sec_key')" :error="errors[0]">
-						<input v-model="stripeCredentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
-					</AppInputText>
-				</ValidationProvider>
-				<ValidationProvider tag="div" mode="passive" name="Webhook URL" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Webhook URL')" :error="errors[0]">
-						<InfoBox>
-							<p v-html="$t('admin_settings.payments.stripe_create_webhook')"></p>
-						</InfoBox>
-						<input :value="stripeWebhookEndpoint" type="text" class="focus-border-theme input-dark" disabled />
-					</AppInputText>
-				</ValidationProvider>
-				<ValidationProvider tag="div" mode="passive" name="Webhook Secret" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Webhook Secret')" :error="errors[0]">
-						<input v-model="stripeCredentials.webhookSecret" :placeholder="$t('admin_settings.payments.stripe_webhook_key_plac')" type="text" :class="{'border-red-700': errors[0]}" class="focus-border-theme input-dark" />
-					</AppInputText>
-				</ValidationProvider>
-				<InfoBox v-if="isError" type="error">
-					<p>{{ errorMessage }}</p>
-				</InfoBox>
-				<ButtonBase :loading="isLoading" :disabled="isLoading" type="submit"
-							button-style="theme" class="submit-button">
-					{{ submitButtonText }}
-				</ButtonBase>
-			</ValidationObserver>
-		</PageTabGroup>
+		</div>
 	</PageTab>
 </template>
 
 <script>
-	import AppInputText from "../../../../components/Admin/AppInputText";
+    import {
+		Edit2Icon,
+	} from 'vue-feather-icons'
 	import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 	import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
 	import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
 	import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
 	import ImageInput from '/resources/js/components/Others/Forms/ImageInput'
+	import AppInputSwitch from "../../../../components/Admin/AppInputSwitch"
 	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
 	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import CopyInput from "../../../../components/Others/Forms/CopyInput"
 	import SetupBox from '/resources/js/components/Others/Forms/SetupBox'
+	import AppInputText from "../../../../components/Admin/AppInputText"
 	import PageTab from '/resources/js/components/Others/Layout/PageTab'
 	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
 	import {required} from 'vee-validate/dist/rules'
-	import {mapGetters} from 'vuex'
 	import {events} from '/resources/js/bus'
+	import {mapGetters} from 'vuex'
 	import axios from 'axios'
-	import AppInputSwitch from "../../../../components/Admin/AppInputSwitch";
 
 	export default {
 		name: 'AppPayments',
 		components: {
-			AppInputSwitch,
-			AppInputText,
 			ValidationObserver,
 			ValidationProvider,
+			AppInputSwitch,
+			AppInputText,
 			PageTabGroup,
 			SwitchInput,
 			SelectInput,
 			ImageInput,
 			ButtonBase,
+			CopyInput,
 			FormLabel,
+			Edit2Icon,
 			SetupBox,
 			required,
 			PageTab,
 			InfoBox,
 		},
 		computed: {
-			...mapGetters(['config', 'currencyList']),
+			...mapGetters([
+				'subscriptionTypes',
+				'config',
+			]),
 			stripeWebhookEndpoint() {
-				return this.config.host + '/stripe/webhook'
+				return `${this.config.host}/api/subscriptions/stripe/webhook`
 			},
 			submitButtonText() {
 				return this.isLoading ? this.$t('admin_settings.payments.button_testing') : this.$t('admin_settings.payments.button_submit')
@@ -118,12 +125,16 @@
 				isLoading: true,
 				isError: false,
 				errorMessage: '',
-				payments: undefined,
-				stripeCredentials: {
-					key: '',
-					secret: '',
-					webhookSecret: '',
-					currency: '',
+				allowedPayments: true,
+				stripe: {
+					allowStripe: true,
+					isConfigured: true,
+					isVisibleCredentialsForm: false,
+					paymentDescription: undefined,
+					credentials: {
+						key: undefined,
+						secret: undefined,
+					}
 				},
 			}
 		},

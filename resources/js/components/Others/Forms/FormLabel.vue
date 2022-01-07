@@ -9,6 +9,7 @@
         <settings-icon v-if="icon === 'settings'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <hard-drive-icon v-if="icon === 'hard-drive'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <smartphone-icon v-if="icon === 'smartphone'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
+        <shield-icon v-if="icon === 'shield'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <bell-icon v-if="icon === 'bell'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <key-icon v-if="icon === 'key'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <b class="font-bold text-lg">
@@ -19,6 +20,7 @@
 
 <script>
     import {
+		ShieldIcon,
 		CreditCardIcon,
 		DollarSignIcon,
 		SmartphoneIcon,
@@ -45,6 +47,7 @@
 			BarChartIcon,
 			SettingsIcon,
 			FileTextIcon,
+			ShieldIcon,
 			FrownIcon,
 			Edit2Icon,
 			BellIcon,
