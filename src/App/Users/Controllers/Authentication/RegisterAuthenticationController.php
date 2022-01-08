@@ -1,6 +1,7 @@
 <?php
 namespace App\Users\Controllers\Authentication;
 
+use App\Users\DTO\CreateUserData;
 use App\Http\Controllers\Controller;
 use App\Users\Actions\CreateNewUserAction;
 use App\Users\Requests\RegisterUserRequest;
@@ -14,6 +15,8 @@ class RegisterAuthenticationController extends Controller
     
   public function __invoke(RegisterUserRequest $request)
   {
-      ($this->createNewUser)($request);
+      $data = CreateUserData::fromRequest($request);
+
+      ($this->createNewUser)($data);
   }
 }   

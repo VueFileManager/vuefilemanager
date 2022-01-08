@@ -24,7 +24,8 @@ use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
 use Domain\Browsing\Controllers\SearchFilesAndFoldersController;
 use App\Users\Controllers\Authentication\RegisterAuthenticationController;
-use App\Users\Controllers\Authentication\SocialiteAuthenticationController;
+use App\Socialite\Controllers\SocialiteRedirectController;
+use App\Socialite\Controllers\SocialiteCallbackController;
 
 // Pages
 Route::apiResource('/page', PagesController::class);
@@ -39,8 +40,8 @@ Route::post('/register', RegisterAuthenticationController::class);
 
 // Login via socialite
 Route::group(['prefix' => 'socialite'], function () {
-    Route::get('/{provider}/redirect', [SocialiteAuthenticationController::class, 'redirect']);
-    Route::get('/{provider}/callback', [SocialiteAuthenticationController::class, 'callback']);
+    Route::get('/{provider}/redirect', SocialiteRedirectController::class);
+    Route::get('/{provider}/callback', SocialiteCallbackController::class);
 });
 
 // Password reset

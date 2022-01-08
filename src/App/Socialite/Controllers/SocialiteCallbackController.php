@@ -1,13 +1,15 @@
 <?php
-namespace App\Users\Controllers\Authentication;
+
+namespace App\Socialite\Controllers;
 
 use App\Users\Models\User;
+use App\Users\DTO\CreateUserData;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use App\Users\Actions\CreateNewUserAction;
 use Illuminate\Contracts\Auth\StatefulGuard;
 
-class SocialiteAuthenticationController extends Controller
+class SocialiteCallbackController extends Controller
 {
     public function __construct(
         protected StatefulGuard $guard,
@@ -15,16 +17,7 @@ class SocialiteAuthenticationController extends Controller
     ) {
     }
     
-    public function redirect($provider)
-    {
-       $url = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
-
-       return response()->json([
-           'url' => $url
-       ]);
-    }
-
-    public function callback($provider)
+    public function __invoke($provider)
     {
         // Get socialite user
         if (app()->runningInConsole()) {
@@ -41,16 +34,18 @@ class SocialiteAuthenticationController extends Controller
             $this->guard->login($user);
 
         } else {
-            // Add user avatar from socialite
-            $provider_user->avatar = store_socialite_avatar($provider_user->avatar);
-
-            // Add provider name
-            $provider_user->oauth_provider = $provider;
+           
+            $data = CreateUserData::fromArray([
+                'name'           => $provider_user->getname(),
+                'email'          => $provider_user->getEmail(),
+                'avatar'         => store_socialite_avatar($provider_user->getAvatar()),
+                'oauth_provider' => $provider,
+            ]);
 
             // Create User
-            ($this->createNewUser)($provider_user);
+            ($this->createNewUser)($data);
         }
 
         return response('Loged in', 200);
     }
-}   
+}

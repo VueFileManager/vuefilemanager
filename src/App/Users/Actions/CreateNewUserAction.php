@@ -6,7 +6,6 @@ use Illuminate\Http\Response;
 use App\Users\Models\UserSettings;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
-use App\Users\Requests\RegisterUserRequest;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -21,14 +20,13 @@ class CreateNewUserAction extends Controller
     /**
      * Validate and create a new user.
      */
-    public function __invoke(
-        $data
-    ): Application | ResponseFactory | Response {
+    public function __invoke($data)
+    {
         $settings = get_settings([
             'storage_default', 'registration', 'user_verification',
         ]);
 
-        $socialite_auth = ! isset($data['password']) ?? true;
+        $is_socialite = is_null($data->password);
 
         // Check if account registration is enabled
         if (! intval($settings['registration'])) {
@@ -37,9 +35,9 @@ class CreateNewUserAction extends Controller
 
         // Create user
         $user = User::create([
-            'password'       => ! $socialite_auth ? bcrypt($data['password']) : null,
-            'oauth_provider' => $socialite_auth ? $data->oauth_provider : null,
-            'email'          => $data['email'] ?? $data->email,
+            'password'       => $is_socialite ? null : bcrypt($data->password),
+            'oauth_provider' => $data->oauth_provider,
+            'email'          => $data->email,
         ]);
 
         UserSettings::unguard();
@@ -47,25 +45,23 @@ class CreateNewUserAction extends Controller
         $user
             ->settings()
             ->create([
-                'name'             => $data['name'] ?? $data->name,
+                'name'             => $data->name,
                 'storage_capacity' => $settings['storage_default'],
-                'avatar'           => $data->avatar ? $data->avatar : null,
+                'avatar'           => $data->avatar,
             ]);
 
         UserSettings::reguard();
 
         // Mark as verified if verification is disabled
-        if (! intval($settings['user_verification']) || $socialite_auth) {
+        if ($is_socialite || ! intval($settings['user_verification'])) {
             $user->markEmailAsVerified();
         }
 
         event(new Registered($user));
 
         // Log in if verification is disabled
-        if (! intval($settings['user_verification']) || $socialite_auth) {
+        if ($is_socialite || ! intval($settings['user_verification'])) {
             $this->guard->login($user);
         }
-
-        return response('User registered successfully', 201);
     }
 }
