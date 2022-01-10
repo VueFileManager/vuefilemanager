@@ -58,7 +58,7 @@
                         <router-link :to="{name: 'DynamicPage', params: {slug: 'terms-of-service'}}" target="_blank" class="text-theme">{{ termsOfService.title }}</router-link>
                         <router-link :to="{name: 'DynamicPage', params: {slug: 'privacy-policy'}}" target="_blank" class="text-theme">{{ privacyPolicy.title }}</router-link>
                     </i18n>
-                    <AuthButton icon="chevron-right" :text="$t('page_registration.button_create_account')" :loading="isLoading" :disabled="isLoading"/>
+                    <AuthButton class="mt-6" icon="chevron-right" :text="$t('page_registration.button_create_account')" :loading="isLoading" :disabled="isLoading"/>
                 </div>
             </ValidationObserver>
 

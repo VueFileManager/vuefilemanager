@@ -10,7 +10,7 @@
 
             <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form"
 								class="form inline-form">
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
+                <ValidationProvider tag="div" mode="passive" class="input-wrapper mr-4" name="E-Mail" rules="required"
                                     v-slot="{ errors }">
                     <input v-model="loginEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
                            class="focus-border-theme"
@@ -43,7 +43,7 @@
 
             <ValidationObserver @submit.prevent="singIn" ref="sign_in" v-slot="{ invalid }" tag="form"
                                 class="form inline-form">
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="User Password" rules="required"
+                <ValidationProvider tag="div" mode="passive" class="input-wrapper mr-4" name="User Password" rules="required"
                                     v-slot="{ errors }">
                     <input v-model="loginPassword" :placeholder="$t('page_sign_in.placeholder_password')"
                            type="password"

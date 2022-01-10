@@ -1,7 +1,5 @@
 <template>
-    <div>
-        <Spinner/>
-    </div>
+	<Spinner/>
 </template>
 
 <script>
@@ -9,7 +7,9 @@ import Spinner from '/resources/js/components/FilesView/Spinner'
 
 export default {
     name: 'SocialiteCallback',
-    components: {Spinner},
+    components: {
+		Spinner
+	},
     created () {
         axios
             .get(`/api${this.$route.fullPath}`)
@@ -21,7 +21,7 @@ export default {
                 // Go to files page
                 this.$router.push({name: 'Files'})
             })
-            .catch((error) => {
+            .catch(() => {
                 
                 this.$isSomethingWrong()
 

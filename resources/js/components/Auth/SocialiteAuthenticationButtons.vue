@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper flex flex-row w-1/2 ml-2">
         <div class="w-1/3 grid justify-items-center items-center cursor-pointer">
-            <facebook-icon  @click="socialiteRedirect('facebook')" />
+            <facebook-icon @click="socialiteRedirect('facebook')" />
         </div>
 
         <div class="w-1/3 grid justify-items-center items-center cursor-pointer">
@@ -9,7 +9,7 @@
         </div>
 
         <div class="w-1/3 grid justify-items-center items-center cursor-pointer">
-            <h1 @click="socialiteRedirect('google')">G</h1>
+            <span @click="socialiteRedirect('google')" class="font-semibold text-3xl">G</span>
         </div>
     </div>
 </template>
