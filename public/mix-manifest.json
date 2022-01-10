@@ -25,14 +25,14 @@
     "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~8729b0a3.js": "/chunks/app-language~chunks/dashboard~chunks/files~chunks/invoices~chunks/my-shared-items~chunks/page~8729b0a3.js?id=50f7067283a882b798bd",
     "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~d6def0d7.js": "/chunks/app-language~chunks/dashboard~chunks/invoices~chunks/page-edit~chunks/pages~chunks/plan-creat~d6def0d7.js?id=a1836cdd057c0e63adc0",
     "/chunks/app-others.js": "/chunks/app-others.js?id=dcb25c15345b97c47871",
-    "/chunks/app-payments.js": "/chunks/app-payments.js?id=7b138db0bc1917cab2c6",
+    "/chunks/app-payments.js": "/chunks/app-payments.js?id=e1b37ac1d8d495edd774",
     "/chunks/app-settings.js": "/chunks/app-settings.js?id=5968eed91e41e99efd4c",
     "/chunks/app-setup.js": "/chunks/app-setup.js?id=c3a013b11ae7bde6f39d",
     "/chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/database~chunks/email-veri~2c1222b7.js": "/chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/database~chunks/email-veri~2c1222b7.js?id=5963f5d9fb4e759c600a",
     "/chunks/billing.js": "/chunks/billing.js?id=131b8be8787e1bdbc407",
     "/chunks/billings-detail.js": "/chunks/billings-detail.js?id=ad632d6f7e088dab55a3",
     "/chunks/billing~chunks/dashboard~chunks/invoices~chunks/pages~chunks/plan-subscribers~chunks/plans~ch~5d1c5841.js": "/chunks/billing~chunks/dashboard~chunks/invoices~chunks/pages~chunks/plan-subscribers~chunks/plans~ch~5d1c5841.js?id=9b836534302d97ac5c73",
-    "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.js": "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.js?id=2760050e539cc5e9b8ab",
+    "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.js": "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.js?id=3f0a914bca8e3106d9ce",
     "/chunks/contact-us.js": "/chunks/contact-us.js?id=b3feaa361fc486e6a0b3",
     "/chunks/contact-us~chunks/dynamic-page~chunks/homepage.js": "/chunks/contact-us~chunks/dynamic-page~chunks/homepage.js?id=65ee559ca803555be568",
     "/chunks/create-new-password.js": "/chunks/create-new-password.js?id=8451872075acf5b1b9ab",
@@ -396,5 +396,10 @@
     "/chunks/billing.461dc4a34199e68429ee.hot-update.js": "/chunks/billing.461dc4a34199e68429ee.hot-update.js",
     "/chunks/billing.eaf0631ae5f10538907d.hot-update.js": "/chunks/billing.eaf0631ae5f10538907d.hot-update.js",
     "/chunks/billing.2aeee7e82b62920e2451.hot-update.js": "/chunks/billing.2aeee7e82b62920e2451.hot-update.js",
-    "/chunks/billing.3153d134251a9670bbe8.hot-update.js": "/chunks/billing.3153d134251a9670bbe8.hot-update.js"
+    "/chunks/billing.3153d134251a9670bbe8.hot-update.js": "/chunks/billing.3153d134251a9670bbe8.hot-update.js",
+    "/chunks/app-payments.13240e9f411923858d1b.hot-update.js": "/chunks/app-payments.13240e9f411923858d1b.hot-update.js",
+    "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.fc96502ee414d46390b8.hot-update.js": "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.fc96502ee414d46390b8.hot-update.js",
+    "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.ab77530f6a2a35df1ddd.hot-update.js": "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.ab77530f6a2a35df1ddd.hot-update.js",
+    "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.82770ea7f4382984a333.hot-update.js": "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.82770ea7f4382984a333.hot-update.js",
+    "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.bd1a0faf9bc919e624a5.hot-update.js": "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.bd1a0faf9bc919e624a5.hot-update.js"
 }

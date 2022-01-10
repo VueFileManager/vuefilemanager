@@ -37,9 +37,9 @@ class SocialiteCallbackController extends Controller
 
         // Create data user data object
         $data = CreateUserData::fromArray([
-            'name'           => $provider_user->name,
-            'email'          => $provider_user->email,
-            'avatar'         => store_socialite_avatar($provider_user->avatar),
+            'name'           => $provider_user->getName(),
+            'email'          => $provider_user->getEmail(),
+            'avatar'         => store_socialite_avatar($provider_user->getAvatar()),
             'oauth_provider' => $provider,
         ]);
 

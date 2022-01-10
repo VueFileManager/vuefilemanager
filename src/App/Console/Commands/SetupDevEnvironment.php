@@ -57,11 +57,10 @@ class SetupDevEnvironment extends Command
         $this->migrate_and_generate();
 
         $this->info('Storing default settings and content...');
-        $this->store_default_settings();
-
         ($this->seedDefaultPages)();
         ($this->seedDefaultSettings)($this->license);
         ($this->seedDefaultLanguage)();
+        $this->store_default_settings();
 
         $this->info('Creating default admin...');
         $this->create_admin();
@@ -651,13 +650,13 @@ class SetupDevEnvironment extends Command
 
         // Get apartments gallery
         collect([
-            'demo/images/apartments/Apartment Architecture Ceiling Chairs.jpg',
-            'demo/images/apartments/Apartment Chair.jpg',
-            'demo/images/apartments/Apartment Contemporary Couch Curtains.jpg',
-            'demo/images/apartments/Brown Wooden Center Table.jpg',
-            'demo/images/apartments/Home.jpg',
-            'demo/images/apartments/Kitchen Appliances.jpg',
-            'demo/images/apartments/Kitchen Island.jpg',
+            'demo/images/apartments/Apartment Architecture Ceiling Chairs.jpeg',
+            'demo/images/apartments/Apartment Chair.jpeg',
+            'demo/images/apartments/Apartment Contemporary Couch Curtains.jpeg',
+            'demo/images/apartments/Brown Wooden Center Table.jpeg',
+            'demo/images/apartments/Home.jpeg',
+            'demo/images/apartments/Kitchen Appliances.jpeg',
+            'demo/images/apartments/Kitchen Island.jpeg',
         ])
             ->each(function ($file) use ($user, $apartments) {
                 $thumbnail = $this->generate_thumbnails($file, $user);
@@ -678,17 +677,17 @@ class SetupDevEnvironment extends Command
 
         // Get nature gallery
         collect([
-            'demo/images/nature/Bird Patterncolorful Green.jpg',
-            'demo/images/nature/Close Up Of Peacock.jpg',
-            'demo/images/nature/Close Up Photography Of Tiger.jpg',
-            'demo/images/nature/Cold Nature Cute Ice.jpg',
-            'demo/images/nature/Landscape Photo of Forest.jpg',
-            'demo/images/nature/Photo of Hawksbill Sea Turtle.jpg',
-            'demo/images/nature/Photo Of Reindeer in The Snow.jpg',
-            'demo/images/nature/View Of Elephant in Water.jpg',
-            'demo/images/nature/Waterfall Between Trees.jpg',
-            'demo/images/nature/Wildlife Photography of Elephant During Golden Hour.jpg',
-            'demo/images/nature/Yellow Animal Eyes Fur.jpg',
+            'demo/images/nature/Bird Patterncolorful Green.jpeg',
+            'demo/images/nature/Close Up Of Peacock.jpeg',
+            'demo/images/nature/Close Up Photography Of Tiger.jpeg',
+            'demo/images/nature/Cold Nature Cute Ice.jpeg',
+            'demo/images/nature/Landscape Photo of Forest.jpeg',
+            'demo/images/nature/Photo of Hawksbill Sea Turtle.jpeg',
+            'demo/images/nature/Photo Of Reindeer in The Snow.jpeg',
+            'demo/images/nature/View Of Elephant in Water.jpeg',
+            'demo/images/nature/Waterfall Between Trees.jpeg',
+            'demo/images/nature/Wildlife Photography of Elephant During Golden Hour.jpeg',
+            'demo/images/nature/Yellow Animal Eyes Fur.jpeg',
         ])
             ->each(function ($file) use ($user, $nature) {
                 $thumbnail = $this->generate_thumbnails($file, $user);
@@ -1005,7 +1004,7 @@ class SetupDevEnvironment extends Command
                 'value' => 1,
             ],
             [
-                'name'  => 'payments_active',
+                'name'  => 'allowed_payments',
                 'value' => 1,
             ],
             [
@@ -1064,9 +1063,34 @@ class SetupDevEnvironment extends Command
                 'name'  => 'billing_vat_number',
                 'value' => '41241241234',
             ],
+            [
+                'name'  => 'allowed_registration_bonus',
+                'value' => 1,
+            ],
+            [
+                'name'  => 'registration_bonus_amount',
+                'value' => 10,
+            ],
+            [
+                'name'  => 'allowed_paypal',
+                'value' => 1,
+            ],
+            [
+                'name'  => 'allowed_paystack',
+                'value' => 1,
+            ],
+            [
+                'name'  => 'allowed_stripe',
+                'value' => 1,
+            ],
+            [
+                'name'  => 'subscription_type',
+                'value' => 'metered',
+            ],
         ])->each(function ($col) {
-            Setting::forceCreate([
+            Setting::updateOrCreate([
                 'name'  => $col['name'],
+            ], [
                 'value' => $col['value'],
             ]);
         });

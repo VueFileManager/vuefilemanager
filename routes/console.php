@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
+use Support\Scheduler\Actions\ReportUsageAction;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +13,5 @@ use Illuminate\Foundation\Inspiring;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+Artisan::command('report:usage', fn () => resolve(ReportUsageAction::class)())
+    ->describe('Store user usage estimates for metered billing');

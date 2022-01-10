@@ -193,7 +193,7 @@ return [
             ],
             [
                 'name'  => 'allowed_registration_bonus',
-                'value' => '0',
+                'value' => 0,
             ],
             [
                 'name'  => 'registration_bonus_amount',

@@ -1,6 +1,8 @@
 <?php
+
 namespace Tests\App\Socialite;
 
+use Mockery;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -35,12 +37,16 @@ class SocialiteTest extends TestCase
         ]);
 
         // Create fake user
-        $socialiteUser = $this->createMock(\Laravel\Socialite\Two\User::class);
-        $socialiteUser->token = 'fake_token';
-        $socialiteUser->id = 'fake_id';
-        $socialiteUser->name = 'Jane Doe';
-        $socialiteUser->email = 'howdy@hi5ve.digital';
-        $socialiteUser->avatar = 'https://vuefilemanager.com/avatar.jpg';
+        $socialiteUser = Mockery::mock(\Laravel\Socialite\Two\User::class);
+        $socialiteUser
+            ->shouldReceive('getId')
+            ->andReturn('fake_id')
+            ->shouldReceive('getEmail')
+            ->andReturn('howdy@hi5ve.digital')
+            ->shouldReceive('getName')
+            ->andReturn('Jane Doe')
+            ->shouldReceive('getAvatar')
+            ->andReturn('https://vuefilemanager.com/avatar.jpg');
 
         // Mock user with FB provider
         $provider = $this->createMock(FacebookProvider::class);
@@ -75,7 +81,7 @@ class SocialiteTest extends TestCase
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
-                fn ($size) => Storage::disk('local')
+                fn($size) => Storage::disk('local')
                     ->assertExists("avatars/{$size['name']}-{$user->settings->getRawOriginal('avatar')}")
             );
     }

@@ -475,7 +475,7 @@ if (! function_exists('get_storage_percentage')) {
 
         // Count progress
         if ($total == 0) {
-            $progress = 100;
+            $progress = 0;
         } else {
             $progress = ($used * 100) / $total;
         }

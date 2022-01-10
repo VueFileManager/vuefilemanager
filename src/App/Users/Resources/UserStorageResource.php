@@ -132,8 +132,8 @@ class UserStorageResource extends JsonResource
             ->where('created_at', '>', $period)
             ->sum('upload');
 
-        $upload = $trafficRecords->map(fn ($record)   => round(($record->upload / $uploadMax) * 100, 2));
-        $download = $trafficRecords->map(fn ($record) => round(($record->download / $downloadMax) * 100, 2));
+        $upload = $trafficRecords->map(fn ($record)   => $uploadMax !== 0 ? round(($record->upload / $uploadMax) * 100, 2) : 0);
+        $download = $trafficRecords->map(fn ($record) => $downloadMax !== 0 ? round(($record->download / $downloadMax) * 100, 2) : 0);
 
         return [$downloadTotal, $uploadTotal, $upload, $download];
     }

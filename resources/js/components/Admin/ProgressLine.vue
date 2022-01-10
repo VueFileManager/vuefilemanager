@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="flex items-center mb-4 rounded dark:bg-2x-dark-foreground bg-light-300">
+        <div class="flex items-center mb-4 rounded dark:bg-2x-dark-foreground bg-light-300 h-2.5">
             <div v-for="(chart, i) in data" :key="i" :style="{width: (chart.progress > 1 ? chart.progress : 0) + '%'}" class="chart-wrapper">
 				<!--<DotLabel class="label" :class="{'offset-top': chart.progress < 5}" :color="chart.color" :title="chart.value" />-->
 
@@ -18,7 +18,7 @@
 
 				<!--Multiple line-->
 				<span
-					v-if="data.length > 1"
+					v-if="data.length > 1 && chart.progress > 0"
 					:class="[{
 						'rounded-tl-lg rounded-bl-lg border-r-2 dark:border-gray-800 border-white': i === 0,
 						'border-r-2 dark:border-gray-800 border-white': i < (data.length - 1),
@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        <footer class="flex items-center">
+        <footer class="flex items-center w-full overflow-x-auto">
             <DotLabel v-for="(chart, i) in data" :key="i" :color="chart.color" :title="chart.title" class="mr-5" />
         </footer>
     </div>

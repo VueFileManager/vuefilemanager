@@ -13,6 +13,10 @@ class SeedDefaultSettingsAction
     ): void {
         collect(
             config('content.content.' . strtolower($license))
-        )->each(fn ($content) => Setting::forceCreate($content));
+        )->each(fn ($content) => Setting::updateOrCreate([
+            'name' => $content['name'],
+        ], [
+            'value' => $content['value'],
+        ]));
     }
 }
