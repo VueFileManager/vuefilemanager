@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use ByteUnits\Metric;
 use App\Users\Models\User;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
@@ -358,14 +359,7 @@ if (! function_exists('store_avatar')) {
         $intervention = Image::make($image->getRealPath());
 
         // Generate avatar sizes
-        collect(config('vuefilemanager.avatar_sizes'))
-            ->each(function ($size) use ($intervention, $avatar_name) {
-                // fit thumbnail
-                $intervention->fit($size['size'], $size['size'])->stream();
-
-                // Store thumbnail to disk
-                Storage::put("avatars/{$size['name']}-{$avatar_name}", $intervention);
-            });
+        generate_avatar_thumbnails($intervention, $avatar_name);
 
         // Return path to image
         return $avatar_name;
@@ -1021,4 +1015,46 @@ if (! function_exists('replace_occurrence')) {
             $string
         );
     }
+
+if(! function_exists('get_socialite_avatar')) {
+    /**
+     * Get socialite avatar create and store his thumbnails
+     */
+    function store_socialite_avatar($avatar)
+    {
+        // Get image from external source
+        $image = Http::get($avatar)->body();
+
+        // Generate avatar name
+        $avatar_name = Str::uuid() . '.jpg';
+
+        // Create intervention image
+        $intervention = Image::make($image);
+
+        // Generate avatar sizes
+        generate_avatar_thumbnails($intervention, $avatar_name);
+
+        // Return name of image
+        return $avatar_name;
+    }
+}
+
+if(! function_exists('generate_avatar_thumbnails')) {
+    /**
+     * Create avatar thumbnails
+     */
+    function generate_avatar_thumbnails($intervention, $avatar_name)
+    {
+        collect(config('vuefilemanager.avatar_sizes'))
+        ->each(function ($size) use ($intervention, $avatar_name) {
+            
+            // fit thumbnail
+            $intervention->fit($size['size'], $size['size'])->stream();
+
+            // Store thumbnail to disk
+            Storage::put("avatars/{$size['name']}-{$avatar_name}", $intervention);
+        });
+    }
+}
+
 }

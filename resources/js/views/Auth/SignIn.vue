@@ -22,6 +22,8 @@
                             :disabled="isLoading" />
             </ValidationObserver>
 
+            <SocialiteAuthenticationButtons/>
+
             <span v-if="config.userRegistration" class="additional-link">
                 {{ $t('page_login.registration_text') }}
                 <router-link class="text-theme" :to="{name: 'SignUp'}">
@@ -151,6 +153,7 @@
 <script>
     import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
 	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+    import SocialiteAuthenticationButtons from '/resources/js/components/Auth/SocialiteAuthenticationButtons'
 	import AuthContent from '/resources/js/components/Auth/AuthContent'
 	import AuthButton from '/resources/js/components/Auth/AuthButton'
 	import Spinner from '/resources/js/components/FilesView/Spinner'
@@ -162,10 +165,11 @@
 	export default {
         name: 'SignIn',
         components: {
-			Headline,
+            Headline,
             AuthContentWrapper,
             ValidationProvider,
             ValidationObserver,
+            SocialiteAuthenticationButtons,
             AuthContent,
             AuthButton,
             Spinner,
@@ -233,8 +237,15 @@
 
                         this.checkedAccount = response.data
 
-                        // Show sign in password page
-                        this.goToAuthPage('sign-in')
+                        if(response.data.oauth_provider) {
+                            // Redirect user to socialite login if he's accout is registered by socialite
+                            this.$store.dispatch('socialiteRedirect', response.data.oauth_provider)
+
+                        } else {
+                            // Show sign in password page
+                            this.goToAuthPage('sign-in')
+
+                        }
                     })
                     .catch(error => {
 

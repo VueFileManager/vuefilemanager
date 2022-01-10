@@ -1,5 +1,14 @@
 const routesAuth = [
 	{
+		name: 'SocialiteCallback',
+		path: '/socialite/:provider/callback',
+		component: () =>
+			import(/* webpackChunkName: "chunks/email-verified" */ '../views/Auth/SocialiteCallback'),
+		meta: {
+			requiresAuth: false
+		},
+	},
+	{
 		name: 'SuccessfullyVerified',
 		path: '/successfully-verified',
 		component: () =>

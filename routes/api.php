@@ -1,7 +1,6 @@
 <?php
 
 use Domain\Zip\Controllers\ZipController;
-use App\Users\Actions\CreateNewUserAction;
 use Domain\Pages\Controllers\PagesController;
 use Domain\Sharing\Controllers\ShareController;
 use Domain\Trash\Controllers\DumpTrashController;
@@ -23,6 +22,10 @@ use Domain\Browsing\Controllers\BrowseLatestFilesController;
 use Domain\Browsing\Controllers\BrowseSharedItemsController;
 use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
+use Domain\Browsing\Controllers\SearchFilesAndFoldersController;
+use App\Users\Controllers\Authentication\RegisterAuthenticationController;
+use App\Socialite\Controllers\SocialiteRedirectController;
+use App\Socialite\Controllers\SocialiteCallbackController;
 
 // Pages
 Route::apiResource('/page', PagesController::class);
@@ -32,7 +35,13 @@ Route::post('/contact', SendContactMessageController::class);
 Route::get('/settings', GetSettingsValueController::class);
 
 // Register user
-Route::post('/register', CreateNewUserAction::class);
+Route::post('/register', RegisterAuthenticationController::class);
+
+// Login via socialite
+Route::group(['prefix' => 'socialite'], function () {
+    Route::get('/{provider}/redirect', SocialiteRedirectController::class);
+    Route::get('/{provider}/callback', SocialiteCallbackController::class);
+});
 
 // Password reset
 Route::group(['prefix' => 'password'], function () {
