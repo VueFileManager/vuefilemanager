@@ -1,7 +1,6 @@
 <?php
 namespace Tests\App\Socialite;
 
-use DB;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -15,7 +14,7 @@ class SocialiteTest extends TestCase
     /**
      * @test
      */
-    public function it_socialite_redirect()
+    public function socialite_redirect_user()
     {
         $response = $this->get('api/socialite/google/redirect');
 
@@ -25,19 +24,8 @@ class SocialiteTest extends TestCase
     /**
      * @test
      */
-    public function it_socialite_callback()
+    public function socialite_execute_provider_callback()
     {
-        // Set default settings
-        DB::table('settings')->insert([
-            [
-                'name'  => 'registration',
-                'value' => 1,
-            ], [
-                'name'  => 'storage_default',
-                'value' => 5,
-            ],
-        ]);
-
         // Create fake image
         $fakeImage = UploadedFile::fake()
             ->image('fake-avatar.jpg');

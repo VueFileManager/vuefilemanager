@@ -5,7 +5,7 @@ use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
-use Illuminate\Support\Facades\DB;
+use Domain\Settings\Models\Setting;
 
 class MeteredBillingRestrictionsTest extends TestCase
 {
@@ -13,8 +13,9 @@ class MeteredBillingRestrictionsTest extends TestCase
     {
         parent::setUp();
 
-        DB::table('settings')->insert([
+        Setting::updateOrCreate([
             'name'  => 'subscription_type',
+        ], [
             'value' => 'metered',
         ]);
     }

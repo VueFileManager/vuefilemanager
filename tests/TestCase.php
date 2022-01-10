@@ -46,6 +46,18 @@ abstract class TestCase extends BaseTestCase
                 'name'  => 'language',
                 'value' => 'en',
             ],
+            [
+                'name'  => 'user_verification',
+                'value' => 0,
+            ],
+            [
+                'name'  => 'registration',
+                'value' => 1,
+            ],
+            [
+                'name'  => 'subscription_type',
+                'value' => null,
+            ],
         ]);
     }
 }

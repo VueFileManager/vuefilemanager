@@ -9,30 +9,28 @@ use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Password;
 use App\Users\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
+use VueFileManager\Subscription\Domain\Plans\Models\Plan;
 
 class SignFlowTest extends TestCase
 {
     /**
      * @test
      */
-    public function it_register_user()
+    public function it_create_user_from_register_form()
     {
         collect([
-            [
-                'name'  => 'default_max_storage_amount',
-                'value' => 12,
-            ],
-            [
-                'name'  => 'registration',
-                'value' => 1,
-            ],
             [
                 'name'  => 'user_verification',
                 'value' => 1,
             ],
+            [
+                'name'  => 'default_max_storage_amount',
+                'value' => 10,
+            ],
         ])->each(function ($setting) {
-            Setting::create([
-                'name'  => $setting['name'],
+            Setting::updateOrCreate([
+                'name' => $setting['name'],
+            ], [
                 'value' => $setting['value'],
             ]);
         });
@@ -44,14 +42,17 @@ class SignFlowTest extends TestCase
             'name'                  => 'John Doe',
         ])->assertStatus(201);
 
-        $this->assertDatabaseHas('users', [
-            'email'             => 'john@doe.com',
-            'email_verified_at' => null,
-        ])->assertDatabaseHas('user_settings', [
-            'name' => 'John Doe',
-        ])->assertDatabaseHas('user_limitations', [
-            'max_storage_amount' => 12,
-        ]);
+        $this
+            ->assertDatabaseHas('users', [
+                'email'             => 'john@doe.com',
+                'email_verified_at' => null,
+            ])
+            ->assertDatabaseHas('user_settings', [
+                'name' => 'John Doe',
+            ])
+            ->assertDatabaseHas('user_limitations', [
+                'max_storage_amount' => 10,
+            ]);
 
         Storage::disk('local')
             ->assertExists('files/' . User::first()->id);
@@ -62,10 +63,57 @@ class SignFlowTest extends TestCase
     /**
      * @test
      */
+    public function it_register_user_when_metered_billing_is_active()
+    {
+        // Seed default settings
+        Setting::updateOrCreate([
+            'name' => 'subscription_type',
+        ], [
+            'value' => 'metered',
+        ]);
+
+        // Create metered plan
+        $plan = Plan::factory()
+            ->create([
+                'status'   => 'active',
+                'type'     => 'metered',
+                'currency' => 'USD',
+            ]);
+
+        $this->postJson('api/register', [
+            'email'                 => 'john@doe.com',
+            'password'              => 'SecretPassword',
+            'password_confirmation' => 'SecretPassword',
+            'name'                  => 'John Doe',
+        ])->assertStatus(201);
+
+        $this
+            ->assertDatabaseHas('users', [
+                'email' => 'john@doe.com',
+            ])
+            ->assertDatabaseHas('subscriptions', [
+                'status'    => 'active',
+                'name'      => $plan->name,
+                'ends_at'   => null,
+                'renews_at' => now()->addDays(config('subscription.metered_billing.settlement_period')),
+            ])
+            ->assertDatabaseHas('balances', [
+                'currency' => 'USD',
+                'amount'   => 0,
+            ])
+            ->assertDatabaseHas('user_settings', [
+                'name' => 'John Doe',
+            ]);
+    }
+
+    /**
+     * @test
+     */
     public function it_try_register_when_registration_is_disabled()
     {
-        Setting::create([
+        Setting::updateOrCreate([
             'name'  => 'registration',
+        ], [
             'value' => 0,
         ]);
 
