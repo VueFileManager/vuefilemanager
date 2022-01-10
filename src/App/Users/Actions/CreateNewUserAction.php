@@ -13,9 +13,7 @@ class CreateNewUserAction extends Controller
     public function __construct(
         protected StatefulGuard                        $guard,
         protected AutoSubscribeForMeteredBillingAction $autoSubscribeForMeteredBilling,
-    )
-    {
-    }
+    ) {}
 
     /**
      * Validate and create a new user.

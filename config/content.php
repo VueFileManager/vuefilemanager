@@ -191,6 +191,14 @@ return [
                 'name'  => 'stripe_payment_description',
                 'value' => 'Available credit card or Apple Pay.',
             ],
+            [
+                'name'  => 'allowed_registration_bonus',
+                'value' => '0',
+            ],
+            [
+                'name'  => 'registration_bonus_amount',
+                'value' => null,
+            ],
         ],
     ],
 ];

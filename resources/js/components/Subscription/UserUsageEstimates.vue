@@ -34,6 +34,10 @@
 				</div>
 			</div>
 		</div>
+
+		<small class="mt-6 block font-bold">
+			{{ $t('Records are updated on daily bases.') }}
+		</small>
 	</div>
 </template>
 <script>

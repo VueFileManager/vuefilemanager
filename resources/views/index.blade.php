@@ -75,6 +75,10 @@
             installation: '{{ $installation ?? 'initial' }}',
             statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
 
+            // Metered
+			allowed_registration_bonus: {{ $settings->allowed_registration_bonus ?? 0 }},
+			registration_bonus_amount: {{ $settings->registration_bonus_amount ?? 0 }},
+
             // Payments
             allowed_payments: {{ $settings->allowed_payments ?? 0 }},
 			subscriptionType: '{{ $settings->subscription_type ?? 'none' }}',

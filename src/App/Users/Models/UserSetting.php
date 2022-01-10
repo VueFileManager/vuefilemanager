@@ -53,7 +53,12 @@ class UserSetting extends Model
             return $link;
         }
 
-        return null;
+        // Return default avatar
+        foreach (config('vuefilemanager.avatar_sizes') as $item) {
+            $link[$item['name']] = url("/assets/images/default-avatar.png");
+        }
+
+        return $link;
     }
 
     public function user(): HasOne

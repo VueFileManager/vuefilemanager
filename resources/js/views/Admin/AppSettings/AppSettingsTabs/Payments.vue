@@ -15,6 +15,21 @@
 			</AppInputText>
 		</div>
 
+		<!--Metered settings-->
+		<div v-if="config.subscriptionType === 'metered'" class="card shadow-card">
+			<FormLabel icon="bar-chart">
+				{{ $t('Metered Billing Settings') }}
+			</FormLabel>
+
+			<AppInputSwitch :title="$t('Allow Registration Bonus')" :description="$t('User credit automatically user bonus to the balance after user registration.')" :is-last="! allowedRegistrationBonus" class="flex">
+				<SwitchInput @input="$updateText('/admin/settings', 'allowed_registration_bonus', allowedRegistrationBonus)" v-model="allowedRegistrationBonus" :state="allowedRegistrationBonus" />
+			</AppInputSwitch>
+
+			<AppInputText v-if="allowedRegistrationBonus" :title="$t('Registration Bonus Amount')" :description="this.$t('This bonus will be automatically added when user successfully register his account.')" :is-last="true">
+				<input @input="$updateText('/admin/settings', 'registration_bonus_amount', registrationBonusAmount)" v-model="registrationBonusAmount" :placeholder="$t('Type registration bonus amount...')" type="number" class="focus-border-theme input-dark" />
+			</AppInputText>
+		</div>
+
 		<!--Stripe method configuration-->
 		<div v-if="allowedPayments" class="card shadow-card">
 			<img :src="$getPaymentLogo('stripe')" alt="Stripe" class="mb-4 h-8">
@@ -235,7 +250,11 @@
 		},
 		data() {
 			return {
+				allowedRegistrationBonus: true,
+				registrationBonusAmount: undefined,
+
 				allowedPayments: false,
+
 				isLoading: false,
 				isError: false,
 				errorMessage: '',
@@ -369,6 +388,10 @@
 				this.paypal.isConfigured = true
 
 			this.allowedPayments = this.config.allowed_payments
+
+			// Set metered
+			this.allowedRegistrationBonus = this.config.allowed_registration_bonus
+			this.registrationBonusAmount = this.config.registration_bonus_amount
 		},
 		created() {
 			events.$on('action:confirmed', data => {

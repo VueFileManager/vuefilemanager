@@ -66,11 +66,26 @@ class SignFlowTest extends TestCase
     public function it_register_user_when_metered_billing_is_active()
     {
         // Seed default settings
-        Setting::updateOrCreate([
-            'name' => 'subscription_type',
-        ], [
-            'value' => 'metered',
-        ]);
+        collect([
+            [
+                'name'  => 'subscription_type',
+                'value' => 'metered',
+            ],
+            [
+                'name'  => 'allowed_registration_bonus',
+                'value' => 0,
+            ],
+            [
+                'name'  => 'registration_bonus_amount',
+                'value' => 15,
+            ],
+        ])->each(function ($setting) {
+            Setting::updateOrCreate([
+                'name' => $setting['name'],
+            ], [
+                'value' => $setting['value'],
+            ]);
+        });
 
         // Create metered plan
         $plan = Plan::factory()
@@ -88,6 +103,7 @@ class SignFlowTest extends TestCase
         ])->assertStatus(201);
 
         $this
+            ->assertDatabaseCount('transactions', 0)
             ->assertDatabaseHas('users', [
                 'email' => 'john@doe.com',
             ])
@@ -100,6 +116,77 @@ class SignFlowTest extends TestCase
             ->assertDatabaseHas('balances', [
                 'currency' => 'USD',
                 'amount'   => 0,
+            ])
+            ->assertDatabaseHas('user_settings', [
+                'name' => 'John Doe',
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_register_user_when_metered_billing_is_active_with_registration_bonus()
+    {
+        // Seed default settings
+        collect([
+            [
+                'name'  => 'subscription_type',
+                'value' => 'metered',
+            ],
+            [
+                'name'  => 'allowed_registration_bonus',
+                'value' => 1,
+            ],
+            [
+                'name'  => 'registration_bonus_amount',
+                'value' => 15,
+            ],
+        ])->each(function ($setting) {
+            Setting::updateOrCreate([
+                'name' => $setting['name'],
+            ], [
+                'value' => $setting['value'],
+            ]);
+        });
+
+        // Create metered plan
+        $plan = Plan::factory()
+            ->create([
+                'status'   => 'active',
+                'type'     => 'metered',
+                'currency' => 'USD',
+            ]);
+
+        $this->postJson('api/register', [
+            'email'                 => 'john@doe.com',
+            'password'              => 'SecretPassword',
+            'password_confirmation' => 'SecretPassword',
+            'name'                  => 'John Doe',
+        ])->assertStatus(201);
+
+        $user = User::first();
+
+        $this
+            ->assertDatabaseHas('users', [
+                'email' => 'john@doe.com',
+            ])
+            ->assertDatabaseHas('subscriptions', [
+                'status'    => 'active',
+                'name'      => $plan->name,
+                'ends_at'   => null,
+                'renews_at' => now()->addDays(config('subscription.metered_billing.settlement_period')),
+            ])
+            ->assertDatabaseHas('balances', [
+                'currency' => 'USD',
+                'amount'   => 15,
+            ])
+            ->assertDatabaseHas('transactions', [
+                'user_id'  => $user->id,
+                'amount'   => 15.00,
+                'currency' => 'USD',
+                'status'   => 'completed',
+                'type'     => 'credit',
+                'driver'   => 'system',
             ])
             ->assertDatabaseHas('user_settings', [
                 'name' => 'John Doe',

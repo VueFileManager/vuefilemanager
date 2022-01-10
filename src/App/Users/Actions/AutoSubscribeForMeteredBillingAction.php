@@ -14,13 +14,41 @@ class AutoSubscribeForMeteredBillingAction
             ->where('type', 'metered')
             ->first();
 
-        // TODO: add bonus
+        // Get settings
+        $settings = get_settings([
+            'allowed_registration_bonus',
+            'registration_bonus_amount',
+        ]);
 
         // Create user balance
-        $user->balance()->create([
-            'amount'   => 0,
-            'currency' => $plan->currency,
-        ]);
+        if (intval($settings['allowed_registration_bonus'])) {
+
+            // Create balance with bonus amount
+            $user->balance()->create([
+                'amount'   => $settings['registration_bonus_amount'],
+                'currency' => $plan->currency,
+            ]);
+
+            // Store transaction bonus
+            $user->transactions()->create([
+                'status'   => 'completed',
+                'type'     => 'credit',
+                'driver'   => 'system',
+                'note'     => __('Bonus'),
+                'currency' => $plan->currency,
+                'amount'   => $settings['registration_bonus_amount'],
+            ]);
+        } else {
+
+            // Create balance with 0 amount
+            $user->balance()->create([
+                'currency' => $plan->currency,
+            ]);
+        }
+
+        // Store transaction
+        if (intval($settings['allowed_registration_bonus'])) {
+        }
 
         // Create user subscription
         $user->subscription()->create([
