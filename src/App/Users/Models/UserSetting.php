@@ -55,7 +55,7 @@ class UserSetting extends Model
 
         // Return default avatar
         foreach (config('vuefilemanager.avatar_sizes') as $item) {
-            $link[$item['name']] = url("/assets/images/default-avatar.png");
+            $link[$item['name']] = url('/assets/images/default-avatar.png');
         }
 
         return $link;

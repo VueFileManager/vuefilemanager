@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\App\Socialite;
 
 use Mockery;
@@ -81,7 +80,7 @@ class SocialiteTest extends TestCase
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
-                fn($size) => Storage::disk('local')
+                fn ($size) => Storage::disk('local')
                     ->assertExists("avatars/{$size['name']}-{$user->settings->getRawOriginal('avatar')}")
             );
     }

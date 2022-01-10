@@ -9,6 +9,7 @@ use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
+use App\Console\Commands\GenerateDemoSubscriptionContentCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -18,8 +19,12 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        // Basic demo content generator
         SetupDevEnvironment::class,
         SetupProdEnvironment::class,
+
+        // Subscription demo generator
+        GenerateDemoSubscriptionContentCommand::class,
     ];
 
     /**

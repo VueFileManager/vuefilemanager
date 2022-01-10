@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Support\Scheduler;
 
 use Storage;
@@ -61,6 +62,7 @@ class SchedulerTest extends TestCase
             ->create([
                 'user_id'    => $user->id,
                 'download'   => 155000000,
+                'upload'     => 255000000,
                 'created_at' => now()->subDay(),
             ]);
 
@@ -70,12 +72,12 @@ class SchedulerTest extends TestCase
             ->assertDatabaseHas('usages', [
                 'metered_feature_id' => $plan->meteredFeatures()->get()[0]->id,
                 'subscription_id'    => $subscription->id,
-                'quantity'           => 0.125,
+                'quantity'           => 125,
             ])
             ->assertDatabaseHas('usages', [
                 'metered_feature_id' => $plan->meteredFeatures()->get()[1]->id,
                 'subscription_id'    => $subscription->id,
-                'quantity'           => 0.155,
+                'quantity'           => 410,
             ]);
     }
 

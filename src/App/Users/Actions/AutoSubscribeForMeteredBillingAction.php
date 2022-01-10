@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Users\Actions;
 
 use App\Users\Models\User;
@@ -22,7 +21,6 @@ class AutoSubscribeForMeteredBillingAction
 
         // Create user balance
         if (intval($settings['allowed_registration_bonus'])) {
-
             // Create balance with bonus amount
             $user->balance()->create([
                 'amount'   => $settings['registration_bonus_amount'],
@@ -39,15 +37,10 @@ class AutoSubscribeForMeteredBillingAction
                 'amount'   => $settings['registration_bonus_amount'],
             ]);
         } else {
-
             // Create balance with 0 amount
             $user->balance()->create([
                 'currency' => $plan->currency,
             ]);
-        }
-
-        // Store transaction
-        if (intval($settings['allowed_registration_bonus'])) {
         }
 
         // Create user subscription

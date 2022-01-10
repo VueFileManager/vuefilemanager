@@ -1047,12 +1047,12 @@ if (! function_exists('replace_occurrence')) {
         {
             collect(config('vuefilemanager.avatar_sizes'))
                 ->each(function ($size) use ($intervention, $avatar_name) {
-            // fit thumbnail
-            $intervention->fit($size['size'], $size['size'])->stream();
+                    // fit thumbnail
+                    $intervention->fit($size['size'], $size['size'])->stream();
 
-            // Store thumbnail to disk
-            Storage::put("avatars/{$size['name']}-{$avatar_name}", $intervention);
-        });
+                    // Store thumbnail to disk
+                    Storage::put("avatars/{$size['name']}-{$avatar_name}", $intervention);
+                });
         }
     }
 }
