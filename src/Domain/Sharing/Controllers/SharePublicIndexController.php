@@ -1,11 +1,11 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -17,7 +17,8 @@ class SharePublicIndexController extends Controller
      */
     public function __construct(
         public RecordDownloadAction $recordDownload,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         Share $share,

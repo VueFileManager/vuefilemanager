@@ -3,7 +3,6 @@ namespace App\Users\Restrictions\Engines;
 
 use App\Users\Models\User;
 use App\Users\Restrictions\RestrictionsEngine;
-use Domain\Teams\Actions\CheckMaxTeamMembersLimitAction;
 
 class DefaultRestrictionsEngine implements RestrictionsEngine
 {

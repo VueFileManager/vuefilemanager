@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Socialite\Controllers;
 
 use App\Http\Controllers\Controller;
@@ -12,7 +11,7 @@ class SocialiteRedirectController extends Controller
         $url = Socialite::driver($provider)->stateless()->redirect()->getTargetUrl();
 
         return response()->json([
-            'url' => $url
+            'url' => $url,
         ]);
     }
 }

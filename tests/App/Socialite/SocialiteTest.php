@@ -1,17 +1,14 @@
 <?php
-
-namespace Tests\Feature\App\Socialite;
+namespace Tests\App\Socialite;
 
 use DB;
 use Storage;
+use Tests\TestCase;
 use App\Users\Models\User;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
 use Laravel\Socialite\Two\FacebookProvider;
 use Laravel\Socialite\Contracts\Factory as Socialite;
-
-
-use Tests\TestCase;
 
 class SocialiteTest extends TestCase
 {
@@ -29,7 +26,7 @@ class SocialiteTest extends TestCase
      * @test
      */
     public function it_socialite_callback()
-    {   
+    {
         // Set default settings
         DB::table('settings')->insert([
             [
@@ -38,7 +35,7 @@ class SocialiteTest extends TestCase
             ], [
                 'name'  => 'storage_default',
                 'value' => 5,
-            ]
+            ],
         ]);
 
         // Create fake image
@@ -73,7 +70,8 @@ class SocialiteTest extends TestCase
         // Replace Socialite Instance with mock
         $this->app->instance(Socialite::class, $stub);
 
-        $this->getJson('/api/socialite/facebook/callback');
+        $this->getJson('/api/socialite/facebook/callback')
+            ->assertCreated();
 
         $this
             ->assertDatabaseHas('users', [
@@ -89,7 +87,7 @@ class SocialiteTest extends TestCase
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
-                fn($size) => Storage::disk('local')
+                fn ($size) => Storage::disk('local')
                     ->assertExists("avatars/{$size['name']}-{$user->settings->getRawOriginal('avatar')}")
             );
     }

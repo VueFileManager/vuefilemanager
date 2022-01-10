@@ -1,11 +1,10 @@
 <?php
-
 namespace Domain\Settings\Controllers;
 
-use Domain\Settings\Requests\StorePaymentServiceCredentialsRequest;
-use Domain\Settings\Models\Setting;
-use Illuminate\Http\Response;
 use Artisan;
+use Illuminate\Http\Response;
+use Domain\Settings\Models\Setting;
+use Domain\Settings\Requests\StorePaymentServiceCredentialsRequest;
 
 class StorePaymentServiceCredentialsController
 {
@@ -34,14 +33,14 @@ class StorePaymentServiceCredentialsController
 
         // Get options
         collect([$options[$request->input('service')]])
-            ->each(fn($setting) => Setting::updateOrCreate([
+            ->each(fn ($setting) => Setting::updateOrCreate([
                 'name' => $setting['name'],
             ], [
                 'value' => $setting['value'],
             ]));
 
         // Get and store credentials
-        if (!app()->runningUnitTests()) {
+        if (! app()->runningUnitTests()) {
             $credentials = [
                 'stripe'   => [
                     'STRIPE_PUBLIC_KEY' => $request->input('key'),

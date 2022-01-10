@@ -6,7 +6,6 @@ use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Settings\Models\Setting;
-use Domain\Teams\Models\TeamFolderMember;
 
 class DefaultRestrictionsTest extends TestCase
 {

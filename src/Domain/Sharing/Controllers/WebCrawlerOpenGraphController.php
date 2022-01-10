@@ -1,11 +1,11 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Domain\Sharing\Models\Share;
+use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\Foundation\Application;
 
 class WebCrawlerOpenGraphController extends Controller
 {
@@ -14,8 +14,7 @@ class WebCrawlerOpenGraphController extends Controller
      */
     public function __invoke(
         Share $share
-    ): Application|Factory|View
-    {
+    ): Application|Factory|View {
         $namespace = match ($share->type) {
             'folder' => 'Domain\\Folders\\Models\\Folder',
             'file'   => 'Domain\\Files\\Models\\File',

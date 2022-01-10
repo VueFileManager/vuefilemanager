@@ -13,6 +13,8 @@ use Domain\Browsing\Controllers\BrowseFolderController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
 use Domain\Folders\Controllers\NavigationTreeController;
 use Domain\Items\Controllers\MoveFileOrFolderController;
+use App\Socialite\Controllers\SocialiteCallbackController;
+use App\Socialite\Controllers\SocialiteRedirectController;
 use Domain\Browsing\Controllers\SpotlightSearchController;
 use Domain\Items\Controllers\DeleteFileOrFolderController;
 use Domain\Items\Controllers\RenameFileOrFolderController;
@@ -22,10 +24,7 @@ use Domain\Browsing\Controllers\BrowseLatestFilesController;
 use Domain\Browsing\Controllers\BrowseSharedItemsController;
 use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
-use Domain\Browsing\Controllers\SearchFilesAndFoldersController;
-use App\Users\Controllers\Authentication\RegisterAuthenticationController;
-use App\Socialite\Controllers\SocialiteRedirectController;
-use App\Socialite\Controllers\SocialiteCallbackController;
+use App\Users\Controllers\Authentication\RegisterUserController;
 
 // Pages
 Route::apiResource('/page', PagesController::class);
@@ -35,7 +34,7 @@ Route::post('/contact', SendContactMessageController::class);
 Route::get('/settings', GetSettingsValueController::class);
 
 // Register user
-Route::post('/register', RegisterAuthenticationController::class);
+Route::post('/register', RegisterUserController::class);
 
 // Login via socialite
 Route::group(['prefix' => 'socialite'], function () {

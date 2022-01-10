@@ -147,8 +147,8 @@ class SettingsTest extends TestCase
             ->actingAs($admin)
             ->post('/api/admin/settings/payment-service', [
                 'service'           => 'stripe',
-                'key'           => '123456789',
-                'secret'        => '123456789',
+                'key'               => '123456789',
+                'secret'            => '123456789',
             ])->assertStatus(204);
 
         $this->assertDatabaseHas('settings', [

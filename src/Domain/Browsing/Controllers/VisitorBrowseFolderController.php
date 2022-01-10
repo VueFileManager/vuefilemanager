@@ -2,10 +2,10 @@
 namespace Domain\Browsing\Controllers;
 
 use Domain\Files\Models\File;
-use Domain\Folders\Resources\FolderResource;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderResource;
 use Domain\Folders\Resources\FolderCollection;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
