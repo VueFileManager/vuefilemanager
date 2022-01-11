@@ -1001,7 +1001,7 @@ class SetupDevEnvironment extends Command
             ],
             [
                 'name'  => 'user_verification',
-                'value' => 1,
+                'value' => 0,
             ],
             [
                 'name'  => 'allowed_payments',

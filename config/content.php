@@ -197,7 +197,7 @@ return [
             ],
             [
                 'name'  => 'registration_bonus_amount',
-                'value' => null,
+                'value' => 0,
             ],
         ],
     ],

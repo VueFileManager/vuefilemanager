@@ -32,13 +32,14 @@ class AutoSubscribeForMeteredBillingAction
                 'status'   => 'completed',
                 'type'     => 'credit',
                 'driver'   => 'system',
-                'note'     => __('Bonus'),
+                'note'     => __('Registration Bonus'),
                 'currency' => $plan->currency,
                 'amount'   => $settings['registration_bonus_amount'],
             ]);
         } else {
             // Create balance with 0 amount
             $user->balance()->create([
+                'amount' => 0,
                 'currency' => $plan->currency,
             ]);
         }
