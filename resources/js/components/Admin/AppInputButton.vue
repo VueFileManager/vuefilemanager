@@ -1,5 +1,5 @@
 <template>
-	<div :class="{'mb-7': !isLast}" class="flex items-center justify-between sm:space-x-8 space-x-2 w-full">
+	<div :class="{'mb-7': !isLast}" class="sm:flex justify-between sm:space-x-8 space-x-2 sm:space-y-0 space-y-4 w-full">
 
 		<!--Label for input-->
 		<div class="leading-5">
@@ -25,7 +25,7 @@
 
 <script>
 	export default {
-		name: 'AppInputSwitch',
+		name: 'AppInputButton',
 		props: [
 			'description',
 			'isLast',

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Settings;
 
 use Storage;
@@ -146,14 +147,36 @@ class SettingsTest extends TestCase
         $this
             ->actingAs($admin)
             ->post('/api/admin/settings/payment-service', [
-                'service'           => 'stripe',
-                'key'               => '123456789',
-                'secret'            => '123456789',
+                'service' => 'stripe',
+                'key'     => '123456789',
+                'secret'  => '123456789',
             ])->assertStatus(204);
 
         $this->assertDatabaseHas('settings', [
             'name'  => 'allowed_stripe',
             'value' => '1',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_store_social_service_credentials()
+    {
+        $admin = User::factory()
+            ->create(['role' => 'admin']);
+
+        $this
+            ->actingAs($admin)
+            ->post('/api/admin/settings/social-service', [
+                'client_id'     => '123456789',
+                'client_secret' => '123456789',
+                'service'       => 'facebook',
+            ])->assertStatus(204);
+
+        $this->assertDatabaseHas('settings', [
+            'name'  => 'allowed_facebook_login',
+            'value' => 1,
         ]);
     }
 

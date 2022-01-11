@@ -6,7 +6,7 @@
 				{{ $t('Subscription Payments') }}
 			</FormLabel>
 
-			<AppInputSwitch :title="$t('Allow Subscription Payments')" :description="$t('User can subscribe to fixed or metered plan')" :is-last="! allowedPayments" class="flex">
+			<AppInputSwitch :title="$t('Allow Subscription Payments')" :description="$t('User can subscribe to fixed or metered plan')" :is-last="! allowedPayments">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_payments', allowedPayments)" v-model="allowedPayments" :state="allowedPayments" />
 			</AppInputSwitch>
 
@@ -16,12 +16,12 @@
 		</div>
 
 		<!--Metered settings-->
-		<div v-if="config.subscriptionType === 'metered'" class="card shadow-card">
+		<div v-if="config.subscriptionType === 'metered' && allowedPayments" class="card shadow-card">
 			<FormLabel icon="bar-chart">
 				{{ $t('Metered Billing Settings') }}
 			</FormLabel>
 
-			<AppInputSwitch :title="$t('Allow Registration Bonus')" :description="$t('User credit automatically user bonus to the balance after user registration.')" :is-last="! allowedRegistrationBonus" class="flex">
+			<AppInputSwitch :title="$t('Allow Registration Bonus')" :description="$t('User credit automatically user bonus to the balance after user registration.')" :is-last="! allowedRegistrationBonus">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_registration_bonus', allowedRegistrationBonus)" v-model="allowedRegistrationBonus" :state="allowedRegistrationBonus" />
 			</AppInputSwitch>
 
@@ -32,9 +32,9 @@
 
 		<!--Stripe method configuration-->
 		<div v-if="allowedPayments" class="card shadow-card">
-			<img :src="$getPaymentLogo('stripe')" alt="Stripe" class="mb-4 h-8">
+			<img :src="$getPaymentLogo('stripe')" alt="Stripe" class="mb-8 h-8">
 
-			<AppInputSwitch :title="$t('Allow Stripe Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! stripe.allowedService" class="flex">
+			<AppInputSwitch :title="$t('Allow Stripe Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! stripe.allowedService">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_stripe', stripe.allowedService)" v-model="stripe.allowedService" :state="stripe.allowedService" />
 			</AppInputSwitch>
 
@@ -62,7 +62,7 @@
 					ref="credentialsForm"
 					v-slot="{ invalid }"
 					tag="form"
-					class="p-5 dark:border-dark-secondary border rounded-xl"
+					class="p-5 shadow-lg rounded-xl"
 				>
 					<FormLabel v-if="! stripe.isConfigured" icon="shield">
 						{{ $t('Configure Your Credentials') }}
@@ -87,9 +87,9 @@
 
 		<!--Paystack method configuration-->
 		<div v-if="allowedPayments" class="card shadow-card">
-			<img :src="$getPaymentLogo('paystack')" alt="Paystack" class="mb-4 h-7">
+			<img :src="$getPaymentLogo('paystack')" alt="Paystack" class="mb-8 h-7">
 
-			<AppInputSwitch :title="$t('Allow Paystack Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paystack.allowedService" class="flex">
+			<AppInputSwitch :title="$t('Allow Paystack Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paystack.allowedService">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_paystack', paystack.allowedService)" v-model="paystack.allowedService" :state="paystack.allowedService" />
 			</AppInputSwitch>
 
@@ -117,7 +117,7 @@
 					ref="credentialsForm"
 					v-slot="{ invalid }"
 					tag="form"
-					class="p-5 dark:border-dark-secondary border rounded-xl"
+					class="p-5 shadow-lg rounded-xl"
 				>
 					<FormLabel v-if="! paystack.isConfigured" icon="shield">
 						{{ $t('Configure Your Credentials') }}
@@ -142,9 +142,9 @@
 
 		<!--PayPal method configuration-->
 		<div v-if="allowedPayments" class="card shadow-card">
-			<img :src="$getPaymentLogo('paypal')" alt="PayPal" class="mb-4 h-8">
+			<img :src="$getPaymentLogo('paypal')" alt="PayPal" class="mb-8 h-8">
 
-			<AppInputSwitch :title="$t('Allow PayPal Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paypal.allowedService" class="flex">
+			<AppInputSwitch :title="$t('Allow PayPal Service')" :description="$t('Allow your users pay by their credit card')" :is-last="! paypal.allowedService">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_paypal', paypal.allowedService)" v-model="paypal.allowedService" :state="paypal.allowedService" />
 			</AppInputSwitch>
 
@@ -172,7 +172,7 @@
 					ref="credentialsForm"
 					v-slot="{ invalid }"
 					tag="form"
-					class="p-5 dark:border-dark-secondary border rounded-xl"
+					class="p-5 shadow-lg rounded-xl"
 				>
 					<FormLabel v-if="! paypal.isConfigured" icon="shield">
 						{{ $t('Configure Your Credentials') }}
@@ -301,27 +301,13 @@
 				// Start loading
 				this.isLoading = true
 
-				let credentials = {
-					stripe: {
-						service: 'stripe',
-						key: this.stripe.credentials.key,
-						secret: this.stripe.credentials.secret,
-					},
-					paystack: {
-						service: 'paystack',
-						key: this.paystack.credentials.key,
-						secret: this.paystack.credentials.secret,
-					},
-					paypal: {
-						service: 'paypal',
-						key: this.paypal.credentials.key,
-						secret: this.paypal.credentials.secret,
-					},
-				}
-
 				// Send request to get verify account
 				axios
-					.post('/api/admin/settings/payment-service', credentials[service])
+					.post('/api/admin/settings/payment-service', {
+						service: service,
+						key: this[service].credentials.key,
+						secret: this[service].credentials.secret,
+					})
 					.then(() => {
 
 						// Update Credentials

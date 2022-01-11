@@ -1,14 +1,14 @@
 <template>
-    <div class="wrapper flex flex-row w-1/2 ml-2">
-        <div class="w-1/3 grid justify-items-center items-center cursor-pointer">
+    <div v-if="config.allowedFacebookLogin || config.allowedGoogleLogin || config.allowedGithubLogin" class="pt-12 flex items-center justify-center">
+        <div v-if="config.allowedFacebookLogin" class="mx-5 cursor-pointer">
             <facebook-icon @click="socialiteRedirect('facebook')" />
         </div>
 
-        <div class="w-1/3 grid justify-items-center items-center cursor-pointer">
+        <div v-if="config.allowedGithubLogin" class="mx-5 cursor-pointer">
             <github-icon @click="socialiteRedirect('github')" />
         </div>
 
-        <div class="w-1/3 grid justify-items-center items-center cursor-pointer">
+        <div v-if="config.allowedGoogleLogin" class="mx-5 cursor-pointer">
             <span @click="socialiteRedirect('google')" class="font-semibold text-3xl">G</span>
         </div>
     </div>
@@ -16,6 +16,7 @@
 
 <script>
 import { FacebookIcon, GithubIcon  } from 'vue-feather-icons'
+import {mapGetters} from "vuex";
 
 export default {
     name:'SocialiteAuthenticationButtons',
@@ -23,22 +24,17 @@ export default {
         FacebookIcon,
         GithubIcon,
     },
+	computed: {
+		...mapGetters([
+			'config'
+		])
+	},
     methods: {
         socialiteRedirect(provider) {
-
             this.isLoading = true
 
             this.$store.dispatch('socialiteRedirect', provider)
         },
     }
-    
 }
 </script>
-
-<style lang="scss" scoped>
-
-.wrapper {
-    margin: 50px auto 0px auto;
-}
-
-</style>

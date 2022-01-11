@@ -5,17 +5,17 @@
 				{{ $t('admin_settings.appearance.section_general') }}
 			</FormLabel>
 
+			<AppInputSwitch :title="$t('color_theme')" :description="$t('color_theme_description')">
+				<input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color"/>
+			</AppInputSwitch>
+
 			<AppInputText :title="$t('admin_settings.appearance.title')">
 				<input @input="$updateText('/admin/settings', 'app_title', app.title)" v-model="app.title" :placeholder="$t('admin_settings.appearance.title_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
 
-			<AppInputText :title="$t('admin_settings.appearance.description')">
+			<AppInputText :title="$t('admin_settings.appearance.description')" :is-last="true">
 				<input @input="$updateText('/admin/settings', 'app_description', app.description)" v-model="app.description" :placeholder="$t('admin_settings.appearance.description_plac')" type="text" class="focus-border-theme input-dark"/>
 			</AppInputText>
-
-			<AppInputSwitch :title="$t('color_theme')" :description="$t('color_theme_description')" :is-last="true">
-				<input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color"/>
-			</AppInputSwitch>
 		</div>
 		<div v-if="app" class="card shadow-card">
 			<FormLabel>

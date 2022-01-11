@@ -105,6 +105,22 @@ const mutations = {
     STORE_REQUESTED_PLAN(state, plan) {
         state.requestedPlan = plan
     },
+    SET_SOCIAL_LOGIN_CONFIGURED(state, service) {
+        if (service === 'facebook') {
+            state.config.allowedFacebookLogin = true
+            state.config.isFacebookLoginConfigured = true
+        }
+
+        if (service === 'google') {
+            state.config.allowedGoogleLogin = true
+            state.config.isGoogleLoginConfigured = true
+        }
+
+        if (service === 'github') {
+            state.config.allowedGithubLogin = true
+            state.config.isGithubLoginConfigured = true
+        }
+    },
     SET_STRIPE_CREDENTIALS(state, data) {
         state.config.stripe_public_key = data.key
         state.config.isStripe = true

@@ -10,11 +10,18 @@ class RegisterUserController extends Controller
 {
     public function __construct(
         public CreateNewUserAction $createNewUser,
-    ) {
-    }
+    ) {}
     
     public function __invoke(RegisterUserRequest $request)
     {
+        // Check if account registration is enabled
+        if (! intval(get_settings('registration'))) {
+            return response([
+                'type'    => 'error',
+                'message' => 'User registration is not allowed',
+            ], 401);
+        }
+
         // Map registration data
         $data = CreateUserData::fromRequest($request);
 

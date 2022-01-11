@@ -18,28 +18,40 @@ class SocialiteCallbackController extends Controller
     
     public function __invoke($provider)
     {
+        $isAllowedRegistration = intval(get_settings('registration'));
+
         // Get socialite user
         if (app()->runningUnitTests()) {
-            $provider_user = Socialite::driver($provider)->user();
+            $socialite = Socialite::driver($provider)->user();
         } else {
-            $provider_user = Socialite::driver($provider)->stateless()->user();
+            $socialite = Socialite::driver($provider)->stateless()->user();
         }
 
-        // Check if user exist already
-        $user = User::where('email', $provider_user->email)->first();
+        // Get user by email
+        $user = User::where('email', $socialite->email);
 
-        // Login User
-        if ($user) {
-            $this->guard->login($user);
+        // Login user when exists
+        if ($user->exists()) {
+            $this->guard->login(
+                $user->first()
+            );
 
             return response('User logged in', 201);
         }
 
+        // Check if account registration is enabled
+        if (! $isAllowedRegistration) {
+            return response([
+                'type'    => 'error',
+                'message' => 'User registration is not allowed',
+            ], 401);
+        }
+
         // Create data user data object
         $data = CreateUserData::fromArray([
-            'name'           => $provider_user->getName(),
-            'email'          => $provider_user->getEmail(),
-            'avatar'         => store_socialite_avatar($provider_user->getAvatar()),
+            'name'           => $socialite->getName(),
+            'email'          => $socialite->getEmail(),
+            'avatar'         => store_socialite_avatar($socialite->getAvatar()),
             'oauth_provider' => $provider,
         ]);
 

@@ -97,6 +97,16 @@
             isStripe: {{ $settings->allowed_stripe ?? 0 }},
             stripe_public_key: '{{ env('STRIPE_PUBLIC_KEY') }}',
 			stripe_payment_description: '{{ $settings->stripe_payment_description ?? '' }}',
+
+            // Social logins
+            allowedFacebookLogin: {{ $settings->allowed_facebook_login ?? 0 }},
+            isFacebookLoginConfigured: {{ env('FACEBOOK_CLIENT_ID') ? 1 : 0 }},
+
+			allowedGoogleLogin: {{ $settings->allowed_google_login ?? 0 }},
+            isGoogleLoginConfigured: {{ env('GOOGLE_CLIENT_ID') ? 1 : 0 }},
+
+			allowedGithubLogin: {{ $settings->allowed_github_login ?? 0 }},
+			isGithubLoginConfigured: {{ env('GITHUB_CLIENT_ID') ? 1 : 0 }},
         }
     </script>
 

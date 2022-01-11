@@ -352,6 +352,14 @@ const FunctionHelpers = {
             }[driver] || this.$getImage(store.getters.config.app_logo_horizontal)
         }
 
+        Vue.prototype.$getSocialLogo = function (driver) {
+            return {
+                'google': '/assets/socials/google.svg',
+                'facebook': '/assets/socials/facebook.svg',
+                'github': store.getters.isDarkMode ? '/assets/socials/github-dark.svg' : '/assets/socials/github.svg',
+            }[driver]
+        }
+
         Vue.prototype.$getSubscriptionStatusColor = function (status) {
 
             return {

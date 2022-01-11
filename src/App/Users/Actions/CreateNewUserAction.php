@@ -1,6 +1,7 @@
 <?php
 namespace App\Users\Actions;
 
+use App\Users\DTO\CreateUserData;
 use App\Users\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
@@ -17,16 +18,11 @@ class CreateNewUserAction extends Controller
     /**
      * Validate and create a new user.
      */
-    public function __invoke($data)
+    public function __invoke(CreateUserData $data)
     {
         $settings = get_settings([
-            'registration', 'user_verification', 'subscription_type',
+            'user_verification', 'subscription_type',
         ]);
-
-        // Check if account registration is enabled
-        if (! intval($settings['registration'])) {
-            abort(401);
-        }
 
         // Create user
         $user = User::create([

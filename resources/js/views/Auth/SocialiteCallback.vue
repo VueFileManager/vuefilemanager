@@ -4,6 +4,8 @@
 
 <script>
 import Spinner from '/resources/js/components/FilesView/Spinner'
+import {events} from "../../bus";
+import i18n from "../../i18n";
 
 export default {
     name: 'SocialiteCallback',
@@ -21,11 +23,16 @@ export default {
                 // Go to files page
                 this.$router.push({name: 'Files'})
             })
-            .catch(() => {
-                
-                this.$isSomethingWrong()
+            .catch(error => {
+				if (error.response.status === 401) {
+					events.$emit('alert:open', {
+						title: error.response.data.message,
+					})
+				} else {
+					this.$isSomethingWrong()
+				}
 
-                this.$router.push({name: 'Homepage'})
+                this.$router.push({name: 'SignIn'})
             })              
     }
     

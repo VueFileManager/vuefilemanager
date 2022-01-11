@@ -1,6 +1,8 @@
 import axios from 'axios'
 import router from '/resources/js/router'
 import Vue from 'vue'
+import {events} from "../../bus";
+import i18n from "../../i18n";
 
 const defaultState = {
     permission: 'master', // master | editor | visitor
@@ -49,13 +51,12 @@ const actions = {
             })
     },
     socialiteRedirect: ({commit}, provider) => {
-
         axios
             .get(`/api/socialite/${provider}/redirect`)
-            .then((response) => {
-                if(response.data.url) {
+            .then(response => {
+                if (response.data.url) {
                     window.location.href = response.data.url
-                }                
+                }
             })
             .catch(() => this.$isSomethingWrong())
     },
