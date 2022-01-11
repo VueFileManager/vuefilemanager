@@ -392,6 +392,13 @@ const FunctionHelpers = {
             }[type]
         }
 
+        Vue.prototype.$getPlanStatusColor = function (type) {
+            return {
+                'active': 'green',
+                'archived': 'red',
+            }[type]
+        }
+
         Vue.prototype.$getTransactionTypeTextColor = function (type) {
 
             return {

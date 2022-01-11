@@ -21,13 +21,27 @@
 				{{ $t('Metered Billing Settings') }}
 			</FormLabel>
 
-			<AppInputSwitch :title="$t('Allow Registration Bonus')" :description="$t('User credit automatically user bonus to the balance after user registration.')" :is-last="! allowedRegistrationBonus">
+			<AppInputSwitch :title="$t('Allow Registration Bonus')" :description="$t('Credit user automatically bonus to his balance after registration.')">
 				<SwitchInput @input="$updateText('/admin/settings', 'allowed_registration_bonus', allowedRegistrationBonus)" v-model="allowedRegistrationBonus" :state="allowedRegistrationBonus" />
 			</AppInputSwitch>
 
-			<AppInputText v-if="allowedRegistrationBonus" :title="$t('Registration Bonus Amount')" :description="this.$t('This bonus will be automatically added when user successfully register his account.')" :is-last="true">
+			<AppInputText v-if="allowedRegistrationBonus" :title="$t('The Amount of Registration Bonus')" :description="$t('This bonus will be automatically added when user successfully register his account.')">
 				<input @input="$updateText('/admin/settings', 'registration_bonus_amount', registrationBonusAmount)" v-model="registrationBonusAmount" :placeholder="$t('Type registration bonus amount...')" type="number" class="focus-border-theme input-dark" />
 			</AppInputText>
+
+			<AppInputButton :title="$t('Metered Plan')" :description="$t('Your price set up for billing multiple features by user usage.')" :is-last="true">
+				<router-link v-if="config.isCreatedMeteredPlan" :to="{name: 'PlanMeteredSettings', params: {id: config.meteredPlanId}}">
+					<ButtonBase v-if="config.isCreatedMeteredPlan" class="sm:w-auto w-full" button-style="theme">
+						{{ $t('Plan Details') }}
+					</ButtonBase>
+				</router-link>
+
+				<router-link v-if="! config.isCreatedMeteredPlan" :to="{name: 'CreateMeteredPlan'}">
+					<ButtonBase class="sm:w-auto w-full" button-style="theme-solid">
+						{{ $t('Create Plan') }}
+					</ButtonBase>
+				</router-link>
+			</AppInputButton>
 		</div>
 
 		<!--Stripe method configuration-->
@@ -199,8 +213,10 @@
 
 <script>
     import {
-		Edit2Icon,
+		Edit2Icon, Trash2Icon,
 	} from 'vue-feather-icons'
+	import AppInputButton from "../../../../components/Admin/AppInputButton";
+	import DatatableWrapper from "../../../../components/Others/Tables/DatatableWrapper";
 	import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 	import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
 	import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
@@ -222,6 +238,8 @@
 	export default {
 		name: 'AppPayments',
 		components: {
+			AppInputButton,
+			DatatableWrapper,
 			ValidationObserver,
 			ValidationProvider,
 			AppInputSwitch,
@@ -233,6 +251,7 @@
 			ButtonBase,
 			CopyInput,
 			FormLabel,
+			Trash2Icon,
 			Edit2Icon,
 			SetupBox,
 			required,
@@ -288,6 +307,32 @@
 						secret: undefined,
 					}
 				},
+
+				columns: [
+					{
+						label: this.$t('Name'),
+						field: 'name',
+						sortable: true
+					},
+					{
+						label: this.$t('Currency'),
+						field: 'currency',
+						sortable: true
+					},
+					{
+						label: this.$t('Interval'),
+						field: 'interval',
+						sortable: true
+					},
+					{
+						label: this.$t('admin_page_plans.table.subscribers'),
+						sortable: false
+					},
+					{
+						label: this.$t('admin_page_user.table.action'),
+						sortable: false
+					},
+				]
 			}
 		},
 		methods: {

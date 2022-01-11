@@ -1,3 +1,9 @@
+@php
+    use VueFileManager\Subscription\Domain\Plans\Models\Plan;
+
+    $plan = Plan::where('status', 'active')->where('type', 'metered');
+@endphp
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
@@ -78,6 +84,8 @@
             // Metered
 			allowed_registration_bonus: {{ $settings->allowed_registration_bonus ?? 0 }},
 			registration_bonus_amount: {{ $settings->registration_bonus_amount ?? 0 }},
+			isCreatedMeteredPlan: {{ $plan->exists() ? 1 : 0 }},
+			meteredPlanId: '{{ $plan->exists() ? $plan->first()->id : null }}',
 
             // Payments
             allowed_payments: {{ $settings->allowed_payments ?? 0 }},

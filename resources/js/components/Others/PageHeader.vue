@@ -1,7 +1,7 @@
 <template>
     <div class="page-header">
         <div class="go-back" v-if="canBack" @click="$router.back()">
-            <chevron-left-icon size="17"></chevron-left-icon>
+            <chevron-left-icon size="17" />
         </div>
         <div class="content">
             <h1 class="title">{{ title }}</h1>

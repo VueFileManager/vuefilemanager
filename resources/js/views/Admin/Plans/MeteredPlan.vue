@@ -26,6 +26,7 @@
 	import CardNavigation from "../../../components/Admin/CardNavigation"
 	import Spinner from '/resources/js/components/FilesView/Spinner'
 	import axios from 'axios'
+	import {mapGetters} from "vuex";
 
 	export default {
 		name: 'MeteredPlan',
@@ -33,11 +34,12 @@
 			CardNavigation,
 			Spinner,
 		},
-		data() {
-			return {
-				isLoading: true,
-				plan: undefined,
-				pages: [
+		computed: {
+			...mapGetters([
+				'config'
+			]),
+			pages() {
+				let pages = [
 					{
 						title: this.$t('admin_page_plans.tabs.settings'),
 						route: 'PlanMeteredSettings',
@@ -46,11 +48,22 @@
 						title: this.$t('admin_page_plans.tabs.subscribers'),
 						route: 'PlanMeteredSubscribers',
 					},
-					{
+				]
+
+				if (this.plan && this.plan.attributes.status === 'active') {
+					pages.push({
 						title: this.$t('admin_page_plans.tabs.delete'),
 						route: 'PlanMeteredDelete',
-					},
-				]
+					})
+				}
+
+				return pages
+			}
+		},
+		data() {
+			return {
+				isLoading: true,
+				plan: undefined,
 			}
 		},
 		created() {

@@ -1,7 +1,9 @@
 <template>
     <div>
 		<div class="card shadow-card">
-			<div class="mb-6">
+
+			<!--Create button-->
+			<div v-if="! config.isCreatedMeteredPlan" class="mb-6">
 				<router-link :to="{name: createPlanRoute}">
 					<MobileActionButton icon="plus">
 						{{ $t('admin_page_plans.create_plan_button') }}
@@ -15,11 +17,16 @@
 
 					<!--Metered subscription-->
                     <tr v-if="config.subscriptionType === 'metered'" class="border-b dark:border-opacity-5 border-light border-dashed">
-                        <td>
+                        <td class="py-4">
 							<router-link class="text-sm font-bold" :to="{name: 'PlanMeteredSettings', params: {id: row.data.id}}">
                             	{{ row.data.attributes.name }}
 							</router-link>
                         </td>
+						<td>
+							<ColorLabel :color="$getPlanStatusColor(row.data.attributes.status)">
+								{{ row.data.attributes.status }}
+							</ColorLabel>
+						</td>
                         <td>
                             <span class="text-sm font-bold">
                             	{{ row.data.attributes.currency }}
@@ -44,6 +51,7 @@
                                     <Edit2Icon size="15" class="opacity-75" />
                                 </router-link>
                                 <router-link
+									v-if="row.data.attributes.status !== 'archived'"
 									:to="{name: 'PlanMeteredDelete', params: {id: row.data.id}}"
 									class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors"
 								>
@@ -135,8 +143,9 @@
     import EmptyPageContent from '/resources/js/components/Others/EmptyPageContent'
     import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import {Trash2Icon, Edit2Icon} from "vue-feather-icons";
     import Spinner from '/resources/js/components/FilesView/Spinner'
+	import ColorLabel from "../../components/Others/ColorLabel";
+    import {Trash2Icon, Edit2Icon} from "vue-feather-icons";
     import { mapGetters } from 'vuex'
 
     export default {
@@ -146,6 +155,7 @@
             EmptyPageContent,
             DatatableWrapper,
             SwitchInput,
+			ColorLabel,
             Trash2Icon,
             ButtonBase,
             Edit2Icon,
@@ -170,6 +180,11 @@
 						{
 							label: this.$t('Name'),
 							field: 'name',
+							sortable: true
+						},
+						{
+							label: this.$t('Status'),
+							field: 'status',
 							sortable: true
 						},
 						{
