@@ -50,7 +50,7 @@
 
 					<router-link :to="{name: 'Users'}" class="flex items-center mt-6">
 						<span class="text-xs font-bold mr-2 whitespace-nowrap">
-							{{ $t('Show all transactions') }}
+							{{ $t('admin_page_dashboard.w_total_space.link') }}
 						</span>
 						<chevron-right-icon size="16" class="text-theme vue-feather"/>
 					</router-link>
@@ -71,7 +71,7 @@
 						<chevron-right-icon size="16" class="text-theme vue-feather"/>
 					</router-link>
 				</div>
-				<div class="w-full md:mb-0 mb-4 card shadow-card">
+				<div v-if="config.subscriptionType !== 'none'" class="w-full md:mb-0 mb-4 card shadow-card">
 					<FormLabel icon="dollar">
 						{{ $t('Earnings') }}
 					</FormLabel>

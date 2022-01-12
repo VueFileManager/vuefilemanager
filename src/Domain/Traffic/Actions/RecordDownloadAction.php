@@ -17,8 +17,6 @@ class RecordDownloadAction
                 'user_id' => $user_id,
             ]);
 
-        $record->update([
-            'download' => $record->download + $file_size,
-        ]);
+        $record->increment('download', $file_size);
     }
 }

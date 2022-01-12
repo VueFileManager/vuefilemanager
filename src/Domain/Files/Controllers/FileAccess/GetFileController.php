@@ -36,6 +36,8 @@ class GetFileController extends Controller
             abort(403, 'Access Denied');
         }
 
+        // TODO: resolve video buffering
+
         // Store user download size
         ($this->recordDownload)(
             file_size: (int) $file->getRawOriginal('filesize'),

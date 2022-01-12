@@ -17,8 +17,6 @@ class RecordUploadAction
                 'user_id' => $user_id,
             ]);
 
-        $record->update([
-            'upload' => $record->upload + $file_size,
-        ]);
+        $record->increment('upload', $file_size);
     }
 }

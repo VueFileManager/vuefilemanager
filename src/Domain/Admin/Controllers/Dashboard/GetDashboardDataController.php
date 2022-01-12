@@ -67,12 +67,12 @@ class GetDashboardDataController extends Controller
 
         $upload = $trafficRecords->map(fn($record) => [
             'created_at' => format_date($record->created_at, '%d. %B. %Y'),
-            'amount'     => $trafficRecords->max('upload') !== 0 ? round(($record->upload / $trafficRecords->max('upload')) * 100, 2) : 0,
+            'amount'     => intval($trafficRecords->max('upload')) !== 0 ? round(($record->upload / $trafficRecords->max('upload')) * 100, 2) : 0,
         ]);
 
         $download = $trafficRecords->map(fn($record) => [
             'created_at' => format_date($record->created_at, '%d. %B. %Y'),
-            'amount'     => $trafficRecords->max('download') !== 0 ? round(($record->download / $trafficRecords->max('download')) * 100, 2) : 0,
+            'amount'     => intval($trafficRecords->max('download')) !== 0 ? round(($record->download / $trafficRecords->max('download')) * 100, 2) : 0,
         ]);
 
         // Get total download/upload
