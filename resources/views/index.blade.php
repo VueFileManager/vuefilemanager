@@ -81,6 +81,9 @@
             installation: '{{ $installation ?? 'initial' }}',
             statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
 
+            // Hidden set ups
+            isAdminVueFileManagerBar: {{ env('IS_ADMIN_VUEFILEMANAGER_BAR', 1) ? 1 : 0 }},
+
             // Metered
 			allowed_registration_bonus: {{ $settings->allowed_registration_bonus ?? 0 }},
 			registration_bonus_amount: {{ $settings->registration_bonus_amount ?? 0 }},

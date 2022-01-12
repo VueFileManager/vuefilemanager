@@ -1,13 +1,13 @@
 <template>
-    <div class="widget">
+    <div class="widget-card w-full">
         <div class="widget-content dark:bg-dark-foreground bg-white">
-            <div class="headline">
-                <div class="icon">
-                    <users-icon v-if="icon === 'users'" size="19" class="text-theme dark-text-theme"/>
-                    <star-icon v-if="icon === 'star'" size="19" class="text-theme dark-text-theme"/>
-                    <hard-drive-icon v-if="icon === 'hard-drive'" size="19" class="text-theme dark-text-theme"/>
-                </div>
-                <b class="title">{{ title }}</b>
+            <div class="flex items-center">
+				<users-icon v-if="icon === 'users'" size="16" class="vue-feather text-theme mr-3 "/>
+				<star-icon v-if="icon === 'star'" size="16" class="vue-feather text-theme mr-3 "/>
+				<hard-drive-icon v-if="icon === 'hard-drive'" size="16" class="vue-feather text-theme mr-3 "/>
+                <b class="font-bold text-base">
+					{{ title }}
+				</b>
             </div>
             <slot></slot>
         </div>
@@ -28,42 +28,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .widget-content {
-        @include widget-card;
-    }
-
-    .headline {
-        display: flex;
-
-        .icon {
-            margin-right: 10px;
-
-            path, circle, line, polygon {
-                color: inherit;
-            }
-        }
-    }
-
-    @media only screen and (max-width: 1190px) {
-        .headline {
-
-            .title {
-                @include font-size(14);
-            }
-        }
-    }
-
-    .dark {
-
-        .headline {
-            .title {
-                color: $dark_mode_text_primary;
-            }
-        }
-    }
-</style>

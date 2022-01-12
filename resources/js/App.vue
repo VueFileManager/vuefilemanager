@@ -141,6 +141,10 @@ export default {
 	@apply dark:bg-dark-foreground bg-white lg:p-6 p-4 rounded-xl lg:mb-6 mb-4
 }
 
+.widget-card {
+	@apply dark:bg-dark-foreground bg-white lg:p-5 p-4 rounded-xl
+}
+
 .input-dark {
 	@apply w-full dark:bg-2x-dark-foreground bg-light-background py-3 px-5 rounded-lg appearance-none border-transparent text-base font-bold border
 }
@@ -169,7 +173,7 @@ export default {
 }
 
 .vue-feather {
-	path, circle, line, rect, polyline, ellipse {
+	path, circle, line, rect, polyline, ellipse, polygon {
 		color: inherit;
 	}
 }

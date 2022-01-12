@@ -12,6 +12,7 @@
         <shield-icon v-if="icon === 'shield'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <bell-icon v-if="icon === 'bell'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <key-icon v-if="icon === 'key'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
+        <users-icon v-if="icon === 'users'" size="22" class="mr-3 vue-feather text-theme dark-text-theme" />
         <b class="font-bold dark:text-gray-200 text-lg">
             <slot></slot>
         </b>
@@ -20,6 +21,7 @@
 
 <script>
     import {
+		UsersIcon,
 		ShieldIcon,
 		CreditCardIcon,
 		DollarSignIcon,
@@ -40,6 +42,7 @@
 			'icon'
 		],
         components: {
+			UsersIcon,
 			CreditCardIcon,
 			DollarSignIcon,
 			SmartphoneIcon,

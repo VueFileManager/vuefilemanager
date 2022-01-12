@@ -266,7 +266,7 @@ const routesAdmin = [
 				children: [
 					{
 						name: 'AppBillings',
-						path: '/admin/settings/billings',
+						path: '/admin/payments/billings',
 						component: () =>
 							import(/* webpackChunkName: "chunks/payments/billings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Billings'),
 						meta: {
@@ -276,7 +276,7 @@ const routesAdmin = [
 					},
 					{
 						name: 'AppPayments',
-						path: '/admin/settings/payments',
+						path: '/admin/payments/payments',
 						component: () =>
 							import(/* webpackChunkName: "chunks/payments/settings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Payments'),
 						meta: {

@@ -2,19 +2,21 @@
 	<div class="flex items-end justify-between sm:h-28 h-20">
 		<!--Data bar-->
 		<span
-			class="md:w-2 w-1 block rounded-lg lg:mr-2 mr-1.5 bg-theme"
+			class="2xl:w-3 md:w-2 w-1 block rounded-lg lg:mr-2 mr-1.5 bg-theme"
 			v-for="(height, i) in data"
 			:style="{height: height.amount + '%'}"
 			:key="i">
 		</span>
 
 		<!--Ghost bar-->
-		<span
-			class="md:w-2 w-1 block rounded-lg lg:mr-2 mr-1.5 bg-gray-100"
-			v-for="(ghost, i) in ghostLength"
-			:style="{height: '5%'}"
-			:key="i">
-		</span>
+		<div v-if="ghostLength >= 1">
+			<span
+				class="md:w-2 w-1 block rounded-lg lg:mr-2 mr-1.5 bg-gray-100"
+				v-for="(ghost, i) in ghostLength"
+				:style="{height: '5%'}"
+				:key="i">
+			</span>
+		</div>
 	</div>
 </template>
 <script>
@@ -26,7 +28,7 @@ export default {
 	],
 	computed: {
 		ghostLength() {
-			return 45 - this.data.length
+			return 65 - this.data.length
 		}
 	}
 }

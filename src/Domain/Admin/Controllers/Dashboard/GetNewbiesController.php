@@ -12,7 +12,8 @@ class GetNewbiesController extends Controller
         $users = User::sortable([
             'created_at' => 'desc',
         ])
-            ->paginate(10);
+            ->take(5)
+            ->get();
 
         return new UsersCollection($users);
     }

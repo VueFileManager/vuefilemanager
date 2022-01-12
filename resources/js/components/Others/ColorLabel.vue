@@ -1,5 +1,5 @@
 <template>
-    <b class="color-label text-xs rounded-lg" :class="color">
+    <b class="color-label capitalize inline-block text-xs font-bold rounded-lg py-1 px-2" :class="color">
         <slot></slot>
     </b>
 </template>
@@ -16,10 +16,6 @@
     @import '/resources/sass/vuefilemanager/_mixins';
 
     .color-label {
-        text-transform: capitalize;
-        display: inline-block;
-        font-weight: 700;
-        padding: 4px 6px;
 
         &.purple {
             color: $purple;
@@ -40,13 +36,5 @@
             color: $danger;
             background: rgba($danger, 0.1);
         }
-    }
-
-    @media only screen and (max-width: 1024px) {
-
-    }
-
-    .dark {
-
     }
 </style>

@@ -12,7 +12,7 @@ use Domain\Admin\Controllers\Users\ChangeUserRoleController;
 use Domain\Settings\Controllers\StoreSocialServiceCredentialsController;
 use Domain\Settings\Controllers\UpdateSettingValueController;
 use Domain\Admin\Controllers\Users\ResetUserPasswordController;
-use Domain\Admin\Controllers\Dashboard\GetWidgetsValuesController;
+use Domain\Admin\Controllers\Dashboard\GetDashboardDataController;
 use Domain\Localization\Controllers\UpdateLanguageStringController;
 use Domain\Admin\Controllers\Users\ShowUserStorageCapacityController;
 use Domain\Admin\Controllers\Users\ChangeUserStorageCapacityController;
@@ -21,7 +21,7 @@ use Domain\Settings\Controllers\StorePaymentServiceCredentialsController;
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
     Route::get('/newbies', GetNewbiesController::class);
-    Route::get('/', GetWidgetsValuesController::class);
+    Route::get('/', GetDashboardDataController::class);
 });
 
 // Users

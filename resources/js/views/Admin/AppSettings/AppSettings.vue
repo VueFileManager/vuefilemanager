@@ -40,6 +40,9 @@
 					},
 				]
 			}
+		},
+		mounted() {
+			this.$router.push({name: 'AppOthers'})
 		}
 	}
 </script>

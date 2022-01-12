@@ -2,77 +2,135 @@
     <div id="single-page">
         <div id="page-content" v-if="! isLoading && data">
 
-            <div class="dashboard-headline">
-                <div class="logo">
-                    <a href="https://vuefilemanager.com" target="_blank">
-                        <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager" class="light-mode">
-                    </a>
-                </div>
-                <div class="metadata">
-                    <a href="https://gist.github.com/MakingCG/9c07f8af392081ae5d5290d920a79b5d" target="_blank" class="meta">
-                        <span class="meta-title">{{ $t('admin_page_dashboard.version') }}:</span>
+			<!--Headline-->
+            <div v-if="config.isAdminVueFileManagerBar" class="md:flex justify-between md:mb-6 mb-4">
+
+				<!--VueFileManager logo-->
+				<a href="https://vuefilemanager.com" target="_blank">
+					<img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager" class="light-mode">
+				</a>
+
+				<!--App Info-->
+                <div class="flex items-center md:mt-0 mt-4">
+                    <a href="https://gist.github.com/MakingCG/9c07f8af392081ae5d5290d920a79b5d" target="_blank" class="inline-block mr-4">
+                        <span class="font-bold text-sm">
+							{{ $t('admin_page_dashboard.version') }}:
+						</span>
                         <ColorLabel color="purple">
-                            {{ data.app_version }}
+                            {{ data.app.version }}
                         </ColorLabel>
                     </a>
-                    <a v-if="data.license" href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986" target="_blank" class="meta">
-                        <span class="meta-title">{{ $t('admin_page_dashboard.license') }}:</span>
+                    <a href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986" target="_blank" class="inline-block mr-4">
+                        <span class="font-bold text-sm">
+							{{ $t('admin_page_dashboard.license') }}:
+						</span>
                         <ColorLabel color="purple">
-                            {{ data.license }}
+                            {{ data.app.license }}
                         </ColorLabel>
                     </a>
-                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="became-backer bg-theme-100">
-                        <div class="icon">
-                            <credit-card-icon size="15" class="text-theme dark-text-theme"/>
-                        </div>
-                        <span class="content text-theme dark-text-theme">
-                            {{ $t('admin_page_dashboard.backer_button') }}
+                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="items-center inline-block rounded-lg py-1.5 px-3 ml-8 bg-theme-100 md:flex hidden">
+						<thumbs-up-icon size="15" class="vue-feather text-theme mr-2.5"/>
+                        <span class="font-bold text-sm text-theme">
+                            {{ $t('Write a Feedback') }}
                         </span>
                     </a>
                 </div>
             </div>
 
-            <!--Stripe notice-->
-<!--            <InfoBox v-if="config.isSaaS && ! config.stripe_public_key" class="dashboard-notice">
-                <i18n path="notice.stripe_activation">
-                    <router-link :to="{name: 'AppPayments'}">{{ $t('notice.stripe_activation_button') }}</router-link>
-                </i18n>
-            </InfoBox>-->
+			<!--Metric widgets-->
+            <div class="md:flex md:space-x-6 md:mb-6 mb-2">
+				<div class="w-full mb-0 card shadow-card">
+					<FormLabel icon="users">
+						{{ $t('Total Users') }}
+					</FormLabel>
 
-            <div class="widgets-total" :class="{'widgets-coll-3': config.isSaaS, 'widgets-coll-2': ! config.isSaaS}">
-                <WidgetTotals
-                        class="widget"
-                        icon="users"
-                        :title="$t('admin_page_dashboard.w_total_users.title')"
-                        :value="data.total_users"
-                        link-route="Users"
-                        :link-name="$t('admin_page_dashboard.w_total_users.link')"
-                />
-                <WidgetTotals
-                        class="widget"
-                        icon="hard-drive"
-                        :title="$t('admin_page_dashboard.w_total_space.title')"
-                        :value="data.total_used_space"
-                        link-route="Users"
-                        :link-name="$t('admin_page_dashboard.w_total_space.link')"
-                />
-                <WidgetTotals
-                        v-if="config.isSaaS"
-                        class="widget"
-                        icon="star"
-                        :title="$t('admin_page_dashboard.w_total_premium.title')"
-                        :value="data.total_premium_users"
-                        link-route="Plans"
-                        :link-name="$t('admin_page_dashboard.w_total_premium.link')"
-                />
+					<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+						{{ data.users.total }}
+					</b>
+
+					<router-link :to="{name: 'Users'}" class="flex items-center mt-6">
+						<span class="text-xs font-bold mr-2 whitespace-nowrap">
+							{{ $t('Show all transactions') }}
+						</span>
+						<chevron-right-icon size="16" class="text-theme vue-feather"/>
+					</router-link>
+				</div>
+				<div class="w-full mb-0 card shadow-card">
+					<FormLabel icon="hard-drive">
+						{{ $t('Total Storage') }}
+					</FormLabel>
+
+					<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+						{{ data.disk.used }}
+					</b>
+
+					<router-link :to="{name: 'Users'}" class="flex items-center mt-6">
+						<span class="text-xs font-bold mr-2 whitespace-nowrap">
+							{{ $t('admin_page_dashboard.w_total_space.link') }}
+						</span>
+						<chevron-right-icon size="16" class="text-theme vue-feather"/>
+					</router-link>
+				</div>
+				<div class="w-full mb-0 card shadow-card">
+					<FormLabel icon="dollar">
+						{{ $t('Earnings') }}
+					</FormLabel>
+
+					<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+						{{ data.app.earnings }}
+					</b>
+
+					<router-link :to="{name: 'Invoices'}" class="flex items-center mt-6">
+						<span class="text-xs font-bold mr-2 whitespace-nowrap">
+							{{ $t('Show all transactions') }}
+						</span>
+						<chevron-right-icon size="16" class="text-theme vue-feather"/>
+					</router-link>
+				</div>
             </div>
-<!--            <div class="widget-users">
-                <WidgetLatestRegistrations
-                        class="widget"
-                        icon="users"
-                        :title="$t('admin_page_dashboard.w_latest_users.title')"
-                />
-            </div>-->
+
+			<!--Upload bandwidth widgets-->
+			<div class="card shadow-card md:mb-6 mb-2">
+				<FormLabel icon="hard-drive">
+					{{ $t('Upload') }}
+				</FormLabel>
+
+				<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+					{{ data.disk.upload.total }}
+				</b>
+
+				<b class="mb-3 block text-sm text-gray-400 mb-2">
+					{{ $t('In last 45 days') }}
+				</b>
+
+				<BarChart :data="data.disk.upload.records" />
+			</div>
+
+			<!--Download bandwidth widgets-->
+			<div class="card shadow-card md:mb-6 mb-2">
+				<FormLabel icon="hard-drive">
+					{{ $t('Download') }}
+				</FormLabel>
+
+				<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+					{{ data.disk.download.total }}
+				</b>
+
+				<b class="mb-3 block text-sm text-gray-400 mb-5">
+					{{ $t('In last 45 days') }}
+				</b>
+
+				<BarChart :data="data.disk.download.records" />
+			</div>
+
+			<!--Latest registration widgets-->
+			<div class="card shadow-card md:mb-6 mb-2">
+				<FormLabel icon="users">
+					{{ $t('Latest Registrations') }}
+				</FormLabel>
+
+				<WidgetLatestRegistrations />
+			</div>
         </div>
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
@@ -82,19 +140,12 @@
 
 <script>
     import WidgetLatestRegistrations from '/resources/js/components/Admin/WidgetLatestRegistrations'
-    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-    import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-    import EmptyPageContent from '/resources/js/components/Others/EmptyPageContent'
-    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
-    import SectionTitle from '/resources/js/components/Others/SectionTitle'
-    import WidgetTotals from '/resources/js/components/Admin/WidgetTotals'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import PageHeader from '/resources/js/components/Others/PageHeader'
     import ColorLabel from '/resources/js/components/Others/ColorLabel'
+    import {ChevronRightIcon, ThumbsUpIcon} from "vue-feather-icons"
+	import WidgetWrapper from "../../components/Admin/WidgetWrapper"
     import Spinner from '/resources/js/components/FilesView/Spinner'
-    import {CreditCardIcon} from "vue-feather-icons"
+	import FormLabel from "../../components/Others/Forms/FormLabel"
+	import BarChart from "../../components/UI/BarChart"
     import { mapGetters } from 'vuex'
     import axios from 'axios'
 
@@ -102,32 +153,23 @@
         name: 'Dashboard',
         components: {
             WidgetLatestRegistrations,
-            MobileActionButton,
-            EmptyPageContent,
-            DatatableWrapper,
-            WidgetTotals,
-            CreditCardIcon,
-            SectionTitle,
-            MobileHeader,
-            SwitchInput,
-            PageHeader,
-            ButtonBase,
+			ChevronRightIcon,
+			WidgetWrapper,
+			ThumbsUpIcon,
             ColorLabel,
-            InfoBox,
+			FormLabel,
+			BarChart,
             Spinner,
         },
         computed: {
-            ...mapGetters(['config']),
+            ...mapGetters([
+				'config'
+			]),
         },
         data() {
             return {
                 isLoading: false,
                 data: undefined,
-            }
-        },
-        methods: {
-            changeStatus(val, id) {
-                this.$updateText('/admin/plans/' + id + '/update', 'is_active', val)
             }
         },
         created() {
@@ -141,143 +183,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .dashboard-notice {
-        margin-bottom: 20px;
-    }
-
-    .widgets-total {
-        display: grid;
-        margin: 0 -20px 20px;
-
-        &.widgets-coll-2 {
-            grid-template-columns: repeat(auto-fill, 50%);
-        }
-
-        &.widgets-coll-3 {
-            grid-template-columns: repeat(auto-fill, 33.3%);
-        }
-
-        .widget {
-            width: 100%;
-            padding: 20px;
-        }
-    }
-
-    .dashboard-headline {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    .became-backer {
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 6px;
-        margin-left: 40px;
-        cursor: pointer;
-
-        .icon, .content {
-            display: inline-block;
-            vertical-align: middle;
-        }
-
-        .icon {
-            margin-right: 10px;
-            line-height: 0;
-
-            rect, line {
-                color: inherit;
-            }
-        }
-
-        .content {
-            font-weight: 700;
-            @include font-size(14);
-        }
-    }
-
-    .metadata {
-
-        .meta {
-            display: inline-block;
-            margin-left: 20px;
-        }
-
-        .meta-title {
-            @include font-size(14);
-            font-weight: 700;
-        }
-    }
-
-    .logo {
-        .dark {
-            display: none;
-        }
-    }
-
-    @media only screen and (max-width: 1190px) {
-        .widgets-total {
-            margin: 0 -10px 10px;
-
-            .widget {
-                padding: 10px;
-            }
-        }
-    }
-
-    @media only screen and (max-width: 1024px) {
-        .widgets-total {
-
-            &.widgets-coll-2, &.widgets-coll-3 {
-                grid-template-columns: repeat(auto-fill, 50%);
-            }
-        }
-    }
-
-    @media only screen and (max-width: 960px) {
-
-        .widgets-total {
-
-            &.widgets-coll-2, &.widgets-coll-3 {
-                grid-template-columns: repeat(auto-fill, 100%);
-            }
-        }
-
-        .became-backer {
-            display: none;
-        }
-
-        .dashboard-headline {
-            display: block;
-            text-align: left;
-
-            .metadata {
-
-                .meta:first-child {
-                    margin-left: 0;
-                }
-            }
-
-            .logo {
-                margin-bottom: 10px;
-            }
-        }
-    }
-
-    .dark {
-
-        .metadata {
-
-            .meta-title {
-                color: $dark_mode_text_primary;
-            }
-        }
-    }
-
-</style>

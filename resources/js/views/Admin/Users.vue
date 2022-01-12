@@ -38,7 +38,7 @@
 							</router-link>
                         </td>
                         <td>
-                            <ColorLabel :color="getRoleColor(row.data.attributes.role)">
+                            <ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
                                 {{ row.data.attributes.role }}
                             </ColorLabel>
                         </td>
@@ -97,7 +97,7 @@
 							</router-link>
                         </td>
                         <td>
-                            <ColorLabel :color="getRoleColor(row.data.attributes.role)">
+                            <ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
                                 {{ row.data.attributes.role }}
                             </ColorLabel>
                         </td>
@@ -161,7 +161,7 @@
 							</router-link>
                         </td>
                         <td>
-                            <ColorLabel :color="getRoleColor(row.data.attributes.role)">
+                            <ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
                                 {{ row.data.attributes.role }}
                             </ColorLabel>
                         </td>
@@ -338,13 +338,5 @@
                 isLoading: true,
             }
         },
-        methods: {
-            getRoleColor(role) {
-				return {
-					admin: 'purple',
-					user: 'green',
-				}[role]
-            }
-        }
     }
 </script>

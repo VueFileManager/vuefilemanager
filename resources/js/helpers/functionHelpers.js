@@ -399,6 +399,13 @@ const FunctionHelpers = {
             }[type]
         }
 
+        Vue.prototype.$getUserRoleColor = function (role) {
+            return {
+                admin: 'purple',
+                user: 'green',
+            }[role]
+        }
+
         Vue.prototype.$getTransactionTypeTextColor = function (type) {
 
             return {

@@ -21,7 +21,7 @@
             <!--Admin-->
 			<ContentGroup :title="$t('global.admin')" class="navigator">
                 <div class="menu-list-wrapper vertical">
-					<router-link v-for="(menu, i) in admin" :key="i" :to="{name: menu.route}" class="menu-list-item link">
+					<router-link v-for="(menu, i) in admin" :key="i" :to="{name: menu.route}" class="menu-list-item link" :class="{'router-link-active': menu.linkActivation && menu.linkActivation.includes($router.currentRoute.fullPath.split('/')[2])}">
                         <div class="icon text-theme">
                             <box-icon v-if="menu.icon === 'box'" size="17" />
                             <users-icon v-if="menu.icon === 'users'" size="17" />
@@ -52,7 +52,7 @@
             <!-- Assets -->
             <ContentGroup :title="$t('Subscription')" v-if="['fixed', 'metered'].includes(config.subscriptionType)" class="navigator">
                 <div class="menu-list-wrapper vertical">
-					<router-link v-for="(menu, i) in assetMenu" :key="i" :to="{name: menu.route}" class="menu-list-item link">
+					<router-link v-for="(menu, i) in assetMenu" :key="i" :to="{name: menu.route}" class="menu-list-item link" :class="{'router-link-active': menu.linkActivation && menu.linkActivation.includes($router.currentRoute.fullPath.split('/')[2])}">
                         <div class="icon text-theme">
                             <credit-card-icon v-if="menu.icon === 'card'" size="17" />
                             <database-icon v-if="menu.icon === 'database'" size="17" />
@@ -95,13 +95,16 @@
 					metered: [
 						{
 							title: this.$t('Payments'),
-							route: 'AppPayments',
+							route: 'PaymentSettings',
 							icon: 'card',
 						},
 						{
 							title: this.$t('admin_menu.plans'),
 							route: 'Plans',
 							icon: 'database',
+							linkActivation: [
+								'plans', 'plan'
+							],
 						},
 						{
 							title: this.$t('Transactions'),
@@ -112,7 +115,7 @@
 					fixed: [
 						{
 							title: this.$t('Payments'),
-							route: 'AppPayments',
+							route: 'PaymentSettings',
 							icon: 'card',
 						},
 						{
@@ -124,6 +127,9 @@
 							title: this.$t('admin_menu.plans'),
 							route: 'Plans',
 							icon: 'database',
+							linkActivation: [
+								'plans', 'plan'
+							],
 						},
 						{
 							title: this.$t('Transactions'),
@@ -146,10 +152,13 @@
 						title: this.$t('admin_menu.users'),
 						route: 'Users',
 						icon: 'users',
+						linkActivation: [
+							'users', 'user'
+						],
 					},
 					{
 						title: this.$t('admin_menu.settings'),
-						route: 'AppOthers',
+						route: 'AppSettings',
 						icon: 'settings',
 					},
 				],
@@ -188,5 +197,5 @@
             ConfirmPopup,
             BoxIcon,
         },
-    }
+	}
 </script>

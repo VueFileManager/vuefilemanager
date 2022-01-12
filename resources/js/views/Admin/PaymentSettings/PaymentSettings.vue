@@ -31,6 +31,9 @@
 					},
 				]
 			}
+		},
+		mounted() {
+			this.$router.replace({name: 'AppPayments'})
 		}
 	}
 </script>
