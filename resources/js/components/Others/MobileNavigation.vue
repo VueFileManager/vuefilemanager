@@ -4,7 +4,7 @@
         <!--User avatar-->
         <UserHeadline v-if="!clickedSubmenu" class="user-info" />
 
-		<div v-if="config.subscriptionType === 'metered' && user" class="block px-5 pt-2">
+		<div v-if="config.subscriptionType === 'metered' && user && !clickedSubmenu" class="block px-5 pt-2">
 			<div class="bg-light-background px-3 py-1.5 rounded-lg">
 				<span class="text-sm font-semibold">
 					{{ $t('Your current estimated usage:') }}
@@ -37,8 +37,8 @@
             <!--Submenu: User settings-->
             <OptionGroup v-if="clickedSubmenu === 'settings'">
                 <Option @click.native="goToRoute('Profile')" :title="$t('menu.profile')" icon="user" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Storage')" :title="$t('menu.storage')" icon="hard-drive" is-hover-disabled="true" />
                 <Option @click.native="goToRoute('Password')" :title="$t('menu.password')" icon="lock" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Storage')" :title="$t('menu.storage')" icon="hard-drive" is-hover-disabled="true" />
 				<Option @click.native="goToRoute('Billing')" v-if="config.isSaaS" :title="$t('Billing')" icon="cloud" is-hover-disabled="true" />
             </OptionGroup>
 
@@ -47,12 +47,20 @@
                 <Option @click.native="goToRoute('Dashboard')" :title="$t('admin_menu.dashboard')" icon="box" is-hover-disabled="true" />
                 <Option @click.native="goToRoute('Users')" :title="$t('admin_menu.users')" icon="users" is-hover-disabled="true" />
                 <Option @click.native="goToRoute('AppOthers')" :title="$t('admin_menu.settings')" icon="settings" is-hover-disabled="true" />
+            </OptionGroup>
+
+            <!--Submenu: Content settings-->
+            <OptionGroup v-if="clickedSubmenu === 'admin'">
                 <Option @click.native="goToRoute('Pages')" :title="$t('admin_menu.pages')" icon="monitor" is-hover-disabled="true" />
                 <Option @click.native="goToRoute('Language')" :title="$t('languages')" icon="globe" is-hover-disabled="true" />
             </OptionGroup>
+
+            <!--Submenu: Billing settings-->
             <OptionGroup v-if="clickedSubmenu === 'admin' && config.isSaaS">
-                <Option v-if="" @click.native="goToRoute('Plans')" :title="$t('admin_menu.plans')" icon="database" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Invoices')" :title="$t('admin_menu.invoices')" icon="file-text" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('AppPayments')" :title="$t('Payments')" icon="credit-card" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Subscriptions')" v-if="config.subscriptionType === 'fixed'" :title="$t('Subscriptions')" icon="credit-card" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Plans')" :title="$t('admin_menu.plans')" icon="database" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Invoices')" :title="$t('Transactions')" icon="file-text" is-hover-disabled="true" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>

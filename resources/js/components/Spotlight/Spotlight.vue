@@ -80,6 +80,7 @@
 							:class="{'dark:bg-4x-dark-foreground bg-light-background rounded-xl': i === index}"
 						>
 							<settings-icon v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
+							<credit-card-icon v-if="result.action.value === 'AppPayments'" size="18" class="vue-feather text-theme"/>
 							<home-icon v-if="result.action.value === 'Files'" size="18" class="vue-feather text-theme"/>
 							<trash2-icon v-if="result.action.value === 'Trash'" size="18" class="vue-feather text-theme"/>
 							<database-icon v-if="['CreateFixedPlan', 'CreateMeteredPlan'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>
@@ -164,43 +165,24 @@
 			</div>
 
 			<!--Hints-->
-			<div v-if="! $isMobile()" class="flex items-center px-5 pb-2">
-				<div class="flex items-center mr-4">
-					<ArrowUpIcon size="12" class="vue-feather text-gray-400"/>
-					<ArrowDownIcon size="12" class="vue-feather text-gray-400"/>
-
-					<span class="text-xs ml-1.5 text-gray-400">
-						{{ $t('Navigate') }}
-					</span>
-				</div>
-
-				<div class="flex items-center">
-					<CornerDownLeftIcon size="12" class="vue-feather text-gray-400"/>
-
-					<span class="text-xs ml-1.5 text-gray-400">
-						{{ $t('Go') }}
-					</span>
-				</div>
-			</div>
+			<KeyboardHints />
 		</div>
 	</div>
 </template>
 
 <script>
 import {
-	GridIcon,
-	Maximize2Icon,
-	ArrowDownIcon,
-	ArrowUpIcon,
 	BoxIcon,
-	CornerDownLeftIcon,
+	CreditCardIcon,
 	DatabaseIcon,
 	DollarSignIcon,
 	FileTextIcon,
 	GlobeIcon,
+	GridIcon,
 	HardDriveIcon,
 	HomeIcon,
 	LinkIcon,
+	Maximize2Icon,
 	MonitorIcon,
 	MoonIcon,
 	PowerIcon,
@@ -223,10 +205,13 @@ import {events} from '/resources/js/bus'
 import {mapGetters} from 'vuex'
 import {debounce} from 'lodash'
 import axios from "axios"
+import KeyboardHints from "./KeyboardHints";
 
 export default {
 	name: 'Spotlight',
 	components: {
+		KeyboardHints,
+		CreditCardIcon,
 		GridIcon,
 		CategoryName,
 		FilterSuggestion,
@@ -244,9 +229,6 @@ export default {
 		UsersIcon,
 		UserCheckIcon,
 		LinkIcon,
-		CornerDownLeftIcon,
-		ArrowDownIcon,
-		ArrowUpIcon,
 		SettingsIcon,
 		HomeIcon,
 		DatabaseIcon,
@@ -265,25 +247,6 @@ export default {
 			'user',
 		]),
 		actionList() {
-			let adminActions = [
-				{
-					title: this.$t('Create User'),
-					action: {
-						type: 'route',
-						value: 'UserCreate',
-					},
-				},
-				{
-					title: this.$t('Create Plan'),
-					action: {
-						type: 'route',
-						value: this.config.subscriptionType === 'fixed'
-							? 'CreateFixedPlan'
-							: 'CreateMeteredPlan',
-					},
-				},
-			]
-
 			let adminLocations = [
 				{
 					title: this.$t('Go To Dashboard'),
@@ -297,6 +260,13 @@ export default {
 					action: {
 						type: 'route',
 						value: 'AppOthers',
+					},
+				},
+				{
+					title: this.$t('Go To Payments'),
+					action: {
+						type: 'route',
+						value: 'AppPayments',
 					},
 				},
 				{
@@ -321,13 +291,6 @@ export default {
 					},
 				},
 				{
-					title: this.$t('Show all Subscriptions'),
-					action: {
-						type: 'route',
-						value: 'Subscriptions',
-					},
-				},
-				{
 					title: this.$t('Show all Plans'),
 					action: {
 						type: 'route',
@@ -335,7 +298,7 @@ export default {
 					},
 				},
 				{
-					title: this.$t('Show all Transactions'),
+					title: this.$t('Show Transactions'),
 					action: {
 						type: 'route',
 						value: 'Invoices',
@@ -388,6 +351,16 @@ export default {
 				},
 			]
 
+			let adminActions = [
+				{
+					title: this.$t('Create User'),
+					action: {
+						type: 'route',
+						value: 'UserCreate',
+					},
+				},
+			]
+
 			let userSettings = [
 				{
 					title: this.$t('Update Profile Settings'),
@@ -404,24 +377,17 @@ export default {
 					},
 				},
 				{
-					title: this.$t('Show My Storage Details'),
+					title: this.$t('Show Storage Details'),
 					action: {
 						type: 'route',
 						value: 'Storage',
 					},
 				},
 				{
-					title: this.$t('Show my Billing'),
+					title: this.$t('Show Billing'),
 					action: {
 						type: 'route',
 						value: 'Billing',
-					},
-				},
-				{
-					title: this.$t('Show My Transactions'),
-					action: {
-						type: 'route',
-						value: 'Invoice',
 					},
 				},
 			]
@@ -449,22 +415,47 @@ export default {
 					},
 				},
 				{
-					title: this.$t('Log Out'),
-					action: {
-						type: 'function',
-						value: 'log-out',
-					},
-				},
-				{
 					title: this.$t('Empty Your Trash'),
 					action: {
 						type: 'function',
 						value: 'empty-trash',
 					},
 				},
+				{
+					title: this.$t('Log Out'),
+					action: {
+						type: 'function',
+						value: 'log-out',
+					},
+				},
 			]
 
 			if (this.user.data.attributes.role === 'admin') {
+
+				// Available only for fixed subscription
+				if (this.config.subscriptionType === 'fixed') {
+					adminLocations.push({
+						title: this.$t('Show all Subscriptions'),
+						action: {
+							type: 'route',
+							value: 'Subscriptions',
+						},
+					})
+				}
+
+				// Available only when is metered billing and plan doesnt exist or when is fixed billing
+				if ((this.config.subscriptionType === 'metered' && ! this.config.isCreatedMeteredPlan) || this.config.subscriptionType === 'fixed') {
+					adminActions.push({
+						title: this.$t('Create Plan'),
+						action: {
+							type: 'route',
+							value: this.config.subscriptionType === 'fixed'
+								? 'CreateFixedPlan'
+								: 'CreateMeteredPlan',
+						},
+					})
+				}
+
 				return [].concat.apply([], [functionList, userSettings, fileLocations, adminActions, adminLocations])
 			}
 

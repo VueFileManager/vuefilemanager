@@ -19,30 +19,16 @@
         <ContentSidebar>
 
             <!--Admin-->
-            <ContentGroup :title="$t('global.admin')" class="navigator">
+			<ContentGroup :title="$t('global.admin')" class="navigator">
                 <div class="menu-list-wrapper vertical">
-                    <router-link :to="{name: 'Dashboard'}" class="menu-list-item link">
+					<router-link v-for="(menu, i) in admin" :key="i" :to="{name: menu.route}" class="menu-list-item link">
                         <div class="icon text-theme">
-                            <box-icon size="17" />
+                            <box-icon v-if="menu.icon === 'box'" size="17" />
+                            <users-icon v-if="menu.icon === 'users'" size="17" />
+                            <settings-icon v-if="menu.icon === 'settings'" size="17" />
                         </div>
                         <div class="label text-theme">
-                            {{ $t('admin_menu.dashboard') }}
-                        </div>
-                    </router-link>
-                    <router-link :to="{name: 'Users'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <users-icon size="17" />
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_menu.users') }}
-                        </div>
-                    </router-link>
-                    <router-link :to="{name: 'AppOthers'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <settings-icon size="17" />
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_menu.settings') }}
+                            {{ menu.title }}
                         </div>
                     </router-link>
                 </div>
@@ -51,20 +37,13 @@
             <!--Content-->
             <ContentGroup :title="$t('Content')" class="navigator">
                 <div class="menu-list-wrapper vertical">
-                    <router-link :to="{name: 'Pages'}" class="menu-list-item link">
+					<router-link v-for="(menu, i) in content" :key="i" :to="{name: menu.route}" class="menu-list-item link">
                         <div class="icon text-theme">
-                            <monitor-icon size="17" />
+							<monitor-icon v-if="menu.icon === 'monitor'" size="17" />
+                            <globe-icon v-if="menu.icon === 'globe'" size="17" />
                         </div>
                         <div class="label text-theme">
-                            {{ $t('admin_menu.pages') }}
-                        </div>
-                    </router-link>
-                    <router-link :to="{name: 'Language'}" class="menu-list-item link">
-                        <div class="icon text-theme">
-                            <globe-icon size="17" />
-                        </div>
-                        <div class="label text-theme">
-                            {{ $t('admin_menu.languages') }}
+                            {{ menu.title }}
                         </div>
                     </router-link>
                 </div>
@@ -155,6 +134,39 @@
 				}[this.config.subscriptionType]
 			}
         },
+		data() {
+			return {
+				admin: [
+					{
+						title: this.$t('admin_menu.dashboard'),
+						route: 'Dashboard',
+						icon: 'box',
+					},
+					{
+						title: this.$t('admin_menu.users'),
+						route: 'Users',
+						icon: 'users',
+					},
+					{
+						title: this.$t('admin_menu.settings'),
+						route: 'AppOthers',
+						icon: 'settings',
+					},
+				],
+				content: [
+					{
+						title: this.$t('admin_menu.pages'),
+						route: 'Pages',
+						icon: 'monitor',
+					},
+					{
+						title: this.$t('admin_menu.languages'),
+						route: 'Language',
+						icon: 'globe',
+					},
+				],
+			}
+		},
         components: {
 			FilePreview,
 			Spotlight,

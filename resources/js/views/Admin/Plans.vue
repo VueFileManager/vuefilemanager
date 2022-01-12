@@ -3,7 +3,7 @@
 		<div class="card shadow-card">
 
 			<!--Create button-->
-			<div v-if="! config.isCreatedMeteredPlan" class="mb-6">
+			<div v-if="! config.isCreatedMeteredPlan || config.subscriptionType === 'fixed'" class="mb-6">
 				<router-link :to="{name: createPlanRoute}">
 					<MobileActionButton icon="plus">
 						{{ $t('admin_page_plans.create_plan_button') }}
