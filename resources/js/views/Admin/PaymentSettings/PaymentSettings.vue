@@ -12,10 +12,9 @@
 
 <script>
 	import CardNavigation from "../../../components/Admin/CardNavigation";
-	import {mapGetters} from 'vuex'
 
 	export default {
-		name: 'AppSettings',
+		name: 'PaymentSettings',
 		components: {
 			CardNavigation,
 		},
@@ -23,20 +22,12 @@
 			return {
 				pages: [
 					{
-						title: this.$t('admin_settings.tabs.others'),
-						route: 'AppOthers',
+						title: this.$t('admin_settings.tabs.payments'),
+						route: 'AppPayments',
 					},
 					{
-						title: this.$t('admin_settings.tabs.appearance'),
-						route: 'AppAppearance',
-					},
-					{
-						title: this.$t('Homepage'),
-						route: 'AppIndex',
-					},
-					{
-						title: this.$t('admin_settings.tabs.email'),
-						route: 'AppEmail',
+						title: this.$t('admin_settings.tabs.billings'),
+						route: 'AppBillings',
 					},
 				]
 			}

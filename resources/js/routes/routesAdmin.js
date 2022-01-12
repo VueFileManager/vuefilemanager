@@ -255,6 +255,38 @@ const routesAdmin = [
 				]
 			},
 			{
+				name: 'PaymentSettings',
+				path: '/admin/payments',
+				component: () =>
+					import(/* webpackChunkName: "chunks/payments" */ '../views/Admin/PaymentSettings/PaymentSettings'),
+				meta: {
+					requiresAuth: true,
+					title: 'Payment Settings'
+				},
+				children: [
+					{
+						name: 'AppBillings',
+						path: '/admin/settings/billings',
+						component: () =>
+							import(/* webpackChunkName: "chunks/payments/billings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Billings'),
+						meta: {
+							requiresAuth: true,
+							title: 'routes_title.billings'
+						},
+					},
+					{
+						name: 'AppPayments',
+						path: '/admin/settings/payments',
+						component: () =>
+							import(/* webpackChunkName: "chunks/payments/settings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Payments'),
+						meta: {
+							requiresAuth: true,
+							title: 'routes_title.payments'
+						},
+					},
+				]
+			},
+			{
 				name: 'AppSettings',
 				path: '/admin/settings',
 				component: () =>
@@ -285,16 +317,6 @@ const routesAdmin = [
 						},
 					},
 					{
-						name: 'AppBillings',
-						path: '/admin/settings/billings',
-						component: () =>
-							import(/* webpackChunkName: "chunks/app-billings" */ '../views/Admin/AppSettings/AppSettingsTabs/Billings'),
-						meta: {
-							requiresAuth: true,
-							title: 'routes_title.billings'
-						},
-					},
-					{
 						name: 'AppEmail',
 						path: '/admin/settings/email',
 						component: () =>
@@ -302,16 +324,6 @@ const routesAdmin = [
 						meta: {
 							requiresAuth: true,
 							title: 'routes_title.email'
-						},
-					},
-					{
-						name: 'AppPayments',
-						path: '/admin/settings/payments',
-						component: () =>
-							import(/* webpackChunkName: "chunks/app-payments" */ '../views/Admin/AppSettings/AppSettingsTabs/Payments'),
-						meta: {
-							requiresAuth: true,
-							title: 'routes_title.payments'
 						},
 					},
 					{

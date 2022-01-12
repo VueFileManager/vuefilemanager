@@ -29,6 +29,14 @@
                             {{ $t('admin_menu.dashboard') }}
                         </div>
                     </router-link>
+                    <router-link :to="{name: 'Users'}" class="menu-list-item link">
+                        <div class="icon text-theme">
+                            <users-icon size="17" />
+                        </div>
+                        <div class="label text-theme">
+                            {{ $t('admin_menu.users') }}
+                        </div>
+                    </router-link>
                     <router-link :to="{name: 'AppOthers'}" class="menu-list-item link">
                         <div class="icon text-theme">
                             <settings-icon size="17" />
@@ -37,6 +45,12 @@
                             {{ $t('admin_menu.settings') }}
                         </div>
                     </router-link>
+                </div>
+            </ContentGroup>
+
+            <!--Content-->
+            <ContentGroup :title="$t('Content')" class="navigator">
+                <div class="menu-list-wrapper vertical">
                     <router-link :to="{name: 'Pages'}" class="menu-list-item link">
                         <div class="icon text-theme">
                             <monitor-icon size="17" />
@@ -57,11 +71,11 @@
             </ContentGroup>
 
             <!-- Assets -->
-            <ContentGroup :title="$t('Assets')" class="navigator">
+            <ContentGroup :title="$t('Subscription')" v-if="['fixed', 'metered'].includes(config.subscriptionType)" class="navigator">
                 <div class="menu-list-wrapper vertical">
 					<router-link v-for="(menu, i) in assetMenu" :key="i" :to="{name: menu.route}" class="menu-list-item link">
                         <div class="icon text-theme">
-                            <users-icon v-if="menu.icon === 'users'" size="17" />
+                            <credit-card-icon v-if="menu.icon === 'card'" size="17" />
                             <database-icon v-if="menu.icon === 'database'" size="17" />
                             <dollar-sign-icon v-if="menu.icon === 'dollar'" size="17" />
                             <file-text-icon v-if="menu.icon === 'file-text'" size="17" />
@@ -101,9 +115,9 @@
 				return {
 					metered: [
 						{
-							title: this.$t('admin_menu.users'),
-							route: 'Users',
-							icon: 'users',
+							title: this.$t('Payments'),
+							route: 'AppPayments',
+							icon: 'card',
 						},
 						{
 							title: this.$t('admin_menu.plans'),
@@ -118,9 +132,9 @@
 					],
 					fixed: [
 						{
-							title: this.$t('admin_menu.users'),
-							route: 'Users',
-							icon: 'users',
+							title: this.$t('Payments'),
+							route: 'AppPayments',
+							icon: 'card',
 						},
 						{
 							title: this.$t('Subscriptions'),
@@ -136,13 +150,6 @@
 							title: this.$t('Transactions'),
 							route: 'Invoices',
 							icon: 'file-text',
-						},
-					],
-					none: [
-						{
-							title: this.$t('admin_menu.users'),
-							route: 'Users',
-							icon: 'users',
 						},
 					],
 				}[this.config.subscriptionType]
