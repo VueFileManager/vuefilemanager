@@ -39,7 +39,7 @@
 
 			<!--Metric widgets-->
             <div class="md:flex md:space-x-6 md:mb-6 mb-2">
-				<div class="w-full mb-0 card shadow-card">
+				<div class="w-full md:mb-0 mb-4 card shadow-card">
 					<FormLabel icon="users">
 						{{ $t('Total Users') }}
 					</FormLabel>
@@ -55,7 +55,7 @@
 						<chevron-right-icon size="16" class="text-theme vue-feather"/>
 					</router-link>
 				</div>
-				<div class="w-full mb-0 card shadow-card">
+				<div class="w-full md:mb-0 mb-4 card shadow-card">
 					<FormLabel icon="hard-drive">
 						{{ $t('Total Storage') }}
 					</FormLabel>
@@ -71,7 +71,7 @@
 						<chevron-right-icon size="16" class="text-theme vue-feather"/>
 					</router-link>
 				</div>
-				<div class="w-full mb-0 card shadow-card">
+				<div class="w-full md:mb-0 mb-4 card shadow-card">
 					<FormLabel icon="dollar">
 						{{ $t('Earnings') }}
 					</FormLabel>
@@ -90,7 +90,7 @@
             </div>
 
 			<!--Upload bandwidth widgets-->
-			<div class="card shadow-card md:mb-6 mb-2">
+			<div class="card shadow-card md:mb-6 mb-4">
 				<FormLabel icon="hard-drive">
 					{{ $t('Upload') }}
 				</FormLabel>
@@ -107,7 +107,7 @@
 			</div>
 
 			<!--Download bandwidth widgets-->
-			<div class="card shadow-card md:mb-6 mb-2">
+			<div class="card shadow-card md:mb-6 mb-4">
 				<FormLabel icon="hard-drive">
 					{{ $t('Download') }}
 				</FormLabel>
@@ -124,7 +124,7 @@
 			</div>
 
 			<!--Latest registration widgets-->
-			<div class="card shadow-card md:mb-6 mb-2">
+			<div class="card shadow-card md:mb-6 mb-4">
 				<FormLabel icon="users">
 					{{ $t('Latest Registrations') }}
 				</FormLabel>

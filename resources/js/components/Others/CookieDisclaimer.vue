@@ -44,7 +44,7 @@
     @import '/resources/sass/vuefilemanager/_mixins';
 
     .cookie-wrapper {
-        @include widget-card;
+        //@include widget-card;
         background: white;
         position: fixed;
         bottom: 0;

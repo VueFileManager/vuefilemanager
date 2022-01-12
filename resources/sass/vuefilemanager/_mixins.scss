@@ -24,12 +24,6 @@
   }
 }
 
-@mixin widget-card {
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 10px 20px -10px rgba(25,54,60,.10);
-}
-
 @mixin blurred-image {
   position: absolute;
   left: 0;
