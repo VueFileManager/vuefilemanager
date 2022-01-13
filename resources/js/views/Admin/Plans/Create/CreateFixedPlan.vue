@@ -158,8 +158,8 @@
 							message: this.$t('toaster.plan_created'),
 						})
 
-						// Go to User page
-						this.$router.push({name: 'PlanSettings', params: {id: response.data.data.id}})
+						// Go to plan page
+						this.$router.push({name: 'PlanFixedSettings', params: {id: response.data.data.id}})
 					})
 					.catch(error => {
 

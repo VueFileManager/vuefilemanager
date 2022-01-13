@@ -91,6 +91,11 @@
 							<input v-model="stripe.credentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 						</AppInputText>
 					</ValidationProvider>
+					<ValidationProvider tag="div" mode="passive" name="Webhook Secret" rules="required" v-slot="{ errors }">
+						<AppInputText :title="$t('Webhook Secret')" :error="errors[0]">
+							<input v-model="stripe.credentials.webhook" :placeholder="$t('Paste your webhook secret')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+						</AppInputText>
+					</ValidationProvider>
 
 					<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
 						{{ $t('Store Credentials') }}
@@ -201,6 +206,11 @@
 							<input v-model="paypal.credentials.secret" :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 						</AppInputText>
 					</ValidationProvider>
+					<ValidationProvider tag="div" mode="passive" name="Webhook ID" rules="required" v-slot="{ errors }">
+						<AppInputText :title="$t('Webhook ID')" :error="errors[0]">
+							<input v-model="paypal.credentials.webhook" :placeholder="$t('Paste your webhook id')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+						</AppInputText>
+					</ValidationProvider>
 
 					<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
 						{{ $t('Store Credentials') }}
@@ -285,6 +295,7 @@
 					credentials: {
 						key: undefined,
 						secret: undefined,
+						webhook: undefined,
 					}
 				},
 				paystack: {
@@ -305,9 +316,9 @@
 					credentials: {
 						key: undefined,
 						secret: undefined,
+						webhook: undefined,
 					}
 				},
-
 				columns: [
 					{
 						label: this.$t('Name'),
@@ -352,6 +363,7 @@
 						service: service,
 						key: this[service].credentials.key,
 						secret: this[service].credentials.secret,
+						webhook: this[service].credentials.webhook || undefined,
 					})
 					.then(() => {
 
@@ -363,7 +375,7 @@
 						}[service]
 
 						// Commit credentials
-						this.$store.commit(commitKey, credentials[service])
+						this.$store.commit(commitKey, this[service].credentials)
 
 						this[service].allowedService = true
 						this[service].isConfigured = true

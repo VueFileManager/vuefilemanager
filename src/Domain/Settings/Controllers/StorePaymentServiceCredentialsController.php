@@ -43,8 +43,9 @@ class StorePaymentServiceCredentialsController
         if (! app()->runningUnitTests()) {
             $credentials = [
                 'stripe'   => [
-                    'STRIPE_PUBLIC_KEY' => $request->input('key'),
-                    'STRIPE_SECRET_KEY' => $request->input('secret'),
+                    'STRIPE_PUBLIC_KEY'     => $request->input('key'),
+                    'STRIPE_SECRET_KEY'     => $request->input('secret'),
+                    'STRIPE_WEBHOOK_SECRET' => $request->input('webhook'),
                 ],
                 'paystack' => [
                     'PAYSTACK_PUBLIC_KEY' => $request->input('key'),
@@ -53,6 +54,7 @@ class StorePaymentServiceCredentialsController
                 'paypal'   => [
                     'PAYPAL_CLIENT_ID'     => $request->input('key'),
                     'PAYPAL_CLIENT_SECRET' => $request->input('secret'),
+                    'PAYPAL_WEBHOOK_ID'    => $request->input('webhook'),
                 ],
             ];
 
