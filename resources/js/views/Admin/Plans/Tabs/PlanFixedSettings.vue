@@ -31,12 +31,12 @@
 
 			<!--Storage Capacity-->
 			<AppInputText :title="$t('admin_page_plans.form.storage')" :description="$t('admin_page_plans.form.storage_helper')">
-				<input @input="$updateInput(`/subscriptions/plans/${$route.params.id}/features`, 'max_storage_amount', plan.attributes.features.max_storage_amount)" v-model="plan.attributes.features.max_storage_amount" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
+				<input @input="$updateInput(`/subscriptions/admin/plans/${$route.params.id}/features`, 'max_storage_amount', plan.attributes.features.max_storage_amount)" v-model="plan.attributes.features.max_storage_amount" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
 			</AppInputText>
 
 			<!--Team Members-->
 			<AppInputText :title="$t('Max Team Members')" is-last="true">
-				<input @input="$updateInput(`/subscriptions/plans/${$route.params.id}/features`, 'max_team_members', plan.attributes.features.max_team_members)" v-model="plan.attributes.features.max_team_members" :placeholder="$t('Add max team members in number')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
+				<input @input="$updateInput(`/subscriptions/admin/plans/${$route.params.id}/features`, 'max_team_members', plan.attributes.features.max_team_members)" v-model="plan.attributes.features.max_team_members" :placeholder="$t('Add max team members in number')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
 			</AppInputText>
 		</div>
 	</div>

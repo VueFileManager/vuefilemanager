@@ -1083,10 +1083,6 @@ class SetupDevEnvironment extends Command
                 'name'  => 'allowed_stripe',
                 'value' => 1,
             ],
-            [
-                'name'  => 'subscription_type',
-                'value' => 'metered',
-            ],
         ])->each(function ($col) {
             Setting::updateOrCreate([
                 'name'  => $col['name'],

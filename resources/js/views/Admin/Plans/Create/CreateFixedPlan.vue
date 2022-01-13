@@ -148,7 +148,7 @@
 				this.isLoading = true
 
 				axios
-					.post('/api/subscriptions/plans', this.plan)
+					.post('/api/subscriptions/admin/plans', this.plan)
 					.then(response => {
 
 						// Show toaster

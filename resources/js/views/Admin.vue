@@ -50,7 +50,7 @@
             </ContentGroup>
 
             <!-- Assets -->
-            <ContentGroup :title="$t('Subscription')" v-if="['fixed', 'metered'].includes(config.subscriptionType)" class="navigator">
+            <ContentGroup :title="$t('Subscription')" v-if="config.isSaaS" class="navigator">
                 <div class="menu-list-wrapper vertical">
 					<router-link v-for="(menu, i) in assetMenu" :key="i" :to="{name: menu.route}" class="menu-list-item link" :class="{'router-link-active': menu.linkActivation && menu.linkActivation.includes($router.currentRoute.fullPath.split('/')[2])}">
                         <div class="icon text-theme">
