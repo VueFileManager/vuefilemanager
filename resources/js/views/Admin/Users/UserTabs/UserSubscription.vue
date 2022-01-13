@@ -13,6 +13,21 @@
 			:user="user"
 		/>
 
+		<!--Free Plan-->
+		<div v-if="!subscription && config.subscriptionType === 'fixed'" class="card shadow-card">
+			<FormLabel>
+				{{ $t('Subscription') }}
+			</FormLabel>
+
+			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+				{{ $t('Free Plan') }}
+			</b>
+
+			<b class="block text-sm text-gray-400">
+				{{ $t('1GB Free storage space with 5 Team members') }}
+			</b>
+		</div>
+
 		<!--Transactions-->
 		<div class="card shadow-card">
 			<FormLabel icon="file-text">
@@ -58,18 +73,11 @@
 
 				<!--Empty page-->
                 <template v-slot:empty-page>
-                    <InfoBox>
-                        <p>{{ $t('admin_page_user.invoices.empty') }}</p>
+                    <InfoBox style="margin-bottom: 0">
+                        <p>{{ $t("User doesn't have any transactions yet.") }}</p>
                     </InfoBox>
                 </template>
             </DatatableWrapper>
-		</div>
-
-		<!--Empty Message-->
-		<div v-if="! subscription && !isLoading" class="card shadow-card">
-			<InfoBox style="margin-bottom: 0">
-				<p>{{ $t("User don't have any subscription") }}</p>
-			</InfoBox>
 		</div>
     </PageTab>
 </template>

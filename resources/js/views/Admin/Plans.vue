@@ -108,7 +108,7 @@
 		</div>
 
 		<!--Empty State-->
-        <div class="flex items-center justify-center h-full">
+        <div v-if="config.isEmptyPlans" class="flex items-center justify-center h-full">
 			<div class="text-center">
 				<img class="w-28 inline-block mb-6" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f9fe.svg" alt="transaction">
 

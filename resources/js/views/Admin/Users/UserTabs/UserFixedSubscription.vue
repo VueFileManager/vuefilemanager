@@ -1,25 +1,18 @@
 <template>
 	<div class="card shadow-card">
-		<div class="md:flex md:space-x-10 mb-8">
-			<div class="md:mb-0 mb-6">
-				<b class="block leading-5 text-lg">
-					{{ status }}
-				</b>
-				<small class="text-gray-500">
-					{{ $t('We will send you a notification upon Subscription expiration') }}
-				</small>
-			</div>
-			<div>
-				<b class="block leading-5 text-lg">
-					{{ price }}
-				</b>
-				<small class="text-gray-500">
-					{{ subscription.relationships.plan.data.attributes.name }}
-				</small>
-			</div>
-		</div>
+		<FormLabel>
+			{{ $t('Subscription') }}
+		</FormLabel>
 
-		<div v-for="(limit, i) in limitations" :key="i" class="mb-6">
+		<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			{{ status }}
+		</b>
+
+		<b class="mb-3 block text-sm text-gray-400 mb-8">
+			{{ subscription.relationships.plan.data.attributes.name }} / {{ price }}
+		</b>
+
+		<div v-for="(limit, i) in limitations" :key="i">
 			<b class="mb-3 block text-sm text-gray-400">
 				{{ limit.message }}
 			</b>
@@ -28,6 +21,7 @@
 	</div>
 </template>
 <script>
+	import FormLabel from "../../../../components/Others/Forms/FormLabel";
 	import ProgressLine from "../../../../components/Admin/ProgressLine"
 	import {mapGetters} from "vuex";
 
@@ -38,7 +32,8 @@
 			'user',
 		],
 		components: {
-			ProgressLine
+			ProgressLine,
+			FormLabel,
 		},
 		computed: {
 			status() {

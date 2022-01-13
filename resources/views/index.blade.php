@@ -88,9 +88,9 @@
             statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
 
             // States
-			isEmptyPlans: {{ $isEmptyPlans }},
-			isEmptyTransactions: {{ $isEmptyTransactions }},
-			isEmptySubscriptions: {{ $isEmptySubscriptions }},
+			isEmptyPlans: {{ $isEmptyPlans ? 1 : 0 }},
+			isEmptyTransactions: {{ $isEmptyTransactions ? 1 : 0 }},
+			isEmptySubscriptions: {{ $isEmptySubscriptions ? 1 : 0 }},
 
             // Hidden set ups
             isAdminVueFileManagerBar: {{ env('IS_ADMIN_VUEFILEMANAGER_BAR', 1) ? 1 : 0 }},

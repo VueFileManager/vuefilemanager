@@ -1,7 +1,7 @@
 <template>
     <div :class="[location, 'emoji-container', {'is-apple': $isApple}]">
-        <span v-if="!$isApple() || true" class="twemoji-emoji emoji-icon" v-html="transferEmoji"></span>
-<!--        <span v-if="$isApple()" class="apple-emoji emoji-icon">{{ this.emoji.char }}</span>-->
+        <span v-if="!$isApple()" class="twemoji-emoji emoji-icon" v-html="transferEmoji"></span>
+        <span v-if="$isApple()" class="apple-emoji emoji-icon">{{ this.emoji.char }}</span>
     </div>
 </template>
 

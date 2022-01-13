@@ -55,7 +55,7 @@
 		</DatatableWrapper>
 
 		<!--Empty State-->
-        <div class="flex items-center justify-center h-full">
+        <div v-if="config.isEmptySubscriptions" class="flex items-center justify-center h-full">
 			<div class="text-center">
 				<img class="w-28 inline-block mb-6" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f5c3.svg" alt="transaction">
 
