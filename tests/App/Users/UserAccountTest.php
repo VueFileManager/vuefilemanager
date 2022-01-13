@@ -139,9 +139,14 @@ class UserAccountTest extends TestCase
                     'id'            => (string) $user->id,
                     'type'          => 'user',
                     'attributes'    => [
-                        'avatar'                    => null,
+                        'avatar'                    => [
+                            'md' => 'http://localhost/assets/images/default-avatar.png',
+                            'sm' => 'http://localhost/assets/images/default-avatar.png',
+                            'xs' => 'http://localhost/assets/images/default-avatar.png',
+                        ],
                         'email'                     => $user->email,
                         'role'                      => $user->role,
+                        'socialite_account'         => false,
                         'two_factor_authentication' => false,
                         'folders'                   => [],
                         'storage'                   => [
@@ -151,9 +156,21 @@ class UserAccountTest extends TestCase
                             'capacity_formatted' => '1GB',
                         ],
                         'created_at'                => format_date($user->created_at, '%d. %b. %Y'),
-                        'updated_at'                => format_date($user->updated_at, '%d. %b. %Y'),
+                        'updated_at'                => format_date($user->updated_at, '%d. %B. %Y'),
+                    ],
+                    'meta' => [
+                        'restrictions' => [
+                            'canCreateFolder'      => true,
+                            'canCreateTeamFolder'  => true,
+                            'canDownload'          => true,
+                            'canInviteTeamMembers' => true,
+                            'canUpload'            => true,
+                        ],
                     ],
                     'relationships' => [
+                        'creditCards' => [
+                            'data' => [],
+                        ],
                         'settings'    => [
                             'data' => [
                                 'id'         => (string) $user->id,
@@ -173,13 +190,6 @@ class UserAccountTest extends TestCase
                         ],
                         'favourites'  => [
                             'data' => [],
-                        ],
-                        'limitations' => [
-                            'id'   => $user->id,
-                            'type' => 'limitations',
-                            'data' => [
-                                'attributes' => $user->limitations,
-                            ],
                         ],
                     ],
                 ],

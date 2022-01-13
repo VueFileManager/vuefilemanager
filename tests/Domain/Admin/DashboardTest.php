@@ -3,7 +3,6 @@ namespace Tests\Domain\Admin;
 
 use Tests\TestCase;
 use App\Users\Models\User;
-use Laravel\Sanctum\Sanctum;
 use Domain\Files\Models\File;
 
 class DashboardTest extends TestCase
@@ -25,11 +24,26 @@ class DashboardTest extends TestCase
             ->getJson('/api/admin/dashboard')
             ->assertStatus(200)
             ->assertExactJson([
-                'license'             => 'extended',
-                'total_premium_users' => 0,
-                'app_version'         => config('vuefilemanager.version'),
-                'total_users'         => 1,
-                'total_used_space'    => '2.00MB',
+                'app' => [
+                    'earnings' => '$0.00',
+                    'license'  => 'extended',
+                    'version'  => config('vuefilemanager.version'),
+                ],
+                'disk' => [
+                    'download' => [
+                        'records' => [],
+                        'total'   => '0B',
+                    ],
+                    'upload' => [
+                        'records' => [],
+                        'total'   => '0B',
+                    ],
+                    'used' => '2.00MB',
+                ],
+                'users' => [
+                    'total'             => 1,
+                    'usersPremiumTotal' => 0,
+                ],
             ]);
     }
 
@@ -39,20 +53,21 @@ class DashboardTest extends TestCase
     public function it_get_new_users_for_dashboard()
     {
         $users = User::factory()
-            ->count(5)
+            ->count(3)
             ->create(['role' => 'user']);
 
         $admin = User::factory()
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $users->each(function ($user) {
-            $this->getJson('/api/admin/dashboard/newbies')
+        $users->each(
+            fn ($user) =>
+            $this
+                ->actingAs($admin)
+                ->getJson('/api/admin/dashboard/newbies')
                 ->assertStatus(200)
                 ->assertJsonFragment([
                     'id' => $user->id,
-                ]);
-        });
+                ])
+        );
     }
 }

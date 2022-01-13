@@ -1,8 +1,8 @@
 <?php
 namespace App\Users\Actions;
 
-use App\Users\DTO\CreateUserData;
 use App\Users\Models\User;
+use App\Users\DTO\CreateUserData;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Contracts\Auth\StatefulGuard;

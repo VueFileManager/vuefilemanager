@@ -45,6 +45,9 @@ class GenerateDemoSubscriptionContentCommand extends Command
 
         // Create plans and subscriptions for fixed billing
         if ($this->argument('type') === 'fixed') {
+
+            // TODO: check for credentials
+
             $this->info('Setting up new fixed plans demo data...');
             $this->generateFixedPlans();
 

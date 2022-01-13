@@ -10,7 +10,8 @@ class RegisterUserController extends Controller
 {
     public function __construct(
         public CreateNewUserAction $createNewUser,
-    ) {}
+    ) {
+    }
     
     public function __invoke(RegisterUserRequest $request)
     {

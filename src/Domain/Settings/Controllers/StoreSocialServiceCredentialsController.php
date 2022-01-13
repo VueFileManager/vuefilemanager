@@ -27,11 +27,11 @@ class StoreSocialServiceCredentialsController
         if (! app()->runningUnitTests()) {
             $credentials = [
                 'facebook'   => [
-                    'FACEBOOK_CLIENT_ID' => $request->input('client_id'),
+                    'FACEBOOK_CLIENT_ID'     => $request->input('client_id'),
                     'FACEBOOK_CLIENT_SECRET' => $request->input('client_secret'),
                 ],
                 'google' => [
-                    'GOOGLE_CLIENT_ID' => $request->input('client_id'),
+                    'GOOGLE_CLIENT_ID'         => $request->input('client_id'),
                     'GOOGLE_CLIENT_SECRET'     => $request->input('client_secret'),
                 ],
                 'github'   => [

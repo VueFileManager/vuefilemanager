@@ -1,14 +1,13 @@
 <?php
-
 namespace Domain\Admin\Controllers\Dashboard;
 
 use ByteUnits\Metric;
 use App\Users\Models\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class GetDashboardDataController extends Controller
@@ -61,16 +60,17 @@ class GetDashboardDataController extends Controller
             ->select(
                 DB::raw('DATE(created_at) as created_at'),
                 DB::raw('sum(download) as download'),
-                DB::raw('sum(upload) as upload'))
+                DB::raw('sum(upload) as upload')
+            )
             ->groupBy('created_at')
             ->get();
 
-        $upload = $trafficRecords->map(fn($record) => [
+        $upload = $trafficRecords->map(fn ($record) => [
             'created_at' => format_date($record->created_at, '%d. %B. %Y'),
             'amount'     => intval($trafficRecords->max('upload')) !== 0 ? round(($record->upload / $trafficRecords->max('upload')) * 100, 2) : 0,
         ]);
 
-        $download = $trafficRecords->map(fn($record) => [
+        $download = $trafficRecords->map(fn ($record) => [
             'created_at' => format_date($record->created_at, '%d. %B. %Y'),
             'amount'     => intval($trafficRecords->max('download')) !== 0 ? round(($record->download / $trafficRecords->max('download')) * 100, 2) : 0,
         ]);

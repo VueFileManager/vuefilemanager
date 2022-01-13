@@ -131,6 +131,14 @@ class AdminTest extends TestCase
                             'used'       => '1.00MB',
                             'percentage' => 0.1,
                         ],
+                        'traffic' => [
+                            'chart' => [
+                                'download' => [],
+                                'upload'   => [],
+                            ],
+                            'download' => '0B',
+                            'upload'   => '0B',
+                        ],
                     ],
                 ],
             ]);

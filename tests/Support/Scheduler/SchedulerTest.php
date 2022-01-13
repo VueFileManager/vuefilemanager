@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Support\Scheduler;
 
 use Storage;
