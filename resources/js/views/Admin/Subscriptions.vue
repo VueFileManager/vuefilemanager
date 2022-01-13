@@ -1,7 +1,7 @@
 <template>
     <div>
 		<!--Datatable-->
-		<DatatableWrapper @init="isLoading = false" api="/api/subscriptions/admin" :paginator="true" :columns="columns" class="card shadow-card">
+		<DatatableWrapper v-if="! config.isEmptySubscriptions" @init="isLoading = false" api="/api/subscriptions/admin" :paginator="true" :columns="columns" class="card shadow-card">
 
 			<!--Table data content-->
 			<template slot-scope="{ row }">
@@ -52,84 +52,46 @@
 					</td>
 				</tr>
 			</template>
-
-			<!--Empty page-->
-			<template v-slot:empty-page>
-				<InfoBox style="margin-bottom: 0">
-					<p>{{ $t('admin_page_plans.subscribers.empty') }}</p>
-				</InfoBox>
-			</template>
 		</DatatableWrapper>
 
-        <!--Stripe configured but has empty plans-->
-		<!--<EmptyPageContent
-                v-if="isEmptyPlans"
-                icon="file"
-                :title="$t('admin_page_plans.empty.title')"
-                :description="$t('admin_page_plans.empty.description')"
-        >
-            <router-link :to="{name: 'CreateFixedPlan'}" tag="p">
-                <ButtonBase button-style="theme">{{ $t('admin_page_plans.empty.button') }}</ButtonBase>
-            </router-link>
-        </EmptyPageContent>-->
+		<!--Empty State-->
+        <div class="flex items-center justify-center h-full">
+			<div class="text-center">
+				<img class="w-28 inline-block mb-6" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f5c3.svg" alt="transaction">
 
-        <!--Stripe is Not Configured-->
-		<!--<EmptyPageContent
-                v-if="stripeIsNotConfigured"
-                icon="settings"
-                :title="$t('activation.stripe.title')"
-                :description="$t('activation.stripe.description')"
-        >
-            <router-link :to="{name: 'AppPayments'}">
-                <ButtonBase button-style="theme">{{ $t('activation.stripe.button') }}</ButtonBase>
-            </router-link>
-        </EmptyPageContent>-->
+				<h1 class="text-2xl font-bold mb-1">
+					{{ $t("There is Nothing") }}
+				</h1>
 
-        <!--Spinner-->
-        <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
-        </div>
+				<p class="text-sm text-gray-600">
+					{{ $t('All your subscriptions will be visible here') }}
+				</p>
+			</div>
+		</div>
     </div>
 </template>
 
 <script>
-	import InfoBox from "../../components/Others/Forms/InfoBox";
 	import ColorLabel from "../../components/Others/ColorLabel";
 	import MemberAvatar from "../../components/FilesView/MemberAvatar";
     import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-    import EmptyPageContent from '/resources/js/components/Others/EmptyPageContent'
-    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import Spinner from '/resources/js/components/FilesView/Spinner'
     import { mapGetters } from 'vuex'
 
     export default {
         name: 'Subscriptions',
         components: {
-			InfoBox,
 			ColorLabel,
 			MemberAvatar,
-            EmptyPageContent,
             DatatableWrapper,
-            SwitchInput,
-            ButtonBase,
-            Spinner,
         },
         computed: {
             ...mapGetters([
-				'config'
+				'config',
 			]),
-            stripeIsNotConfigured() {
-                return ! this.config.stripe_public_key
-            },
-            stripeConfiguredWithPlans() {
-                return ! this.isLoading && this.config.stripe_public_key
-            }
         },
         data() {
             return {
                 isLoading: true,
-                plans: [],
 				columns: [
 					{
 						label: this.$t('admin_page_user.table.name'),
@@ -163,10 +125,6 @@
 					},
 				],
             }
-        },
-        created() {
-            if (! this.config.stripe_public_key)
-                this.isLoading = false
         }
     }
 </script>

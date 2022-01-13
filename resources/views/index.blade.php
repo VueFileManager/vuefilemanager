@@ -1,7 +1,13 @@
 @php
     use VueFileManager\Subscription\Domain\Plans\Models\Plan;
+    use VueFileManager\Subscription\Domain\Transactions\Models\Transaction;
+    use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
     $plan = Plan::where('status', 'active')->where('type', 'metered');
+
+    $isEmptyPlans = Plan::count() === 0;
+    $isEmptyTransactions = Transaction::count() === 0;
+    $isEmptySubscriptions = Subscription::count() === 0;
 @endphp
 
 <!DOCTYPE html>
@@ -80,6 +86,11 @@
 
             installation: '{{ $installation ?? 'initial' }}',
             statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
+
+            // States
+			isEmptyPlans: {{ $isEmptyPlans }},
+			isEmptyTransactions: {{ $isEmptyTransactions }},
+			isEmptySubscriptions: {{ $isEmptySubscriptions }},
 
             // Hidden set ups
             isAdminVueFileManagerBar: {{ env('IS_ADMIN_VUEFILEMANAGER_BAR', 1) ? 1 : 0 }},

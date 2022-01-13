@@ -1,6 +1,7 @@
 <template>
     <div>
-		<div class="card shadow-card">
+		<!--Plans-->
+		<div v-if="! config.isEmptyPlans" class="card shadow-card">
 
 			<!--Create button-->
 			<div v-if="! config.isCreatedMeteredPlan || config.subscriptionType === 'fixed'" class="mb-6">
@@ -106,44 +107,34 @@
             </DatatableWrapper>
 		</div>
 
-        <!--Stripe configured but has empty plans-->
-		<!--<EmptyPageContent
-                v-if="isEmptyPlans"
-                icon="file"
-                :title="$t('admin_page_plans.empty.title')"
-                :description="$t('admin_page_plans.empty.description')"
-        >
-            <router-link :to="{name: 'CreateFixedPlan'}" tag="p">
-                <ButtonBase button-style="theme">{{ $t('admin_page_plans.empty.button') }}</ButtonBase>
-            </router-link>
-        </EmptyPageContent>-->
+		<!--Empty State-->
+        <div class="flex items-center justify-center h-full">
+			<div class="text-center">
+				<img class="w-28 inline-block mb-6" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f9fe.svg" alt="transaction">
 
-        <!--Stripe is Not Configured-->
-		<!--<EmptyPageContent
-                v-if="stripeIsNotConfigured"
-                icon="settings"
-                :title="$t('activation.stripe.title')"
-                :description="$t('activation.stripe.description')"
-        >
-            <router-link :to="{name: 'AppPayments'}">
-                <ButtonBase button-style="theme">{{ $t('activation.stripe.button') }}</ButtonBase>
-            </router-link>
-        </EmptyPageContent>-->
+				<h1 class="text-2xl font-bold mb-1">
+					{{ $t("There is Nothing") }}
+				</h1>
 
-        <!--Spinner-->
-        <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
-        </div>
+				<p class="text-sm text-gray-600">
+					{{ $t('All your plans will be visible here') }}
+				</p>
+
+				<router-link :to="{name: createPlanRoute}" class="inline-block mt-6">
+					<ButtonBase class="action-confirm" button-style="theme">
+						{{ $t('Create First Plan') }}
+					</ButtonBase>
+				</router-link>
+			</div>
+		</div>
     </div>
 </template>
 
 <script>
     import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
     import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-    import EmptyPageContent from '/resources/js/components/Others/EmptyPageContent'
     import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import Spinner from '/resources/js/components/FilesView/Spinner'
 	import ColorLabel from "../../components/Others/ColorLabel";
     import {Trash2Icon, Edit2Icon} from "vue-feather-icons";
     import { mapGetters } from 'vuex'
@@ -151,23 +142,18 @@
     export default {
         name: 'Plans',
         components: {
-            MobileActionButton,
-            EmptyPageContent,
+			MobileActionButton,
             DatatableWrapper,
             SwitchInput,
 			ColorLabel,
             Trash2Icon,
             ButtonBase,
             Edit2Icon,
-            Spinner,
         },
         computed: {
             ...mapGetters([
-				'config'
+				'config',
 			]),
-            isEmptyPlans() {
-                return ! this.isLoading && this.plans.length === 0 && this.config.stripe_public_key
-            },
 			createPlanRoute() {
 				return {
 					metered: 'CreateMeteredPlan',
@@ -243,15 +229,5 @@
 				}[this.config.subscriptionType]
 			}
         },
-        data() {
-            return {
-                isLoading: true,
-                plans: [],
-            }
-        },
-        created() {
-            if (! this.config.stripe_public_key)
-                this.isLoading = false
-        }
     }
 </script>
