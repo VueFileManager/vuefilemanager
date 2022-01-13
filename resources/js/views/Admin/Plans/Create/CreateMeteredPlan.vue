@@ -140,6 +140,7 @@
 				isLoading: false,
 				isError: false,
 				plan: {
+					type: 'fixed',
 					name: undefined,
 					description: undefined,
 					currency: undefined,

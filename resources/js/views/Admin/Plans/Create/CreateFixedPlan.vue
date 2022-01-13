@@ -124,6 +124,7 @@
 				isLoading: false,
 				isError: false,
 				plan: {
+					type: 'fixed',
 					name: undefined,
 					description: undefined,
 					interval: undefined,
