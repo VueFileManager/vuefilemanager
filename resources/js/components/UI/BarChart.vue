@@ -29,6 +29,6 @@ export default {
 		ghostLength() {
 			return 45 - this.data.length
 		}
-	}
+	},
 }
 </script>

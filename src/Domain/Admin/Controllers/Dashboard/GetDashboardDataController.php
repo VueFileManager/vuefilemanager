@@ -52,7 +52,7 @@ class GetDashboardDataController extends Controller
     {
         // Set period range for data retrieval
         $period = now()
-            ->subDays(45)
+            ->subDays(44)
             ->endOfDay();
 
         // Get bandwidth data
