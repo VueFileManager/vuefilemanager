@@ -51,6 +51,9 @@
 						})
 						.catch(() => this.$isSomethingWrong())
 			})
-		}
+		},
+		destroyed() {
+			events.$off('action:confirmed')
+		},
 	}
 </script>

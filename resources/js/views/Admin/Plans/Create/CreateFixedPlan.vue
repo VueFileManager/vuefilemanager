@@ -16,7 +16,7 @@
 			<!--Description-->
 			<ValidationProvider tag="div" mode="passive" name="Description" v-slot="{ errors }">
 				<AppInputText :title="$t('admin_page_plans.form.description')" :is-last="true">
-					<textarea v-model="plan.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark"></textarea>
+					<textarea v-model="plan.description" :placeholder="$t('admin_page_plans.form.description_plac')" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" maxlength="120"></textarea>
 				</AppInputText>
 			</ValidationProvider>
 		</div>

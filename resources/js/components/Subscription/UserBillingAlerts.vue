@@ -168,7 +168,6 @@ export default {
 	},
 	created() {
 		events.$on('action:confirmed', data => {
-
 			if (data.operation === 'delete-billing-alert')
 				axios.delete(`/api/subscriptions/billing-alerts/${this.user.data.relationships.alert.data.id}`)
 					.then(() => {
@@ -184,6 +183,9 @@ export default {
 					})
 					.catch(() => this.$isSomethingWrong())
 		})
-	}
+	},
+	destroyed() {
+		events.$off('action:confirmed')
+	},
 }
 </script>

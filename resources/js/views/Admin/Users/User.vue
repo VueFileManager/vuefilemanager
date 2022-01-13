@@ -2,7 +2,7 @@
     <div>
 		<div id="page-content" v-if="! isLoading">
 			<!--Page Tab links-->
-			<div class="card shadow-card pt-4 pb-0 sticky top-0 z-10">
+			<div class="card shadow-card pt-4 sticky top-0 z-10" style="padding-bottom: 0;">
 				<div class="user-thumbnail">
 					<div class="avatar">
 						<img :src="user.data.relationships.settings.data.attributes.avatar.sm" :alt="user.data.relationships.settings.data.attributes.name">

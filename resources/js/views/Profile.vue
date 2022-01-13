@@ -22,7 +22,7 @@
         <div v-if="user" class="px-6 w-full overflow-x-hidden relative pt-6 xl:max-w-screen-lg md:max-w-screen-md mx-auto">
             <div v-if="! isLoading" id="page-content">
 
-				<div class="card shadow-card pb-0 sticky top-0 z-10">
+				<div class="card shadow-card sticky top-0 z-10" style="padding-bottom: 0">
 					<!--User thumbnail-->
                     <div class="mb-3">
                         <div class="user-thumbnail">

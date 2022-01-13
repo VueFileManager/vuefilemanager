@@ -222,7 +222,10 @@
 			})
 
 			events.$on('reload-personal-access-tokens', () => this.getPersonalAccessTokens())
-		}
+		},
+		destroyed() {
+			events.$off('action:confirmed')
+		},
 	}
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-	<div class="card shadow-card">
+	<div v-if="hasSubscription" class="card shadow-card">
 		<FormLabel>
 			{{ $t('Subscription') }}
 		</FormLabel>
@@ -36,6 +36,9 @@
 				'user',
 			]),
 			subscription() {
+				return this.$store.getters.user.data.relationships.subscription
+			},
+			hasSubscription() {
 				return this.$store.getters.user.data.relationships.subscription
 			},
 			limitations() {

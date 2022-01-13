@@ -441,6 +441,9 @@
 				if (data.operation === 'change-subscription-type')
 					this.$updateText('/admin/settings', 'subscription_type', data.type)
 			})
-		}
+		},
+		destroyed() {
+			events.$off('action:confirmed')
+		},
 	}
 </script>

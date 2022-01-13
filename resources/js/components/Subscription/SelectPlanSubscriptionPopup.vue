@@ -81,25 +81,25 @@
 
 		<!--Select Payment Plans-->
 		<div v-if="! isPaymentOptionPage">
-			<PopupContent>
+			<PopupContent v-if="plans">
 
 				<!--Toggle yearly billing-->
-				<div class="px-5 mb-2 text-right">
-					<label :class="{'text-gray-400': !isYearlyPlans}" class="font-bold cursor-pointer text-xs">
+				<div v-if="hasYearlyPlans.length > 0" class="px-5 mb-2 text-right">
+					<label :class="{'text-gray-400': !isSelectedYearlyPlans}" class="font-bold cursor-pointer text-xs">
 						{{ $t('Billed Annually') }}
 					</label>
 					<div class="relative inline-block w-12 align-middle select-none">
-						<SwitchInput class="transform scale-75" v-model="isYearlyPlans" :state="isYearlyPlans" />
+						<SwitchInput class="transform scale-75" v-model="isSelectedYearlyPlans" :state="isSelectedYearlyPlans" />
 					</div>
 				</div>
 
 				<!--List available plans-->
-				<div class="px-4" v-if="plans">
+				<div class="px-4">
 					<PlanDetail
-						v-for="(plan, i) in plans"
+						v-for="(plan, i) in plans.data"
 						:plan="plan"
 						:key="plan.data.id"
-						v-if="plan.data.attributes.interval === intervalPlanType && userActivePlanId !== plan.data.id"
+						v-if="plan.data.attributes.interval === intervalPlanType && userSubscribedPlanId !== plan.data.id"
 						:is-selected="selectedPlan && selectedPlan.data.id === plan.data.id"
 						@click.native="selectPlan(plan)"
 					/>
@@ -156,7 +156,7 @@
 			ButtonBase,
 		},
 		watch: {
-			isYearlyPlans() {
+			isSelectedYearlyPlans() {
 				this.selectedPlan = undefined
 			}
 		},
@@ -166,7 +166,7 @@
 				'user',
 			]),
 			intervalPlanType() {
-				return this.isYearlyPlans
+				return this.isSelectedYearlyPlans
 					? 'year'
 					: 'month'
 			},
@@ -175,9 +175,12 @@
 					? 'theme'
 					: 'secondary'
 			},
-			userActivePlanId() {
-				return this.user && this.user.data.relationships.subscription.data.relationships.plan.data.id
+			userSubscribedPlanId() {
+				return (this.user && this.user.data.relationships.subscription) && this.user.data.relationships.subscription.data.relationships.plan.data.id
 			},
+			hasYearlyPlans() {
+				return this.plans.data.filter(plan => plan.data.attributes.interval === 'year')
+			}
 		},
 		data() {
 			return {
@@ -188,7 +191,7 @@
 					isMethodsLoaded: false,
 				},
 				isPaymentOptionPage: false,
-				isYearlyPlans: false,
+				isSelectedYearlyPlans: false,
 				isLoading: false,
 				selectedPlan: undefined,
 				plans: undefined,
@@ -263,10 +266,19 @@
 			}
 		},
 		created() {
+			// Load available plans
 			axios.get('/api/subscriptions/plans')
 				.then(response => {
-					this.plans = response.data.data
+					this.plans = response.data
 				})
+
+			// Reset states on popup close
+			events.$on('popup:close', () => {
+				this.isSelectedYearlyPlans = false
+				this.isPaymentOptionPage = false
+				this.selectedPlan = undefined
+				this.paypal.isMethodsLoaded = false
+			})
 		}
 	}
 </script>

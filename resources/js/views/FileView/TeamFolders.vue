@@ -256,8 +256,8 @@
 						.catch(() => this.$isSomethingWrong())
 			})
 		},
-		beforeDestroy() {
+		destroyed() {
 			events.$off('action:confirmed')
-		}
+		},
 	}
 </script>

@@ -4,15 +4,15 @@
 			{{ $t('Edit your Subscription') }}
 		</FormLabel>
 
-		<AppInputSwitch :title="$t('Cancel Subscription')" :description="$t('You can cancel your subscription now. You\'ll continue to have access to the features you\'ve paid for until the end of your billing cycle.')">
+		<AppInputSwitch v-if="subscription.attributes.status !== 'cancelled'" :title="$t('Cancel Subscription')" :description="$t('You can cancel your subscription now. You\'ll continue to have access to the features you\'ve paid for until the end of your billing cycle.')">
 			<ButtonBase @click.native="cancelSubscriptionConfirmation" :loading="isCancelling" class="sm:w-auto w-full" button-style="secondary">
 				{{ $t('Cancel Now') }}
 			</ButtonBase>
 		</AppInputSwitch>
 
-		<AppInputSwitch :title="$t('Change Plan')" :description="$t('You can upgrade your plan at any time you want.')" :is-last="true">
+		<AppInputSwitch :title="$t('Upgrade or Downgrade Plan')" :description="$t('You can upgrade your plan at any time you want.')" :is-last="true">
 			<ButtonBase @click.native="$openUpgradeOptions" class="sm:w-auto w-full" button-style="secondary">
-				{{ $t('Change Now') }}
+				{{ $t('Change Plan') }}
 			</ButtonBase>
 		</AppInputSwitch>
 	</div>
@@ -57,7 +57,6 @@
 			},
 		},
 		created() {
-
 			events.$on('action:confirmed', data => {
 				if (data.operation === 'cancel-subscription') {
 
@@ -89,8 +88,10 @@
 							this.isCancelling = false
 						})
 				}
-
 			})
-		}
+		},
+		destroyed() {
+			events.$off('action:confirmed')
+		},
 	}
 </script>
