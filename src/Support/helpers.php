@@ -156,8 +156,6 @@ if (! function_exists('setEnvironmentValue')) {
     /**
      * Set environment value
      *
-     * @param $key
-     * @param $value
      * @return bool
      */
     function setEnvironmentValue(array $values)

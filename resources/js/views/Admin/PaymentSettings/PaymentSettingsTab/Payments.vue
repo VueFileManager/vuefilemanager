@@ -170,6 +170,10 @@
 			<!--Stripe credentials are set up-->
 			<div v-if="paypal.allowedService">
 				<div v-if="paypal.isConfigured">
+					<AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle amid live and sandbox mode')">
+						<SwitchInput @input="$updateText('/admin/settings', 'paypal_live', config.isPayPalLive)" v-model="config.isPayPalLive" :state="config.isPayPalLive" />
+					</AppInputSwitch>
+
 					<AppInputText @input="$updateText('/admin/settings', 'paypal_payment_description', paypal.paymentDescription)" :title="$t('Payment Description')" :description="$t('The description showed below user payment method selection.')">
 						<textarea rows="2" @input="$updateText('/admin/settings', 'paypal_payment_description', paypal.paymentDescription, true)" v-model="paypal.paymentDescription" :placeholder="$t('Describe in short which methods user can pay with this payment method...')" type="text" class="focus-border-theme input-dark" />
 					</AppInputText>

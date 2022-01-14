@@ -107,6 +107,7 @@
 
             // PayPal
             isPayPal: {{ $settings->allowed_paypal ?? 0 }},
+            isPayPalLive: {{ env('PAYPAL_IS_LIVE') ? 1 : 0 }},
             paypal_client_id: '{{ env('PAYPAL_CLIENT_ID') }}',
 			paypal_payment_description: '{{ $settings->paypal_payment_description ?? '' }}',
 

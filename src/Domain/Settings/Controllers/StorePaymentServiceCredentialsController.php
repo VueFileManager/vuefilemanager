@@ -55,6 +55,7 @@ class StorePaymentServiceCredentialsController
                     'PAYPAL_CLIENT_ID'     => $request->input('key'),
                     'PAYPAL_CLIENT_SECRET' => $request->input('secret'),
                     'PAYPAL_WEBHOOK_ID'    => $request->input('webhook'),
+                    'PAYPAL_IS_LIVE'       => 'true',
                 ],
             ];
 

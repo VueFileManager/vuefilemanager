@@ -56,7 +56,7 @@
     "/chunks/pages.js": "/chunks/pages.js?id=fc74b3c4250317f9955f",
     "/chunks/payments.js": "/chunks/payments.js?id=56a633689fc98ab71b92",
     "/chunks/payments/billings.js": "/chunks/payments/billings.js?id=ddeb484509e788db1eda",
-    "/chunks/payments/settings.js": "/chunks/payments/settings.js?id=f8614cf0ade51919247a",
+    "/chunks/payments/settings.js": "/chunks/payments/settings.js?id=cab5d58684a2c8c2a147",
     "/chunks/plan.js": "/chunks/plan.js?id=fc9e9e0b9bac63514475",
     "/chunks/plan-create/fixed.js": "/chunks/plan-create/fixed.js?id=75b6e639a1fb66d34f10",
     "/chunks/plan-create/metered.js": "/chunks/plan-create/metered.js?id=22a5c4fb60a77b72cd4e",
@@ -185,5 +185,11 @@
     "/chunks/user-storage.6bd3ab1a8a2e99a1e4af.hot-update.js": "/chunks/user-storage.6bd3ab1a8a2e99a1e4af.hot-update.js",
     "/chunks/user-subscription.6bd3ab1a8a2e99a1e4af.hot-update.js": "/chunks/user-subscription.6bd3ab1a8a2e99a1e4af.hot-update.js",
     "/chunks/billing.728ac9ab3e5a2a3b0004.hot-update.js": "/chunks/billing.728ac9ab3e5a2a3b0004.hot-update.js",
-    "/chunks/billing.41e0a6e034deea202f37.hot-update.js": "/chunks/billing.41e0a6e034deea202f37.hot-update.js"
+    "/chunks/billing.41e0a6e034deea202f37.hot-update.js": "/chunks/billing.41e0a6e034deea202f37.hot-update.js",
+    "/chunks/payments/settings.300ac4824a3419b1c208.hot-update.js": "/chunks/payments/settings.300ac4824a3419b1c208.hot-update.js",
+    "/chunks/payments/settings.3d78d96f322fd3beaae2.hot-update.js": "/chunks/payments/settings.3d78d96f322fd3beaae2.hot-update.js",
+    "/chunks/payments/settings.6ec6ebd9434dc12d3a2b.hot-update.js": "/chunks/payments/settings.6ec6ebd9434dc12d3a2b.hot-update.js",
+    "/chunks/payments/settings.f9e50fd42e9b6a20e51d.hot-update.js": "/chunks/payments/settings.f9e50fd42e9b6a20e51d.hot-update.js",
+    "/chunks/payments/settings.3ad4539db6a81f4c469b.hot-update.js": "/chunks/payments/settings.3ad4539db6a81f4c469b.hot-update.js",
+    "/chunks/payments/settings.194aed09083333a609f6.hot-update.js": "/chunks/payments/settings.194aed09083333a609f6.hot-update.js"
 }

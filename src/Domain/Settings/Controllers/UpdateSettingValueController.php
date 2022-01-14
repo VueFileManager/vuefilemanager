@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Artisan;
 
 class UpdateSettingValueController extends Controller
 {
@@ -24,6 +25,21 @@ class UpdateSettingValueController extends Controller
             ], [
                 'value' => store_system_image($request, $request->input('name')),
             ]);
+
+            return response('Done', 204);
+        }
+
+        // Set paypal live option
+        if ($request->input('name') === 'paypal_live') {
+            setEnvironmentValue([
+                'PAYPAL_IS_LIVE' => $request->input('value') ? 'true' : 'false',
+            ]);
+
+            // Clear config cache
+            if (! is_dev()) {
+                Artisan::call('config:clear');
+                Artisan::call('config:cache');
+            }
 
             return response('Done', 204);
         }
