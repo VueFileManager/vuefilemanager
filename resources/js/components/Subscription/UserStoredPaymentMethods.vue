@@ -1,5 +1,5 @@
 <template>
-	<div v-if="config.isStripe && hasSubscription" class="card shadow-card">
+	<div v-if="canShowForMeteredBilling || canShowForFixedBilling" class="card shadow-card">
 		<FormLabel icon="credit-card">
 			{{ $t('Payment Method') }}
 		</FormLabel>
@@ -26,19 +26,19 @@
 		<div v-if="! hasPaymentMethod">
 
 			<!-- Show credit card form -->
-			<ButtonBase @click.native="showStoreCreditCardForm" v-if="! isCreditCardForm" :loading="stripeData.storingStripePaymentMethod" type="submit" button-style="theme" class="w-full mt-4">
+			<ButtonBase @click.native="showStoreCreditCardForm" v-if="! isCreditCardForm" :loading="stripe.storingStripePaymentMethod" type="submit" button-style="theme" class="w-full mt-4">
 				{{ $t('Add Payment Method') }}
 			</ButtonBase>
 
 			<!-- Store credit card form -->
 			<form v-if="isCreditCardForm" @submit.prevent="storeStripePaymentMethod" id="payment-form" class="mt-6">
-				<div v-if="stripeData.isInitialization" class="h-10 relative mb-6">
+				<div v-if="stripe.isInitialization" class="h-10 relative mb-6">
 					<Spinner />
 				</div>
 				<div id="payment-element">
 				<!-- Elements will create form elements here -->
 				</div>
-				<ButtonBase :loading="stripeData.storingStripePaymentMethod" type="submit" button-style="theme" class="w-full mt-4">
+				<ButtonBase :loading="stripe.storingStripePaymentMethod" type="submit" button-style="theme" class="w-full mt-4">
 					{{ $t('Store My Credit Card') }}
 				</ButtonBase>
 				<div id="error-message">
@@ -75,8 +75,14 @@
 				'config',
 				'user',
 			]),
-			hasSubscription() {
-				return this.$store.getters.user.data.relationships.subscription
+			canShowForMeteredBilling() {
+				return this.config.isStripe && this.config.subscriptionType === 'metered'
+			},
+			canShowForFixedBilling() {
+				return this.config.isStripe
+					&& this.config.subscriptionType === 'fixed'
+					&& this.$store.getters.user.data.relationships.subscription
+					&& this.$store.getters.user.data.relationships.subscription.data.attributes.driver === 'stripe'
 			},
 			hasPaymentMethod() {
 				return this.user.data.relationships.creditCards && this.user.data.relationships.creditCards.data.length > 0
@@ -85,10 +91,8 @@
 		data() {
 			return {
 				isLoading: false,
-
 				isCreditCardForm: false,
-
-				stripeData: {
+				stripe: {
 					isInitialization: true,
 					storingStripePaymentMethod: false
 				}
@@ -97,7 +101,7 @@
 		methods: {
 			async storeStripePaymentMethod() {
 
-				this.stripeData.storingStripePaymentMethod = true
+				this.stripe.storingStripePaymentMethod = true
 
 				const {error} = await stripe.confirmSetup({
 					//`Elements` instance that was used to create the Payment Element
@@ -126,7 +130,7 @@
 					// TODO: L9 - load credit card after was stored in database
 				}
 
-				this.stripeData.storingStripePaymentMethod = false
+				this.stripe.storingStripePaymentMethod = false
 			},
 			async stripeInit() {
 
@@ -171,7 +175,7 @@
 						})
 					})
 
-				this.stripeData.isInitialization = false
+				this.stripe.isInitialization = false
 			},
 			showStoreCreditCardForm() {
 				this.isCreditCardForm = !this.isCreditCardForm
