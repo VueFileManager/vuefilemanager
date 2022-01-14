@@ -49,6 +49,7 @@ class ContentAccessTest extends TestCase
     public function it_get_private_user_file()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $file = UploadedFile::fake()
@@ -75,6 +76,7 @@ class ContentAccessTest extends TestCase
     public function it_get_private_user_image_thumbnail()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $thumbnail = UploadedFile::fake()

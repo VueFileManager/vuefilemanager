@@ -44,6 +44,7 @@ class VisitorBrowseTest extends TestCase
     public function it_get_share_page()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $share = Share::factory()
@@ -136,6 +137,7 @@ class VisitorBrowseTest extends TestCase
         collect([true, false])
             ->each(function ($is_protected) {
                 $user = User::factory()
+                    ->hasSettings()
                     ->create();
 
                 $root = Folder::factory(Folder::class)

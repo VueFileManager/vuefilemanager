@@ -22,7 +22,7 @@ class CheckAccountController extends Controller
         }
 
         return [
-            'name'           => $user->settings->name,
+            'name'           => $user->settings->first_name,
             'avatar'         => $user->settings->avatar,
             'verified'       => $user->email_verified_at ? 1 : 0,
             'oauth_provider' => $user->password ? null : $user->oauth_provider,

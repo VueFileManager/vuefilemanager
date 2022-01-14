@@ -53,10 +53,12 @@ class DashboardTest extends TestCase
     public function it_get_new_users_for_dashboard()
     {
         $users = User::factory()
+            ->hasSettings()
             ->count(3)
             ->create(['role' => 'user']);
 
         $admin = User::factory()
+            ->hasSettings()
             ->create(['role' => 'admin']);
 
         $users->each(

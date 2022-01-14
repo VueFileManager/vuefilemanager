@@ -50,6 +50,7 @@ class MeteredBillingRestrictionsTest extends TestCase
     public function it_can_create_new_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         // Create basic folder
@@ -141,6 +142,7 @@ class MeteredBillingRestrictionsTest extends TestCase
     public function it_can_get_private_file()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $file = File::factory()
@@ -192,6 +194,7 @@ class MeteredBillingRestrictionsTest extends TestCase
     public function it_can_get_shared_file()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $file = File::factory()

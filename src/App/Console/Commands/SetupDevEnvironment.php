@@ -104,7 +104,8 @@ class SetupDevEnvironment extends Command
             ->settings()
             ->create([
                 'avatar'       => $avatar_name,
-                'name'         => 'Jane Doe',
+                'first_name'   => 'Jane',
+                'last_name'    => 'Doe',
                 'address'      => $this->faker->address,
                 'state'        => $this->faker->state,
                 'city'         => $this->faker->city,
@@ -162,7 +163,8 @@ class SetupDevEnvironment extends Command
                 ->settings()
                 ->create([
                     'avatar'       => $avatar_name,
-                    'name'         => $this->faker->name,
+                    'first_name'   => $this->faker->name,
+                    'last_name'    => $this->faker->lastName,
                     'address'      => $this->faker->address,
                     'state'        => $this->faker->state,
                     'city'         => $this->faker->city,

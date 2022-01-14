@@ -18,7 +18,8 @@ class CreateUserSettingsTable extends Migration
             $table->uuid('user_id')->index();
             $table->string('avatar')->nullable();
             $table->string('color')->nullable();
-            $table->text('name')->nullable();
+            $table->text('first_name')->nullable();
+            $table->text('last_name')->nullable();
             $table->text('address')->nullable();
             $table->text('state')->nullable();
             $table->text('city')->nullable();

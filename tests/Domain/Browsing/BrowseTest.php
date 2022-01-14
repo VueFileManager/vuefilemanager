@@ -20,6 +20,7 @@ class BrowseTest extends TestCase
     public function it_get_navigator_tree()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder_level_1 = Folder::factory(Folder::class)
@@ -134,6 +135,7 @@ class BrowseTest extends TestCase
     public function it_get_folder_content()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $root = Folder::factory(Folder::class)
@@ -182,6 +184,7 @@ class BrowseTest extends TestCase
     public function it_get_recent_files()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $root = Folder::factory(Folder::class)
@@ -234,6 +237,7 @@ class BrowseTest extends TestCase
     public function it_get_trash_root()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -282,6 +286,7 @@ class BrowseTest extends TestCase
     public function it_get_shared_items()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         Sanctum::actingAs($user);

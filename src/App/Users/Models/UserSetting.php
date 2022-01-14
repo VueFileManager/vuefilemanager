@@ -6,6 +6,7 @@ use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
+use Database\Factories\UserSettingFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class UserSetting extends Model
@@ -24,12 +25,19 @@ class UserSetting extends Model
         'id' => 'string',
     ];
 
+    protected $appends = [
+        'name',
+    ];
+
+    protected static function newFactory(): UserSettingFactory
+    {
+        return UserSettingFactory::new();
+    }
+
     /**
      * Format avatar to full url
-     *
-     * @return \Illuminate\Contracts\Routing\UrlGenerator|string|array
      */
-    public function getAvatarAttribute()
+    public function getAvatarAttribute(): array|string
     {
         $link = [];
 
@@ -59,6 +67,11 @@ class UserSetting extends Model
         }
 
         return $link;
+    }
+
+    public function getNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     public function user(): HasOne
@@ -94,7 +107,7 @@ class UserSetting extends Model
 
         static::creating(function ($user) {
             $user->id = Str::uuid();
-            $user->color = ['#9ad2bf', '#9ad2cd', '#d29a9a', '#d2ce9a', '#9aadd2', '#c59ad2'][rand(0, 5)];
+            $user->color = config('vuefilemanager.colors')[rand(0, 5)];
         });
     }
 }

@@ -18,7 +18,8 @@ class CreateUsersTable extends Migration
             $table->enum('role', ['admin', 'user'])->default('user');
             $table->string('email')->unique()->index();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('oauth_provider')->nullable();
+            $table->string('password')->nullable();
             $table->text('two_factor_secret')->nullable();
             $table->text('two_factor_recovery_codes')->nullable();
             $table->rememberToken();

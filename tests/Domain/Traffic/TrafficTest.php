@@ -25,6 +25,7 @@ class TrafficTest extends TestCase
             ->image('fake-file.jpg', 1200);
 
         $this->user = User::factory()
+            ->hasSettings()
             ->create();
     }
 

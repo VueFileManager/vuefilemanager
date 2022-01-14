@@ -15,6 +15,7 @@ class SearchTest extends TestCase
     public function it_get_searched_file()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $english = File::factory()
@@ -54,6 +55,7 @@ class SearchTest extends TestCase
     public function it_get_searched_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -77,9 +79,11 @@ class SearchTest extends TestCase
     public function it_get_searched_shared_with_me_file_and_folders()
     {
         $owner = User::factory()
+            ->hasSettings()
             ->create();
 
         $member = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory()

@@ -67,6 +67,7 @@ class VisitorAccessToItemsTest extends TestCase
     public function it_try_to_get_protected_file_record()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $file = File::factory()

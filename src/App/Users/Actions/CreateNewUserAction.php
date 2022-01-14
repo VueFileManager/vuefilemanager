@@ -31,9 +31,14 @@ class CreateNewUserAction extends Controller
             'email'          => $data->email,
         ]);
 
+        // Split username
+        $name = split_name($data->name);
+
+        // Store user data
         $user->settings()->create([
-            'name'   => $data->name,
-            'avatar' => $data->avatar,
+            'first_name' => $name['first_name'],
+            'last_name'  => $name['last_name'],
+            'avatar'     => $data->avatar,
         ]);
 
         // Subscribe user for metered billing

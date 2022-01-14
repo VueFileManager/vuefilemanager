@@ -45,11 +45,15 @@ class CreateAdminAccountController extends Controller
             'email_verified_at' => now(),
         ]);
 
+        // Split username
+        $name = split_name($request->input('name'));
+
         $user
             ->settings()
             ->create([
-                'avatar'             => store_avatar($request, 'avatar'),
-                'name'               => $request->input('name'),
+                'avatar'     => store_avatar($request, 'avatar'),
+                'first_name' => $name['first_name'],
+                'last_name'  => $name['last_name'],
             ]);
 
         collect([

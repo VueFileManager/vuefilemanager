@@ -75,7 +75,7 @@ class UserResource extends JsonResource
                     $this->mergeWhen($isMeteredSubscription, fn () => [
                         'totalDebt' => [
                             'formatted' => format_currency($this->failedPayments->sum('amount'), $this->subscription->plan->currency),
-                            'amount' => $this->failedPayments->sum('amount'),
+                            'amount'    => $this->failedPayments->sum('amount'),
                         ],
                     ]),
                 ],

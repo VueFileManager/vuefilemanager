@@ -16,6 +16,7 @@ class GateTest extends TestCase
     public function owner_rename_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -48,6 +49,7 @@ class GateTest extends TestCase
         collect([true, false])
             ->each(function ($is_protected) {
                 $user = User::factory()
+                    ->hasSettings()
                     ->create();
 
                 $root = Folder::factory(Folder::class)
@@ -114,9 +116,11 @@ class GateTest extends TestCase
     public function team_member_with_can_edit_privilege_rename_folder()
     {
         $owner = User::factory()
+            ->hasSettings()
             ->create();
 
         $member = User::factory()
+            ->hasSettings()
             ->create();
 
         $teamFolder = Folder::factory(Folder::class)
@@ -218,9 +222,11 @@ class GateTest extends TestCase
     public function team_member_rename_file()
     {
         $owner = User::factory()
+            ->hasSettings()
             ->create();
 
         $member = User::factory()
+            ->hasSettings()
             ->create();
 
         $teamFolder = Folder::factory(Folder::class)

@@ -34,6 +34,7 @@ class FileTest extends TestCase
             ->image('fake-image.jpg', 2000, 2000);
 
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this
@@ -74,6 +75,7 @@ class FileTest extends TestCase
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this
@@ -107,6 +109,7 @@ class FileTest extends TestCase
             ->image('fake-file.jpeg', 1000);
 
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $user->limitations()->update([
@@ -147,6 +150,7 @@ class FileTest extends TestCase
             ->create('fake-file.pdf', 1200, 'application/pdf');
 
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this
@@ -167,6 +171,7 @@ class FileTest extends TestCase
     public function it_rename_file()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $file = File::factory()
@@ -196,6 +201,7 @@ class FileTest extends TestCase
     public function it_move_file_to_another_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -232,6 +238,7 @@ class FileTest extends TestCase
     public function it_delete_multiple_files_softly()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $files = File::factory()
@@ -271,6 +278,7 @@ class FileTest extends TestCase
     public function it_delete_multiple_files_hardly()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         Sanctum::actingAs($user);

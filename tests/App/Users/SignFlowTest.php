@@ -48,7 +48,8 @@ class SignFlowTest extends TestCase
                 'email_verified_at' => null,
             ])
             ->assertDatabaseHas('user_settings', [
-                'name' => 'John Doe',
+                'first_name' => 'John',
+                'last_name'  => 'Doe',
             ])
             ->assertDatabaseHas('user_limitations', [
                 'max_storage_amount' => 10,
@@ -118,7 +119,8 @@ class SignFlowTest extends TestCase
                 'amount'   => 0,
             ])
             ->assertDatabaseHas('user_settings', [
-                'name' => 'John Doe',
+                'first_name' => 'John',
+                'last_name'  => 'Doe',
             ]);
     }
 
@@ -189,7 +191,8 @@ class SignFlowTest extends TestCase
                 'driver'   => 'system',
             ])
             ->assertDatabaseHas('user_settings', [
-                'name' => 'John Doe',
+                'first_name' => 'John',
+                'last_name'  => 'Doe',
             ]);
     }
 
@@ -241,6 +244,7 @@ class SignFlowTest extends TestCase
     public function it_check_if_user_exist_and_return_name_with_avatar()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create(['email' => 'john@doe.com']);
 
         $this->postJson('/api/user/check', [
@@ -278,6 +282,7 @@ class SignFlowTest extends TestCase
     public function it_logout_user()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this

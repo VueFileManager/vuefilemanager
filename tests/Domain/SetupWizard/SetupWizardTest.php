@@ -227,8 +227,9 @@ class SetupWizardTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('user_settings', [
-            'user_id' => User::first()->id,
-            'name'    => 'John Doe',
+            'user_id'    => User::first()->id,
+            'first_name' => 'John',
+            'last_name'  => 'Doe',
         ]);
 
         $this->assertDatabaseMissing('user_settings', [

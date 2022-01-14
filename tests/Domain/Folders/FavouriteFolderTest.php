@@ -16,6 +16,7 @@ class FavouriteFolderTest extends TestCase
             ->create();
 
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this
@@ -41,6 +42,7 @@ class FavouriteFolderTest extends TestCase
             ->create();
 
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $user

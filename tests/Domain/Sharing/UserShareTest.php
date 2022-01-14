@@ -17,6 +17,7 @@ class UserShareTest extends TestCase
     public function it_share_single_file_without_password()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $file = File::factory()
@@ -50,6 +51,7 @@ class UserShareTest extends TestCase
     public function it_share_folder_without_password()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -83,6 +85,7 @@ class UserShareTest extends TestCase
     public function it_share_folder_with_password()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -122,6 +125,7 @@ class UserShareTest extends TestCase
     public function it_share_folder_with_expiration_time()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -149,6 +153,7 @@ class UserShareTest extends TestCase
     public function it_share_folder_and_send_link_for_multiple_email()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -176,6 +181,7 @@ class UserShareTest extends TestCase
     public function it_send_existing_shared_folder_for_multiple_email_once_again()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -206,6 +212,7 @@ class UserShareTest extends TestCase
     public function it_revoke_single_share_record()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)

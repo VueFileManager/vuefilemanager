@@ -47,6 +47,7 @@ class TeamsTest extends TestCase
             ]);
 
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this
@@ -90,6 +91,7 @@ class TeamsTest extends TestCase
     public function it_mark_newly_created_folder_as_team_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $teamFolder = Folder::factory()
@@ -115,6 +117,7 @@ class TeamsTest extends TestCase
     public function it_convert_folder_into_team_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory()
@@ -161,6 +164,7 @@ class TeamsTest extends TestCase
     public function it_get_all_team_folders()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory()
@@ -184,6 +188,7 @@ class TeamsTest extends TestCase
     public function it_get_content_of_team_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory()
@@ -213,9 +218,11 @@ class TeamsTest extends TestCase
     public function it_get_team_folders_shared_with_another_user()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $member = User::factory()
+            ->hasSettings()
             ->create();
 
         $folders = Folder::factory()

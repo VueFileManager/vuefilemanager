@@ -17,6 +17,7 @@ class TrashTest extends TestCase
     public function it_restore_items_from_trash()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $attributes = [
@@ -60,6 +61,7 @@ class TrashTest extends TestCase
     public function it_dump_trash()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         Sanctum::actingAs($user);

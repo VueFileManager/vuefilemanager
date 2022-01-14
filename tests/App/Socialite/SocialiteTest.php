@@ -73,7 +73,8 @@ class SocialiteTest extends TestCase
                 'password'       => null,
             ])
             ->assertDatabaseHas('user_settings', [
-                'name' => 'Jane Doe',
+                'first_name' => 'Jane',
+                'last_name'  => 'Doe',
             ]);
 
         $user = User::first();

@@ -307,6 +307,21 @@ if (! function_exists('get_shared')) {
     }
 }
 
+if (! function_exists('split_name')) {
+    /**
+     * Split name for 2 parts
+     */
+    function split_name(string $name): array
+    {
+        $firstName = explode(' ', $name)[0];
+
+        return [
+            'first_name' => $firstName,
+            'last_name'  => str_replace("$firstName ", '', $name),
+        ];
+    }
+}
+
 if (! function_exists('is_editor')) {
     /**
      * Check if shared permission is editor

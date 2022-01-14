@@ -30,6 +30,7 @@ class FolderTest extends TestCase
     public function it_create_new_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this
@@ -53,6 +54,7 @@ class FolderTest extends TestCase
     public function it_rename_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -82,6 +84,7 @@ class FolderTest extends TestCase
     public function it_set_folder_emoji()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -120,6 +123,7 @@ class FolderTest extends TestCase
     public function it_set_folder_color()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder = Folder::factory(Folder::class)
@@ -153,6 +157,7 @@ class FolderTest extends TestCase
     public function it_move_folder_to_another_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $root = Folder::factory(Folder::class)
@@ -189,6 +194,7 @@ class FolderTest extends TestCase
     public function it_delete_multiple_folder_softly()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder_1 = Folder::factory(Folder::class)
@@ -239,6 +245,7 @@ class FolderTest extends TestCase
     public function it_delete_multiple_folder_hardly()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder_1 = Folder::factory(Folder::class)
@@ -283,6 +290,7 @@ class FolderTest extends TestCase
     public function it_delete_folder_with_their_content_within_softly()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $folder_root = Folder::factory(Folder::class)
@@ -341,6 +349,7 @@ class FolderTest extends TestCase
     public function it_delete_folder_with_their_content_within_hardly()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         Sanctum::actingAs($user);

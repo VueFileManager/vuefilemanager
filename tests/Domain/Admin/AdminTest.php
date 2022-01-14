@@ -20,21 +20,24 @@ class AdminTest extends TestCase
     public function it_get_all_users()
     {
         $users = User::factory()
+            ->hasSettings()
             ->count(5)
             ->create(['role' => 'user']);
 
         $admin = User::factory()
+            ->hasSettings()
             ->create(['role' => 'admin']);
 
-        Sanctum::actingAs($admin);
-
-        $users->each(function ($user) {
-            $this->getJson('/api/admin/users?page=1')
+        $users->each(
+            fn ($user) =>
+            $this
+                ->actingAs($admin)
+                ->getJson('/api/admin/users?page=1')
                 ->assertStatus(200)
                 ->assertJsonFragment([
                     'id' => $user->id,
-                ]);
-        });
+                ])
+        );
     }
 
     /**
@@ -43,9 +46,11 @@ class AdminTest extends TestCase
     public function it_get_single_user()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create(['role' => 'user']);
 
         $admin = User::factory()
+            ->hasSettings()
             ->create(['role' => 'admin']);
 
         // TODO: pridat exactjson po refaktorovani userresource
@@ -64,6 +69,7 @@ class AdminTest extends TestCase
     public function it_get_non_existed_user_subscription()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $admin = User::factory()
@@ -169,9 +175,11 @@ class AdminTest extends TestCase
     public function it_change_user_storage_capacity()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create(['role' => 'user']);
 
         $admin = User::factory()
+            ->hasSettings()
             ->create(['role' => 'admin']);
 
         $this
@@ -195,9 +203,11 @@ class AdminTest extends TestCase
     public function it_change_user_role()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create(['role' => 'user']);
 
         $admin = User::factory()
+            ->hasSettings()
             ->create(['role' => 'admin']);
 
         $this
@@ -217,6 +227,7 @@ class AdminTest extends TestCase
     public function it_create_new_user_with_avatar()
     {
         $admin = User::factory()
+            ->hasSettings()
             ->create(['role' => 'admin']);
 
         $avatar = UploadedFile::fake()
@@ -242,7 +253,8 @@ class AdminTest extends TestCase
             ->get('email_verified_at'));
 
         $this->assertDatabaseHas('user_settings', [
-            'name' => 'John Doe',
+            'first_name' => 'John',
+            'last_name'  => 'Doe',
         ]);
 
         $avatar = User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar');
@@ -262,6 +274,7 @@ class AdminTest extends TestCase
     {
         // Create and login user
         $user = User::factory()
+            ->hasSettings()
             ->create(['role' => 'user']);
 
         Sanctum::actingAs($user);

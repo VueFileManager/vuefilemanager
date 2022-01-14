@@ -15,6 +15,7 @@ class DefaultRestrictionsTest extends TestCase
     public function it_can_upload()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this->assertEquals(true, $user->canUpload(9999999));
@@ -26,6 +27,7 @@ class DefaultRestrictionsTest extends TestCase
     public function it_cant_upload_because_storage_limit_exceeded()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         File::factory()
@@ -43,6 +45,7 @@ class DefaultRestrictionsTest extends TestCase
     public function it_can_upload_because_storage_limitation_is_turned_off_and_user_has_unlimited_limit()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         // Turn off storage limitation
@@ -68,6 +71,7 @@ class DefaultRestrictionsTest extends TestCase
     public function it_cant_upload_because_storage_limitation_is_turned_on_and_user_exceeded_limit()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         // Turn on storage limitation
@@ -93,6 +97,7 @@ class DefaultRestrictionsTest extends TestCase
     public function it_can_create_new_folder()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this
@@ -113,6 +118,7 @@ class DefaultRestrictionsTest extends TestCase
     public function it_can_get_private_file()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $file = File::factory()
@@ -135,6 +141,7 @@ class DefaultRestrictionsTest extends TestCase
     public function it_can_get_shared_file()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $file = File::factory()
@@ -163,6 +170,7 @@ class DefaultRestrictionsTest extends TestCase
     public function it_can_get_share_page()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $share = Share::factory()

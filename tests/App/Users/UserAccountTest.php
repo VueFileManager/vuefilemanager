@@ -18,6 +18,7 @@ class UserAccountTest extends TestCase
     public function it_generate_and_store_user()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create(['role' => 'user']);
 
         $this->assertDatabaseHas('users', [
@@ -65,6 +66,7 @@ class UserAccountTest extends TestCase
     public function it_change_user_password_in_profile_settings()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this
@@ -84,6 +86,7 @@ class UserAccountTest extends TestCase
     public function it_update_user_settings()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this
@@ -104,6 +107,7 @@ class UserAccountTest extends TestCase
     public function it_update_user_avatar()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $avatar = UploadedFile::fake()
@@ -128,6 +132,7 @@ class UserAccountTest extends TestCase
     public function it_get_user_data()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $this

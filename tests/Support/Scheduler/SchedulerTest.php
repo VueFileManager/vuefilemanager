@@ -24,6 +24,7 @@ class SchedulerTest extends TestCase
     public function it_report_usage_of_subscription()
     {
         $user = User::factory()
+            ->hasSettings()
             ->create();
 
         $plan = Plan::factory()
