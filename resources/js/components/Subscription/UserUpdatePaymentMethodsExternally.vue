@@ -1,5 +1,5 @@
 <template>
-	<div v-if="hasSubscription && ['paystack', 'paypal'].includes(subscription.attributes.driver)" class="card shadow-card">
+	<div v-if="canShowForSubscription" class="card shadow-card">
 		<FormLabel>
 			{{ $t('Update Payments') }}
 		</FormLabel>
@@ -27,6 +27,11 @@
 			FormLabel
 		},
 		computed: {
+			canShowForSubscription() {
+				return this.hasSubscription
+					&& ! this.subscription.attributes.is_cancelled
+					&& ['paystack', 'paypal'].includes(this.subscription.attributes.driver)
+			},
 			subscription() {
 				return this.$store.getters.user.data.relationships.subscription.data
 			},

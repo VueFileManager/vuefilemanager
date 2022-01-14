@@ -28,7 +28,7 @@
     "/chunks/app-settings.js": "/chunks/app-settings.js?id=62ce73b2d66590912cbc",
     "/chunks/app-setup.js": "/chunks/app-setup.js?id=c3a013b11ae7bde6f39d",
     "/chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/database~chunks/email-veri~2c1222b7.js": "/chunks/app-setup~chunks/billings-detail~chunks/create-new-password~chunks/database~chunks/email-veri~2c1222b7.js?id=5963f5d9fb4e759c600a",
-    "/chunks/billing.js": "/chunks/billing.js?id=6d0bf00d7c11dc9ce225",
+    "/chunks/billing.js": "/chunks/billing.js?id=9baf66b9df7941bc8864",
     "/chunks/billings-detail.js": "/chunks/billings-detail.js?id=0ffe43f76a33278ce1b8",
     "/chunks/billing~chunks/dashboard~chunks/invoices~chunks/pages~chunks/payments/settings~chunks/plan-su~cdf8788b.js": "/chunks/billing~chunks/dashboard~chunks/invoices~chunks/pages~chunks/payments/settings~chunks/plan-su~cdf8788b.js?id=d56f3c7df8d8dd9caaaf",
     "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.js": "/chunks/billing~chunks/settings-storage~chunks/user-storage~chunks/user-subscription.js?id=669bd6d15cfa4c6e75df",
@@ -138,5 +138,13 @@
     "/chunks/billing.666f2dd684b693790e59.hot-update.js": "/chunks/billing.666f2dd684b693790e59.hot-update.js",
     "/chunks/billing.0411e0bd475ce0850b70.hot-update.js": "/chunks/billing.0411e0bd475ce0850b70.hot-update.js",
     "/chunks/billing.4e265415d9bd21aec025.hot-update.js": "/chunks/billing.4e265415d9bd21aec025.hot-update.js",
-    "/chunks/billing.23938b7bc508e671f033.hot-update.js": "/chunks/billing.23938b7bc508e671f033.hot-update.js"
+    "/chunks/billing.23938b7bc508e671f033.hot-update.js": "/chunks/billing.23938b7bc508e671f033.hot-update.js",
+    "/chunks/billing.652191212bad1c4fff2c.hot-update.js": "/chunks/billing.652191212bad1c4fff2c.hot-update.js",
+    "/chunks/billing.393c7b89f22c195bbf29.hot-update.js": "/chunks/billing.393c7b89f22c195bbf29.hot-update.js",
+    "/chunks/billing.7325c203725174cd3b0f.hot-update.js": "/chunks/billing.7325c203725174cd3b0f.hot-update.js",
+    "/chunks/billing.3796a87b05cd5733c018.hot-update.js": "/chunks/billing.3796a87b05cd5733c018.hot-update.js",
+    "/chunks/billing.89145ebd5c1ad690fa59.hot-update.js": "/chunks/billing.89145ebd5c1ad690fa59.hot-update.js",
+    "/chunks/billing.b38423c36469809d42e1.hot-update.js": "/chunks/billing.b38423c36469809d42e1.hot-update.js",
+    "/chunks/billing.8ac026b714b94c8edb66.hot-update.js": "/chunks/billing.8ac026b714b94c8edb66.hot-update.js",
+    "/chunks/billing.99477b15c200ed7e5cc2.hot-update.js": "/chunks/billing.99477b15c200ed7e5cc2.hot-update.js"
 }

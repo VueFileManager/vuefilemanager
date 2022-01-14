@@ -5,7 +5,13 @@
 			<!--Failed Payments-->
 			<UserFailedPayments />
 
-			<!--Balance-->
+			<!--
+				...
+				Charge user and increase his balance
+				...
+				Available for PayPal, Paystack
+				...
+			-->
 			<UserBalance/>
 
 			<!--Usage Estimates-->
@@ -14,10 +20,17 @@
 			<!--Billing Alert-->
 			<UserBillingAlerts />
 
-			<!-- Payment method for automatically handle payments - only for Stripe -->
+			<!--
+				...
+				We can store user credit card and charge for fixed billing and metered billing
+				This component handle storing and showing payment card UI
+				...
+				Handle only Stripe
+				...
+			-->
 			<UserStoredPaymentMethods />
 
-			<!--Transactions-->
+			<!-- Show all users transactions -->
 			<UserTransactionsForMeteredBilling />
 		</div>
 
@@ -29,16 +42,30 @@
 			<!-- Subscription Detail -->
 			<UserFixedSubscriptionDetail />
 
-			<!-- Payment method for automatically handle payments - only for Stripe -->
+			<!--
+				...
+				We can store user credit card and charge for fixed billing and metered billing
+				This component handle storing and showing payment card UI
+				...
+				Handle only Stripe
+				...
+			-->
 			<UserStoredPaymentMethods />
 
-			<!-- Update payment in external source -->
+			<!--
+				...
+			 	Paystack or PayPal need generate external resources to update payment method.
+			 	This component will handle all user cases
+			 	...
+			 	Handle only Paypal, Paystack
+			 	...
+			 -->
 			<UserUpdatePaymentMethodsExternally />
 
-			<!-- Edit subscription -->
+			<!-- Component for cancel or upgrade subscription plan -->
 			<UserEditSubscription />
 
-			<!-- Transactions -->
+			<!-- Show all users transactions -->
 			<UserTransactionsForFixedBilling />
 		</div>
 
