@@ -1,5 +1,6 @@
 <?php
 
+use Domain\Admin\Controllers\Dashboard\GetLatestTransactionsController;
 use Domain\Admin\Controllers\Users\UserController;
 use Domain\Pages\Controllers\AdminPagesController;
 use Domain\Settings\Controllers\SetEmailController;
@@ -20,6 +21,7 @@ use Domain\Settings\Controllers\StorePaymentServiceCredentialsController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
+    Route::get('/transactions', GetLatestTransactionsController::class);
     Route::get('/newbies', GetNewbiesController::class);
     Route::get('/', GetDashboardDataController::class);
 });

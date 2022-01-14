@@ -131,6 +131,15 @@
 
 				<WidgetLatestRegistrations />
 			</div>
+
+			<!--Latest transactions widgets-->
+			<div v-if="['fixed', 'metered'].includes(this.config.subscriptionType)" class="card shadow-card md:mb-6 mb-4">
+				<FormLabel icon="dollar">
+					{{ $t('Latest Transactions') }}
+				</FormLabel>
+
+				<WidgetLatestTransactions />
+			</div>
         </div>
         <div id="loader" v-if="isLoading">
             <Spinner></Spinner>
@@ -148,10 +157,12 @@
 	import BarChart from "../../components/UI/BarChart"
     import { mapGetters } from 'vuex'
     import axios from 'axios'
+	import WidgetLatestTransactions from "../../components/Admin/WidgetLatestTransactions";
 
     export default {
         name: 'Dashboard',
         components: {
+			WidgetLatestTransactions,
             WidgetLatestRegistrations,
 			ChevronRightIcon,
 			WidgetWrapper,
