@@ -5,7 +5,7 @@
 		</FormLabel>
 
 		<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
-			-{{ user.data.meta.totalDebt }}
+			-{{ user.data.meta.totalDebt.formatted }}
 		</b>
 
 		<b class="mb-3 block text-sm text-gray-400 mb-5">
