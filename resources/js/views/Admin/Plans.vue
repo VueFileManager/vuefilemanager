@@ -94,10 +94,10 @@
                         </td>
                         <td>
                             <div class="flex space-x-2 w-full justify-end">
-                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'PlanSettings', params: {id: row.data.id}}">
+                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'PlanFixedSettings', params: {id: row.data.id}}">
                                     <Edit2Icon size="15" class="opacity-75" />
                                 </router-link>
-                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'PlanDelete', params: {id: row.data.id}}">
+                                <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'PlanFixedDelete', params: {id: row.data.id}}">
                                     <Trash2Icon size="15" class="opacity-75" />
                                 </router-link>
                             </div>

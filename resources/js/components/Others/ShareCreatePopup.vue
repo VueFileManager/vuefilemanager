@@ -47,7 +47,7 @@
 
                 <!--Send on emails switch-->
 				<div>
-					<AppInputSwitch :title="$t('popup.share.email_send')" :description="$t('popup.share.email_description')">
+					<AppInputSwitch :title="$t('popup.share.email_send')" :description="$t('popup.share.email_description')" :is-last="! isEmailSharing">
 						<SwitchInput v-model="isEmailSharing" class="switch" :state="isEmailSharing" />
 					</AppInputSwitch>
 

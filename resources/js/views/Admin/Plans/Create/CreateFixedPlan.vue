@@ -116,6 +116,7 @@
 			...mapGetters([
 				'currencyList',
 				'intervalList',
+				'config',
 			])
 		},
 		data() {
@@ -160,6 +161,14 @@
 
 						// Go to plan page
 						this.$router.push({name: 'PlanFixedSettings', params: {id: response.data.data.id}})
+
+						// Set default state {isEmptyPlans} to false
+						if (this.config.isEmptyPlans) {
+							this.$store.commit('REPLACE_CONFIG_VALUE', {
+								key: 'isEmptyPlans',
+								value: false,
+							})
+						}
 					})
 					.catch(error => {
 

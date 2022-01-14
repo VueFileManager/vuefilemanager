@@ -31,15 +31,16 @@
 						driver="paypal"
 						:description="$t('Available PayPal Credit, Debit or Credit Card.')"
 					>
-						<span v-if="! paypal.isMethodsLoaded" class="text-sm text-theme font-bold cursor-pointer">
+						<div v-if="paypal.isMethodLoading" class="transform scale-50 translate-y-3">
+							<Spinner />
+						</div>
+						<span v-if="! paypal.isMethodsLoaded" :class="{'opacity-0': paypal.isMethodLoading}" class="text-sm text-theme font-bold cursor-pointer">
 							{{ $t('Select') }}
 						</span>
 					</PaymentMethod>
 
 					<!--PayPal Buttons-->
-					<div v-if="paypal.isMethodsLoaded">
-						<div id="paypal-button-container"></div>
-					</div>
+					<div id="paypal-button-container"></div>
 				</div>
 
 				<!--Paystack implementation-->
@@ -189,6 +190,7 @@
 				},
 				paypal: {
 					isMethodsLoaded: false,
+					isMethodLoading: false
 				},
 				isPaymentOptionPage: false,
 				isSelectedYearlyPlans: false,
@@ -207,7 +209,7 @@
 				}
 			},
 			async PayPalInitialization() {
-				this.paypal.isMethodsLoaded = true
+				this.paypal.isMethodLoading = true
 
 				let paypal;
 
@@ -226,6 +228,9 @@
 				const planId = this.selectedPlan.data.meta.driver_plan_id.paypal
 				const userId = this.user.data.id
 				const app = this
+
+				this.paypal.isMethodsLoaded = true
+				this.paypal.isMethodLoading = false
 
 				// Initialize paypal buttons for single charge
 				await paypal.Buttons({

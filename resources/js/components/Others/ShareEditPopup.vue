@@ -54,7 +54,7 @@
 
 				<!--Expiration switch-->
 				<div>
-					<AppInputSwitch :title="$t('expiration')" :description="$t('popup.share.expiration_description')">
+					<AppInputSwitch :title="$t('expiration')" :description="$t('popup.share.expiration_description')" :is-last="!shareOptions.expiration">
 						<SwitchInput v-model="shareOptions.expiration" class="switch" :state="shareOptions.expiration ? 1 : 0" />
 					</AppInputSwitch>
 

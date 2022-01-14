@@ -105,6 +105,9 @@ const mutations = {
     STORE_REQUESTED_PLAN(state, plan) {
         state.requestedPlan = plan
     },
+    REPLACE_CONFIG_VALUE(state, {key, value}) {
+        state.config[key] = value
+    },
     SET_SOCIAL_LOGIN_CONFIGURED(state, service) {
         if (service === 'facebook') {
             state.config.allowedFacebookLogin = true

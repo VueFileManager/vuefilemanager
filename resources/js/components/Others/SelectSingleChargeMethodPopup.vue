@@ -7,22 +7,23 @@
 			<!--PayPal implementation-->
 			<div
 				v-if="config.isPayPal"
-				:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl px-4 mb-2': paypalMethodsLoaded}"
+				:class="{'dark:bg-2x-dark-foreground bg-light-background rounded-xl px-4 mb-2': paypal.isMethodsLoaded}"
 			>
 				<PaymentMethod
 					@click.native="pickedPaymentMethod('paypal')"
 					driver="paypal"
 					:description="config.paypal_payment_description"
 				>
-					<span v-if="! paypalMethodsLoaded" class="text-sm text-theme font-bold cursor-pointer">
+					<div v-if="paypal.isMethodLoading" class="transform scale-50 translate-y-3">
+						<Spinner />
+					</div>
+					<span v-if="! paypal.isMethodsLoaded" :class="{'opacity-0': paypal.isMethodLoading}" class="text-sm text-theme font-bold cursor-pointer">
 						{{ $t('Select') }}
 					</span>
 				</PaymentMethod>
 
 				<!--PayPal Buttons-->
-				<div v-if="paypalMethodsLoaded">
-					<div id="paypal-button-container"></div>
-				</div>
+				<div id="paypal-button-container"></div>
 			</div>
 
 			<!--Paystack implementation-->
@@ -71,6 +72,7 @@ import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
 import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
 import { loadScript } from "@paypal/paypal-js"
 import PaymentMethod from "./PaymentMethod"
+import Spinner from "../FilesView/Spinner"
 import {events} from '/resources/js/bus'
 import paystack from 'vue-paystack'
 import {mapGetters} from "vuex"
@@ -85,10 +87,14 @@ export default {
 		PopupHeader,
 		ButtonBase,
 		paystack,
+		Spinner,
 	},
 	data() {
 		return {
-			paypalMethodsLoaded: false,
+			paypal: {
+				isMethodsLoaded: false,
+				isMethodLoading: false,
+			}
 		}
 	},
 	computed: {
@@ -103,12 +109,12 @@ export default {
 			if (driver === 'paystack') {
 				this.$closePopup()
 			}
-			if (driver === 'paypal' && !this.paypalMethodsLoaded) {
+			if (driver === 'paypal' && !this.paypal.isMethodsLoaded) {
 				this.PayPalInitialization()
 			}
 		},
 		async PayPalInitialization() {
-			this.paypalMethodsLoaded = true
+			this.paypal.isMethodLoading = true
 
 			let paypal;
 
@@ -126,6 +132,9 @@ export default {
 
 			const userId = this.user.data.id
 			const amount = this.singleChargeAmount
+
+			this.paypal.isMethodsLoaded = true
+			this.paypal.isMethodLoading = false
 
 			// Initialize paypal buttons for single charge
 			await paypal.Buttons({
@@ -154,7 +163,7 @@ export default {
 		}
 	},
 	created() {
-		events.$on('popup:close', () => this.paypalMethodsLoaded = false)
+		events.$on('popup:close', () => this.paypal.isMethodsLoaded = false)
 	}
 }
 </script>

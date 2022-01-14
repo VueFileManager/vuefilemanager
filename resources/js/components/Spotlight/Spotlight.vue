@@ -456,7 +456,7 @@ export default {
 					})
 				}
 
-				return [].concat.apply([], [functionList, userSettings, fileLocations, adminActions, adminLocations])
+				return [].concat.apply([], [functionList, userSettings, fileLocations, adminLocations, adminActions])
 			}
 
 			if (this.user.data.attributes.role === 'user') {

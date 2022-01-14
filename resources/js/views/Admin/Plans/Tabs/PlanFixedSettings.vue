@@ -51,7 +51,7 @@
     import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
 
     export default {
-        name: 'PlanSettings',
+        name: 'PlanFixedSettings',
         props: [
             'plan'
         ],
