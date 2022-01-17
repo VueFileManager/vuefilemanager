@@ -39,6 +39,7 @@
 
 **These PHP Extensions are require:**
 
+- Intl
 - GD
 - BCMath
 - PDO
