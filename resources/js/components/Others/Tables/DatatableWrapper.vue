@@ -2,7 +2,7 @@
     <div class="w-full">
         <table v-if="hasData" class="w-full">
             <thead class="">
-				<tr>
+				<tr class="whitespace-nowrap">
 					<th
 						class="text-left"
 						v-for="(column, index) in columns"

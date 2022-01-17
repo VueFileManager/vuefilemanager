@@ -146,7 +146,7 @@ class GenerateDemoSubscriptionContentCommand extends Command
                         'type'       => 'withdrawal',
                         'created_at' => now()->subDays(2),
                         'amount'     => $isHowdy ? 12.59 : random_int(1, 20),
-                        'note'       => now()->subDays(2)->format('d. M') . ' - ' . now()->subDays(32)->format('d. M'),
+                        'note'       => now()->subDays(32)->format('d. M') . ' - ' . now()->subDays(2)->format('d. M'),
                         'driver'     => 'system',
                     ],
                     [
@@ -159,28 +159,28 @@ class GenerateDemoSubscriptionContentCommand extends Command
                     [
                         'type'       => 'withdrawal',
                         'created_at' => now()->subDays(26 * 1),
-                        'note'       => now()->subDays(26 * 1)->format('d. M') . ' - ' . now()->subDays(30 + 26 * 1)->format('d. M'),
+                        'note'       => now()->subDays(30 + 26 * 1)->format('d. M') . ' - ' . now()->subDays(26 * 1)->format('d. M'),
                         'amount'     => $isHowdy ? 2.38 : random_int(1, 20),
                         'driver'     => 'system',
                     ],
                     [
                         'type'       => 'withdrawal',
                         'created_at' => now()->subDays(26 * 2),
-                        'note'       => now()->subDays(26 * 2)->format('d. M') . ' - ' . now()->subDays(30 + 26 * 2)->format('d. M'),
+                        'note'       => now()->subDays(30 + 26 * 2)->format('d. M') . ' - ' . now()->subDays(26 * 2)->format('d. M'),
                         'amount'     => $isHowdy ? 5.12 : random_int(1, 20),
                         'driver'     => 'system',
                     ],
                     [
                         'type'       => 'withdrawal',
                         'created_at' => now()->subDays(26 * 3),
-                        'note'       => now()->subDays(26 * 3)->format('d. M') . ' - ' . now()->subDays(30 + 26 * 3)->format('d. M'),
+                        'note'       => now()->subDays(30 + 26 * 3)->format('d. M') . ' - ' . now()->subDays(26 * 3)->format('d. M'),
                         'amount'     => $isHowdy ? 3.89 : random_int(1, 20),
                         'driver'     => 'system',
                     ],
                     [
                         'type'       => 'withdrawal',
                         'created_at' => now()->subDays(26 * 4),
-                        'note'       => now()->subDays(26 * 4)->format('d. M') . ' - ' . now()->subDays(30 + 26 * 4)->format('d. M'),
+                        'note'       => now()->subDays(30 + 26 * 4)->format('d. M') . ' - ' . now()->subDays(26 * 4)->format('d. M'),
                         'amount'     => $isHowdy ? 7.42 : random_int(1, 20),
                         'driver'     => 'system',
                     ],
@@ -192,16 +192,46 @@ class GenerateDemoSubscriptionContentCommand extends Command
                         'driver'     => 'paypal',
                     ],
                 ])->each(
-                    fn ($transaction) => $user->transactions()->create([
-                        'type'       => $transaction['type'],
-                        'status'     => 'completed',
-                        'note'       => $transaction['note'],
-                        'currency'   => $plan->currency,
-                        'driver'     => $transaction['driver'],
-                        'amount'     => $transaction['amount'],
-                        'created_at' => $transaction['created_at'],
-                        'reference'  => Str::random(12),
-                    ])
+                    function ($transaction) use ($user, $plan) {
+                        $bandwidthUsage = random_int(1000, 12000);
+                        $storageUsage = random_int(300, 4900);
+                        $memberUsage = random_int(3, 20);
+
+                        $user->transactions()->create([
+                            'type'       => $transaction['type'],
+                            'status'     => 'completed',
+                            'note'       => $transaction['note'],
+                            'currency'   => $plan->currency,
+                            'driver'     => $transaction['driver'],
+                            'amount'     => $transaction['amount'],
+                            'created_at' => $transaction['created_at'],
+                            'reference'  => Str::random(12),
+                            'metadata'   => $transaction['type'] === 'withdrawal'
+                                ? [
+                                    [
+                                        'feature' => 'bandwidth',
+                                        'amount'  => 0.29 * $bandwidthUsage,
+                                        'usage'   => $bandwidthUsage,
+                                    ],
+                                    [
+                                        'feature' => 'storage',
+                                        'amount'  => 0.19 * $storageUsage,
+                                        'usage'   => $storageUsage,
+                                    ],
+                                    [
+                                        'feature' => 'flatFee',
+                                        'amount'  => 2.49,
+                                        'usage'   => 1,
+                                    ],
+                                    [
+                                        'feature' => 'member',
+                                        'amount'  => 0.10 * $memberUsage,
+                                        'usage'   => $memberUsage,
+                                    ],
+                                ]
+                                : null,
+                        ]);
+                    }
                 );
 
                 // Make fake credit card

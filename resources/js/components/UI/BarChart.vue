@@ -13,7 +13,7 @@
 			v-if="ghostLength > 0"
 			class="2xl:w-3 md:w-2 w-1 block rounded-lg lg:mr-2 mr-1.5 dark:bg-gray-800 bg-gray-100"
 			v-for="(ghost, i) in ghostLength"
-			:style="{height: '5%'}"
+			:style="{height: '7%'}"
 			:key="i">
 		</span>
 	</div>
