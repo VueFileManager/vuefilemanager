@@ -9,7 +9,7 @@
 			/>
 
             <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form" class="md:flex items-start md:space-x-4 md:space-y-0 space-y-4 mb-12">
-                <ValidationProvider class="w-full text-left relative" tag="div" mode="passive" name="E-Mail" rules="required" v-slot="{ errors }">
+                <ValidationProvider class="w-full text-left" tag="div" mode="passive" name="E-Mail" rules="required" v-slot="{ errors }">
                     <input class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background w-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}" v-model="loginEmail" :placeholder="$t('page_login.placeholder_email')" type="email" />
                     <span class="text-red-600 text-xs text-left" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -96,7 +96,7 @@
                 </b>
             </span>
 
-            <div class="spinner-wrapper">
+            <div class="relative h-12 mt-10 w-full">
                 <Spinner v-if="isLoading" class="spinner" />
             </div>
 
@@ -124,7 +124,7 @@
 			   {{ $t('2fa.i_have_2fa_app') }}
 			</b>
 
-             <div v-if="isLoading" class="spinner-wrapper">
+             <div v-if="isLoading" class="relative h-12 mt-10 w-full">
                 <Spinner class="spinner" />
             </div>
         </AuthContent>
@@ -377,13 +377,3 @@
 		}
 	}
 </script>
-
-<style scoped lang="scss">
-
-    .spinner-wrapper {
-		width: 100%;
-		height: 50px;
-		position: relative;
-		top: 50px;
-	}
-</style>

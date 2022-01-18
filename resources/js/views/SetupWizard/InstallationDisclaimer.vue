@@ -141,7 +141,6 @@
 </script>
 
 <style scoped lang="scss">
-    //@import '/resources/sass/vuefilemanagerr/_auth-form';
     @import '/resources/sass/vuefilemanager/_forms';
     @import '/resources/sass/vuefilemanager/_auth';
     @import '/resources/sass/vuefilemanager/_setup_wizard';

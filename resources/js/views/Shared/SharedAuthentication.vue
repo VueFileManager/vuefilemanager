@@ -1,26 +1,24 @@
 <template>
-    <div id="password-view">
-        <AuthContent class="center" name="password" :visible="true">
-            <Headline
+	<AuthContentWrapper>
+		<AuthContent name="password" :visible="true">
+			<Headline
 				:title="$t('page_shared.title')"
 				:description="$t('page_shared.subtitle')"
 			/>
-
-            <ValidationObserver @submit.prevent="authenticateProtected" ref="authenticateProtected" v-slot="{ invalid }" tag="form" class="form inline-form">
-
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Password" rules="required" v-slot="{ errors }">
-                    <input v-model="password" :placeholder="$t('page_shared.placeholder_pass')" type="password" :class="{'border-red': errors[0]}" />
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                </ValidationProvider>
-
-                <AuthButton icon="chevron-right" :text="$t('page_shared.submit')" :loading="isLoading" :disabled="isLoading" />
-            </ValidationObserver>
-        </AuthContent>
-    </div>
+			<ValidationObserver @submit.prevent="authenticateProtected" ref="authenticateProtected" v-slot="{ invalid }" tag="form" class="md:flex items-start md:space-x-4 md:space-y-0 space-y-4 mb-12">
+				<ValidationProvider tag="div" mode="passive" class="w-full text-left" name="Password" rules="required" v-slot="{ errors }">
+					<input v-model="password" :placeholder="$t('page_shared.placeholder_pass')" type="password" class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background w-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}" />
+					<span class="text-red-600 text-xs text-left" v-if="errors[0]">{{ errors[0] }}</span>
+				</ValidationProvider>
+				<AuthButton class="md:w-min w-full justify-center" icon="chevron-right" :text="$t('page_shared.submit')" :loading="isLoading" :disabled="isLoading" />
+			</ValidationObserver>
+		</AuthContent>
+	</AuthContentWrapper>
 </template>
 
 <script>
 	import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+	import AuthContentWrapper from "../../components/Auth/AuthContentWrapper"
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
 	import Headline from "../Auth/Headline";
@@ -32,6 +30,7 @@
         components: {
             ValidationObserver,
             ValidationProvider,
+			AuthContentWrapper,
             AuthContent,
             AuthButton,
 			Headline,
@@ -89,20 +88,3 @@
         },
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_auth-form';
-    @import '/resources/sass/vuefilemanager/_auth';
-
-    #password-view {
-        width: 100%;
-        display: grid;
-        height: inherit;
-
-        .center {
-            margin: auto;
-        }
-    }
-</style>

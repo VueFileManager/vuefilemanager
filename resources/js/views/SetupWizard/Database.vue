@@ -183,7 +183,6 @@
 </script>
 
 <style scoped lang="scss">
-    //@import '/resources/sass/vue-file-manager/_auth-form';
     @import '/resources/sass/vuefilemanager/_forms';
     @import '/resources/sass/vuefilemanager/_auth';
     @import '/resources/sass/vuefilemanager/_setup_wizard';

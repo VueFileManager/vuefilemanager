@@ -8,45 +8,46 @@
 				:description="$t('page_create_password.subtitle')"
 			/>
 
-            <ValidationObserver @submit.prevent="createNewPassword" ref="create_new_password" v-slot="{ invalid }" tag="form" class="form block-form create-new-password">
+            <ValidationObserver @submit.prevent="createNewPassword" ref="create_new_password" v-slot="{ invalid }" tag="form" class="space-y-4 mb-12 text-left">
 
-                <div class="block-wrapper">
-                    <label>{{ $t('page_create_password.label_email') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
-                                        v-slot="{ errors }">
-                        <input v-model="recoverPassword.email" :placeholder="$t('page_login.placeholder_email')" type="email"
-                               :class="{'border-red': errors[0]}"/>
+                <div class="md:flex md:items-center mb-5 md:max-w-lg mx-auto">
+                    <label class="md:w-72 md:text-right md:pr-4 font-bold md:mb-0 mb-1.5 block">
+						{{ $t('page_create_password.label_email') }}:
+					</label>
+                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="E-Mail" rules="required" v-slot="{ errors }">
+                        <input v-model="recoverPassword.email" :placeholder="$t('page_login.placeholder_email')" type="email" class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background w-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('page_create_password.label_new_pass') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="New Password"
-                                        rules="required" v-slot="{ errors }">
-                        <input v-model="recoverPassword.newPassword" :placeholder="$t('page_create_password.label_new_pass')" type="password"
-                               :class="{'border-red': errors[0]}"/>
+                <div class="md:flex md:items-center mb-5 md:max-w-lg mx-auto">
+                    <label class="md:w-72 md:text-right md:pr-4 font-bold md:mb-0 mb-1.5 block">
+						{{ $t('page_create_password.label_new_pass') }}:
+					</label>
+                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="New Password" rules="required" v-slot="{ errors }">
+                        <input v-model="recoverPassword.newPassword" :placeholder="$t('page_create_password.label_new_pass')" type="password" class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background w-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
-                <div class="block-wrapper">
-                    <label>{{ $t('page_create_password.label_confirm_pass') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Confirm Password"
-                                        rules="required" v-slot="{ errors }">
-                        <input v-model="recoverPassword.newPasswordConfirm" :placeholder="$t('page_create_password.label_confirm_pass')"
-                               type="password" :class="{'border-red': errors[0]}"/>
+                <div class="md:flex md:items-center mb-5 md:max-w-lg mx-auto">
+                    <label class="md:w-72 md:text-right md:pr-4 font-bold md:mb-0 mb-1.5 block">
+						{{ $t('page_create_password.label_confirm_pass') }}:
+					</label>
+                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="Confirm Password" rules="required" v-slot="{ errors }">
+                        <input v-model="recoverPassword.newPasswordConfirm" :placeholder="$t('page_create_password.label_confirm_pass')" type="password" class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background w-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}"/>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
-                <div>
-                    <AuthButton icon="chevron-right" :text="$t('page_create_password.button_update')" :loading="isLoading" :disabled="isLoading"/>
-                </div>
+				<div>
+					<AuthButton class="md:w-min w-full justify-center mt-12" icon="chevron-right" :text="$t('page_create_password.button_update')" :loading="isLoading" :disabled="isLoading"/>
+				</div>
             </ValidationObserver>
 
-            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }}
-                <router-link :to="{name: 'SignIn'}">
+            <span class="block">
+				{{ $t('page_forgotten_password.password_remember_text') }}
+                <router-link :to="{name: 'SignIn'}" class="font-bold text-theme">
                     {{ $t('page_forgotten_password.password_remember_button') }}
                 </router-link>
             </span>
@@ -144,7 +145,7 @@
                     })
                     .catch(error => {
 
-                        if (error.response.status == 422) {
+                        if (error.response.status === 422) {
 
                             if (error.response.data.error) {
 
@@ -173,8 +174,3 @@
         }
     }
 </script>
-
-<style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_auth-form';
-    @import '/resources/sass/vuefilemanager/_auth';
-</style>
