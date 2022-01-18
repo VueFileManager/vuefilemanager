@@ -12,7 +12,7 @@ class GetTransactionsController extends Controller
         $transactions = Auth::user()
             ->transactions()
             ->sortable(['created_at' => 'desc'])
-            ->paginate(20);
+            ->paginate(15);
 
         return new TransactionCollection($transactions);
     }

@@ -16,7 +16,7 @@ class UserController extends Controller
     public function index(): UsersCollection
     {
         $users = User::sortable(['created_at', 'DESC'])
-            ->paginate(20);
+            ->paginate(15);
 
         return new UsersCollection($users);
     }

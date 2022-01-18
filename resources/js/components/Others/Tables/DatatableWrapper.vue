@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <table v-if="hasData" class="w-full">
-            <thead class="">
+            <thead>
 				<tr class="whitespace-nowrap">
 					<th
 						class="text-left"
@@ -32,95 +32,96 @@
             </tbody>
         </table>
 
+		<!--Empty data slot-->
         <slot v-if="! isLoading && ! hasData" name="empty-page"></slot>
 
 		<!--Paginator-->
-        <div v-if="paginator && hasData" class="paginator-wrapper">
+        <div v-if="paginator && hasData" class="mt-6 flex justify-between items-center">
 
             <!--Show if there is only 6 pages-->
-            <ul v-if="data.meta.total > 15 && data.meta.last_page <= 6" class="pagination flex align-items">
+            <ul v-if="data.meta.total > 15 && data.meta.last_page <= 6" class="pagination flex items-center">
 
                 <!--Go previous icon-->
-                <li class="page-item previous">
-                    <a @click="goToPage(pageIndex - 1)" class="page-link" :class="{ disabled: pageIndex == 0 }">
-                        <chevron-left-icon size="14" class="icon" />
+                <li class="p-1 inline-block previous">
+                    <a @click="goToPage(pageIndex - 1)" class="page-link" :class="{ 'opacity-20 cursor-default': pageIndex === 1 }">
+                        <chevron-left-icon size="14" class="inline-block" />
                     </a>
                 </li>
 
-                <li v-for="(page, index) in data.meta.last_page" :key="index" class="page-item" @click="goToPage(page)">
-                    <a class="page-link" :class="{ active: pageIndex === page }">
+                <li v-for="(page, index) in data.meta.last_page" :key="index" class="p-1 inline-block" @click="goToPage(page)">
+                    <a class="page-link" :class="{'dark:text-gray-300 dark:bg-4x-dark-foreground bg-light-background': pageIndex === page }">
                         {{ page }}
                     </a>
                 </li>
 
 				<!--Go next icon-->
-                <li class="page-item next">
-                    <a @click="goToPage(pageIndex + 1)" class="page-link" :class="{ disabled: pageIndex + 1 == data.meta.last_page }">
-                        <chevron-right-icon size="14" class="icon" />
+                <li class="p-1 inline-block next">
+                    <a @click="goToPage(pageIndex + 1)" class="page-link" :class="{ 'opacity-20 cursor-default': pageIndex === data.meta.last_page }">
+                        <chevron-right-icon size="14" class="inline-block" />
                     </a>
                 </li>
             </ul>
 
 			<!--Show if there is more than 6 pages-->
-            <ul v-if="data.meta.total > 15 && data.meta.last_page > 6" class="pagination">
+            <ul v-if="data.meta.total > 15 && data.meta.last_page > 6" class="pagination flex items-center">
 
                 <!--Go previous icon-->
-                <li class="page-item previous">
-                    <a @click="goToPage(pageIndex - 1)" class="page-link" :class="{ disabled: pageIndex == 0 }">
-                        <chevron-left-icon size="14" class="icon" />
+                <li class="p-1 inline-block previous">
+                    <a @click="goToPage(pageIndex - 1)" class="page-link" :class="{'opacity-20 cursor-default': pageIndex === 1 }">
+                        <chevron-left-icon size="14" class="inline-block" />
                     </a>
                 </li>
 
 				<!--Show first Page-->
-                <li class="page-item" v-if="pageIndex >= 5" @click="goToPage(1)">
+                <li class="p-1 inline-block" v-if="pageIndex >= 5" @click="goToPage(1)">
                     <a class="page-link">
                         1
                     </a>
                 </li>
 
-                <li v-if="pageIndex < 5" v-for="(page, index) in 5" :key="index" class="page-item" @click="goToPage(page)">
-                    <a class="page-link" :class="{ active: pageIndex === page }">
+                <li v-if="pageIndex < 5" v-for="(page, index) in 5" :key="index" class="p-1 inline-block" @click="goToPage(page)">
+                    <a class="page-link" :class="{'dark:text-gray-300 dark:bg-4x-dark-foreground bg-light-background': pageIndex === page }">
                         {{ page }}
                     </a>
                 </li>
 
-                <li class="page-item" v-if="pageIndex >= 5">
+                <li class="p-1 inline-block" v-if="pageIndex >= 5">
                     <a class="page-link">...</a>
                 </li>
 
 				<!--Floated Pages-->
-                <li v-if="pageIndex >= 5 && pageIndex < (data.meta.last_page - 3)" v-for="(page, index) in floatPages" :key="index" class="page-item" @click="goToPage(page)">
-                    <a class="page-link" :class="{ active: pageIndex === page }">
+                <li v-if="pageIndex >= 5 && pageIndex < (data.meta.last_page - 3)" v-for="(page, index) in floatPages" :key="index" class="p-1 inline-block" @click="goToPage(page)">
+                    <a class="page-link" :class="{'dark:text-gray-300 dark:bg-4x-dark-foreground bg-light-background': pageIndex === page }">
                         {{ page }}
                     </a>
                 </li>
 
-                <li class="page-item" v-if="pageIndex < (data.meta.last_page - 3)">
+                <li class="p-1 inline-block" v-if="pageIndex < (data.meta.last_page - 3)">
                     <a class="page-link">...</a>
                 </li>
 
-                <li v-if="pageIndex > (data.meta.last_page - 4)" v-for="(page, index) in 5" :key="index" class="page-item" @click="goToPage(data.meta.last_page - (4 - index))">
-                    <a class="page-link" :class="{ active: pageIndex === (data.meta.last_page - (4 - index)) }">
+                <li v-if="pageIndex > (data.meta.last_page - 4)" v-for="(page, index) in 5" :key="index" class="p-1 inline-block" @click="goToPage(data.meta.last_page - (4 - index))">
+                    <a class="page-link" :class="{ 'dark:text-gray-300 dark:bg-4x-dark-foreground bg-light-background': pageIndex === (data.meta.last_page - (4 - index)) }">
                         {{ data.meta.last_page - (4 - index) }}
                     </a>
                 </li>
 
 				<!--Show last page-->
-                <li class="page-item" v-if="pageIndex < (data.meta.last_page - 3)" @click="goToPage(data.meta.last_page)">
+                <li class="p-1 inline-block" v-if="pageIndex < (data.meta.last_page - 3)" @click="goToPage(data.meta.last_page)">
                     <a class="page-link">
                         {{ data.meta.last_page }}
                     </a>
                 </li>
 
 				<!--Go next icon-->
-                <li class="page-item next">
-                    <a @click="goToPage(pageIndex + 1)" class="page-link" :class="{ disabled: pageIndex + 1 == data.meta.last_page }">
-                        <chevron-right-icon size="14" class="icon" />
+                <li class="p-1 inline-block next">
+                    <a @click="goToPage(pageIndex + 1)" class="page-link" :class="{ 'opacity-20 cursor-default': pageIndex === data.meta.last_page }">
+                        <chevron-right-icon size="14" class="inline-block" />
                     </a>
                 </li>
             </ul>
 
-            <span class="mt-10 flex items-center justify-between text-xs text-gray-600">
+            <span class="dark:text-gray-500 text-xs text-gray-600">
 				Showing {{ data.meta.from }} - {{ data.meta.to }} from {{ data.meta.total }} records
 			</span>
         </div>
@@ -135,7 +136,11 @@ import axios from "axios";
 export default {
 	name: 'DatatableWrapper',
 	props: [
-		'columns', 'scope', 'paginator', 'api', 'tableData'
+		'paginator',
+		'tableData',
+		'columns',
+		'scope',
+		'api',
 	],
 	components: {
 		ChevronRightIcon,
@@ -230,49 +235,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'resources/sass/vuefilemanager/_variables';
-@import 'resources/sass/vuefilemanager/_mixins';
-
-.page-item {
-	padding: 3px;
-	display: inline-block;
-}
-
-.page-link {
-	width: 30px;
-	height: 30px;
-	display: block;
-	color: $text;
-	border-radius: 6px;
-	text-align: center;
-	line-height: 2.4;
-	font-weight: bold;
-	font-size: 13px;
-	cursor: pointer;
-	@include transition(0.15s);
-
-	.icon {
-		vertical-align: middle;
-		margin-top: -2px;
+	.page-link {
+		@apply w-8 h-8 flex justify-center items-center block rounded-lg font-bold text-sm cursor-pointer hover:bg-light-background transition duration-200;
 	}
-
-	&:hover:not(.disabled) {
-		background: $light_background;
-		color: $text;
-	}
-
-	&.active {
-		color: $text;
-		background: $light_background;
-	}
-
-	&.disabled {
-		background: transparent;
-		cursor: default;
-
-		svg path {
-			fill: $text-muted;
-		}
-	}
-}
 </style>
