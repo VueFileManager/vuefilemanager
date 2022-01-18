@@ -1,5 +1,10 @@
 module.exports = {
-	purge: {content: ['./resources/js/**/*.{js,jsx,ts,tsx,vue}',]},
+	purge: {
+		content: [
+			'./resources/js/**/*.{js,jsx,ts,tsx,vue}',
+			'./resources/views/vuefilemanager/*.blade.php',
+		]
+	},
 	darkMode: 'class', // or 'media' or 'class'
 	theme: {
 		debugScreens: {
@@ -43,6 +48,9 @@ module.exports = {
 			boxShadow: {
 				card: '0 2px 6px 0 rgba(0, 0, 0, 0.04)',
 				card_red: '0 2px 6px 0 rgba(253, 57, 122, 0.04)',
+			},
+			screens: {
+				'print': {'raw': 'print'},
 			}
 		},
 	},

@@ -18,15 +18,7 @@ mix.js('resources/js/main.js', 'public/js')
     .postCss("resources/css/tailwind.css", "public/css", [
         require("tailwindcss"),
     ])
-    /*.sass('public/sass/invoice.scss', 'public/css/invoice.css', {
-        implementation: require('node-sass')
-    })*/
     .webpackConfig({
-        resolve: {
-            alias: {
-                "@modules": path.resolve(__dirname, "node_modules"),
-            }
-        },
         output: {
             chunkFilename: '[name].js?id=[chunkhash]',
         },

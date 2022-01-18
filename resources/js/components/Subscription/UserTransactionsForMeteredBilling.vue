@@ -48,9 +48,9 @@
 							<div @click="showTransactionDetail(row.data.id)" class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors">
 								<EyeIcon size="15" class="opacity-75" />
 							</div>
-							<div class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-md hover:bg-purple-100 dark:bg-2x-dark-foreground bg-light-background transition-colors">
+							<a :href="$getInvoiceLink(row.data.id)" target="_blank" class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-md hover:bg-purple-100 dark:bg-2x-dark-foreground bg-light-background transition-colors">
 								<FileTextIcon size="15" class="opacity-75" />
-							</div>
+							</a>
 						</div>
 						<div v-else>
 							-

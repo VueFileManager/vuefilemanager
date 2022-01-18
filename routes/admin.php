@@ -1,6 +1,5 @@
 <?php
 
-use Domain\Admin\Controllers\Dashboard\GetLatestTransactionsController;
 use Domain\Admin\Controllers\Users\UserController;
 use Domain\Pages\Controllers\AdminPagesController;
 use Domain\Settings\Controllers\SetEmailController;
@@ -15,6 +14,7 @@ use Domain\Admin\Controllers\Users\ResetUserPasswordController;
 use Domain\Admin\Controllers\Dashboard\GetDashboardDataController;
 use Domain\Localization\Controllers\UpdateLanguageStringController;
 use Domain\Admin\Controllers\Users\ShowUserStorageCapacityController;
+use Domain\Admin\Controllers\Dashboard\GetLatestTransactionsController;
 use Domain\Admin\Controllers\Users\ChangeUserStorageCapacityController;
 use Domain\Settings\Controllers\StoreSocialServiceCredentialsController;
 use Domain\Settings\Controllers\StorePaymentServiceCredentialsController;

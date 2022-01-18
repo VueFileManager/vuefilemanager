@@ -144,8 +144,8 @@ const FunctionHelpers = {
             return `/assets/icons/${brand}.svg`
         }
 
-        Vue.prototype.$getInvoiceLink = function (customer, id) {
-            return '/invoice/' + customer + '/' + id
+        Vue.prototype.$getInvoiceLink = function (id) {
+            return '/invoices/' + id
         }
 
         Vue.prototype.$uploadFiles = async function (files) {
