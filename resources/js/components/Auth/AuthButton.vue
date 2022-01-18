@@ -1,5 +1,5 @@
 <template>
-    <button class="group flex items-center border-2 border-black rounded-lg inline-block mx-auto px-7 py-2.5 whitespace-nowrap">
+    <button class="group flex items-center border-2 dark:border-gray-300 border-black rounded-lg inline-block mx-auto px-7 py-2.5 whitespace-nowrap">
         <span class="font-extrabold text-lg pr-1">
 			{{ text }}
 		</span>

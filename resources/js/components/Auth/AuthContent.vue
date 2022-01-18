@@ -1,14 +1,16 @@
 <template>
-    <div v-if="isVisible" class="auth-form">
+    <div v-if="isVisible" class="text-center w-full max-w-xl">
         <slot></slot>
     </div>
 </template>
 
 <script>
-
     export default {
         name: 'AuthContent',
-        props: ['visible', 'name'],
+        props: [
+			'visible',
+			'name'
+		],
         data() {
             return {
                 isVisible: false,

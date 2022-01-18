@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen flex justify-center items-center">
+    <div class="h-screen flex justify-center items-center md:px-0 px-5">
         <slot></slot>
     </div>
 </template>

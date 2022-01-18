@@ -6,12 +6,11 @@
 				:description="$t('page_email_successfully_send.subtitle')"
 			/>
 
-			<span class="additional-link">
-                <router-link :to="{name: 'Homepage'}" class="text-theme">
+			<span class="block">
+                <router-link :to="{name: 'Homepage'}" class="font-bold text-theme">
                     {{ $t('go_home') }}
                 </router-link>
             </span>
-           
         </AuthContent>
     </AuthContentWrapper>
 </template>
@@ -20,8 +19,7 @@
     import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
-	import Headline from "./Headline";
-    import {mapGetters} from 'vuex'
+	import Headline from "./Headline"
 
     export default {
         name: 'SuccessfullySendEmail',
@@ -31,13 +29,5 @@
             AuthButton,
 			Headline,
         },
-        computed: {
-            ...mapGetters(['config']),
-        },
     }
 </script>
-
-<style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_auth-form';
-    @import '/resources/sass/vuefilemanager/_auth';
-</style>

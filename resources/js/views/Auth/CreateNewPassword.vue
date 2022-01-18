@@ -8,8 +8,7 @@
 				:description="$t('page_create_password.subtitle')"
 			/>
 
-            <ValidationObserver @submit.prevent="createNewPassword" ref="create_new_password" v-slot="{ invalid }"
-                                tag="form" class="form block-form create-new-password">
+            <ValidationObserver @submit.prevent="createNewPassword" ref="create_new_password" v-slot="{ invalid }" tag="form" class="form block-form create-new-password">
 
                 <div class="block-wrapper">
                     <label>{{ $t('page_create_password.label_email') }}:</label>

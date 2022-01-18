@@ -6,10 +6,9 @@
 				:description="$t('page_email_successfully_verified.subtitle')"
 			/>
             
-            <a href="/sign-in">
+            <router-link :to="{name: 'SignIn'}">
                 <AuthButton icon="chevron-right" :text="$t('page_sign_in.button_log_in')"/>
-            </a>
-
+            </router-link>
         </AuthContent>
     </AuthContentWrapper>
 </template>
@@ -19,7 +18,6 @@
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
 	import Headline from "./Headline";
-	import {mapGetters} from 'vuex'
 
     export default {
         name: 'SuccessfullyEmailVerified',
@@ -29,13 +27,5 @@
             AuthButton,
 			Headline,
         },
-        computed: {
-            ...mapGetters(['config']),
-        },
     }
 </script>
-
-<style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_auth-form';
-    @import '/resources/sass/vuefilemanager/_auth';
-</style>

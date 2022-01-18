@@ -5,7 +5,6 @@
 <script>
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import {events} from "../../bus";
-import i18n from "../../i18n";
 
 export default {
     name: 'SocialiteCallback',
@@ -35,6 +34,5 @@ export default {
                 this.$router.push({name: 'SignIn'})
             })              
     }
-    
 }
 </script>

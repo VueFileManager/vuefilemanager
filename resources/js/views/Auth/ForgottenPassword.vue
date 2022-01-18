@@ -8,36 +8,33 @@
 				:description="$t('page_forgotten_password.subtitle')"
 			/>
 
-            <ValidationObserver @submit.prevent="forgottenPassword" ref="forgotten_password" v-slot="{ invalid }"
-                                tag="form" class="form inline-form">
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper mr-4" name="E-Mail" rules="required"
-                                    v-slot="{ errors }">
-                    <input v-model="recoverEmail" :placeholder="$t('page_login.placeholder_email')" type="email"
-                           class="focus-border-theme"
-                           :class="{'border-red': errors[0]}"/>
-                    <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+            <ValidationObserver @submit.prevent="forgottenPassword" ref="forgotten_password" v-slot="{ invalid }" tag="form" class="md:flex items-start md:space-x-4 md:space-y-0 space-y-4 mb-12">
+                <ValidationProvider tag="div" mode="passive" class="w-full text-left relative" name="E-Mail" rules="required" v-slot="{ errors }">
+                    <input v-model="recoverEmail" :placeholder="$t('page_login.placeholder_email')" type="email" class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background w-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}"/>
+                    <span class="text-red-600 text-xs text-left" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton icon="chevron-right" :text="$t('page_forgotten_password.button_get_link')" :loading="isLoading" :disabled="isLoading"/>
+                <AuthButton class="md:w-min w-full justify-center" icon="chevron-right" :text="$t('page_forgotten_password.button_get_link')" :loading="isLoading" :disabled="isLoading"/>
             </ValidationObserver>
 
-            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }}
-                <router-link :to="{name: 'SignIn'}" class="text-theme">
+            <span class="block">
+				{{ $t('page_forgotten_password.password_remember_text') }}
+                <router-link :to="{name: 'SignIn'}" class="font-bold text-theme">
                     {{ $t('page_forgotten_password.password_remember_button') }}
                 </router-link>
             </span>
         </AuthContent>
 
-        <!--Password reset link sended-->
+        <!--Password reset link send-->
         <AuthContent name="password-reset-link-sended" :visible="false">
-            <img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name">
-            <b v-if="! config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
+			<Headline
+				:title="$t('page_forgotten_password.pass_sennded_title')"
+				:description="$t('page_forgotten_password.pass_sennded_subtitle')"
+			/>
 
-            <h1>{{ $t('page_forgotten_password.pass_sennded_title') }}</h1>
-            <h2>{{ $t('page_forgotten_password.pass_sennded_subtitle') }}</h2>
-
-            <span class="additional-link">{{ $t('page_forgotten_password.password_remember_text') }}
-                <router-link :to="{name: 'SignIn'}" class="text-theme">
+            <span class="block">
+				{{ $t('page_forgotten_password.password_remember_text') }}
+                <router-link :to="{name: 'SignIn'}" class="font-bold text-theme">
                     {{ $t('page_forgotten_password.password_remember_button') }}
                 </router-link>
             </span>
@@ -46,8 +43,8 @@
 </template>
 
 <script>
-    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
     import AuthContent from '/resources/js/components/Auth/AuthContent'
     import AuthButton from '/resources/js/components/Auth/AuthButton'
     import {required} from 'vee-validate/dist/rules'
@@ -67,7 +64,9 @@
 			Headline,
         },
         computed: {
-            ...mapGetters(['config']),
+            ...mapGetters([
+				'config',
+			]),
         },
         data() {
             return {
@@ -77,7 +76,6 @@
         },
         methods: {
             goToAuthPage(slug) {
-
                 this.$refs.auth.$children.forEach(page => {
 
                     // Hide current step
@@ -107,27 +105,16 @@
                     })
                     .then(() => {
 
-                        // End loading
-                        this.isLoading = false
-
                         this.goToAuthPage('password-reset-link-sended')
                     }).catch(error => {
 
-                        if (error.response.status == 422) {
+                        if (error.response.status === 422) {
                             this.$refs.forgotten_password.setErrors({
                                 'E-Mail': error.response.data.message
                             });
                         }
-
-                        // End loading
-                        this.isLoading = false
-                    })
+                    }).finally(() => this.isLoading = false)
             },
         }
     }
 </script>
-
-<style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_auth-form';
-    @import '/resources/sass/vuefilemanager/_auth';
-</style>

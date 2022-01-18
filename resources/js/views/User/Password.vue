@@ -1,25 +1,22 @@
 <template>
     <PageTab>
-        <div class="card shadow-card">
+
+		<!--2fa authentication-->
+        <div v-if="user && ! user.data.attributes.socialite_account" class="card shadow-card">
             <FormLabel icon="smartphone">
                 {{ $t('2fa.settings.title') }}
             </FormLabel>
-            <AppInputSwitch :title="$t('popup_2fa.switch_title')" :description="$t('popup_2fa.switch_info')" :is-last="user && ! user.data.attributes.two_factor_authentication">
-                <SwitchInput @click.native.prevent.stop="open2faPopup"
-							 class="switch"
-							 :state="user.data.attributes.two_factor_authentication"
-				/>
+            <AppInputSwitch :title="$t('popup_2fa.switch_title')" :description="$t('popup_2fa.switch_info')" :is-last="! user.data.attributes.two_factor_authentication">
+                <SwitchInput @click.native.prevent.stop="open2faPopup" class="switch" :state="user.data.attributes.two_factor_authentication" />
             </AppInputSwitch>
             <AppInputSwitch v-if="user && user.data.attributes.two_factor_authentication" :title="$t('popup_2fa.codes_title')" :description="$t('popup_2fa.codes_info')" :is-last="true">
-                <ButtonBase
-					class="popup-button"
-					button-style="secondary"
-					@click.native="showRecoveryCodes"
-				>
+                <ButtonBase class="popup-button" button-style="secondary" @click.native="showRecoveryCodes">
                     {{ $t('popup_2fa.codes_button') }}
                 </ButtonBase>
             </AppInputSwitch>
         </div>
+
+		<!--Get personal api keys-->
         <div class="card shadow-card">
             <FormLabel icon="key">
                 {{ $t('personal_token.section_title') }}
@@ -44,6 +41,8 @@
                 {{ $t('personal_token.create_token') }}
             </ButtonBase>
         </div>
+
+		<!--Change password-->
         <div class="card shadow-card">
             <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form">
                 <FormLabel>{{ $t('user_password.title') }}</FormLabel>
