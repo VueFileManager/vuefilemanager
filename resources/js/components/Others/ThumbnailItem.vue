@@ -157,13 +157,6 @@
         }
     }
 
-    @media only screen and (max-width: 690px) {
-        .file-item {
-            padding: 0 15px;
-            margin-bottom: 20px;
-        }
-    }
-
     .dark {
         .file-item {
             .icon-item .file-icon {

@@ -17,7 +17,7 @@
 					</AppInputText>
                 </ValidationProvider>
 
-                <SetFolderIcon v-if="isMoreOptions"/>
+
 
                 <ActionButton @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
             </ValidationObserver>
@@ -49,7 +49,6 @@
     import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
     import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
     import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
-    import SetFolderIcon from '/resources/js/components/Others/SetFolderIcon'
     import ActionButton from '/resources/js/components/Others/ActionButton'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
     import {required} from 'vee-validate/dist/rules'
@@ -62,7 +61,6 @@
             ValidationProvider,
             ValidationObserver,
             ThumbnailItem,
-            SetFolderIcon,
             ActionButton,
             PopupWrapper,
             PopupActions,
@@ -110,10 +108,6 @@
 
                 if (name === 'create-folder' && ! this.$isMobile())
                     this.$nextTick(() => this.$refs.input.focus())
-            })
-
-            events.$on('setFolderIcon', (icon) => {
-                this.setFolderIcon = icon
             })
         }
     }

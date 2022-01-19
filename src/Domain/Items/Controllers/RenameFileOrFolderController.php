@@ -30,7 +30,7 @@ class RenameFileOrFolderController extends Controller
         }
 
         // If request contain icon or color, then change it
-        if ($request->filled('emoji') || $request->filled('color')) {
+        if ($request->has('emoji') || $request->has('color')) {
             ($this->updateFolderProperty)($request, $id);
         }
 

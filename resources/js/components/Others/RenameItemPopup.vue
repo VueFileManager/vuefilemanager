@@ -12,9 +12,9 @@
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form">
 
-                <!--Set password-->
+                <!--Update item name-->
                 <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('popup_rename.label')" :error="errors[0]">
+					<AppInputText :title="$t('popup_rename.label')" :error="errors[0]" :is-last="pickedItem.data.type !== 'folder'">
 						<div class="flex items-center relative">
 							<input v-model="pickedItem.data.attributes.name" :class="{'border-red': errors[0]}" ref="input" type="text" class="focus-border-theme input-dark" :placeholder="$t('popup_rename.placeholder')">
 							<div @click="pickedItem.data.attributes.name = ''" class="absolute right-4">
@@ -24,11 +24,13 @@
 					</AppInputText>
                 </ValidationProvider>
 
-                <SetFolderIcon v-if="isMoreOptions" :folderData="pickedItem" />
+				<!--Emoji-->
+				<AppInputSwitch :title="$t('Emoji as an Icon')" :description="$t('Replace folder icon with an Emoji')" :is-last="! isEmoji">
+					<SwitchInput v-model="isEmoji" :state="isEmoji" />
+				</AppInputSwitch>
 
-                <ActionButton v-if="pickedItem.data.type === 'folder'" @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">
-                    {{ moreOptionsTitle }}
-                </ActionButton>
+				<!--Set emoji-->
+				<EmojiPicker v-if="isEmoji" v-model="emoji" :default-emoji="emoji"/>
             </ValidationObserver>
         </PopupContent>
 
@@ -45,13 +47,15 @@
 </template>
 
 <script>
-import AppInputText from "../Admin/AppInputText";
+import EmojiPicker from "./EmojiPicker";
+import AppInputSwitch from "../Admin/AppInputSwitch"
+import AppInputText from "../Admin/AppInputText"
+import SwitchInput from "./Forms/SwitchInput"
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
 import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
 import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
 import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
-import SetFolderIcon from '/resources/js/components/Others/SetFolderIcon'
 import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
 import ActionButton from '/resources/js/components/Others/ActionButton'
 import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
@@ -64,8 +68,10 @@ export default {
     components: {
         ValidationProvider,
         ValidationObserver,
+		EmojiPicker,
+		AppInputSwitch,
+		SwitchInput,
 		AppInputText,
-        SetFolderIcon,
         ThumbnailItem,
         ActionButton,
         PopupWrapper,
@@ -82,13 +88,38 @@ export default {
         },
         moreOptionsTitle() {
             return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_folder_icon_open')
-        }
+        },
     },
+	watch: {
+		isEmoji(val) {
+			if (! val) {
+				events.$emit('setFolderIcon', {emoji: undefined})
+
+				this.folderIcon.emoji = undefined
+			} else {
+				events.$emit('setFolderIcon', {emoji: this.emoji})
+
+				this.folderIcon.emoji = this.emoji
+			}
+		},
+		emoji(val) {
+			events.$emit('setFolderIcon', {
+				emoji: val
+			})
+
+			this.folderIcon.emoji = val
+		},
+	},
     data() {
         return {
             pickedItem: undefined,
             isMoreOptions: false,
-            folderIcon: undefined
+            folderIcon: {
+				emoji: undefined,
+				color: undefined,
+			},
+			isEmoji: false,
+			emoji: undefined,
         }
     },
     methods: {
@@ -104,11 +135,12 @@ export default {
                     name: this.pickedItem.data.attributes.name,
                 }
 
-                if (this.folderIcon && this.folderIcon.emoji)
-                    item['emoji'] = this.folderIcon.emoji
+				item['emoji'] = this.folderIcon.emoji || null
+				item['color'] = this.folderIcon.color || null
 
-                if (this.folderIcon && this.folderIcon.color)
-                    item['color'] = this.folderIcon.color
+				if (! this.folderIcon.emoji && ! this.folderIcon.color)
+					item['emoji'] = null
+					item['color'] = null
 
                 // Rename item request
                 this.$store.dispatch('renameItem', item)
@@ -133,13 +165,23 @@ export default {
 
             this.isMoreOptions = false
 
-            this.folderIcon = undefined
+            this.folderIcon = {
+				emoji: undefined,
+				color: undefined,
+			}
 
             // Store picked item
             this.pickedItem = args.item
+
+			// Set default emoji if is set
+			if (args.item.data.attributes.emoji) {
+				this.isEmoji = true
+				this.folderIcon.emoji = args.item.data.attributes.emoji
+				this.emoji = args.item.data.attributes.emoji
+			}
         })
 
-        events.$on('setFolderIcon', (icon) => {
+        events.$on('setFolderIcon', icon => {
             this.folderIcon = icon
         })
     }

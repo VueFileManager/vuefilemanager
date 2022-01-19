@@ -1,5 +1,5 @@
 {
-  "emojisList": [
+  "list": [
     {
       "codes": "1F600",
       "char": "😀",
@@ -13945,7 +13945,7 @@
       "subgroup": "subdivision-flag"
     }
   ],
-  "emojisGroups": [
+  "groups": [
     {
       "name": "Smileys & Emotion",
       "emoji": {
