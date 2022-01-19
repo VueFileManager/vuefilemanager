@@ -1,15 +1,15 @@
 <template>
     <div>
 		<!-- Search field -->
-		<div class="mb-3 relative">
+		<div class="mb-3 relative flex items-center">
 
 			<!-- Selected emoji preview -->
-			<div v-if="defaultEmoji" class="absolute left-3 top-2 select-none">
+			<div v-if="defaultEmoji" class="select-none mr-3">
 				<Emoji :emoji="defaultEmoji" location="emoji-picker" />
 			</div>
 
 			<!-- Search input -->
-			<input @click="openList" v-model="query" :class="{'pl-14': defaultEmoji}" class="focus-border-theme input-dark" type="text" :placeholder="$t('Select or search emoji icon...')">
+			<input @click="openList" v-model="query" class="focus-border-theme input-dark" type="text" :placeholder="$t('Select or search emoji icon...')">
 		</div>
 
 		<!-- Spinner -->
@@ -21,8 +21,8 @@
 		<div v-if="isOpen && isLoaded && emojis" @scroll="checkGroupInView" id="group-box" class="2xl:h-96 lg:h-60 h-96 overflow-y-auto select-none relative">
 
 			<!-- Navigation of Emojis Groups -->
-			<ul v-if="! query" class="flex items-center justify-between space-x-1 sticky top-0 dark:bg-dark-background bg-white" id="group-bar">
-				<li @click.stop="scrollToGroup(group.name)" v-for="(group,i) in emojis.groups" :key="i" class="w-14 h-14 flex items-center justify-center rounded-xl cursor-pointer hover:bg-light-background" :class="{'dark:bg-2x-dark-foreground bg-light-background': group.name === groupInView}">
+			<ul v-if="! query" class="flex items-center justify-between space-x-1 sticky top-0 sm:dark:bg-4x-dark-foreground dark:bg-dark-background bg-white" id="group-bar">
+				<li @click.stop="scrollToGroup(group.name)" v-for="(group,i) in emojis.groups" :key="i" class="w-14 h-14 flex items-center justify-center rounded-xl cursor-pointer dark:hover:bg-2x-dark-foreground hover:bg-light-background" :class="{'dark:bg-2x-dark-foreground bg-light-background': group.name === groupInView}">
 					<Emoji :emoji="group.emoji" location="emoji-picker" />
 				</li>
 			</ul>

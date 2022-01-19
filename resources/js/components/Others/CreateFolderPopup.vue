@@ -8,7 +8,7 @@
         <PopupContent>
 
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form" class="px-4">
+            <ValidationObserver @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form">
 
                 <!--Set folder name-->
                 <ValidationProvider tag="div" mode="passive" name="Title" rules="required" v-slot="{ errors }">
@@ -17,9 +17,12 @@
 					</AppInputText>
                 </ValidationProvider>
 
+				<AppInputSwitch :title="$t('Emoji as an Icon')" :description="$t('Replace folder icon with an Emoji')" :is-last="! isEmoji">
+					<SwitchInput v-model="isEmoji" :state="isEmoji" />
+				</AppInputSwitch>
 
-
-                <ActionButton @click.native.stop="moreOptions" :icon="isMoreOptions ? 'x' : 'pencil-alt'">{{ moreOptionsTitle }}</ActionButton>
+				<!--Set emoji-->
+				<EmojiPicker v-if="isEmoji" v-model="emoji" :default-emoji="emoji"/>
             </ValidationObserver>
         </PopupContent>
 
@@ -42,26 +45,30 @@
 </template>
 
 <script>
-	import AppInputText from "../Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
     import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
     import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
     import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
     import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
     import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
-    import ActionButton from '/resources/js/components/Others/ActionButton'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
     import {required} from 'vee-validate/dist/rules'
+	import AppInputSwitch from "../Admin/AppInputSwitch"
+	import AppInputText from "../Admin/AppInputText"
+	import SwitchInput from "./Forms/SwitchInput"
     import {events} from '/resources/js/bus'
+	import EmojiPicker from "./EmojiPicker"
 
     export default {
         name: 'CreateFolderPopup',
         components: {
+			AppInputSwitch,
+			SwitchInput,
+			EmojiPicker,
 			AppInputText,
             ValidationProvider,
             ValidationObserver,
             ThumbnailItem,
-            ActionButton,
             PopupWrapper,
             PopupActions,
             PopupContent,
@@ -69,41 +76,34 @@
             ButtonBase,
             required,
         },
-        computed: {
-            moreOptionsTitle() {
-                return this.isMoreOptions ? this.$t('shared_form.button_close_options') : this.$t('shared_form.button_folder_icon_open')
-            }
-        },
         data() {
             return {
                 name: undefined,
-                isMoreOptions: false,
-                folderIcon: undefined
+				isEmoji: false,
+				emoji: undefined,
             }
         },
         methods: {
-            moreOptions() {
-                this.isMoreOptions = !this.isMoreOptions
-            },
             async createFolder() {
 
                 // Validate fields
                 const isValid = await this.$refs.createForm.validate();
 
-                if (isValid) {
-                    this.$store.dispatch('createFolder', {'name':this.name, 'icon': this.folderIcon})
+				if (!isValid) return;
 
-                    this.$closePopup()
+				await this.$store.dispatch('createFolder', {
+					name: this.name,
+					emoji: this.emoji
+				})
 
-                    this.name = undefined
-                }
+				this.$closePopup()
+
+				this.name = undefined
+				this.isEmoji = false
+				this.emoji = undefined
             },
         },
         mounted() {
-            events.$on('setFolderIcon', (icon) => {
-                this.folderIcon = icon
-            })
-
             events.$on('popup:open', ({name}) => {
 
                 if (name === 'create-folder' && ! this.$isMobile())

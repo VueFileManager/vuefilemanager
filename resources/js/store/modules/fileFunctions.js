@@ -99,7 +99,7 @@ const actions = {
             .post(route, {
                 parent_id: parent_id,
                 name: folder.name,
-                icon: folder.icon
+                emoji: folder.emoji
             })
             .then(response => {
                 commit('ADD_NEW_FOLDER', response.data)
@@ -108,7 +108,9 @@ const actions = {
 
                 // Set focus on new folder name
                 setTimeout(() => {
-                    events.$emit('newFolder:focus', response.data.data.id)
+                    if (! Vue.prototype.$isMobile()) {
+                        events.$emit('newFolder:focus', response.data.data.id)
+                    }
                 }, 10)
 
                 if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
