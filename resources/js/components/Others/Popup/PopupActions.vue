@@ -1,5 +1,5 @@
 <template>
-    <div class="actions">
+    <div class="actions flex items-center space-x-4 md:p-6 p-4">
         <slot></slot>
     </div>
 </template>
@@ -11,23 +11,9 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .actions {
-        padding: 20px;
-        margin: 0 -10px;
-        display: flex;
-
-        .popup-button {
-            width: 100%;
-            margin: 0 10px;
-        }
-    }
 
     @media only screen and (max-width: 690px) {
         .actions {
-            padding: 15px 15px;
             position: absolute;
             bottom: 0;
             left: 0;

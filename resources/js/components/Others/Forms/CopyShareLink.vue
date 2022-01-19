@@ -15,7 +15,15 @@
 
 		<!--Hidden options-->
 		<ul v-if="isOpenedMoreOptions" class="shadow-xl rounded-lg absolute top-12 left-0 right-0 z-10 overflow-y-auto overflow-x-hidden select-none">
-			<li @click="sendViaEmail" class="flex items-center py-2.5 px-5 block cursor-pointer dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground hover:bg-light-background">
+			<li @click="getQrCode" class="flex items-center py-2.5 px-5 block cursor-pointer dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground hover:bg-light-background bg-white">
+				<div class="w-8">
+					<camera-icon size="14" />
+				</div>
+				<span class="text-sm font-bold">
+					{{ $t('Get QR Code') }}
+				</span>
+			</li>
+			<li @click="sendViaEmail" class="flex items-center py-2.5 px-5 block cursor-pointer dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground hover:bg-light-background bg-white">
 				<div class="w-8">
 					<send-icon size="14" />
 				</div>
@@ -23,7 +31,7 @@
 					{{ $t('sharelink.share_via_email') }}
 				</span>
 			</li>
-			<li @click="copyIframe" class="flex items-center py-2.5 px-5 block cursor-pointer dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground hover:bg-light-background">
+			<li @click="copyIframe" class="flex items-center py-2.5 px-5 block cursor-pointer dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground hover:bg-light-background bg-white">
 				<div class="w-8">
 					<code-icon size="14" />
 				</div>
@@ -38,7 +46,7 @@
 </template>
 
 <script>
-import { CopyIcon, CheckIcon, SendIcon, MoreHorizontalIcon, CodeIcon } from 'vue-feather-icons'
+import { CameraIcon, CopyIcon, CheckIcon, SendIcon, MoreHorizontalIcon, CodeIcon } from 'vue-feather-icons'
 import { events } from '/resources/js/bus'
 
 export default {
@@ -48,6 +56,7 @@ export default {
 	],
     components: {
 		MoreHorizontalIcon,
+		CameraIcon,
         CheckIcon,
 		CopyIcon,
 		CodeIcon,
@@ -65,11 +74,20 @@ export default {
         moreOptions() {
             this.isOpenedMoreOptions = ! this.isOpenedMoreOptions
         },
+		getQrCode() {
+			events.$emit('popup:open', {
+				name: 'share-edit',
+				item: this.item,
+				section: 'qr-code',
+			})
+
+			this.isOpenedMoreOptions = false
+		},
 		sendViaEmail() {
             events.$emit('popup:open', {
                 name: 'share-edit',
                 item: this.item,
-                sentToEmail: true,
+                section: 'email-sharing',
             })
 
 			this.isOpenedMoreOptions = false

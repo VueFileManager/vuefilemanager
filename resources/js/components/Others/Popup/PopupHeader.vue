@@ -1,5 +1,5 @@
 <template>
-    <div class="popup-header">
+    <div class="popup-header p-6">
         <div class="icon">
             <corner-down-right-icon v-if="icon === 'move'" size="15" class="title-icon text-theme dark-text-theme" />
             <share-icon v-if="icon === 'share'" size="17" class="title-icon text-theme dark-text-theme" />
@@ -49,7 +49,6 @@
     @import '/resources/sass/vuefilemanager/_mixins';
 
     .popup-header {
-        padding: 20px;
         display: flex;
         align-items: center;
 

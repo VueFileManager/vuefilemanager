@@ -1,5 +1,5 @@
 <template>
-    <div class="popup-content" :class="type">
+    <div class="popup-content px-6" :class="type">
         <slot></slot>
     </div>
 </template>

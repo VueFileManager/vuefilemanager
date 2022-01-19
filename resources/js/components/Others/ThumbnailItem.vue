@@ -72,7 +72,6 @@
     .file-item {
         display: flex;
         align-items: center;
-        padding: 0 20px;
 
         .item-name {
             display: block;

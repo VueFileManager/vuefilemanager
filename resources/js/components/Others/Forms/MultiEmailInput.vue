@@ -94,10 +94,6 @@ export default {
 @import "resources/sass/vuefilemanager/_inapp-forms.scss";
 @import '/resources/sass/vuefilemanager/_forms';
 
-.wrapper {
-    margin-bottom: 20px;
-}
-
 .input-label {
     @include font-size(14);
     font-weight: 700;
