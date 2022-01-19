@@ -8,10 +8,10 @@
         <PopupContent>
 
 			<!--Item Thumbnail-->
-            <ThumbnailItem v-if="! isNewFolderTeamCreation" class="item-thumbnail" :item="item" info="metadata" />
+            <ThumbnailItem v-if="! isNewFolderTeamCreation" class="mb-5" :item="item" info="metadata" />
 
 			<!--Form to set team folder-->
-            <ValidationObserver @submit.prevent="createTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent="createTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">
 
                 <!--Set folder name-->
                 <ValidationProvider v-if="isNewFolderTeamCreation" tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
@@ -60,13 +60,13 @@
 		<!--Actions-->
         <PopupActions>
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="$closePopup()"
 				button-style="secondary"
 			>{{ $t('popup_move_item.cancel') }}
             </ButtonBase>
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="createTeamFolder"
 				button-style="theme"
 				:loading="isLoading"

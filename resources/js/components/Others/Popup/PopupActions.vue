@@ -1,5 +1,5 @@
 <template>
-    <div class="actions flex items-center space-x-4 md:p-6 p-4">
+    <div class="actions flex items-center space-x-4 px-6 py-4 pb-6">
         <slot></slot>
     </div>
 </template>

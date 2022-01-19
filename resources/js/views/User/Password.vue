@@ -10,7 +10,7 @@
                 <SwitchInput @click.native.prevent.stop="open2faPopup" class="switch" :state="user.data.attributes.two_factor_authentication" />
             </AppInputSwitch>
             <AppInputSwitch v-if="user && user.data.attributes.two_factor_authentication" :title="$t('popup_2fa.codes_title')" :description="$t('popup_2fa.codes_info')" :is-last="true">
-                <ButtonBase class="popup-button" button-style="secondary" @click.native="showRecoveryCodes">
+                <ButtonBase class="w-full" button-style="secondary" @click.native="showRecoveryCodes">
                     {{ $t('popup_2fa.codes_button') }}
                 </ButtonBase>
             </AppInputSwitch>

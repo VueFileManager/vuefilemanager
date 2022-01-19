@@ -7,10 +7,10 @@
         <PopupContent>
 
             <!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" />
+            <ThumbnailItem class="mb-5" :item="pickedItem" info="metadata" />
 
             <!--Form to set sharing-->
-            <ValidationObserver v-if="! isGeneratedShared" @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver v-if="! isGeneratedShared" @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form">
 
                 <!--Permission Select-->
 				<ValidationProvider v-if="isFolder" tag="div" mode="passive" name="Permission" rules="required" v-slot="{ errors }">
@@ -66,10 +66,10 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase v-if="! isGeneratedShared" class="popup-button" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase v-if="! isGeneratedShared" class="w-full" @click.native="$closePopup()" button-style="secondary">
                 {{ $t('popup_move_item.cancel') }}
             </ButtonBase>
-            <ButtonBase class="popup-button" @click.native="submitShareOptions" button-style="theme" :loading="isLoading" :disabled="isLoading">
+            <ButtonBase class="w-full" @click.native="submitShareOptions" button-style="theme" :loading="isLoading" :disabled="isLoading">
                 {{ submitButtonText }}
             </ButtonBase>
         </PopupActions>
@@ -247,20 +247,3 @@ export default {
     }
 }
 </script>
-
-<style scoped lang="scss">
-@import "resources/sass/vuefilemanager/_inapp-forms.scss";
-@import '/resources/sass/vuefilemanager/_forms';
-
-.input-wrapper {
-
-    &.password {
-        margin-top: -10px;
-    }
-}
-
-.item-thumbnail {
-    margin-bottom: 20px;
-}
-
-</style>

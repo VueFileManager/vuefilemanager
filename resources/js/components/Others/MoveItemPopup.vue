@@ -11,28 +11,30 @@
 
 			<!--Folder tree-->
             <div v-if="! isLoadingTree && navigation">
-                <ThumbnailItem v-if="clipboard.length < 2 || isSelectedItem" class="item-thumbnail" :item="pickedItem" info="location" />
+                <ThumbnailItem v-if="clipboard.length < 2 || isSelectedItem" class="mb-5" :item="pickedItem" info="location" />
 
-                <TitlePreview class="multiple-selected"
-							  icon="check-square"
-							  :title="$t('file_detail.selected_multiple')"
-							  :subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
-							  v-if="clipboard.length > 1 && !isSelectedItem" />
+                <TitlePreview
+					class="mb-4"
+					icon="check-square"
+					:title="$t('file_detail.selected_multiple')"
+					:subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
+					v-if="clipboard.length > 1 && !isSelectedItem"
+				/>
                     
-                <TreeMenu :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.id" />
+                <TreeMenu class="-mx-4" :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.id" />
             </div>
         </PopupContent>
 
 		<!--Actions-->
         <PopupActions>
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="$closePopup()"
 				button-style="secondary"
 			>{{ $t('popup_move_item.cancel') }}
             </ButtonBase>
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="moveItem"
 				:button-style="selectedFolder ? 'theme' : 'secondary'"
 			>{{ $t('popup_move_item.submit') }}
@@ -165,17 +167,3 @@
 		}
 	}
 </script>
-
-<style scoped lang="scss">
-@import '/resources/sass/vuefilemanager/_variables';
-@import '/resources/sass/vuefilemanager/_mixins';
-
-.item-thumbnail {
-	margin-bottom: 20px;
-}
-
-.multiple-selected {
-	padding: 0 20px;;
-	margin-bottom: 20px;
-}
-</style>

@@ -4,7 +4,7 @@
         <PopupHeader :title="$t('popup_2fa.title')" icon="edit" />
 
         <PopupContent>
-             <ValidationObserver @submit.prevent="confirmPassword" v-if="! qrCode" ref="passwordForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+             <ValidationObserver @submit.prevent="confirmPassword" v-if="! qrCode" ref="passwordForm" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('popup_2fa.input_label')" :error="errors[0]" :is-last="true">
 						<input v-model="password" :class="{'border-red': errors[0]}" type="password" ref="input" class="focus-border-theme input-dark" :placeholder="$t('page_sign_in.placeholder_password')">
@@ -25,14 +25,14 @@
 
         <PopupActions v-if="! qrCode">
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="$closePopup()"
 				button-style="secondary"
 			>
                 {{ $t('global.cancel') }}
             </ButtonBase>
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="confirmPassword"
 				button-style="theme"
 				:loading="isLoading"
@@ -44,7 +44,7 @@
 
         <PopupActions v-if="qrCode">
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="closeQrCodePopup"
 				:button-style="closeQrButtonStyle"
 			>
@@ -201,7 +201,6 @@ export default {
 @import '/resources/sass/vuefilemanager/_forms';
 
 .qr-code-wrapper {
-	padding: 0 20px;
 
 	.qr-code {
 		display: flex;

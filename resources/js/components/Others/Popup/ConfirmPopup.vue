@@ -13,13 +13,13 @@
             <ButtonBase
                     @click.native="closePopup"
                     button-style="secondary"
-                    class="popup-button"
+                    class="w-full"
             >{{ $t('global.cancel') }}
             </ButtonBase>
             <ButtonBase
                     @click.native="confirm"
                     :button-style="buttonColor"
-                    class="popup-button"
+                    class="w-full"
             >{{ $t('global.confirm_action') }}
             </ButtonBase>
         </PopupActions>

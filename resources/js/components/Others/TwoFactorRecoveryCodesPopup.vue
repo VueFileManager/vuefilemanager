@@ -35,7 +35,7 @@
 
         <PopupActions>
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="$closePopup()"
 				button-style="theme"
 			>

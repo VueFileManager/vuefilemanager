@@ -8,7 +8,7 @@
         <PopupContent>
 
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent="createLanguage" ref="createForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent="createLanguage" ref="createForm" v-slot="{ invalid }" tag="form">
 				<ValidationProvider tag="div" mode="passive" name="Language Locale" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('select_locale')" :error="errors[0]">
 						<SelectInput v-model="form.locale" :options="locales" :placeholder="$t('select_language_locale')" :isError="errors[0]" />
@@ -25,14 +25,14 @@
         <!--Actions-->
         <PopupActions>
             <ButtonBase
-                class="popup-button"
+                class="w-full"
                 @click.native="$closePopup()"
                 button-style="secondary"
             >
                 {{ $t('global.cancel') }}
             </ButtonBase>
             <ButtonBase
-                class="popup-button"
+                class="w-full"
                 @click.native="createLanguage"
                 button-style="theme"
                 :loading="isLoading"

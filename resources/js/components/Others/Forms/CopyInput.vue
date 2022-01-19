@@ -1,6 +1,6 @@
 <template>
     <div @click="copyUrl" class="flex items-center relative">
-        <input ref="sel" :value="str" :id="id" type="text" class="pr-8 focus-border-theme input-dark" readonly>
+        <input ref="sel" :value="str" :id="id" type="text" class="pr-10 focus-border-theme input-dark" readonly>
 
 		<!--Copy icon-->
         <div class="absolute right-0 px-4">

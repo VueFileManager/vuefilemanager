@@ -33,7 +33,7 @@
 				<!--Item Thumbnail-->
 				<ThumbnailItem class="mb-4" :item="pickedItem" info="metadata" />
 
-				<ValidationObserver @submit.prevent v-slot="{ invalid }" ref="shareEmail" tag="form" class="px-5">
+				<ValidationObserver @submit.prevent v-slot="{ invalid }" ref="shareEmail" tag="form">
 					<ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
 						<AppInputText title="Share with" :error="errors[0]" :is-last="true">
 							<MultiEmailInput rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" />
@@ -73,7 +73,7 @@
 					<CopyShareLink :item="pickedItem" />
 				</AppInputText>
 
-				<ValidationObserver @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+				<ValidationObserver @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form">
 
 					<!--Permission Select-->
 					<ValidationProvider v-if="isFolder" tag="div" mode="passive" name="Permission" rules="required" v-slot="{ errors }">

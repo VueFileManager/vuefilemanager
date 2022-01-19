@@ -8,10 +8,10 @@
         <PopupContent>
 
 			<!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="item" info="metadata" />
+            <ThumbnailItem class="mb-5" :item="item" info="metadata" />
 
 			<!--Form to set team folder-->
-            <ValidationObserver @submit.prevent="updateTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent="updateTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">
 
                 <!--Add Member-->
 				<ValidationProvider tag="div" mode="passive" name="Email" v-slot="{ errors }">
@@ -49,13 +49,13 @@
 		<!--Actions-->
         <PopupActions>
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="$closePopup()"
 				button-style="secondary"
 			>{{ $t('popup_move_item.cancel') }}
             </ButtonBase>
             <ButtonBase
-				class="popup-button"
+				class="w-full"
 				@click.native="updateTeamFolder"
 				:button-style="isDisabledSubmit ? 'secondary' : 'theme'"
 				:loading="isLoading"

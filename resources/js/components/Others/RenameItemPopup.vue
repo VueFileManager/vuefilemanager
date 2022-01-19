@@ -7,10 +7,10 @@
         <PopupContent>
 
             <!--Item Thumbnail-->
-            <ThumbnailItem class="item-thumbnail" :item="pickedItem" info="metadata" :setFolderIcon="folderIcon" />
+            <ThumbnailItem class="mb-5" :item="pickedItem" info="metadata" :setFolderIcon="folderIcon" />
 
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form" class="form-wrapper">
+            <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form">
 
                 <!--Set password-->
                 <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
@@ -34,10 +34,10 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="popup-button" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
                 {{ $t('popup_move_item.cancel') }}
             </ButtonBase>
-            <ButtonBase class="popup-button" @click.native="changeName" button-style="theme">
+            <ButtonBase class="w-full" @click.native="changeName" button-style="theme">
                 {{ $t('popup_share_edit.save') }}
             </ButtonBase>
         </PopupActions>
@@ -181,10 +181,6 @@ export default {
             }
         }
     }
-}
-
-.item-thumbnail {
-    margin-bottom: 20px;
 }
 
 .dark {
