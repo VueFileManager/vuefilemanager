@@ -1,20 +1,20 @@
 <?php
-
 namespace Domain\Invoices\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Users\Actions\FormatUsageEstimatesAction;
 use Domain\Settings\Models\Setting;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\Foundation\Application;
+use App\Users\Actions\FormatUsageEstimatesAction;
 use VueFileManager\Subscription\Domain\Transactions\Models\Transaction;
 
 class GetInvoiceController extends Controller
 {
     public function __construct(
         public FormatUsageEstimatesAction $formatUsageEstimates,
-    ) {}
+    ) {
+    }
 
     public function __invoke(Transaction $invoice): View|Factory|Application
     {

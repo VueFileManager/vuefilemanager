@@ -14,6 +14,21 @@ class UserShareTest extends TestCase
     /**
      * @test
      */
+    public function it_generate_qr_code()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $this
+            ->actingAs($user)
+            ->get('/api/share/123456789/qr')
+            ->assertCreated();
+    }
+
+    /**
+     * @test
+     */
     public function it_share_single_file_without_password()
     {
         $user = User::factory()

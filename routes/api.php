@@ -24,6 +24,7 @@ use Domain\Browsing\Controllers\BrowseLatestFilesController;
 use Domain\Browsing\Controllers\BrowseSharedItemsController;
 use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
+use Domain\Sharing\Controllers\GetShareLinkViaQrCodeController;
 use App\Users\Controllers\Authentication\RegisterUserController;
 
 // Pages
@@ -67,6 +68,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     // Share
+    Route::get('/share/{token}/qr', GetShareLinkViaQrCodeController::class);
     Route::post('/share/{token}/email', ShareViaEmailController::class);
     Route::apiResource('/share', ShareController::class);
 

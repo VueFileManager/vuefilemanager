@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\App\Users;
 
 use Storage;
@@ -121,7 +122,7 @@ class UserAccountTest extends TestCase
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
-                fn ($size) => Storage::disk('local')
+                fn($size) => Storage::disk('local')
                     ->assertExists("avatars/{$size['name']}-{$user->settings->getRawOriginal('avatar')}")
             );
     }
@@ -141,7 +142,7 @@ class UserAccountTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 'data' => [
-                    'id'            => (string) $user->id,
+                    'id'            => (string)$user->id,
                     'type'          => 'user',
                     'attributes'    => [
                         'avatar'                    => [
@@ -163,7 +164,7 @@ class UserAccountTest extends TestCase
                         'created_at'                => format_date($user->created_at, '%d. %b. %Y'),
                         'updated_at'                => format_date($user->updated_at, '%d. %B. %Y'),
                     ],
-                    'meta' => [
+                    'meta'          => [
                         'restrictions' => [
                             'canCreateFolder'      => true,
                             'canCreateTeamFolder'  => true,
@@ -178,7 +179,7 @@ class UserAccountTest extends TestCase
                         ],
                         'settings'    => [
                             'data' => [
-                                'id'         => (string) $user->id,
+                                'id'         => (string)$user->id,
                                 'type'       => 'settings',
                                 'attributes' => [
                                     'avatar'       => $user->settings->avatar,
@@ -188,6 +189,8 @@ class UserAccountTest extends TestCase
                                     'city'         => $user->settings->city,
                                     'postal_code'  => $user->settings->postal_code,
                                     'country'      => $user->settings->country,
+                                    'first_name'   => $user->settings->first_name,
+                                    'last_name'    => $user->settings->last_name,
                                     'phone_number' => $user->settings->phone_number,
                                     'timezone'     => $user->settings->timezone,
                                 ],

@@ -5,8 +5,11 @@
 
 		<!--Qr Code-->
 		<div v-if="pickedItem && activeSection === 'qr-code'">
-			<PopupContent>
-				<img src="/qr.png" alt="qr code" class="w-36 mx-auto">
+			<PopupContent class="flex justify-center items-center">
+				<div v-if="! qrCode" class="relative my-8">
+					<Spinner />
+				</div>
+				<div v-if="qrCode" v-html="qrCode" class="my-5 overflow-hidden rounded-xl"></div>
 			</PopupContent>
 
 			<PopupActions>
@@ -155,6 +158,7 @@
 	import AppInputSwitch from "../Admin/AppInputSwitch"
 	import AppInputText from "../Admin/AppInputText"
 	import {required} from 'vee-validate/dist/rules'
+	import Spinner from "../FilesView/Spinner"
 	import {events} from '/resources/js/bus'
 	import {mapGetters} from 'vuex'
 	import axios from 'axios'
@@ -179,6 +183,7 @@
 			SwitchInput,
 			ButtonBase,
 			required,
+			Spinner,
 		},
 		computed: {
 			...mapGetters([
@@ -215,6 +220,7 @@
 				shareOptions: undefined,
 				pickedItem: undefined,
 				emails: undefined,
+				qrCode: undefined,
 				isConfirmedDestroy: false,
 				canChangePassword: false,
 				isMoreOptions: false,
@@ -223,6 +229,13 @@
 			}
 		},
 		methods: {
+			getQrCode() {
+				axios.get(`/api/share/${this.shareOptions.token}/qr`)
+					.then(response => {
+						this.qrCode = response.data
+					})
+					.catch(() => this.$isSomethingWrong())
+			},
 			showSection(section = undefined) {
 				this.activeSection = section
 			},
@@ -320,6 +333,9 @@
 				
 				if (args.section)
 					this.activeSection = args.section
+
+				if (args.section === 'qr-code')
+					this.getQrCode()
 
 				this.canChangePassword = args.item.data.relationships.shared.data.attributes.protected
 			})
