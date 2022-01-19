@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\App\Users;
 
 use Storage;
@@ -122,7 +121,7 @@ class UserAccountTest extends TestCase
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
-                fn($size) => Storage::disk('local')
+                fn ($size) => Storage::disk('local')
                     ->assertExists("avatars/{$size['name']}-{$user->settings->getRawOriginal('avatar')}")
             );
     }
@@ -142,7 +141,7 @@ class UserAccountTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 'data' => [
-                    'id'            => (string)$user->id,
+                    'id'            => (string) $user->id,
                     'type'          => 'user',
                     'attributes'    => [
                         'avatar'                    => [
@@ -179,7 +178,7 @@ class UserAccountTest extends TestCase
                         ],
                         'settings'    => [
                             'data' => [
-                                'id'         => (string)$user->id,
+                                'id'         => (string) $user->id,
                                 'type'       => 'settings',
                                 'attributes' => [
                                     'avatar'       => $user->settings->avatar,
