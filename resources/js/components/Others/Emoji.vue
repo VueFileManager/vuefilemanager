@@ -1,12 +1,12 @@
 <template>
     <div v-if="emoji">
         <div
-			v-if="!isApple"
+			v-if="config.defaultEmoji === 'twemoji'"
 			v-html="transferEmoji"
 			style="font-size: inherit; transform: scale(0.95)"
 		></div>
         <div
-			v-if="isApple"
+			v-if="config.defaultEmoji === 'applemoji'"
 			style="font-size: inherit"
 		>
 			{{ emoji.char }}
@@ -16,6 +16,7 @@
 
 <script>
 	import twemoji from 'twemoji'
+	import {mapGetters} from "vuex";
 
 	export default {
 		name: 'Emoji',
@@ -29,9 +30,10 @@
 			}
 		},
 		computed: {
+			...mapGetters([
+				'config',
+			]),
 			transferEmoji() {
-				//if (! this.apple) return
-
 				return twemoji.parse(this.emoji.char, {
 					folder: 'svg',
 					ext: '.svg',

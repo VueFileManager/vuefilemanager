@@ -8,6 +8,9 @@
     $isEmptyPlans = Plan::count() === 0;
     $isEmptyTransactions = Transaction::count() === 0;
     $isEmptySubscriptions = Subscription::count() === 0;
+
+    // User
+    $defaultEmoji = auth()->check() ? Auth::user()->settings->emoji_type : 'twemoji';
 @endphp
 
 <!DOCTYPE html>
@@ -129,6 +132,9 @@
 
 			allowedGithubLogin: {{ $settings->allowed_github_login ?? 0 }},
 			isGithubLoginConfigured: {{ env('GITHUB_CLIENT_ID') ? 1 : 0 }},
+
+            // User settings
+            defaultEmoji: '{{ $defaultEmoji }}',
         }
     </script>
 

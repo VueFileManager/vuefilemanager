@@ -101,6 +101,7 @@
 							<power-icon v-if="result.action.value === 'log-out'" size="18" class="vue-feather text-theme"/>
 							<trash-icon v-if="result.action.value === 'empty-trash'" size="18" class="vue-feather text-theme"/>
 							<grid-icon v-if="result.action.value === 'toggle-grid-list'" size="18" class="vue-feather text-theme"/>
+							<smile-icon v-if="result.action.value === 'toggle-emoji'" size="18" class="vue-feather text-theme"/>
 
 							<b class="font-bold text-sm ml-3.5">
 								{{ result.title }}
@@ -172,6 +173,7 @@
 
 <script>
 import {
+	SmileIcon,
 	BoxIcon,
 	CreditCardIcon,
 	DatabaseIcon,
@@ -210,6 +212,7 @@ import KeyboardHints from "./KeyboardHints";
 export default {
 	name: 'Spotlight',
 	components: {
+		SmileIcon,
 		KeyboardHints,
 		CreditCardIcon,
 		GridIcon,
@@ -430,6 +433,17 @@ export default {
 				},
 			]
 
+			// Available only for apple users
+			if (this.$isApple()) {
+				functionList.push({
+					title: this.$t('Toggle Emoji Type'),
+					action: {
+						type: 'function',
+						value: 'toggle-emoji',
+					},
+				})
+			}
+
 			if (this.user.data.attributes.role === 'admin') {
 
 				// Available only for fixed subscription
@@ -564,6 +578,10 @@ export default {
 			}
 
 			if (arg.action.type === 'function') {
+
+				if (arg.action.value === 'toggle-emoji') {
+					this.$store.dispatch('toggleEmojiType')
+				}
 
 				if (arg.action.value === 'toggle-grid-list') {
 					this.$store.dispatch('togglePreviewType')

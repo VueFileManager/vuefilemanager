@@ -1,5 +1,6 @@
 import i18n from '/resources/js/i18n/index'
-import axios from "axios";
+import axios from "axios"
+import Vue from "vue"
 
 const defaultState = {
     isVisibleNavigationBars: localStorage.getItem('is_navigation_bars') !== 'false',
@@ -41,6 +42,20 @@ const actions = {
 
         // Change preview
         commit('CHANGE_PREVIEW', previewType)
+    },
+    toggleEmojiType: ({commit, getters}) => {
+        let newType = getters.config.defaultEmoji === 'twemoji'
+            ? 'applemoji'
+            : 'twemoji'
+
+        // Update config
+        commit('REPLACE_CONFIG_VALUE', {
+            key: 'defaultEmoji',
+            value: newType,
+        })
+
+        // Update user settings
+        Vue.prototype.$updateText('/user/settings', 'emoji_type', newType)
     },
     fileInfoToggle: (context, visibility = undefined) => {
         if (!visibility) {
