@@ -137,8 +137,11 @@ const mutations = {
             state.user.data.relationships.favourites.data.push(item)
         })
     },
-    UPDATE_NAME(state, name) {
-        state.user.data.relationships.settings.data.attributes.name = name
+    UPDATE_FIRST_NAME(state, name) {
+        state.user.data.relationships.settings.data.attributes.first_name = name
+    },
+    UPDATE_LAST_NAME(state, name) {
+        state.user.data.relationships.settings.data.attributes.last_name = name
     },
     UPDATE_AVATAR(state, avatar) {
         state.user.data.relationships.settings.data.attributes.avatar.sm = avatar

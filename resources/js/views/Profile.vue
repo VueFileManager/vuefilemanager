@@ -34,7 +34,7 @@
                             </div>
                             <div class="info">
                                 <b class="name">
-                                    {{ user.data.relationships.settings.data.attributes.name }}
+                                    {{ user.data.relationships.settings.data.attributes.first_name }} {{ user.data.relationships.settings.data.attributes.last_name }}
 
                                     <ColorLabel v-if="this.config.subscriptionType === 'fixed'" :color="subscriptionColor">
                                         {{ subscriptionStatus }}
