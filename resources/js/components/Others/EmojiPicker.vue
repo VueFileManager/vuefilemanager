@@ -5,7 +5,7 @@
 
 			<!-- Selected emoji preview -->
 			<div v-if="defaultEmoji" class="select-none mr-3">
-				<Emoji :emoji="defaultEmoji" location="emoji-picker" />
+				<Emoji :emoji="defaultEmoji" class="text-5xl" />
 			</div>
 
 			<!-- Search input -->
@@ -21,9 +21,9 @@
 		<div v-if="isOpen && isLoaded && emojis" @scroll="checkGroupInView" id="group-box" class="2xl:h-96 lg:h-60 h-96 overflow-y-auto select-none relative">
 
 			<!-- Navigation of Emojis Groups -->
-			<ul v-if="! query" class="flex items-center justify-between space-x-1 sticky top-0 sm:dark:bg-4x-dark-foreground dark:bg-dark-background bg-white" id="group-bar">
+			<ul v-if="! query" class="flex items-center justify-between space-x-1 sticky top-0 sm:dark:bg-4x-dark-foreground dark:bg-dark-background bg-white z-10" id="group-bar">
 				<li @click.stop="scrollToGroup(group.name)" v-for="(group,i) in emojis.groups" :key="i" class="w-14 h-14 flex items-center justify-center rounded-xl cursor-pointer dark:hover:bg-2x-dark-foreground hover:bg-light-background" :class="{'dark:bg-2x-dark-foreground bg-light-background': group.name === groupInView}">
-					<Emoji :emoji="group.emoji" location="emoji-picker" />
+					<Emoji :emoji="group.emoji" class="text-3xl" />
 				</li>
 			</ul>
 
@@ -34,7 +34,7 @@
 				</label>
 				<ul class="grid md:grid-cols-9 grid-cols-7 gap-4 space-between">
 					<li @click="setEmoji( emoji )" v-for="(emoji,i) in group" :key="i" class="flex items-center justify-center cursor-pointer">
-						<Emoji :emoji="emoji" location="emoji-picker" />
+						<Emoji :emoji="emoji" class="text-4xl" />
 					</li>
 				</ul>
 			</div>
@@ -42,7 +42,7 @@
 			<!-- Searched emojis -->
 			<ul v-if="query" class="grid md:grid-cols-9 grid-cols-7 gap-4 space-between">
 				<li @click="setEmoji( emoji )" v-for="(emoji,i) in filteredEmojis" :key="i" class="flex items-center justify-center cursor-pointer">
-					<Emoji :emoji="emoji" location="emoji-picker" />
+					<Emoji :emoji="emoji" class="text-4xl" />
 				</li>
 			</ul>
 

@@ -8,7 +8,7 @@
         <PopupContent>
 
 			<!--Item Thumbnail-->
-            <ThumbnailItem v-if="! isNewFolderTeamCreation" class="mb-5" :item="item" info="metadata" />
+            <ThumbnailItem v-if="! isNewFolderTeamCreation" class="mb-5" :item="item" />
 
 			<!--Form to set team folder-->
             <ValidationObserver @submit.prevent="createTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">

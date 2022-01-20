@@ -1,6 +1,6 @@
 <template>
     <MenuMobile name="file-menu">
-        <ThumbnailItem class="mb-5" :item="clipboard[0]" info="metadata" />
+        <ThumbnailItem class="m-5" :item="clipboard[0]" />
 
 		<MenuMobileGroup v-if="$slots.default">
 			<slot></slot>
@@ -36,13 +36,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import "resources/sass/vuefilemanager/_variables";
-@import "resources/sass/vuefilemanager/_mixins";
-
-.item-thumbnail {
-    padding: 20px 20px 10px;
-    margin-bottom: 0;
-}
-</style>

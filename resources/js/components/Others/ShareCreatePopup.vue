@@ -7,7 +7,7 @@
         <PopupContent>
 
             <!--Item Thumbnail-->
-            <ThumbnailItem class="mb-5" :item="pickedItem" info="metadata" />
+            <ThumbnailItem class="mb-5" :item="pickedItem" />
 
             <!--Form to set sharing-->
             <ValidationObserver v-if="! isGeneratedShared" @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form">

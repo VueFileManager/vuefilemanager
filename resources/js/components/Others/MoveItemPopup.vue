@@ -11,7 +11,7 @@
 
 			<!--Folder tree-->
             <div v-if="! isLoadingTree && navigation">
-                <ThumbnailItem v-if="clipboard.length < 2 || isSelectedItem" class="mb-5" :item="pickedItem" info="location" />
+                <ThumbnailItem v-if="clipboard.length < 2 || isSelectedItem" class="mb-5" :item="pickedItem" />
 
                 <TitlePreview
 					class="mb-4"

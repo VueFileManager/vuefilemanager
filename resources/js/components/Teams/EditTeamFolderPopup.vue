@@ -8,7 +8,7 @@
         <PopupContent>
 
 			<!--Item Thumbnail-->
-            <ThumbnailItem class="mb-5" :item="item" info="metadata" />
+            <ThumbnailItem class="mb-5" :item="item" />
 
 			<!--Form to set team folder-->
             <ValidationObserver @submit.prevent="updateTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">

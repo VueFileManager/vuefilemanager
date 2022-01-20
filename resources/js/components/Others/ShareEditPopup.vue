@@ -34,7 +34,7 @@
 		<div v-if="pickedItem && activeSection === 'email-sharing'">
 			<PopupContent>
 				<!--Item Thumbnail-->
-				<ThumbnailItem class="mb-4" :item="pickedItem" info="metadata" />
+				<ThumbnailItem class="mb-4" :item="pickedItem" />
 
 				<ValidationObserver @submit.prevent v-slot="{ invalid }" ref="shareEmail" tag="form">
 					<ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
@@ -69,7 +69,7 @@
 		<div v-if="pickedItem && ! activeSection">
 			<PopupContent>
 				<!--Item Thumbnail-->
-				<ThumbnailItem class="mb-5" :item="pickedItem" info="metadata" />
+				<ThumbnailItem class="mb-5" :item="pickedItem" />
 
 				<!--Get share link-->
 				<AppInputText :title="$t('shared_form.label_share_vie_email')">

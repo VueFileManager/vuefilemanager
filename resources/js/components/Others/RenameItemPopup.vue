@@ -7,7 +7,7 @@
         <PopupContent>
 
             <!--Item Thumbnail-->
-            <ThumbnailItem class="mb-5" :item="pickedItem" info="metadata" :setFolderIcon="{emoji: emoji, color: null}" />
+            <ThumbnailItem class="mb-5" :item="pickedItem" :setFolderIcon="{emoji: emoji, color: null}" />
 
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form">

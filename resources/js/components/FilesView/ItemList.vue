@@ -16,8 +16,15 @@
 				class="absolute right-1.5 -bottom-2 z-10"
 			/>
 
+			<!--Emoji Icon-->
+			<Emoji
+				v-if="entry.data.attributes.emoji"
+				:emoji="entry.data.attributes.emoji"
+				class="text-5xl ml-1 transform scale-110"
+			/>
+
 			<!--Folder Icon-->
-			<FolderIcon v-if="isFolder" :item="entry" location="file-item-list" />
+			<FolderIcon v-if="isFolder && !entry.data.attributes.emoji" :item="entry" />
 
 			<!--File Icon-->
 			<FileIconThumbnail v-if="isFile || isVideo || isAudio || (isImage && !entry.data.attributes.thumbnail)" :entry="entry" class="pr-2" />
@@ -67,6 +74,7 @@
 </template>
 
 <script>
+	import Emoji from "../Others/Emoji";
 	import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
 	import {LinkIcon, MoreVerticalIcon, EyeIcon} from 'vue-feather-icons'
 	import FileIconThumbnail from "./FileIconThumbnail";
@@ -86,6 +94,7 @@
 			CheckBox,
 			LinkIcon,
 			EyeIcon,
+			Emoji,
 		},
 		props: [
 			'mobileHandler',

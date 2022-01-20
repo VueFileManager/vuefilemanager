@@ -1,69 +1,53 @@
 <template>
-    <div :class="[location, 'emoji-container', {'is-apple': $isApple}]">
-        <span v-if="!$isApple()" class="twemoji-emoji emoji-icon" v-html="transferEmoji"></span>
-        <span v-if="$isApple()" class="apple-emoji emoji-icon">{{ this.emoji.char }}</span>
+    <div v-if="emoji">
+        <div
+			v-if="!isApple"
+			v-html="transferEmoji"
+			style="font-size: inherit; transform: scale(0.95)"
+		></div>
+        <div
+			v-if="isApple"
+			style="font-size: inherit"
+		>
+			{{ emoji.char }}
+		</div>
     </div>
 </template>
 
 <script>
-import twemoji from 'twemoji'
+	import twemoji from 'twemoji'
 
-export default {
-    name: 'Emoji',
-    props: [
-        'emoji',
-        'location',
-    ],
-    computed: {
-        transferEmoji() {
-            return twemoji.parse(this.emoji.char, {
-                folder: 'svg',
-                ext: '.svg',
-                attributes: () => ({
-                    loading: 'lazy'
-                })
-            })
-        }
-    },
-}
+	export default {
+		name: 'Emoji',
+		props: [
+			'emoji',
+		],
+		data() {
+			return {
+				isApple: false,
+				sizeClass: undefined,
+			}
+		},
+		computed: {
+			transferEmoji() {
+				//if (! this.apple) return
+
+				return twemoji.parse(this.emoji.char, {
+					folder: 'svg',
+					ext: '.svg',
+					attributes: () => ({
+						loading: 'lazy'
+					})
+				})
+			}
+		},
+	}
 </script>
 
-<style lang="scss" scoped>
-@import "resources/sass/vuefilemanager/_inapp-forms.scss";
-@import '/resources/sass/vuefilemanager/_forms';
-
-.emoji-container {
-    font-size: inherit;
-
-    .emoji-icon {
-        font-size: inherit;
-    }
-}
-
-.emoji-picker {
-    .apple-emoji {
-        font-size: 34px;
-        line-height: 1.1;
-        font-family: "Apple Color Emoji";
-    }
-}
-
-.emoji-picker-preview {
-    .apple-emoji {
-        font-size: 28px;
-        line-height: 0.85;
-        font-family: "Apple Color Emoji";
-    }
-}
-
-@media only screen and (max-width: 690px) {
-    .groups-list .emoji-picker {
-        .apple-emoji {
-            font-size: 34px;
-            line-height: 1.1;
-        }
-    }
-}
-
+<style lang="css">
+	.emoji {
+		height: 1em;
+		width: 1em;
+		font-size: inherit;
+	}
 </style>
-

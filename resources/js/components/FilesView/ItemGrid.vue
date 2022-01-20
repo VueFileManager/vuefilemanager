@@ -13,8 +13,15 @@
 			<!--Item thumbnail-->
 			<div class="relative mx-auto">
 
+				<!--Emoji Icon-->
+				<Emoji
+					v-if="entry.data.attributes.emoji"
+					:emoji="entry.data.attributes.emoji"
+					class="text-5xl transform scale-150 inline-block mb-10"
+				/>
+
 				<!--Folder Icon-->
-				<FolderIcon v-if="isFolder" :item="entry" location="file-item-list" class="inline-block transform scale-150 lg:mt-2 lg:mb-8 mt-3 mb-5" />
+				<FolderIcon v-if="isFolder && !entry.data.attributes.emoji" :item="entry" class="inline-block transform scale-150 lg:mt-2 lg:mb-8 mt-3 mb-5" />
 
 				<!--File Icon-->
 				<div v-if="isFile || isVideo || isAudio || (isImage && !entry.data.attributes.thumbnail)" class="relative w-24 mx-auto">
@@ -92,12 +99,13 @@
 <script>
 	import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
 	import {LinkIcon, MoreHorizontalIcon, EyeIcon} from 'vue-feather-icons'
-	import FileIconThumbnail from "./FileIconThumbnail";
-	import MemberAvatar from "./MemberAvatar";
-	import CheckBox from "./CheckBox";
-	import {debounce} from "lodash";
-	import {mapGetters} from "vuex";
-	import {events} from "../../bus";
+	import FileIconThumbnail from "./FileIconThumbnail"
+	import MemberAvatar from "./MemberAvatar"
+	import Emoji from "../Others/Emoji"
+	import CheckBox from "./CheckBox"
+	import {debounce} from "lodash"
+	import {mapGetters} from "vuex"
+	import {events} from "../../bus"
 
 	export default {
 		name: 'ItemList',
@@ -109,6 +117,7 @@
 			CheckBox,
 			LinkIcon,
 			EyeIcon,
+			Emoji,
 		},
 		props: [
 			'mobileHandler',
