@@ -3,6 +3,7 @@
     use VueFileManager\Subscription\Domain\Transactions\Models\Transaction;
     use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
+    // Subscription
     $plan = Plan::where('status', 'active')->where('type', 'metered');
 
     $isEmptyPlans = Plan::count() === 0;
@@ -10,7 +11,11 @@
     $isEmptySubscriptions = Subscription::count() === 0;
 
     // User
-    $defaultEmoji = auth()->check() ? Auth::user()->settings->emoji_type : 'twemoji';
+    $isUser = auth()->check();
+    $user = Auth::user();
+
+    $defaultEmoji = $isUser ? $user->settings->emoji_type : 'twemoji';
+    $defaultThemeMode = $isUser ? $user->settings->theme_mode : 'system';
 @endphp
 
 <!DOCTYPE html>
@@ -135,6 +140,7 @@
 
             // User settings
             defaultEmoji: '{{ $defaultEmoji }}',
+            defaultThemeMode: '{{ $defaultThemeMode }}',
         }
     </script>
 

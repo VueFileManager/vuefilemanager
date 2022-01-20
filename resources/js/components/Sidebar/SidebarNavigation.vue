@@ -39,7 +39,7 @@
 			</div>
 
 			<!--Toggle Dark/Light mode-->
-			<div @click="toggleDarkMode" :title="$t('dark_mode_toggle')" class="block mt-6">
+			<div @click="$store.dispatch('toggleThemeMode')" :title="$t('dark_mode_toggle')" class="block mt-6">
 				<div class="button-icon p-3 cursor-pointer inline-block dark:hover:bg-4x-dark-foreground hover:bg-light-300 rounded-xl">
 					<sun-icon v-if="isDarkMode" size="20" />
 					<moon-icon v-if="! isDarkMode" size="20" />
@@ -91,7 +91,6 @@
 				'user',
 			]),
 			navigation() {
-
 				if (this.user.data.attributes.role === 'admin') {
 					return [
 						{
@@ -132,9 +131,6 @@
 			}
 		},
 		methods: {
-			toggleDarkMode() {
-				this.$store.dispatch('toggleDarkMode', !this.isDarkMode)
-			},
 			isSection(section) {
 				return this.$route.matched[0].name === section
 			}

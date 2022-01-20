@@ -6,21 +6,21 @@
         <ToasterWrapper />
         <CookieDisclaimer />
 
-        <!--Show spinner before translations is loaded-->
-        <Spinner v-if="! isLoaded"/>
+		<!--Show spinner before translations is loaded-->
+        <Spinner v-if="! isLoaded" />
 
-        <!--Show warning bar when user functionality is restricted-->
+		<!--Show warning bar when user functionality is restricted-->
 		<div v-if="isLimitedUser" class="bg-red-500 text-center py-1">
 			<router-link :to="{name: 'Billing'}" class="text-white font-bold text-xs">
 				{{ $t('Your functionality is restricted. Please review your billing settings.') }}
 			</router-link>
 		</div>
 
-        <!--App view-->
+		<!--App view-->
         <router-view v-if="isLoaded" />
 
-        <!--Background under popups-->
-        <Vignette/>
+		<!--Background under popups-->
+        <Vignette />
     </div>
 </template>
 
@@ -34,93 +34,101 @@ import {mapGetters} from 'vuex'
 import {events} from './bus'
 
 export default {
-    name: 'app',
-    components: {
-        CookieDisclaimer,
-        ToasterWrapper,
-        Vignette,
-        Spinner,
-        Alert
-    },
-    data() {
-        return {
-            isLoaded: false
-        }
-    },
+	name: 'app',
+	components: {
+		CookieDisclaimer,
+		ToasterWrapper,
+		Vignette,
+		Spinner,
+		Alert
+	},
+	data() {
+		return {
+			isLoaded: false
+		}
+	},
 	computed: {
 		...mapGetters([
 			'isLimitedUser',
-			'isDarkMode',
+			'config',
 			'user',
 		]),
 	},
 	watch: {
-		isDarkMode() {
-			this.toggleDarkMode()
+		'config.defaultThemeMode': function () {
+			this.handleDarkMode()
 		}
 	},
-    methods: {
-		toggleDarkMode() {
-			const webApp = document.getElementsByTagName("html")[0];
-
-			webApp.classList.toggle("dark");
-		},
+	methods: {
 		spotlightListener(e) {
 			if (e.key === 'k' && e.metaKey) {
 				events.$emit('spotlight:show');
 			}
 		},
-    },
-    beforeMount() {
-
-		// Set dark/light mode by user settings
-		if (localStorage.hasOwnProperty('is_dark_mode')) {
-			if (this.isDarkMode) this.toggleDarkMode()
-		}
-
-		// Proceed dark/light mode by system settings
-		if (! localStorage.hasOwnProperty('is_dark_mode')) {
+		handleDarkMode() {
+			const app = document.getElementsByTagName("html")[0];
 			const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
-			// Set up initial dark/light mode on app loading
-			if (prefersDarkScheme.matches) this.toggleDarkMode()
+			if (this.config.defaultThemeMode === 'dark') {
 
-			// Watch for dark/light mode changes on os system layer
-			prefersDarkScheme.addEventListener('change', () => this.toggleDarkMode());
+				app.classList.add("dark")
+				this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
+
+			} else if (this.config.defaultThemeMode === 'light') {
+
+				app.classList.remove("dark")
+				this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
+
+			} else if (this.config.defaultThemeMode === 'system' && prefersDarkScheme.matches) {
+
+				app.classList.add("dark")
+				this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
+
+			} else if (this.config.defaultThemeMode === 'system' && !prefersDarkScheme.matches) {
+
+				app.classList.remove("dark")
+				this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
+			}
 		}
+	},
+	beforeMount() {
+		window.matchMedia('(prefers-color-scheme: dark)')
+			.addEventListener('change', () => {
+				this.handleDarkMode()
+			});
 
-        // Get installation state
-        let installation = this.$root.$data.config.installation
+		// Get installation state
+		let installation = this.$root.$data.config.installation
 
-        if (['setup-disclaimer', 'setup-database'].includes(installation))
-            this.isLoaded = true
+		if (['setup-disclaimer', 'setup-database'].includes(installation))
+			this.isLoaded = true
 
-        // Redirect to database verify code
-        if (installation === 'setup-database')
-            this.$router.push({name: 'StatusCheck'})
+		// Redirect to database verify code
+		if (installation === 'setup-database')
+			this.$router.push({name: 'StatusCheck'})
 
-        // Redirect to starting installation process
-        if (installation === 'setup-disclaimer')
-            this.$router.push({name: 'InstallationDisclaimer'})
+		// Redirect to starting installation process
+		if (installation === 'setup-disclaimer')
+			this.$router.push({name: 'InstallationDisclaimer'})
 
-        if (installation === 'setup-done')
-            this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale)
-                .then(() => {
-                    this.isLoaded = true
+		if (installation === 'setup-done')
+			this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale)
+				.then(() => {
+					this.isLoaded = true
 
-                    // Store config to vuex
-                    this.$store.commit('INIT', {
-                        config: this.$root.$data.config,
-                        rootDirectory: {
-                            name: this.$t('locations.home'),
-                            location: 'base',
-                            id: undefined
-                        }
-                    })
-                })
-    },
-    mounted() {
-    	if (this.$isWindows()) {
+					// Store config to vuex
+					this.$store.commit('INIT', {
+						config: this.$root.$data.config,
+						rootDirectory: {
+							name: this.$t('locations.home'),
+							location: 'base',
+							id: undefined
+						}
+					})
+				})
+	},
+	mounted() {
+		if (this.$isWindows()) {
 			document.body.classList.add('windows')
 		}
 
@@ -155,21 +163,21 @@ export default {
 
 [v-cloak],
 [v-cloak] > * {
-    display: none
+	display: none
 }
 
 * {
-    outline: 0;
-    margin: 0;
-    padding: 0;
-    font-family: 'Nunito', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    font-size: 16px;
-    text-decoration: none;
-    color: $text;
+	outline: 0;
+	margin: 0;
+	padding: 0;
+	font-family: 'Nunito', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	font-size: 16px;
+	text-decoration: none;
+	color: $text;
 }
 
 .vue-feather {
@@ -179,24 +187,24 @@ export default {
 }
 
 #auth {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 // Dark mode support
 .dark {
 
-    * {
-        color: $dark_mode_text_primary;
-    }
+	* {
+		color: $dark_mode_text_primary;
+	}
 
-    body, html {
-        background: $dark_mode_background;
-        color: $dark_mode_text_primary;
+	body, html {
+		background: $dark_mode_background;
+		color: $dark_mode_text_primary;
 
-        img {
-            opacity: .95;
-        }
-    }
+		img {
+			opacity: .95;
+		}
+	}
 }
 </style>

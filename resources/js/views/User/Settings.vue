@@ -1,5 +1,42 @@
 <template>
     <div>
+
+		<div class="card shadow-card">
+			<FormLabel>
+				{{ $t('Appearance') }}
+			</FormLabel>
+
+			<AppInputText :title="$t('Theme Mode')" :description="$t('Set your theme mode on dark, light or based on your system settings.')">
+				<div class="flex items-center md:space-x-6 space-x-4">
+					<div
+						v-for="(theme, i) in themeSetup"
+						:key="i"
+						:title="theme.title"
+						@click="$store.dispatch('toggleThemeMode', theme.type)"
+						class="w-full rounded-xl shadow-lg overflow-hidden cursor-pointer border-3"
+						:class="{'border-theme': config.defaultThemeMode === theme.type, 'border-transparent': config.defaultThemeMode !== theme.type}"
+					>
+						<img :src="theme.image" :alt="theme.type">
+					</div>
+				</div>
+            </AppInputText>
+
+			<AppInputText :title="$t('Default Emojis')" :description="$t('Set your default emojis for your folder custom icons. You can set Twemoji or default Apple emojis.')" :is-last="true">
+				<div class="flex items-center md:space-x-6 space-x-4">
+					<div
+						v-for="(emoji, i) in emojiSetup"
+						:key="i"
+						:title="emoji.title"
+						@click="$store.dispatch('toggleEmojiType', emoji.type)"
+						class="w-full rounded-xl shadow-lg overflow-hidden cursor-pointer border-3"
+						:class="{'border-theme': currentEmojis === emoji.type, 'border-transparent': currentEmojis !== emoji.type}"
+					>
+						<img :src="isDarkMode ? emoji.image.dark : emoji.image.light" :alt="emoji.type">
+					</div>
+				</div>
+			</AppInputText>
+		</div>
+
         <div class="card shadow-card">
             <FormLabel>
 				{{ $t('Account Settings') }}
@@ -35,6 +72,7 @@
 					:placeholder="$t('user_settings.timezone_plac')" />
             </AppInputText>
         </div>
+
         <div class="card shadow-card">
             <FormLabel>
                 {{ $t('user_settings.title_billing') }}
@@ -110,15 +148,54 @@
 		},
 		computed: {
 			...mapGetters([
+				'isDarkMode',
 				'countries',
 				'timezones',
 				'config',
 			]),
+			currentEmojis() {
+				return this.config.defaultEmoji
+			},
 		},
 		data() {
 			return {
 				user: this.$store.getters.user,
 				isLoading: false,
+				themeSetup: [
+					{
+						title: this.$t('Light mode'),
+						type: 'light',
+						image: '/assets/setup/light-mode.jpg',
+					},
+					{
+						title: this.$t('Dark mode'),
+						type: 'dark',
+						image: '/assets/setup/dark-mode.jpg',
+					},
+					{
+						title: this.$t('Based on system settings'),
+						type: 'system',
+						image: '/assets/setup/system-mode.jpg',
+					},
+				],
+				emojiSetup: [
+					{
+						title: 'Twemoji',
+						type: 'twemoji',
+						image: {
+							dark: '/assets/setup/twemoji-preview-dark.jpg',
+							light: '/assets/setup/twemoji-preview.jpg',
+						}
+					},
+					{
+						title: 'Applemoji',
+						type: 'applemoji',
+						image: {
+							dark: '/assets/setup/applemoji-preview-dark.jpg',
+							light: '/assets/setup/applemoji-preview.jpg',
+						}
+					},
+				]
 			}
 		},
 		methods: {

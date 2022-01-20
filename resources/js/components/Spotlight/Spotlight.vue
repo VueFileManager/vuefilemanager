@@ -245,7 +245,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'isDarkMode',
 			'config',
 			'user',
 		]),
@@ -588,7 +587,7 @@ export default {
 				}
 
 				if (arg.action.value === 'dark-mode') {
-					this.$store.dispatch('toggleDarkMode', !this.isDarkMode)
+					this.$store.dispatch('toggleThemeMode')
 				}
 
 				if (arg.action.value === 'full-screen-mode') {

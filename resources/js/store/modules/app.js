@@ -4,7 +4,7 @@ import Vue from "vue"
 
 const defaultState = {
     isVisibleNavigationBars: localStorage.getItem('is_navigation_bars') !== 'false',
-    darkMode: localStorage.getItem('is_dark_mode') === 'true' || false,
+    isDarkMode: false,
     isVisibleSidebar: localStorage.getItem('file_info_visibility') === 'true' || false,
     itemViewType: localStorage.getItem('preview_type') || 'list',
     config: undefined,
@@ -17,13 +17,20 @@ const defaultState = {
     },
 }
 const actions = {
-    toggleDarkMode: ({commit}, visibility) => {
+    toggleThemeMode: ({commit}, mode = undefined) => {
+        const app = document.getElementsByTagName("html")[0];
 
-        // Store dark mode into localStorage
-        localStorage.setItem('is_dark_mode', visibility)
+        if (! mode) {
+            mode = app.classList.contains('dark') ? 'light' : 'dark'
+        }
 
-        // Change preview
-        commit('TOGGLE_DARK_MODE', visibility)
+        commit('REPLACE_CONFIG_VALUE', {
+            key: 'defaultThemeMode',
+            value: mode,
+        })
+
+        // Update user settings
+        Vue.prototype.$updateText('/user/settings', 'theme_mode', mode)
     },
     toggleNavigationBars: ({commit, state}) => {
 
@@ -43,10 +50,9 @@ const actions = {
         // Change preview
         commit('CHANGE_PREVIEW', previewType)
     },
-    toggleEmojiType: ({commit, getters}) => {
-        let newType = getters.config.defaultEmoji === 'twemoji'
-            ? 'applemoji'
-            : 'twemoji'
+    toggleEmojiType: ({commit, getters}, type = undefined) => {
+
+        let newType = type ? type : getters.config.defaultEmoji === 'twemoji' ? 'applemoji' : 'twemoji'
 
         // Update config
         commit('REPLACE_CONFIG_VALUE', {
@@ -111,9 +117,6 @@ const mutations = {
     CHANGE_PREVIEW(state, type) {
         state.itemViewType = type
     },
-    TOGGLE_DARK_MODE(state, visibility) {
-        state.darkMode = visibility
-    },
     TOGGLE_NAVIGATION_BARS(state) {
         state.isVisibleNavigationBars = ! state.isVisibleNavigationBars
     },
@@ -151,6 +154,10 @@ const mutations = {
         state.config.paypal_client_id = data.key
         state.config.isPayPal = true
     },
+    UPDATE_DARK_MODE_STATUS(state, val) {
+        console.log(val);
+        state.isDarkMode = val
+    },
 }
 
 const getters = {
@@ -162,7 +169,7 @@ const getters = {
     config: state => state.config,
     emojis: state => state.emojis,
     index: state => state.index,
-    isDarkMode: state => state.darkMode,
+    isDarkMode: state => state.isDarkMode,
     sorting: (state) => {
         return {sorting: state.sorting, URI: '?sort=' + state.sorting.field + '&direction=' + state.sorting.sort}
     },
