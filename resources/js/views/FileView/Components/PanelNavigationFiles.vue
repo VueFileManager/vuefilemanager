@@ -1,94 +1,55 @@
 <template>
-	<ContentSidebar class="relative" v-if="isVisibleNavigationBars">
+	<ContentSidebar v-if="isVisibleNavigationBars" class="relative">
+
+		<!--Full screen button-->
 		<div @click="toggleNavigationBars" class="inline-block absolute top-2.5 right-0 p-3 cursor-pointer transition-all duration-200 hover:opacity-70 opacity-0">
 			<chevrons-left-icon size="18"/>
 		</div>
 
 		<!--Locations-->
-		<ContentGroup :title="$t('sidebar.locations_title')">
-			<div class="menu-list-wrapper vertical">
-				<router-link @click.native="resetData" :to="{name: 'Files'}" class="menu-list-item link">
-					<div class="icon text-theme">
-						<home-icon size="17" />
-					</div>
-					<div class="label text-theme">
-						{{ $t('sidebar.home') }}
-					</div>
-				</router-link>
-				<router-link @click.native="resetData" :to="{name: 'RecentUploads'}" class="menu-list-item link">
-					<div class="icon text-theme">
-						<upload-cloud-icon size="17" />
-					</div>
-					<div class="label text-theme">
-						{{ $t('sidebar.latest') }}
-					</div>
-				</router-link>
-				<router-link @click.native="resetData" :to="{name: 'MySharedItems'}" class="menu-list-item link">
-					<div class="icon text-theme">
-						<link-icon size="17" />
-					</div>
-					<div class="label text-theme">
-						{{ $t('sidebar.my_shared') }}
-					</div>
-				</router-link>
-				<router-link @click.native="resetData" :to="{name: 'Trash'}" class="menu-list-item link">
-					<div class="icon text-theme">
-						<trash2-icon size="17" />
-					</div>
-					<div class="label text-theme">
-						{{ $t('locations.trash') }}
-					</div>
-				</router-link>
-			</div>
-		</ContentGroup>
+		<ContentGroup v-for="(menu, i) in nav" :title="menu.groupTitle" :slug="menu.groupTitle" :can-collapse="menu.groupCollapsable">
+			<router-link v-for="(item, i) in menu.groupLinks" :key="i" @click.native="resetData" :to="{name: item.route}" class="flex items-center py-2.5">
+				<home-icon v-if="item.icon === 'home'" size="17" class="mr-2.5 vue-feather icon-active"/>
+				<upload-cloud-icon v-if="item.icon === 'upload-cloud'" size="17" class="mr-2.5 vue-feather icon-active" />
+				<link-icon v-if="item.icon === 'link'" size="17" class="mr-2.5 vue-feather icon-active" />
+				<trash2-icon v-if="item.icon === 'trash'" size="17" class="mr-2.5 vue-feather icon-active" />
+				<users-icon size="17" v-if="item.icon === 'users'" class="mr-2.5 vue-feather icon-active" />
+				<user-check-icon size="17" v-if="item.icon === 'user-check'" class="mr-2.5 vue-feather icon-active" />
 
-		<!--Locations-->
-		<ContentGroup :title="$t('Collaboration')" slug="collaboration" :can-collapse="true">
-			<div class="menu-list-wrapper vertical">
-				<router-link @click.native="resetData" :to="{name: 'TeamFolders'}" class="menu-list-item link">
-					<div class="icon text-theme">
-						<users-icon size="17" />
-					</div>
-					<div class="label text-theme">
-						{{ $t('Team Folders') }}
-					</div>
-				</router-link>
-				<router-link @click.native="resetData" :to="{name: 'SharedWithMe'}" class="menu-list-item link">
-					<div class="icon text-theme">
-						<user-check-icon size="17" />
-					</div>
-					<div class="label text-theme">
-						{{ $t('Shared with Me') }}
-					</div>
-				</router-link>
-			</div>
+				<b class="font-bold text-xs text-active">
+					{{ item.title }}
+				</b>
+			</router-link>
 		</ContentGroup>
 
 		<!--Navigator-->
-		<ContentGroup v-if="user" :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true" class="navigator">
-			<span v-if="tree.length === 0" class="empty-note navigator">
-				{{ $t('sidebar.folders_empty') }}
-			</span>
-			<TreeMenuNavigator v-if="navigation" class="folder-tree" :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id"/>
+		<ContentGroup v-if="navigation" :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true">
+			<small v-if="tree.length === 0" class="text-xs font-bold text-gray-500">
+				{{ $t("There isn't any folder.") }}
+			</small>
+			<TreeMenuNavigator :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id"/>
 		</ContentGroup>
 
 		<!--Favourites-->
 		<ContentGroup v-if="user" :title="$t('sidebar.favourites')" slug="favourites" :can-collapse="true">
 
-			<div @dragover.prevent="dragEnter" @dragleave="dragLeave" @drop="dragFinish($event)" :class="{ 'is-dragenter': area }" class="menu-list-wrapper vertical favourites">
-				<transition-group tag="div" class="menu-list" name="folder">
-					<span v-if="favourites.length === 0" class="empty-note favourites" :key="0">
-						{{ $t('sidebar.favourites_empty') }}
-					</span>
+			<div @dragover.prevent="dragEnter" @dragleave="dragLeave" @drop="dragFinish($event)" :class="{'border-theme': area }" class="border-2 border-transparent border-dashed">
 
-					<div @click="goToFolder(folder)" v-for="folder in favourites" :key="folder.data.id" class="menu-list-item folder-item">
-						<div class="text-theme flex">
-							<folder-icon size="17" class="folder-icon" />
-							<span class="label text-theme">{{ folder.data.attributes.name }}</span>
-						</div>
-						<x-icon @click.stop="$removeFavourite(folder)" size="17" class="delete-icon" />
+				<!--Empty message-->
+				<small v-if="favourites.length === 0" class="text-xs font-bold text-gray-500 favourites" :key="0">
+					{{ $t('sidebar.favourites_empty') }}
+				</small>
+
+				<!--Folder item-->
+				<div @click="goToFolder(folder)" v-for="folder in favourites" :key="folder.data.id" class="group flex items-center justify-between py-2.5 cursor-pointer">
+					<div class="flex items-center">
+						<folder-icon size="17" class="mr-2.5 vue-feather" :class="{'text-theme': $route.params.id === folder.data.id}" />
+						<span class="font-bold text-xs max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" :class="{'text-theme': $route.params.id === folder.data.id}">
+							{{ folder.data.attributes.name }}
+						</span>
 					</div>
-				</transition-group>
+					<x-icon @click.stop="$removeFavourite(folder)" size="12" class="mr-5 group-hover:opacity-100 opacity-0" />
+				</div>
 			</div>
 		</ContentGroup>
 	</ContentSidebar>
@@ -148,6 +109,50 @@ export default {
 		return {
 			draggedItem: undefined,
 			area: false,
+			nav: [
+				{
+					groupCollapsable: false,
+					groupTitle: this.$t('sidebar.locations_title'),
+					groupLinks: [
+						{
+							icon: 'home',
+							route: 'Files',
+							title: this.$t('sidebar.home'),
+						},
+						{
+							icon: 'upload-cloud',
+							route: 'RecentUploads',
+							title: this.$t('sidebar.latest'),
+						},
+						{
+							icon: 'link',
+							route: 'MySharedItems',
+							title: this.$t('sidebar.my_shared'),
+						},
+						{
+							icon: 'trash',
+							route: 'Trash',
+							title: this.$t('locations.trash'),
+						},
+					],
+				},
+				{
+					groupCollapsable: true,
+					groupTitle: this.$t('Collaboration'),
+					groupLinks: [
+						{
+							icon: 'users',
+							route: 'TeamFolders',
+							title: this.$t('Team Folders'),
+						},
+						{
+							icon: 'user-check',
+							route: 'SharedWithMe',
+							title: this.$t('Shared with Me'),
+						},
+					],
+				},
+			],
 		}
 	},
 	methods: {
@@ -204,49 +209,3 @@ export default {
 	}
 }
 </script>
-
-<style lang="scss" scoped>
-
-	.empty-note {
-
-		&.navigator {
-			padding: 5px 25px 10px;
-		}
-
-		&.favourites {
-			padding: 5px 23px 10px;
-		}
-	}
-
-	.navigator {
-		width: 100%;
-		overflow-x: auto;
-	}
-
-	@media only screen and (max-width: 1024px) {
-
-		.empty-note {
-
-			&.navigator {
-				padding: 5px 20px 10px;
-			}
-
-			&.favourites {
-				padding: 5px 18px 10px;
-			}
-		}
-	}
-
-	.folder-item {
-		transition: all 300ms;
-		display: inline-block;
-		margin-right: 10px;
-	}
-	.folder-enter, .folder-leave-to {
-		opacity: 0;
-		transform: translateY(-20px);
-	}
-	.folder-leave-active {
-		position: absolute;
-	}
-</style>

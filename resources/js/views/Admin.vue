@@ -17,53 +17,22 @@
         <SidebarNavigation/>
 
         <ContentSidebar>
+			<ContentGroup v-for="(menu, i) in nav" :title="menu.groupTitle" :slug="menu.groupTitle" :can-collapse="false">
+				<router-link v-for="(item, i) in menu.groupLinks" :key="i" :to="{name: item.route}" class="flex items-center py-2.5" :class="{'router-link-active': item.linkActivation && item.linkActivation.includes($router.currentRoute.fullPath.split('/')[2])}">
+					<box-icon v-if="item.icon === 'box'" size="17" class="mr-2.5 vue-feather icon-active" />
+					<users-icon v-if="item.icon === 'users'" size="17" class="mr-2.5 vue-feather icon-active" />
+					<settings-icon v-if="item.icon === 'settings'" size="17" class="mr-2.5 vue-feather icon-active" />
+					<monitor-icon v-if="item.icon === 'monitor'" size="17" class="mr-2.5 vue-feather icon-active" />
+					<globe-icon v-if="item.icon === 'globe'" size="17" class="mr-2.5 vue-feather icon-active" />
+					<credit-card-icon v-if="item.icon === 'card'" size="17" class="mr-2.5 vue-feather icon-active" />
+					<database-icon v-if="item.icon === 'database'" size="17" class="mr-2.5 vue-feather icon-active" />
+					<dollar-sign-icon v-if="item.icon === 'dollar'" size="17" class="mr-2.5 vue-feather icon-active" />
+					<file-text-icon v-if="item.icon === 'file-text'" size="17" class="mr-2.5 vue-feather icon-active" />
 
-            <!--Admin-->
-			<ContentGroup :title="$t('global.admin')" class="navigator">
-                <div class="menu-list-wrapper vertical">
-					<router-link v-for="(menu, i) in admin" :key="i" :to="{name: menu.route}" class="menu-list-item link" :class="{'router-link-active': menu.linkActivation && menu.linkActivation.includes($router.currentRoute.fullPath.split('/')[2])}">
-                        <div class="icon text-theme">
-                            <box-icon v-if="menu.icon === 'box'" size="17" />
-                            <users-icon v-if="menu.icon === 'users'" size="17" />
-                            <settings-icon v-if="menu.icon === 'settings'" size="17" />
-                        </div>
-                        <div class="label text-theme">
-                            {{ menu.title }}
-                        </div>
-                    </router-link>
-                </div>
-            </ContentGroup>
-
-            <!--Content-->
-            <ContentGroup :title="$t('Content')" class="navigator">
-                <div class="menu-list-wrapper vertical">
-					<router-link v-for="(menu, i) in content" :key="i" :to="{name: menu.route}" class="menu-list-item link">
-                        <div class="icon text-theme">
-							<monitor-icon v-if="menu.icon === 'monitor'" size="17" />
-                            <globe-icon v-if="menu.icon === 'globe'" size="17" />
-                        </div>
-                        <div class="label text-theme">
-                            {{ menu.title }}
-                        </div>
-                    </router-link>
-                </div>
-            </ContentGroup>
-
-            <!-- Assets -->
-            <ContentGroup :title="$t('Subscription')" v-if="config.isSaaS" class="navigator">
-                <div class="menu-list-wrapper vertical">
-					<router-link v-for="(menu, i) in assetMenu" :key="i" :to="{name: menu.route}" class="menu-list-item link" :class="{'router-link-active': menu.linkActivation && menu.linkActivation.includes($router.currentRoute.fullPath.split('/')[2])}">
-                        <div class="icon text-theme">
-                            <credit-card-icon v-if="menu.icon === 'card'" size="17" />
-                            <database-icon v-if="menu.icon === 'database'" size="17" />
-                            <dollar-sign-icon v-if="menu.icon === 'dollar'" size="17" />
-                            <file-text-icon v-if="menu.icon === 'file-text'" size="17" />
-                        </div>
-                        <div class="label text-theme">
-                            {{ menu.title }}
-                        </div>
-                    </router-link>
-                </div>
+					<b class="font-bold text-xs text-active">
+						{{ item.title }}
+					</b>
+				</router-link>
             </ContentGroup>
         </ContentSidebar>
 
@@ -90,8 +59,8 @@
 				'isVisibleNavigationBars',
 				'config',
 			]),
-			assetMenu() {
-				return {
+			nav() {
+				let subscriptionLinks = {
 					metered: [
 						{
 							title: this.$t('Payments'),
@@ -138,44 +107,56 @@
 						},
 					],
 				}[this.config.subscriptionType]
-			}
-        },
-		data() {
-			return {
-				admin: [
+
+				return [
 					{
-						title: this.$t('admin_menu.dashboard'),
-						route: 'Dashboard',
-						icon: 'box',
-					},
-					{
-						title: this.$t('admin_menu.users'),
-						route: 'Users',
-						icon: 'users',
-						linkActivation: [
-							'users', 'user'
+						groupCollapsable: false,
+						groupTitle: this.$t('global.admin'),
+						groupLinks: [
+							{
+								title: this.$t('admin_menu.dashboard'),
+								route: 'Dashboard',
+								icon: 'box',
+							},
+							{
+								title: this.$t('admin_menu.users'),
+								route: 'Users',
+								icon: 'users',
+								linkActivation: [
+									'users', 'user'
+								],
+							},
+							{
+								title: this.$t('admin_menu.settings'),
+								route: 'AppSettings',
+								icon: 'settings',
+							},
 						],
 					},
 					{
-						title: this.$t('admin_menu.settings'),
-						route: 'AppSettings',
-						icon: 'settings',
+						groupCollapsable: false,
+						groupTitle: this.$t('Content'),
+						groupLinks: [
+							{
+								title: this.$t('admin_menu.pages'),
+								route: 'Pages',
+								icon: 'monitor',
+							},
+							{
+								title: this.$t('admin_menu.languages'),
+								route: 'Language',
+								icon: 'globe',
+							},
+						],
 					},
-				],
-				content: [
 					{
-						title: this.$t('admin_menu.pages'),
-						route: 'Pages',
-						icon: 'monitor',
+						groupCollapsable: false,
+						groupTitle: this.$t('Subscription'),
+						groupLinks: subscriptionLinks,
 					},
-					{
-						title: this.$t('admin_menu.languages'),
-						route: 'Language',
-						icon: 'globe',
-					},
-				],
+				]
 			}
-		},
+        },
         components: {
 			FilePreview,
 			Spotlight,

@@ -2,7 +2,7 @@
 	<div>
 		<div
 			@click="goToFolder"
-			class="flex items-center py-2 rounded-lg border-2 border-transparent border-dashed cursor-pointer"
+			class="flex items-center py-2.5 rounded-lg border-2 border-transparent border-dashed cursor-pointer"
 			:class="{'border-theme': area, 'pointer-events-none opacity-50': disabledFolder || disabled && draggedItem.length > 0  }"
 			:style="indent"
 			@dragover.prevent="dragEnter"
@@ -18,7 +18,7 @@
 			</div>
 			<folder-icon size="17" class="mr-2.5 vue-feather" :class="{'text-theme': isSelected}" />
 			<b
-				class="font-bold text-sm max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap"
+				class="font-bold text-xs max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap"
 				:class="{'text-theme': isSelected}"
 			>
 				{{ nodes.name }}
@@ -82,9 +82,7 @@
 
 				let offset = window.innerWidth <= 1024 ? 14 : 18;
 
-				let value = this.depth === 0 ? offset : offset + (this.depth * 18);
-
-				return {paddingLeft: value + 'px'}
+				return {paddingLeft: this.depth === 0 ? 0 : offset * this.depth + 'px'}
 			},
 		},
 		data() {

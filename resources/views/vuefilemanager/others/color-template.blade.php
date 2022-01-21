@@ -4,6 +4,15 @@
             $color = $settings->app_color ?? '#00BC7E';
         @endphp
 
+        {{-- Tailwind Helpers --}}
+        .router-link-active .icon-active {
+            color: {{ $color }};
+        }
+        .router-link-active .text-active {
+            color: {{ $color }};
+        }
+
+
         {{-- Group options --}}
         .group:hover:not(.hover-disabled) .group-hover-text-theme {color: {{ $color }} !important;}
 
