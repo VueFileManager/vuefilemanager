@@ -10,7 +10,7 @@
 
 		<!--2FA popups-->
 		<TwoFactorRecoveryCodesPopup />
-		<TwoFactorSetupPopup />
+		<TwoFactorQrSetupPopup />
 
 		<!--Access Token Popup-->
 		<CreatePersonaTokenPopup />
@@ -69,7 +69,7 @@
 	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
 	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
 	import CreatePersonaTokenPopup from '/resources/js/components/Others/CreatePersonaTokenPopup'
-	import TwoFactorSetupPopup from '/resources/js/components/Others/TwoFactorSetupPopup'
+	import TwoFactorQrSetupPopup from '/resources/js/components/Others/TwoFactorQrSetupPopup'
 	import UserImageInput from '/resources/js/components/Others/UserImageInput'
 	import SidebarNavigation from "../components/Sidebar/SidebarNavigation"
 	import ColorLabel from '/resources/js/components/Others/ColorLabel'
@@ -92,7 +92,7 @@
 			Spotlight,
 			TwoFactorRecoveryCodesPopup,
 			CreatePersonaTokenPopup,
-			TwoFactorSetupPopup,
+			TwoFactorQrSetupPopup,
 			SidebarNavigation,
             UserImageInput,
             ColorLabel,

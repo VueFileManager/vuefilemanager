@@ -7,7 +7,7 @@
                 {{ $t('2fa.settings.title') }}
             </FormLabel>
             <AppInputSwitch :title="$t('popup_2fa.switch_title')" :description="$t('popup_2fa.switch_info')" :is-last="! user.data.attributes.two_factor_authentication">
-                <SwitchInput @click.native.prevent.stop="open2faPopup" class="switch" :state="user.data.attributes.two_factor_authentication" />
+                <SwitchInput v-model="user.data.attributes.two_factor_authentication" class="switch" :state="user.data.attributes.two_factor_authentication" />
             </AppInputSwitch>
             <AppInputSwitch v-if="user && user.data.attributes.two_factor_authentication" :title="$t('popup_2fa.codes_title')" :description="$t('popup_2fa.codes_info')" :is-last="true">
                 <ButtonBase class="w-full" button-style="secondary" @click.native="showRecoveryCodes">
@@ -112,6 +112,15 @@
 				'user',
 			])
 		},
+		watch: {
+			'user.data.attributes.two_factor_authentication': function (val) {
+				if (val) {
+					this.open2faPopup()
+				} else {
+					this.disable()
+				}
+			}
+		},
 		data() {
 			return {
 				passwordForm: {
@@ -170,6 +179,22 @@
 						}
 					})
 			},
+			disable() {
+				axios
+					.delete('/user/two-factor-authentication')
+					.then(() => {
+						this.$store.commit('CHANGE_TWO_FACTOR_AUTHENTICATION_STATE', false)
+					})
+					.catch(() => {
+						this.$isSomethingWrong()
+					})
+					.finally(() => {
+						events.$emit('toaster', {
+							type: 'success',
+							message: this.$t('popup_2fa.toaster_disabled'),
+						})
+					})
+			},
 			getPersonalAccessTokens() {
 				axios.get('/api/user/tokens')
 					.then(response => {
@@ -185,6 +210,14 @@
 					}
 				})
 			},
+			open2faPopup() {
+				events.$emit('popup:open', {
+					name: 'confirm-password',
+					options: {
+						action: 'two-factor-qr-setup',
+					}
+				})
+			},
 			confirmDeleteToken(token) {
 				events.$emit('confirm:open', {
 					title: this.$t('popup_delete_personal_token.title'),
@@ -194,9 +227,6 @@
 						operation: 'delete-personal-access-token'
 					}
 				})
-			},
-			open2faPopup() {
-				events.$emit('popup:open', {name: 'two-factor-authentication-confirm'})
 			},
 			openCreateTokenPopup() {
 				events.$emit('popup:open', {name: 'create-personal-token'})
@@ -233,6 +263,11 @@
 				// Get recovery tokens
 				if (args.options.action === 'get-recovery-codes') {
 					events.$emit('popup:open', {name: 'two-factor-recovery-codes'})
+				}
+
+				// Get 2fa qr code
+				if (args.options.action === 'two-factor-qr-setup') {
+					events.$emit('popup:open', {name: 'two-factor-qr-setup'})
 				}
 			})
 
