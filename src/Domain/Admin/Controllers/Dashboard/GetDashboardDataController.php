@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Admin\Controllers\Dashboard;
 
 use ByteUnits\Metric;
@@ -29,12 +30,12 @@ class GetDashboardDataController extends Controller
                 'usersPremiumTotal' => Subscription::count(),
             ],
             'disk'  => [
-                'used'          => $storageUsage,
-                'download'      => [
+                'used'     => $storageUsage,
+                'download' => [
                     'total'   => $downloadTotal,
                     'records' => $download,
                 ],
-                'upload'        => [
+                'upload'   => [
                     'total'   => $uploadTotal,
                     'records' => $upload,
                 ],
@@ -65,14 +66,16 @@ class GetDashboardDataController extends Controller
             ->groupBy('created_at')
             ->get();
 
-        $upload = $trafficRecords->map(fn ($record) => [
-            'created_at' => format_date($record->created_at, '%d. %B. %Y'),
-            'amount'     => intval($trafficRecords->max('upload')) !== 0 ? round(($record->upload / $trafficRecords->max('upload')) * 100, 2) : 0,
+        $upload = $trafficRecords->map(fn($record) => [
+            'created_at' => format_date($record->created_at, '%d. %B'),
+            'percentage' => intval($trafficRecords->max('upload')) !== 0 ? round(($record->upload / $trafficRecords->max('upload')) * 100, 2) : 0,
+            'amount'     => Metric::bytes($record->upload)->format(),
         ]);
 
-        $download = $trafficRecords->map(fn ($record) => [
-            'created_at' => format_date($record->created_at, '%d. %B. %Y'),
-            'amount'     => intval($trafficRecords->max('download')) !== 0 ? round(($record->download / $trafficRecords->max('download')) * 100, 2) : 0,
+        $download = $trafficRecords->map(fn($record) => [
+            'created_at' => format_date($record->created_at, '%d. %B'),
+            'percentage' => intval($trafficRecords->max('download')) !== 0 ? round(($record->download / $trafficRecords->max('download')) * 100, 2) : 0,
+            'amount'     => Metric::bytes($record->download)->format(),
         ]);
 
         // Get total download/upload
