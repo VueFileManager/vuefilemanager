@@ -6,7 +6,7 @@
 				{{ $t('Appearance') }}
 			</FormLabel>
 
-			<AppInputText :title="$t('Theme Mode')" :description="$t('Set your theme mode on dark, light or based on your system settings.')">
+			<AppInputText :title="$t('Theme Mode')" :description="$t('Set your theme mode on dark, light or based on your system settings.')" :is-last="! $isApple()">
 				<div class="flex items-center md:space-x-6 space-x-4">
 					<div
 						v-for="(theme, i) in themeSetup"
@@ -21,7 +21,7 @@
 				</div>
             </AppInputText>
 
-			<AppInputText :title="$t('Default Emojis')" :description="$t('Set your default emojis for your folder custom icons. You can set Twemoji or default Apple emojis.')" :is-last="true">
+			<AppInputText v-if="$isApple()" :title="$t('Default Emojis')" :description="$t('Set your default emojis for your folder custom icons. You can set Twemoji or default Apple emojis.')" :is-last="true">
 				<div class="flex items-center md:space-x-6 space-x-4">
 					<div
 						v-for="(emoji, i) in emojiSetup"

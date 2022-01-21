@@ -268,7 +268,7 @@ class SignFlowTest extends TestCase
     public function it_login_user()
     {
         $user = User::factory()
-            ->create(['email' => 'john@doe.com']);
+            ->create();
 
         $this->postJson('/login', [
             'email'    => $user->email,

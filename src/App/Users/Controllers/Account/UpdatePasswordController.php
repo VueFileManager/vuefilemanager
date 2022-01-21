@@ -14,7 +14,7 @@ class UpdatePasswordController extends Controller
         $user = Auth::user();
 
         // Check if is demo
-        abort_if(is_demo_account($user->email), 204, 'Changed!');
+        abort_if(is_demo_account(), 204, 'Changed!');
 
         // Store new password
         $user->update([

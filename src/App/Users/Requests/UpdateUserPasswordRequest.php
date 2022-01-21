@@ -2,6 +2,7 @@
 namespace App\Users\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Users\Rules\PasswordMatchWithCurrent;
 
 class UpdateUserPasswordRequest extends FormRequest
 {
@@ -23,6 +24,7 @@ class UpdateUserPasswordRequest extends FormRequest
     public function rules()
     {
         return [
+            'current'  => ['required', 'string', new PasswordMatchWithCurrent()],
             'password' => 'required|string|min:6|confirmed',
         ];
     }

@@ -72,12 +72,20 @@ class UserAccountTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/user/password', [
-                'current_password'      => 'secret',
+                'current'               => 'secret',
                 'password'              => 'VerySecretPassword',
                 'password_confirmation' => 'VerySecretPassword',
             ])->assertStatus(204);
 
-        // TODO: login s novym heslom
+        $this
+            ->actingAs($user)
+            ->postJson('/logout')
+            ->assertStatus(204);
+
+        $this->postJson('/login', [
+            'email'    => $user->email,
+            'password' => 'VerySecretPassword',
+        ])->assertStatus(200);
     }
 
     /**

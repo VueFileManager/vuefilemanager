@@ -1,8 +1,8 @@
 <template>
-    <PageTab>
+    <div v-if="user">
 
 		<!--2fa authentication-->
-        <div v-if="user && ! user.data.attributes.socialite_account" class="card shadow-card">
+        <div v-if="! user.data.attributes.socialite_account" class="card shadow-card">
             <FormLabel icon="smartphone">
                 {{ $t('2fa.settings.title') }}
             </FormLabel>
@@ -28,7 +28,7 @@
                 <ul class="tokens-wrapper">
                     <li class="token-item" v-for="token in tokens" :key="token.id">
                         <div class="tokens-details">
-                            <b class="name">{{ token.name}}</b>
+                            <b class="name">{{ token.name }}</b>
                             <time class="last-used">{{ $t('last_used') }}: {{ token.last_used_at ? formatDate(token.last_used_at) : $t('never') }}</time>
                         </div>
                         <div @click="confirmDeleteToken(token)" class="tokens-destroyer">
@@ -43,81 +43,82 @@
         </div>
 
 		<!--Change password-->
-        <div class="card shadow-card">
-            <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form">
-                <FormLabel>{{ $t('user_password.title') }}</FormLabel>
-                <ValidationProvider tag="div" mode="passive" name="New Password" rules="required" v-slot="{ errors }">
-                    <AppInputText :title="$t('page_create_password.label_new_pass')" :error="errors[0]">
-                        <input v-model="newPassword" :placeholder="$t('page_create_password.label_new_pass')"
-							   type="password"
-							   class="focus-border-theme input-dark"
-							   :class="{'border-red': errors[0]}"
-						/>
-                    </AppInputText>
-                </ValidationProvider>
-                <ValidationProvider tag="div" mode="passive" name="Confirm Your Password" rules="required" v-slot="{ errors }">
-                    <AppInputText :title="$t('page_create_password.label_confirm_pass')" :error="errors[0]">
-                        <input v-model="newPasswordConfirmation"
-							   :placeholder="$t('page_create_password.label_confirm_pass')"
-							   type="password"
-							   class="focus-border-theme input-dark"
-							   :class="{'border-red': errors[0]}"
-						/>
-                    </AppInputText>
-                </ValidationProvider>
-                <ButtonBase type="submit" button-style="theme" class="confirm-form">
-                    {{ $t('profile.store_pass') }}
-                </ButtonBase>
-            </ValidationObserver>
-        </div>
-    </PageTab>
+		<ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="card shadow-card">
+			<FormLabel>
+				{{ $t('user_password.title') }}
+			</FormLabel>
+
+			<ValidationProvider tag="div" mode="passive" name="Current Password" rules="required" v-slot="{ errors }">
+				<AppInputText :title="$t('Current Password')" :error="errors[0]">
+					<input v-model="passwordForm.current" :placeholder="$t('Current password')" type="password" class="focus-border-theme input-dark" :class="{'border-red': errors[0]}" />
+				</AppInputText>
+			</ValidationProvider>
+
+			<ValidationProvider tag="div" mode="passive" name="New Password" rules="required" v-slot="{ errors }">
+				<AppInputText :title="$t('page_create_password.label_new_pass')" :error="errors[0]">
+					<input v-model="passwordForm.password" :placeholder="$t('page_create_password.label_new_pass')" type="password" class="focus-border-theme input-dark" :class="{'border-red': errors[0]}" />
+				</AppInputText>
+			</ValidationProvider>
+
+			<ValidationProvider tag="div" mode="passive" name="Confirm Your Password" rules="required" v-slot="{ errors }">
+				<AppInputText :title="$t('page_create_password.label_confirm_pass')" :error="errors[0]">
+					<input v-model="passwordForm.password_confirmation" :placeholder="$t('page_create_password.label_confirm_pass')" type="password" class="focus-border-theme input-dark" :class="{'border-red': errors[0]}" />
+				</AppInputText>
+			</ValidationProvider>
+
+			<ButtonBase type="submit" button-style="theme" class="confirm-form">
+				{{ $t('profile.store_pass') }}
+			</ButtonBase>
+		</ValidationObserver>
+    </div>
 </template>
 
 <script>
-	import AppInputText from "../../components/Admin/AppInputText";
-	import AppInputSwitch from "../../components/Admin/AppInputSwitch";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-	import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
 	import UserImageInput from '/resources/js/components/Others/UserImageInput'
 	import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
 	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-	import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
 	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-	import PageTab from '/resources/js/components/Others/Layout/PageTab'
 	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
 	import PageHeader from '/resources/js/components/Others/PageHeader'
 	import ThemeLabel from '/resources/js/components/Others/ThemeLabel'
+	import AppInputSwitch from "../../components/Admin/AppInputSwitch"
+	import AppInputText from "../../components/Admin/AppInputText"
 	import {required} from 'vee-validate/dist/rules'
-	import { XIcon } from 'vue-feather-icons'
-	import {mapGetters} from 'vuex'
+	import {XIcon} from 'vue-feather-icons'
 	import {events} from '/resources/js/bus'
+	import {mapGetters} from 'vuex'
 	import axios from 'axios'
 
 	export default {
 		name: 'Password',
 		components: {
-			AppInputText,
-			AppInputSwitch,
-			PageTabGroup,
-			FormLabel,
-			PageTab,
-			InfoBox,
-			XIcon,
 			ValidationProvider,
 			ValidationObserver,
 			UserImageInput,
+			AppInputSwitch,
+			AppInputText,
 			SwitchInput,
-			MobileHeader,
 			PageHeader,
 			ButtonBase,
 			ThemeLabel,
+			FormLabel,
 			required,
+			InfoBox,
+			XIcon,
 		},
 		computed: {
-			...mapGetters(['user'])
+			...mapGetters([
+				'user',
+			])
 		},
 		data() {
 			return {
+				passwordForm: {
+					current: undefined,
+					password: undefined,
+					password_confirmation: undefined,
+				},
 				newPasswordConfirmation: '',
 				newPassword: '',
 				isLoading: false,
@@ -160,20 +161,20 @@
 
 				// Send request to get user reset link
 				axios
-					.post(this.$store.getters.api + '/user/password', {
-						password: this.newPassword,
-						password_confirmation: this.newPasswordConfirmation,
-					})
+					.post(this.$store.getters.api + '/user/password', this.passwordForm)
 					.then(() => {
 
 						// Reset inputs
-						this.newPassword = ''
-						this.newPasswordConfirmation = ''
+						this.passwordForm = {
+							current: undefined,
+							password: undefined,
+							password_confirmation: undefined,
+						}
 
 						// Reset errors
 						this.$refs.password.reset()
 
-						// Show error message
+						// Show success message
 						events.$emit('success:open', {
 							title: this.$t('popup_pass_changed.title'),
 							message: this.$t('popup_pass_changed.message'),
@@ -181,12 +182,17 @@
 					})
 					.catch(error => {
 
-						if (error.response.status == 422) {
+						if (error.response.status === 422) {
 
 							if (error.response.data.errors['password']) {
-
 								this.$refs.password.setErrors({
 									'New Password': error.response.data.errors['password']
+								});
+							}
+
+							if (error.response.data.errors['current']) {
+								this.$refs.password.setErrors({
+									'Current Password': error.response.data.errors['current']
 								});
 							}
 						}
