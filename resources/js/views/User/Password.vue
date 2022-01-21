@@ -114,11 +114,7 @@
 		},
 		watch: {
 			'user.data.attributes.two_factor_authentication': function (val) {
-				if (val) {
-					this.open2faPopup()
-				} else {
-					this.disable()
-				}
+				val ? this.enable2faPopup() : this.disable2faPopup()
 			}
 		},
 		data() {
@@ -179,22 +175,6 @@
 						}
 					})
 			},
-			disable() {
-				axios
-					.delete('/user/two-factor-authentication')
-					.then(() => {
-						this.$store.commit('CHANGE_TWO_FACTOR_AUTHENTICATION_STATE', false)
-					})
-					.catch(() => {
-						this.$isSomethingWrong()
-					})
-					.finally(() => {
-						events.$emit('toaster', {
-							type: 'success',
-							message: this.$t('popup_2fa.toaster_disabled'),
-						})
-					})
-			},
 			getPersonalAccessTokens() {
 				axios.get('/api/user/tokens')
 					.then(response => {
@@ -210,11 +190,19 @@
 					}
 				})
 			},
-			open2faPopup() {
+			enable2faPopup() {
 				events.$emit('popup:open', {
 					name: 'confirm-password',
 					options: {
 						action: 'two-factor-qr-setup',
+					}
+				})
+			},
+			disable2faPopup() {
+				events.$emit('popup:open', {
+					name: 'confirm-password',
+					options: {
+						action: 'disable-2fa',
 					}
 				})
 			},
@@ -268,6 +256,26 @@
 				// Get 2fa qr code
 				if (args.options.action === 'two-factor-qr-setup') {
 					events.$emit('popup:open', {name: 'two-factor-qr-setup'})
+				}
+
+				// Get 2fa qr code
+				if (args.options.action === 'disable-2fa') {
+					axios
+						.delete('/user/two-factor-authentication')
+						.then(() => {
+							this.$store.commit('CHANGE_TWO_FACTOR_AUTHENTICATION_STATE', false)
+						})
+						.catch(() => {
+							this.$isSomethingWrong()
+						})
+						.finally(() => {
+							this.$closePopup()
+
+							events.$emit('toaster', {
+								type: 'success',
+								message: this.$t('popup_2fa.toaster_disabled'),
+							})
+						})
 				}
 			})
 

@@ -72,7 +72,7 @@
     "/chunks/purchase-code.js": "/chunks/purchase-code.js?id=d9af0efad2af2679954b",
     "/chunks/recent-uploads.js": "/chunks/recent-uploads.js?id=8577d4c771602671b38a",
     "/chunks/settings.js": "/chunks/settings.js?id=9900b7eb6fe245a852c5",
-    "/chunks/settings-password.js": "/chunks/settings-password.js?id=cbf4584f8fefdeb7b20f",
+    "/chunks/settings-password.js": "/chunks/settings-password.js?id=1aeaaad4a4c6b719d31e",
     "/chunks/settings-storage.js": "/chunks/settings-storage.js?id=84f35e2124d825cc5039",
     "/chunks/settings~chunks/settings-password.js": "/chunks/settings~chunks/settings-password.js?id=aafc9cd6aa47b01bc25a",
     "/chunks/setup-wizard.js": "/chunks/setup-wizard.js?id=651d5accf401908724c5",
@@ -829,5 +829,14 @@
     "/chunks/settings.4da40f5fec3b7d81d945.hot-update.js": "/chunks/settings.4da40f5fec3b7d81d945.hot-update.js",
     "/chunks/settings.b6ad682da66d3b2069ed.hot-update.js": "/chunks/settings.b6ad682da66d3b2069ed.hot-update.js",
     "/chunks/settings.3ecffd8e41b9e910f512.hot-update.js": "/chunks/settings.3ecffd8e41b9e910f512.hot-update.js",
-    "/chunks/settings-password.07cfa125159d6148dbaa.hot-update.js": "/chunks/settings-password.07cfa125159d6148dbaa.hot-update.js"
+    "/chunks/settings-password.07cfa125159d6148dbaa.hot-update.js": "/chunks/settings-password.07cfa125159d6148dbaa.hot-update.js",
+    "/chunks/settings-password.18b0c43022769dc1cb22.hot-update.js": "/chunks/settings-password.18b0c43022769dc1cb22.hot-update.js",
+    "/chunks/settings.5ab27b0ef0ca93adbc7c.hot-update.js": "/chunks/settings.5ab27b0ef0ca93adbc7c.hot-update.js",
+    "/chunks/settings.77884f5ef1dfb7a40cde.hot-update.js": "/chunks/settings.77884f5ef1dfb7a40cde.hot-update.js",
+    "/chunks/settings.92e675d4f90fa609a065.hot-update.js": "/chunks/settings.92e675d4f90fa609a065.hot-update.js",
+    "/chunks/settings-password.9fddbc8c88a398ced25d.hot-update.js": "/chunks/settings-password.9fddbc8c88a398ced25d.hot-update.js",
+    "/chunks/settings-password.cdbacf8b06f926fe9eef.hot-update.js": "/chunks/settings-password.cdbacf8b06f926fe9eef.hot-update.js",
+    "/chunks/settings-password.99d05980b1b5c75a85be.hot-update.js": "/chunks/settings-password.99d05980b1b5c75a85be.hot-update.js",
+    "/chunks/settings-password.f17cc28dabf217ef8900.hot-update.js": "/chunks/settings-password.f17cc28dabf217ef8900.hot-update.js",
+    "/chunks/settings.661e4bf254c7fc781c02.hot-update.js": "/chunks/settings.661e4bf254c7fc781c02.hot-update.js"
 }
