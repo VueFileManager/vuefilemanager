@@ -119,39 +119,11 @@
 					password: undefined,
 					password_confirmation: undefined,
 				},
-				newPasswordConfirmation: '',
-				newPassword: '',
 				isLoading: false,
 				tokens: [],
 			}
 		},
 		methods: {
-			formatDate(date) {
-				return new Intl.DateTimeFormat('en').format(new Date(date))
-			},
-			confirmDeleteToken(token) {
-				events.$emit('confirm:open', {
-					title: this.$t('popup_delete_personal_token.title'),
-					message: this.$t('popup_delete_personal_token.description'),
-					action: {
-						id: token.id,
-						operation: 'delete-personal-access-token'
-					}
-				})
-			},
-			deleteToken(id) {
-				axios.delete(`/api/user/tokens/${id}`)
-					.then(() => {
-
-						this.tokens = this.tokens.filter(tokenItem => tokenItem.id !== id)
-
-						events.$emit('toaster', {
-							type: 'success',
-							message: this.$t('personal_token.token_deleted'),
-						})
-					})
-					.catch(() => this.$isSomethingWrong())
-			},
 			async resetPassword() {
 
 				// Validate fields
@@ -205,24 +177,62 @@
 					})
 					.catch(() => this.$isSomethingWrong())
 			},
+			showRecoveryCodes() {
+				events.$emit('popup:open', {
+					name: 'confirm-password',
+					options: {
+						action: 'get-recovery-codes',
+					}
+				})
+			},
+			confirmDeleteToken(token) {
+				events.$emit('confirm:open', {
+					title: this.$t('popup_delete_personal_token.title'),
+					message: this.$t('popup_delete_personal_token.description'),
+					action: {
+						id: token.id,
+						operation: 'delete-personal-access-token'
+					}
+				})
+			},
 			open2faPopup() {
 				events.$emit('popup:open', {name: 'two-factor-authentication-confirm'})
 			},
-			showRecoveryCodes() {
-				events.$emit('popup:open', {name: 'two-factor-recovery-codes'})
-			},
 			openCreateTokenPopup() {
 				events.$emit('popup:open', {name: 'create-personal-token'})
-			}
+			},
+			formatDate(date) {
+				return new Intl.DateTimeFormat('en').format(new Date(date))
+			},
 		},
 		created() {
 			this.getPersonalAccessTokens()
 
-			// Delete personal access token
+			// Actions confirmed
 			events.$on('action:confirmed', data => {
 
+				// Delete personal token
 				if (data.operation === 'delete-personal-access-token') {
-					this.deleteToken(data.id)
+					axios.delete(`/api/user/tokens/${data.id}`)
+						.then(() => {
+
+							this.tokens = this.tokens.filter(tokenItem => tokenItem.id !== data.id)
+
+							events.$emit('toaster', {
+								type: 'success',
+								message: this.$t('personal_token.token_deleted'),
+							})
+						})
+						.catch(() => this.$isSomethingWrong())
+				}
+			})
+
+			// Password confirmed
+			events.$on('password:confirmed', args => {
+
+				// Get recovery tokens
+				if (args.options.action === 'get-recovery-codes') {
+					events.$emit('popup:open', {name: 'two-factor-recovery-codes'})
 				}
 			})
 

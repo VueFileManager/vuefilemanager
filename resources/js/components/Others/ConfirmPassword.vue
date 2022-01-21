@@ -1,0 +1,109 @@
+<template>
+    <PopupWrapper name="confirm-password">
+
+        <PopupHeader :title="$t('Confirm Password')" icon="edit" />
+
+        <PopupContent>
+             <ValidationObserver @submit.prevent="confirmPassword" ref="passwordForm" v-slot="{ invalid }" tag="form">
+                <ValidationProvider tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('popup_2fa.input_label')" :error="errors[0]" :is-last="true">
+						<input v-model="password" :class="{'border-red': errors[0]}" type="password" ref="input" class="focus-border-theme input-dark" :placeholder="$t('page_sign_in.placeholder_password')">
+					</AppInputText>
+                </ValidationProvider>
+            </ValidationObserver>
+        </PopupContent>
+
+        <PopupActions>
+            <ButtonBase
+				class="w-full"
+				@click.native="$closePopup()"
+				button-style="secondary"
+			>
+                {{ $t('global.cancel') }}
+            </ButtonBase>
+            <ButtonBase
+				class="w-full"
+				@click.native="confirmPassword"
+				button-style="theme"
+				:loading="isLoading"
+				:disabled="isLoading"
+			>
+               {{ $t('popup_2fa.confirm_button') }}
+            </ButtonBase>
+        </PopupActions>
+    </PopupWrapper>
+</template>
+
+<script>
+import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
+import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
+import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
+import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
+import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+import AppInputText from "../Admin/AppInputText"
+import {required} from 'vee-validate/dist/rules'
+import {events} from '/resources/js/bus'
+import {mapGetters} from 'vuex'
+import axios from 'axios'
+
+export default {
+	name: "ConfirmPassword",
+	components: {
+		ValidationProvider,
+		ValidationObserver,
+		AppInputText,
+		PopupWrapper,
+		PopupActions,
+		PopupContent,
+		PopupHeader,
+		ButtonBase,
+		required,
+	},
+	computed: {
+		...mapGetters([
+			'user'
+		]),
+	},
+	data() {
+		return {
+			isLoading: false,
+			password: '',
+			args: undefined,
+		}
+	},
+	methods: {
+		confirmPassword() {
+			this.isLoading = true
+
+			axios
+				.post('/user/confirm-password', {
+					password: this.password
+				})
+				.then(() => {
+					events.$emit('password:confirmed', this.args)
+				})
+				.catch(error => {
+					if (error.response.status === 422) {
+						this.$refs.passwordForm.setErrors({
+							'Password': this.$t('validation_errors.incorrect_password')
+						});
+					}
+				})
+				.finally(() => {
+					this.isLoading = false
+					this.password = undefined
+				})
+		},
+	},
+	created() {
+		// Show popup
+		events.$on('popup:open', args => {
+
+			if (args.name !== 'confirm-password') return
+
+			this.args = args
+		})
+	}
+}
+</script>

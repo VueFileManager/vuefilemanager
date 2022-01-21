@@ -6,6 +6,8 @@
 
 		<ConfirmPopup />
 
+		<ConfirmPassword />
+
 		<!--2FA popups-->
 		<TwoFactorRecoveryCodesPopup />
 		<TwoFactorSetupPopup />
@@ -75,10 +77,12 @@
 	import {mapGetters} from 'vuex'
 	import CardNavigation from "../components/Admin/CardNavigation";
 	import {events} from "../bus";
+	import ConfirmPassword from "../components/Others/ConfirmPassword";
 
 	export default {
         name: 'Settings',
         components: {
+			ConfirmPassword,
 			SelectSingleChargeMethodPopup,
 			SelectPlanSubscriptionPopup,
 			ButtonBase,

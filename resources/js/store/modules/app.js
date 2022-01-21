@@ -155,7 +155,6 @@ const mutations = {
         state.config.isPayPal = true
     },
     UPDATE_DARK_MODE_STATUS(state, val) {
-        console.log(val);
         state.isDarkMode = val
     },
 }
