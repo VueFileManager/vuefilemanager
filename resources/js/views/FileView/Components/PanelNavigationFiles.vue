@@ -4,11 +4,6 @@
 			<chevrons-left-icon size="18"/>
 		</div>
 
-		<!--Empty storage warning-->
-<!--		<ContentGroup v-if="user && config.storageLimit && storage.used > 95">
-			<UpgradeSidebarBanner/>
-		</ContentGroup>-->
-
 		<!--Locations-->
 		<ContentGroup :title="$t('sidebar.locations_title')">
 			<div class="menu-list-wrapper vertical">
@@ -74,7 +69,7 @@
 			<span v-if="tree.length === 0" class="empty-note navigator">
 				{{ $t('sidebar.folders_empty') }}
 			</span>
-			<TreeMenuNavigator class="folder-tree" :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id"/>
+			<TreeMenuNavigator v-if="navigation" class="folder-tree" :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id"/>
 		</ContentGroup>
 
 		<!--Favourites-->
@@ -101,7 +96,6 @@
 
 <script>
 	import { ChevronsLeftIcon, FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon} from "vue-feather-icons";
-	import UpgradeSidebarBanner from '/resources/js/components/Others/UpgradeSidebarBanner'
 	import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
 	import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
 	import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
@@ -111,7 +105,6 @@
 export default {
 	name: "PanelNavigationFiles",
 	components: {
-		UpgradeSidebarBanner,
 		TreeMenuNavigator,
 		ContentSidebar,
 		ContentGroup,
@@ -128,6 +121,7 @@ export default {
 	computed: {
 		...mapGetters([
 			'isVisibleNavigationBars',
+			'navigation',
 			'clipboard',
 			'config',
 			'user',
@@ -139,7 +133,15 @@ export default {
 			return this.$store.getters.user.data.attributes.storage
 		},
 		tree() {
-			return this.user.data.attributes.folders
+			return {
+				'RecentUploads': this.navigation[0].folders,
+				'MySharedItems': this.navigation[0].folders,
+				'Trash': this.navigation[0].folders,
+				'Public': this.navigation[0].folders,
+				'Files': this.navigation[0].folders,
+				'TeamFolders': this.navigation[1].folders,
+				'SharedWithMe': this.navigation[2].folders,
+			}[this.$route.name]
 		},
 	},
 	data() {
@@ -197,6 +199,8 @@ export default {
 	created() {
 		// Listen for dragstart folder items
 		events.$on('dragstart', item => this.draggedItem = item)
+
+		this.$store.dispatch('getFolderTree')
 	}
 }
 </script>

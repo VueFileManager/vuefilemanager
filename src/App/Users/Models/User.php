@@ -121,19 +121,6 @@ class User extends Authenticatable implements MustVerifyEmail
             ->sum('filesize');
     }
 
-    /**
-     * Get user full folder tree
-     */
-    public function getFolderTreeAttribute(): Collection
-    {
-        return Folder::with(['folders.shared', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id')
-            ->where('team_folder', false)
-            ->where('user_id', $this->id)
-            ->sortable()
-            ->get();
-    }
-
     public function settings(): HasOne
     {
         return $this->hasOne(UserSetting::class);

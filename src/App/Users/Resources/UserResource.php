@@ -36,7 +36,6 @@ class UserResource extends JsonResource
                     'role'                      => $this->role,
                     'two_factor_authentication' => $this->two_factor_secret ? true : false,
                     'socialite_account'         => $this->password ? false : true,
-                    'folders'                   => $this->folder_tree,
                     'storage'                   => $this->storage,
                     'created_at'                => format_date($this->created_at, '%d. %b. %Y'),
                     'updated_at'                => format_date($this->updated_at, '%d. %B. %Y'),

@@ -1,27 +1,31 @@
 <template>
-    <transition name="folder">
-        <div class="folder-item-wrapper">
-            <div
-				@click="goToFolder"
-				class="folder-item text-theme dark-text-theme flex"
-				:class="{'is-selected': isSelected, 'is-dragenter': area, 'is-inactive': disabledFolder || disabled && draggedItem.length > 0  }"
-				:style="indent"
-				@dragover.prevent="dragEnter"
-				@dragleave="dragLeave"
-				@drop="dragFinish()"
-			>
-                <chevron-right-icon
-					@click.stop.prevent="showTree"
+	<div>
+		<div
+			@click="goToFolder"
+			class="flex items-center py-2 rounded-lg border-2 border-transparent border-dashed cursor-pointer"
+			:class="{'border-theme': area, 'pointer-events-none opacity-50': disabledFolder || disabled && draggedItem.length > 0  }"
+			:style="indent"
+			@dragover.prevent="dragEnter"
+			@dragleave="dragLeave"
+			@drop="dragFinish()"
+		>
+			<div @click.stop.prevent="showTree" class="p-2 -ml-2 -my-2 cursor-pointer">
+				<chevron-right-icon
 					size="17"
-					class="icon-arrow"
-					:class="{'is-opened': isVisible, 'is-visible': nodes.folders.length !== 0}"
+					class="vue-feather"
+					:class="{'transform rotate-90': isVisible, 'opacity-0': nodes.folders.length === 0}"
 				/>
-                <folder-icon size="17" class="icon text-theme dark-text-theme" />
-                <span class="label">{{ nodes.name }}</span>
-            </div>
-            <TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id" />
-        </div>
-    </transition>
+			</div>
+			<folder-icon size="17" class="mr-2.5 vue-feather" :class="{'text-theme': isSelected}" />
+			<b
+				class="font-bold text-sm max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap"
+				:class="{'text-theme': isSelected}"
+			>
+				{{ nodes.name }}
+			</b>
+		</div>
+		<TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id" />
+	</div>
 </template>
 
 <script>
@@ -44,13 +48,14 @@
 		},
 		computed: {
 			...mapGetters([
-				'clipboard'
+				'clipboard',
 			]),
 			isSelected() {
 				return this.$route.params.id === this.nodes.id
 			},
 			disabledFolder() {
 				let disableFolder = false
+
 				if (this.draggedItem.length > 0) {
 
 					this.draggedItem.forEach(item => {
@@ -75,9 +80,9 @@
 			},
 			indent() {
 
-				let offset = window.innerWidth <= 1024 ? 17 : 22;
+				let offset = window.innerWidth <= 1024 ? 14 : 18;
 
-				let value = this.depth === 0 ? offset : offset + (this.depth * 20);
+				let value = this.depth === 0 ? offset : offset + (this.depth * 18);
 
 				return {paddingLeft: value + 'px'}
 			},
@@ -92,11 +97,7 @@
 		},
 		methods: {
 			goToFolder() {
-				if (this.$router.currentRoute.name === 'Public') {
-					this.$router.push({name: 'Public', params: {id: this.nodes.id}})
-				} else {
-					this.$router.push({name: 'Files', params: {id: this.nodes.id}})
-				}
+				this.$goToFileView(this.nodes.id)
 			},
 			dragFinish() {
 				// Move no selected item
@@ -144,100 +145,3 @@
 		}
 	}
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-	@import '/resources/sass/vuefilemanager/_mixins';
-
-	.is-inactive {
-		opacity: 0.5;
-		pointer-events: none;
-	}
-
-	.is-dragenter {
-		border-radius: 8px;
-	}
-
-	.folder-item {
-		padding: 8px 0;
-		@include transition(150ms);
-		cursor: pointer;
-		position: relative;
-		white-space: nowrap;
-		width: 100%;
-		border: 2px dashed transparent;
-
-		.icon {
-			line-height: 0;
-			width: 15px;
-			margin-right: 9px;
-			vertical-align: middle;
-			margin-top: -1px;
-
-			path, line, polyline, rect, circle {
-				@include transition(150ms);
-			}
-		}
-
-		.icon-arrow {
-			@include transition(300ms);
-			margin-right: 4px;
-			vertical-align: middle;
-			opacity: 0;
-
-			&.is-visible {
-				opacity: 1;
-			}
-
-			&.is-opened {
-				@include transform(rotate(90deg));
-			}
-		}
-
-		.label {
-			@include transition(150ms);
-			@include font-size(13);
-			font-weight: 700;
-			vertical-align: middle;
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-			display: inline-block;
-			color: $text;
-			max-width: 130px;
-		}
-
-		&:hover,
-		&.is-selected {
-
-			.icon {
-				path, line, polyline, rect, circle {
-					color: inherit !important;;
-				}
-			}
-
-			.label {
-				color: inherit !important;
-			}
-		}
-	}
-
-	@media only screen and (max-width: 1024px) {
-
-		.folder-item {
-			padding: 8px 0;
-		}
-	}
-
-	// Dark mode
-	.dark {
-
-		.folder-item {
-
-			.label {
-				color: $dark_mode_text_primary;
-			}
-		}
-	}
-
-</style>

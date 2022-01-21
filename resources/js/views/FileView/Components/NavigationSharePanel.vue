@@ -23,7 +23,6 @@
 
 <script>
 	import {FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon} from "vue-feather-icons";
-	import UpgradeSidebarBanner from '/resources/js/components/Others/UpgradeSidebarBanner'
 	import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
 	import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
 	import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
@@ -33,7 +32,6 @@
 export default {
 	name: "NavigationSharePanel",
 	components: {
-		UpgradeSidebarBanner,
 		TreeMenuNavigator,
 		ContentSidebar,
 		ContentGroup,

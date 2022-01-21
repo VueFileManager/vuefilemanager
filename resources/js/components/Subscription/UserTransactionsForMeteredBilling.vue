@@ -60,7 +60,7 @@
 
 				<!--Transaction detail-->
 				<tr v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id">
-					<td colspan="7" class="dark:bg-2x-dark-foreground bg-light-background bg-opacity-50 rounded-lg overflow-hidden py-2 px-4">
+					<td colspan="7" class="rounded-lg overflow-hidden py-2">
 						<div class="flex items-center justify-between py-2 border-b dark:border-opacity-5 border-light border-dashed" v-for="(usage, i) in row.data.attributes.metadata" :key="i">
 							<div class="w-2/4 leading-none">
 								<b class="text-sm font-bold leading-none">
