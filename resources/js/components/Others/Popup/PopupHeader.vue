@@ -1,17 +1,22 @@
 <template>
-    <div class="popup-header p-6">
-        <div class="icon">
-            <corner-down-right-icon v-if="icon === 'move'" size="15" class="title-icon text-theme dark-text-theme" />
-            <share-icon v-if="icon === 'share'" size="17" class="title-icon text-theme dark-text-theme" />
-            <edit2-icon v-if="icon === 'edit'" size="17" class="title-icon text-theme dark-text-theme" />
-            <key-icon v-if="icon === 'key'" size="17" class="title-icon text-theme dark-text-theme" />
-            <users-icon v-if="icon === 'users'" size="17" class="title-icon text-theme dark-text-theme" />
-            <user-plus-icon v-if="icon === 'user-plus'" size="17" class="title-icon text-theme dark-text-theme" />
-            <credit-card-icon v-if="icon === 'credit-card'" size="17" class="title-icon text-theme dark-text-theme" />
+    <div class="flex items-center justify-between px-6 pt-6 pb-6">
+        <div class="flex items-center">
+			<div class="mr-3">
+				<corner-down-right-icon v-if="icon === 'move'" size="18" class="vue-feather text-theme" />
+				<share-icon v-if="icon === 'share'" size="18" class="vue-feather text-theme" />
+				<edit2-icon v-if="icon === 'edit'" size="18" class="vue-feather text-theme" />
+				<key-icon v-if="icon === 'key'" size="18" class="vue-feather text-theme" />
+				<users-icon v-if="icon === 'users'" size="18" class="vue-feather text-theme" />
+				<user-plus-icon v-if="icon === 'user-plus'" size="18" class="vue-feather text-theme" />
+				<credit-card-icon v-if="icon === 'credit-card'" size="18" class="vue-feather text-theme" />
+			</div>
+
+            <b class="font-bold text-base">
+				{{ title }}
+			</b>
         </div>
-        <div class="label">
-            <h1 class="title">{{ title }}</h1>
-            <x-icon @click="closePopup" size="22" class="close-icon hover-text-theme" />
+        <div @click="closePopup" class="cursor-pointer">
+            <x-icon size="14" class="hover-text-theme vue-feather" />
         </div>
     </div>
 </template>
@@ -43,84 +48,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .popup-header {
-        display: flex;
-        align-items: center;
-
-        .icon {
-            margin-right: 10px;
-            line-height: 0;
-
-            path, line, polyline, rect, circle {
-                color: inherit;
-            }
-        }
-
-        .title {
-            @include font-size(17);
-            font-weight: 700;
-            color: $text;
-        }
-
-        .message {
-            @include font-size(16);
-            color: #8b8f9a;
-            margin-top: 5px;
-        }
-
-        .label {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            align-items: center;
-
-            .close-icon {
-                padding: 1px 4px;
-                border-radius: 6px;
-
-                &:hover {
-                    background: $light_background;
-
-                    line {
-                        color: inherit;
-                    }
-                }
-
-                cursor: pointer;
-            }
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-        .popup-header {
-            padding: 15px;
-        }
-    }
-
-    .dark {
-        .popup-header {
-            .label {
-                .close-icon {
-                    &:hover {
-                        background: $dark_mode_foreground;
-                    }
-
-                    cursor: pointer;
-                }
-            }
-
-            .title {
-                color: $dark_mode_text_primary;
-            }
-
-            .message {
-                color: $dark_mode_text_secondary;
-            }
-        }
-    }
-</style>

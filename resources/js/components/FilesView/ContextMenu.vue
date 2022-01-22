@@ -3,7 +3,7 @@
 		v-show="isVisible"
 		:style="{top: positionY + 'px', left: positionX + 'px'}"
 		@click="closeAndResetContextMenu"
-		class="absolute w-60 shadow-lg rounded-xl z-20 bg-white overflow-hidden"
+		class="absolute w-60 shadow-lg rounded-xl z-20 dark:bg-2x-dark-foreground bg-white overflow-hidden"
 		ref="contextmenu"
 	>
         <div id="menu-list" class="w-full">

@@ -1,5 +1,5 @@
 <template>
-    <li class="2xl:py-4 xl:py-3 lg:py-2.5 py-4 px-5 flex items-center" :class="{'hover:bg-light-background cursor-pointer group': ! isHoverDisabled}">
+    <li class="2xl:py-4 xl:py-3 lg:py-2.5 py-4 px-5 flex items-center" :class="{'dark:hover:bg-4x-dark-foreground hover:bg-light-background cursor-pointer group': ! isHoverDisabled}">
         <div class="mr-4">
             <calendar-icon v-if="icon === 'calendar'" size="17" class="vue-feather group-hover-text-theme" :class="{'text-theme': isActive}"/>
             <grid-icon v-if="icon === 'grid'" size="17" class="vue-feather group-hover-text-theme" :class="{'text-theme': isActive}"/>
