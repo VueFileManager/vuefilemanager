@@ -1,13 +1,17 @@
 <template>
     <PopupWrapper>
-        <div class="popup-image">
-            <span class="emoji">{{ emoji }}</span>
-        </div>
+        <div class="text-center h-full flex items-center justify-center px-8 transform md:translate-y-0 -translate-y-7">
+			<div>
+				<img src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f914.svg" alt="" class="w-20 mx-auto md:mt-6 mb-4">
 
-        <PopupContent class="content">
-            <h1 v-if="title" class="text-2xl font-bold max-w-sm mx-auto">{{ title }}</h1>
-            <p v-if="message" class="message">{{ message }}</p>
-        </PopupContent>
+				<h1 v-if="title" class="text-2xl font-bold mb-2">
+					{{ title }}
+				</h1>
+				<p v-if="message" class="text-sm mb-4">
+					{{ message }}
+				</p>
+			</div>
+        </div>
 
         <PopupActions>
             <ButtonBase
@@ -29,7 +33,6 @@
 <script>
     import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
     import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
-    import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
     import {events} from '/resources/js/bus'
 
@@ -38,7 +41,6 @@
         components: {
             PopupWrapper,
             PopupActions,
-            PopupContent,
             ButtonBase,
         },
         data() {
@@ -46,7 +48,6 @@
                 confirmationData: [],
                 message: undefined,
                 title: undefined,
-                emoji: undefined,
                 buttonColor: undefined,
             }
         },
@@ -70,7 +71,6 @@
             events.$on('confirm:open', args => {
                 this.title = args.title
                 this.message = args.message
-                this.emoji = '🤔'
                 this.confirmationData = args.action
                 this.buttonColor = 'danger'
 
@@ -81,51 +81,3 @@
         }
     }
 </script>
-
-<style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .popup-image {
-        padding-top: 20px;
-        text-align: center;
-        margin-bottom: 20px;
-
-        .emoji {
-            @include font-size(56);
-            line-height: 1;
-        }
-    }
-
-    .content {
-        text-align: center;
-        padding-bottom: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
-
-        .message {
-            @include font-size(16);
-            color: #333;
-            margin-top: 5px;
-        }
-    }
-
-    @media only screen and (max-width: 690px){
-        .content {
-            top: 110px;
-        }
-    }
-
-    .dark {
-
-        .content {
-            .title {
-                color: $dark_mode_text_primary;
-            }
-
-            .message {
-                color: $dark_mode_text_secondary;
-            }
-        }
-    }
-</style>

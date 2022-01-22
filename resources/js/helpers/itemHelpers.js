@@ -66,7 +66,7 @@ const itemHelpers = {
 
 		Vue.prototype.$detachMeFromTeamFolder = function (folder) {
 			events.$emit('confirm:open', {
-				title: i18n.t('Are you sure you want to leave this team?'),
+				title: i18n.t('Are you sure you want to leave this team folder?'),
 				message: i18n.t("You will don't have access to the files and all your previously uploaded content will be part of this Team Folder you are leaving."),
 				action: {
 					id: folder.data.id,
