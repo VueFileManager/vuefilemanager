@@ -51,6 +51,9 @@ module.exports = {
 			},
 			screens: {
 				'print': {'raw': 'print'},
+			},
+			width: {
+				'104': '28rem',
 			}
 		},
 	},

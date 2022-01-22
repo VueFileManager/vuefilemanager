@@ -25,7 +25,7 @@
 
 			<!--More Actions-->
 			<div class="relative">
-				<div v-if="$checkPermission('master')" @click="showMobileNavigation" class="tap-area absolute right-0 p-4 -mr-2 transform -translate-y-2/4">
+				<div v-if="$checkPermission('master')" @click="showMobileNavigation" class="absolute right-0 p-4 -mr-2 transform -translate-y-2/4">
 					<menu-icon size="17" />
 				</div>
 			</div>
@@ -88,22 +88,3 @@
         }
     }
 </script>
-
-<style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .dark {
-
-		.directory-name {
-			color: $dark_mode_text_primary;
-		}
-
-		.tap-area {
-
-			path, line, polyline, rect, circle {
-				stroke: $dark_mode_text_primary;
-			}
-		}
-    }
-</style>

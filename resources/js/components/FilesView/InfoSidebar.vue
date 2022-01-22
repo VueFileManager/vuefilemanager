@@ -1,46 +1,34 @@
 <template>
-    <div class="info-wrapper">
-
+    <div class="2xl:w-104 w-96 px-2.5 overflow-y-auto overflow-x-hidden h-screen lg:block hidden">
 		<!--Is empty clipboard-->
-		<EmptyMessage
-			v-if="isEmpty"
-			:message="$t('messages.nothing_to_preview')"
-			icon="eye-off"
-		/>
+		<div v-if="isEmpty" class="flex items-center justify-center h-full">
+			<div class="text-center">
+				<eye-off-icon size="28" class="vue-feather text-gray-400 inline-block mb-3" />
+				<small class="text-sm block text-gray-400">
+					{{ $t('messages.nothing_to_preview') }}
+				</small>
+			</div>
+		</div>
 
 		<!--Multiple item selection-->
-        <div v-if="! isSingleFile && !isEmpty" class="info-headline">
-			<TitlePreview
-				icon="check-square"
-				:title="$t('file_detail.selected_multiple')"
-				:subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
-			/>
-        </div>
+		<TitlePreview
+			v-if="! isSingleFile && !isEmpty"
+			class="mb-6"
+			icon="check-square"
+			:title="$t('file_detail.selected_multiple')"
+			:subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
+		/>
 
 		<!--Single file preview-->
-        <div v-if="isSingleFile && !isEmpty" class="info-headline">
+        <div v-if="isSingleFile && !isEmpty">
             <FilePreviewDetail />
 
 			<TitlePreview
+				class="mb-6"
 				:icon="clipboard[0].data.type"
 				:title="clipboard[0].data.attributes.name"
 				:subtitle="clipboard[0].data.attributes.mimetype"
 			/>
-        </div>
-
-		<!--File info-->
-        <ListInfo v-if="isSingleFile && !isEmpty">
-
-			<!--Author-->
-            <ListInfoItem
-				v-if="canShowAuthor"
-				:title="$t('Author')"
-			>
-                <div class="flex items-center mt-1">
-					<MemberAvatar :size="32" :member="singleFile.data.relationships.owner" />
-                    <span class="ml-2 block">{{ singleFile.data.relationships.owner.data.attributes.name }}</span>
-                </div>
-            </ListInfoItem>
 
 			<!--Filesize-->
             <ListInfoItem
@@ -60,9 +48,11 @@
 				v-if="$checkPermission(['master'])"
 				:title="$t('file_detail.where')"
 			>
-                <div class="action-button" @click="openMoveOptions">
-                    <span>{{ singleFile.data.relationships.parent ? singleFile.data.relationships.parent.data.attributes.name : $t('locations.home') }}</span>
-                    <edit-2-icon size="10" class="edit-icon" />
+                <div @click="$moveFileOrFolder(singleFile)" class="flex items-center cursor-pointer">
+                    <span class="inline-block font-bold text-sm">
+						{{ singleFile.data.relationships.parent ? singleFile.data.relationships.parent.data.attributes.name : $t('locations.home') }}
+					</span>
+                    <Edit2Icon size="10" class="ml-2" />
                 </div>
             </ListInfoItem>
 
@@ -73,7 +63,7 @@
 			>
                 <div class="action-button" @click="$updateTeamFolder(singleFile)">
                     <TeamMembersPreview :folder="singleFile" :avatar-size="32" />
-                    <edit-2-icon size="10" class="edit-icon" />
+                    <Edit2Icon size="10" class="ml-2" />
                 </div>
             </ListInfoItem>
 
@@ -82,14 +72,29 @@
 				v-if="$checkPermission('master') && singleFile.data.relationships.shared"
 				:title="$t('file_detail.shared')"
 			>
-                <div @click="openShareOptions" class="action-button">
-                    <span>{{ sharedInfo }}</span>
-                    <edit-2-icon size="10" class="edit-icon" />
+                <div @click="$shareFileOrFolder(singleFile)" class="flex items-center cursor-pointer mb-2">
+                    <span class="inline-block font-bold text-sm">
+						{{ sharedInfo }}
+					</span>
+                    <Edit2Icon size="10" class="ml-2" />
                 </div>
-                <div class="share-link">
-                    <lock-icon v-if="isLocked" @click="openShareOptions" class="lock-icon" size="17" />
-                    <unlock-icon v-if="! isLocked" @click="openShareOptions" class="lock-icon" size="17" />
-                    <CopyShareLink :item="singleFile" class="copy-share-link" size="small" />
+                <div class="flex items-center w-full">
+                    <lock-icon v-if="isLocked" @click="$shareFileOrFolder(singleFile)" size="17"  class="hover-text-theme vue-feather cursor-pointer"/>
+                    <unlock-icon v-if="! isLocked" @click="$shareFileOrFolder(singleFile)" size="17"  class="hover-text-theme vue-feather cursor-pointer"/>
+                    <CopyShareLink :item="singleFile" size="small" class="w-full pl-2.5"/>
+                </div>
+            </ListInfoItem>
+
+			<!--Author-->
+            <ListInfoItem
+				v-if="canShowAuthor"
+				:title="$t('Author')"
+			>
+                <div class="flex items-center mt-1.5">
+					<MemberAvatar :size="32" :member="singleFile.data.relationships.owner" />
+                    <span class="ml-3 block font-bold font-sm">
+						{{ singleFile.data.relationships.owner.data.attributes.name }}
+					</span>
                 </div>
             </ListInfoItem>
 
@@ -100,39 +105,35 @@
 			>
                 <ImageMetaData />
             </ListInfoItem>
-        </ListInfo>
+        </div>
     </div>
 </template>
 
 <script>
 	import FilePreviewDetail from '/resources/js/components/Others/FilePreviewDetail'
 	import CopyShareLink from '/resources/js/components/Others/Forms/CopyShareLink'
+	import {Edit2Icon, LockIcon, UnlockIcon, EyeOffIcon} from 'vue-feather-icons'
 	import ImageMetaData from '/resources/js/components/FilesView/ImageMetaData'
-	import EmptyMessage from '/resources/js/components/FilesView/EmptyMessage'
 	import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
 	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview"
 	import ListInfoItem from '/resources/js/components/Others/ListInfoItem'
-	import {Edit2Icon, LockIcon, UnlockIcon} from 'vue-feather-icons'
-	import ListInfo from '/resources/js/components/Others/ListInfo'
-	import {events} from '/resources/js/bus'
+	import MemberAvatar from "./MemberAvatar"
 	import {mapGetters} from 'vuex'
-	import MemberAvatar from "./MemberAvatar";
 
 	export default {
 		name: 'InfoSidebar',
 		components: {
-			MemberAvatar,
 			TeamMembersPreview,
 			FilePreviewDetail,
 			ImageMetaData,
-			EmptyMessage,
+			CopyShareLink,
+			MemberAvatar,
 			TitlePreview,
 			ListInfoItem,
 			UnlockIcon,
-			CopyShareLink,
+			EyeOffIcon,
 			Edit2Icon,
 			LockIcon,
-			ListInfo,
 		},
 		computed: {
 			...mapGetters([
@@ -168,43 +169,5 @@
 					&& this.user.data.id !== this.clipboard[0].data.relationships.owner.data.id
 			},
 		},
-		methods: {
-			openShareOptions() {
-				events.$emit('popup:open', {name: 'share-edit', item: this.clipboard[0]})
-			},
-			openMoveOptions() {
-				events.$emit("popup:open", {name: "move", item: this.clipboard});
-			}
-		}
 	}
 </script>
-
-<style scoped lang="scss">
-
-	.info-wrapper {
-		padding-bottom: 50px;
-	}
-
-	.info-headline {
-		margin-bottom: 20px;
-		border-radius: 8px;
-	}
-
-	.share-link {
-		display: flex;
-		width: 100%;
-		align-items: center;
-		margin-top: 10px;
-
-		.lock-icon {
-			display: inline-block;
-			width: 15px;
-			margin-right: 9px;
-			cursor: pointer;
-		}
-
-		.copy-share-link {
-			width: 100%;
-		}
-	}
-</style>

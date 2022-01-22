@@ -42,19 +42,15 @@
 			<MobileToolbar />
 
 			<!--File list & info sidebar-->
-			<div class="flex space-x-6 lg:overflow-hidden lg:h-screen">
+			<div class="flex space-x-3 lg:overflow-hidden lg:h-screen">
 
 				<router-view
 					id="file-view"
-					:class="{'2xl:w-5/6 lg:w-4/6 w-full': isVisibleSidebar, 'w-full': ! isVisibleSidebar}"
-					class="relative"
+					class="relative w-full"
 					:key="$route.fullPath"
 				/>
 
-				<InfoSidebar
-					v-if="isVisibleSidebar"
-					class="2xl:w-72 w-2/6 overflow-y-auto overflow-x-hidden h-screen lg:block hidden"
-				/>
+				<InfoSidebar v-if="isVisibleSidebar" />
 			</div>
 		</div>
     </div>
