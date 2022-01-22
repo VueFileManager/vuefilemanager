@@ -1,5 +1,5 @@
 <template>
-    <ul class="menu-option-group">
+    <ul class="option-group py-1">
         <slot></slot>
     </ul>
 </template>
@@ -10,27 +10,15 @@
     }
 </script>
 
-<style scoped lang="scss" scoped>
-@import "resources/sass/vuefilemanager/_variables";
-@import "resources/sass/vuefilemanager/_mixins";
+<style scoped lang="scss">
+	.option-group {
 
-.menu-option-group {
-    padding: 5px 0;
-    border-bottom: 1px solid $light_mode_border;
+		&:first-child {
+			padding-top: 0 !important;
+		}
 
-    &:first-child {
-        padding-top: 0;
-    }
-
-    &:last-child {
-        padding-bottom: 0;
-        border-bottom: none;
-    }
-}
-
-.dark {
-    .menu-option-group {
-        border-color: $dark_mode_border_color;
-    }
-}
+		&:last-child {
+			padding-bottom: 0 !important;
+		}
+	}
 </style>

@@ -3,19 +3,19 @@
 		v-show="isVisible"
 		:style="{top: positionY + 'px', left: positionX + 'px'}"
 		@click="closeAndResetContextMenu"
-		class="contextmenu"
+		class="absolute w-60 shadow-lg rounded-xl z-20 bg-white overflow-hidden"
 		ref="contextmenu"
 	>
-        <div id="menu-list" class="menu-options">
+        <div id="menu-list" class="w-full">
 
 			<!--Show empty select contextmenu-->
-			<slot name="empty-select" v-if="! item"></slot>
+			<slot name="empty-select" v-if="! item" />
 
 			<!--Show single select contextmenu-->
-			<slot name="single-select" v-if="isMultiSelectContextMenu"></slot>
+			<slot name="single-select" v-if="isMultiSelectContextMenu" />
 
 			<!--Show multiple select contextmenu-->
-			<slot name="multiple-select" v-if="! isMultiSelectContextMenu"></slot>
+			<slot name="multiple-select" v-if="! isMultiSelectContextMenu" />
         </div>
     </div>
 </template>
@@ -114,67 +114,3 @@ export default {
 	}
 }
 </script>
-
-<style scoped lang="scss">
-@import "resources/sass/vuefilemanager/_variables";
-@import "resources/sass/vuefilemanager/_mixins";
-
-.no-options {
-	/deep/ .text-label {
-		color: $text-muted !important;
-	}
-
-	/deep/ &:hover {
-		background: transparent;
-	}
-
-	/deep/ path,
-	/deep/ line,
-	/deep/ circle {
-		stroke: $text-muted !important;
-	}
-}
-
-.contextmenu {
-	min-width: 250px;
-	position: absolute;
-	z-index: 99;
-	box-shadow: $shadow;
-	background: white;
-	border-radius: 8px;
-	overflow: hidden;
-
-	&.showed {
-		display: block;
-	}
-}
-
-.menu-options {
-	list-style: none;
-	width: 100%;
-	margin: 0;
-	padding: 0;
-}
-
-.dark {
-	.contextmenu {
-		background: $dark_mode_foreground;
-	}
-
-	.no-options {
-		/deep/ .text-label {
-			color: $dark_mode_text_secondary !important;
-		}
-
-		/deep/ &:hover {
-			background: transparent;
-		}
-
-		/deep/ path,
-		/deep/ line,
-		/deep/ circle {
-			stroke: $dark_mode_text_secondary !important;
-		}
-	}
-}
-</style>

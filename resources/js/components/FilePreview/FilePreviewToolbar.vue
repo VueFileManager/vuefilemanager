@@ -25,7 +25,7 @@
 
 				<!--Desktop context menu-->
 				<PopoverItem name="file-preview-contextmenu" side="right">
-					<OptionGroup class="menu-option-group">
+					<OptionGroup>
 						<Option @click.native="$renameFileOrFolder(currentFile)" :title="$t('context_menu.rename')" icon="rename" />
 						<Option @click.native="$moveFileOrFolder(currentFile)" :title="$t('context_menu.move')" icon="move-item" />
 						<Option @click.native="$shareFileOrFolder(currentFile)" :title="sharingTitle" icon="share" v-if="$checkPermission('master')" />
