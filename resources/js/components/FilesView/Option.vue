@@ -40,10 +40,10 @@
         <b class="font-bold text-sm group-hover-text-theme" :class="{'text-theme': isActive}">
             {{ title }}
         </b>
-        <div v-if="arrow" class="ml-3.5">
-            <chevron-right-icon v-if="arrow === 'right'" size="17" class="vue-feather group-hover-text-theme" :class="{'text-theme': isActive}"/>
-            <arrow-up-icon v-if="arrow === 'up'" size="17" class="vue-feather group-hover-text-theme" :class="{'text-theme': isActive}"/>
-            <arrow-down-icon v-if="arrow === 'down'" size="17" class="vue-feather group-hover-text-theme" :class="{'text-theme': isActive}"/>
+        <div v-if="arrow" class="ml-2">
+            <chevron-right-icon v-if="arrow === 'right'" size="14" class="vue-feather group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <arrow-up-icon v-if="arrow === 'up'" size="14" class="vue-feather group-hover-text-theme" :class="{'text-theme': isActive}"/>
+            <arrow-down-icon v-if="arrow === 'down'" size="14" class="vue-feather group-hover-text-theme" :class="{'text-theme': isActive}"/>
         </div>
     </li>
 </template>

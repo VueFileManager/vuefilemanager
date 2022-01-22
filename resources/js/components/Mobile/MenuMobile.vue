@@ -1,7 +1,11 @@
 <template>
     <transition name="context-menu">
-        <div v-if="isVisible" @click="closeMenu" class="options">
-            <slot></slot>
+        <div
+			v-if="isVisible"
+			@click="closeMenu"
+			class="fixed pb-4 bottom-0 left-0 right-0 z-50 overflow-hidden dark:bg-2x-dark-foreground bg-white rounded-tl-xl rounded-tr-xl"
+		>
+            <slot />
         </div>
     </transition>
 </template>
@@ -38,25 +42,6 @@
 </script>
 
 <style scoped lang="scss">
-    @import "resources/sass/vuefilemanager/_variables";
-    @import "resources/sass/vuefilemanager/_mixins";
-
-    .options {
-        position: fixed;
-        padding-bottom: 25px;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 99;
-        overflow: hidden;
-        background: white;
-        border-top-left-radius: 12px;
-        border-top-right-radius: 12px;
-
-        &.showed {
-            display: block;
-        }
-    }
 
     // Transition
     .context-menu-enter-active,
@@ -82,12 +67,5 @@
 
     .context-menu-leave-active {
         position: fixed;
-    }
-
-    .dark {
-
-        .options {
-            background: $dark_mode_foreground;
-        }
     }
 </style>

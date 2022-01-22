@@ -2,10 +2,11 @@
     <MenuMobile name="user-navigation">
 
         <!--User avatar-->
-        <UserHeadline v-if="!clickedSubmenu" class="user-info" />
+        <UserHeadline v-if="!clickedSubmenu" class="p-5 pb-3" />
 
+        <!--User estimate-->
 		<div v-if="config.subscriptionType === 'metered' && user && !clickedSubmenu" class="block px-5 pt-2">
-			<div class="bg-light-background px-3 py-1.5 rounded-lg">
+			<div class="dark:bg-4x-dark-foreground bg-light-background px-3 py-1.5 rounded-lg">
 				<span class="text-sm font-semibold">
 					{{ $t('Your current estimated usage:') }}
 				</span>
@@ -16,9 +17,11 @@
 		</div>
 
         <!--Go back button-->
-        <div v-if="clickedSubmenu" @click.stop="showSubmenu(undefined)" class="go-back">
-            <chevron-left-icon size="19" class="text-theme" />
-            <span class="title text-theme">{{ backTitle }}</span>
+        <div v-if="clickedSubmenu" @click.stop="showSubmenu(undefined)" class="flex items-center p-5 pb-4">
+            <chevron-left-icon size="19" class="vue-feather text-theme mr-2 -ml-1" />
+            <span class="text-theme font-bold text-sm">
+				{{ backTitle }}
+			</span>
         </div>
 
         <!--Menu links-->
@@ -127,29 +130,3 @@
         }
     }
 </script>
-
-<style scoped lang="scss">
-    @import "resources/sass/vuefilemanager/_variables";
-    @import "resources/sass/vuefilemanager/_mixins";
-
-    .user-info {
-        padding: 20px 20px 10px;
-    }
-
-    .go-back {
-        display: flex;
-        align-items: center;
-        padding: 30px 20px 10px;
-        cursor: pointer;
-
-        .title {
-            @include font-size(14);
-            font-weight: 700;
-            margin-left: 10px;
-        }
-
-        polyline {
-            color: inherit;
-        }
-    }
-</style>
