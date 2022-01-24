@@ -7,13 +7,13 @@
 <script>
     export default {
         name: 'ColorLabel',
-        props: ['color'],
+        props: [
+			'color'
+		],
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
 
     .color-label {
 

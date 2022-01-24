@@ -19,7 +19,9 @@
             XIcon
         },
         computed: {
-            ...mapGetters(['config']),
+            ...mapGetters([
+				'config'
+			]),
         },
         data() {
             return {

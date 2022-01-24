@@ -853,12 +853,3 @@ export default {
     }
 }
 </script>
-
-<style scoped lang="scss">
-    @import "resources/sass/vuefilemanager/_inapp-forms.scss";
-    @import '/resources/sass/vuefilemanager/_forms';
-
-    .item-thumbnail {
-        margin-bottom: 20px;
-    }
-</style>
