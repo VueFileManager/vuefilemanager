@@ -10,7 +10,7 @@ use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordUploadAction;
 use App\Users\Exceptions\InvalidUserActionException;
-use Domain\Files\Actions\CreateFolderStructureAction;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class UploadFileAction
 {
@@ -25,7 +25,7 @@ class UploadFileAction
     /**
      * Upload new file
      *
-     * @throws InvalidUserActionException
+     * @throws InvalidUserActionException|FileNotFoundException
      */
     public function __invoke(
         UploadRequest $request,

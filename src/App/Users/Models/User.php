@@ -7,7 +7,6 @@ use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Laravel\Sanctum\HasApiTokens;
 use Domain\Traffic\Models\Traffic;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Database\Factories\UserFactory;
 use Domain\Settings\Models\Setting;
