@@ -152,7 +152,7 @@ const actions = {
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    uploadFiles: ({commit, getters}, {form, fileSize, totalUploadedSize}) => {
+    uploadFiles: ({commit, getters, dispatch}, {form, fileSize, totalUploadedSize}) => {
         return new Promise((resolve, reject) => {
 
             // Get route
@@ -210,8 +210,12 @@ const actions = {
                         }
 
                         // Reset upload process
-                        if (!getters.fileQueue.length)
+                        if (!getters.fileQueue.length) {
                             commit('CLEAR_UPLOAD_PROGRESS')
+
+                            // Reload files after upload is done
+                            dispatch('getFolder', [{folder: getters.currentFolder, back: true, init: false}])
+                        }
                     }
                 })
                 .catch(error => {

@@ -10,12 +10,14 @@ use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordUploadAction;
 use App\Users\Exceptions\InvalidUserActionException;
+use Domain\Files\Actions\CreateFolderStructureAction;
 
 class UploadFileAction
 {
     public function __construct(
         public RecordUploadAction $recordUpload,
         public ProcessImageThumbnailAction $createImageThumbnail,
+        public CreateFolderStructureAction $createFolderStructure,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
     ) {
     }
@@ -93,6 +95,7 @@ class UploadFileAction
                 'mimetype'  => get_file_type_from_mimetype($file_mimetype),
                 'type'      => get_file_type($file_mimetype),
                 'parent_id' => $request->input('parent_id'),
+                'parent_id' => ($this->createFolderStructure)($request->input('path'), $request->input('parent_id'), $user_id),
                 'metadata'  => $metadata,
                 'name'      => $request->input('filename'),
                 'basename'  => $fileName,

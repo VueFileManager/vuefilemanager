@@ -750,5 +750,6 @@ return [
         'sharelink.share_via_email'                          => 'Share Link on Emails',
         'sharelink.copy_embed'                               => 'Copy Web Insert Code',
         'popup.move_into_team_disclaimer'                    => 'Your folder <b class="text-theme dark-text-theme">will be moved</b> into Team Folders.',
+        'actions.upload_folder'                              => 'Upload folder',
     ],
 ];

@@ -40,6 +40,7 @@ class TrafficTest extends TestCase
                 'filename'  => $this->file->name,
                 'file'      => $this->file,
                 'parent_id' => null,
+                'path'      => '/' . $this->file->name,
                 'is_last'   => 'true',
             ])->assertStatus(201);
 
@@ -60,6 +61,7 @@ class TrafficTest extends TestCase
                 'filename'  => $this->file->name,
                 'file'      => $this->file,
                 'parent_id' => null,
+                'path'      => '/' . $this->file->name,
                 'is_last'   => 'true',
             ])->assertStatus(201);
 
@@ -80,6 +82,7 @@ class TrafficTest extends TestCase
                 'filename'  => $secondFile->name,
                 'file'      => $secondFile,
                 'parent_id' => null,
+                'path'      => '/' . $secondFile->name,
                 'is_last'   => 'true',
             ])->assertStatus(201);
 
@@ -117,6 +120,7 @@ class TrafficTest extends TestCase
             'filename'  => $this->file->name,
             'file'      => $this->file,
             'parent_id' => $folder->id,
+            'path'      => '/' . $this->file->name,
             'is_last'   => 'true',
         ])->assertStatus(201);
 

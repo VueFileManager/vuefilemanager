@@ -333,6 +333,7 @@ class VisitorManipulatingTest extends TestCase
                             'filename'  => $file->name,
                             'file'      => $file,
                             'parent_id' => $folder->id,
+                            'path'      => '/' . $file->name,
                             'is_last'   => 'true',
                         ])->assertStatus(201);
                 }
@@ -343,6 +344,7 @@ class VisitorManipulatingTest extends TestCase
                         'filename'  => $file->name,
                         'file'      => $file,
                         'parent_id' => $folder->id,
+                        'path'      => '/' . $file->name,
                         'is_last'   => 'true',
                     ])->assertStatus(201);
                 }

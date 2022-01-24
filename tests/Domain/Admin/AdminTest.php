@@ -304,6 +304,7 @@ class AdminTest extends TestCase
                     'filename'  => $file->name,
                     'file'      => $file,
                     'parent_id' => null,
+                    'path'      => '/' . $file->name,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
             });

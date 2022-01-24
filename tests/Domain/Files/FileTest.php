@@ -43,6 +43,7 @@ class FileTest extends TestCase
                 'filename'  => $file->name,
                 'file'      => $file,
                 'parent_id' => null,
+                'path'      => '/' . $file->name,
                 'is_last'   => 'true',
             ])->assertStatus(201);
 
@@ -84,6 +85,7 @@ class FileTest extends TestCase
                 'filename'  => $file->name,
                 'file'      => $file,
                 'parent_id' => null,
+                'path'      => '/' . $file->name,
                 'is_last'   => 'true',
             ])->assertStatus(201);
 
@@ -128,6 +130,7 @@ class FileTest extends TestCase
                 'filename'  => $file->name,
                 'file'      => $file,
                 'parent_id' => null,
+                'path'      => '/' . $file->name,
                 'is_last'   => 'true',
             ])->assertStatus(401);
 
@@ -158,6 +161,7 @@ class FileTest extends TestCase
             ->postJson('/api/upload', [
                 'file'      => $file,
                 'parent_id' => null,
+                'path'      => '/' . $file->name,
                 'is_last'   => 'true',
             ])->assertStatus(422);
 
@@ -292,6 +296,7 @@ class FileTest extends TestCase
                     'filename'  => $file->name,
                     'file'      => $file,
                     'parent_id' => null,
+                    'path'      => '/' . $file->name,
                     'is_last'   => 'true',
                 ])->assertStatus(201);
             });

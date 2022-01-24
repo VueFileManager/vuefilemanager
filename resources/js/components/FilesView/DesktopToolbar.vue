@@ -35,8 +35,9 @@
 						<ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :action="$t('actions.create')" />
 
 						<PopoverItem name="desktop-create" side="left">
-							<OptionGroup>
-								<OptionUpload :class="{'is-inactive': canUploadInView || isTeamFolderHomepage }" :title="$t('actions.upload')" />
+							<OptionGroup :class="{'is-inactive': canUploadInView || !hasCapacity }">
+								<OptionUpload :title="$t('actions.upload')" type="file" />
+								<OptionUpload :title="$t('actions.upload_folder')" type="folder" />
 							</OptionGroup>
 							<OptionGroup>
 								<Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" />
