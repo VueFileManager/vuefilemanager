@@ -1,15 +1,47 @@
 <?php
-
 namespace Tests\Domain\Folders;
 
+use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
-use Tests\TestCase;
 
 class FolderUploadTest extends TestCase
 {
+    /**
+     * @test
+     */
+    public function upload_single_file_to_the_folder()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $file = UploadedFile::fake()
+            ->create('fake-file.pdf', 120000, 'application/pdf');
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'   => $user->id,
+                'parent_id' => null,
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload', [
+                'filename'  => $file->name,
+                'file'      => $file,
+                'path'      => '/',
+                'parent_id' => $folder->id,
+                'is_last'   => 'true',
+            ])->assertStatus(201);
+
+        $file = File::first();
+
+        $this->assertEquals($file->parent_id, $folder->id);
+    }
+
     /**
      * @test
      */
@@ -44,7 +76,6 @@ class FolderUploadTest extends TestCase
 
         $this->assertEquals($level_3->id, $file->parent_id);
     }
-
 
     /**
      * @test
@@ -96,5 +127,7 @@ class FolderUploadTest extends TestCase
         // Check correctness of siblings folders appended to the home folder
         $this->assertEquals($home->id, $brotherFolder->parent_id);
         $this->assertEquals($home->id, $sisterFolder->parent_id);
+
+        $this->assertEquals(null, $home->parent_id);
     }
 }

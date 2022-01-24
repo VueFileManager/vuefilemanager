@@ -94,7 +94,7 @@ class UploadFileAction
             return UserFile::create([
                 'mimetype'  => get_file_type_from_mimetype($file_mimetype),
                 'type'      => get_file_type($file_mimetype),
-                'parent_id' => ($this->createFolderStructure)($request->input('path'), $request->input('parent_id'), $user->id),
+                'parent_id' => ($this->createFolderStructure)($request, $user->id),
                 'metadata'  => $metadata,
                 'name'      => $request->input('filename'),
                 'basename'  => $fileName,
