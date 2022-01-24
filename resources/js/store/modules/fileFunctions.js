@@ -192,7 +192,7 @@ const actions = {
                         commit('SHIFT_FROM_FILE_QUEUE')
 
                         // Check if user is in uploading folder, if yes, than show new file
-                        if ((! getters.currentFolder && !response.data.data.attributes.parent_id) || response.data.data.attributes.parent_id === getters.currentFolder.data.id) {
+                        if ((! getters.currentFolder && !response.data.data.attributes.parent_id) || (getters.currentFolder && response.data.data.attributes.parent_id === getters.currentFolder.data.id)) {
 
                             // Add uploaded item into view
                             commit('ADD_NEW_ITEMS', response.data)
@@ -221,7 +221,9 @@ const actions = {
                 .catch(error => {
                     reject(error)
 
-                    let messages = {
+                    console.log(error);
+
+/*                    let messages = {
                         '423': {
                             title: i18n.t('popup_exceed_limit.title'),
                             message: i18n.t('popup_exceed_limit.message')
@@ -235,7 +237,7 @@ const actions = {
                             message: i18n.t('popup_paylod_error.message')
                         },
                         '401': {
-                            title: error.response.data.message,
+                            //title: error.response.data.message,
                         },
                     }
 
@@ -243,7 +245,7 @@ const actions = {
                         emoji: '😬😬😬',
                         title: messages[error.response.status]['title'],
                         message: messages[error.response.status]['message'] || null
-                    })
+                    })*/
 
                     commit('PROCESSING_FILE', false)
                     commit('CLEAR_UPLOAD_PROGRESS')

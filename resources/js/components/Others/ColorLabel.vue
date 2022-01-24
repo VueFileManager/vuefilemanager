@@ -14,6 +14,7 @@
 </script>
 
 <style lang="scss" scoped>
+    @import '/resources/sass/vuefilemanager/_variables';
 
     .color-label {
 

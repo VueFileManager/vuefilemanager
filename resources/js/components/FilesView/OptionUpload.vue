@@ -6,6 +6,7 @@
         </div>
         <div class="text-label group-hover-text-theme">
             {{ title }}
+
              <input
                 v-if="type === 'file'"
                 @change="emmitFiles"
@@ -40,11 +41,12 @@ import {
     export default {
         name: 'Option',
         props:[
-            'title', 'type'
+            'title',
+			'type',
         ],
         components: {
-            UploadCloudIcon,
             FolderUploadIcon,
+            UploadCloudIcon,
         },
 		methods: {
 			emmitFiles(e) {

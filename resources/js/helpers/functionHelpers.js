@@ -165,6 +165,7 @@ const FunctionHelpers = {
                 this.$store.commit('ADD_FILES_TO_QUEUE', {
                     parent_id: store.getters.currentFolder ? store.getters.currentFolder.data.id : '',
                     file: item,
+                    path: '/' + item.webkitRelativePath
                 })
             });
 
@@ -237,10 +238,11 @@ const FunctionHelpers = {
                     attempts = 0
 
                 // Set form data
-                formData.set('filename', item.file.name);
-                formData.set('file', chunk, source_name);
+                formData.set('filename', item.file.name)
+                formData.set('file', chunk, source_name)
+                formData.set('path', item.path)
                 formData.set('parent_id', item.parent_id)
-                formData.set('is_last', isLast);
+                formData.set('is_last', isLast)
 
                 // Upload chunks
                 do {
