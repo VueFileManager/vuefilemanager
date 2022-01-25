@@ -40,6 +40,8 @@ class FolderUploadTest extends TestCase
         $file = File::first();
 
         $this->assertEquals($file->parent_id, $folder->id);
+
+        $this->assertDatabaseCount('folders', 1);
     }
 
     /**
@@ -64,6 +66,16 @@ class FolderUploadTest extends TestCase
                 'is_last'   => 'true',
             ])->assertStatus(201);
 
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload', [
+                'filename'  => $file->name,
+                'file'      => $file,
+                'path'      => "/level_1/level_2/level_3/$file->name",
+                'parent_id' => null,
+                'is_last'   => 'true',
+            ])->assertStatus(201);
+
         $file = File::first();
 
         $level_1 = Folder::where('name', 'level_1')->first();
@@ -75,6 +87,62 @@ class FolderUploadTest extends TestCase
         $this->assertEquals($level_3->parent_id, $level_2->id);
 
         $this->assertEquals($level_3->id, $file->parent_id);
+
+        $this->assertDatabaseCount('folders', 3);
+    }
+
+    /**
+     * @test
+     */
+    public function duplicity_paths_test()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $level_1 = Folder::factory()
+            ->create([
+                'name'      => 'level_1',
+                'user_id'   => $user->id,
+                'parent_id' => null,
+            ]);
+
+        $level_2 = Folder::factory()
+            ->create([
+                'name'      => 'level_2',
+                'user_id'   => $user->id,
+                'parent_id' => $level_1->id,
+            ]);
+
+        Folder::factory()
+            ->create([
+                'name'      => 'level_3',
+                'user_id'   => $user->id,
+                'parent_id' => $level_2->parent_id,
+            ]);
+
+        $file = UploadedFile::fake()
+            ->create('fake-file.pdf', 120000, 'application/pdf');
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload', [
+                'filename'  => $file->name,
+                'file'      => $file,
+                'path'      => "/another_folder/level_2/level_3/$file->name",
+                'parent_id' => null,
+                'is_last'   => 'true',
+            ])->assertStatus(201);
+
+        // Root folders
+        $this->assertEquals(1, Folder::where('name', 'another_folder')->count());
+        $this->assertEquals(1, Folder::where('name', 'level_1')->count());
+
+        // Unique children folders
+        $this->assertEquals(2, Folder::where('name', 'level_2')->count());
+        $this->assertEquals(2, Folder::where('name', 'level_3')->count());
+
+        $this->assertDatabaseCount('folders', 6);
     }
 
     /**
@@ -129,5 +197,7 @@ class FolderUploadTest extends TestCase
         $this->assertEquals($home->id, $sisterFolder->parent_id);
 
         $this->assertEquals(null, $home->parent_id);
+
+        $this->assertDatabaseCount('folders', 3);
     }
 }
