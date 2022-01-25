@@ -128,6 +128,11 @@
             stripe_public_key: '{{ env('STRIPE_PUBLIC_KEY') }}',
 			stripe_payment_description: '{{ $settings->stripe_payment_description ?? '' }}',
 
+            // ReCaptcha
+            recaptcha_client_id: '{{ env('RECAPTCHA_CLIENT_ID') }}',
+            allowedRecaptcha: {{ $settings->allowed_recaptcha ?? 0 }},
+            isRecaptchaConfigured: {{ env('RECAPTCHA_CLIENT_ID') ? 1 : 0 }},
+
             // Social logins
             allowedFacebookLogin: {{ $settings->allowed_facebook_login ?? 0 }},
             isFacebookLoginConfigured: {{ env('FACEBOOK_CLIENT_ID') ? 1 : 0 }},

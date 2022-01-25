@@ -1,7 +1,9 @@
 <?php
 namespace Domain\Homepage\Requests;
 
+use App\Users\Rules\ReCaptchaRules;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class SendContactMessageRequest extends FormRequest
 {
@@ -25,6 +27,7 @@ class SendContactMessageRequest extends FormRequest
         return [
             'email'   => 'required|email',
             'message' => 'required|string',
+            'reCaptcha' => [new RequiredIf(get_settings('allowed_recaptcha') == 1), 'string', app(ReCaptchaRules::class)]
         ];
     }
 }

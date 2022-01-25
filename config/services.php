@@ -51,4 +51,9 @@ return [
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect'      => env('APP_URL') . '/socialite/facebook/callback',
     ],
+
+    'recaptcha' => [
+        'client_id'     => env('RECAPTCHA_CLIENT_ID'),
+        'client_secret' => env('RECAPTCHA_CLIENT_SECRET'),
+    ],
 ];

@@ -122,6 +122,7 @@
                     email: '',
                     password: '',
                     password_confirmation: '',
+                    reCaptcha:null,
                 },
             }
         },
@@ -135,6 +136,13 @@
 
                 // Start loading
                 this.isLoading = true
+
+                // Get ReCaptcha token
+                if(config.allowedRecaptcha) {
+                    this.register.reCaptcha =  await this.$reCaptchaToken('register').then((response) => {
+                       return response
+                    })
+                }
 
                 // Send request to get user token
                 axios

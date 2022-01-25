@@ -26,6 +26,15 @@ const ValidatorHelpers = {
 		Vue.prototype.$isInvalidEmail = function (email) {
 			return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null
 		}
+
+		Vue.prototype.$reCaptchaToken = async function (action) {
+
+			await this.$recaptchaLoaded()
+
+			let token =  await this.$recaptcha(action)
+
+			return token
+		}
 	}
 }
 

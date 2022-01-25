@@ -18,7 +18,7 @@ class StoreSocialServiceCredentialsController
 
         // Set on social login
         Setting::updateOrCreate([
-            'name' => "allowed_{$request->input('service')}_login",
+            'name' => "allowed_{$request->input('service')}",
         ], [
             'value' => 1,
         ]);
@@ -27,7 +27,7 @@ class StoreSocialServiceCredentialsController
         if (! app()->runningUnitTests()) {
             $credentials = [
                 'facebook'   => [
-                    'FACEBOOK_CLIENT_ID'     => $request->input('client_id'),
+                    'FACEBOOK_CLIENT_ID' => $request->input('client_id'),
                     'FACEBOOK_CLIENT_SECRET' => $request->input('client_secret'),
                 ],
                 'google' => [
@@ -38,6 +38,11 @@ class StoreSocialServiceCredentialsController
                     'GITHUB_CLIENT_ID'     => $request->input('client_id'),
                     'GITHUB_CLIENT_SECRET' => $request->input('client_secret'),
                 ],
+                'recaptcha'   => [
+                    'RECAPTCHA_CLIENT_ID'      => $request->input('client_id'),
+                    'RECAPTCHA_CLIENT_SECRET'  => $request->input('client_secret'),
+                ],
+
             ];
 
             // Store credentials into the .env file
