@@ -1,5 +1,6 @@
 import {debounce, isArray, orderBy} from "lodash"
 import i18n from '/resources/js/i18n/index'
+import router from '/resources/js/router'
 import store from '../store/index'
 import {events} from '../bus'
 import axios from 'axios'
@@ -334,15 +335,15 @@ const FunctionHelpers = {
         Vue.prototype.$getDataByLocation = function () {
 
             let routes = {
-                'Files': ['getFolder', this.$route.params.id],
+                'Files': ['getFolder', router.currentRoute.params.id || undefined],
                 'RecentUploads': ['getRecentUploads'],
                 'MySharedItems': ['getMySharedItems'],
-                'Trash': ['getTrash', this.$route.params.id],
-                'TeamFolders': ['getTeamFolder', this.$route.params.id],
-                'SharedWithMe': ['getSharedWithMeFolder', this.$route.params.id],
+                'Trash': ['getTrash', router.currentRoute.params.id || undefined],
+                'TeamFolders': ['getTeamFolder', router.currentRoute.params.id || undefined],
+                'SharedWithMe': ['getSharedWithMeFolder', router.currentRoute.params.id || undefined],
             }
 
-            this.$store.dispatch(...routes[this.$router.currentRoute.name])
+            store.dispatch(...routes[router.currentRoute.name])
         }
 
         Vue.prototype.$getPaymentLogo = function (driver) {

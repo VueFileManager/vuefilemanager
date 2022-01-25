@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Files\Actions;
 
 use Domain\Folders\Models\Folder;
@@ -19,7 +20,7 @@ class GetFileParentId
             return $request->input('parent_id');
         }
 
-        return $this->getOrCreateParentFolders($directoryPath, $userId, null);
+        return $this->getOrCreateParentFolders($directoryPath, $userId, $request->input('parent_id'));
     }
 
     private function getOrCreateParentFolders(Collection $directoryPath, string $userId, ?string $parentId): ?string
@@ -60,10 +61,19 @@ class GetFileParentId
 
     private function createFolder($directoryName, $userId, $parentId): Folder
     {
+        /*
+         * Check if exist parent team folder, if yes,
+         * then get the latest parent folder to detect whether it is team_folder
+        */
+        if ($parentId) {
+            $isTeamFolder = Folder::find($parentId)->getLatestParent()->team_folder;
+        }
+
         return Folder::create([
-            'name'      => $directoryName,
-            'parent_id' => $parentId,
-            'user_id'   => $userId,
+            'name'        => $directoryName,
+            'parent_id'   => $parentId,
+            'user_id'     => $userId,
+            'team_folder' => $isTeamFolder ?? false,
         ]);
     }
 }

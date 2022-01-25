@@ -20,10 +20,11 @@
 
 		<MobileCreateMenu>
 			<OptionGroup>
-				<OptionUpload :title="$t('actions.upload')" is-hover-disabled="true" />
+				<OptionUpload :title="$t('actions.upload')" type="file" :is-hover-disabled="true" />
+				<OptionUpload :title="$t('actions.upload_folder')" type="folder" :is-hover-disabled="true" />
 			</OptionGroup>
 			<OptionGroup>
-				<Option @click.stop.native="createFolder" :title="$t('actions.create_folder')" icon="folder-plus" is-hover-disabled="true" />
+				<Option @click.stop.native="createFolder" :title="$t('actions.create_folder')" icon="folder-plus" :is-hover-disabled="true" />
 			</OptionGroup>
 		</MobileCreateMenu>
 
@@ -41,7 +42,8 @@
 		<ContextMenu>
 			<template v-slot:empty-select v-if="$checkPermission('editor')">
 				<OptionGroup>
-					<OptionUpload :title="$t('actions.upload')" />
+					<OptionUpload :title="$t('actions.upload')" type="file" />
+					<OptionUpload :title="$t('actions.upload_folder')" type="folder" />
 				</OptionGroup>
 				<OptionGroup>
 					<Option @click.native="$createFolder" :title="$t('context_menu.create_folder')" icon="create-folder" />

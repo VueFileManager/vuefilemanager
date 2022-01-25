@@ -22,11 +22,12 @@
 
 		<MobileCreateMenu>
 			<OptionGroup>
-				<OptionUpload :title="$t('actions.upload')" is-hover-disabled="true" />
+				<OptionUpload :title="$t('actions.upload')" type="file" :is-hover-disabled="true" />
+				<OptionUpload :title="$t('actions.upload_folder')" type="folder" :is-hover-disabled="true" />
 			</OptionGroup>
 			<OptionGroup>
-				<Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" is-hover-disabled="true" />
-				<Option @click.stop.native="createFolder" :title="$t('actions.create_folder')" icon="folder-plus" is-hover-disabled="true" />
+				<Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" :is-hover-disabled="true" />
+				<Option @click.stop.native="createFolder" :title="$t('actions.create_folder')" icon="folder-plus" :is-hover-disabled="true" />
 			</OptionGroup>
 		</MobileCreateMenu>
 
@@ -46,7 +47,8 @@
 		<ContextMenu>
 			<template v-slot:empty-select>
 				<OptionGroup v-if="! isTeamFolderHomepage">
-					<OptionUpload :title="$t('actions.upload')" />
+					<OptionUpload :title="$t('actions.upload')" type="file" />
+					<OptionUpload :title="$t('actions.upload_folder')" type="folder" />
 					<Option @click.stop.native="$createFolder" :title="$t('actions.create_folder')" icon="folder-plus" />
 				</OptionGroup>
 				<OptionGroup v-if="isTeamFolderHomepage">

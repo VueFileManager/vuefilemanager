@@ -29,41 +29,41 @@
 
             <!--Main navigation-->
             <OptionGroup v-if="!clickedSubmenu">
-                <Option @click.native="goToFiles" :title="$t('menu.files')" icon="hard-drive" is-hover-disabled="true"/>
-                <Option @click.native.stop="showSubmenu('settings')" :title="$t('menu.settings')" icon="user" arrow="right" is-hover-disabled="true"/>
-                <Option v-if="isAdmin" @click.native.stop="showSubmenu('admin')" :title="$t('menu.admin')" icon="settings" arrow="right" is-hover-disabled="true"/>
+                <Option @click.native="goToFiles" :title="$t('menu.files')" icon="hard-drive" :is-hover-disabled="true"/>
+                <Option @click.native.stop="showSubmenu('settings')" :title="$t('menu.settings')" icon="user" arrow="right" :is-hover-disabled="true"/>
+                <Option v-if="isAdmin" @click.native.stop="showSubmenu('admin')" :title="$t('menu.admin')" icon="settings" arrow="right" :is-hover-disabled="true"/>
             </OptionGroup>
             <OptionGroup v-if="!clickedSubmenu">
-                <Option @click.native="logOut" :title="$t('menu.logout')" icon="power" is-hover-disabled="true" />
+                <Option @click.native="logOut" :title="$t('menu.logout')" icon="power" :is-hover-disabled="true" />
             </OptionGroup>
 
             <!--Submenu: User settings-->
             <OptionGroup v-if="clickedSubmenu === 'settings'">
-                <Option @click.native="goToRoute('Profile')" :title="$t('menu.profile')" icon="user" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Password')" :title="$t('menu.password')" icon="lock" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Storage')" :title="$t('menu.storage')" icon="hard-drive" is-hover-disabled="true" />
-				<Option @click.native="goToRoute('Billing')" v-if="config.isSaaS" :title="$t('Billing')" icon="cloud" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Profile')" :title="$t('menu.profile')" icon="user" :is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Password')" :title="$t('menu.password')" icon="lock" :is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Storage')" :title="$t('menu.storage')" icon="hard-drive" :is-hover-disabled="true" />
+				<Option @click.native="goToRoute('Billing')" v-if="config.isSaaS" :title="$t('Billing')" icon="cloud" :is-hover-disabled="true" />
             </OptionGroup>
 
             <!--Submenu: Admin settings-->
             <OptionGroup v-if="clickedSubmenu === 'admin'">
-                <Option @click.native="goToRoute('Dashboard')" :title="$t('admin_menu.dashboard')" icon="box" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Users')" :title="$t('admin_menu.users')" icon="users" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('AppOthers')" :title="$t('admin_menu.settings')" icon="settings" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Dashboard')" :title="$t('admin_menu.dashboard')" icon="box" :is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Users')" :title="$t('admin_menu.users')" icon="users" :is-hover-disabled="true" />
+                <Option @click.native="goToRoute('AppOthers')" :title="$t('admin_menu.settings')" icon="settings" :is-hover-disabled="true" />
             </OptionGroup>
 
             <!--Submenu: Content settings-->
             <OptionGroup v-if="clickedSubmenu === 'admin'">
-                <Option @click.native="goToRoute('Pages')" :title="$t('admin_menu.pages')" icon="monitor" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Language')" :title="$t('languages')" icon="globe" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Pages')" :title="$t('admin_menu.pages')" icon="monitor" :is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Language')" :title="$t('languages')" icon="globe" :is-hover-disabled="true" />
             </OptionGroup>
 
             <!--Submenu: Billing settings-->
             <OptionGroup v-if="clickedSubmenu === 'admin' && config.isSaaS">
-                <Option @click.native="goToRoute('AppPayments')" :title="$t('Payments')" icon="credit-card" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Subscriptions')" v-if="config.subscriptionType === 'fixed'" :title="$t('Subscriptions')" icon="credit-card" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Plans')" :title="$t('admin_menu.plans')" icon="database" is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Invoices')" :title="$t('Transactions')" icon="file-text" is-hover-disabled="true" />
+                <Option @click.native="goToRoute('AppPayments')" :title="$t('Payments')" icon="credit-card" :is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Subscriptions')" v-if="config.subscriptionType === 'fixed'" :title="$t('Subscriptions')" icon="credit-card" :is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Plans')" :title="$t('admin_menu.plans')" icon="database" :is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Invoices')" :title="$t('Transactions')" icon="file-text" :is-hover-disabled="true" />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>

@@ -213,8 +213,11 @@ const actions = {
                         if (!getters.fileQueue.length) {
                             commit('CLEAR_UPLOAD_PROGRESS')
 
+                            // Reload folder tree
+                            dispatch('getFolderTree')
+
                             // Reload files after upload is done
-                            dispatch('getFolder', [{folder: getters.currentFolder, back: true, init: false}])
+                            Vue.prototype.$getDataByLocation()
                         }
                     }
                 })
@@ -223,7 +226,7 @@ const actions = {
 
                     console.log(error);
 
-/*                    let messages = {
+                    let messages = {
                         '423': {
                             title: i18n.t('popup_exceed_limit.title'),
                             message: i18n.t('popup_exceed_limit.message')
@@ -245,7 +248,7 @@ const actions = {
                         emoji: '😬😬😬',
                         title: messages[error.response.status]['title'],
                         message: messages[error.response.status]['message'] || null
-                    })*/
+                    })
 
                     commit('PROCESSING_FILE', false)
                     commit('CLEAR_UPLOAD_PROGRESS')

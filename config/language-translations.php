@@ -230,7 +230,7 @@ return [
         'actions.print'                                      => 'Print item',
         'actions.share'                                      => 'Share item',
         'actions.sorting_view'                               => 'Sorting and View',
-        'actions.upload'                                     => 'Upload file',
+        'actions.upload'                                     => 'Upload Files',
         'admin_menu.dashboard'                               => 'Dashboard',
         'admin_menu.pages'                                   => 'Pages',
         'admin_menu.settings'                                => 'Settings',
@@ -750,6 +750,6 @@ return [
         'sharelink.share_via_email'                          => 'Share Link on Emails',
         'sharelink.copy_embed'                               => 'Copy Web Insert Code',
         'popup.move_into_team_disclaimer'                    => 'Your folder <b class="text-theme dark-text-theme">will be moved</b> into Team Folders.',
-        'actions.upload_folder'                              => 'Upload folder',
+        'actions.upload_folder'                              => 'Upload Folder',
     ],
 ];
