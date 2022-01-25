@@ -87,9 +87,9 @@
 
 		<!-- ReCaptcha -->
 		<div class="card shadow-card">
-			<img :src="$getSocialLogo('reCaptcha')" alt="Facebook" class="mb-8 h-14">
+			<img src="/assets/others/recaptcha.svg" alt="reCaptcha" class="mb-8 h-10">
 
-			<AppInputSwitch :title="$t('Allow ReCaptcha')" :description="$t('ReCaptcha will be allowed on Registration and Contact Us pages.')" :is-last="! recaptcha.allowedService">
+			<AppInputSwitch :title="$t('Allow ReCaptcha')" :description="$t('ReCaptcha will be allowed on Registration and Contact Us forms.')" :is-last="! recaptcha.allowedService">
 				<SwitchInput
 					@input="$updateText('/admin/settings', 'allowed_recaptcha', recaptcha.allowedService)"
 					v-model="recaptcha.allowedService"
@@ -116,15 +116,15 @@
 					{{ $t('Configure Credentials') }}
 				</FormLabel>
 
-				<ValidationProvider tag="div" mode="passive" name="Client ID" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Client ID')" :error="errors[0]">
-						<input v-model="recaptcha.credentials.client_id" :placeholder="$t('Paste your Client ID here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+				<ValidationProvider tag="div" mode="passive" name="Site Key" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('Site Key')" :error="errors[0]">
+						<input v-model="recaptcha.credentials.client_id" :placeholder="$t('Paste your Site Key here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 					</AppInputText>
 				</ValidationProvider>
 
-				<ValidationProvider tag="div" mode="passive" name="Client Secret" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Client Secret')" :error="errors[0]">
-						<input v-model="recaptcha.credentials.client_secret" :placeholder="$t('Paste your Client Secret here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+				<ValidationProvider tag="div" mode="passive" name="Secret key" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('Secret Key')" :error="errors[0]">
+						<input v-model="recaptcha.credentials.client_secret" :placeholder="$t('Paste your Secret key here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
 					</AppInputText>
 				</ValidationProvider>
 

@@ -120,6 +120,11 @@ const mutations = {
             state.config.allowedGithubLogin = true
             state.config.isGithubLoginConfigured = true
         }
+
+        if (service === 'recaptcha') {
+            state.config.allowedRecaptcha = true
+            state.config.isRecaptchaConfigured = true
+        }
     },
     SET_STRIPE_CREDENTIALS(state, data) {
         state.config.stripe_public_key = data.key

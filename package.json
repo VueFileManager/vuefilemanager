@@ -31,7 +31,7 @@
         "vee-validate": "^3.4.14",
         "vue": "^2.6.14",
         "vue-feather-icons": "^5.1.0",
-        "vue-i18n": "^8.26.8",
+        "vue-i18n": "^8.27.0",
         "vue-paystack": "^2.0.4",
         "vue-recaptcha-v3": "^1.9.0",
         "vue-router": "^3.5.3",
