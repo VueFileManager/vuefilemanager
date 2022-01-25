@@ -357,6 +357,7 @@ const FunctionHelpers = {
                 'google': '/assets/socials/google.svg',
                 'facebook': '/assets/socials/facebook.svg',
                 'github': store.getters.isDarkMode ? '/assets/socials/github-dark.svg' : '/assets/socials/github.svg',
+                'recaptcha': '/assets/socials/recaptcha.svg',
             }[driver]
         }
 

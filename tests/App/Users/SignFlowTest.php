@@ -5,6 +5,7 @@ use Storage;
 use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
+use App\Users\Rules\ReCaptchaRules;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Password;
 use App\Users\Notifications\ResetPassword;
@@ -323,5 +324,34 @@ class SignFlowTest extends TestCase
         $this->assertDatabaseMissing('password_resets', [
             'email' => $user->email,
         ]);
+    }
+    /**
+     * @test
+     */
+    public function it_create_user_from_register_form_with_reCaptcha()
+    {
+      
+        Setting::updateOrCreate([
+            'name' => 'allowed_recaptcha',
+        ], [
+            'value' => 1,
+        ]);
+
+        $this->mock(ReCaptchaRules::class, function ($mock) {
+            $mock->shouldReceive('passes')->andReturn(true);
+        });
+
+        $this->postJson('api/register', [
+            'email'                 => 'john@doe.com',
+            'password'              => 'SecretPassword',
+            'password_confirmation' => 'SecretPassword',
+            'name'                  => 'John Doe',
+            'reCaptcha'             => 'fakeToken'
+        ])->assertStatus(201);
+
+        $this
+            ->assertDatabaseHas('users', [
+                'email'             => 'john@doe.com',
+            ]);
     }
 }

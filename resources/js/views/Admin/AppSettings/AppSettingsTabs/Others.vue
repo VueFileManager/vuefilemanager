@@ -85,6 +85,56 @@
 			</AppInputSwitch>
 		</div>
 
+		<!-- ReCaptcha -->
+		<div class="card shadow-card">
+			<img :src="$getSocialLogo('reCaptcha')" alt="Facebook" class="mb-8 h-14">
+
+			<AppInputSwitch :title="$t('Allow ReCaptcha')" :description="$t('ReCaptcha will be allowed on Registration and Contact Us pages.')" :is-last="! recaptcha.allowedService">
+				<SwitchInput
+					@input="$updateText('/admin/settings', 'allowed_recaptcha', recaptcha.allowedService)"
+					v-model="recaptcha.allowedService"
+					class="switch"
+					:state="recaptcha.allowedService"
+				/>
+			</AppInputSwitch>
+
+			<div v-if="config.isRecaptchaConfigured && recaptcha.allowedService" @click="recaptcha.isVisibleCredentialsForm = !recaptcha.isVisibleCredentialsForm" class="flex items-center cursor-pointer" :class="{'mb-4': recaptcha.isVisibleCredentialsForm}">
+				<edit2-icon size="12" class="vue-feather text-theme mr-2" />
+				<b class="text-xs">{{ $t('Update Your Credentials') }}</b>
+			</div>
+
+			<!--Set up recaptcha credentials-->
+			<ValidationObserver
+				v-if="(! config.isRecaptchaConfigured || recaptcha.isVisibleCredentialsForm) && recaptcha.allowedService"
+				@submit.prevent="storeCredentials('recaptcha')"
+				ref="credentialsForm"
+				v-slot="{ invalid }"
+				tag="form"
+				class="p-5 shadow-lg rounded-xl"
+			>
+				<FormLabel v-if="! config.isRecaptchaConfigured" icon="shield">
+					{{ $t('Configure Credentials') }}
+				</FormLabel>
+
+				<ValidationProvider tag="div" mode="passive" name="Client ID" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('Client ID')" :error="errors[0]">
+						<input v-model="recaptcha.credentials.client_id" :placeholder="$t('Paste your Client ID here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+					</AppInputText>
+				</ValidationProvider>
+
+				<ValidationProvider tag="div" mode="passive" name="Client Secret" rules="required" v-slot="{ errors }">
+					<AppInputText :title="$t('Client Secret')" :error="errors[0]">
+						<input v-model="recaptcha.credentials.client_secret" :placeholder="$t('Paste your Client Secret here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
+					</AppInputText>
+				</ValidationProvider>
+
+				<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+					{{ $t('Store Credentials') }}
+				</ButtonBase>
+			</ValidationObserver>
+
+		</div>
+
 		<!--Facebook Social Authentication-->
 		<div class="card shadow-card">
 			<img :src="$getSocialLogo('facebook')" alt="Facebook" class="mb-8 h-5">
@@ -106,7 +156,7 @@
 			<!--Set up facebook credentials-->
 			<ValidationObserver
 				v-if="(! config.isFacebookLoginConfigured || facebook.isVisibleCredentialsForm) && facebook.allowedService"
-				@submit.prevent="storeCredentials('facebook')"
+				@submit.prevent="storeCredentials('facebook_login')"
 				ref="credentialsForm"
 				v-slot="{ invalid }"
 				tag="form"
@@ -156,7 +206,7 @@
 			<!--Set up Google credentials-->
 			<ValidationObserver
 				v-if="(! config.isGoogleLoginConfigured || google.isVisibleCredentialsForm) && google.allowedService"
-				@submit.prevent="storeCredentials('google')"
+				@submit.prevent="storeCredentials('google_login')"
 				ref="credentialsForm"
 				v-slot="{ invalid }"
 				tag="form"
@@ -206,7 +256,7 @@
 			<!--Set up github credentials-->
 			<ValidationObserver
 				v-if="(! config.isGithubLoginConfigured || github.isVisibleCredentialsForm) && github.allowedService"
-				@submit.prevent="storeCredentials('github')"
+				@submit.prevent="storeCredentials('github_login')"
 				ref="credentialsForm"
 				v-slot="{ invalid }"
 				tag="form"
@@ -289,6 +339,14 @@
 				isLoading: true,
 				isFlushingCache: false,
 				app: undefined,
+				recaptcha: {
+					allowedService: false,
+					isVisibleCredentialsForm: false,
+					credentials: {
+						key: undefined,
+						secret: undefined,
+					},
+				},
 				facebook: {
 					allowedService: false,
 					isVisibleCredentialsForm: false,
@@ -372,6 +430,7 @@
 			}
 		},
 		mounted() {
+			this.recaptcha.allowedService = this.config.allowedRecaptcha
 			this.facebook.allowedService = this.config.allowedFacebookLogin
 			this.google.allowedService = this.config.allowedGoogleLogin
 			this.github.allowedService = this.config.allowedGithubLogin
