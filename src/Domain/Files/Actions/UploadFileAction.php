@@ -11,6 +11,7 @@ use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordUploadAction;
 use App\Users\Exceptions\InvalidUserActionException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Domain\Files\Actions\StoreFileExifMetadataAction;
 
 class UploadFileAction
 {
@@ -19,6 +20,7 @@ class UploadFileAction
         public ProcessImageThumbnailAction $createImageThumbnail,
         public GetFileParentId $getFileParentId,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
+        public StoreFileExifMetadataAction $storeExifMetadata,
     ) {
     }
 
@@ -57,8 +59,6 @@ class UploadFileAction
 
         // If last then process file
         if ($request->boolean('is_last')) {
-            $metadata = get_image_meta_data($file);
-
             $disk_local = Storage::disk('local');
 
             // Get user data
@@ -90,18 +90,23 @@ class UploadFileAction
             // Store user upload size
             ($this->recordUpload)($fileSize, $user->id);
 
-            // Return new file
-            return UserFile::create([
+            // Create new file
+            $item = UserFile::create([
                 'mimetype'  => get_file_type_from_mimetype($file_mimetype),
                 'type'      => get_file_type($file_mimetype),
                 'parent_id' => ($this->getFileParentId)($request, $user->id),
-                'metadata'  => $metadata,
                 'name'      => $request->input('filename'),
                 'basename'  => $fileName,
                 'author'    => $shared ? 'visitor' : 'user',
                 'filesize'  => $fileSize,
                 'user_id'   => $user->id,
             ]);
+            
+            // Store exif metadata for files
+            ($this->storeExifMetadata)($item, $file);
+
+            // Return new file
+            return $item;
         }
     }
 }

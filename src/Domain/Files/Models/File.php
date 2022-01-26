@@ -27,7 +27,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string thumbnail
  * @property string filesize
  * @property string type
- * @property array metadata
  * @property string basename
  * @property string name
  * @property string mimetype
@@ -52,10 +51,6 @@ class File extends Model
     protected $appends = [
         'thumbnail',
         'file_url',
-    ];
-
-    protected $casts = [
-        'metadata' => 'array',
     ];
 
     public array $sortable = [
@@ -178,6 +173,11 @@ class File extends Model
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
+    public function exif(): HasOne
+    {
+        return $this->hasOne(Exif::class);
+    }
+
     public function toSearchableArray(): array
     {
         $name = mb_convert_encoding(
@@ -201,6 +201,12 @@ class File extends Model
 
         static::creating(function ($file) {
             $file->id = (string) Str::uuid();
+        });
+
+        static::deleting(function($file) {
+            if($file->isForceDeleting()) {
+                $file->exif()->forceDelete();
+            };
         });
     }
 }

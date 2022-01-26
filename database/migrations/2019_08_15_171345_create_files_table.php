@@ -25,7 +25,6 @@ class CreateFilesTable extends Migration
             $table->text('filesize');
 
             $table->text('type')->nullable();
-            $table->longText('metadata')->nullable();
 
             $table->enum('author', ['user', 'member', 'visitor'])->default('user');
 

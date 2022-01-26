@@ -108,6 +108,8 @@ class UserSetting extends Model
         static::creating(function ($user) {
             $user->id = Str::uuid();
             $user->color = config('vuefilemanager.colors')[rand(0, 5)];
+            $user->emoji_type = 'twemoji';
+            $user->theme_mode = 'system';
         });
     }
 }

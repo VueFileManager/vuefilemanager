@@ -1,109 +1,95 @@
 <template>
     <div>
         <ul class="meta-data-list">
-            <li v-if="clipboard.metadata.DateTimeOriginal">
+            <li v-if="clipboard.date_time_original">
                 <span>{{ $t('file_detail_meta.time_data') }}</span>
-                <b>{{ clipboard.metadata.DateTimeOriginal }}</b>
+                <b>{{ clipboard.date_time_original }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.Artist">
+            <li v-if="clipboard.artist">
                 <span>{{ $t('file_detail_meta.author') }}</span>
-                <b>{{ clipboard.metadata.Artist }}</b>
+                <b>{{ clipboard.artist }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.ExifImageWidth && clipboard.metadata.ExifImageLength">
+            <li v-if="clipboard.width && clipboard.height">
                 <span>{{ $t('file_detail_meta.dimension') }}</span>
-                <b>{{ clipboard.metadata.ExifImageWidth }}x{{ clipboard.metadata.ExifImageLength }}</b>
+                <b>{{ clipboard.width }}x{{ clipboard.height }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.XResolution && clipboard.metadata.YResolution">
+            <li v-if="clipboard.x_resolution && clipboard.y_resolution">
                 <span>{{ $t('file_detail_meta.resolution') }}</span>
-                <b>{{ clipboard.metadata.XResolution }}x{{ clipboard.metadata.YResolution }}</b>
+                <b>{{ clipboard.x_resolution }}x{{ clipboard.y_resolution }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.ColorSpace">
+            <li v-if="clipboard.color_space">
                 <span> {{ $t('file_detail_meta.color_space') }}</span>
-                <b>{{ clipboard.metadata.ColorSpace }}</b>
+                <b>{{ clipboard.color_space }}</b>
             </li>
 
 			<!--TODO: Colour profile:sRGB IEC61966-2.1-->
 
-            <li v-if="clipboard.metadata.Make">
+            <li v-if="clipboard.make">
                 <span>{{ $t('file_detail_meta.make') }}</span>
-                <b>{{ clipboard.metadata.Make }}</b>
+                <b>{{ clipboard.make }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.Model">
+            <li v-if="clipboard.model">
                 <span>{{ $t('file_detail_meta.model') }}</span>
-                <b>{{ clipboard.metadata.Model }}</b>
+                <b>{{ clipboard.model }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.ApertureValue">
+            <li v-if="clipboard.aperture_value">
                 <span>{{ $t('file_detail_meta.aperture_value') }}</span>
-                <b v-html="parseInt(clipboard.metadata.ApertureValue) / 100"></b>
+                <b> {{ clipboard.aperture_value }} </b>
             </li>
 
-            <li v-if="clipboard.metadata.ExposureTime">
+            <li v-if="clipboard.exposure_time">
                 <span>{{ $t('file_detail_meta.exposure') }}</span>
-                <b>{{ clipboard.metadata.ExposureTime }}</b>
+                <b>{{ clipboard.exposure_time }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.FocalLength">
+            <li v-if="clipboard.focal_length">
                 <span>{{ $t('file_detail_meta.focal') }}</span>
-                <b>{{ clipboard.metadata.FocalLength }}</b>
+                <b>{{ clipboard.focal_length }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.ISOSpeedRatings">
+            <li v-if="clipboard.iso">
                 <span>{{ $t('file_detail_meta.iso') }}</span>
-                <b>{{ clipboard.metadata.ISOSpeedRatings }}</b>
+                <b>{{ clipboard.iso }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.COMPUTED.ApertureFNumber">
+            <li v-if="clipboard.aperture_f_number">
                 <span>{{ $t('file_detail_meta.aperature') }}</span>
-                <b>{{ clipboard.metadata.COMPUTED.ApertureFNumber }}</b>
+                <b>{{ clipboard.aperture_f_number }}</b>
             </li>
 
-            <li v-if="clipboard.metadata.COMPUTED.CCDWidth">
+            <li v-if="clipboard.ccd_width">
                 <span>{{ $t('file_detail_meta.camera_lens') }}</span>
-                <b>{{ clipboard.metadata.COMPUTED.CCDWidth }}</b>
+                <b>{{ clipboard.ccd_width }}</b>
             </li>
 
-		  	<li v-if="clipboard.metadata.GPSLongitude">
+		  	<li v-if="clipboard.longitude">
                 <span>{{ $t('file_detail_meta.longitude') }}</span>
-                <b>{{ formatGps(clipboard.metadata.GPSLongitude, clipboard.metadata.GPSLongitudeRef) }}</b>
+                <b>{{ clipboard.longitude }}</b>
             </li>
 
-			<li v-if="clipboard.metadata.GPSLatitude">
+			<li v-if="clipboard.latitude">
 				<span>{{ $t('file_detail_meta.latitude') }}</span>
-				<b>{{ formatGps(clipboard.metadata.GPSLatitude, clipboard.metadata.GPSLatitudeRef) }}</b>
+				<b>{{ clipboard.latitude }}</b>
 			</li>
         </ul>
     </div>
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import {split} from 'lodash'
 
 export default {
 	name: 'ImageMetaData',
 	computed: {
 		clipboard() {
-			return this.$store.getters.clipboard[0].data.relationships
+			return this.$store.getters.clipboard[0].data.relationships.metadata
 		},
 	},
-	methods: {
-		formatGps(location, ref) {
-			let data = []
-
-			location.forEach(location => {
-				data.push(split(location, '/', 2)[0])
-			})
-
-			return `${data[0]}° ${data[1]}' ${data[2].substr(0, 4) / 100}" ${ref} `
-		}
-	},
-
 }
 </script>
 

@@ -31,7 +31,6 @@ class FileResource extends JsonResource
                     'mimetype'   => $this->mimetype,
                     'file_url'   => $this->file_url,
                     'thumbnail'  => $this->thumbnail,
-                    'metadata'   => $this->metadata,
                     'parent_id'  => $this->parent_id,
                     'updated_at' => $this->updated_at,
                     'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
@@ -71,6 +70,27 @@ class FileResource extends JsonResource
                             ],
                         ],
                     ]),
+                    $this->mergeWhen($this->exif, fn() => [
+                        'metadata' => [
+                            'date_time_original' => format_date($this->exif->date_time_original) ,
+                            'artist'             => $this->exif->artist ,
+                            'height'             => $this->exif->height,
+                            'width'              => $this->exif->width,
+                            'x_resolution'       => substr($this->exif->x_resolution, 0, strrpos( $this->exif->x_resolution, '/')),
+                            'y_resolution'       => substr($this->exif->y_resolution, 0, strrpos( $this->exif->y_resolution, '/')) ,
+                            'color_space'        => $this->exif->color_space ,
+                            'camera'             => $this->exif->camera,
+                            'model'              => $this->exif->model ,
+                            'aperture_value'     => intval($this->exif->aperture_value) / 100 ,
+                            'exposure_time'      => $this->exif->exposure_time ,
+                            'focal_length'       => $this->exif->focal_length ,
+                            'iso'                => $this->exif->iso ,
+                            'aperture_f_number'  => $this->exif->aperture_f_number ,
+                            'ccd_width'          => $this->exif->ccd_width ,
+                            'longitude'          => format_gps_coordinates($this->exif->longitude, $this->exif->longitude_ref) ,
+                            'latitude'           => format_gps_coordinates($this->exif->latitude, $this->exif->latitude_ref) ,
+                        ]
+                    ])
                 ],
             ],
         ];

@@ -151,7 +151,7 @@
 				return this.clipboard[0]
 			},
 			canShowMetaData() {
-				return this.clipboard[0].data.attributes.metadata && this.clipboard[0].data.attributes.metadata.ExifImageWidth
+				return this.clipboard[0].data.relationships.metadata
 			},
 			isLocked() {
 				return this.clipboard[0].data.relationships.shared.protected
