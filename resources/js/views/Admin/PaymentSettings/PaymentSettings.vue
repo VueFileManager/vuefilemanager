@@ -1,7 +1,7 @@
 <template>
     <div>
 		<!--Page Tab links-->
-		<div class="card shadow-card sticky top-0 z-10" style="padding-bottom: 0; padding-top: 0;">
+		<div class="card shadow-card z-10" style="padding-bottom: 0; padding-top: 0;">
 			<CardNavigation :pages="pages" class="-mx-1" />
 		</div>
 

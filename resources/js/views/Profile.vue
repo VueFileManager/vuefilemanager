@@ -30,27 +30,27 @@
             <div v-if="! isLoading" id="page-content">
 
 				<div class="card shadow-card sticky top-0 z-10" style="padding-bottom: 0">
-					<!--User thumbnail-->
-                    <div class="mb-3">
-                        <div class="user-thumbnail">
-                            <div class="avatar">
-                                <UserImageInput
-									v-model="avatar"
-									:avatar="user.data.relationships.settings.data.attributes.avatar.md"
-								/>
-                            </div>
-                            <div class="info">
-                                <b class="name">
-                                    {{ user.data.relationships.settings.data.attributes.first_name }} {{ user.data.relationships.settings.data.attributes.last_name }}
 
-                                    <ColorLabel v-if="this.config.subscriptionType === 'fixed'" :color="subscriptionColor">
-                                        {{ subscriptionStatus }}
-                                    </ColorLabel>
-                                </b>
-                                <span class="email">{{ user.data.attributes.email }}</span>
-                            </div>
-                        </div>
-                    </div>
+					<!--User thumbnail-->
+					<div class="flex items-center mb-3">
+
+						<!--Image input for replace avatar-->
+						<UserImageInput v-model="avatar" :avatar="user.data.relationships.settings.data.attributes.avatar.md" />
+
+						<!--User name & email-->
+						<div class="pl-4">
+							<b class="sm:text-lg text-md font-bold block sm:leading-6 leading-3">
+								{{ user.data.relationships.settings.data.attributes.first_name }} {{ user.data.relationships.settings.data.attributes.last_name }}
+
+								<ColorLabel v-if="config.subscriptionType === 'fixed'" :color="subscriptionColor">
+									{{ subscriptionStatus }}
+								</ColorLabel>
+							</b>
+							<span class="sm:text-sm text-xs text-gray-600">
+								{{ user.data.attributes.email }}
+							</span>
+						</div>
+					</div>
 
 					<CardNavigation :pages="pages" class="-mx-1" />
 				</div>
@@ -155,70 +155,9 @@
         },
         data() {
             return {
-                avatar: undefined,
+				avatar: undefined,
                 isLoading: false,
             }
-        },
-		created() {
-			//setTimeout(() => this.$openUpgradeOptions(), 300)
-		}
+        }
 	}
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .user-thumbnail {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-
-        .avatar {
-            margin-right: 20px;
-
-            img {
-                line-height: 0;
-                width: 62px;
-                height: 62px;
-                border-radius: 12px;
-                z-index: 1;
-                position: relative;
-            }
-        }
-
-        .info {
-
-            .name {
-                display: block;
-                @include font-size(17);
-                line-height: 1;
-            }
-
-            .email {
-                color: $text-muted;
-                @include font-size(14);
-            }
-        }
-    }
-
-    .message-box {
-        margin-top: -15px;
-    }
-
-    .dark {
-        .user-thumbnail {
-
-            .info {
-
-                .name {
-                    color: $dark_mode_text_primary;
-                }
-
-                .email {
-                    color: $dark_mode_text_secondary;
-                }
-            }
-        }
-    }
-</style>

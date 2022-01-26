@@ -3,15 +3,16 @@
 		<div v-if="plan" class="card shadow-card sticky top-0 z-10" style="padding-bottom: 0;">
 
 			<div class="mb-2">
-				<h1 class="font-bold text-xl">
+				<h1 class="font-bold sm:text-xl text-lg">
 					{{ plan.attributes.name }}
 				</h1>
-				<small class="text-sm font-bold text-gray-500">
+				<small class="sm:text-sm text-xs font-bold text-gray-500">
 					{{ $t('30 Days intervals') }}
 				</small>
 			</div>
 
-			<CardNavigation :pages="pages" class="-mx-1.5" />
+			<!--Navigation-->
+			<CardNavigation :pages="pages" class="-mx-1" />
 		</div>
 
 		<router-view v-if="! isLoading" :plan="plan" />

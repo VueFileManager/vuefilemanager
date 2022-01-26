@@ -26,7 +26,7 @@
 
 				<!--Text search field-->
 				<input
-					class="w-full border-none text-xl font-semibold placeholder-gray-700 dark:placeholder-gray-400 bg-transparent focus:outline-none"
+					class="w-full border-none sm:text-xl text-lg font-semibold placeholder-gray-700 dark:placeholder-gray-400 bg-transparent focus:outline-none"
 					v-model="query"
 					@keydown.delete="undoFilter"
 					@keydown.enter="showSelected"
@@ -516,11 +516,13 @@ export default {
 				this.results = []
 				this.actions = []
 
+			let formattedQuery = query.toLowerCase()
+
 			// Reset selection index
 			this.index = 0
 
 			// Go for filter keyword
-			let getFilterQuery = query.substr(0, 2)
+			let getFilterQuery = formattedQuery.substr(0, 2)
 
 			// search for the users
 			if (getFilterQuery === 'u ' && this.isAdmin && ! this.activeFilter) {
@@ -529,10 +531,10 @@ export default {
 
 			// Browse actions
 			if (! this.activeFilter) {
-				this.actions = this.actionList.filter(el => el.title.toLowerCase().indexOf(query) > -1).slice(0, 3)
+				this.actions = this.actionList.filter(el => el.title.toLowerCase().indexOf(formattedQuery) > -1).slice(0, 3)
 			}
 
-			this.findResult(query)
+			this.findResult(formattedQuery)
 		},
 	},
 	methods: {

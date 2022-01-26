@@ -62,5 +62,6 @@ module.exports = {
 	},
 	plugins: [
 		require('tailwindcss-debug-screens'),
+		require('tailwind-scrollbar-hide'),
 	],
 }
