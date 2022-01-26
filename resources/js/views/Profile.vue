@@ -13,7 +13,7 @@
 		<TwoFactorQrSetupPopup />
 
 		<!--Access Token Popup-->
-		<CreatePersonaTokenPopup />
+		<CreatePersonalTokenPopup />
 
 		<!--Payments Popup-->
 		<SelectPlanSubscriptionPopup />
@@ -73,7 +73,7 @@
 	import FilePreview from '/resources/js/components/FilePreview/FilePreview'
 	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
 	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
-	import CreatePersonaTokenPopup from '/resources/js/components/Others/CreatePersonaTokenPopup'
+	import CreatePersonalTokenPopup from '/resources/js/components/Others/CreatePersonalTokenPopup'
 	import TwoFactorQrSetupPopup from '/resources/js/components/Others/TwoFactorQrSetupPopup'
 	import UserImageInput from '/resources/js/components/Others/UserImageInput'
 	import SidebarNavigation from "../components/Sidebar/SidebarNavigation"
@@ -97,7 +97,7 @@
 			FilePreview,
 			Spotlight,
 			TwoFactorRecoveryCodesPopup,
-			CreatePersonaTokenPopup,
+			CreatePersonalTokenPopup,
 			TwoFactorQrSetupPopup,
 			SidebarNavigation,
             UserImageInput,

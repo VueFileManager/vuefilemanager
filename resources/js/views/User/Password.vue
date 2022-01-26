@@ -24,19 +24,25 @@
             <InfoBox v-if="tokens.length === 0">
                 <p>{{ $t("personal_token.section_description") }}</p>
             </InfoBox>
-            <InfoBox v-if="tokens.length > 0">
-                <ul class="tokens-wrapper">
-                    <li class="token-item" v-for="token in tokens" :key="token.id">
-                        <div class="tokens-details">
-                            <b class="name">{{ token.name }}</b>
-                            <time class="last-used">{{ $t('last_used') }}: {{ token.last_used_at ? formatDate(token.last_used_at) : $t('never') }}</time>
-                        </div>
-                        <div @click="confirmDeleteToken(token)" class="tokens-destroyer">
-                            <x-icon size="16" class="close-icon hover-text-theme" />
-                        </div>
-                    </li>
-                </ul>
-            </InfoBox>
+
+			<div class="mb-5">
+				<div v-if="tokens.length > 0" class="flex items-center justify-between py-2 border-b dark:border-opacity-5 border-light border-dashed" v-for="token in tokens" :key="token.id">
+					<div class="leading-none">
+						<b class="text-sm font-bold leading-none">
+							{{ token.name }}
+						</b>
+						<time class="text-xs text-gray-500 pt-2 leading-none block">
+							{{ $t('last_used') }}: {{ token.last_used_at ? formatDate(token.last_used_at) : $t('never') }}
+						</time>
+					</div>
+					<div class="text-right">
+						<div @click="confirmDeleteToken(token)" class="cursor-pointer flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors">
+							<Trash2Icon size="15" class="opacity-75" />
+						</div>
+					</div>
+				</div>
+			</div>
+
             <ButtonBase @click.native="openCreateTokenPopup" type="submit" button-style="theme" class="sm:w-auto w-full">
                 {{ $t('personal_token.create_token') }}
             </ButtonBase>
@@ -75,36 +81,31 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-	import UserImageInput from '/resources/js/components/Others/UserImageInput'
 	import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
 	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
 	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
 	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-	import PageHeader from '/resources/js/components/Others/PageHeader'
-	import ThemeLabel from '/resources/js/components/Others/ThemeLabel'
 	import AppInputSwitch from "../../components/Admin/AppInputSwitch"
+	import AppInputButton from "../../components/Admin/AppInputButton"
 	import AppInputText from "../../components/Admin/AppInputText"
 	import {required} from 'vee-validate/dist/rules'
-	import {XIcon} from 'vue-feather-icons'
+	import {XIcon, Trash2Icon} from 'vue-feather-icons'
 	import {events} from '/resources/js/bus'
 	import {mapGetters} from 'vuex'
 	import axios from 'axios'
-	import AppInputButton from "../../components/Admin/AppInputButton";
 
 	export default {
 		name: 'Password',
 		components: {
-			AppInputButton,
 			ValidationProvider,
 			ValidationObserver,
-			UserImageInput,
+			AppInputButton,
 			AppInputSwitch,
 			AppInputText,
 			SwitchInput,
-			PageHeader,
 			ButtonBase,
-			ThemeLabel,
 			FormLabel,
+			Trash2Icon,
 			required,
 			InfoBox,
 			XIcon,
@@ -288,104 +289,3 @@
 		},
 	}
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-	@import '/resources/sass/vuefilemanager/_mixins';
-	@import '/resources/sass/vuefilemanager/_forms';
-
-	.tokens-wrapper {
-		margin-top: 0 !important;
-
-		.token-item {
-			display: flex;
-			justify-content: space-between;
-			width: 100%;
-			padding: 10px 0;
-			border-bottom: 1px solid darken($light_mode_border, 5%);
-			align-items: center;
-
-			&:first-child {
-				padding-top: 0;
-			}
-
-			&:last-child {
-				border-bottom: 0 solid transparent;
-				padding-bottom: 0;
-			}
-		}
-
-		.tokens-details {
-			.name {
-				@include font-size(16);
-			}
-
-			.last-used {
-				@include font-size(12);
-				color: $text-muted;
-				line-height: 1.35;
-				display: block;
-			}
-		}
-
-		.tokens-destroyer {
-			margin-top: 10px;
-
-			.close-icon {
-				opacity: 0.2;
-
-				&:hover {
-					opacity: 1;
-
-					line {
-						color: inherit;
-					}
-				}
-			}
-		}
-
-		.tokens-destroyer {
-			cursor: pointer;
-		}
-	}
-
-	@media only screen and (max-width: 960px) {
-
-		.form {
-			.button-base {
-				width: 100%;
-				margin-top: 0;
-				text-align: center;
-			}
-		}
-	}
-
-	@media only screen and (max-width: 690px) {
-
-		.form .button-block {
-			display: block;
-
-			.popup-button {
-				margin-top: 15px;
-			}
-		}
-	}
-
-	.dark {
-		.tokens-wrapper {
-			margin-top: 0 !important;
-
-			.token-item {
-				border-color: lighten($dark_mode_foreground, 3%);
-			}
-
-			.tokens-details {
-
-				.last-used {
-					color: $dark_mode_text_secondary;
-				}
-			}
-		}
-	}
-
-</style>

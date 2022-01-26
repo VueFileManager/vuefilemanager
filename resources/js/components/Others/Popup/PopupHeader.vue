@@ -15,7 +15,7 @@
 				{{ title }}
 			</b>
         </div>
-        <div @click="closePopup" class="cursor-pointer">
+        <div @click="closePopup" class="cursor-pointer p-3 -m-3">
             <x-icon size="14" class="hover-text-theme vue-feather" />
         </div>
     </div>

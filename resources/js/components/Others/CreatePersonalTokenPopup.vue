@@ -70,7 +70,7 @@ import {events} from '/resources/js/bus'
 import axios from 'axios'
 
 export default {
-	name: "CreatePersonaTokenPopup",
+	name: "CreatePersonalTokenPopup",
 	components: {
 		ValidationProvider,
 		ValidationObserver,

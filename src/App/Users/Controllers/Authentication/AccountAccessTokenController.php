@@ -26,7 +26,7 @@ class AccountAccessTokenController extends Controller
      */
     public function store(UserCreateAccessTokenRequest $request): Response
     {
-        abort_if(is_demo_account('howdy@hi5ve.digital'), 201, [
+        abort_if(is_demo_account(), 201, [
             'name'           => 'token',
             'token'          => Str::random(40),
             'abilities'      => '["*"]',
@@ -49,7 +49,7 @@ class AccountAccessTokenController extends Controller
      */
     public function destroy(PersonalAccessToken $token): Response
     {
-        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Deleted!');
+        abort_if(is_demo_account(), 204, 'Deleted!');
 
         if (Auth::id() !== $token->tokenable_id) {
             return response('Unauthorized', 401);
