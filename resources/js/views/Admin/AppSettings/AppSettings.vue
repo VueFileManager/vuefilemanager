@@ -27,6 +27,10 @@
 						route: 'AppOthers',
 					},
 					{
+						title: this.$t('Login & Registration'),
+						route: 'AppSignInUp',
+					},
+					{
 						title: this.$t('admin_settings.tabs.appearance'),
 						route: 'AppAppearance',
 					},

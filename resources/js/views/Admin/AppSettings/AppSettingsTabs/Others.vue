@@ -60,34 +60,11 @@
 			</AppInputText>
 		</div>
 
-		<!--User Login/Registration-->
-		<div class="card shadow-card">
-			<FormLabel>
-				{{ $t('User Login/Registration') }}
-			</FormLabel>
-
-			<AppInputSwitch :title="$t('admin_settings.others.allow_registration')" :description="$t('admin_settings.others.allow_registration_help')">
-				<SwitchInput
-					@input="$updateText('/admin/settings', 'registration', app.userRegistration)"
-					v-model="app.userRegistration"
-					class="switch"
-					:state="app.userRegistration"
-				/>
-			</AppInputSwitch>
-
-			<AppInputSwitch :title="$t('Require Email Verification')" :description="$t('admin_settings.others.allow_user_verification_help')" :is-last="true">
-				<SwitchInput
-					@input="$updateText('/admin/settings', 'user_verification', app.userVerification)"
-					v-model="app.userVerification"
-					class="switch"
-					:state="app.userVerification"
-				/>
-			</AppInputSwitch>
-		</div>
-
 		<!-- ReCaptcha -->
 		<div class="card shadow-card">
-			<img src="/assets/others/recaptcha.svg" alt="reCaptcha" class="mb-8 h-10">
+			<FormLabel icon="shield">
+				{{ $t('reCaptcha') }}
+			</FormLabel>
 
 			<AppInputSwitch :title="$t('Allow ReCaptcha')" :description="$t('ReCaptcha will be allowed on Registration and Contact Us forms.')" :is-last="! recaptcha.allowedService">
 				<SwitchInput
@@ -134,156 +111,6 @@
 			</ValidationObserver>
 
 		</div>
-
-		<!--Facebook Social Authentication-->
-		<div class="card shadow-card">
-			<img :src="$getSocialLogo('facebook')" alt="Facebook" class="mb-8 h-5">
-
-			<AppInputSwitch :title="$t('Allow Login via Facebook')" :description="$t('You users will be able to login via Facebook account.')" :is-last="! facebook.allowedService">
-				<SwitchInput
-					@input="$updateText('/admin/settings', 'allowed_facebook_login', facebook.allowedService)"
-					v-model="facebook.allowedService"
-					class="switch"
-					:state="facebook.allowedService"
-				/>
-			</AppInputSwitch>
-
-			<div v-if="config.isFacebookLoginConfigured && facebook.allowedService" @click="facebook.isVisibleCredentialsForm = !facebook.isVisibleCredentialsForm" class="flex items-center cursor-pointer" :class="{'mb-4': facebook.isVisibleCredentialsForm}">
-				<edit2-icon size="12" class="vue-feather text-theme mr-2" />
-				<b class="text-xs">{{ $t('Update Your Credentials') }}</b>
-			</div>
-
-			<!--Set up facebook credentials-->
-			<ValidationObserver
-				v-if="(! config.isFacebookLoginConfigured || facebook.isVisibleCredentialsForm) && facebook.allowedService"
-				@submit.prevent="storeCredentials('facebook_login')"
-				ref="credentialsForm"
-				v-slot="{ invalid }"
-				tag="form"
-				class="p-5 shadow-lg rounded-xl"
-			>
-				<FormLabel v-if="! config.isFacebookLoginConfigured" icon="shield">
-					{{ $t('Configure Credentials') }}
-				</FormLabel>
-
-				<ValidationProvider tag="div" mode="passive" name="Client ID" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Client ID')" :error="errors[0]">
-						<input v-model="facebook.credentials.client_id" :placeholder="$t('Paste your Client ID here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
-					</AppInputText>
-				</ValidationProvider>
-
-				<ValidationProvider tag="div" mode="passive" name="Client Secret" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Client Secret')" :error="errors[0]">
-						<input v-model="facebook.credentials.client_secret" :placeholder="$t('Paste your Client Secret here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
-					</AppInputText>
-				</ValidationProvider>
-
-				<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
-					{{ $t('Store Credentials') }}
-				</ButtonBase>
-			</ValidationObserver>
-
-		</div>
-
-		<!--Google Social Authentication-->
-		<div class="card shadow-card">
-			<img :src="$getSocialLogo('google')" alt="Google" class="mb-8 h-7">
-
-			<AppInputSwitch :title="$t('Allow Login via Google')" :description="$t('You users will be able to login via Google account.')" :is-last="! google.allowedService">
-				<SwitchInput
-					@input="$updateText('/admin/settings', 'allowed_google_login', google.allowedService)"
-					v-model="google.allowedService"
-					class="switch"
-					:state="google.allowedService"
-				/>
-			</AppInputSwitch>
-
-			<div v-if="config.isGoogleLoginConfigured && google.allowedService" @click="google.isVisibleCredentialsForm = !google.isVisibleCredentialsForm" class="flex items-center cursor-pointer" :class="{'mb-4': google.isVisibleCredentialsForm}">
-				<edit2-icon size="12" class="vue-feather text-theme mr-2" />
-				<b class="text-xs">{{ $t('Update Your Credentials') }}</b>
-			</div>
-
-			<!--Set up Google credentials-->
-			<ValidationObserver
-				v-if="(! config.isGoogleLoginConfigured || google.isVisibleCredentialsForm) && google.allowedService"
-				@submit.prevent="storeCredentials('google_login')"
-				ref="credentialsForm"
-				v-slot="{ invalid }"
-				tag="form"
-				class="p-5 shadow-lg rounded-xl"
-			>
-				<FormLabel v-if="! config.isGoogleLoginConfigured" icon="shield">
-					{{ $t('Configure Credentials') }}
-				</FormLabel>
-
-				<ValidationProvider tag="div" mode="passive" name="Client ID" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Client ID')" :error="errors[0]">
-						<input v-model="google.credentials.client_id" :placeholder="$t('Paste your Client ID here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
-					</AppInputText>
-				</ValidationProvider>
-
-				<ValidationProvider tag="div" mode="passive" name="Client Secret" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Client Secret')" :error="errors[0]">
-						<input v-model="google.credentials.client_secret" :placeholder="$t('Paste your Client Secret here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
-					</AppInputText>
-				</ValidationProvider>
-
-				<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
-					{{ $t('Store Credentials') }}
-				</ButtonBase>
-			</ValidationObserver>
-
-		</div>
-
-		<!--Github Social Authentication-->
-		<div class="card shadow-card">
-			<img :src="$getSocialLogo('github')" alt="Github" class="mb-8 h-5">
-
-			<AppInputSwitch :title="$t('Allow Login via GitHub')" :description="$t('You users will be able to login via GitHub account.')" :is-last="! github.allowedService">
-				<SwitchInput
-					@input="$updateText('/admin/settings', 'allowed_github_login', github.allowedService)"
-					v-model="github.allowedService"
-					class="switch"
-					:state="github.allowedService"
-				/>
-			</AppInputSwitch>
-
-			<div v-if="config.isGithubLoginConfigured && github.allowedService" @click="github.isVisibleCredentialsForm = !github.isVisibleCredentialsForm" class="flex items-center cursor-pointer" :class="{'mb-4': github.isVisibleCredentialsForm}">
-				<edit2-icon size="12" class="vue-feather text-theme mr-2" />
-				<b class="text-xs">{{ $t('Update Your Credentials') }}</b>
-			</div>
-
-			<!--Set up github credentials-->
-			<ValidationObserver
-				v-if="(! config.isGithubLoginConfigured || github.isVisibleCredentialsForm) && github.allowedService"
-				@submit.prevent="storeCredentials('github_login')"
-				ref="credentialsForm"
-				v-slot="{ invalid }"
-				tag="form"
-				class="p-5 shadow-lg rounded-xl"
-			>
-				<FormLabel v-if="! config.isGithubLoginConfigured" icon="shield">
-					{{ $t('Configure Credentials') }}
-				</FormLabel>
-
-				<ValidationProvider tag="div" mode="passive" name="Client ID" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Client ID')" :error="errors[0]">
-						<input v-model="github.credentials.client_id" :placeholder="$t('Paste your Client ID here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
-					</AppInputText>
-				</ValidationProvider>
-
-				<ValidationProvider tag="div" mode="passive" name="Client Secret" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Client Secret')" :error="errors[0]">
-						<input v-model="github.credentials.client_secret" :placeholder="$t('Paste your Client Secret here')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
-					</AppInputText>
-				</ValidationProvider>
-
-				<ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
-					{{ $t('Store Credentials') }}
-				</ButtonBase>
-			</ValidationObserver>
-
-		</div>
     </PageTab>
 </template>
 
@@ -292,22 +119,17 @@
 		Edit2Icon,
 	} from 'vue-feather-icons'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-	import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
-	import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
 	import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-	import ImageInput from '/resources/js/components/Others/Forms/ImageInput'
+	import AppInputButton from "../../../../components/Admin/AppInputButton"
 	import AppInputSwitch from "../../../../components/Admin/AppInputSwitch"
 	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
 	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-	import SetupBox from '/resources/js/components/Others/Forms/SetupBox'
 	import AppInputText from "../../../../components/Admin/AppInputText"
 	import PageTab from '/resources/js/components/Others/Layout/PageTab'
-	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
 	import {required} from 'vee-validate/dist/rules'
 	import {events} from '/resources/js/bus'
 	import {mapGetters} from "vuex"
 	import axios from 'axios'
-	import AppInputButton from "../../../../components/Admin/AppInputButton";
 
 	export default {
 		name: 'AppOthers',
@@ -317,17 +139,12 @@
 			ValidationProvider,
 			AppInputSwitch,
 			AppInputText,
-			PageTabGroup,
 			SwitchInput,
-			SelectInput,
-			ImageInput,
 			ButtonBase,
 			Edit2Icon,
 			FormLabel,
-			SetupBox,
 			required,
 			PageTab,
-			InfoBox,
 		},
 		computed: {
 			...mapGetters([
@@ -340,30 +157,6 @@
 				isFlushingCache: false,
 				app: undefined,
 				recaptcha: {
-					allowedService: false,
-					isVisibleCredentialsForm: false,
-					credentials: {
-						key: undefined,
-						secret: undefined,
-					},
-				},
-				facebook: {
-					allowedService: false,
-					isVisibleCredentialsForm: false,
-					credentials: {
-						key: undefined,
-						secret: undefined,
-					},
-				},
-				google: {
-					allowedService: false,
-					isVisibleCredentialsForm: false,
-					credentials: {
-						key: undefined,
-						secret: undefined,
-					},
-				},
-				github: {
 					allowedService: false,
 					isVisibleCredentialsForm: false,
 					credentials: {
@@ -431,13 +224,10 @@
 		},
 		mounted() {
 			this.recaptcha.allowedService = this.config.allowedRecaptcha
-			this.facebook.allowedService = this.config.allowedFacebookLogin
-			this.google.allowedService = this.config.allowedGoogleLogin
-			this.github.allowedService = this.config.allowedGithubLogin
 
 			axios.get('/api/admin/settings', {
 					params: {
-						column: 'contact_email|google_analytics|default_max_storage_amount|registration|storage_limitation|mimetypes_blacklist|upload_limit|user_verification'
+						column: 'contact_email|google_analytics|default_max_storage_amount|storage_limitation|mimetypes_blacklist|upload_limit'
 					}
 				})
 				.then(response => {
@@ -447,11 +237,9 @@
 						contactMail: response.data.contact_email,
 						googleAnalytics: response.data.google_analytics,
 						defaultStorage: response.data.default_max_storage_amount,
-						userRegistration: parseInt(response.data.registration),
 						storageLimitation: parseInt(response.data.storage_limitation),
 						mimetypesBlacklist: response.data.mimetypes_blacklist,
 						uploadLimit: response.data.upload_limit,
-						userVerification: parseInt(response.data.user_verification)
 					}
 				})
 		}

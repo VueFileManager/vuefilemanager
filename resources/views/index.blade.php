@@ -73,8 +73,6 @@
             app_description: '{{ $settings->app_description ?? __t('app_description') }}',
 
             allowHomepage: {{ $settings->allow_homepage ?? 1 }},
-            userRegistration: {{ $settings->registration ?? 1 }},
-            userVerification: {{ $settings->user_verification ?? 0 }},
             storageLimit: {{ $settings->storage_limitation ?? 1 }},
             storageDefaultSpace: {{ $settings->default_max_storage_amount ?? 5 }},
             storageDefaultSpaceFormatted: '{{ isset($settings->default_max_storage_amount) ? format_gigabytes($settings->default_max_storage_amount) : format_gigabytes(5) }}',
@@ -146,6 +144,10 @@
             // User settings
             defaultEmoji: '{{ $defaultEmoji }}',
             defaultThemeMode: '{{ $defaultThemeMode }}',
+
+            // App settings
+			userRegistration: {{ $settings->registration ?? 1 }},
+			userVerification: {{ $settings->user_verification ?? 0 }},
         }
     </script>
 

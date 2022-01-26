@@ -336,6 +336,16 @@ const routesAdmin = [
 							title: 'routes_title.others'
 						},
 					},
+					{
+						name: 'AppSignInUp',
+						path: '/admin/settings/sign-in',
+						component: () =>
+							import(/* webpackChunkName: "chunks/app-sign-in-out" */ '../views/Admin/AppSettings/AppSettingsTabs/SignInUp'),
+						meta: {
+							requiresAuth: true,
+							title: 'Sign In/Up'
+						},
+					},
 				]
 			},
 			{
