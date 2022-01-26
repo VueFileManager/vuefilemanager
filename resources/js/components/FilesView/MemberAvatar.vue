@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="flex-shrink-0 flex-grow-0">
 		<img
 			:style="{width: size + 'px', height: size + 'px'}"
 			v-if="member.data.attributes.avatar"

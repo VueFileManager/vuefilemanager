@@ -2,22 +2,23 @@
 	<DatatableWrapper
 		api="/api/admin/dashboard/transactions"
 		:columns="columns"
+		class="overflow-x-auto"
 	>
 		<template slot-scope="{ row }">
-			<tr class="border-b dark:border-opacity-5 border-light border-dashed">
-				<td class="py-5">
+			<tr class="border-b dark:border-opacity-5 border-light border-dashed whitespace-nowrap">
+				<td class="py-5 md:pr-1 pr-3">
 					<span class="text-sm font-bold">
 						{{ row.data.attributes.note }}
 					</span>
 				</td>
-				<td>
+				<td class="md:px-1 px-3">
 					<div v-if="row.data.relationships.user" class="flex items-center">
 						<MemberAvatar
 							:is-border="false"
 							:size="36"
 							:member="row.data.relationships.user"
 						/>
-						<div class="ml-3">
+						<div class="ml-3 pr-10">
 							<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
 								{{ row.data.relationships.user.data.attributes.name }}
 							</b>
@@ -30,7 +31,7 @@
 						{{ $t('User was deleted') }}
 					</span>
 				</td>
-				<td>
+				<td class="md:px-1 px-3">
 					<ColorLabel v-if="config.subscriptionType === 'fixed'" :color="$getTransactionStatusColor(row.data.attributes.status)">
 						{{ row.data.attributes.status }}
 					</ColorLabel>
@@ -38,18 +39,18 @@
 						{{ row.data.attributes.type }}
 					</ColorLabel>
 				</td>
-				<td>
+				<td class="md:px-1 px-3">
 					<span class="text-sm font-bold" :class="$getTransactionTypeTextColor(row.data.attributes.type)">
 						{{ $getTransactionMark(row.data.attributes.type) + row.data.attributes.price }}
 					</span>
 				</td>
-				<td>
+				<td class="md:px-1 px-3">
 					<span class="text-sm font-bold">
 						{{ row.data.attributes.created_at }}
 					</span>
 				</td>
-				<td class="text-right">
-					<img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
+				<td class="md:pl-1 pl-3 text-right">
+					<img class="inline-block h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
 				</td>
 			</tr>
 		</template>

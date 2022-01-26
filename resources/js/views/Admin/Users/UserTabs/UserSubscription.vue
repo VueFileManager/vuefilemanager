@@ -35,40 +35,21 @@
             </FormLabel>
 
 			<DatatableWrapper
+				class="overflow-x-auto"
 				@init="isLoading = false"
-				:api="'/api/subscriptions/admin/users/' + this.$route.params.id + '/transactions'"
+				:api="'/api/admin/users/' + this.$route.params.id + '/transactions'"
 				:paginator="true"
 				:columns="columns"
 			>
                 <template slot-scope="{ row }">
-                    <tr class="border-b dark:border-opacity-5 border-light border-dashed">
-                        <td class="py-4">
-                            <span class="text-sm font-bold">
-								{{ row.data.attributes.note }}
-							</span>
-                        </td>
-                        <td>
-							<ColorLabel v-if="config.subscriptionType === 'fixed'" :color="$getTransactionStatusColor(row.data.attributes.status)">
-                                {{ row.data.attributes.status }}
-							</ColorLabel>
-							<ColorLabel v-if="config.subscriptionType === 'metered'" :color="$getTransactionTypeColor(row.data.attributes.type)">
-                                {{ row.data.attributes.type }}
-							</ColorLabel>
-                        </td>
-                        <td>
-                            <span class="text-sm font-bold" :class="$getTransactionTypeTextColor(row.data.attributes.type)">
-                                {{ $getTransactionMark(row.data.attributes.type) + row.data.attributes.price }}
-                            </span>
-                        </td>
-                        <td>
-                            <span class="text-sm font-bold">
-                                {{ row.data.attributes.created_at }}
-                            </span>
-                        </td>
-                        <td class="text-right">
-                            <img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
-                        </td>
-                    </tr>
+
+					<!--Transaction rows-->
+                    <MeteredTransactionRow v-if="config.subscriptionType === 'metered'" :row="row" @showDetail="showTransactionDetail" />
+					<FixedTransactionRow v-if="config.subscriptionType === 'fixed'" :row="row" />
+
+					<!--Transaction detail-->
+					<MeteredTransactionDetailRow v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id" :row="row" />
+
                 </template>
 
 				<!--Empty page-->
@@ -83,14 +64,16 @@
 </template>
 
 <script>
-    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-	import FormLabel from "../../../../components/Others/Forms/FormLabel";
-	import ColorLabel from "/resources/js/components/Others/ColorLabel"
+	import MeteredTransactionDetailRow from "../../../../components/Subscription/MeteredTransactionDetailRow"
+	import MeteredTransactionRow from "../../../../components/Subscription/MeteredTransactionRow"
+	import FixedTransactionRow from "../../../../components/Subscription/FixedTransactionRow"
+	import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
+	import FormLabel from "../../../../components/Others/Forms/FormLabel"
 	import PageTab from '/resources/js/components/Others/Layout/PageTab'
 	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-	import UserMeteredSubscription from "./UserMeteredSubscription";
+	import UserMeteredSubscription from "./UserMeteredSubscription"
 	import UserFixedSubscription from "./UserFixedSubscription"
-	import {mapGetters} from "vuex";
+	import {mapGetters} from "vuex"
 	import axios from 'axios'
 
 	export default {
@@ -99,10 +82,12 @@
 			'user'
 		],
 		components: {
+			MeteredTransactionDetailRow,
 			UserMeteredSubscription,
+			MeteredTransactionRow,
 			UserFixedSubscription,
+			FixedTransactionRow,
 			DatatableWrapper,
-			ColorLabel,
 			FormLabel,
 			InfoBox,
 			PageTab,
@@ -111,38 +96,28 @@
 			...mapGetters([
 				'config',
 			]),
+			columns() {
+				let filter = {
+					metered: ['user_id'],
+					fixed: ['type', 'user_id'],
+				}
+
+				return this.$store.getters.transactionColumns.filter(column => !filter[config.subscriptionType].includes(column.field))
+			}
 		},
 		data() {
 			return {
+				showedTransactionDetailById: undefined,
 				subscription: undefined,
 				isLoading: true,
-				columns: [
-					{
-						label: this.$t('Note'),
-						field: 'note',
-						sortable: true
-					},
-					{
-						label: this.$t('Status'),
-						field: 'status',
-						sortable: true
-					},
-					{
-						label: this.$t('admin_page_invoices.table.total'),
-						field: 'amount',
-						sortable: true
-					},
-					{
-						label: this.$t('Payed At'),
-						field: 'created_at',
-						sortable: true
-					},
-					{
-						label: this.$t('Service'),
-						field: 'driver',
-						sortable: true
-					},
-				],
+			}
+		},
+		methods: {
+			showTransactionDetail(id) {
+				if (this.showedTransactionDetailById === id)
+					this.showedTransactionDetailById = undefined
+				else
+					this.showedTransactionDetailById = id
 			}
 		},
 		created() {

@@ -1,182 +1,182 @@
 <template>
-	<DatatableWrapper  @init="isLoading = false" api="/api/admin/dashboard/newbies" :paginator="false" :columns="columns" class="table table-users mt-6">
+	<DatatableWrapper  @init="isLoading = false" api="/api/admin/dashboard/newbies" :paginator="false" :columns="columns" class="overflow-x-auto mt-6">
 		<template slot-scope="{ row }">
-				<!--Not a subscription-->
-				<tr v-if="config.subscriptionType === 'none'" class="border-b dark:border-opacity-5 border-light border-dashed">
-					<td class="py-3">
-						<router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-							<div class="flex items-center">
-								<MemberAvatar
-									:is-border="false"
-									:size="44"
-									:member="row.data.relationships.settings"
-								/>
-								<div class="ml-3">
-									<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
-										{{ row.data.relationships.settings.data.attributes.name }}
-									</b>
-									<span class="block text-xs dark:text-gray-500 text-gray-600">
-										{{ row.data.attributes.email }}
-									</span>
-								</div>
+			<!--Not a subscription-->
+			<tr v-if="config.subscriptionType === 'none'" class="border-b dark:border-opacity-5 border-light border-dashed whitespace-nowrap">
+				<td class="py-3 md:pr-1 pr-3">
+					<router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
+						<div class="flex items-center">
+							<MemberAvatar
+								:is-border="false"
+								:size="44"
+								:member="row.data.relationships.settings"
+							/>
+							<div class="ml-3 pr-10">
+								<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+									{{ row.data.relationships.settings.data.attributes.name }}
+								</b>
+								<span class="block text-xs dark:text-gray-500 text-gray-600">
+									{{ row.data.attributes.email }}
+								</span>
 							</div>
-						</router-link>
-					</td>
-					<td>
-						<ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
-							{{ row.data.attributes.role }}
-						</ColorLabel>
-					</td>
-					<td>
-						<span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
-							{{ row.data.attributes.storage.used_formatted }}
-						</span>
-						<span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
-							-
-						</span>
-					</td>
-					<td v-if="config.storageLimit">
-						<span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
-							{{ row.data.attributes.storage.capacity_formatted }}
-						</span>
-						<span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
-							-
-						</span>
-					</td>
-					<td>
-						<span class="text-sm font-bold">
-							{{ row.data.attributes.created_at }}
-						</span>
-					</td>
-					<td>
-						<div class="flex space-x-2 w-full justify-end">
-							<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDetail', params: {id: row.data.id}}">
-								<Edit2Icon size="15" class="opacity-75" />
-							</router-link>
-							<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDelete', params: {id: row.data.id}}">
-								<Trash2Icon size="15" class="opacity-75" />
-							</router-link>
 						</div>
-					</td>
-				</tr>
+					</router-link>
+				</td>
+				<td class="md:px-1 px-3">
+					<ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
+						{{ row.data.attributes.role }}
+					</ColorLabel>
+				</td>
+				<td class="md:px-1 px-3">
+					<span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
+						{{ row.data.attributes.storage.used_formatted }}
+					</span>
+					<span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
+						-
+					</span>
+				</td>
+				<td class="md:px-1 px-3" v-if="config.storageLimit">
+					<span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
+						{{ row.data.attributes.storage.capacity_formatted }}
+					</span>
+					<span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
+						-
+					</span>
+				</td>
+				<td class="md:px-1 px-3">
+					<span class="text-sm font-bold">
+						{{ row.data.attributes.created_at }}
+					</span>
+				</td>
+				<td class="md:pl-1 pl-3 text-right">
+					<div class="flex space-x-2 w-full justify-end">
+						<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDetail', params: {id: row.data.id}}">
+							<Edit2Icon size="15" class="opacity-75" />
+						</router-link>
+						<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDelete', params: {id: row.data.id}}">
+							<Trash2Icon size="15" class="opacity-75" />
+						</router-link>
+					</div>
+				</td>
+			</tr>
 
-				<!--Fixed subscription-->
-				<tr v-if="config.subscriptionType === 'fixed'" class="border-b dark:border-opacity-5 border-light border-dashed">
-					<td class="py-3">
-						<router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-							<div class="flex items-center">
-								<MemberAvatar
-									:is-border="false"
-									:size="44"
-									:member="row.data.relationships.settings"
-								/>
-								<div class="ml-3">
-									<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
-										{{ row.data.relationships.settings.data.attributes.name }}
-									</b>
-									<span class="block text-xs dark:text-gray-500 text-gray-600">
-										{{ row.data.attributes.email }}
-									</span>
-								</div>
+			<!--Fixed subscription-->
+			<tr v-if="config.subscriptionType === 'fixed'" class="border-b dark:border-opacity-5 border-light border-dashed whitespace-nowrap">
+				<td class="py-3 md:pr-1 pr-3">
+					<router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
+						<div class="flex items-center">
+							<MemberAvatar
+								:is-border="false"
+								:size="44"
+								:member="row.data.relationships.settings"
+							/>
+							<div class="ml-3 pr-10">
+								<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+									{{ row.data.relationships.settings.data.attributes.name }}
+								</b>
+								<span class="block text-xs dark:text-gray-500 text-gray-600">
+									{{ row.data.attributes.email }}
+								</span>
 							</div>
-						</router-link>
-					</td>
-					<td>
-						<ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
-							{{ row.data.attributes.role }}
-						</ColorLabel>
-					</td>
-					<td v-if="config.isSaaS">
-						<span class="text-sm font-bold">
-							{{ row.data.relationships.subscription ? $t('global.premium') : $t('global.free') }}
-						</span>
-					</td>
-					<td>
-						<span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
-							{{ row.data.attributes.storage.used_formatted }}
-						</span>
-						<span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
-							-
-						</span>
-					</td>
-					<td v-if="config.storageLimit">
-						<span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
-							{{ row.data.attributes.storage.capacity_formatted }}
-						</span>
-						<span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
-							-
-						</span>
-					</td>
-					<td>
-						<span class="text-sm font-bold">
-							{{ row.data.attributes.created_at }}
-						</span>
-					</td>
-					<td>
-						<div class="flex space-x-2 w-full justify-end">
-							<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDetail', params: {id: row.data.id}}">
-								<Edit2Icon size="15" class="opacity-75" />
-							</router-link>
-							<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDelete', params: {id: row.data.id}}">
-								<Trash2Icon size="15" class="opacity-75" />
-							</router-link>
 						</div>
-					</td>
-				</tr>
+					</router-link>
+				</td>
+				<td class="md:px-1 px-3">
+					<ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
+						{{ row.data.attributes.role }}
+					</ColorLabel>
+				</td>
+				<td class="md:px-1 px-3" v-if="config.isSaaS">
+					<span class="text-sm font-bold">
+						{{ row.data.relationships.subscription ? $t('global.premium') : $t('global.free') }}
+					</span>
+				</td>
+				<td class="md:px-1 px-3">
+					<span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
+						{{ row.data.attributes.storage.used_formatted }}
+					</span>
+					<span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
+						-
+					</span>
+				</td>
+				<td class="md:px-1 px-3" v-if="config.storageLimit">
+					<span v-if="row.data.attributes.storage.capacity !== 0" class="text-sm font-bold">
+						{{ row.data.attributes.storage.capacity_formatted }}
+					</span>
+					<span v-if="row.data.attributes.storage.capacity === 0" class="text-sm font-bold">
+						-
+					</span>
+				</td>
+				<td class="md:px-1 px-3">
+					<span class="text-sm font-bold">
+						{{ row.data.attributes.created_at }}
+					</span>
+				</td>
+				<td class="md:pl-1 pl-3 text-right">
+					<div class="flex space-x-2 w-full justify-end">
+						<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDetail', params: {id: row.data.id}}">
+							<Edit2Icon size="15" class="opacity-75" />
+						</router-link>
+						<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDelete', params: {id: row.data.id}}">
+							<Trash2Icon size="15" class="opacity-75" />
+						</router-link>
+					</div>
+				</td>
+			</tr>
 
-				<!--Metered subscription-->
-				<tr v-if="config.subscriptionType === 'metered'" class="border-b dark:border-opacity-5 border-light border-dashed">
-					<td class="py-3">
-						<router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
-							<div class="flex items-center">
-								<MemberAvatar
-									:is-border="false"
-									:size="44"
-									:member="row.data.relationships.settings"
-								/>
-								<div class="ml-3">
-									<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
-										{{ row.data.relationships.settings.data.attributes.name }}
-									</b>
-									<span class="block text-xs dark:text-gray-500 text-gray-600">
-										{{ row.data.attributes.email }}
-									</span>
-								</div>
+			<!--Metered subscription-->
+			<tr v-if="config.subscriptionType === 'metered'" class="border-b dark:border-opacity-5 border-light border-dashed whitespace-nowrap">
+				<td class="py-3 md:pr-1 pr-3">
+					<router-link :to="{name: 'UserDetail', params: {id: row.data.id}}">
+						<div class="flex items-center">
+							<MemberAvatar
+								:is-border="false"
+								:size="44"
+								:member="row.data.relationships.settings"
+							/>
+							<div class="ml-3 pr-10">
+								<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+									{{ row.data.relationships.settings.data.attributes.name }}
+								</b>
+								<span class="block text-xs dark:text-gray-500 text-gray-600">
+									{{ row.data.attributes.email }}
+								</span>
 							</div>
-						</router-link>
-					</td>
-					<td>
-						<ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
-							{{ row.data.attributes.role }}
-						</ColorLabel>
-					</td>
-					<td>
-						<span class="text-sm font-bold">
-							{{ row.data.meta.usages.featureEstimates.storage.usage }}
-						</span>
-					</td>
-					<td>
-						<span class="text-sm font-bold">
-							{{ row.data.meta.usages.costEstimate }}
-						</span>
-					</td>
-					<td>
-						<span class="text-sm font-bold">
-							{{ row.data.attributes.created_at }}
-						</span>
-					</td>
-					<td>
-						<div class="flex space-x-2 w-full justify-end">
-							<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDetail', params: {id: row.data.id}}">
-								<Edit2Icon size="15" class="opacity-75" />
-							</router-link>
-							<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDelete', params: {id: row.data.id}}">
-								<Trash2Icon size="15" class="opacity-75" />
-							</router-link>
 						</div>
-					</td>
-				</tr>
-			</template>
+					</router-link>
+				</td>
+				<td class="md:px-1 px-3">
+					<ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
+						{{ row.data.attributes.role }}
+					</ColorLabel>
+				</td>
+				<td class="md:px-1 px-3">
+					<span class="text-sm font-bold">
+						{{ row.data.meta.usages.featureEstimates.storage.usage }}
+					</span>
+				</td>
+				<td class="md:px-1 px-3">
+					<span class="text-sm font-bold">
+						{{ row.data.meta.usages.costEstimate }}
+					</span>
+				</td>
+				<td class="md:px-1 px-3">
+					<span class="text-sm font-bold">
+						{{ row.data.attributes.created_at }}
+					</span>
+				</td>
+				<td class="md:pl-1 pl-3 text-right">
+					<div class="flex space-x-2 w-full justify-end">
+						<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDetail', params: {id: row.data.id}}">
+							<Edit2Icon size="15" class="opacity-75" />
+						</router-link>
+						<router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-red-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'UserDelete', params: {id: row.data.id}}">
+							<Trash2Icon size="15" class="opacity-75" />
+						</router-link>
+					</div>
+				</td>
+			</tr>
+		</template>
 	</DatatableWrapper>
 </template>
 
@@ -311,12 +311,3 @@
         },
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .dark {
-
-    }
-</style>

@@ -13,37 +13,37 @@
 			</div>
 
 			<!--Datatable-->
-            <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/subscriptions/admin/plans" :paginator="true" :columns="columns">
+            <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/subscriptions/admin/plans" :paginator="true" :columns="columns" class="overflow-x-auto">
                 <template slot-scope="{ row }">
 
 					<!--Metered subscription-->
-                    <tr v-if="config.subscriptionType === 'metered'" class="border-b dark:border-opacity-5 border-light border-dashed">
-                        <td class="py-4">
+                    <tr v-if="config.subscriptionType === 'metered'" class="border-b dark:border-opacity-5 border-light border-dashed whitespace-nowrap">
+                        <td class="py-5 md:pr-1 pr-3">
 							<router-link class="text-sm font-bold" :to="{name: 'PlanMeteredSettings', params: {id: row.data.id}}">
                             	{{ row.data.attributes.name }}
 							</router-link>
                         </td>
-						<td>
+						<td class="md:px-1 px-3">
 							<ColorLabel :color="$getPlanStatusColor(row.data.attributes.status)">
 								{{ row.data.attributes.status }}
 							</ColorLabel>
 						</td>
-                        <td>
+                        <td class="md:px-1 px-3">
                             <span class="text-sm font-bold">
                             	{{ row.data.attributes.currency }}
                             </span>
                         </td>
-                        <td>
+                        <td class="md:px-1 px-3">
                             <span class="text-sm font-bold capitalize">
                             	{{ row.data.attributes.interval }}
                             </span>
                         </td>
-						<td>
+						<td class="md:px-1 px-3">
                             <span class="text-sm font-bold">
                             	{{ row.data.attributes.subscribers }}
                             </span>
                         </td>
-                        <td>
+                        <td class="md:pl-1 pl-3 text-right">
                             <div class="flex space-x-2 w-full justify-end">
                                 <router-link
 									:to="{name: 'PlanMeteredSettings', params: {id: row.data.id}}"
@@ -63,36 +63,36 @@
                     </tr>
 
 					<!--Fixed subscription-->
-                    <tr v-if="config.subscriptionType === 'fixed'" class="border-b dark:border-opacity-5 border-light border-dashed">
-						<td class="py-4">
+                    <tr v-if="config.subscriptionType === 'fixed'" class="border-b dark:border-opacity-5 border-light border-dashed whitespace-nowrap">
+						<td class="py-5 md:pr-1 pr-3">
 							<SwitchInput @input="$updateInput(`/subscriptions/admin/plans/${row.data.id}`, 'visible', row.data.attributes.visible)" v-model="row.data.attributes.visible" :state="row.data.attributes.visible" class="switch"/>
 						</td>
-                        <td>
+                        <td class="md:px-1 px-3">
 							<router-link class="text-sm font-bold" :to="{name: 'PlanFixedSettings', params: {id: row.data.id}}">
                             	{{ row.data.attributes.name }}
 							</router-link>
                         </td>
-                        <td>
+                        <td class="md:px-1 px-3">
                             <span class="text-sm font-bold">
                             	{{ row.data.attributes.price }}
                             </span>
                         </td>
-                        <td>
+                        <td class="md:px-1 px-3">
                             <span class="text-sm font-bold capitalize">
                             	{{ row.data.attributes.interval }}
                             </span>
                         </td>
-                        <td>
+                        <td class="md:px-1 px-3">
                             <span class="text-sm font-bold">
                             	{{ row.data.attributes.subscribers }}
                             </span>
                         </td>
-                        <td>
+                        <td class="md:px-1 px-3">
                             <span class="text-sm font-bold">
                             	{{ row.data.attributes.features.max_storage_amount }} GB
                             </span>
                         </td>
-                        <td>
+                        <td class="md:pl-1 pl-3 text-right">
                             <div class="flex space-x-2 w-full justify-end">
                                 <router-link class="flex items-center justify-center w-8 h-8 rounded-md hover:bg-green-100 dark:bg-2x-dark-foreground bg-light-background transition-colors" :to="{name: 'PlanFixedSettings', params: {id: row.data.id}}">
                                     <Edit2Icon size="15" class="opacity-75" />

@@ -12,7 +12,7 @@
 			{{ subscription.relationships.plan.data.attributes.name }} / {{ price }}
 		</b>
 
-		<div v-for="(limit, i) in limitations" :key="i">
+		<div v-for="(limit, i) in limitations" :key="i" :class="{'mb-6': (Object.keys(limitations).length - 1) !== i}">
 			<b class="mb-3 block text-sm text-gray-400">
 				{{ limit.message }}
 			</b>

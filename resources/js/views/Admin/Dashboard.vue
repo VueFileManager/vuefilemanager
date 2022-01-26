@@ -3,7 +3,7 @@
         <div id="page-content" v-if="! isLoading && data">
 
 			<!--Headline-->
-            <div v-if="config.isAdminVueFileManagerBar" class="md:flex justify-between md:mb-6 mb-4">
+            <div v-if="config.isAdminVueFileManagerBar" class="md:flex justify-between md:mb-6 mb-4 md:block hidden">
 
 				<!--VueFileManager logo-->
 				<a href="https://vuefilemanager.com" target="_blank">

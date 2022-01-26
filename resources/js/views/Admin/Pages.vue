@@ -1,42 +1,36 @@
 <template>
-    <div>
-        <div id="page-content" v-show="! isLoading">
-			<div class="card shadow-card">
-				<DatatableWrapper @init="isLoading = false" api="/api/admin/pages" :paginator="false" :columns="columns" class="table table-users">
-					<template slot-scope="{ row }">
-						<tr class="border-b dark:border-opacity-5 border-light border-dashed">
-							<td class="py-4">
-								<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="text-sm font-bold cursor-pointer" tag="div">
-									{{ row.data.attributes.title }}
+	<div>
+		<div class="card shadow-card">
+			<DatatableWrapper @init="isLoading = false" api="/api/admin/pages" :paginator="false" :columns="columns" class="overflow-x-auto">
+				<template slot-scope="{ row }">
+					<tr class="border-b dark:border-opacity-5 border-light border-dashed whitespace-nowrap">
+						<td class="py-5 md:pr-1 pr-3">
+							<router-link :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}" class="text-sm font-bold cursor-pointer" tag="div">
+								{{ row.data.attributes.title }}
+							</router-link>
+						</td>
+						<td class="md:px-1 px-3">
+							<span class="text-sm font-bold">
+								{{ row.data.attributes.slug }}
+							</span>
+						</td>
+						<td class="md:px-1 px-3">
+							<span class="text-sm font-bold">
+								<SwitchInput @input="$updateText(`/admin/pages/${row.data.id}`, 'visibility', row.data.attributes.visibility)" v-model="row.data.attributes.visibility" :state="row.data.attributes.visibility" class="switch"/>
+							</span>
+						</td>
+						<td class="md:pl-1 pl-3 text-right">
+							<div class="flex space-x-2 w-full justify-end">
+								<router-link class="flex items-center justify-center w-8 h-8 rounded-md dark:bg-2x-dark-foreground hover:bg-green-100 bg-light-background transition-colors" :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}">
+									<Edit2Icon size="15" class="opacity-75" />
 								</router-link>
-							</td>
-							<td>
-								<span class="text-sm font-bold">
-									{{ row.data.attributes.slug }}
-								</span>
-							</td>
-							<td>
-								<span class="text-sm font-bold">
-									<SwitchInput @input="$updateText(`/admin/pages/${row.data.id}`, 'visibility', row.data.attributes.visibility)" v-model="row.data.attributes.visibility" :state="row.data.attributes.visibility" class="switch"/>
-								</span>
-							</td>
-							<td>
-								<div class="flex space-x-2 w-full justify-end">
-									<router-link class="flex items-center justify-center w-8 h-8 rounded-md dark:bg-2x-dark-foreground hover:bg-green-100 bg-light-background transition-colors" :to="{name: 'PageEdit', params: {slug: row.data.attributes.slug}}">
-										<Edit2Icon size="15" class="opacity-75" />
-									</router-link>
-								</div>
-							</td>
-						</tr>
-					</template>
-				</DatatableWrapper>
-			</div>
-        </div>
-
-        <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
-        </div>
-    </div>
+							</div>
+						</td>
+					</tr>
+				</template>
+			</DatatableWrapper>
+		</div>
+	</div>
 </template>
 
 <script>

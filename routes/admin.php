@@ -18,6 +18,8 @@ use Domain\Admin\Controllers\Dashboard\GetLatestTransactionsController;
 use Domain\Admin\Controllers\Users\ChangeUserStorageCapacityController;
 use Domain\Settings\Controllers\StoreSocialServiceCredentialsController;
 use Domain\Settings\Controllers\StorePaymentServiceCredentialsController;
+use Domain\Transactions\Controllers\GetAllTransactionsController;
+use Domain\Transactions\Controllers\GetUserTransactionsController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {
@@ -30,15 +32,15 @@ Route::group(['prefix' => 'dashboard'], function () {
 Route::group(['prefix' => 'users'], function () {
     Route::patch('/{user}/capacity', ChangeUserStorageCapacityController::class);
     Route::post('/{user}/reset-password', ResetUserPasswordController::class);
+    Route::get('/{user}/transactions', GetUserTransactionsController::class);
     Route::get('/{user}/storage', ShowUserStorageCapacityController::class);
     Route::patch('/{user}/role', ChangeUserRoleController::class);
     Route::delete('/{user}/delete', DeleteUserController::class);
 });
 
-Route::apiResource('/users', UserController::class);
-
-// Pages
+Route::get('/transactions', GetAllTransactionsController::class);
 Route::apiResource('/pages', AdminPagesController::class);
+Route::apiResource('/users', UserController::class);
 
 // Settings
 Route::group(['prefix' => 'settings'], function () {

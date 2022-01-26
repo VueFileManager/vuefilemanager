@@ -1,4 +1,48 @@
+import i18n from '../../i18n'
+
 const defaultState = {
+	transactionColumns: [
+		{
+			label: i18n.t('Note'),
+			field: 'note',
+			sortable: true
+		},
+		{
+			label: i18n.t('user'),
+			field: 'user_id',
+			sortable: true
+		},
+		{
+			label: i18n.t('Status'),
+			field: 'status',
+			sortable: true
+		},
+		{
+			label: i18n.t('Type'),
+			field: 'type',
+			sortable: true
+		},
+		{
+			label: i18n.t('Total'),
+			field: 'amount',
+			sortable: true
+		},
+		{
+			label: i18n.t('Payed At'),
+			field: 'created_at',
+			sortable: true
+		},
+		{
+			label: i18n.t('Service'),
+			field: 'driver',
+			sortable: true
+		},
+		{
+			label: i18n.t('Actions'),
+			field: 'actions',
+			sortable: false
+		},
+	],
 	roles: [
 		{
 			label: 'roles.admin',
@@ -979,6 +1023,7 @@ const defaultState = {
 }
 
 const getters = {
+	transactionColumns: state => state.transactionColumns,
 	subscriptionTypes: state => state.subscriptionTypes,
 	teamPermissions: state => state.teamPermissions,
 	expirationList: state => state.expirationList,
