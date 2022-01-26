@@ -1,42 +1,5 @@
 <template>
     <div>
-
-		<div class="card shadow-card">
-			<FormLabel>
-				{{ $t('Appearance') }}
-			</FormLabel>
-
-			<AppInputText :title="$t('Theme Mode')" :description="$t('Set your theme mode on dark, light or based on your system settings.')" :is-last="! $isApple()">
-				<div class="flex items-center md:space-x-6 space-x-4">
-					<div
-						v-for="(theme, i) in themeSetup"
-						:key="i"
-						:title="theme.title"
-						@click="$store.dispatch('toggleThemeMode', theme.type)"
-						class="w-full rounded-xl shadow-lg overflow-hidden cursor-pointer border-3"
-						:class="{'border-theme': config.defaultThemeMode === theme.type, 'border-transparent': config.defaultThemeMode !== theme.type}"
-					>
-						<img :src="theme.image" :alt="theme.type">
-					</div>
-				</div>
-            </AppInputText>
-
-			<AppInputText v-if="$isApple()" :title="$t('Default Emojis')" :description="$t('Set your default emojis for your folder custom icons. You can set Twemoji or default Apple emojis.')" :is-last="true">
-				<div class="flex items-center md:space-x-6 space-x-4">
-					<div
-						v-for="(emoji, i) in emojiSetup"
-						:key="i"
-						:title="emoji.title"
-						@click="$store.dispatch('toggleEmojiType', emoji.type)"
-						class="w-full rounded-xl shadow-lg overflow-hidden cursor-pointer border-3"
-						:class="{'border-theme': currentEmojis === emoji.type, 'border-transparent': currentEmojis !== emoji.type}"
-					>
-						<img :src="isDarkMode ? emoji.image.dark : emoji.image.light" :alt="emoji.type">
-					</div>
-				</div>
-			</AppInputText>
-		</div>
-
         <div class="card shadow-card">
             <FormLabel>
 				{{ $t('Account Settings') }}
@@ -72,6 +35,42 @@
 					:placeholder="$t('user_settings.timezone_plac')" />
             </AppInputText>
         </div>
+
+		<div class="card shadow-card">
+			<FormLabel>
+				{{ $t('Appearance') }}
+			</FormLabel>
+
+			<AppInputText :title="$t('Theme Mode')" :description="$t('Set your theme mode on dark, light or based on your system settings.')" :is-last="! $isApple()">
+				<div class="md:flex items-center md:space-x-6 md:space-x-4 md:space-y-0 space-y-4">
+					<div
+						v-for="(theme, i) in themeSetup"
+						:key="i"
+						:title="theme.title"
+						@click="$store.dispatch('toggleThemeMode', theme.type)"
+						class="w-full rounded-xl shadow-lg overflow-hidden cursor-pointer border-3"
+						:class="{'border-theme': config.defaultThemeMode === theme.type, 'border-transparent': config.defaultThemeMode !== theme.type}"
+					>
+						<img :src="theme.image" :alt="theme.type">
+					</div>
+				</div>
+            </AppInputText>
+
+			<AppInputText v-if="$isApple()" :title="$t('Default Emojis')" :description="$t('Set your default emojis for your folder custom icons. You can set Twemoji or default Apple emojis.')" :is-last="true">
+				<div class="md:flex items-center md:space-x-6 md:space-x-4 md:space-y-0 space-y-4">
+					<div
+						v-for="(emoji, i) in emojiSetup"
+						:key="i"
+						:title="emoji.title"
+						@click="$store.dispatch('toggleEmojiType', emoji.type)"
+						class="w-full rounded-xl shadow-lg overflow-hidden cursor-pointer border-3"
+						:class="{'border-theme': currentEmojis === emoji.type, 'border-transparent': currentEmojis !== emoji.type}"
+					>
+						<img :src="isDarkMode ? emoji.image.dark : emoji.image.light" :alt="emoji.type">
+					</div>
+				</div>
+			</AppInputText>
+		</div>
 
         <div class="card shadow-card">
             <FormLabel>

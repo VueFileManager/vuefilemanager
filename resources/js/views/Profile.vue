@@ -21,7 +21,12 @@
 
 		<SidebarNavigation />
 
-        <div v-if="user" class="px-6 w-full overflow-x-hidden relative pt-6 xl:max-w-screen-lg md:max-w-4xl mx-auto">
+		<!--Navigations-->
+        <MobileNavigation />
+
+		<MobileNavigationToolbar />
+
+        <div v-if="user" class="md:px-6 px-2.5 w-full overflow-x-hidden relative lg:pt-6 xl:max-w-screen-lg md:max-w-4xl mx-auto">
             <div v-if="! isLoading" id="page-content">
 
 				<div class="card shadow-card sticky top-0 z-10" style="padding-bottom: 0">
@@ -61,11 +66,11 @@
 </template>
 
 <script>
+	import MobileNavigation from "../components/Others/MobileNavigation";
 	import SelectSingleChargeMethodPopup from "../components/Others/SelectSingleChargeMethodPopup";
-	import ButtonBase from "../components/FilesView/ButtonBase";
 	import SelectPlanSubscriptionPopup from "../components/Subscription/SelectPlanSubscriptionPopup";
 	import ConfirmPopup from "../components/Others/Popup/ConfirmPopup";
-    import FilePreview from '/resources/js/components/FilePreview/FilePreview'
+	import FilePreview from '/resources/js/components/FilePreview/FilePreview'
 	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
 	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
 	import CreatePersonaTokenPopup from '/resources/js/components/Others/CreatePersonaTokenPopup'
@@ -76,16 +81,17 @@
 	import Spinner from '/resources/js/components/FilesView/Spinner'
 	import {mapGetters} from 'vuex'
 	import CardNavigation from "../components/Admin/CardNavigation";
-	import {events} from "../bus";
 	import ConfirmPassword from "../components/Others/ConfirmPassword";
+	import MobileNavigationToolbar from "./MobileNavigationToolbar";
 
 	export default {
         name: 'Settings',
         components: {
+			MobileNavigationToolbar,
+			MobileNavigation,
 			ConfirmPassword,
 			SelectSingleChargeMethodPopup,
 			SelectPlanSubscriptionPopup,
-			ButtonBase,
 			ConfirmPopup,
 			CardNavigation,
 			FilePreview,

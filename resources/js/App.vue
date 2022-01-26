@@ -146,7 +146,7 @@ export default {
 @import '/resources/sass/vuefilemanager/_mixins';
 
 .card {
-	@apply dark:bg-dark-foreground bg-white lg:p-6 p-4 rounded-xl lg:mb-6 mb-4
+	@apply dark:bg-dark-foreground bg-white p-6 rounded-xl lg:mb-6 mb-5
 }
 
 .widget-card {

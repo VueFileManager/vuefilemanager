@@ -16,6 +16,8 @@
         <!--Navigation Sidebar-->
         <SidebarNavigation/>
 
+		<MobileNavigationToolbar />
+
         <ContentSidebar>
 			<ContentGroup v-for="(menu, i) in nav" :title="menu.groupTitle" :slug="menu.groupTitle" :can-collapse="false">
 				<router-link v-for="(item, i) in menu.groupLinks" :key="i" :to="{name: item.route}" class="flex items-center py-2.5" :class="{'router-link-active': item.linkActivation && item.linkActivation.includes($router.currentRoute.fullPath.split('/')[2])}">
@@ -36,11 +38,12 @@
             </ContentGroup>
         </ContentSidebar>
 
-        <router-view class="lg:pl-0 pl-6 pr-6 w-full overflow-x-hidden relative lg:pt-6 pt-4" />
+        <router-view class="md:px-6 px-2.5 w-full overflow-x-hidden relative lg:pt-6" />
     </div>
 </template>
 
 <script>
+	import MobileNavigationToolbar from "./MobileNavigationToolbar";
     import FilePreview from '/resources/js/components/FilePreview/FilePreview'
 	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
     import { DollarSignIcon, HelpCircleIcon, RefreshCwIcon, UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
@@ -158,6 +161,7 @@
 			}
         },
         components: {
+			MobileNavigationToolbar,
 			FilePreview,
 			Spotlight,
             SidebarNavigation,
