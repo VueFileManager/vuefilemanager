@@ -7,7 +7,7 @@
                 {{ $t('Storage Usage') }}
             </FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 				{{ storage.data.attributes.used }}
 			</b>
 
@@ -24,7 +24,7 @@
                 {{ $t('Upload') }}
             </FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 				{{ storage.data.meta.traffic.upload }}
 			</b>
 
@@ -41,7 +41,7 @@
                 {{ $t('Download') }}
             </FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 				{{ storage.data.meta.traffic.download }}
 			</b>
 
@@ -60,7 +60,7 @@
             <ValidationObserver ref="changeStorageCapacity" @submit.prevent="changeStorageCapacity" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
 					<AppInputText :title="$t('admin_page_user.label_change_capacity')" :description="$t('user_box_storage.description')" :error="errors[0]" :is-last="true">
-						<div class="flex space-x-4">
+						<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
 							<input v-model="capacity"
 								   :placeholder="$t('admin_page_user.label_change_capacity')"
 								   type="number"
@@ -69,7 +69,7 @@
 								   class="focus-border-theme input-dark"
 								   :class="{'border-red': errors[0]}"
 							/>
-							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="sm:w-auto w-full">
 								{{ $t('admin_page_user.change_capacity') }}
 							</ButtonBase>
 						</div>

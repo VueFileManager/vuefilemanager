@@ -44,7 +44,7 @@
 						{{ $t('Total Users') }}
 					</FormLabel>
 
-					<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+					<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 						{{ data.users.total }}
 					</b>
 
@@ -60,7 +60,7 @@
 						{{ $t('Total Storage') }}
 					</FormLabel>
 
-					<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+					<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 						{{ data.disk.used }}
 					</b>
 
@@ -76,7 +76,7 @@
 						{{ $t('Earnings') }}
 					</FormLabel>
 
-					<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+					<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 						{{ data.app.earnings }}
 					</b>
 
@@ -95,7 +95,7 @@
 					{{ $t('Upload') }}
 				</FormLabel>
 
-				<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+				<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 					{{ data.disk.upload.total }}
 				</b>
 
@@ -112,7 +112,7 @@
 					{{ $t('Download') }}
 				</FormLabel>
 
-				<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+				<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 					{{ data.disk.download.total }}
 				</b>
 

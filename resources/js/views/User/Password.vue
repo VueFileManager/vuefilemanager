@@ -9,11 +9,11 @@
             <AppInputSwitch :title="$t('popup_2fa.switch_title')" :description="$t('popup_2fa.switch_info')" :is-last="! user.data.attributes.two_factor_authentication">
                 <SwitchInput v-model="user.data.attributes.two_factor_authentication" class="switch" :state="user.data.attributes.two_factor_authentication" />
             </AppInputSwitch>
-            <AppInputSwitch v-if="user && user.data.attributes.two_factor_authentication" :title="$t('popup_2fa.codes_title')" :description="$t('popup_2fa.codes_info')" :is-last="true">
+            <AppInputButton v-if="user && user.data.attributes.two_factor_authentication" :title="$t('popup_2fa.codes_title')" :description="$t('popup_2fa.codes_info')" :is-last="true">
                 <ButtonBase class="w-full" button-style="secondary" @click.native="showRecoveryCodes">
                     {{ $t('popup_2fa.codes_button') }}
                 </ButtonBase>
-            </AppInputSwitch>
+            </AppInputButton>
         </div>
 
 		<!--Get personal api keys-->
@@ -37,7 +37,7 @@
                     </li>
                 </ul>
             </InfoBox>
-            <ButtonBase @click.native="openCreateTokenPopup" type="submit" button-style="theme" class="confirm-form">
+            <ButtonBase @click.native="openCreateTokenPopup" type="submit" button-style="theme" class="sm:w-auto w-full">
                 {{ $t('personal_token.create_token') }}
             </ButtonBase>
         </div>
@@ -66,7 +66,7 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ButtonBase type="submit" button-style="theme" class="confirm-form">
+			<ButtonBase type="submit" button-style="theme" class="sm:w-auto w-full">
 				{{ $t('profile.store_pass') }}
 			</ButtonBase>
 		</ValidationObserver>
@@ -89,10 +89,12 @@
 	import {events} from '/resources/js/bus'
 	import {mapGetters} from 'vuex'
 	import axios from 'axios'
+	import AppInputButton from "../../components/Admin/AppInputButton";
 
 	export default {
 		name: 'Password',
 		components: {
+			AppInputButton,
 			ValidationProvider,
 			ValidationObserver,
 			UserImageInput,

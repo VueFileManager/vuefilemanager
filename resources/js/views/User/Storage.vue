@@ -5,7 +5,7 @@
                 {{ $t('Storage Usage') }}
             </FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block">
+			<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block">
 				{{ storage.data.attributes.used }}
 			</b>
 
@@ -20,7 +20,7 @@
                 {{ $t('Upload') }}
             </FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 				{{ storage.data.meta.traffic.upload }}
 			</b>
 
@@ -35,7 +35,7 @@
                 {{ $t('Download') }}
             </FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 				{{ storage.data.meta.traffic.download }}
 			</b>
 

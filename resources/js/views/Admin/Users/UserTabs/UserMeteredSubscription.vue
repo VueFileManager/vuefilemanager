@@ -6,14 +6,14 @@
 				{{ $t('Balance') }}
 			</FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 				{{ user.data.relationships.balance.data.attributes.formatted }}
 			</b>
 
 			<ValidationObserver ref="creditUserBalance" @submit.prevent="increaseBalance" v-slot="{ invalid }" tag="form" class="mt-6">
 				<ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Balance Amount" rules="required">
 					<AppInputText :description="$t('User balance will be increased for the amount above.')" :error="errors[0]" :is-last="true">
-						<div class="flex space-x-4">
+						<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
 							<input v-model="balanceAmount"
 								   :placeholder="$t('Increase user balance for...')"
 								   type="number"
@@ -22,7 +22,7 @@
 								   class="focus-border-theme input-dark"
 								   :class="{'border-red': errors[0]}"
 							/>
-							<ButtonBase type="submit" button-style="theme" class="submit-button"
+							<ButtonBase type="submit" button-style="theme" class="sm:w-auto w-full"
 								:loading="isUpdatingBalanceAmount"
 								:disabled="isUpdatingBalanceAmount"
 							>
@@ -40,7 +40,7 @@
 				{{ $t('Usage Estimates') }}
 			</FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 				{{ user.data.meta.usages.costEstimate }}
 			</b>
 

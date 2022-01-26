@@ -26,7 +26,7 @@
 				{{ $t('Pricing') }}
 			</FormLabel>
 
-			<div class="flex space-x-4">
+			<div class="md:flex justify-items md:space-x-4">
 				<!--Price-->
 				<ValidationProvider tag="div" mode="passive" name="Price" rules="required" v-slot="{ errors }" class="w-full">
 					<AppInputText :title="$t('admin_page_plans.form.price')" class="w-full">

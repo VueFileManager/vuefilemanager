@@ -5,7 +5,7 @@
 
 		<!--Payment Options-->
 		<div v-if="isPaymentOptionPage">
-			<PopupContent class="px-4">
+			<PopupContent>
 
 				<!--Stripe implementation-->
 				<PaymentMethod
@@ -95,7 +95,7 @@
 				</div>
 
 				<!--List available plans-->
-				<div class="px-4">
+				<div>
 					<PlanDetail
 						v-for="(plan, i) in plans.data"
 						:plan="plan"

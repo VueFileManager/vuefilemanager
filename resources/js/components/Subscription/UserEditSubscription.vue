@@ -4,21 +4,23 @@
 			{{ $t('Edit your Subscription') }}
 		</FormLabel>
 
-		<AppInputSwitch v-if="subscription.attributes.status !== 'cancelled'" :title="$t('Cancel Subscription')" :description="$t('You can cancel your subscription now. You\'ll continue to have access to the features you\'ve paid for until the end of your billing cycle.')">
+		<AppInputButton v-if="subscription.attributes.status !== 'cancelled'" :title="$t('Cancel Subscription')" :description="$t('You can cancel your subscription now. You\'ll continue to have access to the features you\'ve paid for until the end of your billing cycle.')">
 			<ButtonBase @click.native="cancelSubscriptionConfirmation" :loading="isCancelling" class="sm:w-auto w-full" button-style="secondary">
 				{{ $t('Cancel Now') }}
 			</ButtonBase>
-		</AppInputSwitch>
+		</AppInputButton>
 
-		<AppInputSwitch :title="$t('Upgrade or Downgrade Plan')" :description="$t('You can upgrade your plan at any time you want.')" :is-last="true">
+		<AppInputButton :title="$t('Upgrade or Downgrade Plan')" :description="$t('You can upgrade your plan at any time you want.')" :is-last="true">
 			<ButtonBase @click.native="$openUpgradeOptions" class="sm:w-auto w-full" button-style="secondary">
 				{{ $t('Change Plan') }}
 			</ButtonBase>
-		</AppInputSwitch>
+		</AppInputButton>
 	</div>
 </template>
 
 <script>
+	import AppInputButton from "../Admin/AppInputButton";
+	import AppInputText from "../Admin/AppInputText";
 	import AppInputSwitch from "../Admin/AppInputSwitch"
 	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
 	import FormLabel from "../Others/Forms/FormLabel"
@@ -28,7 +30,9 @@
 	export default {
 		name: 'UserEditSubscription',
 		components: {
+			AppInputButton,
 			AppInputSwitch,
+			AppInputText,
 			ButtonBase,
 			FormLabel
 		},

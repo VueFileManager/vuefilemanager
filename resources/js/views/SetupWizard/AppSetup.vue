@@ -94,7 +94,7 @@
                         <div class="inline-wrapper">
                             <div class="switch-label">
                                 <label class="input-label">Storage Limitation:</label>
-                                <small class="input-help">If this value is off, all users will have infinity storage capacity and you won't be <br/>able to charge your users for storage plan.</small>
+                                <small class="input-help">If this value is off, all users will have infinity storage capacity and you won't be able to charge your users for storage plan.</small>
                             </div>
                             <SwitchInput v-model="app.storageLimitation" class="switch" :state="app.storageLimitation"/>
                         </div>
@@ -120,7 +120,7 @@
                         <div class="inline-wrapper">
                             <div class="switch-label">
                                 <label class="input-label">Allow User Registration:</label>
-                                <small class="input-help">You can disable public registration for new users. You will still able to <br/>create new users in administration panel.</small>
+                                <small class="input-help">You can disable public registration for new users. You will still able to create new users in administration panel.</small>
                             </div>
                             <SwitchInput v-model="app.userRegistration" class="switch" :state="app.userRegistration"/>
                         </div>

@@ -4,11 +4,11 @@
 			{{ $t('Update Payments') }}
 		</FormLabel>
 
-		<AppInputSwitch :title="$t('Update your Payment Method')" :description="$t('You will be redirected to your payment provider to edit your payment method.')" :is-last="true">
+		<AppInputButton :title="$t('Update your Payment Method')" :description="$t('You will be redirected to your payment provider to edit your payment method.')" :is-last="true">
 			<ButtonBase @click.native="updatePaymentMethod" :loading="isGeneratedUpdateLink" class="sm:w-auto w-full" button-style="theme">
 				{{ $t('Update Payments') }}
 			</ButtonBase>
-		</AppInputSwitch>
+		</AppInputButton>
 	</div>
 </template>
 
@@ -18,10 +18,12 @@
 	import FormLabel from "../Others/Forms/FormLabel"
 	import axios from "axios";
 	import {events} from "../../bus";
+	import AppInputButton from "../Admin/AppInputButton";
 
 	export default {
 		name: 'UserUpdatePaymentMethodsExternally',
 		components: {
+			AppInputButton,
 			AppInputSwitch,
 			ButtonBase,
 			FormLabel

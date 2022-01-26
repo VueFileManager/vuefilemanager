@@ -5,11 +5,11 @@
                 {{ $t('user_box_password.title') }}
             </FormLabel>
 
-			<AppInputSwitch :title="$t('Reset User Password')" :description="$t('user_box_password.description')" :is-last="true">
+			<AppInputText :title="$t('Reset User Password')" :description="$t('user_box_password.description')" :is-last="true">
 				<ButtonBase @click.native="requestPasswordResetEmail" :loading="isSendingRequest" :disabled="isSendingRequest" class="sm:w-auto w-full" button-style="theme">
 					{{ $t('admin_page_user.send_password_link') }}
 				</ButtonBase>
-			</AppInputSwitch>
+			</AppInputText>
 		</div>
     </PageTab>
 </template>
@@ -26,10 +26,12 @@
     import {required} from 'vee-validate/dist/rules'
     import {events} from '/resources/js/bus'
     import axios from 'axios'
+	import AppInputText from "../../../../components/Admin/AppInputText";
 
     export default {
         name: 'UserPassword',
         components: {
+			AppInputText,
             ValidationProvider,
             ValidationObserver,
 			AppInputSwitch,

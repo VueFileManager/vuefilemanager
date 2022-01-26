@@ -8,9 +8,9 @@
             <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Role" rules="required">
 					<AppInputText :title="$t('admin_page_user.select_role')" :description="$t('user_box_role.description')" :error="errors[0]" :is-last="true">
-						<div class="flex space-x-4">
+						<div class="sm:flex sm:space-x-4 sm:space-y-0 space-y-4">
 							<SelectInput v-model="userRole" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
-							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="submit-button">
+							<ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="sm:w-auto w-full">
 								{{ $t('admin_page_user.save_role') }}
 							</ButtonBase>
 						</div>
@@ -19,17 +19,32 @@
             </ValidationObserver>
         </div>
         <div class="card shadow-card">
-            <FormLabel>{{ $t('admin_page_user.label_person_info') }}</FormLabel>
-			<!--Email-->
-            <AppInputText :title="$t('page_registration.label_email')">
-                <input :value="user.data.attributes.email"
-					   :placeholder="$t('page_registration.placeholder_email')"
-					   type="email"
-					   class="focus-border-theme input-dark"
-					   disabled
-				/>
-            </AppInputText>
+            <FormLabel>
+				{{ $t('admin_page_user.label_person_info') }}
+			</FormLabel>
+
 			<!--Name-->
+			<div class="md:flex justify-items md:space-x-4">
+				<AppInputText :title="$t('First Name')" class="w-full">
+					<input
+						disabled
+						:value="user.data.relationships.settings.data.attributes.first_name"
+						:placeholder="$t('page_registration.placeholder_name')"
+						type="text"
+						class="focus-border-theme input-dark"
+					/>
+				</AppInputText>
+				<AppInputText :title="$t('Last Name')" class="w-full">
+					<input
+						disabled
+						:value="user.data.relationships.settings.data.attributes.last_name"
+						:placeholder="$t('page_registration.placeholder_name')"
+						type="text"
+						class="focus-border-theme input-dark"
+					/>
+				</AppInputText>
+			</div>
+
             <AppInputText :title="$t('page_registration.label_name')" :is-last="true">
                 <input :value="user.data.relationships.settings.data.attributes.name"
 					   :placeholder="$t('page_registration.placeholder_name')"

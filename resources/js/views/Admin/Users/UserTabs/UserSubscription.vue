@@ -19,7 +19,7 @@
 				{{ $t('Subscription') }}
 			</FormLabel>
 
-			<b class="text-3xl font-extrabold -mt-3 block mb-0.5">
+			<b class="sm:text-3xl text-2xl font-extrabold -mt-3 block mb-0.5">
 				{{ $t('Free Plan') }}
 			</b>
 
