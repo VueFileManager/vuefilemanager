@@ -76,7 +76,8 @@
 				<div v-if="actions.length !== 0" class="mb-2">
 					<div v-for="(result, i) in actions" :key="result.action.value" class="relative">
 						<div
-							class="flex items-center px-3.5 py-2.5"
+							@mousedown="openAction(result)"
+							class="flex items-center px-3.5 py-2.5 cursor-pointer"
 							:class="{'dark:bg-4x-dark-foreground bg-light-background rounded-xl': i === index}"
 						>
 							<settings-icon v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)" size="18" class="vue-feather text-theme"/>

@@ -14,25 +14,31 @@ const defaultState = {
 }
 
 const actions = {
-    downloadZip: ({getters}) => {
+    downloadZip: ({getters}, item = undefined) => {
         let files = []
 
-        // get ids of selected files
-        getters.clipboard.forEach(file => {
-            let type = file.data.type === 'folder'
-                ? 'folder'
-                : 'file'
+        // Get if from retrieved item
+        if (item) {
+            files.push(item.data.id + '|folder')
+        }
 
-            files.push(file.data.id + '|' + type)
-        })
+        // Get ids of selected files
+        if (! item) {
+            getters.clipboard.forEach(file => {
+                let type = file.data.type === 'folder'
+                    ? 'folder'
+                    : 'file'
 
-        let items = files.join(',')
+                files.push(file.data.id + '|' + type)
+            })
+        }
 
         // Get route
         let route = getters.sharedDetail
-            ? `/api/zip/${router.currentRoute.params.token}?items=${items}`
-            : `/api/zip?items=${items}`
+            ? `/api/zip/${router.currentRoute.params.token}?items=${files.join(',')}`
+            : `/api/zip?items=${files.join(',')}`
 
+        // Download zip
         Vue.prototype.$downloadFile(route, 'files.zip')
     },
     moveItem: ({commit, getters, dispatch}, {to_item, noSelectedItem}) => {

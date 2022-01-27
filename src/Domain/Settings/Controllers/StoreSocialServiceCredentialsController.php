@@ -27,7 +27,7 @@ class StoreSocialServiceCredentialsController
         if (! app()->runningUnitTests()) {
             $credentials = [
                 'facebook'   => [
-                    'FACEBOOK_CLIENT_ID' => $request->input('client_id'),
+                    'FACEBOOK_CLIENT_ID'     => $request->input('client_id'),
                     'FACEBOOK_CLIENT_SECRET' => $request->input('client_secret'),
                 ],
                 'google' => [
@@ -42,7 +42,6 @@ class StoreSocialServiceCredentialsController
                     'RECAPTCHA_CLIENT_ID'      => $request->input('client_id'),
                     'RECAPTCHA_CLIENT_SECRET'  => $request->input('client_secret'),
                 ],
-
             ];
 
             // Store credentials into the .env file

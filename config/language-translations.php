@@ -399,7 +399,7 @@ return [
         'global.total'                                       => 'Total',
         'input_image.supported'                              => 'Supported formats are .png, .jpg, .jpeg.',
         'input_image.title'                                  => 'Upload Image',
-        'inputs.placeholder_search_files'                    => 'Search for anything...',
+        'inputs.placeholder_search_files'                    => 'Search anything...',
         'item_thumbnail.deleted_at'                          => 'Deleted {time}',
         'item_thumbnail.original_location'                   => 'Original Location',
         'locations.home'                                     => 'Files',

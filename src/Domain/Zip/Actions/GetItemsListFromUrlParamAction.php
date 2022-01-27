@@ -6,9 +6,8 @@ use Domain\Folders\Models\Folder;
 
 class GetItemsListFromUrlParamAction
 {
-    public function __invoke(
-        string $user_id
-    ): array {
+    public function __invoke(): array
+    {
         $list = explode(',', request()->get('items'));
 
         $itemList = collect($list)
@@ -29,12 +28,10 @@ class GetItemsListFromUrlParamAction
             ->where('type', 'file')
             ->pluck('id');
 
-        $folders = Folder::whereUserId($user_id)
-            ->whereIn('id', $folderIds)
+        $folders = Folder::whereIn('id', $folderIds)
             ->get();
 
-        $files = File::whereUserId($user_id)
-            ->whereIn('id', $fileIds)
+        $files = File::whereIn('id', $fileIds)
             ->get();
 
         return [$folders, $files];

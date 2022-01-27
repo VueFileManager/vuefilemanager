@@ -1,7 +1,6 @@
 <?php
- 
 namespace App\Users\Rules;
- 
+
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Validation\Rule;
  
@@ -17,16 +16,17 @@ class ReCaptchaRules implements Rule
     public function passes($attribute, $value)
     {
         $client = new Client();
-        $response = $client->post('https://www.google.com/recaptcha/api/siteverify',
+        $response = $client->post(
+            'https://www.google.com/recaptcha/api/siteverify',
             [
                 'form_params' => [
-                    'secret' => env('RECAPTCHA_CLIENT_SECRET', false),
+                    'secret'   => env('RECAPTCHA_CLIENT_SECRET', false),
                     'remoteip' => request()->getClientIp(),
-                    'response' => $value
-                ]
+                    'response' => $value,
+                ],
             ]
         );
-        $body = json_decode((string)$response->getBody());
+        $body = json_decode((string) $response->getBody());
 
         return $body->success;
     }

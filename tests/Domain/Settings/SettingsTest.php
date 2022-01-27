@@ -174,7 +174,7 @@ class SettingsTest extends TestCase
             ])->assertStatus(204);
 
         $this->assertDatabaseHas('settings', [
-            'name'  => 'allowed_facebook_login',
+            'name'  => 'allowed_facebook',
             'value' => 1,
         ]);
     }

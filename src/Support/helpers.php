@@ -913,13 +913,8 @@ if (! function_exists('remove_accents')) {
 if (! function_exists('get_files_for_zip')) {
     /**
      * Get all files from folder and get their folder location in VueFileManager directories
-     *
-     * @param $folders
-     * @param null $files
-     * @param array $path
-     * @return array
      */
-    function get_files_for_zip($folders, $files, $path = [])
+    function get_files_for_zip($folders, $files, array $path = []): array
     {
         // Return file list
         if (! isset($folders->folders)) {
@@ -933,6 +928,7 @@ if (! function_exists('get_files_for_zip')) {
         $folders->files->each(function ($file) use ($files, $path) {
             $files->push([
                 'name'        => $file->name,
+                'user_id'     => $file->user_id,
                 'basename'    => $file->basename,
                 'mimetype'    => $file->mimetype,
                 'folder_path' => implode('/', $path),

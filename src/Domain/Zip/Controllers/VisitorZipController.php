@@ -27,10 +27,7 @@ class VisitorZipController extends Controller
         Request $request,
         Share $shared,
     ): ZipStream {
-        // Check ability to access protected share record
-        ($this->protectShareRecord)($shared);
-
-        list($folders, $files) = ($this->getItemsListFromUrlParam)($shared->user_id);
+        list($folders, $files) = ($this->getItemsListFromUrlParam)();
 
         // Check access to requested folders
         if ($folders->isNotEmpty()) {

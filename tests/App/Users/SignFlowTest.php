@@ -335,7 +335,6 @@ class SignFlowTest extends TestCase
      */
     public function it_create_user_from_register_form_with_reCaptcha()
     {
-      
         Setting::updateOrCreate([
             'name' => 'allowed_recaptcha',
         ], [
@@ -351,7 +350,7 @@ class SignFlowTest extends TestCase
             'password'              => 'SecretPassword',
             'password_confirmation' => 'SecretPassword',
             'name'                  => 'John Doe',
-            'reCaptcha'             => 'fakeToken'
+            'reCaptcha'             => 'fakeToken',
         ])->assertStatus(201);
 
         $this

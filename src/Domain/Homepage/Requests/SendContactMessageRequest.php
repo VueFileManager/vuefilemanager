@@ -25,9 +25,9 @@ class SendContactMessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'   => 'required|email',
-            'message' => 'required|string',
-            'reCaptcha' => [new RequiredIf(get_settings('allowed_recaptcha') == 1), 'string', app(ReCaptchaRules::class)]
+            'email'     => 'required|email',
+            'message'   => 'required|string',
+            'reCaptcha' => [new RequiredIf(get_settings('allowed_recaptcha') == 1), 'string', app(ReCaptchaRules::class)],
         ];
     }
 }

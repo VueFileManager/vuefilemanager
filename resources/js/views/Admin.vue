@@ -38,7 +38,7 @@
             </ContentGroup>
         </ContentSidebar>
 
-        <router-view class="md:px-6 px-2.5 w-full overflow-x-hidden relative lg:pt-6" />
+        <router-view class="lg:pt-6 md:px-6 px-2.5 lg:pb-0 pb-12 w-full overflow-x-hidden relative" />
     </div>
 </template>
 

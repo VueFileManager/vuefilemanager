@@ -26,7 +26,7 @@
 
 		<MobileNavigationToolbar />
 
-        <div v-if="user" class="md:px-6 px-2.5 w-full overflow-x-hidden relative lg:pt-6 xl:max-w-screen-lg md:max-w-4xl mx-auto">
+        <div v-if="user" class="lg:pt-6 md:px-6 px-2.5 lg:pb-0 pb-12 w-full overflow-x-hidden relative xl:max-w-screen-lg md:max-w-4xl mx-auto">
             <div v-if="! isLoading" id="page-content">
 
 				<div class="card shadow-card sticky top-0 z-10" style="padding-bottom: 0">

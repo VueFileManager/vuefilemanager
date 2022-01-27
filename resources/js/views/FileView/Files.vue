@@ -76,7 +76,7 @@
 					<Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
 				</OptionGroup>
 				<OptionGroup>
-					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection()" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 		</ContextMenu>

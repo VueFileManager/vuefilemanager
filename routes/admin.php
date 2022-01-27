@@ -11,15 +11,15 @@ use Domain\Admin\Controllers\Dashboard\GetNewbiesController;
 use Domain\Admin\Controllers\Users\ChangeUserRoleController;
 use Domain\Settings\Controllers\UpdateSettingValueController;
 use Domain\Admin\Controllers\Users\ResetUserPasswordController;
+use Domain\Transactions\Controllers\GetAllTransactionsController;
 use Domain\Admin\Controllers\Dashboard\GetDashboardDataController;
+use Domain\Transactions\Controllers\GetUserTransactionsController;
 use Domain\Localization\Controllers\UpdateLanguageStringController;
 use Domain\Admin\Controllers\Users\ShowUserStorageCapacityController;
 use Domain\Admin\Controllers\Dashboard\GetLatestTransactionsController;
 use Domain\Admin\Controllers\Users\ChangeUserStorageCapacityController;
 use Domain\Settings\Controllers\StoreSocialServiceCredentialsController;
 use Domain\Settings\Controllers\StorePaymentServiceCredentialsController;
-use Domain\Transactions\Controllers\GetAllTransactionsController;
-use Domain\Transactions\Controllers\GetUserTransactionsController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {

@@ -36,7 +36,7 @@ const itemHelpers = {
 			})
 		}
 
-		Vue.prototype.$downloadSelection = function (item) {
+		Vue.prototype.$downloadSelection = function (item = undefined) {
 			// Show alert message when download is disabled
 			if (! store.getters.user.data.meta.restrictions.canDownload) {
 				Vue.prototype.$temporarilyDisabledDownload()
@@ -44,12 +44,25 @@ const itemHelpers = {
 				return
 			}
 
+			// Download folder zip
+			if (item && item.data.type === 'folder') {
+				store.dispatch('downloadZip', item)
+
+				return
+			}
+
+			// Download single item
+			if (item && item.data.type !== 'folder') {
+				Vue.prototype.$downloadFile(item.data.attributes.file_url, item.data.attributes.name + '.' + item.data.attributes.mimetype)
+
+				return
+			}
+
+			// Download selection
 			let clipboard = store.getters.clipboard
 
-			if (clipboard.length > 1 || (clipboard.length === 1 && clipboard[0].data.type === 'folder'))
+			if (clipboard.length > 1 || (clipboard.length === 1 && clipboard[0].data.type === 'folder')) {
 				store.dispatch('downloadZip')
-			else {
-				Vue.prototype.$downloadFile(item.data.attributes.file_url, item.data.attributes.name + '.' + item.data.attributes.mimetype)
 			}
 		}
 

@@ -1,12 +1,12 @@
 <?php
 namespace Domain\Zip\Actions;
 
+use Gate;
 use ZipStream\ZipStream;
 use Illuminate\Support\Str;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use STS\ZipStream\ZipStreamFacade as Zip;
 
@@ -17,9 +17,6 @@ class ZipAction
         Collection $files,
         ?Share $shared = null
     ): ZipStream {
-        // Get user id
-        $user_id = Auth::id() ?? $shared->user_id;
-
         // Get zip name from single requested folder
         if ($files->isEmpty() && $folders->count() === 1) {
             $zipName = Str::slug($folders->first()->name) . '.zip';
@@ -29,7 +26,12 @@ class ZipAction
         $zip = Zip::create($zipName ?? 'files.zip');
 
         // Zip Files
-        $files->map(function ($file) use ($zip) {
+        $files->map(function ($file) use ($zip, $shared) {
+            // Check user privileges to the file
+            if (! Gate::any(['can-edit', 'can-view'], [$file, $shared])) {
+                abort(403, 'Access Denied');
+            }
+
             // get file path
             $filePath = "files/$file->user_id/$file->basename";
 
@@ -50,11 +52,15 @@ class ZipAction
         });
 
         // Zip Folders
-        $folders->map(function ($folder) use ($zip, $user_id) {
+        $folders->map(function ($folder) use ($zip, $shared) {
+            // Check user privileges to the folder
+            if (! Gate::any(['can-edit', 'can-view'], [$folder, $shared])) {
+                abort(403, 'Access Denied');
+            }
+
             // Get folder
             $requested_folder = Folder::with(['folders.files', 'files'])
                 ->where('id', $folder->id)
-                ->where('user_id', $user_id)
                 ->with('folders')
                 ->first();
 
@@ -62,7 +68,7 @@ class ZipAction
 
             foreach ($folderFiles as $file) {
                 // get file path
-                $filePath = "files/$user_id/{$file['basename']}";
+                $filePath = "files/{$file['user_id']}/{$file['basename']}";
 
                 // Add file into zip
                 if (Storage::exists($filePath)) {

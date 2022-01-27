@@ -26,7 +26,7 @@
 					<Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
 				</OptionGroup>
 				<OptionGroup>
-					<Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+					<Option @click.native="$downloadSelection()" :title="$t('context_menu.download')" icon="download" />
 				</OptionGroup>
 			</template>
 		</ContextMenu>

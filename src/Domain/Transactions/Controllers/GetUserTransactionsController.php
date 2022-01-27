@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Transactions\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Users\Models\User;
+use App\Http\Controllers\Controller;
 use Domain\Transactions\Resources\TransactionCollection;
 
 class GetUserTransactionsController extends Controller

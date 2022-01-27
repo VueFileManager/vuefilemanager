@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
                 Gate::define($ability, function (?User $user, File | Folder $item, ?Share $share) use ($ability) {
                     // If share link exist, then check share access
                     if ($share) {
-                        return $this->share_guard($share, $item);
+                        return $this->shareGuard($share, $item);
                     }
 
                     // Check user owner status
@@ -47,7 +47,7 @@ class AuthServiceProvider extends ServiceProvider
                     }
 
                     // Check team member ability to access into requested item
-                    return $this->team_member_guard($item, $user, $ability);
+                    return $this->teamMemberGuard($item, $user, $ability);
                 });
             });
 
@@ -58,9 +58,9 @@ class AuthServiceProvider extends ServiceProvider
         });
     }
 
-    private function share_guard(Share $share, Folder | File $item): bool
+    private function shareGuard(Share $share, Folder | File $item): bool
     {
-        if (! $share->is_protected && $share->user_id === $item->user_id) {
+        if (! $share->is_protected) {
             return true;
         }
 
@@ -86,7 +86,7 @@ class AuthServiceProvider extends ServiceProvider
         return $share->user_id === $item->user_id;
     }
 
-    private function team_member_guard(Folder | File $item, ?User $user, $ability): bool
+    private function teamMemberGuard(Folder | File $item, ?User $user, $ability): bool
     {
         $teamFolder = $item->getLatestParent();
 
