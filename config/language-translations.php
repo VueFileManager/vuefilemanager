@@ -355,7 +355,7 @@ return [
         'context_menu.share_edit'                            => 'Edit Sharing',
         'context_menu.upload'                                => 'Upload',
         'cookie_disclaimer.button'                           => 'cookies policy',
-        'cookie_disclaimer.description'                      => 'By browsing this website you are agreeing to our {0}.',
+        'cookie_disclaimer.description'                      => 'By browsing this website you are agreeing to our {0}',
         'datatable.paginate_info'                            => 'Showing 1 - {visible} from {total} records',
         'empty_page.call_to_action'                          => 'Upload Files',
         'empty_page.description'                             => 'Upload some files here easily via upload button.',

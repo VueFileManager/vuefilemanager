@@ -25,12 +25,12 @@
                 </ValidationProvider>
 
 				<!--Emoji-->
-				<AppInputSwitch :title="$t('Emoji as an Icon')" :description="$t('Replace folder icon with an Emoji')" :is-last="! isEmoji">
+				<AppInputSwitch v-if="pickedItem.data.type === 'folder'" :title="$t('Emoji as an Icon')" :description="$t('Replace folder icon with an Emoji')" :is-last="! isEmoji">
 					<SwitchInput v-model="isEmoji" :state="isEmoji" />
 				</AppInputSwitch>
 
 				<!--Set emoji-->
-				<EmojiPicker v-if="isEmoji" v-model="emoji" :default-emoji="emoji"/>
+				<EmojiPicker v-if="pickedItem.data.type === 'folder' && isEmoji" v-model="emoji" :default-emoji="emoji"/>
             </ValidationObserver>
         </PopupContent>
 
@@ -141,7 +141,9 @@ export default {
 
             if (args.name !== 'rename-item') return
 
-            if (!this.$isMobile()) {
+			this.isEmoji = false
+
+			if (!this.$isMobile()) {
                 this.$nextTick(() => this.$refs.input.focus())
             }
 

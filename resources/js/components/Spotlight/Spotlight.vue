@@ -18,7 +18,7 @@
 
 				<!--Filter-->
 				<div v-if="activeFilter" @click="removeFilter" class="dark:bg-4x-dark-foreground bg-light-background rounded-lg px-2 py-1 mr-3 flex items-center cursor-pointer">
-					<b class="font-bold pr-1.5 text-sm dark-text-theme">
+					<b class="font-bold pr-1.5 text-sm dark-text-theme -mt-0.5">
 						{{ activeFilter }}
 					</b>
 					<x-icon size="12" />

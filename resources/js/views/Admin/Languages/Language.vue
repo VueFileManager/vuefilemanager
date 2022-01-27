@@ -1,23 +1,35 @@
 <template>
 	<div>
 		<!--Mobile language navigation-->
-		<div v-if="languages" class="card shadow-card py-0 sticky top-0 z-10 flex items-center md:hidden block">
-
-			<!--List of languages-->
+		<div v-if="languages" id="card-navigation" style="height: 62px" class="md:hidden block mb-24">
 			<div
-				@click="getLanguage(language)"
-				v-for="language in languages"
-				:key="language.data.id"
-				class="inline-block text-sm font-bold px-4 py-5 border-b-2 border-transparent border-bottom-theme"
-				:class="{'text-theme router-link-active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale, 'text-gray-600': !selectedLanguage && selectedLanguage.data.attributes.locale !== language.data.attributes.locale}"
+				class="bg-white z-20 sm:pt-5 pt-3"
+				:class="{
+				'fixed top-0 left-0 right-0 px-6 rounded-none backdrop-filter backdrop-blur-lg dark:bg-dark-foreground bg-white bg-opacity-70 z-10': fixedNav,
+				'card shadow-card py-0 sticky top-0 z-10 md:hidden block': ! fixedNav
+				}"
 			>
-				{{ language.data.attributes.name }}
+				<SearchInput v-model="query" @reset-query="query = ''"/>
+
+				<div class="flex items-center">
+					<!--List of languages-->
+					<div
+						@click="getLanguage(language)"
+						v-for="language in languages"
+						:key="language.data.id"
+						class="inline-block text-sm font-bold px-4 py-5 border-b-2 border-transparent border-bottom-theme"
+						:class="{'text-theme router-link-active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale, 'text-gray-600': !selectedLanguage && selectedLanguage.data.attributes.locale !== language.data.attributes.locale}"
+					>
+						{{ language.data.attributes.name }}
+					</div>
+
+					<!--Add new language-->
+					<div @click="createLanguage" class="ml-2 cursor-pointer">
+						<plus-icon size="14" class="vue-feather text-gray-400"/>
+					</div>
+				</div>
 			</div>
 
-			<!--Add new language-->
-			<div @click="createLanguage" class="icon text-theme">
-				<plus-icon size="17" />
-			</div>
 		</div>
 
 		<div v-if="languages" class="flex md:space-x-6">
@@ -89,7 +101,7 @@
 						</InfoBox>
 
 						<!--Inline Search for mobile-->
-						<div class="sticky top-0 z-10 mb-8">
+						<div class="sticky top-0 z-10 mb-8 md:block hidden">
 							<SearchInput v-model="query" @reset-query="query = ''" />
 						</div>
 
@@ -108,6 +120,7 @@
 				</div>
 			</div>
 		</div>
+
 		<Spinner v-if="! languages" />
 	</div>
 </template>
@@ -157,7 +170,9 @@
                 selectedLanguage: undefined,
                 languages: undefined,
                 query: '',
-            }
+
+				fixedNav: false,
+			}
         },
         watch: {
             query: debounce(function (val) {
@@ -239,6 +254,13 @@
                         .then(() => this.getLanguages())
                         .catch(() => this.$isSomethingWrong())
             })
+
+			// Handle fixed mobile navigation
+			window.addEventListener("scroll", () => {
+				let card = document.getElementById('card-navigation')
+
+				this.fixedNav = card.getBoundingClientRect().top < 0;
+			});
         },
         destroyed() {
             events.$off('action:confirmed')

@@ -1,10 +1,12 @@
 <template>
-    <div class="cookie-wrapper" v-if="isVisibleDisclaimer && config.isSaaS">
-        <span @click="closeDisclaimer" class="close-icon">
-            <x-icon size="12"></x-icon>
+    <div v-if="isVisibleDisclaimer" class="fixed bottom-0 sm:left-16 left-0 sm:right-auto right-0 sm:p-3 sm:w-56 w-full p-4 shadow-xl rounded-tl-xl rounded-tr-lg dark:bg-dark-foreground bg-white z-20">
+		<span @click="closeDisclaimer" class="absolute -right-1 -top-1 p-3 cursor-pointer">
+            <x-icon size="10" />
         </span>
-        <i18n path="cookie_disclaimer.description" tag="p">
-            <router-link :to="{name: 'DynamicPage', params: {slug: 'cookie-policy'}}">{{ $t('cookie_disclaimer.button') }}</router-link>
+        <i18n path="cookie_disclaimer.description" tag="p" class="text-xs">
+            <router-link :to="{name: 'DynamicPage', params: {slug: 'cookie-policy'}}" class="text-theme text-xs">
+				{{ $t('cookie_disclaimer.button') }}
+			</router-link>
         </i18n>
     </div>
 </template>
@@ -16,7 +18,7 @@
     export default {
         name: 'CookieDisclaimer',
         components: {
-            XIcon
+            XIcon,
         },
         computed: {
             ...mapGetters([
@@ -36,76 +38,7 @@
             }
         },
         created() {
-            this.isVisibleDisclaimer = localStorage.getItem('isHiddenDisclaimer') ? false : true;
+            this.isVisibleDisclaimer = !localStorage.getItem('isHiddenDisclaimer');
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .cookie-wrapper {
-        //@include widget-card;
-        background: white;
-        position: fixed;
-        bottom: 0;
-        left: 115px;
-        max-width: 225px;
-        z-index: 3;
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: 0;
-
-        .close-icon {
-            position: absolute;
-            right: -4px;
-            top: -4px;
-            cursor: pointer;
-            padding: 12px;
-
-            line {
-                stroke: $text-muted;
-            }
-        }
-
-        p {
-            font-size: 12px;
-            line-height: 1.6;
-
-            a {
-                font-size: 12px;
-                text-decoration: underline;
-            }
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-        .cookie-wrapper {
-            padding: 10px 15px;
-            left: 0;
-            right: 0;
-            max-width: 100%;
-
-            p {
-                max-width: 300px;
-            }
-        }
-    }
-
-    .dark {
-        .cookie-wrapper {
-            background: $dark_mode_foreground;
-
-            p {
-                color: $dark_mode_text_primary;
-            }
-
-            .close-icon {
-
-                line {
-                    stroke: $dark_mode_text_primary;
-                }
-            }
-        }
-    }
-</style>
