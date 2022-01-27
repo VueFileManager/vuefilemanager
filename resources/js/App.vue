@@ -34,7 +34,7 @@ import {mapGetters} from 'vuex'
 import {events} from './bus'
 
 export default {
-	name: 'app',
+	name: 'App',
 	components: {
 		CookieDisclaimer,
 		ToasterWrapper,

@@ -35,20 +35,20 @@
 					<div class="flex items-center mb-3">
 
 						<!--Image input for replace avatar-->
-						<UserImageInput v-model="avatar" :avatar="user.data.relationships.settings.data.attributes.avatar.md" />
+						<AvatarInput v-model="avatar" :avatar="user.data.relationships.settings.data.attributes.avatar.md" />
 
 						<!--User name & email-->
-						<div class="pl-4">
-							<b class="sm:text-lg text-md font-bold block sm:leading-6 leading-3">
+						<div class="ml-4">
+							<b class="sm:text-lg text-md font-bold block">
 								{{ user.data.relationships.settings.data.attributes.first_name }} {{ user.data.relationships.settings.data.attributes.last_name }}
 
 								<ColorLabel v-if="config.subscriptionType === 'fixed'" :color="subscriptionColor">
 									{{ subscriptionStatus }}
 								</ColorLabel>
 							</b>
-							<span class="sm:text-sm text-xs text-gray-600">
+							<small class="sm:text-sm text-xs text-gray-600 block">
 								{{ user.data.attributes.email }}
-							</span>
+							</small>
 						</div>
 					</div>
 
@@ -75,7 +75,7 @@
 	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
 	import CreatePersonalTokenPopup from '/resources/js/components/Others/CreatePersonalTokenPopup'
 	import TwoFactorQrSetupPopup from '/resources/js/components/Others/TwoFactorQrSetupPopup'
-	import UserImageInput from '/resources/js/components/Others/UserImageInput'
+	import AvatarInput from '/resources/js/components/Others/Forms/AvatarInput'
 	import SidebarNavigation from "../components/Sidebar/SidebarNavigation"
 	import ColorLabel from '/resources/js/components/Others/ColorLabel'
 	import Spinner from '/resources/js/components/FilesView/Spinner'
@@ -100,7 +100,7 @@
 			CreatePersonalTokenPopup,
 			TwoFactorQrSetupPopup,
 			SidebarNavigation,
-            UserImageInput,
+            AvatarInput,
             ColorLabel,
             Spinner,
 

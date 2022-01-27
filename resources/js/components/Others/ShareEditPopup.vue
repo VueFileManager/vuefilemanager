@@ -350,6 +350,7 @@
 					this.shareOptions = undefined
 					this.pickedItem = undefined
 					this.activeSection = undefined
+					this.qrCode = undefined
 				}, 150)
 			})
 		}

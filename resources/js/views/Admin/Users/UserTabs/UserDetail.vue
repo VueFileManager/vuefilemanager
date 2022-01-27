@@ -31,7 +31,7 @@
 						:value="user.data.relationships.settings.data.attributes.first_name"
 						:placeholder="$t('page_registration.placeholder_name')"
 						type="text"
-						class="focus-border-theme input-dark"
+						class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 					/>
 				</AppInputText>
 				<AppInputText :title="$t('Last Name')" class="w-full">
@@ -40,7 +40,7 @@
 						:value="user.data.relationships.settings.data.attributes.last_name"
 						:placeholder="$t('page_registration.placeholder_name')"
 						type="text"
-						class="focus-border-theme input-dark"
+						class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 					/>
 				</AppInputText>
 			</div>
@@ -49,7 +49,7 @@
                 <input :value="user.data.relationships.settings.data.attributes.name"
 					   :placeholder="$t('page_registration.placeholder_name')"
 					   type="text"
-					   class="focus-border-theme input-dark"
+					   class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 					   disabled
 				/>
             </AppInputText>
@@ -59,7 +59,7 @@
             <AppInputText :title="$t('user_settings.name')">
                 <input :value="user.data.relationships.settings.data.attributes.name"
 					   type="text"
-					   class="focus-border-theme input-dark"
+					   class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 					   disabled
 				/>
             </AppInputText>
@@ -67,14 +67,14 @@
                 <input :value="user.data.relationships.settings.data.attributes.address"
 					   type="text"
 					   disabled
-					   class="focus-border-theme input-dark"
+					   class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 				/>
             </AppInputText>
             <AppInputText :title="$t('user_settings.country')">
                 <input :value="user.data.relationships.settings.data.attributes.country"
 					   type="text"
 					   disabled
-					   class="focus-border-theme input-dark"
+					   class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 				/>
             </AppInputText>
             <div class="flex space-x-4">
@@ -82,14 +82,14 @@
                     <input :value="user.data.relationships.settings.data.attributes.city"
 						   type="text"
 						   disabled
-						   class="focus-border-theme input-dark"
+						   class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 					/>
                 </AppInputText>
                 <AppInputText :title="$t('user_settings.postal_code')" class="w-full">
                     <input :value="user.data.relationships.settings.data.attributes.postal_code"
 						   type="text"
 						   disabled
-						   class="focus-border-theme input-dark"
+						   class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 					/>
                 </AppInputText>
             </div>
@@ -97,14 +97,14 @@
                 <input :value="user.data.relationships.settings.data.attributes.state"
 					   type="text"
 					   disabled
-					   class="focus-border-theme input-dark"
+					   class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 				/>
             </AppInputText>
             <AppInputText :title="$t('user_settings.phone_number')" :is-last="true">
                 <input :value="user.data.relationships.settings.data.attributes.phone_number"
 					   type="text"
 					   disabled
-					   class="focus-border-theme input-dark"
+					   class="disabled:text-gray-900 disabled:opacity-100 focus-border-theme input-dark"
 				/>
             </AppInputText>
         </div>

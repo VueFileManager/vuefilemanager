@@ -58,7 +58,10 @@ module.exports = {
 		},
 	},
 	variants: {
-		extend: {},
+		extend: {
+			textColor: ['disabled'],
+			opacity: ['disabled'],
+		},
 	},
 	plugins: [
 		require('tailwindcss-debug-screens'),

@@ -128,6 +128,7 @@
 						v-if="activeFilter === 'users' && !result.action"
 						:class="{'dark:bg-4x-dark-foreground bg-light-background rounded-xl': (i + actions.length) === index}"
 						class="flex items-center px-2.5 py-3.5"
+						@click="openUser(result)"
 					>
 						<MemberAvatar
 							:is-border="false"
@@ -733,7 +734,9 @@ export default {
 			this.isVisible = true
 			this.activeFilter = filter
 
-			this.$nextTick(() => this.$refs.searchInput.focus())
+			this.$nextTick(() => {
+				if (this.$refs.searchInput) this.$refs.searchInput.focus()
+			})
 		})
 
 		events.$on('spotlight:hide', () => this.exitSpotlight())

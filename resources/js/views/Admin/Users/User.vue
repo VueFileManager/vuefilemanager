@@ -3,19 +3,29 @@
 		<div id="page-content" v-if="! isLoading">
 			<!--Page Tab links-->
 			<div class="card shadow-card pt-4 sticky top-0 z-10" style="padding-bottom: 0;">
-				<div class="user-thumbnail">
-					<div class="avatar">
-						<img :src="user.data.relationships.settings.data.attributes.avatar.sm" :alt="user.data.relationships.settings.data.attributes.name">
-						<!--<img :src="user.data.attributes.avatar" :alt="user.data.attributes.name" class="blurred">-->
-					</div>
-					<div class="info">
-						<b class="name">
-							{{ user.data.relationships.settings.data.attributes.name }}
+
+
+				<!--User thumbnail-->
+				<div class="flex items-center mb-3">
+
+					<!--Image input for replace avatar-->
+					<img
+						:src="user.data.relationships.settings.data.attributes.avatar.sm" :alt="user.data.relationships.settings.data.attributes.name"
+						class="md:w-16 w-14 md:h-16 h-14 object-cover rounded-xl relative z-0 shadow-lg cursor-pointer"
+					/>
+
+					<!--User name & email-->
+					<div class="ml-4">
+						<b class="sm:text-lg text-md font-bold block">
+							{{ user.data.relationships.settings.data.attributes.first_name }} {{ user.data.relationships.settings.data.attributes.last_name }}
+
 							<ColorLabel color="purple">
 								{{ user.data.attributes.role }}
 							</ColorLabel>
 						</b>
-						<span class="email">{{ user.data.attributes.email }}</span>
+						<small class="sm:text-sm text-xs text-gray-600 block">
+							{{ user.data.attributes.email }}
+						</small>
 					</div>
 				</div>
 
@@ -26,7 +36,7 @@
 			<router-view :user="user" @reload-user="fetchUser"/>
         </div>
         <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
+            <Spinner />
         </div>
     </div>
 </template>
@@ -59,6 +69,11 @@
             LockIcon,
             Spinner,
         },
+		watch: {
+			'$route.fullPath': function() {
+				this.fetchUser()
+			}
+		},
         computed: {
             ...mapGetters([
 				'config'
@@ -134,66 +149,3 @@
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-
-    .user-thumbnail {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        padding-bottom: 10px;
-        padding-top: 15px;
-
-        .avatar {
-            margin-right: 20px;
-            position: relative;
-
-            img {
-                line-height: 0;
-                width: 62px;
-                height: 62px;
-                border-radius: 12px;
-                z-index: 1;
-                position: relative;
-
-                &.blurred {
-                    @include blurred-image;
-                    top: 0;
-                }
-            }
-        }
-
-        .info {
-
-            .name {
-                display: block;
-                @include font-size(17);
-                line-height: 1;
-            }
-
-            .email {
-                color: $text-muted;
-                @include font-size(14);
-            }
-        }
-    }
-
-    @media only screen and (max-width: 960px) {
-
-    }
-
-    .dark {
-        .user-thumbnail {
-
-            .info {
-
-                .email {
-                    color: $dark_mode_text_secondary;
-                }
-            }
-        }
-    }
-
-</style>

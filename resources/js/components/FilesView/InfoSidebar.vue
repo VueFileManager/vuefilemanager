@@ -61,7 +61,7 @@
 				v-if="singleFile.data.attributes.isTeamFolder"
 				:title="$t('Shared with the Team')"
 			>
-                <div class="action-button" @click="$updateTeamFolder(singleFile)">
+                <div class="flex items-center cursor-pointer" @click="$updateTeamFolder(singleFile)">
                     <TeamMembersPreview :folder="singleFile" :avatar-size="32" />
                     <Edit2Icon size="10" class="ml-2" />
                 </div>
