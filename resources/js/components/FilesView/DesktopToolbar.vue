@@ -130,7 +130,7 @@
 	import {MenuIcon, ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
 	import SearchBar from '/resources/js/components/FilesView/SearchBar'
 	import Option from '/resources/js/components/FilesView/Option'
-	import {events} from '/resources/js/bus'
+	import {events} from "../../bus";
 	import {mapGetters} from 'vuex'
 
 	export default {

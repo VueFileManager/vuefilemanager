@@ -44,18 +44,18 @@
 </template>
 
 <script>
-    import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
-	import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
-	import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
-	import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
-	import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
-	import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-	import Spinner from '/resources/js/components/FilesView/Spinner'
-	import TreeMenu from '/resources/js/components/Others/TreeMenu'
+    import PopupWrapper from "./Popup/PopupWrapper";
+	import PopupActions from "./Popup/PopupActions";
+	import TitlePreview from "../FilesView/TitlePreview";
+	import PopupContent from "./Popup/PopupContent";
+	import PopupHeader from "./Popup/PopupHeader";
+	import ThumbnailItem from "./ThumbnailItem";
+	import ButtonBase from "../FilesView/ButtonBase";
+	import Spinner from "../FilesView/Spinner";
+	import TreeMenu from "./TreeMenu";
 	import {isArray, isNull} from 'lodash'
 	import {mapGetters} from 'vuex'
-	import {events} from '/resources/js/bus'
+	import {events} from '../../bus'
 
 	export default {
 		name: 'MoveItemPopup',

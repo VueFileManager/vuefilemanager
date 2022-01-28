@@ -34,7 +34,7 @@
     import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
     import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
     import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import {events} from '/resources/js/bus'
+    import {events} from '../../../bus'
 
     export default {
         name: 'ConfirmPopup',

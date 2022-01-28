@@ -66,7 +66,7 @@ import CopyInput from '/resources/js/components/Others/Forms/CopyInput'
 import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
 import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
 import {required} from 'vee-validate/dist/rules'
-import {events} from '/resources/js/bus'
+import {events} from '../../bus'
 import axios from 'axios'
 
 export default {

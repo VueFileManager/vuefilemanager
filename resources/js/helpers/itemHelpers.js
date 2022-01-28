@@ -1,4 +1,4 @@
-import i18n from '/resources/js/i18n/index'
+import i18n from "../i18n";
 import store from '../store/index'
 import {events} from '../bus'
 

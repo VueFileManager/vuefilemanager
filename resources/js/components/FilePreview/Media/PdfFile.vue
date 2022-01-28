@@ -9,7 +9,7 @@
 </template>
 
 <script>
-	import {events} from '/resources/js/bus'
+	import {events} from "../../../bus";
 	import pdf from 'pdfvuer'
 
 	export default {

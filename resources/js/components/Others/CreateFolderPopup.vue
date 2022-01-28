@@ -56,7 +56,7 @@
 	import AppInputSwitch from "../Admin/AppInputSwitch"
 	import AppInputText from "../Admin/AppInputText"
 	import SwitchInput from "./Forms/SwitchInput"
-    import {events} from '/resources/js/bus'
+    import {events} from '../../bus'
 	import EmojiPicker from "./EmojiPicker"
 
     export default {

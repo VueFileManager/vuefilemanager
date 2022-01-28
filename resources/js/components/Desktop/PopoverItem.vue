@@ -18,7 +18,7 @@
 </template>
 
 <script>
-	import {events} from '/resources/js/bus'
+	import {events} from "../../bus";
 
 	export default {
 		name: 'PopoverItem',

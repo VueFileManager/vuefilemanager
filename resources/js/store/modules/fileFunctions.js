@@ -1,6 +1,6 @@
-import i18n from '/resources/js/i18n/index'
-import router from '/resources/js/router'
-import {events} from '/resources/js/bus'
+import i18n from "../../i18n";
+import router from "../../router"
+import {events} from "../../bus";
 import axios from 'axios'
 import Vue from 'vue'
 

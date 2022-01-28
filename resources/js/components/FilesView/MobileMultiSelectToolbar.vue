@@ -12,7 +12,6 @@
 
 <script>
 import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
-import {events} from '/resources/js/bus'
 import {mapGetters} from 'vuex'
 
 export default {

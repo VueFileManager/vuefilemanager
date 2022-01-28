@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
-import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
-import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
-import Option from '/resources/js/components/FilesView/Option'
+import MenuMobileGroup from "../Mobile/MenuMobileGroup";
+import OptionGroup from '../FilesView/OptionGroup'
+import MenuMobile from '../Mobile/MenuMobile'
+import Option from '../FilesView/Option'
 import {mapGetters} from 'vuex'
 
 export default {

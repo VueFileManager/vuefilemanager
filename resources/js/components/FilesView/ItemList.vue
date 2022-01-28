@@ -75,7 +75,7 @@
 
 <script>
 	import Emoji from "../Others/Emoji";
-	import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
+	import FolderIcon from "./FolderIcon";
 	import {LinkIcon, MoreVerticalIcon, EyeIcon} from 'vue-feather-icons'
 	import FileIconThumbnail from "./FileIconThumbnail";
 	import MemberAvatar from "./MemberAvatar";

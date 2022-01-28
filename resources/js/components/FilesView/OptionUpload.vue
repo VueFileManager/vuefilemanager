@@ -33,7 +33,6 @@
 
 <script>
 import FolderUploadIcon from '/resources/js/components/FilesView/Icons/FolderUploadIcon'
-import {events} from '/resources/js/bus'
 import {
     UploadCloudIcon,
 } from 'vue-feather-icons'

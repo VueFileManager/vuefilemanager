@@ -14,7 +14,7 @@
 </template>
 
 <script>
-	import Spinner from '/resources/js/components/FilesView/Spinner'
+	import Spinner from "./Spinner";
 	import {mapGetters} from 'vuex'
 
 	export default {

@@ -135,12 +135,12 @@
 
 <script>
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
-import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
-import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-import AuthContent from '/resources/js/components/Auth/AuthContent'
-import AuthButton from '/resources/js/components/Auth/AuthButton'
+import AuthContentWrapper from "../../components/Auth/AuthContentWrapper";
+import SelectInput from "../../components/Others/Forms/SelectInput";
+import FormLabel from "../../components/Others/Forms/FormLabel";
+import InfoBox from "../../components/Others/Forms/InfoBox";
+import AuthContent from "../../components/Auth/AuthContent";
+import AuthButton from "../../components/Auth/AuthButton";
 import {SettingsIcon} from 'vue-feather-icons'
 import Headline from "../Auth/Headline"
 import {required} from 'vee-validate/dist/rules'

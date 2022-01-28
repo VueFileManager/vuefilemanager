@@ -67,9 +67,9 @@
 </template>
 
 <script>
-    import DatatableCellImage from '/resources/js/components/Others/Tables/DatatableCellImage'
-    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-    import ColorLabel from '/resources/js/components/Others/ColorLabel'
+    import DatatableCellImage from "../Others/Tables/DatatableCellImage";
+    import DatatableWrapper from "../Others/Tables/DatatableWrapper";
+    import ColorLabel from "../Others/ColorLabel";
     import {Trash2Icon, Edit2Icon} from "vue-feather-icons"
 	import MemberAvatar from "../FilesView/MemberAvatar"
 	import InfoBox from "../Others/Forms/InfoBox"

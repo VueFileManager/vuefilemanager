@@ -59,15 +59,15 @@
 </template>
 
 <script>
-	import PopoverWrapper from '/resources/js/components/Desktop/PopoverWrapper'
-	import PopoverItem from '/resources/js/components/Desktop/PopoverItem'
-	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
-	import Option from '/resources/js/components/FilesView/Option'
+	import PopoverWrapper from "../Desktop/PopoverWrapper";
+	import PopoverItem from "../Desktop/PopoverItem";
+	import OptionGroup from "../FilesView/OptionGroup";
+	import Option from "../FilesView/Option";
 
-    import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
+    import ToolbarButton from "../FilesView/ToolbarButton";
     import {XIcon, MoreHorizontalIcon} from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
-    import {events} from '/resources/js/bus'
+    import {events} from "../../bus";
 
     export default {
         name: 'FilePreviewToolbar',

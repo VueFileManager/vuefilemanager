@@ -23,8 +23,8 @@
 </template>
 
 <script>
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import {events} from '/resources/js/bus'
+    import ButtonBase from "./ButtonBase";
+    import {events} from "../../bus";
 
     export default {
         name: 'AlertPopup',

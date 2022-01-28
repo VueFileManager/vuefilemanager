@@ -28,8 +28,8 @@
 </template>
 
 <script>
-	import ItemHandler from '/resources/js/components/FilesView/ItemHandler'
-	import {events} from '/resources/js/bus'
+	import ItemHandler from "./ItemHandler";
+	import {events} from "../../bus";
 	import {mapGetters} from 'vuex'
 
 	export default {

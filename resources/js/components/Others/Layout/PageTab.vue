@@ -8,7 +8,7 @@
 </template>
 
 <script>
-    import Spinner from '/resources/js/components/FilesView/Spinner'
+    import Spinner from "../../FilesView/Spinner";
 
     export default {
         name: 'PageTab',

@@ -16,7 +16,7 @@
 
 <script>
 import { XIcon } from 'vue-feather-icons'
-import { events } from '/resources/js/bus'
+import { events } from '../../../bus'
 
 export default {
     name: 'MultiEmailInput',

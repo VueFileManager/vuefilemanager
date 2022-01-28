@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import PageTitle from '/resources/js/components/Index/Components/PageTitle'
+    import PageTitle from "./Components/PageTitle";
     import {
         ChevronRightIcon,
         UploadCloudIcon,

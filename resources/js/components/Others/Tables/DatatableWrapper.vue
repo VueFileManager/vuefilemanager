@@ -130,7 +130,7 @@
 
 <script>
 import {ChevronUpIcon, ChevronLeftIcon, ChevronRightIcon} from 'vue-feather-icons'
-import DatatableCell from '/resources/js/components/Others/Tables/DatatableCell'
+import DatatableCell from "./DatatableCell";
 import axios from "axios";
 
 export default {

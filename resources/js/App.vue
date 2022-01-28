@@ -1,5 +1,5 @@
 <template>
-    <div v-cloak>
+    <div>
 
         <!--UI components-->
         <Alert />
@@ -21,11 +21,11 @@
 </template>
 
 <script>
-import ToasterWrapper from '/resources/js/components/Others/Notifications/ToasterWrapper'
-import CookieDisclaimer from '/resources/js/components/Others/CookieDisclaimer'
-import Spinner from '/resources/js/components/FilesView/Spinner'
-import Vignette from '/resources/js/components/Others/Vignette'
-import Alert from '/resources/js/components/FilesView/Alert'
+import ToasterWrapper from "./components/Others/Notifications/ToasterWrapper";
+import CookieDisclaimer from "./components/Others/CookieDisclaimer";
+import Spinner from "./components/FilesView/Spinner";
+import Vignette from "./components/Others/Vignette";
+import Alert from "./components/FilesView/Alert";
 import RestrictionWarningBar from "./RestrictionWarningBar"
 import {mapGetters} from 'vuex'
 import {events} from './bus'

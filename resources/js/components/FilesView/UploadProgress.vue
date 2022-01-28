@@ -28,7 +28,7 @@
     import ProgressBar from '/resources/js/components/FilesView/ProgressBar'
     import { RefreshCwIcon, XIcon } from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
-    import {events} from '/resources/js/bus'
+    import {events} from "../../bus";
 
     export default {
         name: 'UploadProgress',

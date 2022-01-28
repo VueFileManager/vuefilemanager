@@ -1,5 +1,5 @@
-import router from '/resources/js/router'
-import {events} from '/resources/js/bus'
+import {events} from "../../bus";
+import router from "../../router"
 import axios from 'axios'
 import Vue from "vue";
 

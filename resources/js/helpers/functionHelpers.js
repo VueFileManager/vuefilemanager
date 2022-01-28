@@ -1,6 +1,6 @@
 import {debounce, isArray, orderBy} from "lodash"
-import i18n from '/resources/js/i18n/index'
-import router from '/resources/js/router'
+import i18n from "../i18n";
+import router from "../router";
 import store from '../store/index'
 import {events} from '../bus'
 import axios from 'axios'

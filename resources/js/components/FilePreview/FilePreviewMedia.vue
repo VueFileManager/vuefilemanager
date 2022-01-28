@@ -30,14 +30,14 @@
 
 <script>
 import {ChevronLeftIcon, ChevronRightIcon} from 'vue-feather-icons'
-import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
-import ImageFile from '/resources/js/components/FilePreview/Media/ImageFile'
-import PdfFile from '/resources/js/components/FilePreview/Media/PdfFile'
-import Audio from '/resources/js/components/FilePreview/Media/Audio'
-import Video from '/resources/js/components/FilePreview/Media/Video'
-import Spinner from '/resources/js/components/FilesView/Spinner'
+import ToolbarButton from "../FilesView/ToolbarButton";
+import ImageFile from "./Media/ImageFile";
+import PdfFile from "./Media/PdfFile";
+import Audio from "./Media/Audio";
+import Video from "./Media/Video";
+import Spinner from "../FilesView/Spinner";
 import {mapGetters} from 'vuex'
-import {events} from '/resources/js/bus'
+import {events} from "../../bus";
 
 export default {
     name: 'FilePreviewMedia',

@@ -1,8 +1,8 @@
 import Vue from "vue"
 import axios from 'axios'
-import {events} from '/resources/js/bus'
-import router from '/resources/js/router'
-import i18n from '/resources/js/i18n/index'
+import {events} from "../../bus"
+import router from '../../router'
+import i18n from "../../i18n";
 
 const defaultState = {
     currentFolder: undefined,

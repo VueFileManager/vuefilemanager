@@ -5,8 +5,8 @@
 </template>
 
 <script>
-    import ToasterItem from '/resources/js/components/Others/Notifications/ToasterItem'
-    import {events} from '/resources/js/bus'
+    import ToasterItem from "./ToasterItem";
+    import {events} from '../../../bus'
 
     export default {
         components: {

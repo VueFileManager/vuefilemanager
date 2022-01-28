@@ -1,7 +1,7 @@
 // Fonts
-@import '/resources/sass/vuefilemanager/_variables';
-@import '/resources/sass/vuefilemanager/_mixins';
-@import '/resources/sass/vuefilemanager/_vuewind';
+@import './vuefilemanager/_variables';
+@import './vuefilemanager/_mixins';
+@import './vuefilemanager/_vuewind';
 
 #viewport {
   display: flex;

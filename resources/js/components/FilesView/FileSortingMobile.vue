@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import FileSortingOptions from '/resources/js/components/FilesView/FileSortingOptions'
-import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
-import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
+import FileSortingOptions from "./FileSortingOptions";
+import MenuMobileGroup from "../Mobile/MenuMobileGroup";
+import MenuMobile from '../Mobile/MenuMobile'
 
 export default {
     name: 'FilterSortingMobile',

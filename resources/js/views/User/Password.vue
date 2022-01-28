@@ -81,10 +81,10 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-	import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+	import SwitchInput from "../../components/Others/Forms/SwitchInput";
+	import FormLabel from "../../components/Others/Forms/FormLabel";
+	import ButtonBase from "../../components/FilesView/ButtonBase";
+	import InfoBox from "../../components/Others/Forms/InfoBox";
 	import AppInputSwitch from "../../components/Admin/AppInputSwitch"
 	import AppInputButton from "../../components/Admin/AppInputButton"
 	import AppInputText from "../../components/Admin/AppInputText"

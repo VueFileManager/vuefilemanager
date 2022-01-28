@@ -36,11 +36,11 @@
 <script>
 	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview";
 	import TeamMembersButton from "../Teams/Components/TeamMembersButton";
-    import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
-    import SearchBar from '/resources/js/components/FilesView/SearchBar'
+    import ToolbarButton from "./ToolbarButton";
+    import SearchBar from "./SearchBar";
     import {MenuIcon, ChevronLeftIcon, MoreHorizontalIcon } from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
-    import {events} from '/resources/js/bus'
+    import {events} from "../../bus";
 
     export default {
         name: 'MobileToolBar',

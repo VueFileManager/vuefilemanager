@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import {events} from '/resources/js/bus'
+import {events} from "../../bus";
 import ItemList from './ItemList'
 import ItemGrid from './ItemGrid'
 import {mapGetters} from 'vuex'

@@ -9,7 +9,7 @@
 <script>
 import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
 import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
-import {events} from '/resources/js/bus'
+import {events} from "../../bus";
 
 export default {
     name: 'MobileContextMenu',

@@ -14,9 +14,9 @@
 </template>
 
 <script>
-    import FilePreviewToolbar from '/resources/js/components/FilePreview/FilePreviewToolbar'
-    import FilePreviewMedia from '/resources/js/components/FilePreview/FilePreviewMedia'
-    import {events} from '/resources/js/bus'
+    import FilePreviewToolbar from "./FilePreviewToolbar";
+    import FilePreviewMedia from "./FilePreviewMedia";
+    import {events} from "../../bus";
 
     export default {
         name: 'FilePreview',

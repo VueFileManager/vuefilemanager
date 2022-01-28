@@ -129,15 +129,15 @@
 	import AppInputSwitch from "../../../components/Admin/AppInputSwitch";
 	import AppInputText from "../../../components/Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-    import SearchInput from '/resources/js/components/Others/Forms/SearchInput'
-    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import PageHeader from '/resources/js/components/Others/PageHeader'
-    import Spinner from '/resources/js/components/FilesView/Spinner'
+    import MobileActionButton from "../../../components/FilesView/MobileActionButton";
+    import SwitchInput from "../../../components/Others/Forms/SwitchInput";
+    import SearchInput from "../../../components/Others/Forms/SearchInput";
+    import FormLabel from "../../../components/Others/Forms/FormLabel";
+    import MobileHeader from "../../../components/Mobile/MobileHeader";
+    import ButtonBase from "../../../components/FilesView/ButtonBase";
+    import InfoBox from "../../../components/Others/Forms/InfoBox";
+    import PageHeader from "../../../components/Others/PageHeader";
+    import Spinner from "../../../components/FilesView/Spinner";
     import {PlusIcon, XIcon} from 'vue-feather-icons'
     import {debounce, omitBy} from 'lodash'
     import {events} from '/resources/js/bus'

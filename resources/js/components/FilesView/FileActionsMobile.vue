@@ -25,9 +25,8 @@
 </template>
 
 <script>
-    import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-    import UploadProgress from '/resources/js/components/FilesView/UploadProgress'
-    import {events} from '/resources/js/bus'
+    import MobileActionButton from "./MobileActionButton";
+    import UploadProgress from "./UploadProgress";
 	import {mapGetters} from "vuex";
 
     export default {

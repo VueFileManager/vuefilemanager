@@ -69,16 +69,16 @@
 <script>
 	import AppInputText from "../Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-	import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
-	import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
-	import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
-	import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
-	import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import PopupWrapper from "../Others/Popup/PopupWrapper";
+	import PopupActions from '../Others/Popup/PopupActions'
+	import PopupContent from '../Others/Popup/PopupContent'
+	import PopupHeader from '../Others/Popup/PopupHeader'
+	import ThumbnailItem from "../Others/ThumbnailItem";
+	import ButtonBase from "../FilesView/ButtonBase";
 	import TeamList from "./Components/TeamList";
 	import {required} from 'vee-validate/dist/rules'
 	import InfoBox from "../Others/Forms/InfoBox";
-	import {events} from '/resources/js/bus'
+	import {events} from "../../bus";
 	import axios from "axios";
 	import {mapGetters} from "vuex";
 
