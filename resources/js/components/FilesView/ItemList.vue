@@ -2,7 +2,7 @@
 	<div :class="{'dark:bg-dark-foreground bg-light-background': isClicked && highlight, 'dark:hover:bg-dark-foreground hover:bg-light-background': highlight}" class="flex items-center px-2.5 py-2 rounded-xl select-none border-2 border-transparent border-dashed" :draggable="canDrag" spellcheck="false">
 
 		<!--MultiSelecting for the mobile version-->
-		<CheckBox v-if="isMultiSelectMode" v-model="isClicked" class="mr-5"/>
+		<CheckBox v-if="isMultiSelectMode" v-model="isClicked" :is-clicked="isClicked" class="mr-5"/>
 
 		<!--Item thumbnail-->
 		<div class="w-16 relative">
@@ -105,6 +105,7 @@
 			return {
 				mobileMultiSelect: false,
 				itemName: undefined,
+				isSelected: false,
 			}
 		},
 		computed: {

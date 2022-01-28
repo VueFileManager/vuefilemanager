@@ -25,7 +25,7 @@ const FunctionHelpers = {
 
             if ((value === '' || value === ' ' || typeof value === 'object') && !allowEmpty) return
 
-            axios.post(this.$store.getters.api + route, {
+            axios.post(store.getters.api + route, {
                     [name]: value,
                     _method: 'patch'
                 })
@@ -47,7 +47,7 @@ const FunctionHelpers = {
             formData.append(name, image)
             formData.append('_method', 'PATCH')
 
-            axios.post(this.$store.getters.api + route, formData, {
+            axios.post(store.getters.api + route, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 }
@@ -138,7 +138,7 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$getImage = function (source) {
-            return source ? this.$store.getters.config.host + '/' + source : ''
+            return source ? store.getters.config.host + '/' + source : ''
         }
 
         Vue.prototype.$getCreditCardBrand = function (brand) {
@@ -163,7 +163,7 @@ const FunctionHelpers = {
 
             // Push items to file queue
             [...files].map(item => {
-                this.$store.commit('ADD_FILES_TO_QUEUE', {
+                store.commit('ADD_FILES_TO_QUEUE', {
                     parent_id: store.getters.currentFolder ? store.getters.currentFolder.data.id : '',
                     file: item,
                     path: '/' + item.webkitRelativePath
@@ -171,11 +171,11 @@ const FunctionHelpers = {
             });
 
             // Start uploading if uploading process isn't running
-            if (this.$store.getters.filesInQueueTotal == 0)
+            if (store.getters.filesInQueueTotal == 0)
                 this.$handleUploading(store.getters.fileQueue[0])
 
             // Increase total files in upload bar
-            this.$store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
+            store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
         }
 
         Vue.prototype.$uploadDraggedFiles = async function (event, parent_id) {
@@ -191,18 +191,18 @@ const FunctionHelpers = {
 
             // Push items to file queue
             [...event.dataTransfer.items].map(item => {
-                this.$store.commit('ADD_FILES_TO_QUEUE', {
+                store.commit('ADD_FILES_TO_QUEUE', {
                     parent_id: parent_id ? parent_id : '',
                     file: item.getAsFile(),
                 })
             });
 
             // Start uploading if uploading process isn't running
-            if (this.$store.getters.filesInQueueTotal == 0)
-                this.$handleUploading(this.$store.getters.fileQueue[0])
+            if (store.getters.filesInQueueTotal == 0)
+                this.$handleUploading(store.getters.fileQueue[0])
 
             // Increase total files in upload bar
-            this.$store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', [...event.dataTransfer.items].length)
+            store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', [...event.dataTransfer.items].length)
         }
 
         Vue.prototype.$handleUploading = async function (item) {
@@ -559,11 +559,11 @@ const FunctionHelpers = {
 
         Vue.prototype.$openInDetailPanel = function (entry) {
             // Dispatch load file info detail
-            this.$store.commit('CLIPBOARD_CLEAR')
-            this.$store.commit('ADD_ITEM_TO_CLIPBOARD', entry)
+            store.commit('CLIPBOARD_CLEAR')
+            store.commit('ADD_ITEM_TO_CLIPBOARD', entry)
 
             // Show panel if is not open
-            this.$store.dispatch('fileInfoToggle', true)
+            store.dispatch('fileInfoToggle', true)
         }
 
         Vue.prototype.$openSpotlight = function (filter = undefined) {
@@ -571,7 +571,7 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$enableMultiSelectMode = function () {
-            this.$store.commit('TOGGLE_MULTISELECT_MODE')
+            store.commit('TOGGLE_MULTISELECT_MODE')
         }
 
         Vue.prototype.$showMobileMenu = function (name) {

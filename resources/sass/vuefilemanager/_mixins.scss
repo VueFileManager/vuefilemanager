@@ -18,12 +18,6 @@
   transform: $effect;
 }
 
-@mixin no-yellow {
-  &:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 30px white inset;
-  }
-}
-
 @mixin blurred-image {
   position: absolute;
   left: 0;

@@ -5,12 +5,14 @@
         <div class="input-area bg-light-background rounded-lg" :class="{'is-active': isOpen, 'is-error': isError}" @click="openMenu">
 
             <!--If is selected-->
-            <div class="selected" v-if="selected">
+            <div class="selected w-full flex items-center" v-if="selected">
                 <div class="option-icon" v-if="selected.icon">
-                    <user-icon v-if="selected.icon === 'user'" size="14" class="text-theme dark-text-theme" />
-                    <edit2-icon v-if="selected.icon === 'user-edit'" size="14" class="text-theme dark-text-theme" />
+                    <user-icon v-if="selected.icon === 'user'" size="14" class="vue-feather text-theme" />
+                    <edit2-icon v-if="selected.icon === 'user-edit'" size="14" class="vue-feather text-theme" />
                 </div>
-                <span class="option-value">{{ selected.label }}</span>
+                <span class="whitespace-nowrap w-full inline-block overflow-hidden overflow-ellipsis option-value pl-2">
+					{{ selected.label }}
+				</span>
             </div>
 
             <!--If is empty-->
@@ -115,6 +117,8 @@
     @import '/resources/sass/vuefilemanager/_variables';
     @import '/resources/sass/vuefilemanager/_mixins';
 
+	/* TODO: refactor to the tailwind */
+
     .select {
         position: relative;
         user-select: none;
@@ -203,21 +207,11 @@
         width: 20px;
         display: inline-block;
         @include font-size(10);
-
-        svg {
-            margin-top: -4px;
-            vertical-align: middle;
-
-			line, path, circle {
-				color: inherit;
-			}
-        }
     }
 
     .option-value {
         @include font-size(14);
         font-weight: 700;
-        width: 100%;
         vertical-align: middle;
 
         &.placehoder {

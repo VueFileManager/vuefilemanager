@@ -1,5 +1,5 @@
 <template>
-	<div class="flex items-end justify-between sm:h-28 h-20">
+	<div class="lg:flex lg:items-end lg:justify-between grid grid-flow-col lg:gap-0 sm:gap-2 gap-1 items-end sm:h-28 h-20">
 		<!--Data bar-->
 		<Bar
 			v-for="(item, i) in data"

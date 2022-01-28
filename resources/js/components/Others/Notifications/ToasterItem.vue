@@ -1,19 +1,37 @@
 <template>
     <transition appear name="fade">
-        <li v-show="isActive" class="toaster-item" :class="item.type">
-            <div class="toaster-content-wrapper">
-				<span class="toaster-icon">
-					<check-icon v-if="item.type === 'success'" size="22" />
-					<x-icon v-if="item.type === 'danger'" size="22" />
-				</span>
-                <div class="toaster-content">
-                    <p class="toaster-description">{{ item.message }}</p>
-                </div>
+        <div
+			v-if="isActive"
+			class="relative mt-4 p-4 md:w-96 w-full shadow-lg rounded-xl overflow-hidden backdrop-filter backdrop-blur-lg bg-opacity-80"
+			:class="{'dark:bg-2x-dark-foreground bg-red-50': isDanger, 'dark:bg-2x-dark-foreground bg-green-50': isSuccess}"
+		>
+
+			<!--Content-->
+			<div class="flex items-center justify-between">
+				<div class="flex items-center">
+					<div>
+						<check-icon v-if="isSuccess" size="22" class="vue-feather text-green-600" />
+						<x-icon v-if="isDanger" size="22" class="vue-feather text-red-600" />
+					</div>
+
+					<p
+						class="px-4 font-bold"
+						:class="{'text-green-600': isSuccess, 'text-red-600': isDanger}"
+					>
+						{{ item.message }}
+					</p>
+				</div>
+
+				<div @click="isActive = false" class="p-2 cursor-pointer">
+					<x-icon size="16" class="vue-feather dark:text-white text-black opacity-50" />
+				</div>
             </div>
-            <div :class="{'success': item.type === 'success', 'danger': item.type === 'danger'}" class="progressbar">
-                <span></span>
+
+			<!--Progress bar-->
+            <div class="absolute bottom-0 left-0 right-0">
+                <span class="w-0 h-1 block bar-animation" :class="{'bg-green-400': isSuccess, 'bg-red-400': isDanger}"></span>
             </div>
-        </li>
+        </div>
     </transition>
 </template>
 
@@ -28,143 +46,47 @@
         props: [
 			'item'
 		],
+		computed: {
+			isDanger() {
+				return this.item.type === 'danger'
+			},
+			isSuccess() {
+				return this.item.type === 'success'
+			},
+		},
         data() {
             return {
-                isActive: 0
+                isActive: 1
             }
         },
         created() {
-            this.isActive = 1
-
             setTimeout(() => (this.isActive = 0), 6000)
         }
     }
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
+	.bar-animation {
+		animation: progressbar 6s linear;
+	}
 
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: 0.3s ease;
-    }
-
-    .fade-enter,
-    .fade-leave-to {
-        opacity: 0;
-        @include transform(translateX(100%));
-    }
-
-    .toaster-content-wrapper {
-        display: flex;
-        align-items: center;
-        padding: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-    }
-
-    .progressbar {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        opacity: 0.35;
-
-        span {
-            width: 0;
-            height: 3px;
-            display: block;
-            animation: progressbar 6s linear;
-        }
-
-		&.success span {
-            background: $theme;
+	@keyframes progressbar {
+		0% {
+			width: 0;
 		}
-
-		&.danger span {
-            background: $danger;
+		100% {
+			width: 100%;
 		}
-    }
+	}
 
-    @keyframes progressbar {
-        0% {
-            width: 0;
-        }
-        100% {
-            width: 100%;
-        }
-    }
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: 0.3s ease;
+	}
 
-    .toaster-item {
-        max-width: 320px;
-        margin-top: 20px;
-        position: relative;
-        overflow: hidden;
-        display: block;
-        border-radius: 8px;
-
-        .toaster-description {
-            @include font-size(15);
-            font-weight: bold;
-        }
-
-        .toaster-icon {
-            height: 42px;
-            width: 42px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            font-size: 20px;
-            margin-right: 10px;
-        }
-
-        &.success {
-            background: $theme_light;
-
-            line, polyline {
-                stroke: $theme;
-            }
-
-            .toaster-description {
-                color: $theme;
-            }
-        }
-
-        &.danger {
-            background: rgba($danger, 0.1);
-
-            line, polyline {
-                stroke: $danger;
-            }
-
-            .toaster-description {
-                color: $danger;
-            }
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-
-        .toaster-item {
-            margin-bottom: 0;
-            margin-top: 20px;
-            max-width: 100%;
-        }
-
-        .fade-enter,
-        .fade-leave-to {
-            opacity: 0;
-            @include transform(translateY(100%));
-        }
-    }
-
-    .dark {
-        .toaster-item {
-
-            &.success, &.danger {
-                background: $dark_mode_foreground;
-            }
-        }
-    }
+	.fade-enter,
+	.fade-leave-to {
+		opacity: 0;
+		transform: translateX(100%)
+	}
 </style>

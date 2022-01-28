@@ -1,6 +1,6 @@
 <template>
 	<div
-		class="2xl:w-3 md:w-2 w-1 block lg:mr-2 mr-1.5 relative cursor-pointer"
+		class="2xl:w-3 lg:w-2 block lg:mr-2 relative cursor-pointer"
 		:style="{height: bar.percentage + '%'}"
 		@mouseover="isVisible = true"
 		@mouseleave="isVisible = false"

@@ -161,6 +161,10 @@ export default {
 	@apply whitespace-nowrap overflow-ellipsis overflow-x-hidden block
 }
 
+input:-webkit-autofill {
+	transition-delay: 999999999999s;
+}
+
 [v-cloak],
 [v-cloak] > * {
 	display: none

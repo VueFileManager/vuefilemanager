@@ -59,7 +59,7 @@
 				<router-view :user="user" />
             </div>
             <div id="loader" v-if="isLoading">
-                <Spinner></Spinner>
+                <Spinner />
             </div>
         </div>
     </div>
