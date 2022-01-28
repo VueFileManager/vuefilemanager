@@ -1,7 +1,7 @@
  <template>
-	 <div class="flex items-center flex-shrink-0 flex-grow-0">
+	 <div class="flex items-center shrink-0 grow-0">
 		 <MemberAvatar
-			 class="mr-3 flex-shrink-0"
+			 class="mr-3 shrink-0"
 			 :is-border="false"
 			 :size="52"
 			 :member="member"

@@ -27,7 +27,7 @@
 										:member="row.data.relationships.settings"
 									/>
 									<div class="ml-3 pr-10">
-										<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+										<b class="text-sm font-bold block max-w-1 overflow-hidden text-ellipsis whitespace-nowrap" style="max-width: 155px;">
 											{{ row.data.relationships.settings.data.attributes.name }}
 										</b>
 										<span class="block text-xs dark:text-gray-500 text-gray-600">
@@ -86,7 +86,7 @@
 										:member="row.data.relationships.settings"
 									/>
 									<div class="ml-3 pr-10">
-										<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+										<b class="text-sm font-bold block max-w-1 overflow-hidden text-ellipsis whitespace-nowrap" style="max-width: 155px;">
 											{{ row.data.relationships.settings.data.attributes.name }}
 										</b>
 										<span class="block text-xs dark:text-gray-500 text-gray-600">
@@ -150,7 +150,7 @@
 										:member="row.data.relationships.settings"
 									/>
 									<div class="ml-3 pr-10">
-										<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+										<b class="text-sm font-bold block max-w-1 overflow-hidden text-ellipsis whitespace-nowrap" style="max-width: 155px;">
 											{{ row.data.relationships.settings.data.attributes.name }}
 										</b>
 										<span class="block text-xs dark:text-gray-500 text-gray-600">

@@ -17,7 +17,7 @@ mix
     .sass('resources/sass/app.scss', 'public/css/app.css', {
         implementation: require('node-sass')
     })
-    .postCss("resources/css/tailwind.css", "public/css", [
+    .postCss("resources/css/tailwind.css", "public/css/tailwind.css", [
         require("tailwindcss"),
     ])
     /*.webpackConfig({

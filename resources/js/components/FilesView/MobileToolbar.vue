@@ -6,7 +6,7 @@
             <chevron-left-icon size="17" :class="{'opacity-0 -translate-x-3': ! isLoadedFolder, 'opacity-100 translate-x-0': isLoadedFolder }" class="transform align-middle cursor-pointer mr-2 -ml-1 transition-all duration-200" />
 
 			<!--Folder Title-->
-			<div :class="{'-translate-x-4': ! isLoadedFolder}" class="transform lg:text-base text-sm align-middle font-bold overflow-hidden overflow-ellipsis inline-block whitespace-nowrap transition-all duration-200" style="max-width: 200px;">
+			<div :class="{'-translate-x-4': ! isLoadedFolder}" class="transform lg:text-base text-sm align-middle font-bold overflow-hidden text-ellipsis inline-block whitespace-nowrap transition-all duration-200" style="max-width: 200px;">
 				{{ $getCurrentLocationName() }}
 			</div>
 

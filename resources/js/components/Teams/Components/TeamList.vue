@@ -24,7 +24,7 @@
 
 				<!--Member-->
 				<div v-if="entry.type === 'member'" class="info">
-					<b class="text-sm font-bold block max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+					<b class="text-sm font-bold block max-w-1 overflow-hidden text-ellipsis whitespace-nowrap" style="max-width: 155px;">
 						{{ entry.name }}
 					</b>
 					<span class="block text-xs dark:text-gray-500 text-gray-600">
@@ -34,7 +34,7 @@
 
 				<!--Invitation-->
 				<div v-if="entry.type === 'invitation'" class="info">
-					<b class="text-sm font-bold block max-w-xs overflow-hidden overflow-ellipsis whitespace-nowrap" style="max-width: 155px;">
+					<b class="text-sm font-bold block max-w-xs overflow-hidden text-ellipsis whitespace-nowrap" style="max-width: 155px;">
 						{{ entry.email }}
 					</b>
 					<span v-if="entry.id" class="block text-xs dark:text-gray-500 text-gray-600">

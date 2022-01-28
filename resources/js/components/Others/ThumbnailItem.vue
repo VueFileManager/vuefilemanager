@@ -34,7 +34,7 @@
 		<div class="pl-2">
 
 			<!--Item Title-->
-			<b class="block text-sm mb-0.5 overflow-ellipsis overflow-hidden hover:underline whitespace-nowrap" style="max-width: 240px">
+			<b class="block text-sm mb-0.5 text-ellipsis overflow-hidden hover:underline whitespace-nowrap" style="max-width: 240px">
 				{{ item.data.attributes.name }}
 			</b>
 

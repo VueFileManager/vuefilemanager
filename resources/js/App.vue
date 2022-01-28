@@ -142,22 +142,6 @@ export default {
 @import '../sass/vuefilemanager/variables';
 @import '../sass/vuefilemanager/mixins';
 
-.card {
-	@apply dark:bg-dark-foreground bg-white sm:p-6 p-4 rounded-xl lg:mb-6 mb-5
-}
-
-.widget-card {
-	@apply dark:bg-dark-foreground bg-white lg:p-5 p-4 rounded-xl
-}
-
-.input-dark {
-	@apply w-full dark:bg-2x-dark-foreground bg-light-background py-3 px-5 rounded-lg appearance-none border-transparent text-base font-bold border
-}
-
-.text-limit {
-	@apply whitespace-nowrap overflow-ellipsis overflow-x-hidden block
-}
-
 input:-webkit-autofill {
 	transition-delay: 999999999999s;
 }

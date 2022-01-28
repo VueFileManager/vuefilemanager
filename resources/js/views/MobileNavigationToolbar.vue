@@ -2,7 +2,7 @@
 	<div class="flex text-center py-5 px-5 w-full justify-between items-center z-20 lg:hidden block">
 
 		<!--Location Title-->
-		<div class="text-sm dark:text-gray-100 align-middle font-bold overflow-hidden overflow-ellipsis inline-block whitespace-nowrap transition-all duration-200" style="max-width: 200px;">
+		<div class="text-sm dark:text-gray-100 align-middle font-bold overflow-hidden text-ellipsis inline-block whitespace-nowrap transition-all duration-200" style="max-width: 200px;">
 			{{ locationName }}
 		</div>
 

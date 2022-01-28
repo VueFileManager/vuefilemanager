@@ -58,7 +58,7 @@
 			<div class="text-center">
 
 				<!--Item Title-->
-				<b class="inline-block leading-3 text-sm hover:underline w-full overflow-ellipsis overflow-hidden whitespace-nowrap md:px-6 tracking-tigh" ref="name" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName">
+				<b class="inline-block leading-3 text-sm hover:underline w-full text-ellipsis overflow-hidden whitespace-nowrap md:px-6 tracking-tigh" ref="name" @input="renameItem" @keydown.delete.stop @click.stop :contenteditable="canEditName">
 					{{ itemName }}
 				</b>
 

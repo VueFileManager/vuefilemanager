@@ -10,7 +10,7 @@
                     <user-icon v-if="selected.icon === 'user'" size="14" class="vue-feather text-theme" />
                     <edit2-icon v-if="selected.icon === 'user-edit'" size="14" class="vue-feather text-theme" />
                 </div>
-                <span class="whitespace-nowrap w-full inline-block overflow-hidden overflow-ellipsis option-value pl-2">
+                <span class="whitespace-nowrap w-full inline-block overflow-hidden text-ellipsis option-value pl-2">
 					{{ selected.label }}
 				</span>
             </div>

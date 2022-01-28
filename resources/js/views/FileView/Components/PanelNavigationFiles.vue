@@ -44,7 +44,7 @@
 				<div @click="goToFolder(folder)" v-for="folder in favourites" :key="folder.data.id" class="group flex items-center justify-between py-2.5 cursor-pointer">
 					<div class="flex items-center">
 						<folder-icon size="17" class="mr-2.5 vue-feather" :class="{'text-theme': $route.params.id === folder.data.id}" />
-						<span class="font-bold text-xs max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap" :class="{'text-theme': $route.params.id === folder.data.id}">
+						<span class="font-bold text-xs max-w-1 overflow-hidden text-ellipsis whitespace-nowrap" :class="{'text-theme': $route.params.id === folder.data.id}">
 							{{ folder.data.attributes.name }}
 						</span>
 					</div>

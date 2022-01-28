@@ -24,7 +24,7 @@
 			<!--Item label-->
 			<b
 				@click="getFolder"
-				class="text-sm font-bold whitespace-nowrap overflow-x-hidden overflow-ellipsis inline-block ml-3 transition-all duration-150"
+				class="text-sm font-bold whitespace-nowrap overflow-x-hidden text-ellipsis inline-block ml-3 transition-all duration-150"
 				:class="{'text-theme': isSelectedItem}"
 			>
 				{{ nodes.name }}
@@ -32,7 +32,7 @@
         </div>
 
 		<!--Children-->
-        <TreeMenu
+        <tree-node
 			:disabled-by-id="disabledById"
 			:depth="depth + 1"
 			v-if="isVisible"
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-    import TreeMenu from './TreeMenu'
+    //import TreeMenu from './TreeMenu'
 	import {FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon, UserPlusIcon} from 'vue-feather-icons'
 	import {events} from '../../bus'
 	import {mapGetters} from 'vuex'
@@ -62,7 +62,7 @@
 			UserPlusIcon,
 			FolderIcon,
 			UsersIcon,
-			TreeMenu,
+			'tree-node': () => import('./TreeMenuNavigator'),
 		},
 		computed: {
 			...mapGetters([

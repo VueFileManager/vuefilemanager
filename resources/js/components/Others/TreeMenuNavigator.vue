@@ -18,18 +18,17 @@
 			</div>
 			<folder-icon size="17" class="mr-2.5 vue-feather" :class="{'text-theme': isSelected}" />
 			<b
-				class="font-bold text-xs max-w-1 overflow-hidden overflow-ellipsis whitespace-nowrap"
+				class="font-bold text-xs max-w-1 overflow-hidden text-ellipsis whitespace-nowrap"
 				:class="{'text-theme': isSelected}"
 			>
 				{{ nodes.name }}
 			</b>
 		</div>
-		<TreeMenuNavigator :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id" />
+		<tree-node :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id" />
 	</div>
 </template>
 
 <script>
-    import TreeMenuNavigator from './TreeMenuNavigator'
 	import {FolderIcon, ChevronRightIcon} from 'vue-feather-icons'
 	import {mapGetters} from 'vuex'
 	import {events} from '../../bus'
@@ -42,7 +41,7 @@
 			'depth',
 		],
 		components: {
-			TreeMenuNavigator,
+			'tree-node': () => import('./TreeMenuNavigator'),
 			ChevronRightIcon,
 			FolderIcon,
 		},

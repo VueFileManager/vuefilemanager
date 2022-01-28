@@ -300,7 +300,7 @@
 		@include transition(150ms);
 		pointer-events: none;
 		margin-right: 6px;
-		flex-shrink: 0;
+		shrink: 0;
 	}
 
 	.location-title {
