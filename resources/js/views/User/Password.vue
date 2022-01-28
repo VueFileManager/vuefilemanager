@@ -90,7 +90,7 @@
 	import AppInputText from "../../components/Admin/AppInputText"
 	import {required} from 'vee-validate/dist/rules'
 	import {XIcon, Trash2Icon} from 'vue-feather-icons'
-	import {events} from '/resources/js/bus'
+	import {events} from '../../bus'
 	import {mapGetters} from 'vuex'
 	import axios from 'axios'
 

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+	import InfoBox from "../Others/Forms/InfoBox";
 	import FormLabel from "../Others/Forms/FormLabel"
 	import ButtonBase from "../FilesView/ButtonBase"
 

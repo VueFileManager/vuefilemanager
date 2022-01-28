@@ -70,15 +70,15 @@
 	import SelectSingleChargeMethodPopup from "../components/Others/SelectSingleChargeMethodPopup";
 	import SelectPlanSubscriptionPopup from "../components/Subscription/SelectPlanSubscriptionPopup";
 	import ConfirmPopup from "../components/Others/Popup/ConfirmPopup";
-	import FilePreview from '/resources/js/components/FilePreview/FilePreview'
-	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
-	import TwoFactorRecoveryCodesPopup from '/resources/js/components/Others/TwoFactorRecoveryCodesPopup'
-	import CreatePersonalTokenPopup from '/resources/js/components/Others/CreatePersonalTokenPopup'
-	import TwoFactorQrSetupPopup from '/resources/js/components/Others/TwoFactorQrSetupPopup'
-	import AvatarInput from '/resources/js/components/Others/Forms/AvatarInput'
+	import FilePreview from "../components/FilePreview/FilePreview";
+	import Spotlight from "../components/Spotlight/Spotlight";
+	import TwoFactorRecoveryCodesPopup from "../components/Others/TwoFactorRecoveryCodesPopup";
+	import CreatePersonalTokenPopup from "../components/Others/CreatePersonalTokenPopup";
+	import TwoFactorQrSetupPopup from "../components/Others/TwoFactorQrSetupPopup";
+	import AvatarInput from "../components/Others/Forms/AvatarInput";
 	import SidebarNavigation from "../components/Sidebar/SidebarNavigation"
-	import ColorLabel from '/resources/js/components/Others/ColorLabel'
-	import Spinner from '/resources/js/components/FilesView/Spinner'
+	import ColorLabel from "../components/Others/ColorLabel";
+	import Spinner from "../components/FilesView/Spinner";
 	import {mapGetters} from 'vuex'
 	import CardNavigation from "../components/Admin/CardNavigation";
 	import ConfirmPassword from "../components/Others/ConfirmPassword";

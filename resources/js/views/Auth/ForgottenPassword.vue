@@ -44,9 +44,9 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
-    import AuthContent from '/resources/js/components/Auth/AuthContent'
-    import AuthButton from '/resources/js/components/Auth/AuthButton'
+    import AuthContentWrapper from "../../components/Auth/AuthContentWrapper";
+    import AuthContent from "../../components/Auth/AuthContent";
+    import AuthButton from "../../components/Auth/AuthButton";
     import {required} from 'vee-validate/dist/rules'
 	import Headline from "./Headline";
     import {mapGetters} from 'vuex'

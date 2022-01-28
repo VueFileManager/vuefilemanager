@@ -1,11 +1,9 @@
 module.exports = {
-	purge: {
-		content: [
-			'./resources/js/**/*.{js,jsx,ts,tsx,vue}',
-			'./resources/views/vuefilemanager/*.blade.php',
-		]
-	},
-	darkMode: 'class', // or 'media' or 'class'
+	content: [
+		'./resources/js/**/*.{js,jsx,ts,tsx,vue}',
+		'./resources/views/vuefilemanager/*.blade.php',
+	],
+	darkMode: 'class',
 	theme: {
 		debugScreens: {
 			position: ['bottom', 'right'],
@@ -55,12 +53,6 @@ module.exports = {
 			width: {
 				'104': '28rem',
 			}
-		},
-	},
-	variants: {
-		extend: {
-			textColor: ['disabled'],
-			opacity: ['disabled'],
 		},
 	},
 	plugins: [

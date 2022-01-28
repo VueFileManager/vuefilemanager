@@ -22,7 +22,7 @@
 	import AppInputButton from "../Admin/AppInputButton";
 	import AppInputText from "../Admin/AppInputText";
 	import AppInputSwitch from "../Admin/AppInputSwitch"
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import ButtonBase from "../FilesView/ButtonBase";
 	import FormLabel from "../Others/Forms/FormLabel"
 	import {events} from "../../bus";
 	import axios from "axios";

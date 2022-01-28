@@ -12,7 +12,7 @@
 </template>
 
 <script>
-    import TextLabel from '/resources/js/components/Others/TextLabel'
+    import TextLabel from "../Others/TextLabel";
     import { ChevronUpIcon } from 'vue-feather-icons'
 
     export default {

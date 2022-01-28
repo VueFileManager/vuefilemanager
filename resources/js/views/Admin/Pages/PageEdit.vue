@@ -34,14 +34,14 @@
 	import AppInputSwitch from "../../../components/Admin/AppInputSwitch";
 	import AppInputText from "../../../components/Admin/AppInputText";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import FormLabel from "../../../components/Others/Forms/FormLabel";
     import {required} from 'vee-validate/dist/rules'
-    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-    import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
-    import SectionTitle from '/resources/js/components/Others/SectionTitle'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import PageHeader from '/resources/js/components/Others/PageHeader'
-    import Spinner from '/resources/js/components/FilesView/Spinner'
+    import SwitchInput from "../../../components/Others/Forms/SwitchInput";
+    import MobileHeader from "../../../components/Mobile/MobileHeader";
+    import SectionTitle from "../../../components/Others/SectionTitle";
+    import ButtonBase from "../../../components/FilesView/ButtonBase";
+    import PageHeader from "../../../components/Others/PageHeader";
+    import Spinner from "../../../components/FilesView/Spinner";
     import axios from 'axios'
 
     export default {

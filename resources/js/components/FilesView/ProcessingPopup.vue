@@ -32,8 +32,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '/resources/sass/vuefilemanager/_variables';
-@import '/resources/sass/vuefilemanager/_mixins';
+@import '../../../sass/vuefilemanager/variables';
+@import '../../../sass/vuefilemanager/mixins';
 
 .spinner-wrapper {
     padding-bottom: 90px;

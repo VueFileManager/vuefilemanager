@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
+import MenuMobileGroup from "../Mobile/MenuMobileGroup";
 import TeamFolderPreview from '../Teams/Components/TeamFolderPreview'
-import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
+import MenuMobile from "../Mobile/MenuMobile";
 
 export default {
     name: 'MobileTeamContextMenu',

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import FolderUploadIcon from '/resources/js/components/FilesView/Icons/FolderUploadIcon'
+import FolderUploadIcon from "./Icons/FolderUploadIcon";
 import {
     UploadCloudIcon,
 } from 'vue-feather-icons'

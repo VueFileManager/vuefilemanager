@@ -31,9 +31,9 @@
 </template>
 
 <script>
-    import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
-    import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import PopupWrapper from "./PopupWrapper";
+    import PopupActions from "./PopupActions";
+    import ButtonBase from "../../FilesView/ButtonBase";
     import {events} from '../../../bus'
 
     export default {

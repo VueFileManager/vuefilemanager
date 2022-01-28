@@ -46,16 +46,16 @@
 </template>
 
 <script>
-import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
-import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
-import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
-import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
-import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-import Spinner from '/resources/js/components/FilesView/Spinner'
+import MobileActionButton from "../FilesView/MobileActionButton";
+import PopupWrapper from "./Popup/PopupWrapper";
+import PopupActions from './Popup/PopupActions'
+import PopupContent from './Popup/PopupContent'
+import PopupHeader from './Popup/PopupHeader'
+import ButtonBase from "../FilesView/ButtonBase";
+import InfoBox from "./Forms/InfoBox";
+import Spinner from "../FilesView/Spinner";
 import {mapGetters} from "vuex"
-import {events} from '/resources/js/bus'
+import {events} from '../../bus'
 import axios from 'axios'
 
 export default {
@@ -148,8 +148,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-	@import '/resources/sass/vuefilemanager/_mixins';
+    @import '../../../sass/vuefilemanager/variables';
+	@import '../../../sass/vuefilemanager/mixins';
 
 	.mobile-actions {
 		white-space: nowrap;

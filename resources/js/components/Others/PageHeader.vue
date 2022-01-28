@@ -24,8 +24,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '../../../sass/vuefilemanager/variables';
+    @import '../../../sass/vuefilemanager/mixins';
 
     .page-header {
         display: flex;

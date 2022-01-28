@@ -66,8 +66,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "resources/sass/vuefilemanager/_inapp-forms.scss";
-@import '/resources/sass/vuefilemanager/_forms';
+@import '../../../sass/vuefilemanager/inapp-forms';
+@import '../../../sass/vuefilemanager/forms';
 
 .color-pick-wrapper {
     .color-wrapper {

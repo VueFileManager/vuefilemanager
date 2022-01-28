@@ -129,12 +129,12 @@
 <script>
 	import PaymentMethod from "../Others/PaymentMethod";
 	import {loadScript} from "@paypal/paypal-js";
-	import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-	import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
-	import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
-	import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
-	import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import SwitchInput from "../Others/Forms/SwitchInput";
+	import PopupWrapper from "../Others/Popup/PopupWrapper";
+	import PopupActions from '../Others/Popup/PopupActions'
+	import PopupContent from '../Others/Popup/PopupContent'
+	import PopupHeader from '../Others/Popup/PopupHeader'
+	import ButtonBase from "../FilesView/ButtonBase";
 	import PlanDetail from "./PlanDetail";
 	import paystack from 'vue-paystack';
 	import {mapGetters} from "vuex";

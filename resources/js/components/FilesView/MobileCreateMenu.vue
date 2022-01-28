@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import MenuMobileGroup from '/resources/js/components/Mobile/MenuMobileGroup'
-import MenuMobile from '/resources/js/components/Mobile/MenuMobile'
+import MenuMobileGroup from "../Mobile/MenuMobileGroup";
+import MenuMobile from "../Mobile/MenuMobile";
 import {events} from "../../bus";
 
 export default {

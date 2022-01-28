@@ -92,13 +92,13 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
-    import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
-    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import AuthContent from '/resources/js/components/Auth/AuthContent'
-    import AuthButton from '/resources/js/components/Auth/AuthButton'
+    import AuthContentWrapper from "../../components/Auth/AuthContentWrapper";
+    import SelectInput from "../../components/Others/Forms/SelectInput";
+    import FormLabel from "../../components/Others/Forms/FormLabel";
+    import ButtonBase from "../../components/FilesView/ButtonBase";
+    import InfoBox from "../../components/Others/Forms/InfoBox";
+    import AuthContent from "../../components/Auth/AuthContent";
+    import AuthButton from "../../components/Auth/AuthButton";
     import {SettingsIcon} from 'vue-feather-icons'
     import {required} from 'vee-validate/dist/rules'
     import {XIcon} from 'vue-feather-icons'
@@ -204,7 +204,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_forms';
-    @import '/resources/sass/vuefilemanager/_auth';
-    @import '/resources/sass/vuefilemanager/_setup_wizard';
+    @import '../../../sass/vuefilemanager/forms';
+    @import '../../../sass/vuefilemanager/auth';
+    @import '../../../sass/vuefilemanager/setup_wizard';
 </style>

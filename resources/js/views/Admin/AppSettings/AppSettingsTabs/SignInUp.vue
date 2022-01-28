@@ -183,14 +183,14 @@
 		Edit2Icon,
 	} from 'vue-feather-icons'
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-	import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
+	import SwitchInput from "../../../../components/Others/Forms/SwitchInput";
 	import AppInputSwitch from "../../../../components/Admin/AppInputSwitch"
-	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import FormLabel from "../../../../components/Others/Forms/FormLabel";
+	import ButtonBase from "../../../../components/FilesView/ButtonBase";
 	import AppInputText from "../../../../components/Admin/AppInputText"
-	import PageTab from '/resources/js/components/Others/Layout/PageTab'
+	import PageTab from "../../../../components/Others/Layout/PageTab";
 	import {required} from 'vee-validate/dist/rules'
-	import {events} from '/resources/js/bus'
+	import {events} from '../../../../bus'
 	import {mapGetters} from "vuex"
 	import axios from 'axios'
 

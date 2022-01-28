@@ -131,10 +131,10 @@
 </template>
 
 <script>
-    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-    import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import DatatableWrapper from "../../components/Others/Tables/DatatableWrapper";
+    import MobileActionButton from "../../components/FilesView/MobileActionButton";
+    import SwitchInput from "../../components/Others/Forms/SwitchInput";
+    import ButtonBase from "../../components/FilesView/ButtonBase";
 	import ColorLabel from "../../components/Others/ColorLabel";
     import {Trash2Icon, Edit2Icon} from "vue-feather-icons";
     import { mapGetters } from 'vuex'

@@ -54,7 +54,7 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
+    @import '../../../sass/vuefilemanager/variables';
 
     .file-preview {
         width: 100%;

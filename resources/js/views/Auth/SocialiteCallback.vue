@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Spinner from '/resources/js/components/FilesView/Spinner'
+import Spinner from "../../components/FilesView/Spinner";
 import {events} from "../../bus";
 
 export default {

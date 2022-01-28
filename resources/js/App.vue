@@ -139,8 +139,8 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap');
-@import '/resources/sass/vuefilemanager/_variables';
-@import '/resources/sass/vuefilemanager/_mixins';
+@import '../sass/vuefilemanager/variables';
+@import '../sass/vuefilemanager/mixins';
 
 .card {
 	@apply dark:bg-dark-foreground bg-white sm:p-6 p-4 rounded-xl lg:mb-6 mb-5

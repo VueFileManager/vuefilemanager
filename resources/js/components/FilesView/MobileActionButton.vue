@@ -35,8 +35,8 @@
 
 <script>
     import { UserCheckIcon, HardDriveIcon, UploadCloudIcon, LinkIcon, Trash2Icon, UsersIcon, SearchIcon, RefreshCwIcon, DownloadIcon, CopyIcon, FilterIcon, DollarSignIcon, CheckIcon, XSquareIcon, CheckSquareIcon, FolderPlusIcon, ListIcon, GridIcon, TrashIcon, UserPlusIcon, PlusIcon, CreditCardIcon  } from 'vue-feather-icons'
-    import CloudPlusIcon from '/resources/js/components/FilesView/Icons/CloudPlusIcon'
-    import SortingIcon from '/resources/js/components/FilesView/Icons/SortingIcon'
+    import CloudPlusIcon from "./Icons/CloudPlusIcon";
+    import SortingIcon from "./Icons/SortingIcon";
 
     export default {
         name: 'MobileActionButton',

@@ -6,6 +6,12 @@
 	</svg>
 </template>
 
+<script>
+	export default {
+		name: "CloudPlusIcon",
+	};
+</script>
+
 <style lang="scss">
 
     .preview-list-icon {

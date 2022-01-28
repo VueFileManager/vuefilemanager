@@ -116,20 +116,20 @@
 </template>
 
 <script>
-	import FileSortingOptions from '/resources/js/components/FilesView/FileSortingOptions'
-	import UploadProgress from '/resources/js/components/FilesView/UploadProgress'
-	import PopoverWrapper from '/resources/js/components/Desktop/PopoverWrapper'
-	import ToolbarWrapper from '/resources/js/components/Desktop/ToolbarWrapper'
-	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
-	import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
-	import ToolbarGroup from '/resources/js/components/Desktop/ToolbarGroup'
-	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
+	import FileSortingOptions from "./FileSortingOptions";
+	import UploadProgress from "./UploadProgress";
+	import PopoverWrapper from "../Desktop/PopoverWrapper";
+	import ToolbarWrapper from "../Desktop/ToolbarWrapper";
+	import ToolbarButton from "./ToolbarButton";
+	import OptionUpload from "./OptionUpload";
+	import ToolbarGroup from "../Desktop/ToolbarGroup";
+	import OptionGroup from "./OptionGroup";
 	import TeamMembersButton from "../Teams/Components/TeamMembersButton"
-	import PopoverItem from '/resources/js/components/Desktop/PopoverItem'
+	import PopoverItem from "../Desktop/PopoverItem";
 	import TeamFolderPreview from "../Teams/Components/TeamFolderPreview"
 	import {MenuIcon, ChevronLeftIcon, MoreHorizontalIcon} from 'vue-feather-icons'
-	import SearchBar from '/resources/js/components/FilesView/SearchBar'
-	import Option from '/resources/js/components/FilesView/Option'
+	import SearchBar from "./SearchBar";
+	import Option from "./Option";
 	import {events} from "../../bus";
 	import {mapGetters} from 'vuex'
 

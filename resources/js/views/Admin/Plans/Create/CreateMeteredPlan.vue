@@ -97,17 +97,17 @@
 	import AppInputSwitch from "../../../../components/Admin/AppInputSwitch"
 	import AppInputText from "../../../../components/Admin/AppInputText"
 	import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-	import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
-	import ImageInput from '/resources/js/components/Others/Forms/ImageInput'
-	import MobileHeader from '/resources/js/components/Mobile/MobileHeader'
-	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-	import SectionTitle from '/resources/js/components/Others/SectionTitle'
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-	import PageHeader from '/resources/js/components/Others/PageHeader'
-	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+	import SelectInput from "../../../../components/Others/Forms/SelectInput";
+	import ImageInput from "../../../../components/Others/Forms/ImageInput";
+	import MobileHeader from "../../../../components/Mobile/MobileHeader";
+	import FormLabel from "../../../../components/Others/Forms/FormLabel";
+	import SectionTitle from "../../../../components/Others/SectionTitle";
+	import ButtonBase from "../../../../components/FilesView/ButtonBase";
+	import PageHeader from "../../../../components/Others/PageHeader";
+	import InfoBox from "../../../../components/Others/Forms/InfoBox";
 	import {required} from 'vee-validate/dist/rules'
 	import {mapGetters} from 'vuex'
-	import {events} from '/resources/js/bus'
+	import {events} from '../../../../bus'
 	import axios from 'axios'
 
 	export default {

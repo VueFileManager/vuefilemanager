@@ -24,7 +24,7 @@
 	</div>
 </template>
 <script>
-import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+import InfoBox from "../Others/Forms/InfoBox";
 import DatatableWrapper from "../Others/Tables/DatatableWrapper"
 import FixedTransactionRow from "./FixedTransactionRow"
 import FormLabel from "../Others/Forms/FormLabel"

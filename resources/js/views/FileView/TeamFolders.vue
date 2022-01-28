@@ -141,19 +141,19 @@
 	import MobileTeamContextMenu from "../../components/FilesView/MobileTeamContextMenu";
 	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
 	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
-    import MobileActionButtonUpload from '/resources/js/components/FilesView/MobileActionButtonUpload'
-	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
-	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
-	import MobileCreateMenu from '/resources/js/components/FilesView/MobileCreateMenu'
-    import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
-	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
-	import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
-	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
-	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
-	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-	import Option from '/resources/js/components/FilesView/Option'
+    import MobileActionButtonUpload from "../../components/FilesView/MobileActionButtonUpload";
+	import MobileMultiSelectToolbar from "../../components/FilesView/MobileMultiSelectToolbar";
+	import MobileActionButton from "../../components/FilesView/MobileActionButton";
+	import MobileContextMenu from "../../components/FilesView/MobileContextMenu";
+	import MobileCreateMenu from "../../components/FilesView/MobileCreateMenu";
+    import ButtonUpload from "../../components/FilesView/ButtonUpload";
+	import ToolbarButton from "../../components/FilesView/ToolbarButton";
+	import OptionUpload from "../../components/FilesView/OptionUpload";
+	import FileBrowser from "../../components/FilesView/FileBrowser";
+	import ContextMenu from "../../components/FilesView/ContextMenu";
+	import OptionGroup from "../../components/FilesView/OptionGroup";
+	import ButtonBase from "../../components/FilesView/ButtonBase";
+	import Option from "../../components/FilesView/Option";
 	import { mapGetters } from 'vuex'
 	import {events} from "../../bus";
 

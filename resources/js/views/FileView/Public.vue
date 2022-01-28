@@ -127,17 +127,17 @@
 <script>
 	import EmptyFilePage from "../../components/FilesView/EmptyFilePage";
 	import FileActionsMobile from "../../components/FilesView/FileActionsMobile";
-	import MobileMultiSelectToolbar from "/resources/js/components/FilesView/MobileMultiSelectToolbar"
-	import MobileActionButton from '/resources/js/components/FilesView/MobileActionButton'
-	import MobileContextMenu from "/resources/js/components/FilesView/MobileContextMenu"
-	import MobileCreateMenu from '/resources/js/components/FilesView/MobileCreateMenu'
-	import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
-	import OptionUpload from '/resources/js/components/FilesView/OptionUpload'
-    import ButtonUpload from '/resources/js/components/FilesView/ButtonUpload'
-	import FileBrowser from '/resources/js/components/FilesView/FileBrowser'
-	import ContextMenu from '/resources/js/components/FilesView/ContextMenu'
-	import OptionGroup from '/resources/js/components/FilesView/OptionGroup'
-	import Option from '/resources/js/components/FilesView/Option'
+	import MobileMultiSelectToolbar from "../../components/FilesView/MobileMultiSelectToolbar";
+	import MobileActionButton from "../../components/FilesView/MobileActionButton";
+	import MobileContextMenu from "../../components/FilesView/MobileContextMenu";
+	import MobileCreateMenu from "../../components/FilesView/MobileCreateMenu";
+	import ToolbarButton from "../../components/FilesView/ToolbarButton";
+	import OptionUpload from "../../components/FilesView/OptionUpload";
+    import ButtonUpload from "../../components/FilesView/ButtonUpload";
+	import FileBrowser from "../../components/FilesView/FileBrowser";
+	import ContextMenu from "../../components/FilesView/ContextMenu";
+	import OptionGroup from "../../components/FilesView/OptionGroup";
+	import Option from "../../components/FilesView/Option";
 	import {events} from "../../bus"
 	import { mapGetters } from 'vuex'
 

@@ -44,7 +44,7 @@
 
 <script>
 import FormLabel from "../Others/Forms/FormLabel"
-import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+import InfoBox from "../Others/Forms/InfoBox";
 import {mapGetters} from "vuex";
 
 export default {

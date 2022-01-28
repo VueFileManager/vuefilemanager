@@ -513,7 +513,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '/resources/sass/vuefilemanager/_forms';
-@import '/resources/sass/vuefilemanager/_auth';
-@import '/resources/sass/vuefilemanager/_setup_wizard';
+@import '../../../sass/vuefilemanager/forms';
+@import '../../../sass/vuefilemanager/auth';
+@import '../../../sass/vuefilemanager/setup_wizard';
 </style>

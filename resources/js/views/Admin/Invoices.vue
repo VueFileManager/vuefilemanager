@@ -38,8 +38,8 @@
 	import MeteredTransactionDetailRow from "../../components/Subscription/MeteredTransactionDetailRow";
 	import MeteredTransactionRow from "../../components/Subscription/MeteredTransactionRow";
 	import MemberAvatar from "../../components/FilesView/MemberAvatar"
-	import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-	import ColorLabel from '/resources/js/components/Others/ColorLabel'
+	import DatatableWrapper from "../../components/Others/Tables/DatatableWrapper";
+	import ColorLabel from "../../components/Others/ColorLabel";
 	import {mapGetters} from 'vuex'
 
 	export default {

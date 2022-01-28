@@ -74,7 +74,7 @@
 <script>
 	import ColorLabel from "../../components/Others/ColorLabel";
 	import MemberAvatar from "../../components/FilesView/MemberAvatar";
-    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
+    import DatatableWrapper from "../../components/Others/Tables/DatatableWrapper";
     import { mapGetters } from 'vuex'
 
     export default {

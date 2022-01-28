@@ -32,7 +32,7 @@
 </template>
 <script>
 import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+import ButtonBase from "../FilesView/ButtonBase";
 import FormLabel from "../Others/Forms/FormLabel"
 import AppInputText from "../Admin/AppInputText"
 import {mapGetters} from "vuex";

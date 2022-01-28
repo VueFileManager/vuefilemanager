@@ -16,7 +16,7 @@
 </template>
 
 <script>
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import ButtonBase from "../../components/FilesView/ButtonBase";
 	import ItemGrid from "../../components/FilesView/ItemGrid"
     import {mapGetters} from "vuex"
 

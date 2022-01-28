@@ -24,8 +24,9 @@
 			<!--Navigation-->
 			<div class="mt-7">
 				<router-link
-					v-for="item in navigation"
+					v-for="(item, i) in navigation"
 					:to="{name: item.route}"
+					:key="i"
 					:title="item.title"
 					:class="[{'router-link-active': isSection(item.section)}, item.icon]"
 					class="block mb-1.5"
@@ -142,7 +143,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_variables';
+    @import '../../../sass/vuefilemanager/variables';
 
 	.menu-bar {
 		//background: linear-gradient(180deg, rgba(246, 245, 241, 0.8) 0%, rgba(243, 244, 246, 0.8) 100%);

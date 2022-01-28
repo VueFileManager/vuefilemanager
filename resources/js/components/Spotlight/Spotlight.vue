@@ -200,12 +200,12 @@ import {
 	UsersIcon,
 	XIcon
 } from 'vue-feather-icons'
-import Spinner from '/resources/js/components/FilesView/Spinner'
+import Spinner from "../FilesView/Spinner";
 import MemberAvatar from "../FilesView/MemberAvatar"
 import FilterSuggestion from "./FilterSuggestion"
 import ItemList from "../FilesView/ItemList"
 import CategoryName from "./CategoryName"
-import {events} from '/resources/js/bus'
+import {events} from '../../bus'
 import {mapGetters} from 'vuex'
 import {debounce} from 'lodash'
 import axios from "axios"

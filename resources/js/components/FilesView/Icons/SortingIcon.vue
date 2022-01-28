@@ -8,6 +8,12 @@
     </svg>
 </template>
 
+<script>
+	export default {
+		name: "SortingIcon",
+	};
+</script>
+
 <style lang="scss">
 
     .preview-list-icon {

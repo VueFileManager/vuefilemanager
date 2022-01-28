@@ -41,9 +41,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '/resources/sass/vuefilemanager/_variables';
-@import '/resources/sass/vuefilemanager/_mixins';
-@import '/resources/sass/vuefilemanager/_forms';
+@import '../../../../sass/vuefilemanager/variables';
+@import '../../../../sass/vuefilemanager/mixins';
+@import '../../../../sass/vuefilemanager/forms';
 
 .search-bar {
     position: relative;

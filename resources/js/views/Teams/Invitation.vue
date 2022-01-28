@@ -88,11 +88,11 @@
 <script>
 	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
 	import VueFolderTeamIcon from "../../components/FilesView/Icons/VueFolderTeamIcon"
-    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
-	import AuthContent from '/resources/js/components/Auth/AuthContent'
+    import AuthContentWrapper from "../../components/Auth/AuthContentWrapper";
+	import AuthContent from "../../components/Auth/AuthContent";
 	import MemberAvatar from "../../components/FilesView/MemberAvatar"
-	import AuthButton from '/resources/js/components/Auth/AuthButton'
-	import Spinner from '/resources/js/components/FilesView/Spinner'
+	import AuthButton from "../../components/Auth/AuthButton";
+	import Spinner from "../../components/FilesView/Spinner";
 	import Headline from "../Auth/Headline"
 	import {mapGetters} from 'vuex'
 	import axios from 'axios'

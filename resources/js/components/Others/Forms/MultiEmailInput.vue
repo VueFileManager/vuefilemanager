@@ -91,8 +91,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "resources/sass/vuefilemanager/_inapp-forms.scss";
-@import '/resources/sass/vuefilemanager/_forms';
+@import "../../../../sass/vuefilemanager/inapp-forms";
+@import '../../../../sass/vuefilemanager/forms';
 
 .input-label {
     @include font-size(14);

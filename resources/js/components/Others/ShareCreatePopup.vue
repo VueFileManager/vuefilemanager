@@ -80,25 +80,23 @@
 import AppInputText from "../Admin/AppInputText";
 import AppInputSwitch from "../Admin/AppInputSwitch";
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import SelectBoxInput from '/resources/js/components/Others/Forms/SelectBoxInput'
-import PopupWrapper from '/resources/js/components/Others/Popup/PopupWrapper'
-import PopupActions from '/resources/js/components/Others/Popup/PopupActions'
-import PopupContent from '/resources/js/components/Others/Popup/PopupContent'
-import PopupHeader from '/resources/js/components/Others/Popup/PopupHeader'
-import MultiEmailInput from '/resources/js/components/Others/Forms/MultiEmailInput'
-import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
-import ThumbnailItem from '/resources/js/components/Others/ThumbnailItem'
-import ActionButton from '/resources/js/components/Others/ActionButton'
-import CopyShareLink from '/resources/js/components/Others/Forms/CopyShareLink'
-import TabWrapper from '/resources/js/components/Others/TabWrapper'
-import TabOption from '/resources/js/components/Others/TabOption'
-import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+import SelectBoxInput from "./Forms/SelectBoxInput";
+import PopupWrapper from "./Popup/PopupWrapper";
+import PopupActions from './Popup/PopupActions'
+import PopupContent from './Popup/PopupContent'
+import PopupHeader from './Popup/PopupHeader'
+import MultiEmailInput from "./Forms/MultiEmailInput";
+import SwitchInput from "./Forms/SwitchInput";
+import SelectInput from "./Forms/SelectInput";
+import ThumbnailItem from "./ThumbnailItem";
+import ActionButton from "./ActionButton";
+import CopyShareLink from "./Forms/CopyShareLink";
+import ButtonBase from "../FilesView/ButtonBase";
+import InfoBox from "./Forms/InfoBox";
 import {LinkIcon, MailIcon} from 'vue-feather-icons'
 import {required} from 'vee-validate/dist/rules'
 import {mapGetters} from 'vuex'
-import {events} from '/resources/js/bus'
+import {events} from '../../bus'
 import axios from 'axios'
 
 export default {
@@ -113,8 +111,6 @@ export default {
         ActionButton,
         PopupWrapper,
         PopupActions,
-        TabWrapper,
-        TabOption,
         PopupContent,
         PopupHeader,
         MultiEmailInput,

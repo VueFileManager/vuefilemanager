@@ -19,7 +19,7 @@
 		<MobileNavigationToolbar />
 
         <ContentSidebar>
-			<ContentGroup v-for="(menu, i) in nav" :title="menu.groupTitle" :slug="menu.groupTitle" :can-collapse="false">
+			<ContentGroup v-for="(menu, i) in nav" :key="i" :title="menu.groupTitle" :slug="menu.groupTitle" :can-collapse="false">
 				<router-link v-for="(item, i) in menu.groupLinks" :key="i" :to="{name: item.route}" class="flex items-center py-2.5" :class="{'router-link-active': item.linkActivation && item.linkActivation.includes($router.currentRoute.fullPath.split('/')[2])}">
 					<box-icon v-if="item.icon === 'box'" size="17" class="mr-2.5 vue-feather icon-active" />
 					<users-icon v-if="item.icon === 'users'" size="17" class="mr-2.5 vue-feather icon-active" />
@@ -44,15 +44,15 @@
 
 <script>
 	import MobileNavigationToolbar from "./MobileNavigationToolbar";
-    import FilePreview from '/resources/js/components/FilePreview/FilePreview'
-	import Spotlight from '/resources/js/components/Spotlight/Spotlight'
+    import FilePreview from "../components/FilePreview/FilePreview";
+	import Spotlight from "../components/Spotlight/Spotlight";
     import { DollarSignIcon, HelpCircleIcon, RefreshCwIcon, UsersIcon, SettingsIcon, FileTextIcon, CreditCardIcon, DatabaseIcon, BoxIcon, MonitorIcon, GlobeIcon } from 'vue-feather-icons'
-    import SidebarNavigation from '/resources/js/components/Sidebar/SidebarNavigation'
-    import MobileNavigation from '/resources/js/components/Others/MobileNavigation'
-    import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
-    import CreateLanguage from '/resources/js/components/Others/CreateLanguage'
-    import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
-    import ConfirmPopup from '/resources/js/components/Others/Popup/ConfirmPopup'
+    import SidebarNavigation from "../components/Sidebar/SidebarNavigation";
+    import MobileNavigation from "../components/Others/MobileNavigation";
+    import ContentSidebar from "../components/Sidebar/ContentSidebar";
+    import CreateLanguage from "../components/Others/CreateLanguage";
+    import ContentGroup from "../components/Sidebar/ContentGroup";
+    import ConfirmPopup from "../components/Others/Popup/ConfirmPopup";
     import { mapGetters } from 'vuex'
 
     export default {

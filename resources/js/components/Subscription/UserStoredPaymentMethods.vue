@@ -49,7 +49,7 @@
 	</div>
 </template>
 <script>
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import ButtonBase from "../FilesView/ButtonBase";
 	import FormLabel from "../Others/Forms/FormLabel"
 	import PaymentCard from "./PaymentCard"
 	import Spinner from "../FilesView/Spinner"

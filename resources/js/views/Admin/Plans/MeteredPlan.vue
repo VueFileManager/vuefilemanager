@@ -25,7 +25,7 @@
 
 <script>
 	import CardNavigation from "../../../components/Admin/CardNavigation"
-	import Spinner from '/resources/js/components/FilesView/Spinner'
+	import Spinner from "../../../components/FilesView/Spinner";
 	import axios from 'axios'
 	import {mapGetters} from "vuex";
 

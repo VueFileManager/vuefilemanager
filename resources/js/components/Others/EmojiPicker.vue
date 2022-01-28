@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import Spinner from '/resources/js/components/FilesView/Spinner'
-import Emoji from '/resources/js/components/Others/Emoji'
+import Spinner from "../FilesView/Spinner";
+import Emoji from "./Emoji";
 import {debounce, groupBy} from 'lodash'
 import {XIcon} from 'vue-feather-icons'
 import {mapGetters} from 'vuex'

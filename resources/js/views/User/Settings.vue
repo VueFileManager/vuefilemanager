@@ -132,8 +132,8 @@
 
 <script>
 	import AppInputText from "../../components/Admin/AppInputText";
-	import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
-	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+	import SelectInput from "../../components/Others/Forms/SelectInput";
+	import FormLabel from "../../components/Others/Forms/FormLabel";
 	import {required} from 'vee-validate/dist/rules'
 	import {mapGetters} from 'vuex'
 

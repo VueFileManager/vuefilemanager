@@ -14,7 +14,7 @@
 
 <script>
 	import AppInputSwitch from "../Admin/AppInputSwitch"
-	import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+	import ButtonBase from "../FilesView/ButtonBase";
 	import FormLabel from "../Others/Forms/FormLabel"
 	import axios from "axios";
 	import {events} from "../../bus";

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import ToolbarButton from '/resources/js/components/FilesView/ToolbarButton'
+import ToolbarButton from "./ToolbarButton";
 import {mapGetters} from 'vuex'
 
 export default {

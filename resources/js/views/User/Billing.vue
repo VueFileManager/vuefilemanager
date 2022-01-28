@@ -83,7 +83,7 @@
 	import UserFailedPayments from "../../components/Subscription/UserFailedPayments"
 	import UserUsageEstimates from "../../components/Subscription/UserUsageEstimates"
 	import UserBillingAlerts from "../../components/Subscription/UserBillingAlerts"
-	import PageTab from '/resources/js/components/Others/Layout/PageTab'
+	import PageTab from "../../components/Others/Layout/PageTab";
 	import UserBalance from "../../components/Subscription/UserBalance"
 	import {mapGetters} from 'vuex'
 

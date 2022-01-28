@@ -76,14 +76,14 @@
 
 <script>
 	import Headline from "./Headline";
-    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
+    import AuthContentWrapper from "../../components/Auth/AuthContentWrapper";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import AuthContent from '/resources/js/components/Auth/AuthContent'
-    import AuthButton from '/resources/js/components/Auth/AuthButton'
-    import SocialiteAuthenticationButtons from '/resources/js/components/Auth/SocialiteAuthenticationButtons'
+    import AuthContent from "../../components/Auth/AuthContent";
+    import AuthButton from "../../components/Auth/AuthButton";
+    import SocialiteAuthenticationButtons from "../../components/Auth/SocialiteAuthenticationButtons";
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
-    import {events} from '/resources/js/bus'
+    import {events} from '../../bus'
     import axios from 'axios'
 
     export default {

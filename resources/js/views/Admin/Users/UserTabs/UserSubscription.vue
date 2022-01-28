@@ -67,10 +67,10 @@
 	import MeteredTransactionDetailRow from "../../../../components/Subscription/MeteredTransactionDetailRow"
 	import MeteredTransactionRow from "../../../../components/Subscription/MeteredTransactionRow"
 	import FixedTransactionRow from "../../../../components/Subscription/FixedTransactionRow"
-	import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
+	import DatatableWrapper from "../../../../components/Others/Tables/DatatableWrapper";
 	import FormLabel from "../../../../components/Others/Forms/FormLabel"
-	import PageTab from '/resources/js/components/Others/Layout/PageTab'
-	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+	import PageTab from "../../../../components/Others/Layout/PageTab";
+	import InfoBox from "../../../../components/Others/Forms/InfoBox";
 	import UserMeteredSubscription from "./UserMeteredSubscription"
 	import UserFixedSubscription from "./UserFixedSubscription"
 	import {mapGetters} from "vuex"

@@ -29,10 +29,10 @@
 </template>
 
 <script>
-    import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
+    import TreeMenuNavigator from './TreeMenuNavigator'
 	import {FolderIcon, ChevronRightIcon} from 'vue-feather-icons'
 	import {mapGetters} from 'vuex'
-	import {events} from '/resources/js/bus'
+	import {events} from '../../bus'
 
 	export default {
 		name: 'TreeMenuNavigator',

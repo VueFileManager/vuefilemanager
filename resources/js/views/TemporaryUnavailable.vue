@@ -17,9 +17,9 @@
 </template>
 
 <script>
-    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
-    import AuthContent from '/resources/js/components/Auth/AuthContent'
-    import AuthButton from '/resources/js/components/Auth/AuthButton'
+    import AuthContentWrapper from "../components/Auth/AuthContentWrapper";
+    import AuthContent from "../components/Auth/AuthContent";
+    import AuthButton from "../components/Auth/AuthButton";
 	import Headline from "./Auth/Headline"
 
     export default {
@@ -34,5 +34,5 @@
 </script>
 
 <style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_auth';
+    @import '../../sass/vuefilemanager/auth';
 </style>

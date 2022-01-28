@@ -14,8 +14,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '../../../../sass/vuefilemanager/variables';
+    @import '../../../../sass/vuefilemanager/mixins';
 
     .setup-box {
         padding: 20px;

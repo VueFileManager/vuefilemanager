@@ -32,7 +32,7 @@
 	import ColorLabel from "../Others/ColorLabel"
 	import DatatableWrapper from "../Others/Tables/DatatableWrapper"
 	import FormLabel from "../Others/Forms/FormLabel"
-	import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+	import InfoBox from "../Others/Forms/InfoBox";
 	import {mapGetters} from "vuex";
 	import MeteredTransactionDetailRow from "./MeteredTransactionDetailRow"
 	import MeteredTransactionRow from "./MeteredTransactionRow"

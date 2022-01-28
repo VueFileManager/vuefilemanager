@@ -148,11 +148,11 @@
 </template>
 
 <script>
-    import WidgetLatestRegistrations from '/resources/js/components/Admin/WidgetLatestRegistrations'
-    import ColorLabel from '/resources/js/components/Others/ColorLabel'
+    import WidgetLatestRegistrations from "../../components/Admin/WidgetLatestRegistrations";
+    import ColorLabel from "../../components/Others/ColorLabel";
     import {ChevronRightIcon, ThumbsUpIcon} from "vue-feather-icons"
 	import WidgetWrapper from "../../components/Admin/WidgetWrapper"
-    import Spinner from '/resources/js/components/FilesView/Spinner'
+    import Spinner from "../../components/FilesView/Spinner";
 	import FormLabel from "../../components/Others/Forms/FormLabel"
 	import BarChart from "../../components/UI/BarChart"
     import { mapGetters } from 'vuex'

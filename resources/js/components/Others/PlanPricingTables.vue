@@ -28,7 +28,7 @@
 </template>
 
 <script>
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
+    import ButtonBase from "../FilesView/ButtonBase";
     import {HardDriveIcon} from "vue-feather-icons"
     import { mapGetters } from 'vuex'
     import axios from 'axios'
@@ -72,8 +72,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '../../../sass/vuefilemanager/variables';
+    @import '../../../sass/vuefilemanager/mixins';
 
     .plan {
         text-align: center;

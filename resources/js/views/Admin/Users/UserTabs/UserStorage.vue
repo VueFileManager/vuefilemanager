@@ -83,16 +83,16 @@
 <script>
 	import ProgressLine from "../../../../components/Admin/ProgressLine";
 	import AppInputText from "../../../../components/Admin/AppInputText";
-    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
-    import PageTab from '/resources/js/components/Others/Layout/PageTab'
+    import FormLabel from "../../../../components/Others/Forms/FormLabel";
+    import InfoBox from "../../../../components/Others/Forms/InfoBox";
+    import PageTabGroup from "../../../../components/Others/Layout/PageTabGroup";
+    import PageTab from "../../../../components/Others/Layout/PageTab";
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import ButtonBase from '/resources/js/components/FilesView/ButtonBase'
-    import SetupBox from '/resources/js/components/Others/Forms/SetupBox'
+    import ButtonBase from "../../../../components/FilesView/ButtonBase";
+    import SetupBox from "../../../../components/Others/Forms/SetupBox";
     import {required} from 'vee-validate/dist/rules'
 	import BarChart from "../../../../components/UI/BarChart"
-    import {events} from '/resources/js/bus'
+    import {events} from '../../../../bus'
     import {mapGetters} from "vuex"
     import axios from 'axios'
 

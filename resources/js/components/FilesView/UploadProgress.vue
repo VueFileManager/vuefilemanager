@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import ProgressBar from '/resources/js/components/FilesView/ProgressBar'
+    import ProgressBar from "./ProgressBar";
     import { RefreshCwIcon, XIcon } from 'vue-feather-icons'
     import {mapGetters} from 'vuex'
     import {events} from "../../bus";
@@ -55,8 +55,8 @@
 </script>
 
 <style scoped lang="scss">
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '../../../sass/vuefilemanager/variables';
+    @import '../../../sass/vuefilemanager/mixins';
 
     .sync-alt {
         animation: spin 1s linear infinite;

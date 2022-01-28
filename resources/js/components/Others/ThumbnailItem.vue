@@ -66,7 +66,7 @@
 	import MemberAvatar from "../FilesView/MemberAvatar";
 	import Emoji from "./Emoji";
     import {mapGetters} from 'vuex'
-    import FolderIcon from '/resources/js/components/FilesView/FolderIcon'
+    import FolderIcon from "../FilesView/FolderIcon";
 
     export default {
         name: 'ThumbnailItem',

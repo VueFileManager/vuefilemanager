@@ -44,9 +44,9 @@
 </template>
 
 <script>
-    import TreeMenu from '/resources/js/components/Others/TreeMenu'
+    import TreeMenu from './TreeMenu'
 	import {FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon, UserPlusIcon} from 'vue-feather-icons'
-	import {events} from '/resources/js/bus'
+	import {events} from '../../bus'
 	import {mapGetters} from 'vuex'
 
 	export default {

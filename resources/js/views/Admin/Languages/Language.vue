@@ -140,7 +140,7 @@
     import Spinner from "../../../components/FilesView/Spinner";
     import {PlusIcon, XIcon} from 'vue-feather-icons'
     import {debounce, omitBy} from 'lodash'
-    import {events} from '/resources/js/bus'
+    import {events} from '../../../bus'
 
     export default {
         name: 'Language',

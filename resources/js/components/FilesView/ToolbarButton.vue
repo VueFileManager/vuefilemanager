@@ -22,8 +22,8 @@
 </template>
 
 <script>
-    import SortingIcon from '/resources/js/components/FilesView/Icons/SortingIcon'
-    import CloudPlusIcon from '/resources/js/components/FilesView/Icons/CloudPlusIcon'
+    import SortingIcon from "./Icons/SortingIcon";
+    import CloudPlusIcon from "./Icons/CloudPlusIcon";
     import {
 		SearchIcon,
     	UserPlusIcon,

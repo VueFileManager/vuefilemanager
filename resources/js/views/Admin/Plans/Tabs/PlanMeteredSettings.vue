@@ -48,12 +48,12 @@
 </template>
 
 <script>
-    import SwitchInput from '/resources/js/components/Others/Forms/SwitchInput'
-    import SelectInput from '/resources/js/components/Others/Forms/SelectInput'
+    import SwitchInput from "../../../../components/Others/Forms/SwitchInput";
+    import SelectInput from "../../../../components/Others/Forms/SelectInput";
 	import AppInputSwitch from "../../../../components/Admin/AppInputSwitch"
-    import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
+    import FormLabel from "../../../../components/Others/Forms/FormLabel";
 	import AppInputText from "../../../../components/Admin/AppInputText"
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
+    import InfoBox from "../../../../components/Others/Forms/InfoBox";
 
     export default {
         name: 'PlanMeteredSettings',

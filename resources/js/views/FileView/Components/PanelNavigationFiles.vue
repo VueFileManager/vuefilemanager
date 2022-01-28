@@ -7,7 +7,7 @@
 		</div>
 
 		<!--Locations-->
-		<ContentGroup v-for="(menu, i) in nav" :title="menu.groupTitle" :slug="menu.groupTitle" :can-collapse="menu.groupCollapsable">
+		<ContentGroup v-for="(menu, i) in nav" :key="i" :title="menu.groupTitle" :slug="menu.groupTitle" :can-collapse="menu.groupCollapsable">
 			<router-link v-for="(item, i) in menu.groupLinks" :key="i" @click.native="resetData" :to="{name: item.route}" class="flex items-center py-2.5">
 				<home-icon v-if="item.icon === 'home'" size="17" class="mr-2.5 vue-feather icon-active"/>
 				<upload-cloud-icon v-if="item.icon === 'upload-cloud'" size="17" class="mr-2.5 vue-feather icon-active" />
@@ -57,9 +57,9 @@
 
 <script>
 	import { ChevronsLeftIcon, FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon} from "vue-feather-icons";
-	import TreeMenuNavigator from '/resources/js/components/Others/TreeMenuNavigator'
-	import ContentSidebar from '/resources/js/components/Sidebar/ContentSidebar'
-	import ContentGroup from '/resources/js/components/Sidebar/ContentGroup'
+	import TreeMenuNavigator from "../../../components/Others/TreeMenuNavigator";
+	import ContentSidebar from "../../../components/Sidebar/ContentSidebar";
+	import ContentGroup from "../../../components/Sidebar/ContentGroup";
 	import {events} from "../../../bus";
 	import {mapGetters} from "vuex";
 

@@ -110,13 +110,13 @@
 </template>
 
 <script>
-	import FilePreviewDetail from '/resources/js/components/Others/FilePreviewDetail'
-	import CopyShareLink from '/resources/js/components/Others/Forms/CopyShareLink'
+	import FilePreviewDetail from "../Others/FilePreviewDetail";
+	import CopyShareLink from "../Others/Forms/CopyShareLink";
 	import {Edit2Icon, LockIcon, UnlockIcon, EyeOffIcon} from 'vue-feather-icons'
-	import ImageMetaData from '/resources/js/components/FilesView/ImageMetaData'
-	import TitlePreview from '/resources/js/components/FilesView/TitlePreview'
+	import ImageMetaData from "./ImageMetaData";
+	import TitlePreview from "./TitlePreview";
 	import TeamMembersPreview from "../Teams/Components/TeamMembersPreview"
-	import ListInfoItem from '/resources/js/components/Others/ListInfoItem'
+	import ListInfoItem from "../Others/ListInfoItem";
 	import MemberAvatar from "./MemberAvatar"
 	import {mapGetters} from 'vuex'
 

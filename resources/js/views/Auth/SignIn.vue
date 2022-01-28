@@ -132,14 +132,14 @@
 </template>
 
 <script>
-    import AuthContentWrapper from '/resources/js/components/Auth/AuthContentWrapper'
+    import AuthContentWrapper from "../../components/Auth/AuthContentWrapper";
 	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
-	import SocialiteAuthenticationButtons from '/resources/js/components/Auth/SocialiteAuthenticationButtons'
-	import AuthContent from '/resources/js/components/Auth/AuthContent'
-	import AuthButton from '/resources/js/components/Auth/AuthButton'
-	import Spinner from '/resources/js/components/FilesView/Spinner'
+	import SocialiteAuthenticationButtons from "../../components/Auth/SocialiteAuthenticationButtons";
+	import AuthContent from "../../components/Auth/AuthContent";
+	import AuthButton from "../../components/Auth/AuthButton";
+	import Spinner from "../../components/FilesView/Spinner";
 	import {mapGetters} from 'vuex'
-	import {events} from '/resources/js/bus'
+	import {events} from '../../bus'
 	import axios from 'axios'
 	import Headline from "./Headline";
 

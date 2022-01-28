@@ -85,8 +85,8 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
+    @import '../../../../sass/vuefilemanager/variables';
+    @import '../../../../sass/vuefilemanager/mixins';
 
     .dropzone {
         border: 1px dashed #a1abc2;

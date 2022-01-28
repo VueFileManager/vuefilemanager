@@ -68,7 +68,7 @@
 <script>
 	import MemberAvatar from "../FilesView/MemberAvatar";
 	import MeteredTransactionDetailRow from "./MeteredTransactionDetailRow";
-	import ColorLabel from "/resources/js/components/Others/ColorLabel"
+	import ColorLabel from "../Others/ColorLabel";
 	import {EyeIcon, FileTextIcon} from 'vue-feather-icons'
 
 	export default {

@@ -1,21 +1,23 @@
 <template>
 	<div id="pdf-wrapper" :style="{width: documentSize + '%'}">
-		<pdf :src="pdfData" v-for="i in numPages" :key="i" :resize="true" :page="i" scale="page-width" style="width:100%; margin:0 auto 35px;" id="printable-file" class="pdf-file">
+<!--		<pdf :src="pdfData" v-for="i in numPages" :key="i" :resize="true" :page="i" scale="page-width" style="width:100%; margin:0 auto 35px;" id="printable-file" class="pdf-file">
 			<template slot="loading">
 				<h1>loading content...</h1>
 			</template>
-		</pdf>
+		</pdf>-->
 	</div>
 </template>
 
 <script>
+	//todo: resolve pdf
+
 	import {events} from "../../../bus";
-	import pdf from 'pdfvuer'
+	//import pdf from 'pdfvuer'
 
 	export default {
 		name: 'PdfFile',
 		components: {
-			pdf,
+			//pdf,
 		},
 		props: [
 			'file'
@@ -39,9 +41,9 @@
 
 				let self = this;
 
-				self.pdfData = pdf.createLoadingTask(this.file.data.attributes.file_url);
+				//self.pdfData = pdf.createLoadingTask(this.file.data.attributes.file_url);
 
-				self.pdfData.then(pdf => self.numPages = pdf.numPages);
+				//self.pdfData.then(pdf => self.numPages = pdf.numPages);
 			},
 			getDocumentSize() {
 				if (window.innerWidth < 960) {
@@ -77,9 +79,9 @@
 	}
 </script>
 
-<style src="pdfvuer/dist/pdfvuer.css" lang="css"></style>
+<!--<style src="pdfvuer/dist/pdfvuer.css" lang="css"></style>-->
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_variables';
+    @import '../../../../sass/vuefilemanager/variables';
 
 	#pdf-wrapper {
 		border-radius: 8px;

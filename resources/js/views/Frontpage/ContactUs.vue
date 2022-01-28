@@ -60,11 +60,11 @@
 
 <script>
     import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import PageTitle from '/resources/js/components/Index/Components/PageTitle'
-    import PageFooter from '/resources/js/components/Index/IndexPageFooter'
-    import Navigation from '/resources/js/components/Index/IndexNavigation'
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import AuthButton from '/resources/js/components/Auth/AuthButton'
+    import PageTitle from "../../components/Index/Components/PageTitle";
+    import PageFooter from '../../components/Index/IndexPageFooter'
+    import Navigation from '../../components/Index/IndexNavigation'
+    import InfoBox from "../../components/Others/Forms/InfoBox";
+    import AuthButton from "../../components/Auth/AuthButton";
     import {required} from 'vee-validate/dist/rules'
     import {mapGetters} from 'vuex'
     import axios from 'axios'
@@ -136,10 +136,10 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '/resources/sass/vuefilemanager/_landing-page';
-    @import '/resources/sass/vuefilemanager/_variables';
-    @import '/resources/sass/vuefilemanager/_mixins';
-    @import '/resources/sass/vuefilemanager/_forms';
+    @import '../../../sass/vuefilemanager/landing-page';
+    @import '../../../sass/vuefilemanager/variables';
+    @import '../../../sass/vuefilemanager/mixins';
+    @import '../../../sass/vuefilemanager/forms';
 
     .form {
         max-width: 100%;

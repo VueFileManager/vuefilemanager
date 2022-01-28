@@ -50,8 +50,8 @@
 
 <script>
 	import ProgressLine from "../../components/Admin/ProgressLine";
-	import FormLabel from '/resources/js/components/Others/Forms/FormLabel'
-	import PageTab from '/resources/js/components/Others/Layout/PageTab'
+	import FormLabel from "../../components/Others/Forms/FormLabel";
+	import PageTab from "../../components/Others/Layout/PageTab";
 	import axios from 'axios'
 	import BarChart from "../../components/UI/BarChart";
 	import {mapGetters} from "vuex";

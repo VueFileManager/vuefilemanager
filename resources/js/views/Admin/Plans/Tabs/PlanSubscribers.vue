@@ -89,13 +89,12 @@
 <script>
 	import ColorLabel from "../../../../components/Others/ColorLabel";
 	import MemberAvatar from "../../../../components/FilesView/MemberAvatar";
-    import DatatableCellImage from '/resources/js/components/Others/Tables/DatatableCellImage'
+    import DatatableCellImage from "../../../../components/Others/Tables/DatatableCellImage";
     import {DownloadCloudIcon, Edit2Icon, Trash2Icon} from "vue-feather-icons"
-    import DatatableWrapper from '/resources/js/components/Others/Tables/DatatableWrapper'
-    import PageTabGroup from '/resources/js/components/Others/Layout/PageTabGroup'
-    import PageTab from '/resources/js/components/Others/Layout/PageTab'
-    import InfoBox from '/resources/js/components/Others/Forms/InfoBox'
-    import axios from 'axios'
+    import DatatableWrapper from "../../../../components/Others/Tables/DatatableWrapper";
+    import PageTabGroup from "../../../../components/Others/Layout/PageTabGroup";
+    import PageTab from "../../../../components/Others/Layout/PageTab";
+    import InfoBox from "../../../../components/Others/Forms/InfoBox";
 	import {mapGetters} from "vuex";
 
     export default {
