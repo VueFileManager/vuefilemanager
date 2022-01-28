@@ -49,8 +49,10 @@
 						{{ row.data.attributes.created_at }}
 					</span>
 				</td>
-				<td class="md:pl-1 pl-3 text-right">
-					<img class="inline-block h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
+				<td class="md:pl-1 pl-3">
+					<div class="text-right md:w-full w-32">
+						<img class="w-32 md:inline-block" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver">
+					</div>
 				</td>
 			</tr>
 		</template>

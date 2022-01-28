@@ -10,11 +10,7 @@
         <Spinner v-if="! isLoaded" />
 
 		<!--Show warning bar when user functionality is restricted-->
-		<div v-if="isLimitedUser" class="bg-red-500 text-center py-1">
-			<router-link :to="{name: 'Billing'}" class="text-white font-bold text-xs">
-				{{ $t('Your functionality is restricted. Please review your billing settings.') }}
-			</router-link>
-		</div>
+		<RestrictionWarningBar />
 
 		<!--App view-->
         <router-view v-if="isLoaded" />
@@ -30,12 +26,14 @@ import CookieDisclaimer from '/resources/js/components/Others/CookieDisclaimer'
 import Spinner from '/resources/js/components/FilesView/Spinner'
 import Vignette from '/resources/js/components/Others/Vignette'
 import Alert from '/resources/js/components/FilesView/Alert'
+import RestrictionWarningBar from "./RestrictionWarningBar"
 import {mapGetters} from 'vuex'
 import {events} from './bus'
 
 export default {
 	name: 'App',
 	components: {
+		RestrictionWarningBar,
 		CookieDisclaimer,
 		ToasterWrapper,
 		Vignette,
@@ -49,7 +47,6 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'isLimitedUser',
 			'config',
 			'user',
 		]),

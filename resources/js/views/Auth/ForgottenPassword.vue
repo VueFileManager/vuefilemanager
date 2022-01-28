@@ -1,5 +1,5 @@
 <template>
-    <AuthContentWrapper ref="auth">
+    <AuthContentWrapper ref="auth" class="h-screen">
 
         <!--Forgotten your password?-->
         <AuthContent name="forgotten-password" :visible="true">

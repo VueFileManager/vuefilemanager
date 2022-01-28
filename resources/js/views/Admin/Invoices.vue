@@ -57,7 +57,11 @@
 				'config',
 			]),
 			columns() {
-				return this.$store.getters.transactionColumns.filter(column => ! ['type'].includes(column.field))
+				if (config.subscriptionType === 'fixed') {
+					return this.$store.getters.transactionColumns.filter(column => ! ['type'].includes(column.field))
+				}
+
+				return this.$store.getters.transactionColumns
 			}
 		},
 		data() {

@@ -1,5 +1,5 @@
 <template>
-    <AuthContentWrapper ref="auth">
+    <AuthContentWrapper ref="auth" class="h-screen">
 
         <!--Log In by Email-->
         <AuthContent name="log-in" :visible="true">

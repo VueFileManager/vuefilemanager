@@ -2,7 +2,7 @@
     <AuthContentWrapper ref="auth">
 
         <!--Registration-->
-        <AuthContent name="sign-up" :visible="true">
+        <AuthContent name="sign-up" :visible="true" class="mt-4 mb-12">
             <Headline
 				:title="$t('page_registration.title')"
 				:description="$t('page_registration.subtitle')"
@@ -71,7 +71,6 @@
                 </router-link>
             </span>
         </AuthContent>
-
     </AuthContentWrapper>
 </template>
 

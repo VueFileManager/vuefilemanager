@@ -1,5 +1,5 @@
 <template>
-    <AuthContentWrapper>        
+    <AuthContentWrapper class="h-screen">
         <AuthContent :visible="true">
 			<Headline
 				:title="$t('page_email_successfully_send.title')"
