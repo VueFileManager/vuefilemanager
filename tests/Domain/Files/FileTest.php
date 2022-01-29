@@ -330,4 +330,37 @@ class FileTest extends TestCase
                     );
             });
     }
+
+     /**
+     * @test
+     */
+    public function it_store_file_exif_data_after_file_upload()
+    {
+        
+        $file = UploadedFile::fake()
+            ->image('fake-image.jpg', 2000, 2000);
+
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload', [
+                'filename'  => $file->name,
+                'file'      => $file,
+                'parent_id' => null,
+                'path'      => '/' . $file->name,
+                'is_last'   => 'true',
+            ])->assertStatus(201);
+
+        $file = File::first();
+
+        $this->assertDatabaseHas('exifs', [
+            'file_id' => $file->id,
+            'height'  => 2000,
+            'width'   => 2000,
+        ]);
+    }
+
 }
