@@ -26,7 +26,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta name="description" content="{{ $settings->app_description ?? __t('app_description') }}">
 
-    <title>{{ $settings->app_title ?? 'VueFileManager' }} | {{ $settings->app_description ?? __t('app_description') }}</title>
+    <title>
+        {{ $settings->app_title ?? 'VueFileManager' }} | {{ $settings->app_description ?? __t('app_description') }}
+    </title>
 
     {{--StyleSheet--}}
     <link href="{{ mix('css/app.css') }}?v={{ get_version() }}" rel="stylesheet" type="text/css">

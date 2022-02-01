@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center relative">
-        <input ref="sel" :value="item.data.relationships.shared.data.attributes.link" :id="id" type="text" class="pr-16 py-2 pl-3 text-sm focus-border-theme input-dark" readonly>
+        <input ref="sel" :value="item.data.relationships.shared.data.attributes.link" :id="id" type="text" class="pr-16 py-2 pl-3 text-sm focus-border-theme w-full dark:bg-2x-dark-foreground bg-light-background rounded-lg appearance-none border-transparent font-bold border" readonly>
 
 		<!--Copy icon-->
 		<div class="flex items-center">

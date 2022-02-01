@@ -12,7 +12,7 @@
 			</OptionGroup>
 			<OptionGroup v-if="item">
 				<Option @click.native="$shareFileOrFolder(item)" :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
-				<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Convert as Team Folder')" icon="users" />
+				<Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Edit Team Members')" icon="users" />
 			</OptionGroup>
 
             <OptionGroup v-if="item">

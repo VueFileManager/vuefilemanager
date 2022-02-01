@@ -1,8 +1,8 @@
 <template>
-	<div class="flex items-center justify-between py-3 px-4 input-dark">
+	<div class="flex items-center justify-between py-3 md:px-4 px-2 rounded-lg dark:bg-2x-dark-foreground bg-light-background">
 		<div class="flex items-center">
 			<img :src="`/assets/gateways/${card.data.attributes.brand}.svg`" alt="" class="h-5 mr-3 rounded">
-			<b class="text-sm font-bold leading-none capitalize">
+			<b class="text-sm font-bold leading-none capitalize whitespace-nowrap">
 				{{ card.data.attributes.brand }} •••• {{ card.data.attributes.last4 }}
 			</b>
 		</div>
