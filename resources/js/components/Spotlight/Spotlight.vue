@@ -31,6 +31,7 @@
 					@keydown.delete="undoFilter"
 					@keydown.enter="showSelected"
 					@keydown.meta="showByShortcut"
+					@keydown.ctrl="showByShortcut"
 					@keyup.down="onPageDown"
 					@keyup.up="onPageUp"
 					type="text"
@@ -480,7 +481,7 @@ export default {
 			return this.user.data.attributes.role === 'admin'
 		},
 		metaKeyIcon() {
-			return this.$isApple() ? '⌘' : 'alt'
+			return this.$isApple() ? '⌘' : 'Ctrl'
 		},
 		isNotEmptyQuery() {
 			return this.query !== ''

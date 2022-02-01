@@ -61,7 +61,8 @@ export default {
 	},
 	methods: {
 		spotlightListener(e) {
-			if (e.key === 'k' && e.metaKey) {
+			if (e.key === 'k' && e.metaKey || e.key === 'k' && e.ctrlKey) {
+				e.preventDefault()
 				events.$emit('spotlight:show');
 			}
 		},

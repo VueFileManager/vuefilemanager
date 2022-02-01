@@ -24,7 +24,7 @@
         },
 		computed: {
 			metaKeyIcon() {
-				return this.$isApple() ? '⌘' : '⊞'
+				return this.$isApple() ? '⌘' : 'Ctrl'
 			},
 		},
     }
