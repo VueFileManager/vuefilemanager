@@ -1,11 +1,11 @@
 <template>
-    <div class="flex justify-center items-center md:px-0 px-5">
+    <div class="flex items-center justify-center px-5 md:px-0">
         <slot></slot>
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'AuthContentWrapper',
-    }
+export default {
+    name: 'AuthContentWrapper',
+}
 </script>

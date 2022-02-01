@@ -1,7 +1,7 @@
-import {events} from "../../bus";
-import router from "../../router"
+import { events } from '../../bus'
+import router from '../../router'
 import axios from 'axios'
-import Vue from "vue";
+import Vue from 'vue'
 
 const defaultState = {
     permissionOptions: [
@@ -20,17 +20,20 @@ const defaultState = {
     sharedFile: undefined,
 }
 const actions = {
-    getSharedFolder: ({commit, getters}, id) => {
-        commit('LOADING_STATE', {loading: true, data: []})
+    getSharedFolder: ({ commit, getters }, id) => {
+        commit('LOADING_STATE', { loading: true, data: [] })
 
         return new Promise((resolve, reject) => {
             axios
                 .get(`/api/browse/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
-                .then(response => {
+                .then((response) => {
                     let folders = response.data.folders.data
                     let files = response.data.files.data
 
-                    commit('LOADING_STATE', {loading: false, data: folders.concat(files)})
+                    commit('LOADING_STATE', {
+                        loading: false,
+                        data: folders.concat(files),
+                    })
                     commit('SET_CURRENT_FOLDER', response.data.root)
 
                     events.$emit('scrollTop')
@@ -44,57 +47,53 @@ const actions = {
                 })
         })
     },
-    getSingleFile: ({commit}) => {
-        axios.get(`/api/browse/file/${router.currentRoute.params.token}`)
-            .then(response => {
-                commit('STORE_SHARED_FILE', response.data)
-            })
+    getSingleFile: ({ commit }) => {
+        axios.get(`/api/browse/file/${router.currentRoute.params.token}`).then((response) => {
+            commit('STORE_SHARED_FILE', response.data)
+        })
     },
-    getShareDetail: ({commit, state}, token) => {
+    getShareDetail: ({ commit, state }, token) => {
         return new Promise((resolve, reject) => {
             axios
                 .get(`/api/browse/share/${token}`)
-                .then(response => {
+                .then((response) => {
                     resolve(response)
 
                     // Commit shared item options
                     commit('SET_SHARED_DETAIL', response.data)
                     commit('SET_PERMISSION', response.data.data.attributes.permission)
                 })
-                .catch(error => {
+                .catch((error) => {
                     reject(error)
 
                     if (error.response.status === 404) {
-                        router.push({name: 'NotFound'})
+                        router.push({ name: 'NotFound' })
                     }
                 })
         })
     },
-    shareCancel: ({commit, getters}, singleItem) => {
+    shareCancel: ({ commit, getters }, singleItem) => {
         return new Promise((resolve, reject) => {
-
             let tokens = []
             let items = [singleItem]
 
-            if(!singleItem) {
+            if (!singleItem) {
                 items = getters.clipboard
             }
 
-            items.forEach(item => {
+            items.forEach((item) => {
                 tokens.push(item.data.relationships.shared.data.attributes.token)
             })
 
             axios
                 .post('/api/share/revoke', {
                     _method: 'delete',
-                    tokens: tokens
+                    tokens: tokens,
                 })
                 .then(() => {
-
-                    items.forEach(item => {
-
+                    items.forEach((item) => {
                         // Remove item from file browser
-                        if ( getters.currentFolder && Vue.prototype.$isThisRoute(router.currentRoute, ['MySharedItems']) ) {
+                        if (getters.currentFolder && Vue.prototype.$isThisRoute(router.currentRoute, ['MySharedItems'])) {
                             commit('REMOVE_ITEM', item.data.id)
                         }
 
@@ -103,7 +102,6 @@ const actions = {
                         commit('CLIPBOARD_CLEAR')
                     })
                     resolve(true)
-
                 })
                 .catch((error) => {
                     Vue.prototype.$isSomethingWrong()
@@ -119,17 +117,17 @@ const mutations = {
     },
     STORE_SHARED_FILE(state, data) {
         state.sharedFile = data
-    }
+    },
 }
 const getters = {
-    permissionOptions: state => state.permissionOptions,
-    sharedDetail: state => state.sharedDetail,
-    sharedFile: state => state.sharedFile,
+    permissionOptions: (state) => state.permissionOptions,
+    sharedDetail: (state) => state.sharedDetail,
+    sharedFile: (state) => state.sharedFile,
 }
 
 export default {
     state: defaultState,
     getters,
     actions,
-    mutations
+    mutations,
 }

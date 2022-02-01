@@ -1,6 +1,5 @@
 <template>
-	<div v-if="currentFile" class="file-preview-wrapper">
-
+    <div v-if="currentFile" class="file-preview-wrapper">
         <!--Arrow navigation-->
         <div v-if="files.length > 1" class="navigation-arrows">
             <div @click.prevent="prev" class="prev">
@@ -13,31 +12,30 @@
         </div>
 
         <!--File preview-->
-		<div class="file-wrapper-preview">
-
+        <div class="file-wrapper-preview">
             <!--Show PDF-->
-			<PdfFile v-if="isPDF" :file="currentFile"/>
+            <PdfFile v-if="isPDF" :file="currentFile" />
 
             <!--Show Audio, Video and Image-->
             <div v-if="isAudio || isImage || isVideo" class="file-wrapper">
-				<Audio v-if="isAudio" :file="currentFile"/>
-				<Video v-if="isVideo" :file="currentFile"/>
-				<ImageFile v-if="isImage" :file="currentFile"/>
-			</div>
-		</div>
-	</div>
+                <Audio v-if="isAudio" :file="currentFile" />
+                <Video v-if="isVideo" :file="currentFile" />
+                <ImageFile v-if="isImage" :file="currentFile" />
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-import {ChevronLeftIcon, ChevronRightIcon} from 'vue-feather-icons'
-import ToolbarButton from "../FilesView/ToolbarButton";
-import ImageFile from "./Media/ImageFile";
-import PdfFile from "./Media/PdfFile";
-import Audio from "./Media/Audio";
-import Video from "./Media/Video";
-import Spinner from "../FilesView/Spinner";
-import {mapGetters} from 'vuex'
-import {events} from "../../bus";
+import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons'
+import ToolbarButton from '../FilesView/ToolbarButton'
+import ImageFile from './Media/ImageFile'
+import PdfFile from './Media/PdfFile'
+import Audio from './Media/Audio'
+import Video from './Media/Video'
+import Spinner from '../FilesView/Spinner'
+import { mapGetters } from 'vuex'
+import { events } from '../../bus'
 
 export default {
     name: 'FilePreviewMedia',
@@ -45,22 +43,16 @@ export default {
         ChevronRightIcon,
         ChevronLeftIcon,
         ToolbarButton,
-		ImageFile,
-		PdfFile,
+        ImageFile,
+        PdfFile,
         Spinner,
-		Audio,
-		Video,
+        Audio,
+        Video,
     },
     computed: {
-        ...mapGetters([
-            'fastPreview',
-            'clipboard',
-            'entries',
-        ]),
+        ...mapGetters(['fastPreview', 'clipboard', 'entries']),
         currentFile() {
-            return this.fastPreview
-				? this.fastPreview
-				: this.files[Math.abs(this.currentIndex) % this.files.length]
+            return this.fastPreview ? this.fastPreview : this.files[Math.abs(this.currentIndex) % this.files.length]
         },
         isPDF() {
             return this.currentFile.data.attributes.mimetype === 'pdf'
@@ -73,7 +65,7 @@ export default {
         },
         isImage() {
             return this.currentFile.data.type === 'image'
-        }
+        },
     },
     data() {
         return {
@@ -83,8 +75,7 @@ export default {
     },
     watch: {
         files() {
-            if (this.files.length === 0)
-                events.$emit('file-preview-wrapper:hide')
+            if (this.files.length === 0) events.$emit('file-preview-wrapper:hide')
         },
         currentFile() {
             if (this.clipboard[0]) {
@@ -111,17 +102,11 @@ export default {
         getFilesForView() {
             let requestedFile = this.clipboard[0]
 
-            this.entries.map(element => {
-
+            this.entries.map((element) => {
                 if (requestedFile.data.attributes.mimetype === 'pdf') {
-
-                    if (element.data.attributes.mimetype === 'pdf')
-                        this.files.push(element)
-
+                    if (element.data.attributes.mimetype === 'pdf') this.files.push(element)
                 } else {
-
-                    if (element.data.type === requestedFile.data.type)
-                        this.files.push(element)
+                    if (element.data.type === requestedFile.data.type) this.files.push(element)
                 }
             })
 
@@ -131,31 +116,31 @@ export default {
                 }
             })
         },
-		next() {
-			if (!this.files.length > 1) return
+        next() {
+            if (!this.files.length > 1) return
 
-			this.currentIndex += 1
+            this.currentIndex += 1
 
-			if (this.currentIndex > this.files.length - 1) {
-				this.currentIndex = 0
-			}
-		},
-		prev() {
-			if (!this.files.length > 1) return
+            if (this.currentIndex > this.files.length - 1) {
+                this.currentIndex = 0
+            }
+        },
+        prev() {
+            if (!this.files.length > 1) return
 
-			this.currentIndex -= 1
+            this.currentIndex -= 1
 
-			if (this.currentIndex < 0) {
-				this.currentIndex = this.files.length - 1
-			}
-		}
+            if (this.currentIndex < 0) {
+                this.currentIndex = this.files.length - 1
+            }
+        },
     },
     created() {
-		events.$on('file-preview:next', () => this.next())
+        events.$on('file-preview:next', () => this.next())
         events.$on('file-preview:prev', () => this.prev())
 
         this.getFilesForView()
-    }
+    },
 }
 </script>
 
@@ -164,8 +149,8 @@ export default {
 @import '../../../sass/vuefilemanager/mixins';
 
 .navigation-arrows {
-
-    .prev, .next {
+    .prev,
+    .next {
         cursor: pointer;
         position: absolute;
         top: 45%;
@@ -234,17 +219,15 @@ export default {
 }
 
 @media only screen and (max-width: 960px) {
-
     .file-preview-wrapper {
         top: 53px;
     }
 }
 
-
 .dark {
-
     .navigation-arrows {
-        .prev, .next {
+        .prev,
+        .next {
             color: $light-text;
             filter: drop-shadow(0px 1px 0 rgba(17, 19, 20, 1));
         }

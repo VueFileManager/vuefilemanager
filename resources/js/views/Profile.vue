@@ -1,62 +1,60 @@
 <template>
-    <div class="lg:flex md:h-screen md:overflow-hidden dark:bg-dark-background bg-light-background">
-		<!--On Top of App Components-->
+    <div class="bg-light-background dark:bg-dark-background md:h-screen md:overflow-hidden lg:flex">
+        <!--On Top of App Components-->
         <FilePreview />
-		<Spotlight />
+        <Spotlight />
 
-		<ConfirmPopup />
+        <ConfirmPopup />
 
-		<ConfirmPassword />
+        <ConfirmPassword />
 
-		<!--2FA popups-->
-		<TwoFactorRecoveryCodesPopup />
-		<TwoFactorQrSetupPopup />
+        <!--2FA popups-->
+        <TwoFactorRecoveryCodesPopup />
+        <TwoFactorQrSetupPopup />
 
-		<!--Access Token Popup-->
-		<CreatePersonalTokenPopup />
+        <!--Access Token Popup-->
+        <CreatePersonalTokenPopup />
 
-		<!--Payments Popup-->
-		<SelectPlanSubscriptionPopup />
-		<SelectSingleChargeMethodPopup />
+        <!--Payments Popup-->
+        <SelectPlanSubscriptionPopup />
+        <SelectSingleChargeMethodPopup />
 
-		<SidebarNavigation />
+        <SidebarNavigation />
 
-		<!--Navigations-->
+        <!--Navigations-->
         <MobileNavigation />
 
-		<MobileNavigationToolbar />
+        <MobileNavigationToolbar />
 
-        <div v-if="user" class="lg:pt-6 md:px-6 px-2.5 lg:pb-0 pb-12 w-full overflow-x-hidden relative xl:max-w-screen-lg md:max-w-4xl mx-auto">
-            <div v-if="! isLoading" id="page-content">
+        <div v-if="user" class="relative mx-auto w-full overflow-x-hidden px-2.5 pb-12 md:max-w-4xl md:px-6 lg:pt-6 lg:pb-0 xl:max-w-screen-lg">
+            <div v-if="!isLoading" id="page-content">
+                <div class="card sticky top-0 z-10 shadow-card" style="padding-bottom: 0">
+                    <!--User thumbnail-->
+                    <div class="mb-3 flex items-center">
+                        <!--Image input for replace avatar-->
+                        <AvatarInput v-model="avatar" :avatar="user.data.relationships.settings.data.attributes.avatar.md" />
 
-				<div class="card shadow-card sticky top-0 z-10" style="padding-bottom: 0">
+                        <!--User name & email-->
+                        <div class="ml-4">
+                            <b class="text-md block font-bold sm:text-lg">
+                                {{ user.data.relationships.settings.data.attributes.first_name }}
+                                {{ user.data.relationships.settings.data.attributes.last_name }}
 
-					<!--User thumbnail-->
-					<div class="flex items-center mb-3">
+                                <ColorLabel v-if="config.subscriptionType === 'fixed'" :color="subscriptionColor">
+                                    {{ subscriptionStatus }}
+                                </ColorLabel>
+                            </b>
+                            <small class="block text-xs text-gray-600 sm:text-sm">
+                                {{ user.data.attributes.email }}
+                            </small>
+                        </div>
+                    </div>
 
-						<!--Image input for replace avatar-->
-						<AvatarInput v-model="avatar" :avatar="user.data.relationships.settings.data.attributes.avatar.md" />
+                    <CardNavigation :pages="pages" class="-mx-1" />
+                </div>
 
-						<!--User name & email-->
-						<div class="ml-4">
-							<b class="sm:text-lg text-md font-bold block">
-								{{ user.data.relationships.settings.data.attributes.first_name }} {{ user.data.relationships.settings.data.attributes.last_name }}
-
-								<ColorLabel v-if="config.subscriptionType === 'fixed'" :color="subscriptionColor">
-									{{ subscriptionStatus }}
-								</ColorLabel>
-							</b>
-							<small class="sm:text-sm text-xs text-gray-600 block">
-								{{ user.data.attributes.email }}
-							</small>
-						</div>
-					</div>
-
-					<CardNavigation :pages="pages" class="-mx-1" />
-				</div>
-
-				<!--Router Content-->
-				<router-view :user="user" />
+                <!--Router Content-->
+                <router-view :user="user" />
             </div>
             <div id="loader" v-if="isLoading">
                 <Spinner />
@@ -66,98 +64,90 @@
 </template>
 
 <script>
-	import MobileNavigation from "../components/Others/MobileNavigation";
-	import SelectSingleChargeMethodPopup from "../components/Others/SelectSingleChargeMethodPopup";
-	import SelectPlanSubscriptionPopup from "../components/Subscription/SelectPlanSubscriptionPopup";
-	import ConfirmPopup from "../components/Others/Popup/ConfirmPopup";
-	import FilePreview from "../components/FilePreview/FilePreview";
-	import Spotlight from "../components/Spotlight/Spotlight";
-	import TwoFactorRecoveryCodesPopup from "../components/Others/TwoFactorRecoveryCodesPopup";
-	import CreatePersonalTokenPopup from "../components/Others/CreatePersonalTokenPopup";
-	import TwoFactorQrSetupPopup from "../components/Others/TwoFactorQrSetupPopup";
-	import AvatarInput from "../components/Others/Forms/AvatarInput";
-	import SidebarNavigation from "../components/Sidebar/SidebarNavigation"
-	import ColorLabel from "../components/Others/ColorLabel";
-	import Spinner from "../components/FilesView/Spinner";
-	import {mapGetters} from 'vuex'
-	import CardNavigation from "../components/Admin/CardNavigation";
-	import ConfirmPassword from "../components/Others/ConfirmPassword";
-	import MobileNavigationToolbar from "./MobileNavigationToolbar";
+import MobileNavigation from '../components/Others/MobileNavigation'
+import SelectSingleChargeMethodPopup from '../components/Others/SelectSingleChargeMethodPopup'
+import SelectPlanSubscriptionPopup from '../components/Subscription/SelectPlanSubscriptionPopup'
+import ConfirmPopup from '../components/Others/Popup/ConfirmPopup'
+import FilePreview from '../components/FilePreview/FilePreview'
+import Spotlight from '../components/Spotlight/Spotlight'
+import TwoFactorRecoveryCodesPopup from '../components/Others/TwoFactorRecoveryCodesPopup'
+import CreatePersonalTokenPopup from '../components/Others/CreatePersonalTokenPopup'
+import TwoFactorQrSetupPopup from '../components/Others/TwoFactorQrSetupPopup'
+import AvatarInput from '../components/Others/Forms/AvatarInput'
+import SidebarNavigation from '../components/Sidebar/SidebarNavigation'
+import ColorLabel from '../components/Others/ColorLabel'
+import Spinner from '../components/FilesView/Spinner'
+import { mapGetters } from 'vuex'
+import CardNavigation from '../components/Admin/CardNavigation'
+import ConfirmPassword from '../components/Others/ConfirmPassword'
+import MobileNavigationToolbar from './MobileNavigationToolbar'
 
-	export default {
-        name: 'Settings',
-        components: {
-			MobileNavigationToolbar,
-			MobileNavigation,
-			ConfirmPassword,
-			SelectSingleChargeMethodPopup,
-			SelectPlanSubscriptionPopup,
-			ConfirmPopup,
-			CardNavigation,
-			FilePreview,
-			Spotlight,
-			TwoFactorRecoveryCodesPopup,
-			CreatePersonalTokenPopup,
-			TwoFactorQrSetupPopup,
-			SidebarNavigation,
-            AvatarInput,
-            ColorLabel,
-            Spinner,
-
+export default {
+    name: 'Settings',
+    components: {
+        MobileNavigationToolbar,
+        MobileNavigation,
+        ConfirmPassword,
+        SelectSingleChargeMethodPopup,
+        SelectPlanSubscriptionPopup,
+        ConfirmPopup,
+        CardNavigation,
+        FilePreview,
+        Spotlight,
+        TwoFactorRecoveryCodesPopup,
+        CreatePersonalTokenPopup,
+        TwoFactorQrSetupPopup,
+        SidebarNavigation,
+        AvatarInput,
+        ColorLabel,
+        Spinner,
+    },
+    computed: {
+        ...mapGetters(['config', 'user']),
+        subscriptionStatus() {
+            return this.user.data.relationships.subscription ? this.$t('global.premium') : this.$t('global.free')
         },
-        computed: {
-            ...mapGetters([
-				'config',
-            	'user',
-			]),
-            subscriptionStatus() {
-                return this.user.data.relationships.subscription
-					? this.$t('global.premium')
-					: this.$t('global.free')
-            },
-            subscriptionColor() {
-                return this.user.data.relationships.subscription
-					? 'green'
-					: 'purple'
-            },
-            canShowUpgradeWarning() {
-                return this.config.storageLimit && this.user.data.attributes.storage.used > 95
-            },
-            canShowIncompletePayment() {
-                return this.user.data.attributes.incomplete_payment
-            },
-			pages() {
-				let list = [
-					{
-						title: this.$t('menu.profile'),
-						route: 'Profile',
-					},
-					{
-						title: this.$t('menu.password'),
-						route: 'Password',
-					},
-					{
-						title: this.$t('menu.storage'),
-						route: 'Storage',
-					},
-				]
-
-				// Push billing item if subscription is set
-				if (['fixed', 'metered'].includes(this.config.subscriptionType)) {
-					list.push({
-						title: this.$t('Billing'),
-						route: 'Billing',
-					})
-				}
-
-				return list
-			}
+        subscriptionColor() {
+            return this.user.data.relationships.subscription ? 'green' : 'purple'
         },
-        data() {
-            return {
-				avatar: undefined,
-                isLoading: false,
+        canShowUpgradeWarning() {
+            return this.config.storageLimit && this.user.data.attributes.storage.used > 95
+        },
+        canShowIncompletePayment() {
+            return this.user.data.attributes.incomplete_payment
+        },
+        pages() {
+            let list = [
+                {
+                    title: this.$t('menu.profile'),
+                    route: 'Profile',
+                },
+                {
+                    title: this.$t('menu.password'),
+                    route: 'Password',
+                },
+                {
+                    title: this.$t('menu.storage'),
+                    route: 'Storage',
+                },
+            ]
+
+            // Push billing item if subscription is set
+            if (['fixed', 'metered'].includes(this.config.subscriptionType)) {
+                list.push({
+                    title: this.$t('Billing'),
+                    route: 'Billing',
+                })
             }
+
+            return list
+        },
+    },
+    data() {
+        return {
+            avatar: undefined,
+            isLoading: false,
         }
-	}
+    },
+}
 </script>

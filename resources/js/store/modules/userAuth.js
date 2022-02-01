@@ -1,8 +1,8 @@
 import axios from 'axios'
-import router from "../../router";
+import router from '../../router'
 import Vue from 'vue'
-import {events} from "../../bus";
-import i18n from "../../i18n";
+import { events } from '../../bus'
+import i18n from '../../i18n'
 
 const defaultState = {
     permission: 'master', // master | editor | visitor
@@ -10,8 +10,7 @@ const defaultState = {
 }
 
 const actions = {
-    getAppData: ({commit, getters}) => {
-
+    getAppData: ({ commit, getters }) => {
         return new Promise((resolve, reject) => {
             axios
                 .get(getters.api + '/user' + getters.sorting.URI)
@@ -19,21 +18,18 @@ const actions = {
                     resolve(response)
 
                     commit('RETRIEVE_USER', response.data)
-
-                }).catch((error) => {
+                })
+                .catch((error) => {
                     reject(error)
 
                     // Redirect if unauthenticated
                     if ([401, 403].includes(error.response.status)) {
-
                         commit('SET_AUTHORIZED', false)
                     }
-                }
-            )
+                })
         })
     },
-    logOut: ({commit}) => {
-
+    logOut: ({ commit }) => {
         let popup = setTimeout(() => {
             commit('PROCESSING_POPUP', {
                 title: 'Logging Out',
@@ -41,20 +37,18 @@ const actions = {
             })
         }, 300)
 
-        axios
-            .post('/logout')
-            .then(() => {
-                clearTimeout(popup)
-                commit('DESTROY_DATA')
-                commit('SET_AUTHORIZED', false)
+        axios.post('/logout').then(() => {
+            clearTimeout(popup)
+            commit('DESTROY_DATA')
+            commit('SET_AUTHORIZED', false)
 
-                router.push({name: 'Homepage'})
-            })
+            router.push({ name: 'Homepage' })
+        })
     },
-    socialiteRedirect: ({commit}, provider) => {
+    socialiteRedirect: ({ commit }, provider) => {
         axios
             .get(`/api/socialite/${provider}/redirect`)
-            .then(response => {
+            .then((response) => {
                 if (response.data.url) {
                     window.location.href = response.data.url
                 }
@@ -66,16 +60,13 @@ const actions = {
         let items = [folder]
 
         // If dont coming single folder get folders to add to favourites from clipboard
-        if (!folder)
-            items = context.getters.clipboard
+        if (!folder) items = context.getters.clipboard
 
-        items.forEach(item => {
-
+        items.forEach((item) => {
             if (item.data.type === 'folder') {
+                if (context.getters.user.data.relationships.favourites.data.find((folder) => folder.id === item.data.id)) return
 
-                if (context.getters.user.data.relationships.favourites.data.find(folder => folder.id === item.data.id)) return
-
-                addFavourites.push({id: item.data.id})
+                addFavourites.push({ id: item.data.id })
             }
         })
 
@@ -87,8 +78,8 @@ const actions = {
         let pushToFavorites = []
 
         // Check is favorites already don't include some of pushed folders
-        items.map(item => {
-            if (!context.getters.user.data.relationships.favourites.data.find(folder => folder.data.id === item.id)) {
+        items.map((item) => {
+            if (!context.getters.user.data.relationships.favourites.data.find((folder) => folder.data.id === item.id)) {
                 pushToFavorites.push(item)
             }
         })
@@ -98,20 +89,19 @@ const actions = {
 
         axios
             .post(context.getters.api + '/folders/favourites', {
-                folders: addFavourites
+                folders: addFavourites,
             })
             .catch(() => {
                 Vue.prototype.$isSomethingWrong()
             })
     },
-    removeFromFavourites: ({commit, getters, dispatch}, folder) => {
-
+    removeFromFavourites: ({ commit, getters, dispatch }, folder) => {
         // Remove from storage
         commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
             .post(getters.api + '/folders/favourites/' + folder.data.id, {
-                _method: 'delete'
+                _method: 'delete',
             })
             .catch(() => {
                 Vue.prototype.$isSomethingWrong()
@@ -133,7 +123,7 @@ const mutations = {
         state.app = undefined
     },
     ADD_TO_FAVOURITES(state, folder) {
-        folder.forEach(item => {
+        folder.forEach((item) => {
             state.user.data.relationships.favourites.data.push(item)
         })
     },
@@ -147,26 +137,26 @@ const mutations = {
         state.user.data.relationships.settings.data.attributes.avatar.sm = avatar
     },
     REMOVE_ITEM_FROM_FAVOURITES(state, item) {
-        state.user.data.relationships.favourites.data = state.user.data.relationships.favourites.data.filter(folder => folder.data.id !== item.data.id)
+        state.user.data.relationships.favourites.data = state.user.data.relationships.favourites.data.filter((folder) => folder.data.id !== item.data.id)
     },
     UPDATE_NAME_IN_FAVOURITES(state, data) {
-        state.user.data.relationships.favourites.data.find(folder => {
+        state.user.data.relationships.favourites.data.find((folder) => {
             if (folder.id === data.id) {
                 folder.name = data.name
             }
         })
-    }
+    },
 }
 
 const getters = {
-    isLimitedUser: state => state.user && state.user.data.relationships.failedPayments && state.user.data.relationships.failedPayments.data.length === 3,
-    permission: state => state.permission,
-    user: state => state.user,
+    isLimitedUser: (state) => state.user && state.user.data.relationships.failedPayments && state.user.data.relationships.failedPayments.data.length === 3,
+    permission: (state) => state.permission,
+    user: (state) => state.user,
 }
 
 export default {
     state: defaultState,
     getters,
     actions,
-    mutations
+    mutations,
 }

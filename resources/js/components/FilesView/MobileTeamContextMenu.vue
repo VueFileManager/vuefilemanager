@@ -1,24 +1,24 @@
 <template>
     <MenuMobile name="team-menu">
-		<TeamFolderPreview />
+        <TeamFolderPreview />
 
-		<MenuMobileGroup v-if="$slots.default">
-			<slot></slot>
+        <MenuMobileGroup v-if="$slots.default">
+            <slot></slot>
         </MenuMobileGroup>
     </MenuMobile>
 </template>
 
 <script>
-import MenuMobileGroup from "../Mobile/MenuMobileGroup";
+import MenuMobileGroup from '../Mobile/MenuMobileGroup'
 import TeamFolderPreview from '../Teams/Components/TeamFolderPreview'
-import MenuMobile from "../Mobile/MenuMobile";
+import MenuMobile from '../Mobile/MenuMobile'
 
 export default {
     name: 'MobileTeamContextMenu',
     components: {
-		TeamFolderPreview,
+        TeamFolderPreview,
         MenuMobileGroup,
-		MenuMobile,
+        MenuMobile,
     },
 }
 </script>

@@ -1,40 +1,37 @@
 <template>
     <div class="landing-page">
-
         <!--Navigation-->
-        <Navigation class="page-wrapper small"/>
+        <Navigation class="page-wrapper small" />
 
         <!--Page content-->
         <div class="page-wrapper small">
-
             <!--Headline-->
-            <PageTitle
-                    class="headline"
-                    :title="$t('page_contact_us.title')"
-                    :description="$t('page_contact_us.description')"
-            ></PageTitle>
+            <PageTitle class="headline" :title="$t('page_contact_us.title')" :description="$t('page_contact_us.description')"></PageTitle>
 
-            <ValidationObserver v-if="! isSuccess" @submit.prevent="contactForm" ref="contactForm" v-slot="{ invalid }" tag="form"
-                                class="form block-form">
-
+            <ValidationObserver v-if="!isSuccess" @submit.prevent="contactForm" ref="contactForm" v-slot="{ invalid }" tag="form" class="form block-form">
                 <div class="block-wrapper">
                     <label>{{ $t('page_contact_us.form.email') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required"
-                                        v-slot="{ errors }">
-                        <input v-model="contact.email" :placeholder="$t('page_contact_us.form.email_plac')" type="email"
-                               class="focus-border-theme"
-                               :class="{'border-red': errors[0]}"/>
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required" v-slot="{ errors }">
+                        <input
+                            v-model="contact.email"
+                            :placeholder="$t('page_contact_us.form.email_plac')"
+                            type="email"
+                            class="focus-border-theme"
+                            :class="{ 'border-red': errors[0] }"
+                        />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="block-wrapper">
                     <label>{{ $t('page_contact_us.form.message') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Message" rules="required"
-                                        v-slot="{ errors }">
-                        <textarea v-model="contact.message" :placeholder="$t('page_contact_us.form.message_plac')" rows="6"
-                                  class="focus-border-theme"
-                                  :class="{'border-red': errors[0]}"
+                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Message" rules="required" v-slot="{ errors }">
+                        <textarea
+                            v-model="contact.message"
+                            :placeholder="$t('page_contact_us.form.message_plac')"
+                            rows="6"
+                            class="focus-border-theme"
+                            :class="{ 'border-red': errors[0] }"
                         ></textarea>
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -45,7 +42,7 @@
                 </InfoBox>
 
                 <div>
-                    <AuthButton class="submit-button" icon="chevron-right" :text="$t('page_contact_us.form.submit_button')" :loading="isLoading" :disabled="isLoading"/>
+                    <AuthButton class="submit-button" icon="chevron-right" :text="$t('page_contact_us.form.submit_button')" :loading="isLoading" :disabled="isLoading" />
                 </div>
             </ValidationObserver>
             <InfoBox v-if="isSuccess">
@@ -54,119 +51,116 @@
         </div>
 
         <!--Footer-->
-        <PageFooter/>
+        <PageFooter />
     </div>
 </template>
 
 <script>
-    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import PageTitle from "../../components/Index/Components/PageTitle";
-    import PageFooter from '../../components/Index/IndexPageFooter'
-    import Navigation from '../../components/Index/IndexNavigation'
-    import InfoBox from "../../components/Others/Forms/InfoBox";
-    import AuthButton from "../../components/Auth/AuthButton";
-    import {required} from 'vee-validate/dist/rules'
-    import {mapGetters} from 'vuex'
-    import axios from 'axios'
+import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import PageTitle from '../../components/Index/Components/PageTitle'
+import PageFooter from '../../components/Index/IndexPageFooter'
+import Navigation from '../../components/Index/IndexNavigation'
+import InfoBox from '../../components/Others/Forms/InfoBox'
+import AuthButton from '../../components/Auth/AuthButton'
+import { required } from 'vee-validate/dist/rules'
+import { mapGetters } from 'vuex'
+import axios from 'axios'
 
-    export default {
-        name: 'ContactUs',
-        components: {
-            ValidationProvider,
-            ValidationObserver,
-            AuthButton,
-            PageFooter,
-            Navigation,
-            PageTitle,
-            required,
-            InfoBox,
-        },
-        computed: {
-            ...mapGetters(['config']),
-        },
-        data() {
-            return {
-                isLoading: false,
-                isSuccess: false,
-                isError: false,
-                contact: {
-                    email: '',
-                    message: '',
-                    reCaptcha: null,
-                },
-            }
-        },
-        methods: {
-            async contactForm() {
-
-                // Validate fields
-                const isValid = await this.$refs.contactForm.validate();
-
-                if (!isValid) return;
-
-                // Start loading
-                this.isLoading = true
-
-                // Get ReCaptcha token
-                if(config.allowedRecaptcha) {
-                    this.register.reCaptcha =  await this.$reCaptchaToken('register').then((response) => {
-                       return response
-                    })
-                }
-
-                // Send request to get user token
-                axios
-                    .post('/api/contact', this.contact)
-                    .then(() => {
-                        this.isSuccess = true
-                    })
-                    .catch(() => {
-                        this.isError = true
-                    })
-                    .finally(() => {
-                        // End loading
-                        this.isLoading = false
-                    })
-            }
-        },
-        created() {
-            this.$scrollTop()
+export default {
+    name: 'ContactUs',
+    components: {
+        ValidationProvider,
+        ValidationObserver,
+        AuthButton,
+        PageFooter,
+        Navigation,
+        PageTitle,
+        required,
+        InfoBox,
+    },
+    computed: {
+        ...mapGetters(['config']),
+    },
+    data() {
+        return {
+            isLoading: false,
+            isSuccess: false,
+            isError: false,
+            contact: {
+                email: '',
+                message: '',
+                reCaptcha: null,
+            },
         }
-    }
+    },
+    methods: {
+        async contactForm() {
+            // Validate fields
+            const isValid = await this.$refs.contactForm.validate()
+
+            if (!isValid) return
+
+            // Start loading
+            this.isLoading = true
+
+            // Get ReCaptcha token
+            if (config.allowedRecaptcha) {
+                this.register.reCaptcha = await this.$reCaptchaToken('register').then((response) => {
+                    return response
+                })
+            }
+
+            // Send request to get user token
+            axios
+                .post('/api/contact', this.contact)
+                .then(() => {
+                    this.isSuccess = true
+                })
+                .catch(() => {
+                    this.isError = true
+                })
+                .finally(() => {
+                    // End loading
+                    this.isLoading = false
+                })
+        },
+    },
+    created() {
+        this.$scrollTop()
+    },
+}
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../sass/vuefilemanager/landing-page';
-    @import '../../../sass/vuefilemanager/variables';
-    @import '../../../sass/vuefilemanager/mixins';
-    @import '../../../sass/vuefilemanager/forms';
+@import '../../../sass/vuefilemanager/landing-page';
+@import '../../../sass/vuefilemanager/variables';
+@import '../../../sass/vuefilemanager/mixins';
+@import '../../../sass/vuefilemanager/forms';
 
-    .form {
-        max-width: 100%;
+.form {
+    max-width: 100%;
+}
+
+.headline {
+    padding-top: 70px;
+    padding-bottom: 50px;
+}
+
+.form.block-form {
+    .submit-button {
+        margin-top: 20px;
+        margin-left: 0;
+        margin-right: 0;
     }
+}
 
+.dark {
+}
+
+@media only screen and (max-width: 960px) {
     .headline {
-        padding-top: 70px;
-        padding-bottom: 50px;
+        padding-top: 50px;
+        padding-bottom: 30px;
     }
-
-    .form.block-form {
-
-        .submit-button {
-            margin-top: 20px;
-            margin-left: 0;
-            margin-right: 0;
-        }
-    }
-
-    .dark {
-
-    }
-
-    @media only screen and (max-width: 960px) {
-        .headline {
-            padding-top: 50px;
-            padding-bottom: 30px;
-        }
-    }
+}
 </style>

@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import FileSortingOptions from "./FileSortingOptions";
-import MenuMobileGroup from "../Mobile/MenuMobileGroup";
+import FileSortingOptions from './FileSortingOptions'
+import MenuMobileGroup from '../Mobile/MenuMobileGroup'
 import MenuMobile from '../Mobile/MenuMobile'
 
 export default {

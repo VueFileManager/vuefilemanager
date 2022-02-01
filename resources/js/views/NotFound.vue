@@ -1,12 +1,10 @@
 <template>
     <AuthContentWrapper ref="auth">
         <AuthContent :visible="true">
-			<Headline
-				:title="$t('page_shared_404.title')"
-				:description="$t('page_shared_404.subtitle')"
-			/>
-            <span class="additional-link">{{ $t('page_registration.have_an_account') }}
-                <router-link :to="{name: 'SignIn'}">
+            <Headline :title="$t('page_shared_404.title')" :description="$t('page_shared_404.subtitle')" />
+            <span class="additional-link"
+                >{{ $t('page_registration.have_an_account') }}
+                <router-link :to="{ name: 'SignIn' }">
                     {{ $t('page_forgotten_password.password_remember_button') }}
                 </router-link>
             </span>
@@ -15,22 +13,22 @@
 </template>
 
 <script>
-    import AuthContentWrapper from "../components/Auth/AuthContentWrapper";
-    import AuthContent from "../components/Auth/AuthContent";
-    import AuthButton from "../components/Auth/AuthButton";
-	import Headline from "./Auth/Headline"
+import AuthContentWrapper from '../components/Auth/AuthContentWrapper'
+import AuthContent from '../components/Auth/AuthContent'
+import AuthButton from '../components/Auth/AuthButton'
+import Headline from './Auth/Headline'
 
-    export default {
-        name: 'NotFound',
-        components: {
-            AuthContentWrapper,
-            AuthContent,
-            AuthButton,
-			Headline,
-        },
-    }
+export default {
+    name: 'NotFound',
+    components: {
+        AuthContentWrapper,
+        AuthContent,
+        AuthButton,
+        Headline,
+    },
+}
 </script>
 
 <style scoped lang="scss">
-    @import '../../sass/vuefilemanager/auth';
+@import '../../sass/vuefilemanager/auth';
 </style>

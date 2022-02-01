@@ -1,54 +1,43 @@
 <template>
     <PopupWrapper name="create-personal-token">
-
         <PopupHeader :title="$t('popup_personal_token.title')" icon="key" />
 
         <PopupContent>
-             <ValidationObserver v-if="! token" @submit.prevent="createTokenForm" ref="createToken" v-slot="{ invalid }" tag="form">
-
+            <ValidationObserver v-if="!token" @submit.prevent="createTokenForm" ref="createToken" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" mode="passive" name="Token Name" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('popup_personal_token.label')" :error="errors[0]" :is-last="true">
-    	                <input v-model="name" :class="{'border-red': errors[0]}" type="text" ref="input" class="focus-border-theme input-dark" :placeholder="$t('popup_personal_token.plc')">
-					</AppInputText>
+                    <AppInputText :title="$t('popup_personal_token.label')" :error="errors[0]" :is-last="true">
+                        <input
+                            v-model="name"
+                            :class="{ 'border-red': errors[0] }"
+                            type="text"
+                            ref="input"
+                            class="focus-border-theme input-dark"
+                            :placeholder="$t('popup_personal_token.plc')"
+                        />
+                    </AppInputText>
                 </ValidationProvider>
-
             </ValidationObserver>
 
-			<AppInputText v-if="token" :title="$t('popup_personal_token.your_token')" :is-last="true">
-				<CopyInput size="small" :str="token['plainTextToken']" />
+            <AppInputText v-if="token" :title="$t('popup_personal_token.your_token')" :is-last="true">
+                <CopyInput size="small" :str="token['plainTextToken']" />
 
-				<InfoBox style="margin-bottom: 0; margin-top: 20px">
-					<p v-html="$t('popup_personal_token.copy_token')"></p>
-				</InfoBox>
-			</AppInputText>
-
+                <InfoBox style="margin-bottom: 0; margin-top: 20px">
+                    <p v-html="$t('popup_personal_token.copy_token')"></p>
+                </InfoBox>
+            </AppInputText>
         </PopupContent>
 
-        <PopupActions v-if="! token">
-            <ButtonBase
-				class="w-full"
-				@click.native="$closePopup()"
-				button-style="secondary"
-			>
+        <PopupActions v-if="!token">
+            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
                 {{ $t('global.cancel') }}
             </ButtonBase>
-            <ButtonBase
-				class="w-full"
-				@click.native="createTokenForm"
-				button-style="theme"
-				:loading="isLoading"
-				:disabled="isLoading"
-			>
-               {{ $t('personal_token.create_token') }}
+            <ButtonBase class="w-full" @click.native="createTokenForm" button-style="theme" :loading="isLoading" :disabled="isLoading">
+                {{ $t('personal_token.create_token') }}
             </ButtonBase>
         </PopupActions>
 
         <PopupActions v-if="token">
-            <ButtonBase
-				class="w-full"
-				@click.native="closePopup"
-				button-style="theme"
-			>
+            <ButtonBase class="w-full" @click.native="closePopup" button-style="theme">
                 {{ $t('shared_form.button_done') }}
             </ButtonBase>
         </PopupActions>
@@ -56,82 +45,79 @@
 </template>
 
 <script>
-import AppInputText from "../Admin/AppInputText";
-import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from "./Popup/PopupWrapper";
-import PopupActions from "./Popup/PopupActions";
-import PopupContent from "./Popup/PopupContent";
-import PopupHeader from "./Popup/PopupHeader";
-import CopyInput from "./Forms/CopyInput";
-import ButtonBase from "../FilesView/ButtonBase";
-import InfoBox from "./Forms/InfoBox";
-import {required} from 'vee-validate/dist/rules'
-import {events} from '../../bus'
+import AppInputText from '../Admin/AppInputText'
+import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import PopupWrapper from './Popup/PopupWrapper'
+import PopupActions from './Popup/PopupActions'
+import PopupContent from './Popup/PopupContent'
+import PopupHeader from './Popup/PopupHeader'
+import CopyInput from './Forms/CopyInput'
+import ButtonBase from '../FilesView/ButtonBase'
+import InfoBox from './Forms/InfoBox'
+import { required } from 'vee-validate/dist/rules'
+import { events } from '../../bus'
 import axios from 'axios'
 
 export default {
-	name: "CreatePersonalTokenPopup",
-	components: {
-		ValidationProvider,
-		ValidationObserver,
-		AppInputText,
-		PopupWrapper,
-		PopupActions,
-		PopupContent,
-		PopupHeader,
-		ButtonBase,
-		CopyInput,
-		required,
-		InfoBox,
-	},
-	data() {
-		return {
-			isLoading: false,
-			name: undefined,
-			token: undefined
-		}
-	},
-	methods: {
-		async createTokenForm() {
+    name: 'CreatePersonalTokenPopup',
+    components: {
+        ValidationProvider,
+        ValidationObserver,
+        AppInputText,
+        PopupWrapper,
+        PopupActions,
+        PopupContent,
+        PopupHeader,
+        ButtonBase,
+        CopyInput,
+        required,
+        InfoBox,
+    },
+    data() {
+        return {
+            isLoading: false,
+            name: undefined,
+            token: undefined,
+        }
+    },
+    methods: {
+        async createTokenForm() {
+            const isValid = await this.$refs.createToken.validate()
 
-			const isValid = await this.$refs.createToken.validate()
+            if (!isValid) return
 
-			if (!isValid) return
+            this.isLoading = true
 
-			this.isLoading = true
+            axios
+                .post('/api/user/tokens', {
+                    name: this.name,
+                })
+                .then((response) => {
+                    this.token = response.data
 
-			axios
-				.post('/api/user/tokens', {
-					name: this.name
-				})
-				.then(response => {
-					this.token = response.data
-
-					events.$emit('reload-personal-access-tokens')
-				})
-				.catch(() => this.$isSomethingWrong())
-				.finally(() => {
-					this.isLoading = false
-					this.name = undefined
-				})
-		},
-		closePopup() {
-			this.$closePopup()
-			this.token = undefined
-		}
-	}
+                    events.$emit('reload-personal-access-tokens')
+                })
+                .catch(() => this.$isSomethingWrong())
+                .finally(() => {
+                    this.isLoading = false
+                    this.name = undefined
+                })
+        },
+        closePopup() {
+            this.$closePopup()
+            this.token = undefined
+        },
+    },
 }
 </script>
 
 <style lang="scss" scoped>
-	@import '../../../sass/vuefilemanager/inapp-forms';
-	@import '../../../sass/vuefilemanager/forms';
+@import '../../../sass/vuefilemanager/inapp-forms';
+@import '../../../sass/vuefilemanager/forms';
 
-	.dark {
-
-		.info-box {
-			background: lighten($dark_mode_foreground, 3%);
-		}
-	}
-
+.dark {
+    .info-box {
+        background: lighten($dark_mode_foreground, 3%);
+    }
+}
 </style>

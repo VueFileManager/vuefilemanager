@@ -1,6 +1,6 @@
-import i18n from "../../i18n"
-import axios from "axios"
-import Vue from "vue"
+import i18n from '../../i18n'
+import axios from 'axios'
+import Vue from 'vue'
 
 const defaultState = {
     isVisibleNavigationBars: localStorage.getItem('is_navigation_bars') !== 'false',
@@ -17,10 +17,10 @@ const defaultState = {
     },
 }
 const actions = {
-    toggleThemeMode: ({commit}, mode = undefined) => {
-        const app = document.getElementsByTagName("html")[0];
+    toggleThemeMode: ({ commit }, mode = undefined) => {
+        const app = document.getElementsByTagName('html')[0]
 
-        if (! mode) {
+        if (!mode) {
             mode = app.classList.contains('dark') ? 'light' : 'dark'
         }
 
@@ -32,17 +32,16 @@ const actions = {
         // Update user settings
         Vue.prototype.$updateText('/user/settings', 'theme_mode', mode)
     },
-    toggleNavigationBars: ({commit, state}) => {
-
+    toggleNavigationBars: ({ commit, state }) => {
         // Store dark mode into localStorage
-        localStorage.setItem('is_navigation_bars', ! state.isVisibleNavigationBars)
+        localStorage.setItem('is_navigation_bars', !state.isVisibleNavigationBars)
 
         // Change preview
         commit('TOGGLE_NAVIGATION_BARS')
     },
-    togglePreviewType: ({commit, state}, preview) => {
+    togglePreviewType: ({ commit, state }, preview) => {
         // Get preview type
-        let previewType = preview ? preview : state.itemViewType === 'list' ? 'grid' : 'list';
+        let previewType = preview ? preview : state.itemViewType === 'list' ? 'grid' : 'list'
 
         // Store preview type to localStorage
         localStorage.setItem('preview_type', previewType)
@@ -50,8 +49,7 @@ const actions = {
         // Change preview
         commit('CHANGE_PREVIEW', previewType)
     },
-    toggleEmojiType: ({commit, getters}, type = undefined) => {
-
+    toggleEmojiType: ({ commit, getters }, type = undefined) => {
         let newType = type ? type : getters.config.defaultEmoji === 'twemoji' ? 'applemoji' : 'twemoji'
 
         // Update config
@@ -74,17 +72,14 @@ const actions = {
             context.commit('FILE_INFO_TOGGLE', visibility)
         }
     },
-    getLanguageTranslations: ({commit, state}, lang) => {
+    getLanguageTranslations: ({ commit, state }, lang) => {
         return new Promise((resolve, reject) => {
+            axios.get(`/translations/${lang}`).then((response) => {
+                i18n.setLocaleMessage(lang, response.data)
+                i18n.locale = lang
 
-            axios.get(`/translations/${lang}`)
-                .then(response => {
-
-                    i18n.setLocaleMessage(lang, response.data)
-                    i18n.locale = lang
-
-                    resolve(response)
-                })
+                resolve(response)
+            })
         })
     },
 }
@@ -118,12 +113,12 @@ const mutations = {
         state.itemViewType = type
     },
     TOGGLE_NAVIGATION_BARS(state) {
-        state.isVisibleNavigationBars = ! state.isVisibleNavigationBars
+        state.isVisibleNavigationBars = !state.isVisibleNavigationBars
     },
     STORE_REQUESTED_PLAN(state, plan) {
         state.requestedPlan = plan
     },
-    REPLACE_CONFIG_VALUE(state, {key, value}) {
+    REPLACE_CONFIG_VALUE(state, { key, value }) {
         state.config[key] = value
     },
     SET_SOCIAL_LOGIN_CONFIGURED(state, service) {
@@ -165,17 +160,20 @@ const mutations = {
 }
 
 const getters = {
-    isVisibleNavigationBars: state => state.isVisibleNavigationBars,
-    isVisibleSidebar: state => state.isVisibleSidebar,
-    itemViewType: state => state.itemViewType,
-    requestedPlan: state => state.requestedPlan,
-    api: state => state.config.api,
-    config: state => state.config,
-    emojis: state => state.emojis,
-    index: state => state.index,
-    isDarkMode: state => state.isDarkMode,
+    isVisibleNavigationBars: (state) => state.isVisibleNavigationBars,
+    isVisibleSidebar: (state) => state.isVisibleSidebar,
+    itemViewType: (state) => state.itemViewType,
+    requestedPlan: (state) => state.requestedPlan,
+    api: (state) => state.config.api,
+    config: (state) => state.config,
+    emojis: (state) => state.emojis,
+    index: (state) => state.index,
+    isDarkMode: (state) => state.isDarkMode,
     sorting: (state) => {
-        return {sorting: state.sorting, URI: '?sort=' + state.sorting.field + '&direction=' + state.sorting.sort}
+        return {
+            sorting: state.sorting,
+            URI: '?sort=' + state.sorting.field + '&direction=' + state.sorting.sort,
+        }
     },
 }
 
@@ -183,5 +181,5 @@ export default {
     state: defaultState,
     getters,
     actions,
-    mutations
+    mutations,
 }

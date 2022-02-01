@@ -1,27 +1,19 @@
 <template>
-    <TitlePreview
-		icon="check-square"
-		:title="title"
-		:subtitle="subtitle"
-		id="drag-ui"
-		v-show="isVisible"
-	/>
+    <TitlePreview icon="check-square" :title="title" :subtitle="subtitle" id="drag-ui" v-show="isVisible" />
 </template>
 
 <script>
-import TitlePreview from "./TitlePreview";
+import TitlePreview from './TitlePreview'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 
 export default {
     name: 'DragUI',
     components: {
-		TitlePreview
-	},
+        TitlePreview,
+    },
     computed: {
-        ...mapGetters([
-			'clipboard'
-		]),
+        ...mapGetters(['clipboard']),
         title() {
             let filesLength = this.clipboard.length,
                 hasDraggedItem = this.clipboard.includes(this.draggedItem)
@@ -46,7 +38,6 @@ export default {
             }
 
             if ((filesLength < 2 || !hasDraggedItem) && this.draggedItem) {
-
                 // Subtitle for single folder
                 if (this.draggedItem.data.type === 'folder') {
                     return this.draggedItem.items == 0 ? this.$t('folder.empty') : this.$tc('folder.item_counts', this.draggedItem.items)
@@ -57,16 +48,16 @@ export default {
                     return '.' + this.draggedItem.data.attributes.mimetype
                 }
             }
-        }
+        },
     },
     data() {
         return {
             isVisible: false,
-            draggedItem: undefined
+            draggedItem: undefined,
         }
     },
     created() {
-        events.$on('dragstart', data => {
+        events.$on('dragstart', (data) => {
             this.draggedItem = data
 
             setTimeout(() => {
@@ -74,8 +65,8 @@ export default {
             }, 100)
         })
 
-        events.$on('drop', () => this.isVisible = false)
-    }
+        events.$on('drop', () => (this.isVisible = false))
+    },
 }
 </script>
 
@@ -100,5 +91,4 @@ export default {
         background: $dark_mode_foreground;
     }
 }
-
 </style>

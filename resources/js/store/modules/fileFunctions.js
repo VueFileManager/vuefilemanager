@@ -1,6 +1,6 @@
-import i18n from "../../i18n";
-import router from "../../router"
-import {events} from "../../bus";
+import i18n from '../../i18n'
+import router from '../../router'
+import { events } from '../../bus'
 import axios from 'axios'
 import Vue from 'vue'
 
@@ -14,7 +14,7 @@ const defaultState = {
 }
 
 const actions = {
-    downloadZip: ({getters}, item = undefined) => {
+    downloadZip: ({ getters }, item = undefined) => {
         let files = []
 
         // Get if from retrieved item
@@ -23,11 +23,9 @@ const actions = {
         }
 
         // Get ids of selected files
-        if (! item) {
-            getters.clipboard.forEach(file => {
-                let type = file.data.type === 'folder'
-                    ? 'folder'
-                    : 'file'
+        if (!item) {
+            getters.clipboard.forEach((file) => {
+                let type = file.data.type === 'folder' ? 'folder' : 'file'
 
                 files.push(file.data.id + '|' + type)
             })
@@ -41,102 +39,87 @@ const actions = {
         // Download zip
         Vue.prototype.$downloadFile(route, 'files.zip')
     },
-    moveItem: ({commit, getters, dispatch}, {to_item, noSelectedItem}) => {
-
+    moveItem: ({ commit, getters, dispatch }, { to_item, noSelectedItem }) => {
         let itemsToMove = []
         let items = [noSelectedItem]
 
         // If coming no selected item dont get items to move from clipboard
-        if (!noSelectedItem)
-            items = getters.clipboard
+        if (!noSelectedItem) items = getters.clipboard
 
-        items.forEach(data => itemsToMove.push({
-            'id': data.data.id,
-            'type': data.data.type
-        }))
+        items.forEach((data) =>
+            itemsToMove.push({
+                id: data.data.id,
+                type: data.data.type,
+            })
+        )
 
         // Remove file preview
-        if (!noSelectedItem)
-            commit('CLIPBOARD_CLEAR')
+        if (!noSelectedItem) commit('CLIPBOARD_CLEAR')
 
         // Get route
-        let route = getters.sharedDetail
-            ? `/api/editor/move/${router.currentRoute.params.token}`
-            : '/api/move'
+        let route = getters.sharedDetail ? `/api/editor/move/${router.currentRoute.params.token}` : '/api/move'
 
         let moveToId = null
 
-        if (to_item.data)
-            moveToId = to_item.data.id
-        else if (to_item.id)
-            moveToId = to_item.id
+        if (to_item.data) moveToId = to_item.data.id
+        else if (to_item.id) moveToId = to_item.id
 
         axios
             .post(route, {
                 to_id: moveToId,
-                items: itemsToMove
+                items: itemsToMove,
             })
             .then(() => {
-                itemsToMove.forEach(item => {
+                itemsToMove.forEach((item) => {
                     commit('REMOVE_ITEM', item.id)
                     commit('INCREASE_FOLDER_ITEM', moveToId)
 
-                    if (item.type === 'folder')
-                        dispatch('getAppData')
+                    if (item.type === 'folder') dispatch('getAppData')
 
-                    if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
-                        dispatch('getFolderTree')
+                    if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) dispatch('getFolderTree')
                 })
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    createFolder: ({commit, getters, dispatch}, folder) => {
-
+    createFolder: ({ commit, getters, dispatch }, folder) => {
         // Get route
         let route = getters.sharedDetail
             ? `/api/editor/create-folder/${router.currentRoute.params.token}`
             : '/api/create-folder'
 
-        let parent_id = getters.currentFolder
-            ? getters.currentFolder.data.id
-            : undefined
+        let parent_id = getters.currentFolder ? getters.currentFolder.data.id : undefined
 
         axios
             .post(route, {
                 parent_id: parent_id,
                 name: folder.name,
-                emoji: folder.emoji
+                emoji: folder.emoji,
             })
-            .then(response => {
+            .then((response) => {
                 commit('ADD_NEW_FOLDER', response.data)
 
                 events.$emit('scrollTop')
 
                 // Set focus on new folder name
                 setTimeout(() => {
-                    if (! Vue.prototype.$isMobile()) {
+                    if (!Vue.prototype.$isMobile()) {
                         events.$emit('newFolder:focus', response.data.data.id)
                     }
                 }, 10)
 
-                if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
-                    dispatch('getFolderTree')
-                else
-                    dispatch('getAppData')
-
+                if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) dispatch('getFolderTree')
+                else dispatch('getAppData')
             })
-            .catch(error => {
+            .catch((error) => {
                 events.$emit('alert:open', {
                     title: error.response.data.message,
-                    message: i18n.t('popup_error.message')
+                    message: i18n.t('popup_error.message'),
                 })
             })
     },
-    renameItem: ({commit, getters, dispatch}, data) => {
-
+    renameItem: ({ commit, getters, dispatch }, data) => {
         // Updated name in favourites panel
-        if (getters.permission === 'master' && data.type === 'folder')
-            commit('UPDATE_NAME_IN_FAVOURITES', data)
+        if (getters.permission === 'master' && data.type === 'folder') commit('UPDATE_NAME_IN_FAVOURITES', data)
 
         // Get route
         let route = getters.sharedDetail
@@ -146,25 +129,22 @@ const actions = {
         axios
             .post(route, {
                 ...data,
-                _method: 'patch'
+                _method: 'patch',
             })
-            .then(response => {
+            .then((response) => {
                 commit('CHANGE_ITEM_NAME', response.data)
 
-                if (data.type === 'folder' && ! Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
+                if (data.type === 'folder' && !Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
                     dispatch('getAppData')
                 if (data.type === 'folder' && Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
                     dispatch('getFolderTree')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    uploadFiles: ({commit, getters, dispatch}, {form, fileSize, totalUploadedSize}) => {
+    uploadFiles: ({ commit, getters, dispatch }, { form, fileSize, totalUploadedSize }) => {
         return new Promise((resolve, reject) => {
-
             // Get route
-            let route = getters.sharedDetail
-                ? `/api/editor/upload/${router.currentRoute.params.token}`
-                : '/api/upload'
+            let route = getters.sharedDetail ? `/api/editor/upload/${router.currentRoute.params.token}` : '/api/upload'
 
             // Create cancel token for axios cancellation
             const CancelToken = axios.CancelToken,
@@ -174,32 +154,33 @@ const actions = {
                 .post(route, form, {
                     cancelToken: source.token,
                     headers: {
-                        'Content-Type': 'application/octet-stream'
+                        'Content-Type': 'application/octet-stream',
                     },
-                    onUploadProgress: event => {
-                        let percentCompleted = Math.floor(((totalUploadedSize + event.loaded) / fileSize) * 100);
+                    onUploadProgress: (event) => {
+                        let percentCompleted = Math.floor(((totalUploadedSize + event.loaded) / fileSize) * 100)
 
                         commit('UPLOADING_FILE_PROGRESS', percentCompleted >= 100 ? 100 : percentCompleted)
 
                         // Set processing file
-                        if (percentCompleted >= 100)
-                            commit('PROCESSING_FILE', true)
-                    }
+                        if (percentCompleted >= 100) commit('PROCESSING_FILE', true)
+                    },
                 })
-                .then(response => {
+                .then((response) => {
                     resolve(response)
 
                     // Proceed if was returned database record
                     if (response.data.data.id) {
-
                         commit('PROCESSING_FILE', false)
 
                         // Remove first file from file queue
                         commit('SHIFT_FROM_FILE_QUEUE')
 
                         // Check if user is in uploading folder, if yes, than show new file
-                        if ((! getters.currentFolder && !response.data.data.attributes.parent_id) || (getters.currentFolder && response.data.data.attributes.parent_id === getters.currentFolder.data.id)) {
-
+                        if (
+                            (!getters.currentFolder && !response.data.data.attributes.parent_id) ||
+                            (getters.currentFolder &&
+                                response.data.data.attributes.parent_id === getters.currentFolder.data.id)
+                        ) {
                             // Add uploaded item into view
                             commit('ADD_NEW_ITEMS', response.data)
                         }
@@ -227,25 +208,25 @@ const actions = {
                         }
                     }
                 })
-                .catch(error => {
+                .catch((error) => {
                     reject(error)
 
-                    console.log(error);
+                    console.log(error)
 
                     let messages = {
-                        '423': {
+                        423: {
                             title: i18n.t('popup_exceed_limit.title'),
-                            message: i18n.t('popup_exceed_limit.message')
+                            message: i18n.t('popup_exceed_limit.message'),
                         },
-                        '422': {
+                        422: {
                             title: i18n.t('popup_mimetypes_blacklist.title'),
-                            message: i18n.t('popup_mimetypes_blacklist.message')
+                            message: i18n.t('popup_mimetypes_blacklist.message'),
                         },
-                        '413': {
+                        413: {
                             title: i18n.t('popup_paylod_error.title'),
-                            message: i18n.t('popup_paylod_error.message')
+                            message: i18n.t('popup_paylod_error.message'),
                         },
-                        '401': {
+                        401: {
                             //title: error.response.data.message,
                         },
                     }
@@ -253,7 +234,7 @@ const actions = {
                     events.$emit('alert:open', {
                         emoji: '😬😬😬',
                         title: messages[error.response.status]['title'],
-                        message: messages[error.response.status]['message'] || null
+                        message: messages[error.response.status]['message'] || null,
                     })
 
                     commit('PROCESSING_FILE', false)
@@ -270,20 +251,20 @@ const actions = {
             })
         })
     },
-    restoreItem: ({commit, getters}, item) => {
-
+    restoreItem: ({ commit, getters }, item) => {
         let itemToRestore = []
         let items = [item]
         let restoreToHome = Vue.prototype.$isThisRoute(router.currentRoute, ['Trash'])
 
         // If coming no selected item dont get items to restore from clipboard
-        if (!item)
-            items = getters.clipboard
+        if (!item) items = getters.clipboard
 
-        items.forEach(data => itemToRestore.push({
-            type: data.data.type,
-            id: data.data.id
-        }))
+        items.forEach((data) =>
+            itemToRestore.push({
+                type: data.data.type,
+                id: data.data.id,
+            })
+        )
 
         // Remove file preview
         commit('CLIPBOARD_CLEAR')
@@ -291,37 +272,31 @@ const actions = {
         axios
             .post(getters.api + '/trash/restore', {
                 to_home: restoreToHome,
-                items: itemToRestore
+                items: itemToRestore,
             })
-            .then(
-                items.forEach(item => commit('REMOVE_ITEM', item.data.id))
-            )
+            .then(items.forEach((item) => commit('REMOVE_ITEM', item.data.id)))
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    deleteItem: ({commit, getters, dispatch}, noSelectedItem) => {
-
+    deleteItem: ({ commit, getters, dispatch }, noSelectedItem) => {
         let itemsToDelete = []
         let items = [noSelectedItem]
 
         // If coming no selected item dont get items to move from clipboard
-        if (!noSelectedItem)
-            items = getters.clipboard
+        if (!noSelectedItem) items = getters.clipboard
 
-            items.forEach(data => {
-                itemsToDelete.push({
-                    force_delete: !!data.data.attributes.deleted_at,
-                    type: data.data.type,
-                    id: data.data.id
-                })
+        items.forEach((data) => {
+            itemsToDelete.push({
+                force_delete: !!data.data.attributes.deleted_at,
+                type: data.data.type,
+                id: data.data.id,
+            })
 
             // Remove file
             commit('REMOVE_ITEM', data.data.id)
 
             // Remove item from sidebar
             if (getters.permission === 'master') {
-
-                if (data.data.type === 'folder')
-                    commit('REMOVE_ITEM_FROM_FAVOURITES', data)
+                if (data.data.type === 'folder') commit('REMOVE_ITEM_FROM_FAVOURITES', data)
             }
 
             // Remove file
@@ -329,9 +304,7 @@ const actions = {
 
             // Remove item from sidebar
             if (getters.permission === 'master') {
-
-                if (data.data.type === 'folder')
-                    commit('REMOVE_ITEM_FROM_FAVOURITES', data)
+                if (data.data.type === 'folder') commit('REMOVE_ITEM_FROM_FAVOURITES', data)
             }
         })
 
@@ -341,22 +314,17 @@ const actions = {
         }
 
         // Get route
-        let route = getters.sharedDetail
-            ? `/api/editor/remove/${router.currentRoute.params.token}`
-            : '/api/remove'
+        let route = getters.sharedDetail ? `/api/editor/remove/${router.currentRoute.params.token}` : '/api/remove'
 
         axios
             .post(route, {
-                items: itemsToDelete
+                items: itemsToDelete,
             })
             .then(() => {
-                itemsToDelete.forEach(data => {
-
+                itemsToDelete.forEach((data) => {
                     // If is folder, update app data
                     if (data.type === 'folder') {
-
                         if (data.id === getters.currentFolder.data.id) {
-
                             if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) {
                                 dispatch('browseShared')
                             } else {
@@ -366,40 +334,35 @@ const actions = {
                     }
                 })
 
-                if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
-                    dispatch('getFolderTree')
-                else
-                    dispatch('getAppData')
-
+                if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) dispatch('getFolderTree')
+                else dispatch('getAppData')
             })
-            //.catch(() => Vue.prototype.$isSomethingWrong())
+        //.catch(() => Vue.prototype.$isSomethingWrong())
     },
-    emptyTrash: ({commit, getters}) => {
-
+    emptyTrash: ({ commit, getters }) => {
         // Clear file browser
-        commit('LOADING_STATE', {loading: true, data: []})
+        commit('LOADING_STATE', { loading: true, data: [] })
 
         axios
             .post(getters.api + '/trash/dump', {
-                _method: 'delete'
+                _method: 'delete',
             })
             .then(() => {
-                commit('LOADING_STATE', {loading: false, data: []})
+                commit('LOADING_STATE', { loading: false, data: [] })
                 events.$emit('scrollTop')
 
                 commit('CLIPBOARD_CLEAR')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    emptyTrashQuietly: ({commit, getters}) => {
+    emptyTrashQuietly: ({ commit, getters }) => {
         axios
             .post(getters.api + '/trash/dump', {
-                _method: 'delete'
+                _method: 'delete',
             })
             .then(() => {
-
                 if (router.currentRoute.name === 'Trash') {
-                    commit('LOADING_STATE', {loading: false, data: []})
+                    commit('LOADING_STATE', { loading: false, data: [] })
                 }
 
                 events.$emit('toaster', {
@@ -408,7 +371,7 @@ const actions = {
                 })
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
-    }
+    },
 }
 
 const mutations = {
@@ -437,21 +400,21 @@ const mutations = {
         state.filesInQueueUploaded = 0
         state.filesInQueueTotal = 0
         state.fileQueue = []
-    }
+    },
 }
 
 const getters = {
-    filesInQueueUploaded: state => state.filesInQueueUploaded,
-    filesInQueueTotal: state => state.filesInQueueTotal,
-    uploadingProgress: state => state.uploadingProgress,
-    isProcessingFile: state => state.isProcessingFile,
-    processingPopup: state => state.processingPopup,
-    fileQueue: state => state.fileQueue
+    filesInQueueUploaded: (state) => state.filesInQueueUploaded,
+    filesInQueueTotal: (state) => state.filesInQueueTotal,
+    uploadingProgress: (state) => state.uploadingProgress,
+    isProcessingFile: (state) => state.isProcessingFile,
+    processingPopup: (state) => state.processingPopup,
+    fileQueue: (state) => state.fileQueue,
 }
 
 export default {
     state: defaultState,
     mutations,
     actions,
-    getters
+    getters,
 }

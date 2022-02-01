@@ -16,59 +16,62 @@
 </template>
 
 <script>
-    import { FileIcon, FileTextIcon, SettingsIcon } from 'vue-feather-icons'
+import { FileIcon, FileTextIcon, SettingsIcon } from 'vue-feather-icons'
 
-    export default {
-        name: 'EmptyPageContent',
-        props: ['icon','title','description'],
-        components: {
-            SettingsIcon,
-            FileTextIcon,
-            FileIcon,
-        }
-    }
+export default {
+    name: 'EmptyPageContent',
+    props: ['icon', 'title', 'description'],
+    components: {
+        SettingsIcon,
+        FileTextIcon,
+        FileIcon,
+    },
+}
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../sass/vuefilemanager/variables';
-    @import '../../../sass/vuefilemanager/mixins';
+@import '../../../sass/vuefilemanager/variables';
+@import '../../../sass/vuefilemanager/mixins';
 
-    .empty-page-content {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        text-align: center;
+.empty-page-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
 
-        .content {
+    .content {
+        margin: 0 auto;
+        max-width: 360px;
+
+        /deep/ .button-base {
             margin: 0 auto;
-            max-width: 360px;
-
-            /deep/ .button-base {
-                margin: 0 auto;
-            }
-        }
-
-        .icon {
-            path, polyline, line, circle {
-                stroke: $theme;
-            }
-        }
-
-        .header {
-            margin-top: 15px;
-            margin-bottom: 25px;
-        }
-
-        .title {
-            @include font-size(23);
-            font-weight: 700;
-            padding-bottom: 5px;
-        }
-
-        .description {
-            @include font-size(16);
-            font-weight: 500;
         }
     }
+
+    .icon {
+        path,
+        polyline,
+        line,
+        circle {
+            stroke: $theme;
+        }
+    }
+
+    .header {
+        margin-top: 15px;
+        margin-bottom: 25px;
+    }
+
+    .title {
+        @include font-size(23);
+        font-weight: 700;
+        padding-bottom: 5px;
+    }
+
+    .description {
+        @include font-size(16);
+        font-weight: 500;
+    }
+}
 </style>

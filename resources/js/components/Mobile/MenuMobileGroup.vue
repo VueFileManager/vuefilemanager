@@ -5,18 +5,18 @@
 </template>
 
 <script>
-    export default {
-        name: 'MenuMobileGroup',
-    }
+export default {
+    name: 'MenuMobileGroup',
+}
 </script>
 
 <style scoped lang="scss">
-    @import "resources/sass/vuefilemanager/_variables";
-    @import "resources/sass/vuefilemanager/_mixins";
+@import 'resources/sass/vuefilemanager/_variables';
+@import 'resources/sass/vuefilemanager/_mixins';
 
-    .menu-options {
-        margin-top: 10px;
-        list-style: none;
-        width: 100%;
-    }
+.menu-options {
+    margin-top: 10px;
+    list-style: none;
+    width: 100%;
+}
 </style>

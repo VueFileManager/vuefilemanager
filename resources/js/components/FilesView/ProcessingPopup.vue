@@ -4,7 +4,7 @@
             <div class="popup-wrapper">
                 <div class="popup-content">
                     <div class="spinner-wrapper">
-                        <Spinner/>
+                        <Spinner />
                     </div>
                     <h1 class="title">{{ processingPopup.title }}</h1>
                     <p class="message">{{ processingPopup.message }}</p>
@@ -15,19 +15,17 @@
 </template>
 
 <script>
-import Spinner from "./Spinner";
+import Spinner from './Spinner'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'ProcessingPopup',
     components: {
-        Spinner
+        Spinner,
     },
     computed: {
-        ...mapGetters([
-            'processingPopup'
-        ])
-    }
+        ...mapGetters(['processingPopup']),
+    },
 }
 </script>
 
@@ -68,7 +66,6 @@ export default {
 }
 
 .popup-content {
-
     .title {
         @include font-size(22);
         font-weight: 700;
@@ -90,7 +87,6 @@ export default {
     }
 
     .popup-content {
-
         .title {
             @include font-size(19);
         }

@@ -1,269 +1,287 @@
 <template>
-	<div>
-		<!--Mobile language navigation-->
-		<div v-if="languages" id="card-navigation" style="height: 62px" class="md:hidden block mb-24">
-			<div
-				class="bg-white z-20 sm:pt-5 pt-3"
-				:class="{
-				'fixed top-0 left-0 right-0 px-6 rounded-none backdrop-filter backdrop-blur-lg dark:bg-dark-foreground bg-white bg-opacity-70 z-10': fixedNav,
-				'card shadow-card py-0 sticky top-0 z-10 md:hidden block': ! fixedNav
-				}"
-			>
-				<SearchInput v-model="query" @reset-query="query = ''"/>
+    <div>
+        <!--Mobile language navigation-->
+        <div v-if="languages" id="card-navigation" style="height: 62px" class="mb-24 block md:hidden">
+            <div
+                class="z-20 bg-white pt-3 sm:pt-5"
+                :class="{
+                    'fixed top-0 left-0 right-0 z-10 rounded-none bg-white bg-opacity-70 px-6 backdrop-blur-lg backdrop-filter dark:bg-dark-foreground': fixedNav,
+                    'card sticky top-0 z-10 block py-0 shadow-card md:hidden': !fixedNav,
+                }"
+            >
+                <SearchInput v-model="query" @reset-query="query = ''" />
 
-				<div class="flex items-center">
-					<!--List of languages-->
-					<div
-						@click="getLanguage(language)"
-						v-for="language in languages"
-						:key="language.data.id"
-						class="inline-block text-sm font-bold px-4 py-5 border-b-2 border-transparent border-bottom-theme"
-						:class="{'text-theme router-link-active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale, 'text-gray-600': !selectedLanguage && selectedLanguage.data.attributes.locale !== language.data.attributes.locale}"
-					>
-						{{ language.data.attributes.name }}
-					</div>
+                <div class="flex items-center">
+                    <!--List of languages-->
+                    <div
+                        @click="getLanguage(language)"
+                        v-for="language in languages"
+                        :key="language.data.id"
+                        class="border-bottom-theme inline-block border-b-2 border-transparent px-4 py-5 text-sm font-bold"
+                        :class="{
+                            'text-theme router-link-active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale,
+                            'text-gray-600': !selectedLanguage && selectedLanguage.data.attributes.locale !== language.data.attributes.locale,
+                        }"
+                    >
+                        {{ language.data.attributes.name }}
+                    </div>
 
-					<!--Add new language-->
-					<div @click="createLanguage" class="ml-2 cursor-pointer">
-						<plus-icon size="14" class="vue-feather text-gray-400"/>
-					</div>
-				</div>
-			</div>
+                    <!--Add new language-->
+                    <div @click="createLanguage" class="ml-2 cursor-pointer">
+                        <plus-icon size="14" class="vue-feather text-gray-400" />
+                    </div>
+                </div>
+            </div>
+        </div>
 
-		</div>
+        <div v-if="languages" class="flex md:space-x-6">
+            <!--Sidebar-->
+            <div class="hidden md:block">
+                <div class="card sticky top-0 shadow-card">
+                    <label class="mb-2 text-xs font-bold text-gray-400">
+                        {{ $t('languages') }}
+                    </label>
 
-		<div v-if="languages" class="flex md:space-x-6">
+                    <!-- Languages -->
+                    <div
+                        @click="getLanguage(language)"
+                        v-for="language in languages"
+                        :key="language.data.id"
+                        class="group flex cursor-pointer items-center justify-between py-2 pr-4"
+                    >
+                        <label
+                            class="text-base font-bold"
+                            :class="{
+                                'text-theme': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale,
+                            }"
+                        >
+                            {{ language.data.attributes.name }}
+                        </label>
+                        <x-icon v-if="language.data.attributes.locale !== 'en'" @click.stop="deleteLanguage(language)" class="opacity-0 group-hover:opacity-100" size="12" />
+                    </div>
 
-			<!--Sidebar-->
-			<div class="md:block hidden">
-				<div class="card shadow-card sticky top-0">
-					<label class="mb-2 text-xs text-gray-400 font-bold">
-						{{ $t('languages') }}
-					</label>
+                    <!-- Create Language button -->
+                    <MobileActionButton @click.native="createLanguage" icon="plus" class="mt-5 whitespace-nowrap">
+                        {{ $t('add_language') }}
+                    </MobileActionButton>
+                </div>
+            </div>
 
-					<!-- Languages -->
-					<div @click="getLanguage(language)" v-for="language in languages" :key="language.data.id" class="flex items-center justify-between cursor-pointer py-2 pr-4 group">
-						<label class="font-bold text-base" :class="{'text-theme': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale}">
-							{{ language.data.attributes.name }}
-						</label>
-						<x-icon
-							v-if="language.data.attributes.locale !== 'en'"
-							@click.stop="deleteLanguage(language)"
-							class="group-hover:opacity-100 opacity-0"
-							size="12"
-						/>
-					</div>
+            <!--Content-->
+            <div class="dynamic-content">
+                <Spinner v-if="!selectedLanguage" class="spinner" />
 
-					<!-- Create Language button -->
-					<MobileActionButton @click.native="createLanguage" icon="plus" class="mt-5 whitespace-nowrap">
-						{{ $t('add_language') }}
-					</MobileActionButton>
-				</div>
-			</div>
+                <div v-if="selectedLanguage">
+                    <!--Language Settings-->
+                    <div v-if="!isSearching" class="card shadow-card">
+                        <FormLabel icon="settings">
+                            {{ $t('language_settings') }}
+                        </FormLabel>
 
-			<!--Content-->
-			<div class="dynamic-content">
+                        <ValidationProvider tag="div" mode="passive" name="Language name" rules="required" v-slot="{ errors }">
+                            <AppInputText :title="$t('language_name')" :error="errors[0]">
+                                <input
+                                    @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)"
+                                    v-model="selectedLanguage.data.attributes.name"
+                                    :placeholder="$t('admin_settings.appearance.description_plac')"
+                                    type="text"
+                                    :class="{ 'border-red': errors[0] }"
+                                    class="focus-border-theme input-dark"
+                                />
+                            </AppInputText>
+                        </ValidationProvider>
 
-				<Spinner v-if="! selectedLanguage" class="spinner" />
+                        <AppInputSwitch
+                            :title="$t('set_as_default_language')"
+                            :description="$t('If this language is set as default, app will appear in this language for all users.')"
+                            :is-last="true"
+                        >
+                            <SwitchInput
+                                @input="setDefaultLanguage"
+                                class="switch"
+                                :class="{
+                                    'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale,
+                                }"
+                                :state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
+                            />
+                        </AppInputSwitch>
+                    </div>
 
-				<div v-if="selectedLanguage">
+                    <div v-if="selectedLanguage" class="card shadow-card">
+                        <!--Translations-->
+                        <FormLabel>
+                            {{ $t('edit_translations') }}
+                        </FormLabel>
 
-					<!--Language Settings-->
-					<div v-if="! isSearching" class="card shadow-card">
-						<FormLabel icon="settings">
-							{{ $t('language_settings') }}
-						</FormLabel>
+                        <InfoBox>
+                            <p>
+                                Please preserve in your translations special string variables defined in format as
+                                <b class="text-theme">:variable</b> or <b class="text-theme">{variable}</b>.
+                            </p>
+                        </InfoBox>
 
-						<ValidationProvider tag="div" mode="passive" name="Language name" rules="required" v-slot="{ errors }">
-							<AppInputText :title="$t('language_name')" :error="errors[0]">
-								<input @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)" v-model="selectedLanguage.data.attributes.name" :placeholder="$t('admin_settings.appearance.description_plac')" type="text" :class="{'border-red': errors[0]}" class="focus-border-theme input-dark" />
-							</AppInputText>
-						</ValidationProvider>
+                        <!--Inline Search for mobile-->
+                        <div class="sticky top-0 z-10 mb-8 hidden md:block">
+                            <SearchInput v-model="query" @reset-query="query = ''" />
+                        </div>
 
-						<AppInputSwitch :title="$t('set_as_default_language')" :description="$t('If this language is set as default, app will appear in this language for all users.')" :is-last="true">
-							<SwitchInput
-								@input="setDefaultLanguage"
-								class="switch"
-								:class="{'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale }"
-								:state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
-							/>
-						</AppInputSwitch>
-					</div>
+                        <ValidationProvider tag="div" name="Language string" rules="required" v-slot="{ errors }">
+                            <AppInputText :title="referenceTranslations[key]" :error="errors[0]" v-for="(translation, key) in translationList" :key="key">
+                                <textarea
+                                    v-model="selectedLanguage.data.attributes.translations[key]"
+                                    @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
+                                    :rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
+                                    class="focus-border-theme input-dark"
+                                    :class="{ 'border-red': errors[0] }"
+                                ></textarea>
+                            </AppInputText>
+                        </ValidationProvider>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-					<div v-if="selectedLanguage" class="card shadow-card">
-						<!--Translations-->
-						<FormLabel>
-							{{ $t('edit_translations') }}
-						</FormLabel>
-
-						<InfoBox>
-							<p>Please preserve in your translations special string variables defined in format as <b class="text-theme">:variable</b> or <b class="text-theme">{variable}</b>.</p>
-						</InfoBox>
-
-						<!--Inline Search for mobile-->
-						<div class="sticky top-0 z-10 mb-8 md:block hidden">
-							<SearchInput v-model="query" @reset-query="query = ''" />
-						</div>
-
-						<ValidationProvider tag="div" name="Language string" rules="required" v-slot="{ errors }">
-							<AppInputText :title="referenceTranslations[key]" :error="errors[0]" v-for="(translation, key) in translationList" :key="key">
-								<textarea
-									v-model="selectedLanguage.data.attributes.translations[key]"
-									@input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
-									:rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
-									class="focus-border-theme input-dark"
-									:class="{'border-red': errors[0]}"
-								></textarea>
-							</AppInputText>
-						</ValidationProvider>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<Spinner v-if="! languages" />
-	</div>
+        <Spinner v-if="!languages" />
+    </div>
 </template>
 
 <script>
-	import AppInputSwitch from "../../../components/Admin/AppInputSwitch";
-	import AppInputText from "../../../components/Admin/AppInputText";
-    import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-    import MobileActionButton from "../../../components/FilesView/MobileActionButton";
-    import SwitchInput from "../../../components/Others/Forms/SwitchInput";
-    import SearchInput from "../../../components/Others/Forms/SearchInput";
-    import FormLabel from "../../../components/Others/Forms/FormLabel";
-    import MobileHeader from "../../../components/Mobile/MobileHeader";
-    import ButtonBase from "../../../components/FilesView/ButtonBase";
-    import InfoBox from "../../../components/Others/Forms/InfoBox";
-    import PageHeader from "../../../components/Others/PageHeader";
-    import Spinner from "../../../components/FilesView/Spinner";
-    import {PlusIcon, XIcon} from 'vue-feather-icons'
-    import {debounce, omitBy} from 'lodash'
-    import {events} from '../../../bus'
+import AppInputSwitch from '../../../components/Admin/AppInputSwitch'
+import AppInputText from '../../../components/Admin/AppInputText'
+import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import MobileActionButton from '../../../components/FilesView/MobileActionButton'
+import SwitchInput from '../../../components/Others/Forms/SwitchInput'
+import SearchInput from '../../../components/Others/Forms/SearchInput'
+import FormLabel from '../../../components/Others/Forms/FormLabel'
+import MobileHeader from '../../../components/Mobile/MobileHeader'
+import ButtonBase from '../../../components/FilesView/ButtonBase'
+import InfoBox from '../../../components/Others/Forms/InfoBox'
+import PageHeader from '../../../components/Others/PageHeader'
+import Spinner from '../../../components/FilesView/Spinner'
+import { PlusIcon, XIcon } from 'vue-feather-icons'
+import { debounce, omitBy } from 'lodash'
+import { events } from '../../../bus'
 
-    export default {
-        name: 'Language',
-        components: {
-            ValidationProvider,
-            ValidationObserver,
-            MobileActionButton,
-			AppInputSwitch,
-			AppInputText,
-            MobileHeader,
-            SearchInput,
-            SwitchInput,
-            ButtonBase,
-            PageHeader,
-            FormLabel,
-            PlusIcon,
-            InfoBox,
-            Spinner,
-            XIcon
-        },
-        data() {
-            return {
-                searchedTranslationResults: undefined,
-                referenceTranslations: undefined,
+export default {
+    name: 'Language',
+    components: {
+        ValidationProvider,
+        ValidationObserver,
+        MobileActionButton,
+        AppInputSwitch,
+        AppInputText,
+        MobileHeader,
+        SearchInput,
+        SwitchInput,
+        ButtonBase,
+        PageHeader,
+        FormLabel,
+        PlusIcon,
+        InfoBox,
+        Spinner,
+        XIcon,
+    },
+    data() {
+        return {
+            searchedTranslationResults: undefined,
+            referenceTranslations: undefined,
 
-                defaultLanguageLocale: undefined,
-                selectedLanguage: undefined,
-                languages: undefined,
-                query: '',
+            defaultLanguageLocale: undefined,
+            selectedLanguage: undefined,
+            languages: undefined,
+            query: '',
 
-				fixedNav: false,
-			}
-        },
-        watch: {
-            query: debounce(function (val) {
-                this.searchedTranslationResults = omitBy(this.selectedLanguage.data.attributes.translations, string => {
-                    return !string.toLowerCase().includes(val.toLowerCase())
-                })
-
-                var container = document.getElementById('single-page')
-
-                container.scrollTop = 0
-            }, 300),
-        },
-        computed: {
-            isSearching() {
-                return this.searchedTranslationResults && this.query !== ''
-            },
-            translationList() {
-                return this.isSearching
-                    ? this.searchedTranslationResults
-                    : this.selectedLanguage.data.attributes.translations
-            }
-        },
-        methods: {
-            setDefaultLanguage() {
-                this.$updateText('/admin/settings', 'language', this.selectedLanguage.data.attributes.locale)
-                this.defaultLanguageLocale = this.selectedLanguage.data.attributes.locale
-
-                setTimeout(() => location.reload(), 500)
-            },
-            getLanguages() {
-                axios
-                    .get('/api/admin/languages')
-                    .then(response => {
-                        this.languages = response.data.data
-                        this.referenceTranslations = response.data.meta.reference_translations
-                        this.selectedLanguage = response.data.meta.current_language
-                        this.defaultLanguageLocale = response.data.meta.current_language.data.attributes.locale
-                    })
-                    .catch(() => {
-                        this.$isSomethingWrong()
-                    })
-            },
-            getLanguage(language) {
-                this.selectedLanguage = undefined
-
-                axios
-                    .get(`/api/admin/languages/${language.data.id}`)
-                    .then(response => {
-                        this.selectedLanguage = response.data
-                    })
-                    .catch(() => {
-                        this.$isSomethingWrong()
-                    })
-            },
-            deleteLanguage(language) {
-                events.$emit('confirm:open', {
-                    title: `Delete "${language.data.attributes.name}" language?`,
-                    message: 'Your language will be permanently deleted.',
-                    buttonColor: 'danger-solid',
-                    action: {
-                        id: language.data.id,
-                        operation: 'delete-language'
-                    }
-                })
-            },
-            createLanguage() {
-                events.$emit('popup:open', {name: 'create-language'})
-            },
-        },
-        mounted() {
-            this.getLanguages()
-
-            events.$on('reload:languages', () => this.getLanguages())
-
-            events.$on('action:confirmed', data => {
-
-                if (data.operation === 'delete-language')
-                    axios.delete(`/api/admin/languages/${data.id}`)
-                        .then(() => this.getLanguages())
-                        .catch(() => this.$isSomethingWrong())
+            fixedNav: false,
+        }
+    },
+    watch: {
+        query: debounce(function (val) {
+            this.searchedTranslationResults = omitBy(this.selectedLanguage.data.attributes.translations, (string) => {
+                return !string.toLowerCase().includes(val.toLowerCase())
             })
 
-			// Handle fixed mobile navigation
-			window.addEventListener("scroll", () => {
-				let card = document.getElementById('card-navigation')
+            var container = document.getElementById('single-page')
 
-				this.fixedNav = card.getBoundingClientRect().top < 0;
-			});
+            container.scrollTop = 0
+        }, 300),
+    },
+    computed: {
+        isSearching() {
+            return this.searchedTranslationResults && this.query !== ''
         },
-        destroyed() {
-            events.$off('action:confirmed')
+        translationList() {
+            return this.isSearching ? this.searchedTranslationResults : this.selectedLanguage.data.attributes.translations
         },
-    }
+    },
+    methods: {
+        setDefaultLanguage() {
+            this.$updateText('/admin/settings', 'language', this.selectedLanguage.data.attributes.locale)
+            this.defaultLanguageLocale = this.selectedLanguage.data.attributes.locale
+
+            setTimeout(() => location.reload(), 500)
+        },
+        getLanguages() {
+            axios
+                .get('/api/admin/languages')
+                .then((response) => {
+                    this.languages = response.data.data
+                    this.referenceTranslations = response.data.meta.reference_translations
+                    this.selectedLanguage = response.data.meta.current_language
+                    this.defaultLanguageLocale = response.data.meta.current_language.data.attributes.locale
+                })
+                .catch(() => {
+                    this.$isSomethingWrong()
+                })
+        },
+        getLanguage(language) {
+            this.selectedLanguage = undefined
+
+            axios
+                .get(`/api/admin/languages/${language.data.id}`)
+                .then((response) => {
+                    this.selectedLanguage = response.data
+                })
+                .catch(() => {
+                    this.$isSomethingWrong()
+                })
+        },
+        deleteLanguage(language) {
+            events.$emit('confirm:open', {
+                title: `Delete "${language.data.attributes.name}" language?`,
+                message: 'Your language will be permanently deleted.',
+                buttonColor: 'danger-solid',
+                action: {
+                    id: language.data.id,
+                    operation: 'delete-language',
+                },
+            })
+        },
+        createLanguage() {
+            events.$emit('popup:open', { name: 'create-language' })
+        },
+    },
+    mounted() {
+        this.getLanguages()
+
+        events.$on('reload:languages', () => this.getLanguages())
+
+        events.$on('action:confirmed', (data) => {
+            if (data.operation === 'delete-language')
+                axios
+                    .delete(`/api/admin/languages/${data.id}`)
+                    .then(() => this.getLanguages())
+                    .catch(() => this.$isSomethingWrong())
+        })
+
+        // Handle fixed mobile navigation
+        window.addEventListener('scroll', () => {
+            let card = document.getElementById('card-navigation')
+
+            this.fixedNav = card.getBoundingClientRect().top < 0
+        })
+    },
+    destroyed() {
+        events.$off('action:confirmed')
+    },
+}
 </script>

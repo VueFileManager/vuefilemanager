@@ -1,8 +1,8 @@
 <template>
     <nav class="main-navigation">
-        <router-link :to="{name: 'Homepage'}" tag="div" class="logo">
-            <img v-if="config.app_logo_horizontal" :src="$getImage(config.app_logo_horizontal)" :alt="config.app_name">
-            <b v-if="! config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
+        <router-link :to="{ name: 'Homepage' }" tag="div" class="logo">
+            <img v-if="config.app_logo_horizontal" :src="$getImage(config.app_logo_horizontal)" :alt="config.app_name" />
+            <b v-if="!config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
         <div class="navigation">
             <ul class="navigation-links">
@@ -12,123 +12,121 @@
                     </a>
                 </li>-->
                 <li>
-                    <router-link :to="{name: 'ContactUs'}" class="hover-text-theme">
+                    <router-link :to="{ name: 'ContactUs' }" class="hover-text-theme">
                         {{ $t('page_index.menu.contact_us') }}
                     </router-link>
                 </li>
             </ul>
-            <ul v-if="! config.isAuthenticated" class="navigation-links">
+            <ul v-if="!config.isAuthenticated" class="navigation-links">
                 <li>
-                    <router-link :to="{name: 'SignIn'}" class="hover-text-theme">
+                    <router-link :to="{ name: 'SignIn' }" class="hover-text-theme">
                         {{ $t('page_index.menu.log_in') }}
                     </router-link>
                 </li>
                 <li v-if="config.userRegistration">
-                    <router-link class="cta-button text-theme bg-theme-100" :to="{name: 'SignUp'}">
+                    <router-link class="cta-button text-theme bg-theme-100" :to="{ name: 'SignUp' }">
                         {{ $t('page_index.menu.sign_in') }}
                     </router-link>
                 </li>
             </ul>
             <ul v-if="config.isAuthenticated" class="navigation-links">
                 <li v-if="config.userRegistration">
-                    <router-link class="cta-button text-theme bg-theme-100" :to="{name: 'Files'}">
+                    <router-link class="cta-button text-theme bg-theme-100" :to="{ name: 'Files' }">
                         {{ $t('go_to_files') }}
                     </router-link>
                 </li>
             </ul>
         </div>
-        <router-link class="cta-button log-in text-theme bg-theme-100" :to="{name: 'SignIn'}">
+        <router-link class="cta-button log-in text-theme bg-theme-100" :to="{ name: 'SignIn' }">
             {{ $t('page_index.menu.log_in') }}
         </router-link>
     </nav>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
-    export default {
-        name: 'IndexNavigation',
-        computed: {
-            ...mapGetters(['config', 'index']),
-        },
-    }
+export default {
+    name: 'IndexNavigation',
+    computed: {
+        ...mapGetters(['config', 'index']),
+    },
+}
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../sass/vuefilemanager/landing-page';
-    @import '../../../sass/vuefilemanager/variables';
-    @import '../../../sass/vuefilemanager/mixins';
+@import '../../../sass/vuefilemanager/landing-page';
+@import '../../../sass/vuefilemanager/variables';
+@import '../../../sass/vuefilemanager/mixins';
 
-    .main-navigation {
-        justify-content: space-between;
-        padding-bottom: 25px;
-        align-items: center;
-        padding-top: 25px;
-        display: flex;
+.main-navigation {
+    justify-content: space-between;
+    padding-bottom: 25px;
+    align-items: center;
+    padding-top: 25px;
+    display: flex;
+}
+
+.logo {
+    cursor: pointer;
+
+    img {
+        cursor: pointer;
+        height: 38px;
+        width: auto;
+    }
+
+    .logo-text {
+        font-weight: 800;
+        @include font-size(25);
+    }
+}
+
+.navigation-links {
+    display: inline-block;
+    margin-left: 25px;
+
+    &:first-child {
+        margin-left: 0;
+    }
+
+    li {
+        display: inline-block;
+
+        a {
+            padding: 14px;
+            font-weight: 700;
+            @include font-size(17);
+            @include transition(150ms);
+        }
+    }
+}
+
+.cta-button {
+    border-radius: 6px;
+    padding: 8px 23px;
+    @include font-size(17);
+    font-weight: 700;
+
+    &.log-in {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 690px) {
+    .navigation {
+        display: none;
     }
 
     .logo {
-        cursor: pointer;
-
         img {
-            cursor: pointer;
-            height: 38px;
-            width: auto;
-        }
-
-        .logo-text {
-            font-weight: 800;
-            @include font-size(25);
+            height: auto;
+            width: 190px;
         }
     }
 
-    .navigation-links {
-        display: inline-block;
-        margin-left: 25px;
-
-        &:first-child {
-            margin-left: 0;
-        }
-
-        li {
-            display: inline-block;
-
-            a {
-                padding: 14px;
-                font-weight: 700;
-                @include font-size(17);
-                @include transition(150ms);
-            }
-        }
+    .cta-button.log-in {
+        display: block;
     }
-
-    .cta-button {
-        border-radius: 6px;
-        padding: 8px 23px;
-        @include font-size(17);
-        font-weight: 700;
-
-        &.log-in {
-            display: none;
-        }
-    }
-
-    @media only screen and (max-width: 690px) {
-
-        .navigation {
-            display: none;
-        }
-
-        .logo {
-
-            img {
-                height: auto;
-                width: 190px;
-            }
-        }
-
-        .cta-button.log-in {
-            display: block;
-        }
-    }
+}
 </style>

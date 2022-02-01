@@ -3,42 +3,37 @@
         <PopupHeader :title="$t('popup_2fa.popup_codes_title')" icon="key" />
 
         <PopupContent style="padding: 0 20px">
+            <div class="mobile-actions">
+                <MobileActionButton @click.native="copyCodes" icon="copy">
+                    {{ $t('context_menu.copy') }}
+                </MobileActionButton>
 
-			<div class="mobile-actions">
-				<MobileActionButton @click.native="copyCodes" icon="copy">
-					{{ $t('context_menu.copy') }}
-				</MobileActionButton>
+                <MobileActionButton @click.native="downloadCodes" icon="download">
+                    {{ $t('context_menu.download') }}
+                </MobileActionButton>
 
-				<MobileActionButton @click.native="downloadCodes" icon="download">
-					{{ $t('context_menu.download') }}
-				</MobileActionButton>
+                <MobileActionButton @click.native="regenerateCodes" icon="refresh">
+                    {{ $t('context_menu.codes_regenerate') }}
+                </MobileActionButton>
+            </div>
 
-				<MobileActionButton @click.native="regenerateCodes" icon="refresh">
-					{{ $t('context_menu.codes_regenerate') }}
-				</MobileActionButton>
-			</div>
+            <ul v-if="!isLoading" class="codes-list">
+                <li v-for="(code, i) in codes" :key="i">{{ code }}</li>
+            </ul>
 
-			<ul v-if="! isLoading" class="codes-list">
-				<li v-for="(code, i) in codes" :key="i">{{ code }}</li>
-			</ul>
+            <div v-if="isLoading" class="spinner-wrapper">
+                <Spinner />
+            </div>
 
-			<div v-if="isLoading" class="spinner-wrapper">
-				<Spinner />
-			</div>
+            <textarea v-model="inputCodes" ref="codes" class="codes-output"></textarea>
 
-			<textarea v-model="inputCodes" ref="codes" class="codes-output"></textarea>
-
-			<InfoBox style="margin-bottom: 0">
-				<p v-html="$t('popup_2fa.popup_codes_disclaimer')"></p>
-			</InfoBox>
+            <InfoBox style="margin-bottom: 0">
+                <p v-html="$t('popup_2fa.popup_codes_disclaimer')"></p>
+            </InfoBox>
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase
-				class="w-full"
-				@click.native="$closePopup()"
-				button-style="theme"
-			>
+            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme">
                 {{ $t('shared_form.button_done') }}
             </ButtonBase>
         </PopupActions>
@@ -46,159 +41,160 @@
 </template>
 
 <script>
-import MobileActionButton from "../FilesView/MobileActionButton";
-import PopupWrapper from "./Popup/PopupWrapper";
+import MobileActionButton from '../FilesView/MobileActionButton'
+import PopupWrapper from './Popup/PopupWrapper'
 import PopupActions from './Popup/PopupActions'
 import PopupContent from './Popup/PopupContent'
 import PopupHeader from './Popup/PopupHeader'
-import ButtonBase from "../FilesView/ButtonBase";
-import InfoBox from "./Forms/InfoBox";
-import Spinner from "../FilesView/Spinner";
-import {mapGetters} from "vuex"
-import {events} from '../../bus'
+import ButtonBase from '../FilesView/ButtonBase'
+import InfoBox from './Forms/InfoBox'
+import Spinner from '../FilesView/Spinner'
+import { mapGetters } from 'vuex'
+import { events } from '../../bus'
 import axios from 'axios'
 
 export default {
-	name: "TwoFactorRecoveryCodesPopup",
-	components: {
-		MobileActionButton,
-		PopupWrapper,
-		PopupActions,
-		PopupContent,
-		PopupHeader,
-		ButtonBase,
-		Spinner,
-		InfoBox,
-	},
-	data() {
-		return {
-			codes: undefined,
-			isLoading: true,
-			inputCodes: undefined,
-		}
-	},
-	computed: {
-		...mapGetters(['user']),
-	},
-	methods: {
-		copyCodes() {
-			let copyText = this.$refs.codes
+    name: 'TwoFactorRecoveryCodesPopup',
+    components: {
+        MobileActionButton,
+        PopupWrapper,
+        PopupActions,
+        PopupContent,
+        PopupHeader,
+        ButtonBase,
+        Spinner,
+        InfoBox,
+    },
+    data() {
+        return {
+            codes: undefined,
+            isLoading: true,
+            inputCodes: undefined,
+        }
+    },
+    computed: {
+        ...mapGetters(['user']),
+    },
+    methods: {
+        copyCodes() {
+            let copyText = this.$refs.codes
 
-			copyText.select()
-			copyText.setSelectionRange(0, 99999)
+            copyText.select()
+            copyText.setSelectionRange(0, 99999)
 
-			document.execCommand('copy')
+            document.execCommand('copy')
 
-			events.$emit('toaster', {
-				type: 'success',
-				message: this.$t('popup_2fa.toaster_codes_copied'),
-			})
-		},
-		downloadCodes() {
-			// Create txt content
-			let recoveryCodes = "data:x-application/xml;charset=utf-8," + escape(this.codes.join("\n"));
+            events.$emit('toaster', {
+                type: 'success',
+                message: this.$t('popup_2fa.toaster_codes_copied'),
+            })
+        },
+        downloadCodes() {
+            // Create txt content
+            let recoveryCodes = 'data:x-application/xml;charset=utf-8,' + escape(this.codes.join('\n'))
 
-			// Create download link
-			let downloadLink = document.createElement("a")
+            // Create download link
+            let downloadLink = document.createElement('a')
 
-			downloadLink.href = recoveryCodes
-			downloadLink.download = "recovery-codes.txt"
+            downloadLink.href = recoveryCodes
+            downloadLink.download = 'recovery-codes.txt'
 
-			// Download .txt
-			document.body.appendChild(downloadLink);
-			downloadLink.click();
-			document.body.removeChild(downloadLink);
-		},
-		regenerateCodes() {
-			this.isLoading = true
+            // Download .txt
+            document.body.appendChild(downloadLink)
+            downloadLink.click()
+            document.body.removeChild(downloadLink)
+        },
+        regenerateCodes() {
+            this.isLoading = true
 
-			axios.post('/user/two-factor-recovery-codes')
-				.then(() => {
-					this.getRecoveryCodes()
+            axios
+                .post('/user/two-factor-recovery-codes')
+                .then(() => {
+                    this.getRecoveryCodes()
 
-					events.$emit('toaster', {
-						type: 'success',
-						message: this.$t('popup_2fa.toaster_codes_regenerated'),
-					})
-				})
-				.catch(() => {
-					this.$isSomethingWrong()
-				})
-				.finally(() => this.isLoading = false)
-		},
-		getRecoveryCodes() {
-			axios.get('/user/two-factor-recovery-codes')
-				.then(response => {
-					this.codes = response.data
-					this.inputCodes = response.data.join("\n")
-				})
-				.catch(() => {
-					this.$isSomethingWrong()
-				})
-				.finally(() => this.isLoading = false)
-		}
-	},
-	created() {
-		events.$on('popup:open', ({name}) => {
-			if ('two-factor-recovery-codes' === name)
-				this.getRecoveryCodes()
-		})
-	}
+                    events.$emit('toaster', {
+                        type: 'success',
+                        message: this.$t('popup_2fa.toaster_codes_regenerated'),
+                    })
+                })
+                .catch(() => {
+                    this.$isSomethingWrong()
+                })
+                .finally(() => (this.isLoading = false))
+        },
+        getRecoveryCodes() {
+            axios
+                .get('/user/two-factor-recovery-codes')
+                .then((response) => {
+                    this.codes = response.data
+                    this.inputCodes = response.data.join('\n')
+                })
+                .catch(() => {
+                    this.$isSomethingWrong()
+                })
+                .finally(() => (this.isLoading = false))
+        },
+    },
+    created() {
+        events.$on('popup:open', ({ name }) => {
+            if ('two-factor-recovery-codes' === name) this.getRecoveryCodes()
+        })
+    },
 }
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../sass/vuefilemanager/variables';
-	@import '../../../sass/vuefilemanager/mixins';
+@import '../../../sass/vuefilemanager/variables';
+@import '../../../sass/vuefilemanager/mixins';
 
-	.mobile-actions {
-		white-space: nowrap;
-		overflow-x: auto;
-		margin: 0 -20px;
-		padding: 10px 0 10px 20px;
-	}
+.mobile-actions {
+    white-space: nowrap;
+    overflow-x: auto;
+    margin: 0 -20px;
+    padding: 10px 0 10px 20px;
+}
 
-	.codes-list {
-		margin: 5px 0 15px;
-		padding-left: 30px;
+.codes-list {
+    margin: 5px 0 15px;
+    padding-left: 30px;
 
-		li {
-			@include font-size(14);
-			font-weight: bold;
-			padding: 10px 0;
-			border-bottom: 1px solid $light_mode_border;
-			list-style: circle;
+    li {
+        @include font-size(14);
+        font-weight: bold;
+        padding: 10px 0;
+        border-bottom: 1px solid $light_mode_border;
+        list-style: circle;
 
-			&:last-child {
-				border-bottom: none;
-			}
-		}
-	}
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
 
-	.codes-output {
-		position: absolute;
-		right: -9999px;
-	}
+.codes-output {
+    position: absolute;
+    right: -9999px;
+}
 
-	.spinner-wrapper {
-		height: 339px;
-		position: relative;
+.spinner-wrapper {
+    height: 339px;
+    position: relative;
 
-		.spinner {
-			top: 46% !important;
-		}
-	}
+    .spinner {
+        top: 46% !important;
+    }
+}
 
-	.dark {
-		.codes-list {
+.dark {
+    .codes-list {
+        li {
+            border-color: $dark_mode_border_color;
+        }
+    }
 
-			li {
-				border-color: $dark_mode_border_color;
-			}
-		}
-
-		.info-box, .mobile-action-button {
-			background: lighten($dark_mode_foreground, 3%);
-		}
-	}
+    .info-box,
+    .mobile-action-button {
+        background: lighten($dark_mode_foreground, 3%);
+    }
+}
 </style>

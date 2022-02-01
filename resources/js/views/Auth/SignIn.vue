@@ -1,130 +1,137 @@
 <template>
     <AuthContentWrapper ref="auth" class="h-screen">
-
         <!--Log In by Email-->
         <AuthContent name="log-in" :visible="true">
-            <Headline
-				:title="$t('page_login.title')"
-				:description="$t('page_login.subtitle')"
-			/>
+            <Headline :title="$t('page_login.title')" :description="$t('page_login.subtitle')" />
 
-            <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form" class="md:flex items-start md:space-x-4 md:space-y-0 space-y-4 mb-12">
+            <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form" class="mb-12 items-start space-y-4 md:flex md:space-x-4 md:space-y-0">
                 <ValidationProvider class="w-full text-left" tag="div" mode="passive" name="E-Mail" rules="required" v-slot="{ errors }">
-                    <input class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background w-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}" v-model="loginEmail" :placeholder="$t('page_login.placeholder_email')" type="email" />
-                    <span class="text-red-600 text-xs text-left" v-if="errors[0]">{{ errors[0] }}</span>
+                    <input
+                        class="focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
+                        :class="{ 'border-red': errors[0] }"
+                        v-model="loginEmail"
+                        :placeholder="$t('page_login.placeholder_email')"
+                        type="email"
+                    />
+                    <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton class="md:w-min w-full justify-center" icon="chevron-right" :text="$t('page_login.button_next')" :loading="isLoading" :disabled="isLoading" />
+                <AuthButton class="w-full justify-center md:w-min" icon="chevron-right" :text="$t('page_login.button_next')" :loading="isLoading" :disabled="isLoading" />
             </ValidationObserver>
 
             <SocialiteAuthenticationButtons />
 
             <span v-if="config.userRegistration" class="block">
                 {{ $t('page_login.registration_text') }}
-                <router-link class="font-bold text-theme" :to="{name: 'SignUp'}">
+                <router-link class="text-theme font-bold" :to="{ name: 'SignUp' }">
                     {{ $t('page_login.registration_button') }}
                 </router-link>
             </span>
         </AuthContent>
 
-		<!--Log in By Password-->
+        <!--Log in By Password-->
         <AuthContent name="sign-in" :visible="false">
-			<Headline
-				v-if="checkedAccount"
-				:title="$t('page_sign_in.title', {name: checkedAccount.name})"
-				:description="$t('page_sign_in.subtitle')"
-			>
-                <img class="user-avatar mx-auto rounded-xl w-28 mb-6 shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
-			</Headline>
+            <Headline v-if="checkedAccount" :title="$t('page_sign_in.title', { name: checkedAccount.name })" :description="$t('page_sign_in.subtitle')">
+                <img class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name" />
+            </Headline>
 
-            <ValidationObserver @submit.prevent="singIn" ref="sign_in" v-slot="{ invalid }" tag="form" class="md:flex items-start md:space-x-4 md:space-y-0 space-y-4 mb-12">
+            <ValidationObserver @submit.prevent="singIn" ref="sign_in" v-slot="{ invalid }" tag="form" class="mb-12 items-start space-y-4 md:flex md:space-x-4 md:space-y-0">
                 <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="User Password" rules="required" v-slot="{ errors }">
-                    <input v-model="loginPassword" :placeholder="$t('page_sign_in.placeholder_password')" type="password" class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background w-full h-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}" />
-                    <span class="text-red-600 text-xs text-left" v-if="errors[0]">{{ errors[0] }}</span>
+                    <input
+                        v-model="loginPassword"
+                        :placeholder="$t('page_sign_in.placeholder_password')"
+                        type="password"
+                        class="focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
+                        :class="{ 'border-red': errors[0] }"
+                    />
+                    <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton class="md:w-min w-full justify-center" icon="chevron-right" :text="$t('page_sign_in.button_log_in')" :loading="isLoading" :disabled="isLoading" />
+                <AuthButton class="w-full justify-center md:w-min" icon="chevron-right" :text="$t('page_sign_in.button_log_in')" :loading="isLoading" :disabled="isLoading" />
             </ValidationObserver>
 
             <span class="block">
-				{{ $t('page_sign_in.password_reset_text') }}
-                <router-link :to="{name: 'ForgottenPassword'}" class="font-bold text-theme">
+                {{ $t('page_sign_in.password_reset_text') }}
+                <router-link :to="{ name: 'ForgottenPassword' }" class="text-theme font-bold">
                     {{ $t('page_sign_in.password_reset_button') }}
                 </router-link>
             </span>
         </AuthContent>
 
-		<!--Resend verification email-->
+        <!--Resend verification email-->
         <AuthContent name="not-verified" :visible="false">
-			<Headline
-				v-if="checkedAccount"
-				:title="$t('page_sign_in_2fa_title', {name: checkedAccount.name})"
-				:description="$t('page_not_verified.subtitle')"
-			>
-                <img class="user-avatar mx-auto rounded-xl w-28 mb-6 shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
-			</Headline>
+            <Headline v-if="checkedAccount" :title="$t('page_sign_in_2fa_title', { name: checkedAccount.name })" :description="$t('page_not_verified.subtitle')">
+                <img class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name" />
+            </Headline>
 
             <span class="block">
-				{{ $t('page_not_verified.resend_text') }}
+                {{ $t('page_not_verified.resend_text') }}
                 <b @click="resendEmail" class="text-theme cursor-pointer">
-					{{ $t('page_not_verified.resend_button') }}
-				</b>
+                    {{ $t('page_not_verified.resend_button') }}
+                </b>
             </span>
         </AuthContent>
 
-		<!-- Log in by 2fa -->
+        <!-- Log in by 2fa -->
         <AuthContent name="two-factor-authentication" :visible="false">
-			<Headline
-				v-if="checkedAccount"
-				:title="$t('page_sign_in_2fa_title', {name: checkedAccount.name})"
-				:description="$t('page_sign_in_2fa_subtitle')"
-			>
-                <img class="user-avatar mx-auto rounded-xl w-28 mb-6 shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
-			</Headline>
+            <Headline v-if="checkedAccount" :title="$t('page_sign_in_2fa_title', { name: checkedAccount.name })" :description="$t('page_sign_in_2fa_subtitle')">
+                <img class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name" />
+            </Headline>
 
             <ValidationObserver ref="two_factor_authentication" v-slot="{ invalid }" tag="form" class="mb-12">
                 <ValidationProvider tag="div" mode="passive" class="mx-auto" name="Two Factor Authentication" rules="required" v-slot="{ errors }">
-                    <input v-model="twoFactorCode" ref="twoFactorCodeInput" :placeholder="$t('page_sign_in.placeholder_2fa')" @input="twoFactorChallenge(false)" type="text" maxlength="6" class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background text-center md:w-80 w-full h-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}" />
-                    <span class="text-red-600 text-xs mt-2 text-center block" v-if="errors[0]">{{ errors[0] }}</span>
+                    <input
+                        v-model="twoFactorCode"
+                        ref="twoFactorCodeInput"
+                        :placeholder="$t('page_sign_in.placeholder_2fa')"
+                        @input="twoFactorChallenge(false)"
+                        type="text"
+                        maxlength="6"
+                        class="focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 text-center font-bold dark:bg-2x-dark-foreground md:w-80"
+                        :class="{ 'border-red': errors[0] }"
+                    />
+                    <span class="mt-2 block text-center text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
             </ValidationObserver>
 
-             <span class="block">
-				 {{ $t('page_sign_in.2fa_recovery_text') }}
+            <span class="block">
+                {{ $t('page_sign_in.2fa_recovery_text') }}
                 <b @click="goToAuthPage('two-factor-recovery')" class="text-theme cursor-pointer cursor-pointer">
-                   {{ $t('page_sign_in.2fa_recovery_button') }}
+                    {{ $t('page_sign_in.2fa_recovery_button') }}
                 </b>
             </span>
 
-            <div class="relative h-12 mt-10 w-full">
+            <div class="relative mt-10 h-12 w-full">
                 <Spinner v-if="isLoading" class="spinner" />
             </div>
-
         </AuthContent>
 
-		<!-- Log in by 2fa with recovery code -->
+        <!-- Log in by 2fa with recovery code -->
         <AuthContent name="two-factor-recovery" :visible="false">
-			<Headline
-				v-if="checkedAccount"
-				:title="$t('page_sign_in_2fa_title', {name: checkedAccount.name})"
-				:description="$t('page_sign_in.2fa_recovery_subtitle')"
-			>
-                <img class="user-avatar mx-auto rounded-xl w-28 mb-6 shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name">
-			</Headline>
+            <Headline v-if="checkedAccount" :title="$t('page_sign_in_2fa_title', { name: checkedAccount.name })" :description="$t('page_sign_in.2fa_recovery_subtitle')">
+                <img class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name" />
+            </Headline>
 
             <ValidationObserver ref="two_factor_recovery" v-slot="{ invalid }" tag="form" class="mb-12">
                 <ValidationProvider tag="div" mode="passive" class="mx-auto" name="Two Factor Recovery" rules="required" v-slot="{ errors }">
-                    <input v-model="twoFactorRecoveryCode" :placeholder="$t('page_sign_in.placeholder_2fa_recovery')" @input="twoFactorChallenge(true)" type="text" maxlength="21" class="font-bold px-5 py-3.5 dark:bg-2x-dark-foreground bg-light-background text-center md:w-80 w-full h-full rounded-lg focus-border-theme appearance-none border border-transparent" :class="{'border-red': errors[0]}" />
-                    <span class="text-red-600 text-xs mt-2 text-center block" v-if="errors[0]">{{ errors[0] }}</span>
+                    <input
+                        v-model="twoFactorRecoveryCode"
+                        :placeholder="$t('page_sign_in.placeholder_2fa_recovery')"
+                        @input="twoFactorChallenge(true)"
+                        type="text"
+                        maxlength="21"
+                        class="focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 text-center font-bold dark:bg-2x-dark-foreground md:w-80"
+                        :class="{ 'border-red': errors[0] }"
+                    />
+                    <span class="mt-2 block text-center text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
-
             </ValidationObserver>
 
-			<b @click="goToAuthPage('two-factor-authentication')" class="text-theme block cursor-pointer">
-			   {{ $t('2fa.i_have_2fa_app') }}
-			</b>
+            <b @click="goToAuthPage('two-factor-authentication')" class="text-theme block cursor-pointer">
+                {{ $t('2fa.i_have_2fa_app') }}
+            </b>
 
-             <div v-if="isLoading" class="relative h-12 mt-10 w-full">
+            <div v-if="isLoading" class="relative mt-10 h-12 w-full">
                 <Spinner class="spinner" />
             </div>
         </AuthContent>
@@ -132,248 +139,222 @@
 </template>
 
 <script>
-    import AuthContentWrapper from "../../components/Auth/AuthContentWrapper";
-	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
-	import SocialiteAuthenticationButtons from "../../components/Auth/SocialiteAuthenticationButtons";
-	import AuthContent from "../../components/Auth/AuthContent";
-	import AuthButton from "../../components/Auth/AuthButton";
-	import Spinner from "../../components/FilesView/Spinner";
-	import {mapGetters} from 'vuex'
-	import {events} from '../../bus'
-	import axios from 'axios'
-	import Headline from "./Headline";
+import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
+import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
+import SocialiteAuthenticationButtons from '../../components/Auth/SocialiteAuthenticationButtons'
+import AuthContent from '../../components/Auth/AuthContent'
+import AuthButton from '../../components/Auth/AuthButton'
+import Spinner from '../../components/FilesView/Spinner'
+import { mapGetters } from 'vuex'
+import { events } from '../../bus'
+import axios from 'axios'
+import Headline from './Headline'
 
-	export default {
-		name: 'SignIn',
-		components: {
-			SocialiteAuthenticationButtons,
-			AuthContentWrapper,
-			ValidationProvider,
-			ValidationObserver,
-			AuthContent,
-			AuthButton,
-			Headline,
-			Spinner,
-		},
-		computed: {
-			...mapGetters([
-				'config'
-			]),
-		},
-		data() {
-			return {
-				isLoading: false,
-				validSignIn: false,
-				checkedAccount: undefined,
-				loginPassword: '',
-				loginEmail: '',
-				twoFactorCode: '',
-				twoFactorRecoveryCode: '',
-			}
-		},
-		methods: {
-			goToAuthPage(slug) {
+export default {
+    name: 'SignIn',
+    components: {
+        SocialiteAuthenticationButtons,
+        AuthContentWrapper,
+        ValidationProvider,
+        ValidationObserver,
+        AuthContent,
+        AuthButton,
+        Headline,
+        Spinner,
+    },
+    computed: {
+        ...mapGetters(['config']),
+    },
+    data() {
+        return {
+            isLoading: false,
+            validSignIn: false,
+            checkedAccount: undefined,
+            loginPassword: '',
+            loginEmail: '',
+            twoFactorCode: '',
+            twoFactorRecoveryCode: '',
+        }
+    },
+    methods: {
+        goToAuthPage(slug) {
+            this.$refs.auth.$children.forEach((page) => {
+                // Hide current step
+                page.isVisible = page.$props.name === slug
+            })
+        },
+        resendEmail() {
+            axios
+                .post('/api/user/email/verify/resend', {
+                    email: this.loginEmail,
+                })
+                .then(() => {
+                    this.$router.push({ name: 'SuccessfullySend' })
+                })
+                .catch(() => {
+                    this.$isSomethingWrong()
+                })
+        },
+        async logIn() {
+            // Validate fields
+            const isValid = await this.$refs.log_in.validate()
 
-				this.$refs.auth.$children.forEach(page => {
+            if (!isValid) return
 
-					// Hide current step
-					page.isVisible = page.$props.name === slug;
-				})
-			},
-			resendEmail() {
-				axios.post('/api/user/email/verify/resend', {
-						email: this.loginEmail
-					})
-					.then(() => {
-						this.$router.push({name: 'SuccessfullySend'})
-					})
-					.catch(() => {
-						this.$isSomethingWrong()
-					})
-			},
-			async logIn() {
+            // Start loading
+            this.isLoading = true
 
-				// Validate fields
-				const isValid = await this.$refs.log_in.validate();
+            // Send request to get verify account
+            axios
+                .post('/api/user/check', {
+                    email: this.loginEmail,
+                })
+                .then((response) => {
+                    // End loading
+                    this.isLoading = false
 
-				if (!isValid) return;
+                    this.checkedAccount = response.data
 
-				// Start loading
-				this.isLoading = true
+                    if (response.data.oauth_provider) {
+                        // Redirect user to socialite login if he's accout is registered by socialite
+                        this.$store.dispatch('socialiteRedirect', response.data.oauth_provider)
+                    } else {
+                        // Show sign in password page
+                        this.goToAuthPage('sign-in')
+                    }
+                })
+                .catch((error) => {
+                    if (error.response.status == 404) {
+                        this.$refs.log_in.setErrors({
+                            'E-Mail': [error.response.data],
+                        })
+                    }
 
-				// Send request to get verify account
-				axios
-					.post('/api/user/check', {
-						email: this.loginEmail,
-					})
-					.then(response => {
+                    if (error.response.status == 500) {
+                        events.$emit('alert:open', {
+                            emoji: '🤔',
+                            title: this.$t('popup_signup_error.title'),
+                            message: this.$t('popup_signup_error.message'),
+                        })
+                    }
 
-						// End loading
-						this.isLoading = false
+                    // End loading
+                    this.isLoading = false
+                })
+        },
+        async singIn() {
+            // Validate fields
+            const isValid = this.validSignIn ? this.validSignIn : await this.$refs.sign_in.validate()
 
-						this.checkedAccount = response.data
+            if (!isValid) return
 
-						if (response.data.oauth_provider) {
-							// Redirect user to socialite login if he's accout is registered by socialite
-							this.$store.dispatch('socialiteRedirect', response.data.oauth_provider)
+            if (!this.checkedAccount.verified) {
+                this.goToAuthPage('not-verified')
 
-						} else {
-							// Show sign in password page
-							this.goToAuthPage('sign-in')
+                return
+            }
 
-						}
-					})
-					.catch(error => {
+            // Start loading
+            this.isLoading = true
 
-						if (error.response.status == 404) {
+            // Send request to get user token
+            axios
+                .post('/login', {
+                    email: this.loginEmail,
+                    password: this.loginPassword,
+                })
+                .then((response) => {
+                    // End loading
+                    this.isLoading = false
 
-							this.$refs.log_in.setErrors({
-								'E-Mail': [error.response.data]
-							});
-						}
+                    // If is enabled two factor authentication
+                    if (response.data.two_factor && !this.validSignIn) {
+                        this.validSignIn = true
 
-						if (error.response.status == 500) {
+                        this.goToAuthPage('two-factor-authentication')
 
-							events.$emit('alert:open', {
-								emoji: '🤔',
-								title: this.$t('popup_signup_error.title'),
-								message: this.$t('popup_signup_error.message')
-							})
-						}
+                        // Autofocus to input
+                        this.$nextTick(() => this.$refs.twoFactorCodeInput.focus())
+                    }
 
-						// End loading
-						this.isLoading = false
-					})
-			},
-			async singIn() {
+                    // If is disabled two factor authentication
+                    if (!response.data.two_factor) {
+                        // Set login state
+                        this.$store.commit('SET_AUTHORIZED', true)
 
-				// Validate fields
-				const isValid = this.validSignIn ? this.validSignIn : await this.$refs.sign_in.validate();
+                        // Go to files page
+                        this.proceedToAccount()
+                    }
+                })
+                .catch((error) => {
+                    if (error.response.status == 422) {
+                        this.$refs.sign_in.setErrors({
+                            'User Password': [this.$t('validation_errors.incorrect_password')],
+                        })
+                    }
 
-				if (!isValid) return;
+                    // End loading
+                    this.isLoading = false
+                })
+        },
+        async twoFactorChallenge(recovery) {
+            // Check if is normal authentication or recovery
+            if ((!recovery && this.twoFactorCode.length === 6) || (recovery && this.twoFactorRecoveryCode.length === 21)) {
+                this.isLoading = true
 
-				if (!this.checkedAccount.verified) {
+                let payload = recovery ? { recovery_code: this.twoFactorRecoveryCode } : { code: this.twoFactorCode }
 
-					this.goToAuthPage('not-verified')
+                axios
+                    .post('/two-factor-challenge', payload)
+                    .then(() => {
+                        this.isLoading = false
 
-					return
-				}
+                        // Set login state
+                        this.$store.commit('SET_AUTHORIZED', true)
 
-				// Start loading
-				this.isLoading = true
+                        // Go to files page
+                        this.proceedToAccount()
+                    })
+                    .catch((error) => {
+                        if (error.response.status == 422) {
+                            //Authentication bad input
+                            if (!recovery) {
+                                this.$refs.two_factor_authentication.setErrors({
+                                    'Two Factor Authentication': this.$t('validation_errors.incorrect_2fa_code'),
+                                })
+                            }
 
-				// Send request to get user token
-				axios
-					.post('/login', {
-						email: this.loginEmail,
-						password: this.loginPassword,
-					})
-					.then((response) => {
+                            // Recovery bad input
+                            if (recovery) {
+                                this.$refs.two_factor_recovery.setErrors({
+                                    'Two Factor Recovery': this.$t('validation_errors.incorrect_2fa_recovery_code'),
+                                })
+                            }
+                        }
 
-						// End loading
-						this.isLoading = false
+                        // Repeat the login for next try to type right 2fa code / recovery code
+                        this.singIn()
 
-						// If is enabled two factor authentication
-						if (response.data.two_factor && !this.validSignIn) {
+                        this.isLoading = false
+                    })
+            }
+        },
+        proceedToAccount() {
+            if (this.$route.query.redirect) {
+                this.$router.push(this.$route.query.redirect)
+            } else {
+                this.$router.push({ name: 'Files' })
+            }
+        },
+    },
+    created() {
+        this.$scrollTop()
+        this.$store.commit('PROCESSING_POPUP', undefined)
 
-							this.validSignIn = true
-
-							this.goToAuthPage('two-factor-authentication')
-
-							// Autofocus to input
-							this.$nextTick(() => this.$refs.twoFactorCodeInput.focus())
-						}
-
-						// If is disabled two factor authentication
-						if (!response.data.two_factor) {
-
-							// Set login state
-							this.$store.commit('SET_AUTHORIZED', true)
-
-							// Go to files page
-							this.proceedToAccount()
-						}
-					})
-					.catch(error => {
-
-						if (error.response.status == 422) {
-
-							this.$refs.sign_in.setErrors({
-								'User Password': [this.$t('validation_errors.incorrect_password')]
-							});
-						}
-
-						// End loading
-						this.isLoading = false
-					})
-			},
-			async twoFactorChallenge(recovery) {
-				// Check if is normal authentication or recovery
-				if (!recovery && this.twoFactorCode.length === 6 || recovery && this.twoFactorRecoveryCode.length === 21) {
-
-					this.isLoading = true
-
-					let payload = recovery
-						? {recovery_code: this.twoFactorRecoveryCode}
-						: {code: this.twoFactorCode}
-
-					axios.post('/two-factor-challenge', payload)
-						.then(() => {
-
-							this.isLoading = false
-
-							// Set login state
-							this.$store.commit('SET_AUTHORIZED', true)
-
-							// Go to files page
-							this.proceedToAccount()
-						})
-						.catch(error => {
-
-							if (error.response.status == 422) {
-
-								//Authentication bad input
-								if (!recovery) {
-
-									this.$refs.two_factor_authentication.setErrors({
-										'Two Factor Authentication': this.$t('validation_errors.incorrect_2fa_code')
-									})
-								}
-
-								// Recovery bad input
-								if (recovery) {
-
-									this.$refs.two_factor_recovery.setErrors({
-										'Two Factor Recovery': this.$t('validation_errors.incorrect_2fa_recovery_code')
-									})
-								}
-
-							}
-
-							// Repeat the login for next try to type right 2fa code / recovery code
-							this.singIn()
-
-							this.isLoading = false
-						})
-				}
-
-			},
-			proceedToAccount() {
-				if (this.$route.query.redirect) {
-					this.$router.push(this.$route.query.redirect)
-				} else {
-					this.$router.push({name: 'Files'})
-				}
-			}
-		},
-		created() {
-			this.$scrollTop()
-			this.$store.commit('PROCESSING_POPUP', undefined)
-
-			if (this.config.isDemo || this.config.isDev) {
-				this.loginEmail = 'howdy@hi5ve.digital'
-				this.loginPassword = 'vuefilemanager'
-			}
-		}
-	}
+        if (this.config.isDemo || this.config.isDev) {
+            this.loginEmail = 'howdy@hi5ve.digital'
+            this.loginPassword = 'vuefilemanager'
+        }
+    },
+}
 </script>

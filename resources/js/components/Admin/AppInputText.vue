@@ -1,32 +1,24 @@
 <template>
-	<div :class="{'mb-7': !isLast}">
+    <div :class="{ 'mb-7': !isLast }">
+        <!--Label for input-->
+        <label v-if="title" class="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-200"> {{ title }}: </label>
 
-		<!--Label for input-->
-		<label v-if="title" class="text-sm font-bold dark:text-gray-200 text-gray-700 mb-1.5 block">
-			{{ title }}:
-		</label>
+        <!--Form element-->
+        <slot></slot>
 
-		<!--Form element-->
-		<slot></slot>
+        <!--Input Description-->
+        <span v-if="error" class="pt-2 text-xs text-red-800">
+            {{ error }}
+        </span>
 
-		<!--Input Description-->
-		<span v-if="error" class="text-red-800 pt-2 text-xs">
-			{{ error }}
-		</span>
-
-		<!--Input Description-->
-		<small v-if="description" class="text-xs text-gray-500 pt-2 leading-4 block" v-html="description"></small>
-	</div>
+        <!--Input Description-->
+        <small v-if="description" class="block pt-2 text-xs leading-4 text-gray-500" v-html="description"></small>
+    </div>
 </template>
 
 <script>
-	export default {
-		name: 'AppInputText',
-		props: [
-			'description',
-			'isLast',
-			'title',
-			'error',
-		]
-	}
+export default {
+    name: 'AppInputText',
+    props: ['description', 'isLast', 'title', 'error'],
+}
 </script>

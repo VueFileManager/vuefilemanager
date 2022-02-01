@@ -1,5 +1,5 @@
 <template>
-    <div v-if="config.allowedFacebookLogin || config.allowedGoogleLogin || config.allowedGithubLogin" class="flex items-center justify-center mb-10">
+    <div v-if="config.allowedFacebookLogin || config.allowedGoogleLogin || config.allowedGithubLogin" class="mb-10 flex items-center justify-center">
         <div v-if="config.allowedFacebookLogin" class="mx-5 cursor-pointer">
             <facebook-icon @click="socialiteRedirect('facebook')" />
         </div>
@@ -9,32 +9,30 @@
         </div>
 
         <div v-if="config.allowedGoogleLogin" class="mx-5 cursor-pointer">
-            <span @click="socialiteRedirect('google')" class="font-semibold text-3xl">G</span>
+            <span @click="socialiteRedirect('google')" class="text-3xl font-semibold">G</span>
         </div>
     </div>
 </template>
 
 <script>
-import { FacebookIcon, GithubIcon  } from 'vue-feather-icons'
-import {mapGetters} from "vuex";
+import { FacebookIcon, GithubIcon } from 'vue-feather-icons'
+import { mapGetters } from 'vuex'
 
 export default {
-    name:'SocialiteAuthenticationButtons',
+    name: 'SocialiteAuthenticationButtons',
     components: {
         FacebookIcon,
         GithubIcon,
     },
-	computed: {
-		...mapGetters([
-			'config'
-		])
-	},
+    computed: {
+        ...mapGetters(['config']),
+    },
     methods: {
         socialiteRedirect(provider) {
             this.isLoading = true
 
             this.$store.dispatch('socialiteRedirect', provider)
         },
-    }
+    },
 }
 </script>

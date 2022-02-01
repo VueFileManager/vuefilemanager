@@ -1,139 +1,123 @@
 <template>
     <div>
-
         <!--UI components-->
         <Alert />
         <ToasterWrapper />
         <CookieDisclaimer />
 
-		<!--Show spinner before translations is loaded-->
-        <Spinner v-if="! isLoaded" />
+        <!--Show spinner before translations is loaded-->
+        <Spinner v-if="!isLoaded" />
 
-		<!--Show warning bar when user functionality is restricted-->
-		<RestrictionWarningBar />
+        <!--Show warning bar when user functionality is restricted-->
+        <RestrictionWarningBar />
 
-		<!--App view-->
+        <!--App view-->
         <router-view v-if="isLoaded" />
 
-		<!--Background under popups-->
+        <!--Background under popups-->
         <Vignette />
     </div>
 </template>
 
 <script>
-import ToasterWrapper from "./components/Others/Notifications/ToasterWrapper";
-import CookieDisclaimer from "./components/Others/CookieDisclaimer";
-import Spinner from "./components/FilesView/Spinner";
-import Vignette from "./components/Others/Vignette";
-import Alert from "./components/FilesView/Alert";
-import RestrictionWarningBar from "./RestrictionWarningBar"
-import {mapGetters} from 'vuex'
-import {events} from './bus'
+import ToasterWrapper from './components/Others/Notifications/ToasterWrapper'
+import CookieDisclaimer from './components/Others/CookieDisclaimer'
+import Spinner from './components/FilesView/Spinner'
+import Vignette from './components/Others/Vignette'
+import Alert from './components/FilesView/Alert'
+import RestrictionWarningBar from './RestrictionWarningBar'
+import { mapGetters } from 'vuex'
+import { events } from './bus'
 
 export default {
-	name: 'App',
-	components: {
-		RestrictionWarningBar,
-		CookieDisclaimer,
-		ToasterWrapper,
-		Vignette,
-		Spinner,
-		Alert
-	},
-	data() {
-		return {
-			isLoaded: false
-		}
-	},
-	computed: {
-		...mapGetters([
-			'config',
-			'user',
-		]),
-	},
-	watch: {
-		'config.defaultThemeMode': function () {
-			this.handleDarkMode()
-		}
-	},
-	methods: {
-		spotlightListener(e) {
-			if (e.key === 'k' && e.metaKey) {
-				events.$emit('spotlight:show');
-			}
-		},
-		handleDarkMode() {
-			const app = document.getElementsByTagName("html")[0];
-			const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    name: 'App',
+    components: {
+        RestrictionWarningBar,
+        CookieDisclaimer,
+        ToasterWrapper,
+        Vignette,
+        Spinner,
+        Alert,
+    },
+    data() {
+        return {
+            isLoaded: false,
+        }
+    },
+    computed: {
+        ...mapGetters(['config', 'user']),
+    },
+    watch: {
+        'config.defaultThemeMode': function () {
+            this.handleDarkMode()
+        },
+    },
+    methods: {
+        spotlightListener(e) {
+            if (e.key === 'k' && e.metaKey) {
+                events.$emit('spotlight:show')
+            }
+        },
+        handleDarkMode() {
+            const app = document.getElementsByTagName('html')[0]
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)')
 
-			if (this.config.defaultThemeMode === 'dark') {
+            if (this.config.defaultThemeMode === 'dark') {
+                app.classList.add('dark')
+                this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
+            } else if (this.config.defaultThemeMode === 'light') {
+                app.classList.remove('dark')
+                this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
+            } else if (this.config.defaultThemeMode === 'system' && prefersDarkScheme.matches) {
+                app.classList.add('dark')
+                this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
+            } else if (this.config.defaultThemeMode === 'system' && !prefersDarkScheme.matches) {
+                app.classList.remove('dark')
+                this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
+            }
+        },
+    },
+    beforeMount() {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            this.handleDarkMode()
+        })
 
-				app.classList.add("dark")
-				this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
+        // Get installation state
+        let installation = this.$root.$data.config.installation
 
-			} else if (this.config.defaultThemeMode === 'light') {
+        if (['setup-disclaimer', 'setup-database'].includes(installation)) this.isLoaded = true
 
-				app.classList.remove("dark")
-				this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
+        // Redirect to database verify code
+        if (installation === 'setup-database') this.$router.push({ name: 'StatusCheck' })
 
-			} else if (this.config.defaultThemeMode === 'system' && prefersDarkScheme.matches) {
+        // Redirect to starting installation process
+        if (installation === 'setup-disclaimer') this.$router.push({ name: 'InstallationDisclaimer' })
 
-				app.classList.add("dark")
-				this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
+        if (installation === 'setup-done')
+            this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale).then(() => {
+                this.isLoaded = true
 
-			} else if (this.config.defaultThemeMode === 'system' && !prefersDarkScheme.matches) {
+                // Store config to vuex
+                this.$store.commit('INIT', {
+                    config: this.$root.$data.config,
+                    rootDirectory: {
+                        name: this.$t('locations.home'),
+                        location: 'base',
+                        id: undefined,
+                    },
+                })
+            })
+    },
+    mounted() {
+        if (this.$isWindows()) {
+            document.body.classList.add('windows')
+        }
 
-				app.classList.remove("dark")
-				this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
-			}
-		}
-	},
-	beforeMount() {
-		window.matchMedia('(prefers-color-scheme: dark)')
-			.addEventListener('change', () => {
-				this.handleDarkMode()
-			});
-
-		// Get installation state
-		let installation = this.$root.$data.config.installation
-
-		if (['setup-disclaimer', 'setup-database'].includes(installation))
-			this.isLoaded = true
-
-		// Redirect to database verify code
-		if (installation === 'setup-database')
-			this.$router.push({name: 'StatusCheck'})
-
-		// Redirect to starting installation process
-		if (installation === 'setup-disclaimer')
-			this.$router.push({name: 'InstallationDisclaimer'})
-
-		if (installation === 'setup-done')
-			this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale)
-				.then(() => {
-					this.isLoaded = true
-
-					// Store config to vuex
-					this.$store.commit('INIT', {
-						config: this.$root.$data.config,
-						rootDirectory: {
-							name: this.$t('locations.home'),
-							location: 'base',
-							id: undefined
-						}
-					})
-				})
-	},
-	mounted() {
-		if (this.$isWindows()) {
-			document.body.classList.add('windows')
-		}
-
-		window.addEventListener("keydown", this.spotlightListener);
-	},
-	destroyed() {
-		window.removeEventListener("keydown", this.spotlightListener);
-	}
+        window.addEventListener('keydown', this.spotlightListener)
+    },
+    destroyed() {
+        window.removeEventListener('keydown', this.spotlightListener)
+    },
 }
 </script>
 
@@ -143,53 +127,59 @@ export default {
 @import '../sass/vuefilemanager/mixins';
 
 input:-webkit-autofill {
-	transition-delay: 999999999999s;
+    transition-delay: 999999999999s;
 }
 
 [v-cloak],
 [v-cloak] > * {
-	display: none
+    display: none;
 }
 
 * {
-	outline: 0;
-	margin: 0;
-	padding: 0;
-	font-family: 'Nunito', sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	box-sizing: border-box;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	font-size: 16px;
-	text-decoration: none;
-	color: $text;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-size: 16px;
+    text-decoration: none;
+    color: $text;
 }
 
 .vue-feather {
-	path, circle, line, rect, polyline, ellipse, polygon {
-		color: inherit;
-	}
+    path,
+    circle,
+    line,
+    rect,
+    polyline,
+    ellipse,
+    polygon {
+        color: inherit;
+    }
 }
 
 #auth {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 // Dark mode support
 .dark {
+    * {
+        color: $dark_mode_text_primary;
+    }
 
-	* {
-		color: $dark_mode_text_primary;
-	}
+    body,
+    html {
+        background: $dark_mode_background;
+        color: $dark_mode_text_primary;
 
-	body, html {
-		background: $dark_mode_background;
-		color: $dark_mode_text_primary;
-
-		img {
-			opacity: .95;
-		}
-	}
+        img {
+            opacity: 0.95;
+        }
+    }
 }
 </style>

@@ -22,5 +22,5 @@ export default new Vuex.Store({
         lists,
         teams,
         app,
-    }
+    },
 })

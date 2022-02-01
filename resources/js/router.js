@@ -15,39 +15,27 @@ Vue.use(Router)
 
 const router = new Router({
     mode: 'history',
-    routes: [
-        ...routesMaintenance,
-        ...routesShared,
-        ...routesOthers,
-        ...routesAdmin,
-        ...routesIndex,
-        ...routesAuth,
-        ...routesUser,
-        ...routesFile,
-        ...routesTeam,
-    ],
+    routes: [...routesMaintenance, ...routesShared, ...routesOthers, ...routesAdmin, ...routesIndex, ...routesAuth, ...routesUser, ...routesFile, ...routesTeam],
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {
             return savedPosition
         } else {
-            return {x: 0, y: 0}
+            return { x: 0, y: 0 }
         }
     },
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
         // this route requires auth, check if logged in
         // if not, redirect to login page.
 
-        let isAuthenticated = store.getters.config
-            ? store.getters.config.isAuthenticated
-            : config.isAuthenticated;
+        let isAuthenticated = store.getters.config ? store.getters.config.isAuthenticated : config.isAuthenticated
 
-        if ( ! isAuthenticated) {
+        if (!isAuthenticated) {
             next({
                 name: 'SignIn',
-                query: {redirect: to.fullPath}
+                query: { redirect: to.fullPath },
             })
         } else {
             next()

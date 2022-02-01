@@ -1,18 +1,21 @@
-import {debounce, isArray, orderBy} from "lodash"
-import i18n from "../i18n";
-import router from "../router";
+import { debounce, isArray, orderBy } from 'lodash'
+import i18n from '../i18n'
+import router from '../router'
 import store from '../store/index'
-import {events} from '../bus'
+import { events } from '../bus'
 import axios from 'axios'
 
 const FunctionHelpers = {
     install(Vue) {
-
         Vue.prototype.$updateText = debounce(function (route, name, value, allowEmpty = false) {
-
             if ((value === '' || value === ' ' || typeof value === 'object') && !allowEmpty) return
 
-            axios.post(store.getters.api + route, {name, value, _method: 'patch'})
+            axios
+                .post(store.getters.api + route, {
+                    name,
+                    value,
+                    _method: 'patch',
+                })
                 .catch(() => {
                     events.$emit('alert:open', {
                         title: this.$t('popup_error.title'),
@@ -22,12 +25,12 @@ const FunctionHelpers = {
         }, 150)
 
         Vue.prototype.$updateInput = debounce(function (route, name, value, allowEmpty = false) {
-
             if ((value === '' || value === ' ' || typeof value === 'object') && !allowEmpty) return
 
-            axios.post(store.getters.api + route, {
+            axios
+                .post(store.getters.api + route, {
                     [name]: value,
-                    _method: 'patch'
+                    _method: 'patch',
                 })
                 .catch(() => {
                     events.$emit('alert:open', {
@@ -38,7 +41,6 @@ const FunctionHelpers = {
         }, 150)
 
         Vue.prototype.$updateImage = function (route, name, image) {
-
             // Create form
             let formData = new FormData()
 
@@ -47,12 +49,13 @@ const FunctionHelpers = {
             formData.append(name, image)
             formData.append('_method', 'PATCH')
 
-            axios.post(store.getters.api + route, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            })
-                .catch(error => {
+            axios
+                .post(store.getters.api + route, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+                .catch((error) => {
                     events.$emit('alert:open', {
                         title: this.$t('popup_error.title'),
                         message: this.$t('popup_error.message'),
@@ -69,17 +72,15 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$translateSelectOptions = function (options) {
-            return options.map(role => {
-                let key, values;
+            return options.map((role) => {
+                let key, values
 
                 if (isArray(role.label)) {
-                    [key, values] = role.label
+                    ;[key, values] = role.label
                 }
 
                 return {
-                    label: isArray(role.label)
-                        ? i18n.t(key, values)
-                        : i18n.t(role.label),
+                    label: isArray(role.label) ? i18n.t(key, values) : i18n.t(role.label),
                     value: role.value,
                     icon: role.icon ? role.icon : '',
                 }
@@ -87,37 +88,36 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$mapStorageUsage = function (storage) {
-
             let distribution = [
                 {
                     progress: storage.data.meta.images.percentage,
                     color: 'success',
                     value: storage.data.meta.images.used,
-                    title: 'Images'
+                    title: 'Images',
                 },
                 {
                     progress: storage.data.meta.videos.percentage,
                     color: 'danger',
                     value: storage.data.meta.videos.used,
-                    title: 'Videos'
+                    title: 'Videos',
                 },
                 {
                     progress: storage.data.meta.audios.percentage,
                     color: 'warning',
                     value: storage.data.meta.audios.used,
-                    title: 'Audios'
+                    title: 'Audios',
                 },
                 {
                     progress: storage.data.meta.documents.percentage,
                     color: 'info',
                     value: storage.data.meta.documents.used,
-                    title: 'Documents'
+                    title: 'Documents',
                 },
                 {
                     progress: storage.data.meta.others.percentage,
                     color: 'purple',
                     value: storage.data.meta.others.used,
-                    title: 'Others'
+                    title: 'Others',
                 },
             ]
 
@@ -130,7 +130,7 @@ const FunctionHelpers = {
                     progress: 100 - storage.data.attributes.percentage,
                     color: 'secondary',
                     value: storage.data.meta.others.used,
-                    title: 'Empty'
+                    title: 'Empty',
                 })
             }
 
@@ -151,7 +151,7 @@ const FunctionHelpers = {
 
         Vue.prototype.$uploadFiles = async function (files) {
             // Show alert message when upload is disabled
-            if (! store.getters.user.data.meta.restrictions.canUpload) {
+            if (!store.getters.user.data.meta.restrictions.canUpload) {
                 Vue.prototype.$temporarilyDisabledUpload()
 
                 return
@@ -159,20 +159,17 @@ const FunctionHelpers = {
 
             if (files.length === 0) return
 
-            if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return
-
-            // Push items to file queue
-            [...files].map(item => {
+            if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return // Push items to file queue
+            ;[...files].map((item) => {
                 store.commit('ADD_FILES_TO_QUEUE', {
                     parent_id: store.getters.currentFolder ? store.getters.currentFolder.data.id : '',
                     file: item,
-                    path: '/' + item.webkitRelativePath
+                    path: '/' + item.webkitRelativePath,
                 })
-            });
+            })
 
             // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal == 0)
-                this.$handleUploading(store.getters.fileQueue[0])
+            if (store.getters.filesInQueueTotal == 0) this.$handleUploading(store.getters.fileQueue[0])
 
             // Increase total files in upload bar
             store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
@@ -180,33 +177,29 @@ const FunctionHelpers = {
 
         Vue.prototype.$uploadDraggedFiles = async function (event, parent_id) {
             // Show alert message when upload is disabled
-            if (! store.getters.user.data.meta.restrictions.canUpload) {
+            if (!store.getters.user.data.meta.restrictions.canUpload) {
                 Vue.prototype.$temporarilyDisabledUpload()
 
                 return
             }
 
             // Prevent submit empty files
-            if (event.dataTransfer.items.length === 0) return
-
-            // Push items to file queue
-            [...event.dataTransfer.items].map(item => {
+            if (event.dataTransfer.items.length === 0) return // Push items to file queue
+            ;[...event.dataTransfer.items].map((item) => {
                 store.commit('ADD_FILES_TO_QUEUE', {
                     parent_id: parent_id ? parent_id : '',
                     file: item.getAsFile(),
                 })
-            });
+            })
 
             // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal == 0)
-                this.$handleUploading(store.getters.fileQueue[0])
+            if (store.getters.filesInQueueTotal == 0) this.$handleUploading(store.getters.fileQueue[0])
 
             // Increase total files in upload bar
             store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', [...event.dataTransfer.items].length)
         }
 
         Vue.prototype.$handleUploading = async function (item) {
-
             // Create ceil
             let size = store.getters.config.chunkSize,
                 chunksCeil = Math.ceil(item.file.size / size),
@@ -214,24 +207,23 @@ const FunctionHelpers = {
 
             // Create chunks
             for (let i = 0; i < chunksCeil; i++) {
-                chunks.push(item.file.slice(
-                    i * size, Math.min(i * size + size, item.file.size), item.file.type
-                ));
+                chunks.push(item.file.slice(i * size, Math.min(i * size + size, item.file.size), item.file.type))
             }
 
             // Set Data
             let formData = new FormData(),
                 uploadedSize = 0,
-
                 isNotGeneralError = true,
-
                 striped_spaces = item.file.name.replace(/\s/g, '-'),
                 striped_to_safe_characters = striped_spaces.match(/^[A-Za-z0-9._~()'!*:@,;+?-\W]*$/g),
-
-                source_name = Array(16)
-                    .fill(0)
-                    .map(x => Math.random().toString(36).charAt(2))
-                    .join('') + '-' + striped_to_safe_characters + '.part'
+                source_name =
+                    Array(16)
+                        .fill(0)
+                        .map((x) => Math.random().toString(36).charAt(2))
+                        .join('') +
+                    '-' +
+                    striped_to_safe_characters +
+                    '.part'
 
             do {
                 let isLast = chunks.length === 1,
@@ -247,34 +239,35 @@ const FunctionHelpers = {
 
                 // Upload chunks
                 do {
-                    await store.dispatch('uploadFiles', {
-                        form: formData,
-                        fileSize: item.file.size,
-                        totalUploadedSize: uploadedSize
-                    }).then(() => {
-                        uploadedSize = uploadedSize + chunk.size
-                    }).catch(error => {
+                    await store
+                        .dispatch('uploadFiles', {
+                            form: formData,
+                            fileSize: item.file.size,
+                            totalUploadedSize: uploadedSize,
+                        })
+                        .then(() => {
+                            uploadedSize = uploadedSize + chunk.size
+                        })
+                        .catch((error) => {
+                            // Count attempts
+                            attempts++
 
-                        // Count attempts
-                        attempts++
+                            // Show Error
+                            //if (attempts === 3)
 
-                        // Show Error
-                        //if (attempts === 3)
-
-                        // Break uploading process
-                        if ([500, 422].includes(error.response.status)) {
-                            isNotGeneralError = false
-                            this.$isSomethingWrong()
-                        }
-                    })
+                            // Break uploading process
+                            if ([500, 422].includes(error.response.status)) {
+                                isNotGeneralError = false
+                                this.$isSomethingWrong()
+                            }
+                        })
                 } while (isNotGeneralError && attempts !== 0 && attempts !== 3)
-
             } while (isNotGeneralError && chunks.length !== 0)
         }
 
         Vue.prototype.$downloadFile = function (url, filename) {
             // Show alert message when download is disabled
-            if (! store.getters.user.data.meta.restrictions.canDownload) {
+            if (!store.getters.user.data.meta.restrictions.canDownload) {
                 Vue.prototype.$temporarilyDisabledDownload()
 
                 return
@@ -296,109 +289,108 @@ const FunctionHelpers = {
                 return store.getters.currentFolder.data.attributes.name
             } else {
                 return {
-                    'RecentUploads': this.$t('Recent Uploads'),
-                    'MySharedItems': this.$t('sidebar.my_shared'),
-                    'Trash': this.$t('Trash'),
-                    'Public': this.$t('Files'),
-                    'Files': this.$t('sidebar.home'),
-                    'TeamFolders': this.$t('Team Folders'),
-                    'SharedWithMe': this.$t('Shared With Me'),
+                    RecentUploads: this.$t('Recent Uploads'),
+                    MySharedItems: this.$t('sidebar.my_shared'),
+                    Trash: this.$t('Trash'),
+                    Public: this.$t('Files'),
+                    Files: this.$t('sidebar.home'),
+                    TeamFolders: this.$t('Team Folders'),
+                    SharedWithMe: this.$t('Shared With Me'),
                 }[this.$route.name]
             }
         }
 
         Vue.prototype.$getCurrentSectionName = function () {
             return {
-                'RecentUploads': this.$t('Recent Uploads'),
-                'MySharedItems': this.$t('sidebar.my_shared'),
-                'Trash': this.$t('Trash'),
-                'Public': this.$t('Files'),
-                'Files': this.$t('sidebar.home'),
-                'TeamFolders': this.$t('Team Folders'),
-                'SharedWithMe': this.$t('Shared With Me'),
+                RecentUploads: this.$t('Recent Uploads'),
+                MySharedItems: this.$t('sidebar.my_shared'),
+                Trash: this.$t('Trash'),
+                Public: this.$t('Files'),
+                Files: this.$t('sidebar.home'),
+                TeamFolders: this.$t('Team Folders'),
+                SharedWithMe: this.$t('Shared With Me'),
             }[this.$route.name]
         }
 
         Vue.prototype.$getCurrentSectionIcon = function () {
-
             return {
-                'RecentUploads': 'upload-cloud',
-                'MySharedItems': 'share',
-                'Trash': 'trash2',
-                'Public': 'hard-drive',
-                'Files': 'hard-drive',
-                'TeamFolders': 'users',
-                'SharedWithMe': 'user-check',
+                RecentUploads: 'upload-cloud',
+                MySharedItems: 'share',
+                Trash: 'trash2',
+                Public: 'hard-drive',
+                Files: 'hard-drive',
+                TeamFolders: 'users',
+                SharedWithMe: 'user-check',
             }[this.$router.currentRoute.name]
         }
 
         Vue.prototype.$getDataByLocation = function () {
-
             let routes = {
-                'Files': ['getFolder', router.currentRoute.params.id || undefined],
-                'RecentUploads': ['getRecentUploads'],
-                'MySharedItems': ['getMySharedItems'],
-                'Trash': ['getTrash', router.currentRoute.params.id || undefined],
-                'TeamFolders': ['getTeamFolder', router.currentRoute.params.id || undefined],
-                'SharedWithMe': ['getSharedWithMeFolder', router.currentRoute.params.id || undefined],
+                Files: ['getFolder', router.currentRoute.params.id || undefined],
+                RecentUploads: ['getRecentUploads'],
+                MySharedItems: ['getMySharedItems'],
+                Trash: ['getTrash', router.currentRoute.params.id || undefined],
+                TeamFolders: ['getTeamFolder', router.currentRoute.params.id || undefined],
+                SharedWithMe: ['getSharedWithMeFolder', router.currentRoute.params.id || undefined],
             }
 
             store.dispatch(...routes[router.currentRoute.name])
         }
 
         Vue.prototype.$getPaymentLogo = function (driver) {
-            return {
-                'paypal': store.getters.isDarkMode ? '/assets/payments/paypal-dark.svg' : '/assets/payments/paypal.svg',
-                'paystack': store.getters.isDarkMode ? '/assets/payments/paystack-dark.svg' : '/assets/payments/paystack.svg',
-                'stripe': '/assets/payments/stripe.svg',
-                'system': this.$getImage(store.getters.config.app_logo_horizontal),
-            }[driver] || this.$getImage(store.getters.config.app_logo_horizontal)
+            return (
+                {
+                    paypal: store.getters.isDarkMode ? '/assets/payments/paypal-dark.svg' : '/assets/payments/paypal.svg',
+                    paystack: store.getters.isDarkMode ? '/assets/payments/paystack-dark.svg' : '/assets/payments/paystack.svg',
+                    stripe: '/assets/payments/stripe.svg',
+                    system: this.$getImage(store.getters.config.app_logo_horizontal),
+                }[driver] || this.$getImage(store.getters.config.app_logo_horizontal)
+            )
         }
 
         Vue.prototype.$getSocialLogo = function (driver) {
             return {
-                'google': '/assets/socials/google.svg',
-                'facebook': '/assets/socials/facebook.svg',
-                'github': store.getters.isDarkMode ? '/assets/socials/github-dark.svg' : '/assets/socials/github.svg',
+                google: '/assets/socials/google.svg',
+                facebook: '/assets/socials/facebook.svg',
+                github: store.getters.isDarkMode ? '/assets/socials/github-dark.svg' : '/assets/socials/github.svg',
             }[driver]
         }
 
         Vue.prototype.$getSubscriptionStatusColor = function (status) {
-
             return {
-                'active': 'green',
-                'cancelled': 'yellow',
-                'completed': 'purple',
+                active: 'green',
+                cancelled: 'yellow',
+                completed: 'purple',
             }[status]
         }
 
         Vue.prototype.$getTransactionStatusColor = function (status) {
             return {
-                'completed': 'green',
-                'cancelled': 'yellow',
-                'error': 'red',
+                completed: 'green',
+                cancelled: 'yellow',
+                error: 'red',
             }[status]
         }
 
         Vue.prototype.$getTransactionTypeColor = function (type) {
             return {
-                'credit': 'green',
-                'charge': 'purple',
-                'withdrawal': 'red',
+                credit: 'green',
+                charge: 'purple',
+                withdrawal: 'red',
             }[type]
         }
 
         Vue.prototype.$getTransactionStatusColor = function (type) {
             return {
-                'completed': 'green',
-                'error': 'red',
+                completed: 'green',
+                error: 'red',
             }[type]
         }
 
         Vue.prototype.$getPlanStatusColor = function (type) {
             return {
-                'active': 'green',
-                'archived': 'red',
+                active: 'green',
+                archived: 'red',
             }[type]
         }
 
@@ -410,51 +402,48 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$getTransactionTypeTextColor = function (type) {
-
             return {
-                'withdrawal': 'text-red',
-                'credit': 'text-green',
-                'charge': '',
+                withdrawal: 'text-red',
+                credit: 'text-green',
+                charge: '',
             }[type]
         }
 
         Vue.prototype.$getTransactionMark = function (type) {
-
             return {
-                'withdrawal': '-',
-                'credit': '+',
-                'charge': '',
+                withdrawal: '-',
+                credit: '+',
+                charge: '',
             }[type]
         }
 
         Vue.prototype.$goToFileView = function (id) {
-
             let locations = {
-                'Public': {name: 'Public', params: {token: this.$route.params.token, id: id}},
-                'TeamFolders': {name: 'TeamFolders', params: {id: id}},
-                'SharedWithMe': {name: 'SharedWithMe', params: {id: id}},
-                'MySharedItems': {name: 'Files', params: {id: id}},
-                'Trash': {name: 'Trash', params: {id: id}},
-                'Files': {name: 'Files', params: {id: id}},
+                Public: {
+                    name: 'Public',
+                    params: { token: this.$route.params.token, id: id },
+                },
+                TeamFolders: { name: 'TeamFolders', params: { id: id } },
+                SharedWithMe: { name: 'SharedWithMe', params: { id: id } },
+                MySharedItems: { name: 'Files', params: { id: id } },
+                Trash: { name: 'Trash', params: { id: id } },
+                Files: { name: 'Files', params: { id: id } },
             }
 
             this.$router.push(locations[this.$router.currentRoute.name])
         }
 
         Vue.prototype.$isThisRoute = function (route, locations) {
-
             return locations.includes(route.name)
         }
 
         // TODO: not working correctly in share page
         Vue.prototype.$checkPermission = function (type) {
-
             let currentPermission = store.getters.permission
 
             // Check if type is object
             if (typeof type === 'Object' || type instanceof Object) {
                 return type.includes(currentPermission)
-
             } else {
                 return currentPermission === type
             }
@@ -477,7 +466,9 @@ const FunctionHelpers = {
                     events.$emit('alert:open', {
                         emoji: '😬😬😬',
                         title: i18n.t('popup_mimetypes_blacklist.title'),
-                        message: i18n.t('popup_mimetypes_blacklist.message', {mimetype: fileType[1]})
+                        message: i18n.t('popup_mimetypes_blacklist.message', {
+                            mimetype: fileType[1],
+                        }),
                     })
                 }
             }
@@ -494,7 +485,9 @@ const FunctionHelpers = {
                     events.$emit('alert:open', {
                         emoji: '😟😟😟',
                         title: i18n.t('popup_upload_limit.title'),
-                        message: i18n.t('popup_upload_limit.message', {uploadLimit: store.getters.config.uploadLimitFormatted}),
+                        message: i18n.t('popup_upload_limit.message', {
+                            uploadLimit: store.getters.config.uploadLimitFormatted,
+                        }),
                     })
                     break
                 }
@@ -509,33 +502,17 @@ const FunctionHelpers = {
 
         // Check if device is Apple
         Vue.prototype.$isApple = function () {
+            const toMatch = [/iPhone/i, /iPad/i, /iPod/i, /iOS/i, /macOS/i, /Macintosh/i]
 
-            const toMatch = [
-                /iPhone/i,
-                /iPad/i,
-                /iPod/i,
-                /iOS/i,
-                /macOS/i,
-                /Macintosh/i
-            ]
-
-            return toMatch.some(toMatchItem => {
+            return toMatch.some((toMatchItem) => {
                 return navigator.userAgent.match(toMatchItem)
             })
         }
 
         Vue.prototype.$isMobile = function () {
-            const toMatch = [
-                /Android/i,
-                /webOS/i,
-                /iPhone/i,
-                /iPad/i,
-                /iPod/i,
-                /BlackBerry/i,
-                /Windows Phone/i
-            ]
+            const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
 
-            return toMatch.some(toMatchItem => {
+            return toMatch.some((toMatchItem) => {
                 return navigator.userAgent.match(toMatchItem)
             })
         }
@@ -548,8 +525,8 @@ const FunctionHelpers = {
                         name: entry.name,
                         email: entry.email,
                         color: entry.color,
-                    }
-                }
+                    },
+                },
             }
         }
 
@@ -579,9 +556,9 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$openUpgradeOptions = function () {
-            events.$emit('popup:open', {name: 'select-plan-subscription'})
+            events.$emit('popup:open', { name: 'select-plan-subscription' })
         }
-    }
+    },
 }
 
 export default FunctionHelpers

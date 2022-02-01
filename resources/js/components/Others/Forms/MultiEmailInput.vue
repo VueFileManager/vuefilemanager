@@ -1,13 +1,22 @@
 <template>
     <div class="wrapper">
-		<!--<label class="input-label">{{ label }}:</label>-->
-        <div class="input-wrapper focus-within-border-theme" :class="{'is-error' : isError}" @click="$refs.input.focus()">
+        <!--<label class="input-label">{{ label }}:</label>-->
+        <div class="input-wrapper focus-within-border-theme" :class="{ 'is-error': isError }" @click="$refs.input.focus()">
             <div class="email-list">
-                <div class="email-tag bg-theme-100" :class="{'mb-offset': getCharactersLength > 45}" v-for="(email, i) in emails" :key="i">
+                <div class="email-tag bg-theme-100" :class="{ 'mb-offset': getCharactersLength > 45 }" v-for="(email, i) in emails" :key="i">
                     <span class="text-theme">{{ email }}</span>
-                    <x-icon @click="removeEmail(email)" class="icon" size="14"/>
+                    <x-icon @click="removeEmail(email)" class="icon" size="14" />
                 </div>
-                <input @keydown.delete=removeLastEmail($event) @keyup="handleEmail()" v-model="email" :size="inputSize" class="email-input" :placeholder="placeHolder" autocomplete="new-password" ref="input"/>
+                <input
+                    @keydown.delete="removeLastEmail($event)"
+                    @keyup="handleEmail()"
+                    v-model="email"
+                    :size="inputSize"
+                    class="email-input"
+                    :placeholder="placeHolder"
+                    autocomplete="new-password"
+                    ref="input"
+                />
             </div>
         </div>
         <span class="error-message" v-if="isError">{{ isError }}</span>
@@ -24,74 +33,68 @@ export default {
     props: ['isError', 'label'],
     computed: {
         getCharactersLength() {
-            return this.emails.join( '' ).length
+            return this.emails.join('').length
         },
         placeHolder() {
-            return !this.emails.length ? this.$t( 'shared_form.email_placeholder' ) : ''
+            return !this.emails.length ? this.$t('shared_form.email_placeholder') : ''
         },
         inputSize() {
             return this.email && this.email.length > 14 ? this.email.length : 14
-        }
+        },
     },
     data() {
         return {
             emails: [],
-            email: undefined
+            email: undefined,
         }
     },
     methods: {
-        removeEmail( email ) {
-            this.emails = this.emails.filter( item => item !== email )
+        removeEmail(email) {
+            this.emails = this.emails.filter((item) => item !== email)
 
             // After romove email send new emails list to parent
-            events.$emit( 'emailsInputValues', this.emails )
+            events.$emit('emailsInputValues', this.emails)
         },
-        removeLastEmail( event ) {
-
+        removeLastEmail(event) {
             // If is input empty and presse backspace remove last email from array
-            if ( event.code === 'Backspace' && this.email === '' )
-                this.emails.pop()
+            if (event.code === 'Backspace' && this.email === '') this.emails.pop()
         },
         handleEmail() {
-
-            if ( this.email.length > 0 ) {
+            if (this.email.length > 0) {
                 // Get index of @ and last dot
-                let lastDot = this.email.lastIndexOf( '.' )
-                let at = this.email.indexOf( '@' )
+                let lastDot = this.email.lastIndexOf('.')
+                let at = this.email.indexOf('@')
 
                 // Check if is after @ some dot, if email have @ anf if dont have more like one
-                if ( lastDot < at || at === -1 || this.email.match(/@/g).length > 1 ) return
+                if (lastDot < at || at === -1 || this.email.match(/@/g).length > 1) return
 
                 // First email dont need to be separated by comma or space to be sended
-                if( this.emails.length === 0 ) 
-                    events.$emit('emailsInputValues', [this.email])
-                
+                if (this.emails.length === 0) events.$emit('emailsInputValues', [this.email])
 
                 // After come or backspace push the single email to array or emails
-                if ( this.email.includes(',') || this.email.includes(' ') ) {
-
-                    let email = this.email.replace( /[","," "]/, '' )
+                if (this.email.includes(',') || this.email.includes(' ')) {
+                    let email = this.email.replace(/[","," "]/, '')
 
                     this.email = ''
 
                     // Push single email to aray of emails
-                    this.emails.push( email )
+                    this.emails.push(email)
 
-                    events.$emit( 'emailsInputValues', this.emails )
+                    events.$emit('emailsInputValues', this.emails)
                 }
             }
-        }
+        },
     },
     created() {
         this.$nextTick(() => {
             this.$refs.input.focus()
         })
-    }
+    },
 }
 </script>
 
 <style scoped lang="scss">
-@import "../../../../sass/vuefilemanager/inapp-forms";
+@import '../../../../sass/vuefilemanager/inapp-forms';
 @import '../../../../sass/vuefilemanager/forms';
 
 .input-label {
@@ -158,25 +161,24 @@ export default {
 
     .email-input {
         width: auto;
-        border: none ;
+        border: none;
         font-weight: 700;
         @include font-size(16);
         padding-left: 11px;
 
         &::placeholder {
-            color: rgba($text-muted, .5)
+            color: rgba($text-muted, 0.5);
         }
     }
 }
 
 .dark {
     .input-wrapper {
-		background: lighten($dark_mode_foreground, 3%);
+        background: lighten($dark_mode_foreground, 3%);
 
         .email-list {
-
             .email-input {
-				background: lighten($dark_mode_foreground, 3%);
+                background: lighten($dark_mode_foreground, 3%);
                 color: $dark_mode_text_primary;
 
                 &::placeholder {

@@ -9,43 +9,44 @@
 </template>
 
 <script>
-    import { Edit2Icon, XIcon } from 'vue-feather-icons'
+import { Edit2Icon, XIcon } from 'vue-feather-icons'
 
-    export default {
-        name: 'ActionButton',
-        props: ['icon'],
-        components: {
-            Edit2Icon,
-            XIcon,
-        }
-    }
+export default {
+    name: 'ActionButton',
+    props: ['icon'],
+    components: {
+        Edit2Icon,
+        XIcon,
+    },
+}
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../sass/vuefilemanager/variables';
-    @import '../../../sass/vuefilemanager/mixins';
+@import '../../../sass/vuefilemanager/variables';
+@import '../../../sass/vuefilemanager/mixins';
 
-    .action-button {
-        cursor: pointer;
+.action-button {
+    cursor: pointer;
 
-        .label {
-            @include font-size(12);
-            font-weight: 600;
-        }
-
-        .icon {
-            @include font-size(10);
-            vertical-align: middle;
-            display: inline-block;
-            margin-right: 2px;
-
-            path, circle, line {
-                color: inherit;
-            }
-        }
+    .label {
+        @include font-size(12);
+        font-weight: 600;
     }
 
-    .dark {
+    .icon {
+        @include font-size(10);
+        vertical-align: middle;
+        display: inline-block;
+        margin-right: 2px;
 
+        path,
+        circle,
+        line {
+            color: inherit;
+        }
     }
+}
+
+.dark {
+}
 </style>

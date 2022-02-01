@@ -1,57 +1,48 @@
 <template>
-	<div>
-		<ItemList
-			v-if="itemViewType === 'list'"
-			:entry="item"
-			:highlight="true"
-			:mobile-handler="true"
-			@mouseup.stop.native="clickFilter"
-			@dragstart.native="$emit('dragstart')"
-			@drop.native="drop()"
-			@dragleave.native="dragLeave"
-			@dragover.prevent.native="dragEnter"
-			:class="{'border-theme': area }"
-		/>
+    <div>
+        <ItemList
+            v-if="itemViewType === 'list'"
+            :entry="item"
+            :highlight="true"
+            :mobile-handler="true"
+            @mouseup.stop.native="clickFilter"
+            @dragstart.native="$emit('dragstart')"
+            @drop.native="drop()"
+            @dragleave.native="dragLeave"
+            @dragover.prevent.native="dragEnter"
+            :class="{ 'border-theme': area }"
+        />
 
-		<ItemGrid
-			v-if="itemViewType === 'grid'"
-			:entry="item"
-			:highlight="true"
-			:mobile-handler="true"
-			@mouseup.stop.native="clickFilter"
-			@dragstart.native="$emit('dragstart')"
-			@drop.native="drop()"
-			@dragleave.native="dragLeave"
-			@dragover.prevent.native="dragEnter"
-			:class="{'border-theme': area }"
-		/>
-	</div>
+        <ItemGrid
+            v-if="itemViewType === 'grid'"
+            :entry="item"
+            :highlight="true"
+            :mobile-handler="true"
+            @mouseup.stop.native="clickFilter"
+            @dragstart.native="$emit('dragstart')"
+            @drop.native="drop()"
+            @dragleave.native="dragLeave"
+            @dragover.prevent.native="dragEnter"
+            :class="{ 'border-theme': area }"
+        />
+    </div>
 </template>
 
 <script>
-import {events} from "../../bus";
+import { events } from '../../bus'
 import ItemList from './ItemList'
 import ItemGrid from './ItemGrid'
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'ItemHandler',
-    props: [
-		'disableHighlight',
-		'item',
-	],
+    props: ['disableHighlight', 'item'],
     components: {
-		ItemList,
-		ItemGrid,
+        ItemList,
+        ItemGrid,
     },
     computed: {
-        ...mapGetters([
-            'isMultiSelectMode',
-            'itemViewType',
-            'clipboard',
-            'entries',
-            'user',
-        ]),
+        ...mapGetters(['isMultiSelectMode', 'itemViewType', 'clipboard', 'entries', 'user']),
         isFolder() {
             return this.item.data.type === 'folder'
         },
@@ -76,40 +67,38 @@ export default {
         return {
             area: false,
 
-			delay: 220,
-			clicks: 0,
-			timer: null
+            delay: 220,
+            clicks: 0,
+            timer: null,
         }
     },
     methods: {
-		clickFilter(e) {
+        clickFilter(e) {
+            // Handle click for mobile device
+            if (this.$isMobile()) {
+                this.clickedItem(e)
+            }
 
-			// Handle click for mobile device
-			if (this.$isMobile()) {
-				this.clickedItem(e)
-			}
+            // Handle click & double click for desktop
+            if (!this.$isMobile()) {
+                this.clicks++
 
-			// Handle click & double click for desktop
-			if (! this.$isMobile()) {
-				this.clicks++
+                if (this.clicks === 1) {
+                    let self = this
 
-				if (this.clicks === 1) {
-					let self = this
+                    this.timer = setTimeout(() => {
+                        this.clickedItem(e)
+                        self.clicks = 0
+                    }, this.delay)
+                } else {
+                    clearTimeout(this.timer)
 
-					this.timer = setTimeout(() => {
-						this.clickedItem(e)
-						self.clicks = 0
-					}, this.delay);
-
-				} else {
-					clearTimeout(this.timer);
-
-					this.goToItem(e)
-					this.clicks = 0;
-				}
-			}
-		},
-		drop() {
+                    this.goToItem(e)
+                    this.clicks = 0
+                }
+            }
+        },
+        drop() {
             this.area = false
             events.$emit('drop')
         },
@@ -122,27 +111,24 @@ export default {
             this.area = false
         },
         clickedItem(e) {
-			// Disabled right click
-			if (e.button === 2) return
+            // Disabled right click
+            if (e.button === 2) return
 
             if (!this.$isMobile()) {
-
                 // After click deselect new folder rename input
-				if (document.getSelection().toString().length) {
-					document.getSelection().removeAllRanges();
-				}
+                if (document.getSelection().toString().length) {
+                    document.getSelection().removeAllRanges()
+                }
 
                 if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
-
-                	// Click + Ctrl
-                    if (this.clipboard.some(item => item.data.id === this.item.data.id)) {
+                    // Click + Ctrl
+                    if (this.clipboard.some((item) => item.data.id === this.item.data.id)) {
                         this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                     } else {
                         this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                     }
                 } else if (e.shiftKey) {
-
-                	// Click + Shift
+                    // Click + Shift
                     let lastItem = this.entries.indexOf(this.clipboard[this.clipboard.length - 1])
                     let clickedItem = this.entries.indexOf(this.item)
 
@@ -163,21 +149,17 @@ export default {
                         }
                     }
                 } else {
-
-                	// Click
+                    // Click
                     this.$store.commit('CLIPBOARD_CLEAR')
                     this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                 }
             }
 
             if (!this.isMultiSelectMode && this.$isMobile()) {
-
                 if (this.isFolder) {
-					this.$goToFileView(this.item.data.id)
+                    this.$goToFileView(this.item.data.id)
                 } else {
-
                     if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
-
                         this.$store.commit('CLIPBOARD_CLEAR')
                         this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
 
@@ -187,7 +169,7 @@ export default {
             }
 
             if (this.isMultiSelectMode && this.$isMobile()) {
-                if (this.clipboard.some(item => item.data.id === this.item.data.id)) {
+                if (this.clipboard.some((item) => item.data.id === this.item.data.id)) {
                     this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
                 } else {
                     this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
@@ -196,27 +178,23 @@ export default {
         },
         goToItem() {
             if (this.isImage || this.isVideo || this.isAudio || this.isPdf) {
-				this.$store.commit('CLIPBOARD_CLEAR')
-				this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
+                this.$store.commit('CLIPBOARD_CLEAR')
+                this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
 
                 events.$emit('file-preview:show')
-
-            } else if (this.isFile || !this.isFolder && !this.isVideo && !this.isAudio && !this.isImage) {
+            } else if (this.isFile || (!this.isFolder && !this.isVideo && !this.isAudio && !this.isImage)) {
                 this.$downloadFile(this.item.data.attributes.file_url, this.item.data.attributes.name + '.' + this.item.data.attributes.mimetype)
-
             } else if (this.isFolder) {
-
-				this.$goToFileView(this.item.data.id)
+                this.$goToFileView(this.item.data.id)
             }
         },
-    }
+    },
 }
 </script>
 
 <style scoped lang="scss">
 @import '../../../sass/vuefilemanager/variables';
 @import '../../../sass/vuefilemanager/mixins';
-
 
 .slide-from-left-move {
     transition: transform 300s ease;
@@ -357,7 +335,7 @@ export default {
             height: 52px;
 
             /deep/ .folder-icon {
-                @include font-size(52)
+                @include font-size(52);
             }
         }
 
@@ -430,7 +408,6 @@ export default {
 }
 
 .dark {
-
     .file-wrapper {
         .icon-item {
             .file-icon {
@@ -446,15 +423,13 @@ export default {
                 background: $dark_mode_background !important;
 
                 .file-icon {
-
                     path {
                         fill: $dark_mode_foreground !important;
-                        stroke: #2F3C54;
+                        stroke: #2f3c54;
                     }
                 }
 
                 .item-name {
-
                     .name {
                         color: $dark_mode_text_primary !important;
                     }

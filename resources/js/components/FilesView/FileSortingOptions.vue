@@ -12,8 +12,7 @@
 </template>
 
 <script>
-
-import OptionGroup from "./OptionGroup";
+import OptionGroup from './OptionGroup'
 import Option from './Option'
 import { ArrowUpIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
@@ -26,34 +25,30 @@ export default {
         Option,
     },
     computed: {
-        ...mapGetters([
-            'itemViewType'
-        ]),
+        ...mapGetters(['itemViewType']),
         isGrid() {
             return this.itemViewType === 'grid'
         },
         isList() {
             return this.itemViewType === 'list'
         },
-		arrowForCreatedAtField() {
-        	if (this.filter.field !== 'created_at')
-        		return undefined
+        arrowForCreatedAtField() {
+            if (this.filter.field !== 'created_at') return undefined
 
-			return this.filter.sort === 'DESC' ? 'up' : 'down'
-		},
-		arrowForNameField() {
-        	if (this.filter.field !== 'name')
-        		return undefined
+            return this.filter.sort === 'DESC' ? 'up' : 'down'
+        },
+        arrowForNameField() {
+            if (this.filter.field !== 'name') return undefined
 
-			return this.filter.sort === 'DESC' ? 'up' : 'down'
-		}
+            return this.filter.sort === 'DESC' ? 'up' : 'down'
+        },
     },
     data() {
         return {
             filter: {
                 sort: 'DESC',
-                field: undefined
-            }
+                field: undefined,
+            },
         }
     },
     methods: {
@@ -61,28 +56,32 @@ export default {
             this.filter.field = field
 
             // Set sorting direction
-            if (this.filter.sort === 'DESC')
-                this.filter.sort = 'ASC'
-            else if (this.filter.sort === 'ASC')
-                this.filter.sort = 'DESC'
+            if (this.filter.sort === 'DESC') this.filter.sort = 'ASC'
+            else if (this.filter.sort === 'ASC') this.filter.sort = 'DESC'
 
             // Save to localStorage sorting options
-            localStorage.setItem('sorting', JSON.stringify({ sort: this.filter.sort, field: this.filter.field }))
+            localStorage.setItem(
+                'sorting',
+                JSON.stringify({
+                    sort: this.filter.sort,
+                    field: this.filter.field,
+                })
+            )
 
             // Update sorting state in vuex
             this.$store.commit('UPDATE_SORTING')
 
-			// Get data of user with favourites tree
-			this.$store.dispatch('getAppData')
+            // Get data of user with favourites tree
+            this.$store.dispatch('getAppData')
 
-			// Get data of Navigator tree
-			this.$store.dispatch('getFolderTree')
+            // Get data of Navigator tree
+            this.$store.dispatch('getFolderTree')
 
-			this.$getDataByLocation()
+            this.$getDataByLocation()
         },
         changePreview(previewType) {
             this.$store.dispatch('togglePreviewType', previewType)
-        }
+        },
     },
     mounted() {
         let sorting = JSON.parse(localStorage.getItem('sorting'))
@@ -90,6 +89,6 @@ export default {
         // Set default sorting if in not setup in LocalStorage
         this.filter.sort = sorting ? sorting.sort : 'DESC'
         this.filter.field = sorting ? sorting.field : 'created_at'
-    }
+    },
 }
 </script>

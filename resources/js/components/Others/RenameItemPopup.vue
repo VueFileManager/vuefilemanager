@@ -1,36 +1,41 @@
 <template>
     <PopupWrapper name="rename-item">
         <!--Title-->
-        <PopupHeader :title="$t('popup_rename.title', {item: itemTypeTitle})" icon="edit" />
+        <PopupHeader :title="$t('popup_rename.title', { item: itemTypeTitle })" icon="edit" />
 
         <!--Content-->
         <PopupContent>
-
             <!--Item Thumbnail-->
-            <ThumbnailItem class="mb-5" :item="pickedItem" :setFolderIcon="{emoji: emoji, color: null}" />
+            <ThumbnailItem class="mb-5" :item="pickedItem" :setFolderIcon="{ emoji: emoji, color: null }" />
 
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form">
-
                 <!--Update item name-->
                 <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('popup_rename.label')" :error="errors[0]" :is-last="pickedItem.data.type !== 'folder'">
-						<div class="flex items-center relative">
-							<input v-model="pickedItem.data.attributes.name" :class="{'border-red': errors[0]}" ref="input" type="text" class="focus-border-theme input-dark" :placeholder="$t('popup_rename.placeholder')">
-							<div @click="pickedItem.data.attributes.name = ''" class="absolute right-4">
-								<x-icon class="close-icon hover-text-theme" size="14" />
-							</div>
-						</div>
-					</AppInputText>
+                    <AppInputText :title="$t('popup_rename.label')" :error="errors[0]" :is-last="pickedItem.data.type !== 'folder'">
+                        <div class="relative flex items-center">
+                            <input
+                                v-model="pickedItem.data.attributes.name"
+                                :class="{ 'border-red': errors[0] }"
+                                ref="input"
+                                type="text"
+                                class="focus-border-theme input-dark"
+                                :placeholder="$t('popup_rename.placeholder')"
+                            />
+                            <div @click="pickedItem.data.attributes.name = ''" class="absolute right-4">
+                                <x-icon class="close-icon hover-text-theme" size="14" />
+                            </div>
+                        </div>
+                    </AppInputText>
                 </ValidationProvider>
 
-				<!--Emoji-->
-				<AppInputSwitch v-if="pickedItem.data.type === 'folder'" :title="$t('Emoji as an Icon')" :description="$t('Replace folder icon with an Emoji')" :is-last="! isEmoji">
-					<SwitchInput v-model="isEmoji" :state="isEmoji" />
-				</AppInputSwitch>
+                <!--Emoji-->
+                <AppInputSwitch v-if="pickedItem.data.type === 'folder'" :title="$t('Emoji as an Icon')" :description="$t('Replace folder icon with an Emoji')" :is-last="!isEmoji">
+                    <SwitchInput v-model="isEmoji" :state="isEmoji" />
+                </AppInputSwitch>
 
-				<!--Set emoji-->
-				<EmojiPicker v-if="pickedItem.data.type === 'folder' && isEmoji" v-model="emoji" :default-emoji="emoji"/>
+                <!--Set emoji-->
+                <EmojiPicker v-if="pickedItem.data.type === 'folder' && isEmoji" v-model="emoji" :default-emoji="emoji" />
             </ValidationObserver>
         </PopupContent>
 
@@ -47,30 +52,30 @@
 </template>
 
 <script>
-import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from "./Popup/PopupWrapper";
+import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import PopupWrapper from './Popup/PopupWrapper'
 import PopupActions from './Popup/PopupActions'
 import PopupContent from './Popup/PopupContent'
 import PopupHeader from './Popup/PopupHeader'
-import ThumbnailItem from "./ThumbnailItem";
-import ButtonBase from "../FilesView/ButtonBase";
-import AppInputSwitch from "../Admin/AppInputSwitch"
-import AppInputText from "../Admin/AppInputText"
-import {required} from 'vee-validate/dist/rules'
-import SwitchInput from "./Forms/SwitchInput"
-import EmojiPicker from "./EmojiPicker"
-import {XIcon} from 'vue-feather-icons'
-import {events} from '../../bus'
+import ThumbnailItem from './ThumbnailItem'
+import ButtonBase from '../FilesView/ButtonBase'
+import AppInputSwitch from '../Admin/AppInputSwitch'
+import AppInputText from '../Admin/AppInputText'
+import { required } from 'vee-validate/dist/rules'
+import SwitchInput from './Forms/SwitchInput'
+import EmojiPicker from './EmojiPicker'
+import { XIcon } from 'vue-feather-icons'
+import { events } from '../../bus'
 
 export default {
     name: 'RenameItemPopup',
     components: {
         ValidationProvider,
         ValidationObserver,
-		EmojiPicker,
-		AppInputSwitch,
-		SwitchInput,
-		AppInputText,
+        EmojiPicker,
+        AppInputSwitch,
+        SwitchInput,
+        AppInputText,
         ThumbnailItem,
         PopupWrapper,
         PopupActions,
@@ -78,51 +83,47 @@ export default {
         PopupHeader,
         ButtonBase,
         required,
-        XIcon
+        XIcon,
     },
     computed: {
         itemTypeTitle() {
-            return this.pickedItem && this.pickedItem.data.type === 'folder'
-				? this.$t('types.folder')
-				: this.$t('types.file')
+            return this.pickedItem && this.pickedItem.data.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
         },
     },
-	watch: {
-		isEmoji(val) {
-			if (! val) {
-				events.$emit('setFolderIcon', {emoji: undefined})
-				this.emoji = undefined
-			} else {
-				events.$emit('setFolderIcon', {emoji: this.emoji})
-			}
-		},
-		emoji(val) {
-			events.$emit('setFolderIcon', {
-				emoji: val
-			})
-		},
-	},
+    watch: {
+        isEmoji(val) {
+            if (!val) {
+                events.$emit('setFolderIcon', { emoji: undefined })
+                this.emoji = undefined
+            } else {
+                events.$emit('setFolderIcon', { emoji: this.emoji })
+            }
+        },
+        emoji(val) {
+            events.$emit('setFolderIcon', {
+                emoji: val,
+            })
+        },
+    },
     data() {
         return {
             pickedItem: undefined,
-			isEmoji: false,
-			emoji: undefined,
+            isEmoji: false,
+            emoji: undefined,
         }
     },
     methods: {
         changeName() {
             if (this.pickedItem.data.attributes.name && this.pickedItem.data.attributes.name !== '') {
-
                 let item = {
                     id: this.pickedItem.data.id,
                     type: this.pickedItem.data.type,
                     name: this.pickedItem.data.attributes.name,
                 }
 
-				item['emoji'] = this.emoji || null
+                item['emoji'] = this.emoji || null
 
-				if (! this.isEmoji)
-					item['emoji'] = null
+                if (!this.isEmoji) item['emoji'] = null
 
                 // Rename item request
                 this.$store.dispatch('renameItem', item)
@@ -132,36 +133,34 @@ export default {
 
                 this.$closePopup()
             }
-        }
+        },
     },
     mounted() {
-
         // Show popup
-        events.$on('popup:open', args => {
-
+        events.$on('popup:open', (args) => {
             if (args.name !== 'rename-item') return
 
-			this.isEmoji = false
+            this.isEmoji = false
 
-			if (!this.$isMobile()) {
+            if (!this.$isMobile()) {
                 this.$nextTick(() => this.$refs.input.focus())
             }
 
-			// Set default emoji if exist
-			if (args.item.data.attributes.emoji) {
-				this.isEmoji = true
-				this.emoji = args.item.data.attributes.emoji
-			}
+            // Set default emoji if exist
+            if (args.item.data.attributes.emoji) {
+                this.isEmoji = true
+                this.emoji = args.item.data.attributes.emoji
+            }
 
             // Store picked item
             this.pickedItem = args.item
         })
-    }
+    },
 }
 </script>
 
 <style scoped lang="scss">
-@import "../../../sass/vuefilemanager/inapp-forms";
+@import '../../../sass/vuefilemanager/inapp-forms';
 @import '../../../sass/vuefilemanager/forms';
 
 .input {
@@ -200,7 +199,6 @@ export default {
 .dark {
     .close-icon-wrapper {
         &:hover {
-
             .close-icon {
                 line {
                     color: inherit !important;

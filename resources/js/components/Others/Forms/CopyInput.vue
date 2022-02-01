@@ -1,28 +1,21 @@
 <template>
-    <div @click="copyUrl" class="flex items-center relative">
-        <input ref="sel" :value="str" :id="id" type="text" class="pr-10 focus-border-theme input-dark" readonly>
+    <div @click="copyUrl" class="relative flex items-center">
+        <input ref="sel" :value="str" :id="id" type="text" class="focus-border-theme input-dark pr-10" readonly />
 
-		<!--Copy icon-->
+        <!--Copy icon-->
         <div class="absolute right-0 px-4">
-			<copy-icon v-if="! isCopiedLink" size="16" class="cursor-pointer hover-text-theme vue-feather"/>
-			<check-icon v-if="isCopiedLink" size="16" class="cursor-pointer text-theme vue-feather"/>
+            <copy-icon v-if="!isCopiedLink" size="16" class="hover-text-theme vue-feather cursor-pointer" />
+            <check-icon v-if="isCopiedLink" size="16" class="text-theme vue-feather cursor-pointer" />
         </div>
     </div>
 </template>
 
 <script>
-import {
-	CopyIcon,
-	CheckIcon,
-	SendIcon
-} from 'vue-feather-icons'
+import { CopyIcon, CheckIcon, SendIcon } from 'vue-feather-icons'
 
 export default {
     name: 'CopyInput',
-    props: [
-		'size',
-		'str',
-	],
+    props: ['size', 'str'],
     components: {
         CheckIcon,
         CopyIcon,
@@ -31,12 +24,11 @@ export default {
     data() {
         return {
             isCopiedLink: false,
-			id: 'link-input-' + Math.floor(Math.random() * 10000000),
+            id: 'link-input-' + Math.floor(Math.random() * 10000000),
         }
     },
     methods: {
         copyUrl() {
-
             // Get input value
             let copyText = document.getElementById(this.id)
 
@@ -54,7 +46,7 @@ export default {
             setTimeout(() => {
                 this.isCopiedLink = false
             }, 1000)
-        }
-    }
+        },
+    },
 }
 </script>

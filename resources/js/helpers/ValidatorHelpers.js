@@ -1,41 +1,38 @@
 import store from '../store/index'
 
 const ValidatorHelpers = {
-	install(Vue) {
+    install(Vue) {
+        Vue.prototype.$cantInviteMember = function (email, invitations) {
+            if (store.getters.config.subscriptionType === 'metered') {
+                return false
+            }
 
-		Vue.prototype.$cantInviteMember = function (email, invitations) {
+            // Get max team members limitations
+            let limit = store.getters.user.data.meta.limitations.max_team_members
 
-			if (store.getters.config.subscriptionType === 'metered') {
-				return false
-			}
+            // Get emails from invitations and currently active members
+            let newInvitationEmails = invitations.map((item) => item['email'])
+            let allowedMemberEmails = limit.meta.allowed_emails
 
-			// Get max team members limitations
-			let limit = store.getters.user.data.meta.limitations.max_team_members
+            // Get unique list of member emails
+            let totalUniqueEmails = [...new Set(newInvitationEmails.concat(Object.values(allowedMemberEmails)))]
 
-			// Get emails from invitations and currently active members
-			let newInvitationEmails = invitations.map(item => item['email'])
-			let allowedMemberEmails = limit.meta.allowed_emails
+            // If there is more unique emails than can be in limit, disable ability to add member
+            return totalUniqueEmails.length >= limit.total && !totalUniqueEmails.includes(email)
+        }
 
-			// Get unique list of member emails
-			let totalUniqueEmails = [...new Set(newInvitationEmails.concat(Object.values(allowedMemberEmails)))]
+        Vue.prototype.$isInvalidEmail = function (email) {
+            return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null
+        }
 
-			// If there is more unique emails than can be in limit, disable ability to add member
-			return totalUniqueEmails.length >= limit.total && !totalUniqueEmails.includes(email);
-		}
+        Vue.prototype.$reCaptchaToken = async function (action) {
+            await this.$recaptchaLoaded()
 
-		Vue.prototype.$isInvalidEmail = function (email) {
-			return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) === null
-		}
+            let token = await this.$recaptcha(action)
 
-		Vue.prototype.$reCaptchaToken = async function (action) {
-
-			await this.$recaptchaLoaded()
-
-			let token =  await this.$recaptcha(action)
-
-			return token
-		}
-	}
+            return token
+        }
+    },
 }
 
 export default ValidatorHelpers

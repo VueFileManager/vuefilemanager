@@ -1,9 +1,9 @@
 <template>
     <transition name="context-menu">
         <div v-if="isMultiSelectMode" class="multiselect-actions">
-			<slot v-if="$slots.default" />
-			<slot v-if="$slots.editor && $checkPermission('editor')" name="editor" />
-			<slot v-if="$slots.visitor && $checkPermission('visitor')" name="visitor" />
+            <slot v-if="$slots.default" />
+            <slot v-if="$slots.editor && $checkPermission('editor')" name="editor" />
+            <slot v-if="$slots.visitor && $checkPermission('visitor')" name="visitor" />
 
             <ToolbarButton @click.native="closeSelecting" class="action-btn close-icon" source="close" :action="$t('actions.close')" />
         </div>
@@ -11,31 +11,28 @@
 </template>
 
 <script>
-import ToolbarButton from "./ToolbarButton";
-import {mapGetters} from 'vuex'
+import ToolbarButton from './ToolbarButton'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'MobileMultiSelectToolbar',
     components: {
-		ToolbarButton,
-	},
+        ToolbarButton,
+    },
     computed: {
-        ...mapGetters([
-			'isMultiSelectMode',
-			'clipboard',
-		]),
+        ...mapGetters(['isMultiSelectMode', 'clipboard']),
     },
     methods: {
         closeSelecting() {
-			this.$store.commit('TOGGLE_MULTISELECT_MODE')
+            this.$store.commit('TOGGLE_MULTISELECT_MODE')
         },
-    }
+    },
 }
 </script>
 
 <style scoped lang="scss">
-@import "resources/sass/vuefilemanager/_variables";
-@import "resources/sass/vuefilemanager/_mixins";
+@import 'resources/sass/vuefilemanager/_variables';
+@import 'resources/sass/vuefilemanager/_mixins';
 
 .multiselect-actions {
     display: flex;
@@ -71,7 +68,6 @@ export default {
     }
 
     .options {
-
         &.is-active {
             opacity: 1 !important;
             pointer-events: initial !important;
@@ -80,7 +76,6 @@ export default {
 }
 
 .dark {
-
     .multiselect-actions {
         background: $dark_mode_foreground;
     }
@@ -111,5 +106,4 @@ export default {
 .context-menu-leave-active {
     position: absolute;
 }
-
 </style>

@@ -5,18 +5,16 @@
 </template>
 
 <script>
-
 export default {
-    name: "TabOption",
+    name: 'TabOption',
     props: ['title', 'icon', 'selected'],
-    data () {
+    data() {
         return {
-            isActive: false
+            isActive: false,
         }
     },
     mounted() {
         this.isActive = this.selected
-    }
+    },
 }
 </script>
-

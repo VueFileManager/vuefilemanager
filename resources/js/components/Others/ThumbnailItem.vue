@@ -1,135 +1,118 @@
 <template>
-	<div class="flex items-center rounded-xl select-none" spellcheck="false">
+    <div class="flex select-none items-center rounded-xl" spellcheck="false">
+        <!--Item thumbnail-->
+        <div class="relative w-16">
+            <!--Member thumbnail for team folders-->
+            <MemberAvatar v-if="user && canShowAuthor" :size="28" :is-border="true" :member="item.data.relationships.owner" class="absolute right-1.5 -bottom-2 z-10" />
 
-		<!--Item thumbnail-->
-		<div class="w-16 relative">
+            <!--Emoji Icon-->
+            <Emoji v-if="item.data.attributes.emoji" :emoji="item.data.attributes.emoji" class="ml-1 scale-110 transform text-5xl" />
 
-			<!--Member thumbnail for team folders-->
-			<MemberAvatar
-				v-if="user && canShowAuthor"
-				:size="28"
-				:is-border="true"
-				:member="item.data.relationships.owner"
-				class="absolute right-1.5 -bottom-2 z-10"
-			/>
+            <!--Folder Icon-->
+            <FolderIcon v-if="isFolder && !item.data.attributes.emoji" :item="item" />
 
-			<!--Emoji Icon-->
-			<Emoji
-				v-if="item.data.attributes.emoji"
-				:emoji="item.data.attributes.emoji"
-				class="text-5xl ml-1 transform scale-110"
-			/>
+            <!--File Icon-->
+            <FileIconThumbnail v-if="isFile || isVideo || isAudio || (isImage && !item.data.attributes.thumbnail)" :item="item" class="pr-2" />
 
-			<!--Folder Icon-->
-			<FolderIcon v-if="isFolder && !item.data.attributes.emoji" :item="item" />
+            <!--Image thumbnail-->
+            <img
+                v-if="isImage && item.data.attributes.thumbnail"
+                class="ml-0.5 h-12 w-12 rounded object-cover"
+                :src="item.data.attributes.thumbnail.xs"
+                :alt="item.data.attributes.name"
+                loading="lazy"
+            />
+        </div>
 
-			<!--File Icon-->
-			<FileIconThumbnail v-if="isFile || isVideo || isAudio || (isImage && !item.data.attributes.thumbnail)" :item="item" class="pr-2" />
+        <!--Item Info-->
+        <div class="pl-2">
+            <!--Item Title-->
+            <b class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm hover:underline" style="max-width: 240px">
+                {{ item.data.attributes.name }}
+            </b>
 
-			<!--Image thumbnail-->
-			<img v-if="isImage && item.data.attributes.thumbnail" class="w-12 h-12 rounded ml-0.5 object-cover" :src="item.data.attributes.thumbnail.xs" :alt="item.data.attributes.name" loading="lazy" />
-		</div>
+            <!--Item sub line-->
+            <div class="flex items-center">
+                <!--Shared Icon-->
+                <div v-if="$checkPermission('master') && item.data.relationships.shared">
+                    <link-icon size="12" class="text-theme dark-text-theme vue-feather mr-1.5" />
+                </div>
 
-		<!--Item Info-->
-		<div class="pl-2">
+                <!--File & Image sub line-->
+                <small v-if="!isFolder" class="block text-xs text-gray-500"> {{ item.data.attributes.filesize }}, {{ timeStamp }} </small>
 
-			<!--Item Title-->
-			<b class="block text-sm mb-0.5 text-ellipsis overflow-hidden hover:underline whitespace-nowrap" style="max-width: 240px">
-				{{ item.data.attributes.name }}
-			</b>
-
-			<!--Item sub line-->
-			<div class="flex items-center">
-
-				<!--Shared Icon-->
-				<div v-if="$checkPermission('master') && item.data.relationships.shared">
-					<link-icon size="12" class="mr-1.5 text-theme dark-text-theme vue-feather"/>
-				</div>
-
-				<!--File & Image sub line-->
-				<small v-if="! isFolder" class="block text-xs text-gray-500">
-					{{ item.data.attributes.filesize }}, {{ timeStamp }}
-				</small>
-
-				<!--Folder sub line-->
-				<small v-if="isFolder" class="block text-xs text-gray-500">
-					{{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
-				</small>
-			</div>
-		</div>
-	</div>
+                <!--Folder sub line-->
+                <small v-if="isFolder" class="block text-xs text-gray-500">
+                    {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
+                </small>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
-	import {LinkIcon, EyeIcon} from 'vue-feather-icons'
-	import FileIconThumbnail from "../FilesView/FileIconThumbnail";
-	import MemberAvatar from "../FilesView/MemberAvatar";
-	import Emoji from "./Emoji";
-    import {mapGetters} from 'vuex'
-    import FolderIcon from "../FilesView/FolderIcon";
+import { LinkIcon, EyeIcon } from 'vue-feather-icons'
+import FileIconThumbnail from '../FilesView/FileIconThumbnail'
+import MemberAvatar from '../FilesView/MemberAvatar'
+import Emoji from './Emoji'
+import { mapGetters } from 'vuex'
+import FolderIcon from '../FilesView/FolderIcon'
 
-    export default {
-        name: 'ThumbnailItem',
-        props: [
-			'setFolderIcon',
-			'item',
-			'info',
-		],
-        components: {
-			FileIconThumbnail,
-			MemberAvatar,
-			FolderIcon,
-			Emoji,
-			LinkIcon,
-			EyeIcon,
-		},
-        computed: {
-			...mapGetters([
-				'isMultiSelectMode',
-				'clipboard',
-				'user',
-			]),
-			isClicked() {
-				return this.clipboard.some(element => element.data.id === this.item.data.id)
-			},
-			isVideo() {
-				return this.item.data.type === 'video'
-			},
-			isAudio() {
-				return this.item.data.type === 'audio'
-			},
-			isFile() {
-				return this.item.data.type === 'file'
-			},
-			isImage() {
-				return this.item.data.type === 'image'
-			},
-			isFolder() {
-				return this.item.data.type === 'folder'
-			},
-			timeStamp() {
-				return this.item.data.attributes.deleted_at
-					? this.$t('item_thumbnail.deleted_at', {time: this.item.data.attributes.deleted_at})
-					: this.item.data.attributes.created_at
-			},
-			canEditName() {
-				return !this.$isMobile()
-					&& !this.$isThisRoute(this.$route, ['Trash'])
-					&& !this.$checkPermission('visitor')
-					&& !(this.sharedDetail && this.sharedDetail.attributes.type === 'file')
-			},
-			folderItems() {
-				return this.item.data.attributes.deleted_at
-					? this.item.data.attributes.trashed_items
-					: this.item.data.attributes.items
-			},
-			canShowAuthor() {
-				return !this.isFolder
-					&& this.user.data.id !== this.item.data.relationships.owner.data.id
-			},
-			canDrag() {
-				return !this.isDeleted && this.$checkPermission(['master', 'editor'])
-			},
+export default {
+    name: 'ThumbnailItem',
+    props: ['setFolderIcon', 'item', 'info'],
+    components: {
+        FileIconThumbnail,
+        MemberAvatar,
+        FolderIcon,
+        Emoji,
+        LinkIcon,
+        EyeIcon,
+    },
+    computed: {
+        ...mapGetters(['isMultiSelectMode', 'clipboard', 'user']),
+        isClicked() {
+            return this.clipboard.some((element) => element.data.id === this.item.data.id)
         },
-    }
+        isVideo() {
+            return this.item.data.type === 'video'
+        },
+        isAudio() {
+            return this.item.data.type === 'audio'
+        },
+        isFile() {
+            return this.item.data.type === 'file'
+        },
+        isImage() {
+            return this.item.data.type === 'image'
+        },
+        isFolder() {
+            return this.item.data.type === 'folder'
+        },
+        timeStamp() {
+            return this.item.data.attributes.deleted_at
+                ? this.$t('item_thumbnail.deleted_at', {
+                      time: this.item.data.attributes.deleted_at,
+                  })
+                : this.item.data.attributes.created_at
+        },
+        canEditName() {
+            return (
+                !this.$isMobile() &&
+                !this.$isThisRoute(this.$route, ['Trash']) &&
+                !this.$checkPermission('visitor') &&
+                !(this.sharedDetail && this.sharedDetail.attributes.type === 'file')
+            )
+        },
+        folderItems() {
+            return this.item.data.attributes.deleted_at ? this.item.data.attributes.trashed_items : this.item.data.attributes.items
+        },
+        canShowAuthor() {
+            return !this.isFolder && this.user.data.id !== this.item.data.relationships.owner.data.id
+        },
+        canDrag() {
+            return !this.isDeleted && this.$checkPermission(['master', 'editor'])
+        },
+    },
+}
 </script>

@@ -1,56 +1,37 @@
 <template>
-    <div v-if="canBePreview" class="w-full block mb-4">
+    <div v-if="canBePreview" class="mb-4 block w-full">
+        <!--Image-->
+        <img
+            v-if="singleFile.data.type === 'image' && singleFile.data.attributes.thumbnail"
+            :src="singleFile.data.attributes.thumbnail.md"
+            :alt="singleFile.data.attributes.name"
+            class="w-full overflow-hidden rounded-lg object-cover shadow-lg"
+        />
 
-		<!--Image-->
-		<img
-			v-if="singleFile.data.type === 'image' && singleFile.data.attributes.thumbnail"
-			:src="singleFile.data.attributes.thumbnail.md"
-			:alt="singleFile.data.attributes.name"
-			class="rounded-lg overflow-hidden w-full object-cover shadow-lg"
-		/>
+        <!--Audio-->
+        <audio v-else-if="singleFile.data.type === 'audio'" :src="singleFile.data.attributes.file_url" controlsList="nodownload" controls class="w-full"></audio>
 
-		<!--Audio-->
-		<audio
-			v-else-if="singleFile.data.type === 'audio'"
-			:src="singleFile.data.attributes.file_url"
-			controlsList="nodownload"
-			controls
-			class="w-full"
-		>
-		</audio>
-
-		<!--Video-->
-		<video
-			class="w-full h-auto rounded-sm overflow-hidden"
-			v-else-if="singleFile.data.type === 'video'"
-			controlsList="nodownload"
-			disablePictureInPicture
-			playsinline
-			controls
-		>
-            <source :src="singleFile.data.attributes.file_url" type="video/mp4">
+        <!--Video-->
+        <video class="h-auto w-full overflow-hidden rounded-sm" v-else-if="singleFile.data.type === 'video'" controlsList="nodownload" disablePictureInPicture playsinline controls>
+            <source :src="singleFile.data.attributes.file_url" type="video/mp4" />
         </video>
     </div>
 </template>
 
 <script>
-    import {mapGetters} from 'vuex'
-	import {includes} from 'lodash'
+import { mapGetters } from 'vuex'
+import { includes } from 'lodash'
 
-	export default {
-		name: 'FilePreview',
-		computed: {
-			...mapGetters([
-				'clipboard',
-			]),
-			singleFile() {
-				return this.clipboard[0]
-			},
-			canBePreview() {
-				return this.singleFile && !includes([
-					'folder', 'file'
-				], this.singleFile.data.type)
-			},
-		}
-	}
+export default {
+    name: 'FilePreview',
+    computed: {
+        ...mapGetters(['clipboard']),
+        singleFile() {
+            return this.clipboard[0]
+        },
+        canBePreview() {
+            return this.singleFile && !includes(['folder', 'file'], this.singleFile.data.type)
+        },
+    },
+}
 </script>

@@ -1,10 +1,10 @@
 <template>
-   <div class="color-pick-wrapper">
+    <div class="color-pick-wrapper">
         <label class="main-label">{{ $t('popup_rename.color_pick_label') }}:</label>
         <ul class="color-wrapper">
-            <li v-for="(color, i) in colors" :key="i" @click="setColor( color )" class="single-color">
-                <check-icon v-if="color === selectedColor" class="color-icon" size="22"/>
-                <span :style="{background:color}" class="color-box"></span>
+            <li v-for="(color, i) in colors" :key="i" @click="setColor(color)" class="single-color">
+                <check-icon v-if="color === selectedColor" class="color-icon" size="22" />
+                <span :style="{ background: color }" class="color-box"></span>
             </li>
         </ul>
     </div>
@@ -16,14 +16,12 @@ import { mapGetters } from 'vuex'
 
 export default {
     name: 'ColorPicker',
-    props: [ 'pickedColor' ],
+    props: ['pickedColor'],
     components: { CheckIcon },
     computed: {
-        ...mapGetters([
-            'config'
-        ])
+        ...mapGetters(['config']),
     },
-    data () {
+    data() {
         return {
             selectedColor: this.pickedColor,
             colors: [
@@ -48,20 +46,19 @@ export default {
                 '#FE7D6F',
                 '#4c4c4c',
                 '#06070B',
-            ]
+            ],
         }
     },
     methods: {
-        setColor (value) {
-
+        setColor(value) {
             this.selectedColor = value
 
             this.$emit('input', value)
-        }
+        },
     },
     created() {
         this.colors.push(this.config.app_color)
-    }
+    },
 }
 </script>
 
@@ -132,5 +129,4 @@ export default {
         }
     }
 }
-
 </style>

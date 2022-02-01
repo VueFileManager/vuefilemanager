@@ -1,75 +1,107 @@
 <template>
-	<div>
-		<div class="card shadow-card">
-			<FormLabel>
-				{{ $t('Details') }}
-			</FormLabel>
+    <div>
+        <div class="card shadow-card">
+            <FormLabel>
+                {{ $t('Details') }}
+            </FormLabel>
 
-			<!--Visible-->
-			<AppInputSwitch :title="$t('admin_page_plans.form.status')" :description="$t('admin_page_plans.form.status_help')">
-				<SwitchInput @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'visible', plan.attributes.visible)" v-model="plan.attributes.visible" class="switch" :state="plan.attributes.visible"/>
-			</AppInputSwitch>
+            <!--Visible-->
+            <AppInputSwitch :title="$t('admin_page_plans.form.status')" :description="$t('admin_page_plans.form.status_help')">
+                <SwitchInput
+                    @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'visible', plan.attributes.visible)"
+                    v-model="plan.attributes.visible"
+                    class="switch"
+                    :state="plan.attributes.visible"
+                />
+            </AppInputSwitch>
 
-			<!--Name-->
-			<AppInputText :title="$t('admin_page_plans.form.name')">
-				<input @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'name', plan.attributes.name)" v-model="plan.attributes.name" :placeholder="$t('admin_page_plans.form.name_plac')" type="text" class="focus-border-theme input-dark"/>
-			</AppInputText>
+            <!--Name-->
+            <AppInputText :title="$t('admin_page_plans.form.name')">
+                <input
+                    @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'name', plan.attributes.name)"
+                    v-model="plan.attributes.name"
+                    :placeholder="$t('admin_page_plans.form.name_plac')"
+                    type="text"
+                    class="focus-border-theme input-dark"
+                />
+            </AppInputText>
 
-			<!--Description-->
-			<AppInputText :title="$t('admin_page_plans.form.description')">
-				<textarea @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'description', plan.attributes.description)" v-model="plan.attributes.description" :placeholder="$t('admin_page_plans.form.description_plac')" class="focus-border-theme input-dark"></textarea>
-			</AppInputText>
+            <!--Description-->
+            <AppInputText :title="$t('admin_page_plans.form.description')">
+                <textarea
+                    @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'description', plan.attributes.description)"
+                    v-model="plan.attributes.description"
+                    :placeholder="$t('admin_page_plans.form.description_plac')"
+                    class="focus-border-theme input-dark"
+                ></textarea>
+            </AppInputText>
 
-			<InfoBox style="margin-bottom: 0">
-				<p>{{ $t('Price change is not possible. If you would like to change your price or currency, please feel free to create a new plan.') }}</p>
-			</InfoBox>
-		</div>
-		<div class="card shadow-card">
-			<FormLabel>
-				{{ $t('Features') }}
-			</FormLabel>
+            <InfoBox style="margin-bottom: 0">
+                <p>
+                    {{ $t('Price change is not possible. If you would like to change your price or currency, please feel free to create a new plan.') }}
+                </p>
+            </InfoBox>
+        </div>
+        <div class="card shadow-card">
+            <FormLabel>
+                {{ $t('Features') }}
+            </FormLabel>
 
-			<!--Storage Capacity-->
-			<AppInputText :title="$t('admin_page_plans.form.storage')" :description="$t('admin_page_plans.form.storage_helper')">
-				<input @input="$updateInput(`/subscriptions/admin/plans/${$route.params.id}/features`, 'max_storage_amount', plan.attributes.features.max_storage_amount)" v-model="plan.attributes.features.max_storage_amount" :placeholder="$t('admin_page_plans.form.storage_plac')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
-			</AppInputText>
+            <!--Storage Capacity-->
+            <AppInputText :title="$t('admin_page_plans.form.storage')" :description="$t('admin_page_plans.form.storage_helper')">
+                <input
+                    @input="$updateInput(`/subscriptions/admin/plans/${$route.params.id}/features`, 'max_storage_amount', plan.attributes.features.max_storage_amount)"
+                    v-model="plan.attributes.features.max_storage_amount"
+                    :placeholder="$t('admin_page_plans.form.storage_plac')"
+                    type="number"
+                    min="1"
+                    max="999999999"
+                    class="focus-border-theme input-dark"
+                />
+            </AppInputText>
 
-			<!--Team Members-->
-			<AppInputText :title="$t('Max Team Members')" is-last="true">
-				<input @input="$updateInput(`/subscriptions/admin/plans/${$route.params.id}/features`, 'max_team_members', plan.attributes.features.max_team_members)" v-model="plan.attributes.features.max_team_members" :placeholder="$t('Add max team members in number')" type="number" min="1" max="999999999" class="focus-border-theme input-dark"/>
-			</AppInputText>
-		</div>
-	</div>
+            <!--Team Members-->
+            <AppInputText :title="$t('Max Team Members')" is-last="true">
+                <input
+                    @input="$updateInput(`/subscriptions/admin/plans/${$route.params.id}/features`, 'max_team_members', plan.attributes.features.max_team_members)"
+                    v-model="plan.attributes.features.max_team_members"
+                    :placeholder="$t('Add max team members in number')"
+                    type="number"
+                    min="1"
+                    max="999999999"
+                    class="focus-border-theme input-dark"
+                />
+            </AppInputText>
+        </div>
+    </div>
 </template>
 
 <script>
-    import SwitchInput from "../../../../components/Others/Forms/SwitchInput";
-    import SelectInput from "../../../../components/Others/Forms/SelectInput";
-	import AppInputSwitch from "../../../../components/Admin/AppInputSwitch"
-    import FormLabel from "../../../../components/Others/Forms/FormLabel";
-	import AppInputText from "../../../../components/Admin/AppInputText"
-    import InfoBox from "../../../../components/Others/Forms/InfoBox";
+import SwitchInput from '../../../../components/Others/Forms/SwitchInput'
+import SelectInput from '../../../../components/Others/Forms/SelectInput'
+import AppInputSwitch from '../../../../components/Admin/AppInputSwitch'
+import FormLabel from '../../../../components/Others/Forms/FormLabel'
+import AppInputText from '../../../../components/Admin/AppInputText'
+import InfoBox from '../../../../components/Others/Forms/InfoBox'
 
-    export default {
-        name: 'PlanFixedSettings',
-        props: [
-            'plan'
-        ],
-        components: {
-			AppInputSwitch,
-			AppInputText,
-            SwitchInput,
-            SelectInput,
-            FormLabel,
-            InfoBox,
-        },
-        data() {
-			return {
-				visible: undefined
-			}
-		},
-		created() {
-			this.visible = this.plan.attributes.visible
-		}
-	}
+export default {
+    name: 'PlanFixedSettings',
+    props: ['plan'],
+    components: {
+        AppInputSwitch,
+        AppInputText,
+        SwitchInput,
+        SelectInput,
+        FormLabel,
+        InfoBox,
+    },
+    data() {
+        return {
+            visible: undefined,
+        }
+    },
+    created() {
+        this.visible = this.plan.attributes.visible
+    },
+}
 </script>

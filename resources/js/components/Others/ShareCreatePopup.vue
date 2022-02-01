@@ -1,72 +1,81 @@
 <template>
     <PopupWrapper name="share-create">
         <!--Title-->
-        <PopupHeader :title="$t('popup_share_create.title', {item: itemTypeTitle})" icon="share" />
+        <PopupHeader :title="$t('popup_share_create.title', { item: itemTypeTitle })" icon="share" />
 
         <!--Content-->
         <PopupContent>
-
             <!--Item Thumbnail-->
             <ThumbnailItem class="mb-5" :item="pickedItem" />
 
             <!--Form to set sharing-->
-            <ValidationObserver v-if="! isGeneratedShared" @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form">
-
+            <ValidationObserver v-if="!isGeneratedShared" @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form">
                 <!--Permission Select-->
-				<ValidationProvider v-if="isFolder" tag="div" mode="passive" name="Permission" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('shared_form.label_permission')" :error="errors[0]">
-						<SelectInput v-model="shareOptions.permission" :options="$translateSelectOptions(permissionOptions)" :placeholder="$t('shared_form.placeholder_permission')" :isError="errors[0]" />
-					</AppInputText>
-				</ValidationProvider>
+                <ValidationProvider v-if="isFolder" tag="div" mode="passive" name="Permission" rules="required" v-slot="{ errors }">
+                    <AppInputText :title="$t('shared_form.label_permission')" :error="errors[0]">
+                        <SelectInput
+                            v-model="shareOptions.permission"
+                            :options="$translateSelectOptions(permissionOptions)"
+                            :placeholder="$t('shared_form.placeholder_permission')"
+                            :isError="errors[0]"
+                        />
+                    </AppInputText>
+                </ValidationProvider>
 
                 <!--Password Switch-->
-				<div>
-					<AppInputSwitch :title="$t('shared_form.label_password_protection')" :description="$t('popup.share.password_description')">
-						<SwitchInput v-model="shareOptions.isPassword" class="switch" :state="shareOptions.isPassword" />
-					</AppInputSwitch>
+                <div>
+                    <AppInputSwitch :title="$t('shared_form.label_password_protection')" :description="$t('popup.share.password_description')">
+                        <SwitchInput v-model="shareOptions.isPassword" class="switch" :state="shareOptions.isPassword" />
+                    </AppInputSwitch>
 
-					<!--Set password-->
-					<ValidationProvider v-if="shareOptions.isPassword" tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
-						<AppInputText :error="errors[0]" class="-mt-2">
-							<input v-model="shareOptions.password" :class="{'border-red': errors[0]}" type="text" class="focus-border-theme input-dark" :placeholder="$t('page_sign_in.placeholder_password')">
-						</AppInputText>
-					</ValidationProvider>
-				</div>
+                    <!--Set password-->
+                    <ValidationProvider v-if="shareOptions.isPassword" tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
+                        <AppInputText :error="errors[0]" class="-mt-2">
+                            <input
+                                v-model="shareOptions.password"
+                                :class="{ 'border-red': errors[0] }"
+                                type="text"
+                                class="focus-border-theme input-dark"
+                                :placeholder="$t('page_sign_in.placeholder_password')"
+                            />
+                        </AppInputText>
+                    </ValidationProvider>
+                </div>
 
                 <!--Expiration switch-->
-				<div>
-					<AppInputSwitch :title="$t('expiration')" :description="$t('popup.share.expiration_description')">
-						<SwitchInput v-model="isExpiration" class="switch" :state="isExpiration" />
-					</AppInputSwitch>
+                <div>
+                    <AppInputSwitch :title="$t('expiration')" :description="$t('popup.share.expiration_description')">
+                        <SwitchInput v-model="isExpiration" class="switch" :state="isExpiration" />
+                    </AppInputSwitch>
 
                     <!--Set expiration-->
-					<AppInputText v-if="isExpiration" class="-mt-2">
+                    <AppInputText v-if="isExpiration" class="-mt-2">
                         <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" class="box" />
-					</AppInputText>
-				</div>
+                    </AppInputText>
+                </div>
 
                 <!--Send on emails switch-->
-				<div>
-					<AppInputSwitch :title="$t('popup.share.email_send')" :description="$t('popup.share.email_description')" :is-last="! isEmailSharing">
-						<SwitchInput v-model="isEmailSharing" class="switch" :state="isEmailSharing" />
-					</AppInputSwitch>
+                <div>
+                    <AppInputSwitch :title="$t('popup.share.email_send')" :description="$t('popup.share.email_description')" :is-last="!isEmailSharing">
+                        <SwitchInput v-model="isEmailSharing" class="switch" :state="isEmailSharing" />
+                    </AppInputSwitch>
 
                     <!--Set expiration-->
                     <ValidationProvider v-if="isEmailSharing" tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }" class="-mt-2">
-						<MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
-					</ValidationProvider>
-				</div>
+                        <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
+                    </ValidationProvider>
+                </div>
             </ValidationObserver>
 
             <!--Copy generated link-->
-			<AppInputText v-if="isGeneratedShared" :title="$t('shared_form.label_share_vie_email')" :is-last="true">
-				<CopyShareLink :item="pickedItem" />
-			</AppInputText>
+            <AppInputText v-if="isGeneratedShared" :title="$t('shared_form.label_share_vie_email')" :is-last="true">
+                <CopyShareLink :item="pickedItem" />
+            </AppInputText>
         </PopupContent>
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase v-if="! isGeneratedShared" class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase v-if="!isGeneratedShared" class="w-full" @click.native="$closePopup()" button-style="secondary">
                 {{ $t('popup_move_item.cancel') }}
             </ButtonBase>
             <ButtonBase class="w-full" @click.native="submitShareOptions" button-style="theme" :loading="isLoading" :disabled="isLoading">
@@ -77,26 +86,26 @@
 </template>
 
 <script>
-import AppInputText from "../Admin/AppInputText";
-import AppInputSwitch from "../Admin/AppInputSwitch";
-import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import SelectBoxInput from "./Forms/SelectBoxInput";
-import PopupWrapper from "./Popup/PopupWrapper";
+import AppInputText from '../Admin/AppInputText'
+import AppInputSwitch from '../Admin/AppInputSwitch'
+import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import SelectBoxInput from './Forms/SelectBoxInput'
+import PopupWrapper from './Popup/PopupWrapper'
 import PopupActions from './Popup/PopupActions'
 import PopupContent from './Popup/PopupContent'
 import PopupHeader from './Popup/PopupHeader'
-import MultiEmailInput from "./Forms/MultiEmailInput";
-import SwitchInput from "./Forms/SwitchInput";
-import SelectInput from "./Forms/SelectInput";
-import ThumbnailItem from "./ThumbnailItem";
-import ActionButton from "./ActionButton";
-import CopyShareLink from "./Forms/CopyShareLink";
-import ButtonBase from "../FilesView/ButtonBase";
-import InfoBox from "./Forms/InfoBox";
-import {LinkIcon, MailIcon} from 'vue-feather-icons'
-import {required} from 'vee-validate/dist/rules'
-import {mapGetters} from 'vuex'
-import {events} from '../../bus'
+import MultiEmailInput from './Forms/MultiEmailInput'
+import SwitchInput from './Forms/SwitchInput'
+import SelectInput from './Forms/SelectInput'
+import ThumbnailItem from './ThumbnailItem'
+import ActionButton from './ActionButton'
+import CopyShareLink from './Forms/CopyShareLink'
+import ButtonBase from '../FilesView/ButtonBase'
+import InfoBox from './Forms/InfoBox'
+import { LinkIcon, MailIcon } from 'vue-feather-icons'
+import { required } from 'vee-validate/dist/rules'
+import { mapGetters } from 'vuex'
+import { events } from '../../bus'
 import axios from 'axios'
 
 export default {
@@ -104,8 +113,8 @@ export default {
     components: {
         ValidationProvider,
         ValidationObserver,
-		AppInputText,
-		AppInputSwitch,
+        AppInputText,
+        AppInputSwitch,
         SelectBoxInput,
         ThumbnailItem,
         ActionButton,
@@ -121,13 +130,10 @@ export default {
         MailIcon,
         required,
         LinkIcon,
-        InfoBox
+        InfoBox,
     },
     computed: {
-        ...mapGetters([
-            'permissionOptions',
-            'expirationList'
-        ]),
+        ...mapGetters(['permissionOptions', 'expirationList']),
         itemTypeTitle() {
             return this.pickedItem && this.pickedItem.data.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
         },
@@ -136,17 +142,17 @@ export default {
         },
         submitButtonText() {
             return this.isGeneratedShared ? this.$t('shared_form.button_done') : this.$t('shared_form.button_generate')
-        }
+        },
     },
-	watch: {
-		isExpiration(val) {
-			if (! val) this.shareOptions.expiration = undefined
-		}
-	},
+    watch: {
+        isExpiration(val) {
+            if (!val) this.shareOptions.expiration = undefined
+        },
+    },
     data() {
         return {
-        	isExpiration: false,
-        	isEmailSharing: false,
+            isExpiration: false,
+            isEmailSharing: false,
             shareOptions: {
                 isPassword: false,
                 expiration: undefined,
@@ -154,17 +160,16 @@ export default {
                 permission: undefined,
                 type: undefined,
                 id: undefined,
-                emails: undefined
+                emails: undefined,
             },
             pickedItem: undefined,
             isGeneratedShared: false,
             isLoading: false,
-            sharedViaEmail: false
+            sharedViaEmail: false,
         }
     },
     methods: {
         async submitShareOptions() {
-
             // If shared was generated, then close popup
             if (this.isGeneratedShared) {
                 events.$emit('popup:close')
@@ -182,14 +187,13 @@ export default {
             // Send request to get share link
             axios
                 .post(`/api/share`, this.shareOptions)
-                .then(response => {
-
+                .then((response) => {
                     // End loading
                     this.isGeneratedShared = true
 
                     this.$store.commit('UPDATE_SHARED_ITEM', response.data)
 
-					this.pickedItem.data.relationships.shared = response.data
+                    this.pickedItem.data.relationships.shared = response.data
                 })
                 .catch(() => {
                     events.$emit('alert:open', {
@@ -203,15 +207,13 @@ export default {
                 .finally(() => {
                     this.isLoading = false
                 })
-        }
+        },
     },
     mounted() {
-
-        events.$on('emailsInputValues', emails => this.shareOptions.emails = emails)
+        events.$on('emailsInputValues', (emails) => (this.shareOptions.emails = emails))
 
         // Show popup
-        events.$on('popup:open', args => {
-
+        events.$on('popup:open', (args) => {
             if (args.name !== 'share-create') return
 
             // Store picked item
@@ -223,23 +225,22 @@ export default {
 
         // Close popup
         events.$on('popup:close', () => {
-
             // Restore data
             setTimeout(() => {
-					this.isGeneratedShared = false
-					this.isExpiration = false
-					this.isEmailSharing = false
-					this.shareOptions = {
-						isPassword: false,
-						expiration: undefined,
-						password: undefined,
-						permission: undefined,
-						type: undefined,
-						id: undefined,
-						emails: undefined
-					}
+                this.isGeneratedShared = false
+                this.isExpiration = false
+                this.isEmailSharing = false
+                this.shareOptions = {
+                    isPassword: false,
+                    expiration: undefined,
+                    password: undefined,
+                    permission: undefined,
+                    type: undefined,
+                    id: undefined,
+                    emails: undefined,
+                }
             }, 150)
         })
-    }
+    },
 }
 </script>

@@ -5,16 +5,16 @@
 </template>
 
 <script>
-    export default {
-        name: 'PageTabGroup',
-    }
+export default {
+    name: 'PageTabGroup',
+}
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../../sass/vuefilemanager/variables';
-    @import '../../../../sass/vuefilemanager/mixins';
+@import '../../../../sass/vuefilemanager/variables';
+@import '../../../../sass/vuefilemanager/mixins';
 
-    .page-tab-group {
-        margin-bottom: 65px;
-    }
+.page-tab-group {
+    margin-bottom: 65px;
+}
 </style>

@@ -10,79 +10,74 @@
 </template>
 
 <script>
-    import { ChevronLeftIcon } from 'vue-feather-icons'
+import { ChevronLeftIcon } from 'vue-feather-icons'
 
-    export default {
-        name: 'PageHeader',
-        props: [
-            'title', 'canBack'
-        ],
-        components: {
-            ChevronLeftIcon
-        },
-    }
+export default {
+    name: 'PageHeader',
+    props: ['title', 'canBack'],
+    components: {
+        ChevronLeftIcon,
+    },
+}
 </script>
 
 <style lang="scss" scoped>
-    @import '../../../sass/vuefilemanager/variables';
-    @import '../../../sass/vuefilemanager/mixins';
+@import '../../../sass/vuefilemanager/variables';
+@import '../../../sass/vuefilemanager/mixins';
 
+.page-header {
+    display: flex;
+    align-items: center;
+    background: white;
+    z-index: 9;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .title {
+        @include font-size(18);
+        font-weight: 700;
+        color: $text;
+    }
+
+    .go-back {
+        margin-right: 10px;
+        cursor: pointer;
+
+        svg {
+            vertical-align: middle;
+            margin-top: -4px;
+        }
+    }
+}
+
+@media only screen and (max-width: 960px) {
     .page-header {
-        display: flex;
-        align-items: center;
-        background: white;
-        z-index: 9;
-        width: 100%;
-        position: sticky;
-        top: 0;
-        padding-top: 20px;
-        padding-bottom: 20px;
-
         .title {
             @include font-size(18);
-            font-weight: 700;
-            color: $text;
-        }
-
-        .go-back {
-            margin-right: 10px;
-            cursor: pointer;
-
-            svg {
-                vertical-align: middle;
-                margin-top: -4px;
-            }
         }
     }
+}
 
-    @media only screen and (max-width: 960px) {
+@media only screen and (max-width: 690px) {
+    .page-header {
+        display: none;
+    }
+}
 
-        .page-header {
+.dark {
+    .page-header {
+        background: $dark_mode_background;
 
-            .title {
-                @include font-size(18);
-            }
+        .title {
+            color: $dark_mode_text_primary;
+        }
+
+        .icon path {
+            fill: $theme;
         }
     }
-
-    @media only screen and (max-width: 690px) {
-        .page-header {
-            display: none;
-        }
-    }
-
-    .dark {
-
-        .page-header {
-            background: $dark_mode_background;
-
-            .title {
-                color: $dark_mode_text_primary;
-            }
-
-            .icon path {
-                fill: $theme;
-            }
-        }
-    }
+}
 </style>

@@ -9,18 +9,24 @@
             </OptionGroup>
             <OptionGroup>
                 <Option @click.native="goToTeamFolders" :title="$t('Team Folders')" icon="users" :is-active="$isThisRoute($route, 'TeamFolders')" :is-hover-disabled="true" />
-                <Option @click.native="goToSharedWithMe" :title="$t('Shared with Me')" icon="user-check" :is-active="$isThisRoute($route, 'SharedWithMe')" :is-hover-disabled="true" />
+                <Option
+                    @click.native="goToSharedWithMe"
+                    :title="$t('Shared with Me')"
+                    icon="user-check"
+                    :is-active="$isThisRoute($route, 'SharedWithMe')"
+                    :is-hover-disabled="true"
+                />
             </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
 </template>
 
 <script>
-import MenuMobileGroup from "../Mobile/MenuMobileGroup";
+import MenuMobileGroup from '../Mobile/MenuMobileGroup'
 import OptionGroup from '../FilesView/OptionGroup'
 import MenuMobile from '../Mobile/MenuMobile'
 import Option from '../FilesView/Option'
-import {mapGetters} from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'MobileContextMenu',
@@ -32,23 +38,23 @@ export default {
     },
     methods: {
         goToFiles() {
-            this.$router.push({name: 'Files'})
+            this.$router.push({ name: 'Files' })
         },
         goToLatest() {
-			this.$router.push({name: 'RecentUploads'})
+            this.$router.push({ name: 'RecentUploads' })
         },
         goToShared() {
-			this.$router.push({name: 'MySharedItems'})
+            this.$router.push({ name: 'MySharedItems' })
         },
         goToTrash() {
-			this.$router.push({name: 'Trash'})
+            this.$router.push({ name: 'Trash' })
         },
         goToTeamFolders() {
-			this.$router.push({name: 'TeamFolders'})
+            this.$router.push({ name: 'TeamFolders' })
         },
         goToSharedWithMe() {
-			this.$router.push({name: 'SharedWithMe'})
+            this.$router.push({ name: 'SharedWithMe' })
         },
-    }
+    },
 }
 </script>

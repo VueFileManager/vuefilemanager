@@ -1,19 +1,16 @@
 <template>
     <AuthContentWrapper ref="auth">
-
         <!--Database Credentials-->
         <AuthContent name="database-credentials" :visible="true">
-			<Headline
-				class="container mx-auto max-w-screen-sm"
-				title="Setup Wizard"
-				description="Set up your storage driver and email client."
-			>
+            <Headline class="container mx-auto max-w-screen-sm" title="Setup Wizard" description="Set up your storage driver and email client.">
                 <settings-icon size="40" class="title-icon text-theme mx-auto" />
-			</Headline>
+            </Headline>
             <ValidationObserver @submit.prevent="EnvironmentSetupSubmit" ref="environmentSetup" v-slot="{ invalid }" tag="form" class="form block-form">
                 <InfoBox>
-                    <p>If you don’t know which storage driver set, keep selected <b>'Local Driver'</b>. For more info, where
-                        you can host your files <a href="https://vuefilemanager.com/docs/guide/storage.html#introduction" target="_blank">visit our guide</a>.</p>
+                    <p>
+                        If you don’t know which storage driver set, keep selected <b>'Local Driver'</b>. For more info, where you can host your files
+                        <a href="https://vuefilemanager.com/docs/guide/storage.html#introduction" target="_blank">visit our guide</a>.
+                    </p>
                 </InfoBox>
 
                 <FormLabel>Storage Setup</FormLabel>
@@ -21,7 +18,7 @@
                 <div class="block-wrapper">
                     <label>Storage Service:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Storage Service" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="storage.driver" :options="storageServiceList" default="local" placeholder="Select your storage service" :isError="errors[0]"/>
+                        <SelectInput v-model="storage.driver" :options="storageServiceList" default="local" placeholder="Select your storage service" :isError="errors[0]" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -30,47 +27,46 @@
                     <div class="block-wrapper">
                         <label>Key:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Key" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.key" placeholder="Paste your key" type="text" :class="{'border-red': errors[0]}"/>
+                            <input v-model="storage.key" placeholder="Paste your key" type="text" :class="{ 'border-red': errors[0] }" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Secret:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Secret" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.secret" placeholder="Paste your secret" type="text" :class="{'border-red': errors[0]}"/>
+                            <input v-model="storage.secret" placeholder="Paste your secret" type="text" :class="{ 'border-red': errors[0] }" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Region:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Region" rules="required" v-slot="{ errors }">
-                            <SelectInput v-model="storage.region" :options="regionList" :key="storage.driver" placeholder="Select your region" :isError="errors[0]"/>
+                            <SelectInput v-model="storage.region" :options="regionList" :key="storage.driver" placeholder="Select your region" :isError="errors[0]" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            <small class="input-help">
-                                Select your region where is your bucket/space created.
-                            </small>
+                            <small class="input-help"> Select your region where is your bucket/space created. </small>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper" v-if="storage.driver !== 's3'">
                         <label>Endpoint URL:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Endpoint" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{'border-red': errors[0]}" readonly/>
+                            <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{ 'border-red': errors[0] }" readonly />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                     <div class="block-wrapper">
                         <label>Bucket:</label>
                         <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Bucket" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{'border-red': errors[0]}"/>
+                            <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{ 'border-red': errors[0] }" />
                             <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            <small class="input-help">
-                                Provide your created unique bucket name
-                            </small>
+                            <small class="input-help"> Provide your created unique bucket name </small>
                         </ValidationProvider>
                     </div>
 
                     <InfoBox>
-                        <p>Later, you can edit these data in your <b>.env</b> file which is located in app root folder.</p>
+                        <p>
+                            Later, you can edit these data in your
+                            <b>.env</b> file which is located in app root folder.
+                        </p>
                     </InfoBox>
                 </div>
 
@@ -79,7 +75,7 @@
                 <div class="block-wrapper">
                     <label>Mail Driver:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="mail.driver" :options="mailDriverList" default="smtp" placeholder="Select your mail driver" :isError="errors[0]"/>
+                        <SelectInput v-model="mail.driver" :options="mailDriverList" default="smtp" placeholder="Select your mail driver" :isError="errors[0]" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -87,7 +83,7 @@
                 <div class="block-wrapper">
                     <label>Mail Host:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.host" placeholder="Type your mail host" type="text" :class="{'border-red': errors[0]}"/>
+                        <input v-model="mail.host" placeholder="Type your mail host" type="text" :class="{ 'border-red': errors[0] }" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -95,7 +91,7 @@
                 <div class="block-wrapper">
                     <label>Mail Port:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.port" placeholder="Type your mail port" type="text" :class="{'border-red': errors[0]}"/>
+                        <input v-model="mail.port" placeholder="Type your mail port" type="text" :class="{ 'border-red': errors[0] }" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -103,7 +99,7 @@
                 <div class="block-wrapper">
                     <label>Mail Username:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.username" placeholder="Type your mail username" type="text" :class="{'border-red': errors[0]}"/>
+                        <input v-model="mail.username" placeholder="Type your mail username" type="text" :class="{ 'border-red': errors[0] }" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -111,7 +107,7 @@
                 <div class="block-wrapper">
                     <label>Mail Password:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.password" placeholder="Type your mail password" type="text" :class="{'border-red': errors[0]}"/>
+                        <input v-model="mail.password" placeholder="Type your mail password" type="text" :class="{ 'border-red': errors[0] }" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
@@ -119,32 +115,31 @@
                 <div class="block-wrapper">
                     <label>Mail Encryption:</label>
                     <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Encryption" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="mail.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]"/>
+                        <SelectInput v-model="mail.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]" />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="submit-wrapper">
-                    <AuthButton icon="chevron-right" text="Save and Set General Settings" :loading="isLoading" :disabled="isLoading"/>
+                    <AuthButton icon="chevron-right" text="Save and Set General Settings" :loading="isLoading" :disabled="isLoading" />
                 </div>
-
             </ValidationObserver>
         </AuthContent>
     </AuthContentWrapper>
 </template>
 
 <script>
-import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from "../../components/Auth/AuthContentWrapper";
-import SelectInput from "../../components/Others/Forms/SelectInput";
-import FormLabel from "../../components/Others/Forms/FormLabel";
-import InfoBox from "../../components/Others/Forms/InfoBox";
-import AuthContent from "../../components/Auth/AuthContent";
-import AuthButton from "../../components/Auth/AuthButton";
-import {SettingsIcon} from 'vue-feather-icons'
-import Headline from "../Auth/Headline"
-import {required} from 'vee-validate/dist/rules'
-import {mapGetters} from 'vuex'
+import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
+import SelectInput from '../../components/Others/Forms/SelectInput'
+import FormLabel from '../../components/Others/Forms/FormLabel'
+import InfoBox from '../../components/Others/Forms/InfoBox'
+import AuthContent from '../../components/Auth/AuthContent'
+import AuthButton from '../../components/Auth/AuthButton'
+import { SettingsIcon } from 'vue-feather-icons'
+import Headline from '../Auth/Headline'
+import { required } from 'vee-validate/dist/rules'
+import { mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
@@ -160,24 +155,20 @@ export default {
         FormLabel,
         required,
         InfoBox,
-		Headline,
+        Headline,
     },
     watch: {
         'storage.driver': function () {
             this.storage.region = ''
         },
         'storage.region': function (val) {
-            if (this.storage.driver === 'spaces')
-                this.storage.endpoint = 'https://' + val + '.digitaloceanspaces.com'
+            if (this.storage.driver === 'spaces') this.storage.endpoint = 'https://' + val + '.digitaloceanspaces.com'
 
-            if (this.storage.driver === 'wasabi')
-                this.storage.endpoint = 'https://s3.' + val + '.wasabisys.com'
+            if (this.storage.driver === 'wasabi') this.storage.endpoint = 'https://s3.' + val + '.wasabisys.com'
 
-            if (this.storage.driver === 'backblaze')
-                this.storage.endpoint = 'https://s3.' + val + '.backblazeb2.com'
+            if (this.storage.driver === 'backblaze') this.storage.endpoint = 'https://s3.' + val + '.backblazeb2.com'
 
-			if (this.storage.driver === 'oss')
-				this.storage.endpoint = 'https://' + val + '.aliyuncs.com'
+            if (this.storage.driver === 'oss') this.storage.endpoint = 'https://' + val + '.aliyuncs.com'
         },
     },
     computed: {
@@ -195,65 +186,65 @@ export default {
                 case 'backblaze':
                     return this.backblazeRegions
                     break
-				case 'oss':
-					return this.ossRegions
-					break
+                case 'oss':
+                    return this.ossRegions
+                    break
             }
         },
     },
     data() {
         return {
             isLoading: false,
-			ossRegions: [
-				{
-					label: 'China (Hangzhou)',
-					value: 'oss-cn-hangzhou',
-				},
-				{
-					label: 'China (Shanghai)',
-					value: 'oss-cn-shanghai',
-				},
-				{
-					label: 'China (Qingdao)',
-					value: 'oss-cn-qingdao',
-				},
-				{
-					label: 'China (Beijing)',
-					value: 'oss-cn-beijing',
-				},
-				{
-					label: 'China (Zhangjiakou)',
-					value: 'oss-cn-zhangjiakou',
-				},
-				{
-					label: 'China (Hohhot)',
-					value: 'oss-cn-huhehaote',
-				},
-				{
-					label: 'China (Ulanqab)',
-					value: 'oss-cn-wulanchabu',
-				},
-				{
-					label: 'China (Shenzhen)',
-					value: 'oss-cn-shenzhen',
-				},
-				{
-					label: 'China (Heyuan)',
-					value: 'oss-cn-heyuan',
-				},
-				{
-					label: 'China (Guangzhou)',
-					value: 'oss-cn-guangzhou',
-				},
-				{
-					label: 'China (Chengdu)',
-					value: 'oss-cn-chengdu',
-				},
-				{
-					label: 'China (Hong Kong)',
-					value: 'oss-cn-hongkong',
-				},
-			],
+            ossRegions: [
+                {
+                    label: 'China (Hangzhou)',
+                    value: 'oss-cn-hangzhou',
+                },
+                {
+                    label: 'China (Shanghai)',
+                    value: 'oss-cn-shanghai',
+                },
+                {
+                    label: 'China (Qingdao)',
+                    value: 'oss-cn-qingdao',
+                },
+                {
+                    label: 'China (Beijing)',
+                    value: 'oss-cn-beijing',
+                },
+                {
+                    label: 'China (Zhangjiakou)',
+                    value: 'oss-cn-zhangjiakou',
+                },
+                {
+                    label: 'China (Hohhot)',
+                    value: 'oss-cn-huhehaote',
+                },
+                {
+                    label: 'China (Ulanqab)',
+                    value: 'oss-cn-wulanchabu',
+                },
+                {
+                    label: 'China (Shenzhen)',
+                    value: 'oss-cn-shenzhen',
+                },
+                {
+                    label: 'China (Heyuan)',
+                    value: 'oss-cn-heyuan',
+                },
+                {
+                    label: 'China (Guangzhou)',
+                    value: 'oss-cn-guangzhou',
+                },
+                {
+                    label: 'China (Chengdu)',
+                    value: 'oss-cn-chengdu',
+                },
+                {
+                    label: 'China (Hong Kong)',
+                    value: 'oss-cn-hongkong',
+                },
+            ],
             wasabiRegions: [
                 {
                     label: 'US East 1 (N. Virginia)',
@@ -411,10 +402,10 @@ export default {
                     label: 'Backblaze B2 Cloud Storage',
                     value: 'backblaze',
                 },
-				{
-					label: 'Alibaba Cloud OSS',
-					value: 'oss',
-				},
+                {
+                    label: 'Alibaba Cloud OSS',
+                    value: 'oss',
+                },
             ],
             encryptionList: [
                 {
@@ -471,16 +462,15 @@ export default {
                 username: '',
                 password: '',
                 encryption: '',
-            }
+            },
         }
     },
     methods: {
         async EnvironmentSetupSubmit() {
-
             // Validate fields
-            const isValid = await this.$refs.environmentSetup.validate();
+            const isValid = await this.$refs.environmentSetup.validate()
 
-            if (!isValid) return;
+            if (!isValid) return
 
             // Start loading
             this.isLoading = true
@@ -491,16 +481,14 @@ export default {
                     storage: this.storage,
                     mail: this.mail,
                 })
-                .then(response => {
-
+                .then((response) => {
                     // End loading
                     this.isLoading = false
 
                     // Redirect to next step
-                    this.$router.push({name: 'AppSetup'})
+                    this.$router.push({ name: 'AppSetup' })
                 })
-                .catch(error => {
-
+                .catch((error) => {
                     // End loading
                     this.isLoading = false
                 })
@@ -508,7 +496,7 @@ export default {
     },
     created() {
         this.$scrollTop()
-    }
+    },
 }
 </script>
 

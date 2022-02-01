@@ -1,11 +1,11 @@
 <template>
-    <section class="content-sidebar flex-none xl:w-56 w-52 lg:block hidden overflow-y-auto pt-6 select-none dark:bg-dark-background bg-light-background z-10" id="content-sidebar">
+    <section class="content-sidebar z-10 hidden w-52 flex-none select-none overflow-y-auto bg-light-background pt-6 dark:bg-dark-background lg:block xl:w-56" id="content-sidebar">
         <slot></slot>
     </section>
 </template>
 
 <script>
-    export default {
-        name: 'ContentSidebar',
-    }
+export default {
+    name: 'ContentSidebar',
+}
 </script>

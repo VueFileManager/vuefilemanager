@@ -1,81 +1,72 @@
 <template>
     <div>
-		<!--Datatable-->
-		<DatatableWrapper
-			v-if="! config.isEmptyTransactions" class="card shadow-card overflow-x-auto"
-			api="/api/admin/transactions"
-			:paginator="true"
-			:columns="columns"
-		>
-			<template slot-scope="{ row }">
-				<!--Transaction rows-->
-				<MeteredTransactionRow v-if="config.subscriptionType === 'metered'" :row="row" :user="true" @showDetail="showTransactionDetail" />
+        <!--Datatable-->
+        <DatatableWrapper v-if="!config.isEmptyTransactions" class="card overflow-x-auto shadow-card" api="/api/admin/transactions" :paginator="true" :columns="columns">
+            <template slot-scope="{ row }">
+                <!--Transaction rows-->
+                <MeteredTransactionRow v-if="config.subscriptionType === 'metered'" :row="row" :user="true" @showDetail="showTransactionDetail" />
 
-				<FixedTransactionRow v-if="config.subscriptionType === 'fixed'" :row="row" :user="true" />
+                <FixedTransactionRow v-if="config.subscriptionType === 'fixed'" :row="row" :user="true" />
 
-				<!--Transaction detail-->
-				<MeteredTransactionDetailRow v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id" :row="row" />
-			</template>
-		</DatatableWrapper>
+                <!--Transaction detail-->
+                <MeteredTransactionDetailRow v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id" :row="row" />
+            </template>
+        </DatatableWrapper>
 
-		<!--Empty State-->
-        <div v-if="config.isEmptyTransactions" class="flex items-center justify-center h-full">
-			<div class="text-center">
-				<img class="w-28 inline-block mb-6" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f9ee.svg" alt="transaction">
-				<h1 class="text-2xl font-bold mb-1">
-					{{ $t("There is Nothing") }}
-				</h1>
-				<p class="text-sm text-gray-600">
-					{{ $t('All your transactions will be visible here') }}
-				</p>
-			</div>
-		</div>
+        <!--Empty State-->
+        <div v-if="config.isEmptyTransactions" class="flex h-full items-center justify-center">
+            <div class="text-center">
+                <img class="mb-6 inline-block w-28" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f9ee.svg" alt="transaction" />
+                <h1 class="mb-1 text-2xl font-bold">
+                    {{ $t('There is Nothing') }}
+                </h1>
+                <p class="text-sm text-gray-600">
+                    {{ $t('All your transactions will be visible here') }}
+                </p>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-	import FixedTransactionRow from "../../components/Subscription/FixedTransactionRow";
-	import MeteredTransactionDetailRow from "../../components/Subscription/MeteredTransactionDetailRow";
-	import MeteredTransactionRow from "../../components/Subscription/MeteredTransactionRow";
-	import MemberAvatar from "../../components/FilesView/MemberAvatar"
-	import DatatableWrapper from "../../components/Others/Tables/DatatableWrapper";
-	import ColorLabel from "../../components/Others/ColorLabel";
-	import {mapGetters} from 'vuex'
+import FixedTransactionRow from '../../components/Subscription/FixedTransactionRow'
+import MeteredTransactionDetailRow from '../../components/Subscription/MeteredTransactionDetailRow'
+import MeteredTransactionRow from '../../components/Subscription/MeteredTransactionRow'
+import MemberAvatar from '../../components/FilesView/MemberAvatar'
+import DatatableWrapper from '../../components/Others/Tables/DatatableWrapper'
+import ColorLabel from '../../components/Others/ColorLabel'
+import { mapGetters } from 'vuex'
 
-	export default {
-		name: 'Invoices',
-		components: {
-			MeteredTransactionDetailRow,
-			MeteredTransactionRow,
-			FixedTransactionRow,
-			DatatableWrapper,
-			MemberAvatar,
-			ColorLabel,
-		},
-		computed: {
-			...mapGetters([
-				'config',
-			]),
-			columns() {
-				if (config.subscriptionType === 'fixed') {
-					return this.$store.getters.transactionColumns.filter(column => ! ['type'].includes(column.field))
-				}
+export default {
+    name: 'Invoices',
+    components: {
+        MeteredTransactionDetailRow,
+        MeteredTransactionRow,
+        FixedTransactionRow,
+        DatatableWrapper,
+        MemberAvatar,
+        ColorLabel,
+    },
+    computed: {
+        ...mapGetters(['config']),
+        columns() {
+            if (config.subscriptionType === 'fixed') {
+                return this.$store.getters.transactionColumns.filter((column) => !['type'].includes(column.field))
+            }
 
-				return this.$store.getters.transactionColumns
-			}
-		},
-		data() {
-			return {
-				showedTransactionDetailById: undefined
-			}
-		},
-		methods: {
-			showTransactionDetail(id) {
-				if (this.showedTransactionDetailById === id)
-					this.showedTransactionDetailById = undefined
-				else
-					this.showedTransactionDetailById = id
-			}
-		}
-	}
+            return this.$store.getters.transactionColumns
+        },
+    },
+    data() {
+        return {
+            showedTransactionDetailById: undefined,
+        }
+    },
+    methods: {
+        showTransactionDetail(id) {
+            if (this.showedTransactionDetailById === id) this.showedTransactionDetailById = undefined
+            else this.showedTransactionDetailById = id
+        },
+    },
+}
 </script>
