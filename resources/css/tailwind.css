@@ -11,7 +11,7 @@
 }
 
 .input-dark {
-    @apply w-full dark:bg-2x-dark-foreground bg-light-background py-3 px-5 rounded-lg appearance-none border-transparent text-base font-bold border
+    @apply w-full dark:bg-2x-dark-foreground bg-light-background py-3 sm:px-5 px-4 rounded-lg appearance-none border-transparent sm:text-base text-sm font-bold border
 }
 
 .text-limit {

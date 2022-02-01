@@ -10,6 +10,13 @@
                 </AppInputText>
             </ValidationProvider>
 
+			<!--User Role-->
+            <ValidationProvider tag="div" mode="passive" name="permission" rules="required" v-slot="{ errors }">
+                <AppInputText :title="$t('admin_page_user.select_role')" :error="errors[0]">
+                    <SelectInput v-model="user.role" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
+                </AppInputText>
+            </ValidationProvider>
+
             <!--Email-->
             <ValidationProvider tag="div" mode="passive" name="email" rules="required" v-slot="{ errors }">
                 <AppInputText :title="$t('page_registration.label_email')" :error="errors[0]">
@@ -39,7 +46,7 @@
             <!--Password-->
             <div class="flex space-x-4">
                 <ValidationProvider tag="div" mode="passive" name="password" rules="required" v-slot="{ errors }" class="w-full">
-                    <AppInputText :title="$t('page_registration.label_pass')" :error="errors[0]">
+                    <AppInputText :title="$t('page_registration.label_pass')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="user.password"
                             :placeholder="$t('page_registration.placeholder_pass')"
@@ -50,7 +57,7 @@
                     </AppInputText>
                 </ValidationProvider>
                 <ValidationProvider tag="div" mode="passive" name="password confirm" rules="required" v-slot="{ errors }" class="w-full">
-                    <AppInputText :title="$t('page_registration.label_confirm_pass')" :error="errors[0]">
+                    <AppInputText :title="$t('page_registration.label_confirm_pass')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="user.password_confirmation"
                             :placeholder="$t('admin_page_user.create_user.label_conf_pass')"
@@ -62,33 +69,8 @@
                 </ValidationProvider>
             </div>
         </div>
-        <div class="card shadow-card">
-            <FormLabel>{{ $t('admin_page_user.create_user.group_settings') }}</FormLabel>
-
-            <!--User Role-->
-            <ValidationProvider tag="div" mode="passive" name="permission" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('admin_page_user.select_role')" :error="errors[0]">
-                    <SelectInput v-model="user.role" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
-                </AppInputText>
-            </ValidationProvider>
-
-            <!--Storage Capacity-->
-            <ValidationProvider tag="div" mode="passive" name="storage capacity" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('admin_page_user.label_change_capacity')" :error="errors[0]">
-                    <input
-                        v-model="user.max_storage_amount"
-                        min="1"
-                        max="999999999"
-                        :placeholder="$t('admin_page_user.label_change_capacity')"
-                        type="number"
-                        class="focus-border-theme input-dark"
-                        :class="{ 'border-red': errors[0] }"
-                    />
-                </AppInputText>
-            </ValidationProvider>
-        </div>
         <div class="form-group">
-            <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
+            <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full sm:w-auto">
                 {{ $t('admin_page_user.create_user.submit') }}
             </ButtonBase>
         </div>
@@ -160,7 +142,6 @@ export default {
             formData.append('role', this.user.role)
             formData.append('email', this.user.email)
             formData.append('password', this.user.password)
-            formData.append('max_storage_amount', this.user.max_storage_amount)
             formData.append('password_confirmation', this.user.password_confirmation)
 
             // Append avatar if exist

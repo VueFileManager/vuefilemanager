@@ -5,20 +5,17 @@ use App\Users\Models\User;
 use App\Users\DTO\CreateUserData;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Contracts\Auth\StatefulGuard;
 
 class CreateNewUserAction extends Controller
 {
     public function __construct(
-        protected StatefulGuard $guard,
         protected AutoSubscribeForMeteredBillingAction $autoSubscribeForMeteredBilling,
-    ) {
-    }
+    ) {}
 
     /**
      * Validate and create a new user.
      */
-    public function __invoke(CreateUserData $data)
+    public function __invoke(CreateUserData $data): User
     {
         $settings = get_settings([
             'user_verification', 'subscription_type',
@@ -53,9 +50,6 @@ class CreateNewUserAction extends Controller
 
         event(new Registered($user));
 
-        // Log in if verification is disabled
-        if (! $data->password || ! intval($settings['user_verification'])) {
-            $this->guard->login($user);
-        }
+        return $user;
     }
 }

@@ -29,7 +29,7 @@ class CreateUserData extends DataTransferObject
             'email'           => $array['email'],
             'avatar'          => $array['avatar'],
             'password'        => $array['password'] ?? null,
-            'oauth_provider'  => $array['oauth_provider'],
+            'oauth_provider'  => $array['oauth_provider'] ?? null,
         ]);
     }
 }

@@ -1,6 +1,9 @@
 <?php
+
 namespace Domain\Admin\Controllers\Users;
 
+use App\Users\Actions\CreateNewUserAction;
+use App\Users\DTO\CreateUserData;
 use App\Users\Models\User;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
@@ -10,6 +13,10 @@ use Domain\Admin\Requests\CreateUserByAdmin;
 
 class UserController extends Controller
 {
+    public function __construct(
+        protected CreateNewUserAction $createNewUser,
+    ) {}
+
     /**
      * Get all users
      */
@@ -34,24 +41,22 @@ class UserController extends Controller
      */
     public function store(CreateUserByAdmin $request): Response
     {
-        // Create user
-        $user = User::forceCreate([
-            'password'          => bcrypt($request->input('password')),
-            'role'              => $request->input('role'),
-            'email'             => $request->input('email'),
-            'email_verified_at' => now(),
+        // Map user data
+        $data = CreateUserData::fromArray([
+            'name'     => $request->input('name'),
+            'email'    => $request->input('email'),
+            'password' => $request->input('password'),
+            'avatar'   => store_avatar($request, 'avatar'),
         ]);
 
-        // Split username
-        $name = split_name($request->input('name'));
+        // Register user
+        $user = ($this->createNewUser)($data);
 
-        $user
-            ->settings()
-            ->create([
-                'avatar'     => store_avatar($request, 'avatar'),
-                'first_name' => $name['first_name'],
-                'last_name'  => $name['last_name'],
-            ]);
+        // Update user data
+        $user->email_verified_at = now();
+        $user->role = $request->input('role');
+
+        $user->save();
 
         return response(new UserResource($user), 201);
     }

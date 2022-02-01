@@ -43,7 +43,7 @@
 
             <!--Team-->
             <ListInfoItem v-if="singleFile.data.attributes.isTeamFolder" :title="$t('Shared with the Team')">
-                <div class="flex cursor-pointer items-center" @click="$updateTeamFolder(singleFile)">
+                <div class="flex cursor-pointer items-center z-0 relative" @click="$updateTeamFolder(singleFile)">
                     <TeamMembersPreview :folder="singleFile" :avatar-size="32" />
                     <Edit2Icon size="10" class="ml-2" />
                 </div>

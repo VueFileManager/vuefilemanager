@@ -5,11 +5,13 @@ use App\Users\DTO\CreateUserData;
 use App\Http\Controllers\Controller;
 use App\Users\Actions\CreateNewUserAction;
 use App\Users\Requests\RegisterUserRequest;
+use Illuminate\Contracts\Auth\StatefulGuard;
 
 class RegisterUserController extends Controller
 {
     public function __construct(
-        public CreateNewUserAction $createNewUser,
+        protected CreateNewUserAction $createNewUser,
+        protected StatefulGuard $guard,
     ) {
     }
     
@@ -27,7 +29,12 @@ class RegisterUserController extends Controller
         $data = CreateUserData::fromRequest($request);
 
         // Register user
-        ($this->createNewUser)($data);
+        $user = ($this->createNewUser)($data);
+
+        // Log in if verification is disabled
+        if (! $user->password || ! intval(get_settings('user_verification'))) {
+            $this->guard->login($user);
+        }
 
         return response('User successfully registered.', 201);
     }

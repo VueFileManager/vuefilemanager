@@ -1,5 +1,5 @@
 <template>
-    <div :class="{ 'mb-7': !isLast }" class="flex w-full items-center justify-between space-x-2 sm:space-x-8">
+    <div :class="{ 'sm:mb-7 mb-6': !isLast }" class="flex w-full items-center justify-between space-x-2 sm:space-x-8">
         <!--Label for input-->
         <div class="leading-5">
             <label class="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-200"> {{ title }}: </label>
@@ -15,7 +15,7 @@
 
         <!--Form element-->
         <div>
-            <slot></slot>
+            <slot />
         </div>
     </div>
 </template>

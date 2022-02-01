@@ -19,5 +19,10 @@ class HelperTest extends TestCase
 
         $this->assertEquals('Jane', $secondTest['first_name']);
         $this->assertEquals('Doe Hobs', $secondTest['last_name']);
+
+        $thirdTest = split_name('Jane');
+
+        $this->assertEquals('Jane', $thirdTest['first_name']);
+        $this->assertEquals('', $thirdTest['last_name']);
     }
 }

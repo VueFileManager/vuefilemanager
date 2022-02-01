@@ -1,198 +1,86 @@
 <template>
-    <div class="dropzone" :class="{ 'is-error': error }">
-        <div v-if="imagePreview" @click="resetImage" class="reset-image">
-            <x-icon size="14" class="close-icon text-theme" />
-        </div>
+    <div class="flex items-center justify-center rounded-lg relative h-[175px] bg-light-background" :class="{ 'is-error': error }">
 
-        <input ref="file" type="file" @change="showImagePreview($event)" class="dummy" />
-        <img ref="image" :src="imagePreview" class="image-preview" v-if="imagePreview" />
+		<!--Reset Image-->
+		<div
+			v-if="imagePreview"
+			@click="resetImage"
+			class="absolute z-10 right-0 top-0 flex h-7 w-7 cursor-pointer items-center justify-center rounded-md bg-white shadow-lg rounded-full -translate-y-3 translate-x-3"
+		>
+            <x-icon size="14" class="vue-feather" />
+		</div>
 
-        <div class="dropzone-message" v-show="!isData">
-            <image-icon size="28" class="icon-upload text-theme mx-auto mb-1" />
-            <span class="dropzone-title">
+        <input
+			@change="showImagePreview($event)"
+			ref="file"
+			type="file"
+			class="opacity-0 absolute top-0 left-0 right-0 bottom-0 z-10 w-full cursor-pointer"
+		/>
+
+		<!--Default image preview-->
+		<img v-if="imagePreview" :src="imagePreview" ref="image" class="absolute w-full h-full object-contain py-4 px-12" />
+
+		<!--Drop image zone-->
+        <div v-if="!isData" class="text-center">
+            <image-icon size="34" class="vue-feather text-theme inline-block mb-4" />
+
+			<b class="font-bold text-base block leading-3">
                 {{ $t('input_image.title') }}
-            </span>
-            <span class="dropzone-description">
+            </b>
+            <small class="text-xs text-gray-500">
                 {{ $t('input_image.supported') }}
-            </span>
+            </small>
         </div>
     </div>
 </template>
 
 <script>
-import { XIcon, ImageIcon } from 'vue-feather-icons'
+import {XIcon, ImageIcon} from 'vue-feather-icons'
 
 export default {
-    name: 'ImageInput',
-    props: ['image', 'error'],
-    components: {
-        ImageIcon,
-        XIcon,
-    },
-    data() {
-        return {
-            imagePreview: undefined,
-        }
-    },
-    computed: {
-        isData() {
-            return typeof this.imagePreview === 'undefined' || this.imagePreview === '' ? false : true
-        },
-    },
-    methods: {
-        resetImage() {
-            this.imagePreview = undefined
-            this.$emit('input', undefined)
-        },
-        showImagePreview(event) {
-            const imgPath = event.target.files[0].name,
-                extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase()
+	name: 'ImageInput',
+	props: ['image', 'error'],
+	components: {
+		ImageIcon,
+		XIcon,
+	},
+	data() {
+		return {
+			imagePreview: undefined,
+		}
+	},
+	computed: {
+		isData() {
+			return !(typeof this.imagePreview === 'undefined' || this.imagePreview === '')
+		},
+	},
+	methods: {
+		resetImage() {
+			this.imagePreview = undefined
+			this.$emit('input', undefined)
+		},
+		showImagePreview(event) {
+			const imgPath = event.target.files[0].name,
+				extn = imgPath.substring(imgPath.lastIndexOf('.') + 1).toLowerCase()
 
-            if (['png', 'jpg', 'jpeg', 'svg'].includes(extn)) {
-                const file = event.target.files[0],
-                    reader = new FileReader()
+			if (['png', 'jpg', 'jpeg', 'svg'].includes(extn)) {
+				const file = event.target.files[0],
+					reader = new FileReader()
 
-                reader.onload = () => (this.imagePreview = reader.result)
+				reader.onload = () => (this.imagePreview = reader.result)
 
-                reader.readAsDataURL(file)
+				reader.readAsDataURL(file)
 
-                // Update user avatar
-                this.$emit('input', event.target.files[0])
-            } else {
-                alert(this.$t('validation_errors.wrong_image'))
-            }
-        },
-    },
-    created() {
-        // If has default image then load
-        if (this.image) this.imagePreview = this.image
-    },
+				// Update user avatar
+				this.$emit('input', event.target.files[0])
+			} else {
+				alert(this.$t('validation_errors.wrong_image'))
+			}
+		},
+	},
+	created() {
+		// If has default image then load
+		if (this.image) this.imagePreview = this.image
+	},
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../../../../sass/vuefilemanager/variables';
-@import '../../../../sass/vuefilemanager/mixins';
-
-.dropzone {
-    border: 1px dashed #a1abc2;
-    border-radius: 8px;
-    position: relative;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    min-height: 175px;
-
-    &.is-error {
-        border: 2px dashed rgba(253, 57, 122, 0.3);
-
-        .dropzone-title {
-            color: $danger;
-        }
-
-        .icon-upload {
-            rect,
-            circle,
-            polyline {
-                stroke: $danger;
-            }
-        }
-    }
-
-    input[type='file'] {
-        opacity: 0;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 1;
-        width: 100%;
-        cursor: pointer;
-    }
-
-    .image-preview {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        left: 0;
-        padding: 25px;
-        display: block;
-
-        &.fit-image {
-            object-fit: cover;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-    }
-
-    .dropzone-message {
-        padding: 50px 0;
-        width: 100%;
-
-        .icon-upload {
-            rect,
-            circle,
-            polyline {
-                color: inherit;
-            }
-        }
-
-        .dropzone-title {
-            @include font-size(16);
-            font-weight: 700;
-            display: block;
-        }
-
-        .dropzone-description {
-            color: $text_muted;
-            @include font-size(12);
-        }
-    }
-
-    .reset-image {
-        z-index: 2;
-        background: white;
-        border-radius: 50px;
-        display: block;
-        position: absolute;
-        right: 0;
-        top: 0;
-        cursor: pointer;
-        @include transform(translateY(-50%) translateX(50%));
-        padding: 0px 4px;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
-
-        .close-icon {
-            vertical-align: middle;
-
-            line {
-                path {
-                    fill: $text;
-                }
-            }
-        }
-    }
-}
-
-.dark {
-    .dropzone {
-        border-color: rgba(white, 0.2);
-
-        .dropzone-message {
-            .icon-upload {
-                path,
-                polyline,
-                line {
-                    color: inherit;
-                }
-            }
-
-            .dropzone-description {
-                color: $dark_mode_text_secondary;
-            }
-        }
-    }
-}
-</style>

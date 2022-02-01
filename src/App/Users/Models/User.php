@@ -30,6 +30,7 @@ use VueFileManager\Subscription\App\User\Traits\Billable;
  * @property string email
  * @property mixed favouriteFolders
  * @property string role
+ * @property string email_verified_at
  * @method static count()
  * @method static sortable(string[] $array)
  * @method static forceCreate(array $array)

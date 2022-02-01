@@ -1,10 +1,10 @@
 <template>
-    <div :class="{ 'mb-7': !isLast }">
+    <div :class="{ 'sm:mb-7 mb-6': !isLast }">
         <!--Label for input-->
         <label v-if="title" class="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-200"> {{ title }}: </label>
 
         <!--Form element-->
-        <slot></slot>
+        <slot />
 
         <!--Input Description-->
         <span v-if="error" class="pt-2 text-xs text-red-800">

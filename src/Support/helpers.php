@@ -312,10 +312,11 @@ if (! function_exists('split_name')) {
     function split_name(string $name): array
     {
         $firstName = explode(' ', $name)[0];
+        $lastName = str_replace("$firstName ", '', $name);
 
         return [
             'first_name' => $firstName,
-            'last_name'  => str_replace("$firstName ", '', $name),
+            'last_name'  => $lastName !== $firstName ? $lastName : null,
         ];
     }
 }
