@@ -690,6 +690,7 @@ export default {
             this.results = []
             this.query = ''
             this.isVisible = false
+			this.$closePopup()
         },
         onPageDown() {
             let results = this.results.length

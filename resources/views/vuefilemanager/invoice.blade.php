@@ -29,7 +29,7 @@
 
     @include('vuefilemanager.others.color-template')
 </head>
-<body class="bg-light-background">
+<body class="bg-light-background print:px-0 px-3">
     <div class="rounded-xl max-w-3xl mx-auto my-5 print:hidden">
         <button class="flex items-center bg-white py-1 px-2 rounded-lg" onclick="window.print();">
 
@@ -44,10 +44,11 @@
             </span>
         </button>
     </div>
-    <div class="bg-white rounded-xl max-w-3xl mx-auto print:p-0 p-10">
+
+    <div class="bg-white rounded-xl max-w-3xl mx-auto print:p-0 lg:p-10 p-4 lg:mb-0 print:mb-0 mb-10">
 
         <!--Invoice Header-->
-        <header class="flex justify-between items-start pb-4 mb-4 border-b dark:border-opacity-5 border-light border-dashed">
+        <header class="print:flex lg:flex justify-between items-start pb-4 mb-4 border-b dark:border-opacity-5 border-light border-dashed">
             <div>
                 @if(isset($settings->app_logo_horizontal))
                     <img src="{{ url($settings->app_logo_horizontal) }}" alt="{{ $settings->app_title ?? 'VueFileManager' }}" class="h-8">
@@ -62,7 +63,7 @@
                 </b>
             </div>
 
-            <div class="text-right">
+            <div class="print:text-right lg:text-right lg:mt-0 print:mt-0 mt-6">
                 <h1 class="text-2xl font-bold">
                     {{ __t('invoice_title') }}
                 </h1>
@@ -73,7 +74,7 @@
         </header>
 
         <!-- Invoice partners -->
-        <div class="flex justify-between items-start space-x-8 pb-6 mb-6 border-b dark:border-opacity-5 border-light border-dashed">
+        <div class="lg:flex print:flex justify-between items-start lg:space-x-8 lg:space-y-0 space-y-5 pb-6 mb-6 border-b dark:border-opacity-5 border-light border-dashed">
             <!-- Seller -->
             <div>
                 <div class="mb-3">
@@ -198,7 +199,7 @@
                         </span>
                     @endisset
                 </div>
-                <div class="font-bold block text-right pt-3">
+                <div class="font-bold block lg:text-right print:text-right pt-3 text-sm">
                     Date of issue: {{ format_date($invoice->created_at) }}
                 </div>
             </div>
@@ -288,7 +289,7 @@
             </table>
 
             <!-- Invoice Total -->
-            <div class="text-right">
+            <div class="print:text-right lg:text-right text-center">
                 <b class="text-2xl font-extrabold">
                     {{ __t('total') }} {{ format_currency($invoice->amount, $invoice->currency) }}
                 </b>
