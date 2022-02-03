@@ -50,19 +50,20 @@
 
                 <!--Member list-->
                 <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Members" rules="required" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('Your Members') }}:</label>
-                    <span v-if="errors[0]" class="error-message" style="margin-top: -5px">
-                        {{ $t('Please add at least one member.') }}
-                    </span>
+					<AppInputText :title="$t('Your Members')" :error="errors[0]" :is-last="true">
+						<span v-if="errors[0]" class="error-message" style="margin-top: -5px">
+							{{ $t('Please add at least one member.') }}
+						</span>
 
-                    <TeamList v-model="invitations" />
+						<TeamList v-model="invitations" />
 
-                    <p v-if="Object.values(invitations).length === 0" class="text-xs dark:text-gray-500">
-                        {{ $t('Please add at least one member into your Team Folder.') }}
-                    </p>
+						<p v-if="Object.values(invitations).length === 0" class="text-xs dark:text-gray-500">
+							{{ $t('Please add at least one member into your Team Folders.') }}
+						</p>
+                    </AppInputText>
                 </ValidationProvider>
 
-                <InfoBox v-if="!isNewFolderTeamCreation" style="margin-bottom: 0">
+                <InfoBox v-if="!isNewFolderTeamCreation" class="mt-2.5 !mb-0">
                     <p v-html="$t('popup.move_into_team_disclaimer')"></p>
                 </InfoBox>
             </ValidationObserver>
@@ -215,7 +216,7 @@ export default {
             this.email = undefined
         },
     },
-    mounted() {
+    created() {
         events.$on('popup:open', (args) => {
             if (args.name !== 'create-team-folder') return
 
@@ -226,7 +227,7 @@ export default {
 
                 if (this.item) this.$refs.email.focus()
 
-                if (!this.item) this.$refs.name.focus()
+                if (!this.item && this.$refs.name) this.$refs.name.focus()
             })
         })
 
@@ -238,17 +239,6 @@ export default {
                 this.invitations = []
             }, 150)
         })
-
-        console.log()
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import 'resources/sass/vuefilemanager/_inapp-forms.scss';
-@import '../../../sass/vuefilemanager/forms';
-
-.item-thumbnail {
-    margin-bottom: 20px;
-}
-</style>

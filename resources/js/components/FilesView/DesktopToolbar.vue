@@ -1,106 +1,43 @@
 <template>
-    <div id="desktop-toolbar" class="hidden lg:block">
-        <div class="toolbar-wrapper">
-            <div @click="goBack" class="location">
-                <div v-if="!isVisibleNavigationBars" @click="toggleNavigationBars" class="mr-2">
-                    <menu-icon size="17" />
-                </div>
+    <div class="hidden lg:block">
+        <div class="flex items-center justify-between py-3">
+            <NavigationBar />
 
-                <chevron-left-icon
-                    :class="{
-                        '-translate-x-3 opacity-0': !currentFolder,
-                        'translate-x-0 opacity-100': currentFolder,
-                    }"
-                    class="icon-back transform transition-all duration-200"
-                    size="17"
-                />
+            <div class="flex items-center">
+                <!--Create button-->
+                <PopoverWrapper>
+                    <ToolbarButton
+                        @click.stop.native="showCreateMenu"
+                        source="cloud-plus"
+                        :action="$t('actions.create')"
+                    />
+                    <PopoverItem name="desktop-create" side="left">
+                        <OptionGroup :title="$t('Upload')" :class="{'is-inactive': canUploadInView || isTeamFolderHomepage || isSharedWithMeHomepage}">
+                            <OptionUpload :title="$t('actions.upload')" type="file" />
+                            <OptionUpload :title="$t('actions.upload_folder')" type="folder" />
+                        </OptionGroup>
+                        <OptionGroup :title="$t('Create')">
+                            <Option
+                                @click.stop.native="$createFolder"
+                                :class="{ 'is-inactive': canCreateFolder || isTeamFolderHomepage || isSharedWithMeHomepage }"
+                                :title="$t('actions.create_folder')"
+                                icon="folder-plus"
+                            />
+                            <Option
+                                @click.stop.native="$createTeamFolder"
+								:class="{ 'is-inactive': canCreateTeamFolder || isSharedWithMeHomepage }"
+                                :title="$t('Create Team Folder')"
+                                icon="users"
+                            />
+                        </OptionGroup>
+                    </PopoverItem>
+                </PopoverWrapper>
 
-                <span :class="{ '-translate-x-4': !currentFolder }" class="location-title transform transition-all duration-200">
-                    {{ $getCurrentLocationName() }}
-                </span>
-
-                <span
-                    :class="{
-                        '-translate-x-4 opacity-0': !currentFolder,
-                        'translate-x-0 opacity-100': currentFolder,
-                    }"
-                    @click.stop="folderActions"
-                    class="location-more group transform transition-all duration-200"
-                    id="folder-actions"
-                >
-                    <more-horizontal-icon size="14" class="icon-more group-hover-text-theme" />
-                </span>
-            </div>
-
-            <ToolbarWrapper>
                 <!--Search bar-->
-                <ToolbarGroup class="ml-0">
-                    <SearchBar class="hidden lg:block" />
-                </ToolbarGroup>
-
-                <!--Create button for all pages except SharedWithMe-->
-                <ToolbarGroup v-if="$checkPermission(['master', 'editor']) && !$isThisRoute($route, ['SharedWithMe'])">
-                    <span class="block lg:hidden">
-                        <ToolbarButton @click.stop.native="$openSpotlight()" source="search" :action="$t('Search files or folders')" />
-                    </span>
-
-                    <PopoverWrapper>
-                        <ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :action="$t('actions.create')" />
-
-                        <PopoverItem name="desktop-create" side="left">
-                            <OptionGroup :class="{ 'is-inactive': canUploadInView }">
-                                <OptionUpload :title="$t('actions.upload')" type="file" />
-                                <OptionUpload :title="$t('actions.upload_folder')" type="folder" />
-                            </OptionGroup>
-                            <OptionGroup>
-                                <Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" />
-                                <Option
-                                    @click.stop.native="$createFolder"
-                                    :class="{
-                                        'is-inactive': canCreateFolderInView || isTeamFolderHomepage,
-                                    }"
-                                    :title="$t('actions.create_folder')"
-                                    icon="folder-plus"
-                                />
-                            </OptionGroup>
-                        </PopoverItem>
-                    </PopoverWrapper>
-                </ToolbarGroup>
-
-                <!--Create button for shared with me page-->
-                <ToolbarGroup v-if="$isThisRoute($route, ['SharedWithMe'])">
-                    <span class="block lg:hidden">
-                        <ToolbarButton @click.stop.native="$openSpotlight()" source="search" :action="$t('Search files or folders')" />
-                    </span>
-
-                    <PopoverWrapper>
-                        <ToolbarButton @click.stop.native="showCreateMenu" source="cloud-plus" :class="{ 'is-inactive': !canEdit }" :action="$t('actions.create')" />
-
-                        <PopoverItem name="desktop-create" side="left">
-                            <OptionGroup>
-                                <OptionUpload
-                                    :class="{
-                                        'is-inactive': canUploadInView || isSharedWithMeHomepage,
-                                    }"
-                                    :title="$t('actions.upload')"
-                                />
-                            </OptionGroup>
-                            <OptionGroup>
-                                <Option
-                                    @click.stop.native="$createFolder"
-                                    :class="{
-                                        'is-inactive': canCreateFolderInView || isSharedWithMeHomepage,
-                                    }"
-                                    :title="$t('actions.create_folder')"
-                                    icon="folder-plus"
-                                />
-                            </OptionGroup>
-                        </PopoverItem>
-                    </PopoverWrapper>
-                </ToolbarGroup>
+                <SearchBar class="ml-5 hidden lg:block xl:ml-8" />
 
                 <!--File Controls-->
-                <ToolbarGroup v-if="$checkPermission(['master', 'editor']) || ($isMobile() && $isThisRoute($route, ['SharedWithMe', 'TeamFolders']))">
+                <div class="ml-5 flex items-center xl:ml-8">
                     <!--Team Heads-->
                     <PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])">
                         <TeamMembersButton
@@ -112,24 +49,36 @@
                         <PopoverItem name="team-folder" side="left">
                             <TeamFolderPreview />
 
-                            <OptionGroup v-if="$isThisRoute($route, ['TeamFolders'])">
-                                <Option @click.native="$updateTeamFolder(teamFolder)" :title="$t('Edit Members')" icon="rename" />
-                                <Option @click.native="$dissolveTeamFolder(teamFolder)" :title="$t('Dissolve Team')" icon="trash" />
+                            <OptionGroup v-if="$isThisRoute($route, ['TeamFolders'])" :title="$t('Options')">
+                                <Option
+                                    @click.native="$updateTeamFolder(teamFolder)"
+                                    :title="$t('Edit Members')"
+                                    icon="rename"
+                                />
+                                <Option
+                                    @click.native="$dissolveTeamFolder(teamFolder)"
+                                    :title="$t('Dissolve Team')"
+                                    icon="trash"
+                                />
                             </OptionGroup>
 
-                            <OptionGroup v-if="$isThisRoute($route, ['SharedWithMe'])">
-                                <Option @click.native="$detachMeFromTeamFolder(teamFolder)" :title="$t('Leave the Team Folder')" icon="user-minus" />
+                            <OptionGroup v-if="$isThisRoute($route, ['SharedWithMe'])" :title="$t('Options')">
+                                <Option
+                                    @click.native="$detachMeFromTeamFolder(teamFolder)"
+                                    :title="$t('Leave the Team Folder')"
+                                    icon="user-minus"
+                                />
                             </OptionGroup>
                         </PopoverItem>
                     </PopoverWrapper>
 
-                    <!--Item actions-->
-                    <span v-if="!$isMobile()" class="whitespace-nowrap">
+                    <!--Action buttons-->
+                    <div v-if="!$isMobile()" class="flex items-center">
                         <ToolbarButton
                             v-if="canShowConvertToTeamFolder"
                             @click.native="$convertAsTeamFolder(clipboard[0])"
                             :class="{
-                                'is-inactive': !canCreateTeamFolderInView,
+                                'is-inactive': !canCreateTeamFolder,
                             }"
                             source="user-plus"
                             :action="$t('actions.convert_into_team_folder')"
@@ -137,11 +86,12 @@
                         <ToolbarButton
                             v-if="!$isThisRoute($route, ['SharedWithMe', 'Public'])"
                             @click.native="$shareFileOrFolder(clipboard[0])"
-                            :class="{ 'is-inactive': canShareInView }"
+                            :class="{
+                                'is-inactive': canShareInView,
+                            }"
                             source="share"
                             :action="$t('actions.share')"
                         />
-
                         <ToolbarButton
                             @click.native="$moveFileOrFolder(clipboard[0])"
                             :class="{
@@ -158,20 +108,28 @@
                             source="trash"
                             :action="$t('actions.delete')"
                         />
-                    </span>
-                </ToolbarGroup>
+                    </div>
+                </div>
 
                 <!--View Controls-->
-                <ToolbarGroup>
+                <div class="ml-5 flex items-center xl:ml-8">
                     <PopoverWrapper>
-                        <ToolbarButton @click.stop.native="showSortingMenu" source="preview-sorting" :action="$t('actions.sorting_view')" />
+                        <ToolbarButton
+                            @click.stop.native="showSortingMenu"
+                            source="preview-sorting"
+                            :action="$t('actions.sorting_view')"
+                        />
                         <PopoverItem name="desktop-sorting" side="left">
                             <FileSortingOptions />
                         </PopoverItem>
                     </PopoverWrapper>
-                    <ToolbarButton @click.native="$store.dispatch('fileInfoToggle')" :action="$t('actions.info_panel')" source="info" />
-                </ToolbarGroup>
-            </ToolbarWrapper>
+                    <ToolbarButton
+                        @click.native="$store.dispatch('fileInfoToggle')"
+                        :action="$t('actions.info_panel')"
+                        source="info"
+                    />
+                </div>
+            </div>
         </div>
 
         <UploadProgress />
@@ -179,48 +137,51 @@
 </template>
 
 <script>
-import FileSortingOptions from './FileSortingOptions'
-import UploadProgress from './UploadProgress'
+import TeamMembersButton from '../Teams/Components/TeamMembersButton'
+import TeamFolderPreview from '../Teams/Components/TeamFolderPreview'
 import PopoverWrapper from '../Desktop/PopoverWrapper'
-import ToolbarWrapper from '../Desktop/ToolbarWrapper'
+import FileSortingOptions from './FileSortingOptions'
+import PopoverItem from '../Desktop/PopoverItem'
+import UploadProgress from './UploadProgress'
+import NavigationBar from './NavigationBar'
 import ToolbarButton from './ToolbarButton'
 import OptionUpload from './OptionUpload'
-import ToolbarGroup from '../Desktop/ToolbarGroup'
 import OptionGroup from './OptionGroup'
-import TeamMembersButton from '../Teams/Components/TeamMembersButton'
-import PopoverItem from '../Desktop/PopoverItem'
-import TeamFolderPreview from '../Teams/Components/TeamFolderPreview'
-import { MenuIcon, ChevronLeftIcon, MoreHorizontalIcon } from 'vue-feather-icons'
 import SearchBar from './SearchBar'
-import Option from './Option'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
+import Option from './Option'
 
 export default {
     name: 'DesktopToolbar',
     components: {
-        TeamMembersButton,
         FileSortingOptions,
-        MoreHorizontalIcon,
+        TeamMembersButton,
         TeamFolderPreview,
-        ChevronLeftIcon,
-        ToolbarWrapper,
         UploadProgress,
         PopoverWrapper,
+        NavigationBar,
         ToolbarButton,
         OptionUpload,
-        ToolbarGroup,
         OptionGroup,
         PopoverItem,
         SearchBar,
-        MenuIcon,
         Option,
     },
     computed: {
-        ...mapGetters(['isVisibleNavigationBars', 'currentTeamFolder', 'currentFolder', 'sharedDetail', 'clipboard', 'user']),
+        ...mapGetters([
+            'isVisibleNavigationBars',
+            'currentTeamFolder',
+            'currentFolder',
+            'sharedDetail',
+            'clipboard',
+            'user',
+        ]),
         canEdit() {
             if (this.currentTeamFolder && this.user && this.clipboard[0]) {
-                let member = this.currentTeamFolder.data.relationships.members.data.find((member) => member.data.id === this.user.data.id)
+                let member = this.currentTeamFolder.data.relationships.members.data.find(
+                    (member) => member.data.id === this.user.data.id
+                )
 
                 return member.data.attributes.permission === 'can-edit'
             }
@@ -230,20 +191,13 @@ export default {
         teamFolder() {
             return this.currentTeamFolder ? this.currentTeamFolder : this.clipboard[0]
         },
-        isNotHomepage() {
-            if (this.$isThisRoute(this.$route, ['Public'])) {
-                return this.sharedDetail && this.sharedDetail.data.attributes.item_id === this.$route.params.id
-            }
-
-            return this.$route.params.id
-        },
         isTeamFolderHomepage() {
             return this.$isThisRoute(this.$route, ['TeamFolders']) && !this.$route.params.id
         },
         isSharedWithMeHomepage() {
             return this.$isThisRoute(this.$route, ['SharedWithMe']) && !this.$route.params.id
         },
-        canCreateFolderInView() {
+        canCreateFolder() {
             return !this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders', 'SharedWithMe'])
         },
         canShowConvertToTeamFolder() {
@@ -264,19 +218,15 @@ export default {
             let routes = ['TeamFolders', 'RecentUploads', 'MySharedItems', 'Public', 'Files']
             return !this.$isThisRoute(this.$route, routes) || this.clipboard.length > 1 || this.clipboard.length === 0
         },
-        canCreateTeamFolderInView() {
-            let routes = ['MySharedItems', 'Files']
-
-            return this.$isThisRoute(this.$route, routes) && this.clipboard.length === 1 && this.clipboard[0].data.type === 'folder'
+        canCreateTeamFolder() {
+            return (
+                this.$isThisRoute(this.$route, ['MySharedItems', 'Files']) &&
+                this.clipboard.length === 1 &&
+                this.clipboard[0].data.type === 'folder'
+            )
         },
     },
     methods: {
-        toggleNavigationBars() {
-            this.$store.dispatch('toggleNavigationBars')
-        },
-        goBack() {
-            if (this.isNotHomepage) this.$router.back()
-        },
         showTeamFolderMenu() {
             if (this.teamFolder) events.$emit('popover:open', 'team-folder')
         },
@@ -292,108 +242,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import 'resources/sass/vuefilemanager/_variables';
-@import 'resources/sass/vuefilemanager/_mixins';
-
-.is-inactive {
-    opacity: 0.25;
-    pointer-events: none;
-}
-
-.toolbar-wrapper {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-}
-
-.location {
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-
-    .icon-back {
-        @include transition(150ms);
-        pointer-events: none;
-        margin-right: 6px;
-        shrink: 0;
-    }
-
-    .location-title {
-        @include font-size(15);
-        line-height: 1;
-        font-weight: 700;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        color: $text;
-    }
-
-    .location-more {
-        margin-left: 6px;
-        padding: 1px 4px;
-        line-height: 0;
-        border-radius: 3px;
-
-        svg circle {
-            @include transition(150ms);
-        }
-
-        &:hover {
-            background: $light_background;
-
-            svg circle {
-                color: inherit;
-            }
-        }
-    }
-}
-
-.toolbar-position {
-    text-align: center;
-
-    span {
-        @include font-size(17);
-        font-weight: 600;
-    }
-}
-
-@media only screen and (max-width: 1024px) {
-    .location {
-        .location-title {
-            max-width: 120px;
-        }
-    }
-
-    .toolbar-tools {
-        .button {
-            margin-left: 0;
-            height: 40px;
-            width: 40px;
-        }
-    }
-}
-
-.dark {
-    .toolbar .directory-name {
-        color: $dark_mode_text_primary;
-    }
-
-    .location {
-        .location-title {
-            color: $dark_mode_text_primary;
-        }
-
-        .location-more {
-            &:hover {
-                background: $dark_mode_foreground;
-            }
-        }
-    }
-}
-</style>

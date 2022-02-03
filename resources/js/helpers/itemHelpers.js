@@ -65,7 +65,8 @@ const itemHelpers = {
                 store.dispatch('downloadZip')
             }
         }
-        ;(Vue.prototype.$dissolveTeamFolder = function (folder) {
+
+        Vue.prototype.$dissolveTeamFolder = function (folder) {
             events.$emit('confirm:open', {
                 title: i18n.t('Are you sure you want to dissolve this team?'),
                 message: i18n.t('All team members will lose access to your files and existing folder will be moved into your "Files" section.'),
@@ -74,27 +75,29 @@ const itemHelpers = {
                     operation: 'dissolve-team-folder',
                 },
             })
-        }),
-            (Vue.prototype.$detachMeFromTeamFolder = function (folder) {
-                events.$emit('confirm:open', {
-                    title: i18n.t('Are you sure you want to leave this team folder?'),
-                    message: i18n.t("You will don't have access to the files and all your previously uploaded content will be part of this Team Folder you are leaving."),
-                    action: {
-                        id: folder.data.id,
-                        operation: 'leave-team-folder',
-                    },
-                })
-            }),
-            (Vue.prototype.$createTeamFolder = function () {
-                // Show alert message when create folder is disabled
-                if (!store.getters.user.data.meta.restrictions.canCreateTeamFolder) {
-                    Vue.prototype.$temporarilyDisabledFolderCreate()
+        }
 
-                    return
-                }
-
-                events.$emit('popup:open', { name: 'create-team-folder' })
+        Vue.prototype.$detachMeFromTeamFolder = function (folder) {
+            events.$emit('confirm:open', {
+                title: i18n.t('Are you sure you want to leave this team folder?'),
+                message: i18n.t("You will don't have access to the files and all your previously uploaded content will be part of this Team Folder you are leaving."),
+                action: {
+                    id: folder.data.id,
+                    operation: 'leave-team-folder',
+                },
             })
+        }
+
+        Vue.prototype.$createTeamFolder = function () {
+            // Show alert message when create folder is disabled
+            if (!store.getters.user.data.meta.restrictions.canCreateTeamFolder) {
+                Vue.prototype.$temporarilyDisabledFolderCreate()
+
+                return
+            }
+
+            events.$emit('popup:open', { name: 'create-team-folder' })
+        }
 
         Vue.prototype.$convertAsTeamFolder = function (entry) {
             events.$emit('popup:open', {

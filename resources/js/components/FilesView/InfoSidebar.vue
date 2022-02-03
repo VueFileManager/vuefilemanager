@@ -1,10 +1,10 @@
 <template>
-    <div class="hidden h-screen 2xl:w-[360px] w-[320px] shrink-0 overflow-y-auto overflow-x-hidden px-2.5 lg:block">
+    <div class="hidden h-screen 2xl:w-[360px] w-[320px] shrink-0 overflow-y-auto overflow-x-hidden px-2.5 pt-2 lg:block">
         <!--Is empty clipboard-->
         <div v-if="isEmpty" class="flex h-full items-center justify-center">
             <div class="text-center">
-                <eye-off-icon size="28" class="vue-feather mb-3 inline-block text-gray-400" />
-                <small class="block text-sm text-gray-400">
+                <eye-off-icon size="22" class="vue-feather mb-3 inline-block text-gray-500" />
+                <small class="block text-xs text-gray-500">
                     {{ $t('messages.nothing_to_preview') }}
                 </small>
             </div>
@@ -60,7 +60,7 @@
             <ListInfoItem v-if="canShowAuthor" :title="$t('Author')">
                 <div class="mt-1.5 flex items-center">
                     <MemberAvatar :size="32" :member="singleFile.data.relationships.owner" />
-                    <span class="font-sm ml-3 block font-bold">
+                    <span class="text-sm ml-3 block font-bold">
                         {{ singleFile.data.relationships.owner.data.attributes.name }}
                     </span>
                 </div>

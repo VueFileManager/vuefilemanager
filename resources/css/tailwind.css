@@ -17,3 +17,7 @@
 .text-limit {
     @apply whitespace-nowrap text-ellipsis overflow-x-hidden block
 }
+
+.is-inactive {
+    @apply pointer-events-none opacity-40
+}

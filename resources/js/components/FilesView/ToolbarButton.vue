@@ -1,5 +1,5 @@
 <template>
-    <button class="group h-[42px] w-[42px] inline-flex items-center justify-center cursor-pointer rounded-lg hover:bg-light-background" :title="action">
+    <button class="group h-[42px] w-[42px] inline-flex items-center justify-center cursor-pointer rounded-lg dark:hover:bg-2x-dark-foreground hover:bg-light-background" :title="action">
         <corner-down-right-icon v-if="source === 'move'" size="19" class="vue-feather group-hover-text-theme" />
         <download-cloud-icon v-if="source === 'download'" size="19" class="vue-feather group-hover-text-theme" />
         <folder-plus-icon v-if="source === 'folder-plus'" size="19" class="vue-feather group-hover-text-theme" />

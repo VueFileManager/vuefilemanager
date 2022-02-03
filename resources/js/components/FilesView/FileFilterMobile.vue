@@ -1,13 +1,13 @@
 <template>
     <MenuMobile name="file-filter">
         <MenuMobileGroup>
-            <OptionGroup>
+            <OptionGroup :title="$t('Base')">
                 <Option @click.native="goToFiles" :title="$t('sidebar.home')" icon="hard-drive" :is-active="$isThisRoute($route, 'Files')" :is-hover-disabled="true" />
                 <Option @click.native="goToLatest" :title="$t('menu.latest')" icon="upload-cloud" :is-active="$isThisRoute($route, 'RecentUploads')" :is-hover-disabled="true" />
                 <Option @click.native="goToShared" :title="$t('sidebar.my_shared')" icon="share" :is-active="$isThisRoute($route, 'MySharedItems')" :is-hover-disabled="true" />
                 <Option @click.native="goToTrash" :title="$t('menu.trash')" icon="trash" :is-active="$isThisRoute($route, 'Trash')" :is-hover-disabled="true" />
             </OptionGroup>
-            <OptionGroup>
+            <OptionGroup :title="$t('Collaboration')">
                 <Option @click.native="goToTeamFolders" :title="$t('Team Folders')" icon="users" :is-active="$isThisRoute($route, 'TeamFolders')" :is-hover-disabled="true" />
                 <Option
                     @click.native="goToSharedWithMe"

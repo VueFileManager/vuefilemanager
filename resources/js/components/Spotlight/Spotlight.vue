@@ -91,6 +91,7 @@
                             <trash-icon v-if="result.action.value === 'empty-trash'" size="18" class="vue-feather text-theme" />
                             <grid-icon v-if="result.action.value === 'toggle-grid-list'" size="18" class="vue-feather text-theme" />
                             <smile-icon v-if="result.action.value === 'toggle-emoji'" size="18" class="vue-feather text-theme" />
+                            <folder-plus-icon v-if="result.action.value === 'create-team-folder'" size="18" class="vue-feather text-theme" />
 
                             <b class="ml-3.5 text-sm font-bold">
                                 {{ result.title }}
@@ -171,6 +172,7 @@ import KeyboardHints from './KeyboardHints'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import {
+	FolderPlusIcon,
     SmileIcon,
     BoxIcon,
     CreditCardIcon,
@@ -201,6 +203,7 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'Spotlight',
     components: {
+		FolderPlusIcon,
         SmileIcon,
         KeyboardHints,
         CreditCardIcon,
@@ -380,6 +383,16 @@ export default {
                 },
             ]
 
+			let createList = [
+				{
+					title: this.$t('Create Team Folder'),
+					action: {
+						type: 'function',
+						value: 'create-team-folder',
+					},
+				},
+			]
+
             let functionList = [
                 {
                     title: this.$t('Toggle Grid/List View'),
@@ -452,11 +465,11 @@ export default {
                     })
                 }
 
-                return [].concat.apply([], [functionList, userSettings, fileLocations, adminLocations, adminActions])
+                return [].concat.apply([], [functionList, createList, userSettings, fileLocations, adminLocations, adminActions])
             }
 
             if (this.user.data.attributes.role === 'user') {
-                return [].concat.apply([], [functionList, userSettings, fileLocations])
+                return [].concat.apply([], [functionList, createList, userSettings, fileLocations])
             }
         },
         isAdmin() {
@@ -584,6 +597,10 @@ export default {
                 if (arg.action.value === 'empty-trash') {
                     this.$emptyTrashQuietly()
                 }
+
+                if (arg.action.value === 'create-team-folder') {
+                    this.$createTeamFolder()
+                }
             }
 
             this.exitSpotlight()
@@ -673,7 +690,6 @@ export default {
             this.results = []
             this.query = ''
             this.isVisible = false
-            events.$emit('popup:close')
         },
         onPageDown() {
             let results = this.results.length
