@@ -36,7 +36,7 @@
                 <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
                 <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
                 <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
-                <Option @click.native="$shareFileOrFolder(item)" :title="item && item.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+                <Option @click.native="$shareFileOrFolder(item)" :title="item && item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
             </OptionGroup>
             <OptionGroup>
                 <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />

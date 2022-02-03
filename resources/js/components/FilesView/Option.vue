@@ -1,6 +1,6 @@
 <template>
     <li
-        class="flex items-center justify-between py-4 px-5 lg:py-2.5 xl:py-3 2xl:py-4"
+        class="flex items-center justify-between py-4 px-5 lg:py-3 2xl:py-4"
         :class="{
             'group cursor-pointer hover:bg-light-background dark:hover:bg-4x-dark-foreground': !isHoverDisabled,
         }"

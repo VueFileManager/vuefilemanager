@@ -25,7 +25,7 @@ import CookieDisclaimer from './components/Others/CookieDisclaimer'
 import Spinner from './components/FilesView/Spinner'
 import Vignette from './components/Others/Vignette'
 import Alert from './components/FilesView/Alert'
-import RestrictionWarningBar from './RestrictionWarningBar'
+import RestrictionWarningBar from './components/Subscription/RestrictionWarningBar'
 import { mapGetters } from 'vuex'
 import { events } from './bus'
 

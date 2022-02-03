@@ -32,7 +32,7 @@
             <!--Item label-->
             <b
                 @click="getFolder"
-                class="ml-3 inline-block overflow-x-hidden text-ellipsis whitespace-nowrap text-sm font-bold transition-all duration-150"
+                class="ml-3 inline-block overflow-x-hidden text-ellipsis whitespace-nowrap text-xs font-bold transition-all duration-150"
                 :class="{ 'text-theme': isSelectedItem }"
             >
                 {{ nodes.name }}
@@ -59,7 +59,7 @@ export default {
         UserPlusIcon,
         FolderIcon,
         UsersIcon,
-        'tree-node': () => import('./TreeMenuNavigator'),
+        'tree-node': () => import('./TreeMenu'),
     },
     computed: {
         ...mapGetters(['clipboard']),

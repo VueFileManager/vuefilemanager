@@ -34,17 +34,9 @@
             <!--Location-->
             <ListInfoItem v-if="$checkPermission(['master'])" :title="$t('file_detail.where')">
                 <div @click="$moveFileOrFolder(singleFile)" class="flex cursor-pointer items-center">
-                    <span class="inline-block text-sm font-bold">
-                        {{ singleFile.data.relationships.parent ? singleFile.data.relationships.parent.data.attributes.name : $t('locations.home') }}
-                    </span>
-                    <Edit2Icon size="10" class="ml-2" />
-                </div>
-            </ListInfoItem>
-
-            <!--Team-->
-            <ListInfoItem v-if="singleFile.data.attributes.isTeamFolder" :title="$t('Shared with the Team')">
-                <div class="flex cursor-pointer items-center z-0 relative" @click="$updateTeamFolder(singleFile)">
-                    <TeamMembersPreview :folder="singleFile" :avatar-size="32" />
+                    <b class="inline-block text-sm font-bold">
+                        {{ singleFile.data.relationships.parent ? singleFile.data.relationships.parent.data.attributes.name : $getCurrentLocationName() }}
+                    </b>
                     <Edit2Icon size="10" class="ml-2" />
                 </div>
             </ListInfoItem>

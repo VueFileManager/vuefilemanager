@@ -179,12 +179,14 @@ export default {
         this.itemName = this.entry.data.attributes.name
 
         // Change item name
-        events.$on('change:name', (item) => {
-            if (this.entry.data.id === item.id) this.itemName = item.name
+        events.$on('change:name', item => {
+            if (this.entry.data.id === item.id) {
+				this.itemName = item.name
+			}
         })
 
         // Autofocus after newly created folder
-        events.$on('newFolder:focus', (id) => {
+        events.$on('newFolder:focus', id => {
             if (!this.$isMobile() && this.entry.data.id === id) {
                 this.$refs.name.focus()
                 document.execCommand('selectAll')

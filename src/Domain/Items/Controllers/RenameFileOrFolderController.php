@@ -7,6 +7,7 @@ use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
 use Domain\Folders\Actions\UpdateFolderPropertyAction;
+use Illuminate\Auth\Access\AuthorizationException;
 use Support\Demo\Actions\FakeRenameFileOrFolderAction;
 
 class RenameFileOrFolderController extends Controller
@@ -20,6 +21,8 @@ class RenameFileOrFolderController extends Controller
 
     /**
      * Rename item for authenticated master|editor user
+     *
+     * @throws AuthorizationException
      */
     public function __invoke(
         RenameItemRequest $request,
@@ -30,13 +33,15 @@ class RenameFileOrFolderController extends Controller
         }
 
         // If request contain icon or color, then change it
-        if ($request->has('emoji') || $request->has('color')) {
+        if ($request->input('type') === 'folder' && $request->hasAny(['emoji', 'color'])) {
             ($this->updateFolderProperty)($request, $id);
         }
 
+        // Rename item
         $item = ($this->renameFileOrFolder)($request, $id);
 
         if ($request->input('type') === 'folder') {
+
             return new FolderResource($item);
         }
 

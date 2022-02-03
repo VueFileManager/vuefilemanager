@@ -143,12 +143,12 @@ const mutations = {
             if (item.data.id === id) item.data.relationships.shared = undefined
         })
     },
-    CHANGE_ITEM_NAME(state, updatedFile) {
-        state.entries.find((item) => {
-            if (item.data.id === updatedFile.data.id) {
-                item.data.attributes.name = updatedFile.data.attributes.name
-                item.data.attributes.color = updatedFile.data.attributes.color ? updatedFile.data.attributes.color : null
-                item.data.attributes.emoji = updatedFile.data.attributes.emoji ? updatedFile.data.attributes.emoji : null
+    CHANGE_ITEM_NAME(state, file) {
+        state.entries.find(item => {
+            if (item.data.id === file.data.id) {
+                item.data.attributes.name = file.data.attributes.name
+                item.data.attributes.color = file.data.attributes.color ? file.data.attributes.color : null
+                item.data.attributes.emoji = file.data.attributes.emoji ? file.data.attributes.emoji : null
             }
         })
     },
