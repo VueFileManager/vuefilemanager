@@ -1,5 +1,5 @@
 <template>
-    <div class="hidden h-screen w-96 overflow-y-auto overflow-x-hidden px-2.5 lg:block 2xl:w-104">
+    <div class="hidden h-screen 2xl:w-[360px] w-[320px] shrink-0 overflow-y-auto overflow-x-hidden px-2.5 lg:block">
         <!--Is empty clipboard-->
         <div v-if="isEmpty" class="flex h-full items-center justify-center">
             <div class="text-center">

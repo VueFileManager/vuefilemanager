@@ -1,5 +1,13 @@
 <template>
-    <div v-if="isFullPreview" class="file-preview z-40" ref="filePreview" tabindex="-1" @keydown.esc="closeFilePreview" @keydown.right="next" @keydown.left="prev">
+    <div
+        v-if="isFullPreview"
+        class="fixed z-40 h-full w-full bg-white dark:bg-dark-background"
+        ref="filePreview"
+        tabindex="-1"
+        @keydown.esc="closeFilePreview"
+        @keydown.right="next"
+        @keydown.left="prev"
+    >
         <FilePreviewToolbar />
         <FilePreviewMedia />
     </div>
@@ -44,20 +52,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../../../sass/vuefilemanager/variables';
-
-.file-preview {
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    background-color: white;
-}
-
-.dark {
-    .file-preview {
-        background-color: $dark_mode_background;
-    }
-}
-</style>

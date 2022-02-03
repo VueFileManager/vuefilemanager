@@ -1,28 +1,39 @@
 <template>
-    <div v-if="currentFile" class="file-preview-wrapper">
-        <!--Arrow navigation-->
-        <div v-if="files.length > 1" class="navigation-arrows">
-            <div @click.prevent="prev" class="prev">
-                <chevron-left-icon size="17" />
+    <div v-if="currentFile" class="absolute lg:top-[66px] top-[56px] left-0 right-0 bottom-0 select-none">
+
+		<!--Arrow navigation-->
+        <div v-if="!$isMobile() && files.length > 1" class="">
+            <div @click.prevent="prev" class="fixed top-1/2 left-0 p-3 cursor-pointer">
+                <chevron-left-icon size="20" />
             </div>
 
-            <div @click.prevent="next" class="next">
-                <chevron-right-icon size="17" />
+            <div @click.prevent="next" class="fixed top-1/2 right-0 p-3 cursor-pointer">
+                <chevron-right-icon size="20" />
             </div>
         </div>
 
-        <!--File preview-->
-        <div class="file-wrapper-preview">
-            <!--Show PDF-->
+        <!--Desktop preview-->
+        <div v-if="!$isMobile() && (isAudio || isImage || isVideo)" class="w-full h-full flex justify-center items-center">
+
+			<!--Show PDF-->
             <PdfFile v-if="isPDF" :file="currentFile" />
 
             <!--Show Audio, Video and Image-->
-            <div v-if="isAudio || isImage || isVideo" class="file-wrapper">
-                <Audio v-if="isAudio" :file="currentFile" />
+            <div class="w-full h-full flex items-center justify-center">
+                <Audio v-if="isAudio" :file="currentFile"/>
                 <Video v-if="isVideo" :file="currentFile" />
-                <ImageFile v-if="isImage" :file="currentFile" />
+                <ImageFile v-if="isImage" :file="currentFile" class="max-w-[100%] max-h-[100%] self-center mx-auto" />
             </div>
         </div>
+
+		<!--Mobile Preview-->
+		<div v-if="$isMobile() && (isAudio || isImage || isVideo)" @scroll="checkGroupInView" id="group-box" class="flex gap-6 snap-x snap-mandatory overflow-x-auto h-full">
+			<div v-for="(file, i) in files" :key="i" :id="`group-${file.data.id}`" class="w-screen h-full flex items-center justify-center snap-center shrink-0">
+                <ImageFile v-if="isImage" :file="file" class="max-w-[100%] max-h-[100%] self-center mx-auto"/>
+				<Audio v-if="isAudio" :file="file"/>
+                <Video v-if="isVideo" :file="file" />
+			</div>
+		</div>
     </div>
 </template>
 
@@ -99,6 +110,25 @@ export default {
         },
     },
     methods: {
+		checkGroupInView: _.debounce(function () {
+			this.files.forEach((file, index) => {
+				let element = document.getElementById(`group-${file.data.id}`).getBoundingClientRect()
+				let scrollBox = document.getElementById('group-box').getBoundingClientRect()
+
+				// Get video
+				const video = document.querySelector(`#group-${file.data.id} video`);
+
+				// Pause video when playing
+				if (video && !video.paused) {
+					video.pause()
+				}
+
+				// Check if the group is in the viewport of group-box
+				if (element.left === scrollBox.left) {
+					this.currentIndex = index
+				}
+			})
+		}, 100),
         getFilesForView() {
             let requestedFile = this.clipboard[0]
 
@@ -143,104 +173,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss">
-@import '../../../sass/vuefilemanager/variables';
-@import '../../../sass/vuefilemanager/mixins';
-
-.navigation-arrows {
-    .prev,
-    .next {
-        cursor: pointer;
-        position: absolute;
-        top: 45%;
-        display: flex;
-        justify-content: center;
-        color: $text;
-        border-radius: 50%;
-        text-decoration: none;
-        user-select: none;
-        filter: drop-shadow(0px 1px 0 rgba(255, 255, 255, 1));
-        padding: 10px;
-        z-index: 2;
-    }
-
-    .next {
-        right: 0;
-    }
-
-    .prev {
-        left: 0;
-    }
-}
-
-.file-preview-wrapper {
-    height: calc(100% - 72px);
-    top: 72px;
-    position: relative;
-    background-color: white;
-}
-
-.file-wrapper-preview {
-    width: 100%;
-    height: 100%;
-    padding: 30px 0px;
-    display: flex;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-
-    .file-wrapper {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        .file-shadow {
-            box-shadow: 0 8px 40px rgba(17, 26, 52, 0.05);
-        }
-
-        .file {
-            max-width: 100%;
-            max-height: 100%;
-            align-self: center;
-        }
-
-        .audio {
-            border-radius: 28px;
-        }
-
-        img {
-            border-radius: 4px;
-        }
-    }
-}
-
-@media only screen and (max-width: 960px) {
-    .file-preview-wrapper {
-        top: 53px;
-    }
-}
-
-.dark {
-    .navigation-arrows {
-        .prev,
-        .next {
-            color: $light-text;
-            filter: drop-shadow(0px 1px 0 rgba(17, 19, 20, 1));
-        }
-    }
-
-    .file-wrapper-preview {
-        background-color: $dark_mode_background;
-
-        .file-wrapper {
-            .file-shadow {
-                box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
-            }
-        }
-    }
-}
-</style>
