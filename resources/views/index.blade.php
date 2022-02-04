@@ -54,12 +54,6 @@
     <meta name="format-detection" content="address=no">
 
     @include('vuefilemanager.others.color-template')
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8058330732865164" crossorigin="anonymous"></script>
-
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
 </head>
 <body class="{{ is_dev() ? 'debug-screen' : '' }}">
 
@@ -156,6 +150,14 @@
             // App settings
 			userRegistration: {{ $settings->registration ?? 1 }},
 			userVerification: {{ $settings->user_verification ?? 0 }},
+
+            ads: `<ins class="adsbygoogle min-h-xs"
+			 style="display:block"
+			 data-ad-format="fluid"
+			 data-ad-layout-key="-h0-8+2c-1x-39"
+			 data-ad-client="ca-pub-8058330732865164"
+             data-adtest="on"
+			 data-ad-slot="6184326900"></ins>`,
         }
     </script>
 
@@ -179,5 +181,11 @@
         {{--Application development script--}}
         <script src="{{ mix('js/main.js') }}"></script>
     @endif
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8058330732865164" crossorigin="anonymous"></script>
+
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </body>
 </html>

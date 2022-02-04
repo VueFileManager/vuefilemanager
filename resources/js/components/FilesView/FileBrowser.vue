@@ -14,8 +14,12 @@
         tabindex="-1"
         @click.self="deselect"
     >
+		<div v-html="config.ads"></div>
+
 		<ins class="adsbygoogle"
 			 style="display:block"
+			 data-adtest="on"
+			 data-ad-test="on"
 			 data-ad-format="fluid"
 			 data-ad-layout-key="-h0-8+2c-1x-39"
 			 data-ad-client="ca-pub-8058330732865164"
@@ -45,7 +49,7 @@ export default {
         ItemHandler,
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'currentFolder', 'itemViewType', 'clipboard', 'entries']),
+        ...mapGetters(['isVisibleSidebar', 'currentFolder', 'itemViewType', 'clipboard', 'entries', 'config']),
         draggedItems() {
             // Set opacity for dragged items
             if (!this.clipboard.includes(this.draggingId)) {
