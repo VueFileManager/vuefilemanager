@@ -151,7 +151,7 @@
 			userRegistration: {{ $settings->registration ?? 1 }},
 			userVerification: {{ $settings->user_verification ?? 0 }},
 
-            ads: `<ins class="adsbygoogle min-h-xs"
+            ads: `<ins class="adsbygoogle"
 			 style="display:block"
 			 data-ad-format="fluid"
 			 data-ad-layout-key="-h0-8+2c-1x-39"
