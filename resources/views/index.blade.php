@@ -54,6 +54,12 @@
     <meta name="format-detection" content="address=no">
 
     @include('vuefilemanager.others.color-template')
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8058330732865164" crossorigin="anonymous"></script>
+
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
 </head>
 <body class="{{ is_dev() ? 'debug-screen' : '' }}">
 

@@ -14,6 +14,13 @@
         tabindex="-1"
         @click.self="deselect"
     >
+		<ins class="adsbygoogle"
+			 style="display:block"
+			 data-ad-format="fluid"
+			 data-ad-layout-key="-h0-8+2c-1x-39"
+			 data-ad-client="ca-pub-8058330732865164"
+			 data-ad-slot="6184326900"></ins>
+
         <ItemHandler
             @click.native="hideContextMenu"
             @dragstart="dragStart(item)"
