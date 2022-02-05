@@ -1,7 +1,7 @@
 <template>
     <div
         :class="{
-            'user-dropping-file': isDragging,
+            'opacity-75': isDragging,
             'grid-view': itemViewType === 'grid' && !isVisibleSidebar,
             'grid-view-sidebar': itemViewType === 'grid' && isVisibleSidebar,
         }"
@@ -14,7 +14,7 @@
         tabindex="-1"
         @click.self="deselect"
     >
-		<div v-html="config.ads"></div>
+		<!--<div v-html="config.ads"></div>-->
 
         <ItemHandler
             @click.native="hideContextMenu"
@@ -111,8 +111,9 @@ export default {
                     })
                 }
             } else {
+				console.log(data.data.type);
                 // Get id from current folder
-                const id = data.data.type !== 'folder' ? this.currentFolder.data.id : data.data.id
+                const id = data.data.type !== 'folder' ? this.currentFolder?.data.id : data.data.id
 
                 // Upload external file
                 this.$uploadDraggedFiles(event, id)

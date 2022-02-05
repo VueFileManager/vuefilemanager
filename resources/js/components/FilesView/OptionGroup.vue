@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b v-if="title" class="py-0.5 px-4 mt-2 block text-xs text-gray-500 dark-text-theme">
+		<b v-if="title" class="py-0.5 px-4 mt-2 block text-xs text-gray-400 dark-text-theme">
 			{{ title }}
 		</b>
 		<ul class="option-group py-1">

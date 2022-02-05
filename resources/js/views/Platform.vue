@@ -38,7 +38,7 @@
             <MobileToolbar />
 
             <!--File list & info sidebar-->
-            <div class="flex space-x-3 lg:h-screen lg:overflow-hidden">
+            <div class="flex space-x-3 lg:overflow-hidden">
                 <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
 
                 <InfoSidebar v-if="isVisibleSidebar" />

@@ -1,6 +1,6 @@
 <template>
-    <div v-if="isVisible" @keyup.esc="exitSpotlight" tabindex="-1" class="fixed z-50 h-full w-full bg-white dark:bg-dark-foreground md:absolute md:z-auto md:bg-transparent">
-        <div class="relative z-50 mx-auto w-full overflow-y-auto bg-white dark:bg-2x-dark-foreground md:mt-8 md:max-w-xl md:rounded-xl 2xl:mt-20">
+    <div v-if="isVisible" @keyup.esc="exitSpotlight" @click.exact.self="exitSpotlight" tabindex="-1" class="fixed z-50 h-full w-full left-0 right-0 bottom-0 top-0 z-50 md:absolute dark:bg-dark-background bg-white md:bg-dark-background dark:md:bg-opacity-[0.45] md:bg-opacity-[0.35]">
+        <div class="relative z-50 mx-auto w-full overflow-y-auto md:mt-8 md:max-w-xl md:rounded-xl 2xl:mt-20 md:bg-white dark:md:bg-2x-dark-foreground md:shadow-xl">
             <!--Query bar-->
             <div class="z-50 mx-auto flex items-center px-5 py-4">
                 <div class="relative mr-4">
@@ -690,7 +690,6 @@ export default {
             this.results = []
             this.query = ''
             this.isVisible = false
-			this.$closePopup()
         },
         onPageDown() {
             let results = this.results.length

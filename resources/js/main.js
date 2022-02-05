@@ -20,12 +20,15 @@ Vue.use(ValidatorHelpers)
 Vue.use(functionHelpers)
 Vue.use(AlertHelpers)
 Vue.use(itemHelpers)
-Vue.use(VueReCaptcha, {
-    siteKey: config.recaptcha_client_id,
-    loaderOptions: {
-        autoHideBadge: true,
-    },
-})
+
+if (config.allowedRecaptcha) {
+    Vue.use(VueReCaptcha, {
+        siteKey: config.recaptcha_client_id,
+        loaderOptions: {
+            autoHideBadge: true,
+        },
+    })
+}
 
 Vue.config.productionTip = false
 

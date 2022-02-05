@@ -1,8 +1,8 @@
 <template>
     <transition name="popup">
-        <div class="popup fixed top-0 left-0 right-0 bottom-0 grid h-full overflow-y-auto p-10 lg:absolute" @click.self="closePopup" v-if="isVisibleWrapper">
-            <div class="popup-wrapper">
-                <slot></slot>
+        <div v-if="isVisibleWrapper" @click.self="closePopup" class="popup z-50 fixed top-0 left-0 right-0 bottom-0 grid h-full overflow-y-auto p-10 lg:absolute">
+            <div class="fixed md:relative top-0 bottom-0 left-0 right-0 w-full dark:bg-2x-dark-foreground bg-white m-auto z-10 md:w-[490px] md:rounded-xl shadow-xl">
+                <slot />
             </div>
         </div>
     </transition>
@@ -44,97 +44,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../../sass/vuefilemanager/variables';
-@import '../../../../sass/vuefilemanager/mixins';
+	@media only screen and (max-width: 690px) {
+		.popup-enter-active {
+			animation: popup-slide-in 0.35s 0.15s ease both;
+		}
+		.popup-leave-active {
+			animation: popup-slide-in 0.15s ease reverse;
+		}
+	}
 
-.popup {
-    z-index: 41;
-}
-
-.popup-wrapper {
-    box-shadow: $light_mode_popup_shadow;
-    border-radius: 8px;
-    background: white;
-    margin: auto;
-    width: 480px;
-    z-index: 12;
-}
-
-// Desktop, tablet
-.medium,
-.large {
-    // Animations
-    .popup-enter-active {
-        animation: popup-in 0.35s 0.15s ease both;
-    }
-
-    .popup-leave-active {
-        animation: popup-in 0.15s ease reverse;
-    }
-}
-
-@keyframes popup-in {
-    0% {
-        opacity: 0;
-        transform: scale(0.7);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes popup-slide-in {
-    0% {
-        transform: translateY(100%);
-    }
-    100% {
-        transform: translateY(0);
-    }
-}
-
-@media only screen and (max-width: 690px) {
-    .popup {
-        overflow: hidden;
-    }
-    .popup-wrapper {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        transform: translateY(0) scale(1);
-        box-shadow: none;
-        width: 100%;
-        border-radius: 0px;
-    }
-    // Animations
-    .popup-enter-active {
-        animation: popup-slide-in 0.35s 0.15s ease both;
-    }
-    .popup-leave-active {
-        animation: popup-slide-in 0.15s ease reverse;
-    }
-}
-
-@media only screen and (max-width: 320px) {
-    .popup-wrapper {
-        overflow-y: auto;
-    }
-}
-
-.dark {
-    .popup-wrapper {
-        background: $dark_mode_foreground;
-        box-shadow: $dark_mode_popup_shadow;
-    }
-}
-
-@media only screen and (max-width: 690px) {
-    .dark {
-        .popup-wrapper {
-            background: $dark_mode_background;
-        }
-    }
-}
+	@keyframes popup-slide-in {
+		0% {
+			transform: translateY(100%);
+		}
+		100% {
+			transform: translateY(0);
+		}
+	}
 </style>

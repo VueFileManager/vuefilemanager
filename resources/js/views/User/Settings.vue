@@ -117,7 +117,7 @@
                             'border-transparent': config.defaultThemeMode !== theme.type,
                         }"
 					>
-                        <img :src="theme.image" :alt="theme.type" />
+                        <img :src="theme.image" :alt="theme.type" class="w-full"/>
                     </div>
                 </div>
             </AppInputText>
@@ -140,7 +140,7 @@
                             'border-transparent': currentEmojis !== emoji.type,
                         }"
 					>
-                        <img :src="isDarkMode ? emoji.image.dark : emoji.image.light" :alt="emoji.type" />
+                        <img :src="isDarkMode ? emoji.image.dark : emoji.image.light" :alt="emoji.type" class="w-full" />
                     </div>
                 </div>
             </AppInputText>
