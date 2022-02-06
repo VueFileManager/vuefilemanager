@@ -1,5 +1,7 @@
 <template>
-    <TitlePreview icon="check-square" :title="title" :subtitle="subtitle" id="drag-ui" v-show="isVisible" />
+	<div v-show="isVisible" id="drag-ui" class="w-64 fixed z-20 pointer-events-none p-5 rounded-xl shadow-lg dark:bg-dark-foreground bg-white">
+    	<TitlePreview icon="check-square" :title="title" :subtitle="subtitle" />
+	</div>
 </template>
 
 <script>
@@ -69,26 +71,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../../../sass/vuefilemanager/variables';
-@import '../../../sass/vuefilemanager/mixins';
-
-#drag-ui {
-    max-width: 300px;
-    min-width: 250px;
-    position: fixed;
-    z-index: 10;
-    pointer-events: none;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 7px 25px 1px rgba(0, 0, 0, 0.12);
-    background: white;
-}
-
-.dark {
-    #drag-ui {
-        background: $dark_mode_foreground;
-    }
-}
-</style>

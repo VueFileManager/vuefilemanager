@@ -8,7 +8,7 @@
             <file-icon v-if="icon === 'file'" class="text-theme vue-feather" size="19" />
         </div>
         <div>
-            <b class="inline-block w-52 overflow-hidden text-ellipsis whitespace-nowrap text-base font-bold 2xl:w-72">
+            <b class="block w-52 overflow-hidden text-ellipsis whitespace-nowrap text-base font-bold 2xl:w-72">
                 {{ title }}
             </b>
             <small class="block text-xs font-bold text-gray-400">
