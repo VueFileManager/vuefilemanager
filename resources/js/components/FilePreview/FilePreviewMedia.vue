@@ -13,7 +13,7 @@
         </div>
 
         <!--Desktop preview-->
-        <div v-if="!$isMobile() && (isAudio || isImage || isVideo)" class="w-full h-full flex justify-center items-center">
+        <div v-if="!$isMobile() && (isAudio || isImage || isVideo || isPDF)" class="w-full h-full flex justify-center items-center">
 
 			<!--Show PDF-->
             <PdfFile v-if="isPDF" :file="currentFile" />
@@ -27,11 +27,12 @@
         </div>
 
 		<!--Mobile Preview-->
-		<div v-if="$isMobile() && (isAudio || isImage || isVideo)" @scroll="checkGroupInView" id="group-box" class="flex gap-6 snap-x snap-mandatory overflow-x-auto h-full">
-			<div v-for="(file, i) in files" :key="i" :id="`group-${file.data.id}`" class="w-screen h-full flex items-center justify-center snap-center shrink-0">
+		<div v-if="$isMobile() && (isAudio || isImage || isVideo || isPDF)" @scroll="checkGroupInView" id="group-box" ref="scrollBox" class="flex gap-6 snap-x snap-mandatory overflow-x-auto h-full">
+			<div v-for="(file, i) in files" :key="i" :id="`group-${file.data.id}`" class="w-screen h-full flex items-center justify-center snap-center shrink-0 relative">
                 <ImageFile v-if="isImage" :file="file" class="max-w-[100%] max-h-[100%] self-center mx-auto"/>
 				<Audio v-if="isAudio" :file="file"/>
                 <Video v-if="isVideo" :file="file" />
+				<PdfFile v-if="isPDF" :file="file" />
 			</div>
 		</div>
     </div>
@@ -132,7 +133,7 @@ export default {
         getFilesForView() {
             let requestedFile = this.clipboard[0]
 
-            this.entries.map((element) => {
+            this.entries.map(element => {
                 if (requestedFile.data.attributes.mimetype === 'pdf') {
                     if (element.data.attributes.mimetype === 'pdf') this.files.push(element)
                 } else {
@@ -142,9 +143,16 @@ export default {
 
             this.files.forEach((element, index) => {
                 if (element.data.id === this.clipboard[0].data.id) {
-                    this.currentIndex = index
+					this.currentIndex = index
                 }
             })
+
+			// Scroll to the selected item
+			this.$nextTick(() => {
+				let element = document.getElementById(`group-${this.files[this.currentIndex].data.id}`)
+
+				this.$refs.scrollBox.scrollLeft = element.getBoundingClientRect().left
+			})
         },
         next() {
             if (!this.files.length > 1) return
