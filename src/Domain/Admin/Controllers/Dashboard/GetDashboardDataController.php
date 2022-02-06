@@ -66,13 +66,13 @@ class GetDashboardDataController extends Controller
             ->get();
 
         $upload = $trafficRecords->map(fn ($record) => [
-            'created_at' => format_date($record->created_at, '%d. %B'),
+            'created_at' => format_date($record->created_at, 'd. M. '),
             'percentage' => intval($trafficRecords->max('upload')) !== 0 ? round(($record->upload / $trafficRecords->max('upload')) * 100, 2) : 0,
             'amount'     => Metric::bytes($record->upload)->format(),
         ]);
 
         $download = $trafficRecords->map(fn ($record) => [
-            'created_at' => format_date($record->created_at, '%d. %B'),
+            'created_at' => format_date($record->created_at, 'd. M. '),
             'percentage' => intval($trafficRecords->max('download')) !== 0 ? round(($record->download / $trafficRecords->max('download')) * 100, 2) : 0,
             'amount'     => Metric::bytes($record->download)->format(),
         ]);

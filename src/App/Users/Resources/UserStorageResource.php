@@ -133,13 +133,13 @@ class UserStorageResource extends JsonResource
             ->get();
 
         $upload = $trafficRecords->map(fn ($record) => [
-            'created_at' => format_date($record->created_at, '%d. %B'),
+            'created_at' => format_date($record->created_at, 'd. M. '),
             'percentage' => $uploadMax !== 0 ? round(($record->upload / $uploadMax) * 100, 2) : 0,
             'amount'     => Metric::bytes($record->upload)->format(),
         ]);
 
         $download = $trafficRecords->map(fn ($record) => [
-            'created_at' => format_date($record->created_at, '%d. %B'),
+            'created_at' => format_date($record->created_at, 'd. M. '),
             'percentage' => $downloadMax !== 0 ? round(($record->download / $downloadMax) * 100, 2) : 0,
             'amount'     => Metric::bytes($record->download)->format(),
         ]);

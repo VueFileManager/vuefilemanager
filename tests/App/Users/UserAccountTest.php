@@ -35,28 +35,27 @@ class UserAccountTest extends TestCase
     }
 
     /**
-     * todo: finish test
+     * @test
      */
     public function it_test_user_timezone()
     {
         $user = User::factory()
-            ->create(['role' => 'user']);
+            ->hasSettings([
+                'timezone' => '2.0',
+            ])
+            ->create();
 
-        Folder::factory(Folder::class)
+        Folder::factory()
             ->create([
                 'user_id'    => $user->id,
                 'created_at' => now(),
             ]);
 
-        $user->settings()->update([
-            'timezone' => '2.0',
-        ]);
-
         $this
             ->actingAs($user)
             ->getJson('/api/browse/folders/undefined')
             ->assertJsonFragment([
-                'created_at' => '01. January. 2021 at 02:00',
+                'created_at' => '01. Jan. 2021, 02:00',
             ]);
     }
 
@@ -167,8 +166,8 @@ class UserAccountTest extends TestCase
                             'capacity'           => '1',
                             'capacity_formatted' => '1GB',
                         ],
-                        'created_at'                => format_date($user->created_at, '%d. %b. %Y'),
-                        'updated_at'                => format_date($user->updated_at, '%d. %B. %Y'),
+                        'created_at'                => format_date($user->created_at, 'd. M. Y'),
+                        'updated_at'                => format_date($user->updated_at, 'd. M. Y'),
                     ],
                     'meta'          => [
                         'restrictions' => [

@@ -580,16 +580,12 @@ if (! function_exists('filter_folders_ids')) {
 if (! function_exists('format_date')) {
     /**
      * Format localized date
-     *
-     * @param $date
-     * @param string $format
-     * @return string
      */
-    function format_date($date, $format = '%d. %B. %Y, %H:%M')
+    function format_date($date, string $format = 'd. M. Y, h:i'): string
     {
         $start = Carbon::parse($date);
 
-        return $start->formatLocalized($format);
+        return $start->translatedFormat($format);
     }
 }
 
@@ -949,17 +945,13 @@ if (! function_exists('set_time_by_user_timezone')) {
     /**
      * Set time by user timezone GMT
      */
-    function set_time_by_user_timezone(string $time): string | Carbon
+    function set_time_by_user_timezone($user, $createdAt): string | Carbon
     {
-        $user = Auth::user();
+        $timezone = $user->settings->timezone ?? 0;
 
-        if ($user) {
-            $time_zone = $user->settings->timezone ?? 0;
-
-            return Carbon::parse($time)->addMinutes($time_zone * 60);
-        }
-
-        return $time;
+        return Carbon::parse($createdAt)
+            ->addMinutes($timezone * 60)
+            ->translatedFormat('d. M. Y, h:i');
     }
 }
 

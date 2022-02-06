@@ -667,7 +667,7 @@ return [
         'app_description'                                    => 'Your self-hosted storage cloud software powered by Laravel and Vue',
         'user_not_fount'                                     => 'We can\'t find a user with that e-mail address.',
         'incorrect_password'                                 => 'Sorry, your password is incorrect.',
-        'time'                                               => '%d. %B. %Y at %H:%M',
+        'time'                                               => 'd. M. Y, h:i',
         'home'                                               => 'Home',
         'shared_link_email_subject'                          => '🙋 :user share some files with you. Look at it!',
         'shared_link_email_greeting'                         => 'Hello!',

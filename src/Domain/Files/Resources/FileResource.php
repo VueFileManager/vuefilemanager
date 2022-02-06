@@ -33,15 +33,11 @@ class FileResource extends JsonResource
                     'thumbnail'  => $this->thumbnail,
                     'metadata'   => $this->metadata,
                     'parent_id'  => $this->parent_id,
-                    'updated_at' => $this->updated_at,
-                    'created_at' => Carbon::parse($this->created_at)->diffForHumans(),
-                    'deleted_at' => $this->deleted_at ? Carbon::parse($this->deleted_at)->diffForHumans() : null,
-                    /*'updated_at' => format_date(
-                        set_time_by_user_timezone($this->updated_at), __t('time')
-                    ),
-                    'created_at' => format_date(
-                        set_time_by_user_timezone($this->created_at), __t('time')
-                    ),*/
+                    'created_at'    => set_time_by_user_timezone($this->owner, $this->created_at),
+                    'updated_at'    => set_time_by_user_timezone($this->owner, $this->updated_at),
+                    'deleted_at'    => $this->deleted_at
+                        ? set_time_by_user_timezone($this->owner, $this->deleted_at)
+                        : null,
                 ],
                 'relationships' => [
                     $this->mergeWhen($this->shared, fn () => [
