@@ -14,8 +14,6 @@
         tabindex="-1"
         @click.self="deselect"
     >
-		<!--<div v-html="config.ads"></div>-->
-
         <ItemHandler
             @click.native="hideContextMenu"
             @dragstart="dragStart(item)"

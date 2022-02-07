@@ -10,11 +10,14 @@
             <!--VueFileManager ScreenShot-->
             <HeroScreenshot />
 
+			<!--Google Adsense banner-->
+			<div v-if="config.allowedAdsense" v-html="config.adsenseBanner01" class="min-h-[120px] mb-5"></div>
+
             <!--Main Features-->
             <MainFeatures />
 
             <!--Pricing Tables-->
-            <!--            <PricingTables v-if="config.isSaaS" />-->
+            <!--<PricingTables v-if="config.isSaaS" />-->
 
             <!--Get Started Call To Action-->
             <GetStarted />

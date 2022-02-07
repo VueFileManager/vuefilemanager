@@ -32,10 +32,16 @@
         <SidebarNavigation />
         <PanelNavigationFiles />
 
-        <div @contextmenu.prevent.capture="contextMenu($event, undefined)" class="transition-transform duration-200 lg:grid lg:flex-grow lg:content-start lg:px-3.5">
+        <div
+            @contextmenu.prevent.capture="contextMenu($event, undefined)"
+            class="transition-transform duration-200 lg:grid lg:flex-grow lg:content-start lg:px-3.5"
+        >
             <DesktopToolbar />
 
             <MobileToolbar />
+
+            <!--Google Adsense banner-->
+            <div v-if="config.allowedAdsense" v-html="config.adsenseBanner01" class="min-h-[120px] mb-5"></div>
 
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden">
@@ -96,7 +102,7 @@ export default {
         DragUI,
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'isLimitedUser']),
+        ...mapGetters(['isVisibleSidebar', 'isLimitedUser', 'config']),
     },
     data() {
         return {

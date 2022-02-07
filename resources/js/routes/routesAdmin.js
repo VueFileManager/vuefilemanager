@@ -312,6 +312,15 @@ const routesAdmin = [
                             title: 'Sign In/Up',
                         },
                     },
+                    {
+                        name: 'AppAdsense',
+                        path: '/admin/settings/adsense',
+                        component: () => import(/* webpackChunkName: "chunks/app-adsense" */ '../views/Admin/AppSettings/AppSettingsTabs/Adsense'),
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Adsense',
+                        },
+                    },
                 ],
             },
             {

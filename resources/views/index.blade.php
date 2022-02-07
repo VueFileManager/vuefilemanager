@@ -143,6 +143,13 @@
 			allowedGithubLogin: {{ $settings->allowed_github_login ?? 0 }},
 			isGithubLoginConfigured: {{ env('GITHUB_CLIENT_ID') ? 1 : 0 }},
 
+            // Adsense
+            allowedAdsense: {{ $settings->allowed_adsense ?? 0 }},
+            adsenseClientId: '{{ $settings->adsense_client_id ?? '' }}',
+			adsenseBanner01: `{!! $settings->adsense_banner_01 ?? '' !!}`,
+			adsenseBanner02: `{!! $settings->adsense_banner_02 ?? '' !!}`,
+			adsenseBanner03: `{!! $settings->adsense_banner_03 ?? '' !!}`,
+
             // User settings
             defaultEmoji: '{{ $defaultEmoji }}',
             defaultThemeMode: '{{ $defaultThemeMode }}',
@@ -174,10 +181,13 @@
         <script src="{{ mix('js/main.js') }}"></script>
     @endif
 
-<!--    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8058330732865164" crossorigin="anonymous"></script>
+    {{--Adsense code--}}
+    @if($settings->allowed_adsense)
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $settings->adsense_client_id }}" crossorigin="anonymous"></script>
 
-    <script>
-         (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>-->
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    @endif
 </body>
 </html>

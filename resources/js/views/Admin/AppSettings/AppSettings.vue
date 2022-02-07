@@ -34,6 +34,10 @@ export default {
                     route: 'AppAppearance',
                 },
                 {
+                    title: this.$t('Adsense'),
+                    route: 'AppAdsense',
+                },
+                {
                     title: this.$t('Homepage'),
                     route: 'AppIndex',
                 },
