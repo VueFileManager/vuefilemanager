@@ -38,7 +38,7 @@ const itemHelpers = {
 
         Vue.prototype.$downloadSelection = function (item = undefined) {
             // Show alert message when download is disabled
-            if (!store.getters.user.data.meta.restrictions.canDownload) {
+            if (store.getters.user && !store.getters.user.data.meta.restrictions.canDownload) {
                 Vue.prototype.$temporarilyDisabledDownload()
 
                 return

@@ -1,5 +1,5 @@
 <template>
-    <AuthContentWrapper ref="auth">
+    <AuthContentWrapper ref="auth" class="h-screen">
         <!--Invitation info-->
         <AuthContent name="invitation" :visible="false">
             <Headline

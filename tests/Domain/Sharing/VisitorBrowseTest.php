@@ -55,8 +55,7 @@ class VisitorBrowseTest extends TestCase
             ]);
 
         $this->get("/share/$share->token")
-            ->assertViewIs('index')
-            ->assertStatus(200);
+            ->assertRedirect("/share/$share->token/files/$share->item_id");
     }
 
     /**

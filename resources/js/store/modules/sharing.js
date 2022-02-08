@@ -47,11 +47,6 @@ const actions = {
                 })
         })
     },
-    getSingleFile: ({ commit }) => {
-        axios.get(`/api/browse/file/${router.currentRoute.params.token}`).then((response) => {
-            commit('STORE_SHARED_FILE', response.data)
-        })
-    },
     getShareDetail: ({ commit, state }, token) => {
         return new Promise((resolve, reject) => {
             axios

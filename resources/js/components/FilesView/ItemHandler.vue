@@ -18,6 +18,7 @@
             :entry="item"
             :highlight="true"
             :mobile-handler="true"
+			:can-hover="true"
             @mouseup.stop.native="clickFilter"
             @dragstart.native="$emit('dragstart')"
             @drop.native="drop()"

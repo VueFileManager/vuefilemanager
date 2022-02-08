@@ -95,6 +95,10 @@ return [
                 'name'  => 'app_color',
                 'value' => '#00BC7E',
             ],
+            [
+                'name'  => 'allowed_adsense',
+                'value' => 0,
+            ],
         ],
         'extended' => [
             [
@@ -176,6 +180,10 @@ return [
             [
                 'name'  => 'app_color',
                 'value' => '#00BC7E',
+            ],
+            [
+                'name'  => 'allowed_adsense',
+                'value' => 0,
             ],
 
             // Subscription

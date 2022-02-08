@@ -1,5 +1,5 @@
 <template>
-    <AuthContentWrapper>
+    <AuthContentWrapper class="h-screen">
         <AuthContent name="password" :visible="true">
             <Headline :title="$t('page_shared.title')" :description="$t('page_shared.subtitle')" />
             <ValidationObserver
@@ -9,7 +9,14 @@
                 tag="form"
                 class="mb-12 items-start space-y-4 md:flex md:space-x-4 md:space-y-0"
             >
-                <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="Password" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    class="w-full text-left"
+                    name="Password"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <input
                         v-model="password"
                         :placeholder="$t('page_shared.placeholder_pass')"
@@ -19,7 +26,13 @@
                     />
                     <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
-                <AuthButton class="w-full justify-center md:w-min" icon="chevron-right" :text="$t('page_shared.submit')" :loading="isLoading" :disabled="isLoading" />
+                <AuthButton
+                    class="w-full justify-center md:w-min"
+                    icon="chevron-right"
+                    :text="$t('page_shared.submit')"
+                    :loading="isLoading"
+                    :disabled="isLoading"
+                />
             </ValidationObserver>
         </AuthContent>
     </AuthContentWrapper>
@@ -27,10 +40,10 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
-import AuthContent from '../../components/Auth/AuthContent'
-import AuthButton from '../../components/Auth/AuthButton'
-import Headline from '../Auth/Headline'
+import AuthContentWrapper from '../components/Auth/AuthContentWrapper'
+import AuthContent from '../components/Auth/AuthContent'
+import AuthButton from '../components/Auth/AuthButton'
+import Headline from './Auth/Headline'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 
@@ -70,7 +83,7 @@ export default {
                 })
                 .then((response) => {
                     // Show file browser
-                    if (response.data.data.attributes.type === 'folder' && this.$router.currentRoute.name !== 'Public') {
+                    if ( response.data.data.attributes.type === 'folder' ) {
                         this.$router.replace({
                             name: 'Public',
                             params: {
@@ -81,7 +94,7 @@ export default {
                     }
 
                     // Show single file
-                    if (response.data.data.attributes.type !== 'folder' && this.$router.currentRoute.name !== 'SharedSingleFile') {
+                    if ( response.data.data.attributes.type !== 'folder' ) {
                         this.$router.push({ name: 'SharedSingleFile' })
                     }
                 })

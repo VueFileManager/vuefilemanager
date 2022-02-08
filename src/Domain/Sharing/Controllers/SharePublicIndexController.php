@@ -23,6 +23,7 @@ class SharePublicIndexController extends Controller
     public function __invoke(
         Share $share,
     ): View | StreamedResponse | RedirectResponse {
+
         // Check if user can see shared record
         if (! $share->user->canVisitShared()) {
             return redirect('/temporary-unavailable');
@@ -31,30 +32,29 @@ class SharePublicIndexController extends Controller
         // Delete share_session if exist
         if ($share->is_protected) {
             cookie()->queue('share_session', '', -1);
+
+            return redirect("/share/$share->token/authenticate");
         }
 
         // Check if shared is image file and then show it
-        if ($share->type === 'file' && ! $share->is_protected) {
-            $image = File::whereUserId($share->user_id)
-                ->whereType('image')
-                ->whereId($share->item_id)
-                ->first();
+        if ($share->type === 'file') {
 
-            if ($image) {
-                // Get image filesize
-                $fileSize = (int) $image->getRawOriginal('filesize');
+            // Get file
+            $file = File::whereUserId($share->user_id)
+                ->where('type', 'image')
+                ->where('id', $share->item_id);
 
-                // Store user download size
-                ($this->recordDownload)($fileSize, $share->user->id);
-
-                return $this->get_single_image($image, $share->user_id);
+            // Return raw image
+            if ($file->exists()) {
+                return $this->get_single_image($file->first(), $share->user_id);
             }
+
+            // Return file download page
+            return redirect("/share/$share->token/file");
         }
 
-        return view('index')
-            ->with('status_check', [])
-            ->with('installation', 'setup-done')
-            ->with('settings', get_settings_in_json() ?? null);
+        // Return folder items
+        return redirect("/share/$share->token/files/$share->item_id");
     }
 
     /**
@@ -62,6 +62,9 @@ class SharePublicIndexController extends Controller
      */
     private function get_single_image(File $file, string $user_id): StreamedResponse
     {
+        // Store user download size
+        ($this->recordDownload)($file->getRawOriginal('filesize'), $user_id);
+
         // Get file path
         $path = "/files/$user_id/$file->basename";
 

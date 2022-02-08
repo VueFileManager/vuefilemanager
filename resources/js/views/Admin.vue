@@ -59,7 +59,7 @@ import ContentGroup from '../components/Sidebar/ContentGroup'
 import ContentSidebar from '../components/Sidebar/ContentSidebar'
 import SidebarNavigation from '../components/Sidebar/SidebarNavigation'
 import Spotlight from '../components/Spotlight/Spotlight'
-import MobileNavigationToolbar from './MobileNavigationToolbar'
+import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar'
 import {
     BoxIcon,
     CreditCardIcon,

@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center justify-center">
-        <span class="text-theme dark-text-theme absolute z-10 mx-auto mt-1 inline-block w-7 overflow-hidden text-ellipsis text-center text-tiny font-semibold lg:text-xs">
+        <span class="text-theme absolute z-10 mx-auto mt-1 inline-block w-7 overflow-hidden text-ellipsis text-center font-semibold text-[9px]">
             {{ entry.data.attributes.mimetype }}
         </span>
 

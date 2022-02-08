@@ -1,16 +1,18 @@
 <?php
 namespace Domain\Homepage\Controllers;
 
-use Illuminate\View\View;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Domain\Pages\Models\Page;
 use Doctrine\DBAL\Driver\PDOException;
+use Illuminate\Contracts\View\View;
 
 class IndexController
 {
     /**
      * Show index page
      */
-    public function __invoke(): View
+    public function __invoke(): Application|Factory|View
     {
         try {
             // Try to connect to database

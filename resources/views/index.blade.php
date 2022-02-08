@@ -144,7 +144,7 @@
 			isGithubLoginConfigured: {{ env('GITHUB_CLIENT_ID') ? 1 : 0 }},
 
             // Adsense
-            allowedAdsense: {{ $settings->allowed_adsense ?? 0 }},
+            allowedAdsense: {{ $settings?->allowed_adsense ?? 0 }},
             adsenseClientId: '{{ $settings->adsense_client_id ?? '' }}',
 			adsenseBanner01: `{!! $settings->adsense_banner_01 ?? '' !!}`,
 			adsenseBanner02: `{!! $settings->adsense_banner_02 ?? '' !!}`,
@@ -182,7 +182,7 @@
     @endif
 
     {{--Adsense code--}}
-    @if($settings->allowed_adsense)
+    @if(optional($settings)->allowed_adsense)
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $settings->adsense_client_id }}" crossorigin="anonymous"></script>
 
         <script>

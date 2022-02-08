@@ -267,16 +267,15 @@ const FunctionHelpers = {
 
         Vue.prototype.$downloadFile = function (url, filename) {
             // Show alert message when download is disabled
-            if (!store.getters.user.data.meta.restrictions.canDownload) {
+            if (store.getters.user && !store.getters.user.data.meta.restrictions.canDownload) {
                 Vue.prototype.$temporarilyDisabledDownload()
 
                 return
             }
 
-            var anchor = document.createElement('a')
+            let anchor = document.createElement('a')
 
             anchor.href = url
-
             anchor.download = filename
 
             document.body.appendChild(anchor)

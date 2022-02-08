@@ -133,7 +133,7 @@ class VisitorAccessToItemsTest extends TestCase
 
                     $this->withCookies($cookie)
                         ->get("/share/$share->token")
-                        ->assertStatus(200);
+                        ->assertRedirect("/share/$share->token/authenticate");
                 }
 
                 if (! $is_protected) {

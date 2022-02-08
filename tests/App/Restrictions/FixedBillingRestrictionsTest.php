@@ -220,6 +220,6 @@ class FixedBillingRestrictionsTest extends TestCase
             ]);
 
         $this->get("/share/$share->token")
-            ->assertViewIs('index');
+            ->assertRedirect("/share/$share->token/files/$share->item_id");
     }
 }

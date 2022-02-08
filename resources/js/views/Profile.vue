@@ -80,7 +80,7 @@ import Spinner from '../components/FilesView/Spinner'
 import { mapGetters } from 'vuex'
 import CardNavigation from '../components/Admin/CardNavigation'
 import ConfirmPassword from '../components/Others/ConfirmPassword'
-import MobileNavigationToolbar from './MobileNavigationToolbar'
+import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar'
 
 export default {
     name: 'Settings',

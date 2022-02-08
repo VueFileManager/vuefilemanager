@@ -1,7 +1,10 @@
 <template>
     <div
-        :class="{ 'bg-light-background dark:bg-dark-foreground': isClicked }"
-        class="relative z-0 flex h-48 select-none flex-wrap items-center justify-center rounded-lg border-2 border-dashed border-transparent px-1 pt-2 text-center dark:hover:bg-dark-foreground sm:h-56 lg:h-60 lg:hover:bg-light-background"
+        :class="{
+			'bg-light-background dark:bg-dark-foreground': isClicked,
+			'dark:hover:bg-dark-foreground lg:hover:bg-light-background': canHover
+		}"
+        class="relative z-0 flex h-48 select-none flex-wrap items-center justify-center rounded-lg border-2 border-dashed border-transparent px-1 pt-2 text-center sm:h-56 lg:h-60"
         :draggable="canDrag"
         spellcheck="false"
     >
@@ -50,7 +53,8 @@
             <div class="text-center">
                 <!--Item Title-->
                 <b
-                    class="tracking-tigh inline-block w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm leading-3 hover:underline md:px-6"
+                    class="tracking-tight inline-block w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm leading-3 md:px-6"
+					:class="{'hover:underline': canEditName}"
                     ref="name"
                     @input="renameItem"
                     @keydown.delete.stop
@@ -63,7 +67,7 @@
                 <!--Item sub line-->
                 <div class="flex items-center justify-center">
                     <!--Shared Icon-->
-                    <div v-if="$checkPermission('master') && entry.data.relationships.shared">
+                    <div v-if="canShowLinkIcon">
                         <link-icon size="12" class="text-theme dark-text-theme vue-feather mr-1.5" />
                     </div>
 
@@ -106,7 +110,7 @@ import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 
 export default {
-    name: 'ItemList',
+    name: 'ItemGrid',
     components: {
         FileIconThumbnail,
         MoreHorizontalIcon,
@@ -117,7 +121,7 @@ export default {
         EyeIcon,
         Emoji,
     },
-    props: ['mobileHandler', 'entry'],
+    props: ['mobileHandler', 'entry', 'canHover'],
     data() {
         return {
             mobileMultiSelect: false,
@@ -154,9 +158,8 @@ export default {
         canEditName() {
             return (
                 !this.$isMobile() &&
-                !this.$isThisRoute(this.$route, ['Trash']) &&
-                !this.$checkPermission('visitor') &&
-                !(this.sharedDetail && this.sharedDetail.attributes.type === 'file')
+                !this.$isThisRoute(this.$route, ['Trash', 'SharedSingleFile']) &&
+                !this.$checkPermission('visitor')
             )
         },
         folderItems() {
@@ -165,6 +168,9 @@ export default {
         canShowAuthor() {
             return this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders']) && !this.isFolder && this.user.data.id !== this.entry.data.relationships.owner.data.id
         },
+		canShowLinkIcon() {
+			return this.entry.data.relationships.shared && !this.$isThisRoute(this.$route, ['SharedSingleFile'])
+		},
         canDrag() {
             return !this.isDeleted && this.$checkPermission(['master', 'editor'])
         },
