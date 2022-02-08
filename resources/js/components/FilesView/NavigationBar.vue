@@ -29,7 +29,7 @@
                 '-translate-x-4 opacity-0': !currentFolder || !isNotHomepage,
                 'translate-x-0 opacity-100': currentFolder && isNotHomepage,
             }"
-            class="ml-3 transform rounded-md bg-light-background py-0.5 px-1.5 transition-all duration-200 dark:bg-dark-foreground cursor-pointer"
+            class="relative ml-3 transform rounded-md bg-light-background py-0.5 px-1.5 transition-all duration-200 dark:bg-dark-foreground cursor-pointer"
 			id="folder-actions"
         >
             <more-horizontal-icon size="14" />

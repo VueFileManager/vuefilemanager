@@ -3,10 +3,10 @@
         v-show="isVisible"
         :style="{ top: positionY + 'px', left: positionX + 'px' }"
         @click="closeAndResetContextMenu"
-        class="absolute z-20 w-60 overflow-hidden rounded-xl bg-white shadow-lg dark:bg-2x-dark-foreground select-none"
+        class="fixed z-20 w-60 select-none overflow-hidden rounded-xl bg-white shadow-lg dark:bg-2x-dark-foreground"
         ref="contextmenu"
     >
-        <div id="menu-list" class="w-full">
+        <div class="w-full">
             <!--Show empty select contextmenu-->
             <slot name="empty-select" v-if="!item" />
 
@@ -52,32 +52,13 @@ export default {
             this.item = undefined
         },
         showContextMenu(event) {
-            let parent = document.getElementById('menu-list')
-            let nodesSameClass = parent.getElementsByClassName('menu-option')
+            let menu = this.$refs.contextmenu
 
-            let VerticalOffsetArea = nodesSameClass.length * 50
-            let HorizontalOffsetArea = 190
+            let hiddenAreaX = window.innerWidth - event.clientX - menu.clientWidth - 25
+            let hiddenAreaY = window.innerHeight - event.clientY - menu.clientHeight - 25
 
-            let container = document.getElementById('file-view')
-
-            let offset = container.getClientRects()[0]
-
-            let x = event.clientX - offset.left
-            let y = event.clientY - offset.top
-
-            // Set position Y
-            if (container.offsetHeight - y < VerticalOffsetArea) {
-                this.positionY = y - VerticalOffsetArea
-            } else {
-                this.positionY = y
-            }
-
-            // Set position X
-            if (container.offsetWidth - x < HorizontalOffsetArea) {
-                this.positionX = x - HorizontalOffsetArea
-            } else {
-                this.positionX = x
-            }
+            this.positionX = hiddenAreaX < 0 ? event.clientX + hiddenAreaX : event.clientX
+            this.positionY = hiddenAreaY < 0 ? event.clientY + hiddenAreaY : event.clientY
 
             // Show context menu
             this.isVisible = true
@@ -100,9 +81,10 @@ export default {
             this.isVisible = !this.isVisible
 
             if (this.isVisible) {
-                let container = document.getElementById('folder-actions')
+                let container = document.getElementById('folder-actions').getBoundingClientRect()
 
-                this.positionX = container.offsetLeft
+                this.positionX = container.x
+                this.positionY = container.y + 20
             }
         })
     },
