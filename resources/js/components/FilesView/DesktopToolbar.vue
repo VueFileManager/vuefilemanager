@@ -236,9 +236,6 @@ export default {
         showSortingMenu() {
             events.$emit('popover:open', 'desktop-sorting')
         },
-        folderActions() {
-            events.$emit('context-menu:current-folder', this.currentFolder)
-        },
     },
 }
 </script>

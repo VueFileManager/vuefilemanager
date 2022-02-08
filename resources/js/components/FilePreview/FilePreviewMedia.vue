@@ -3,11 +3,11 @@
 
 		<!--Arrow navigation-->
         <div v-if="!$isMobile() && files.length > 1" class="">
-            <div @click.prevent="prev" class="fixed top-1/2 left-0 p-3 cursor-pointer">
+            <div @click.prevent="prev" class="fixed top-1/2 left-0 p-3 cursor-pointer z-20">
                 <chevron-left-icon size="20" />
             </div>
 
-            <div @click.prevent="next" class="fixed top-1/2 right-0 p-3 cursor-pointer">
+            <div @click.prevent="next" class="fixed top-1/2 right-0 p-3 cursor-pointer z-20">
                 <chevron-right-icon size="20" />
             </div>
         </div>
@@ -148,11 +148,13 @@ export default {
             })
 
 			// Scroll to the selected item
-			this.$nextTick(() => {
-				let element = document.getElementById(`group-${this.files[this.currentIndex].data.id}`)
+			if (this.$isMobile()) {
+				this.$nextTick(() => {
+					let element = document.getElementById(`group-${this.files[this.currentIndex].data.id}`)
 
-				this.$refs.scrollBox.scrollLeft = element.getBoundingClientRect().left
-			})
+					this.$refs.scrollBox.scrollLeft = element.getBoundingClientRect().left
+				})
+			}
         },
         next() {
             if (!this.files.length > 1) return

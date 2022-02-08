@@ -32,14 +32,6 @@ class VisitorSearchFilesAndFoldersController extends Controller
             $request->input('query')
         );
 
-        // Search files id db
-        $searched_files = File::search($query)
-            ->where('user_id', $shared->user_id)
-            ->get();
-        $searched_folders = Folder::search($query)
-            ->where('user_id', $shared->user_id)
-            ->get();
-
         // Get all children content
         $foldersIds = Folder::with('folders:id,parent_id,id,name')
             ->where('user_id', $shared->user_id)
@@ -49,20 +41,33 @@ class VisitorSearchFilesAndFoldersController extends Controller
         // Get accessible folders
         $accessible_parent_ids = Arr::flatten([filter_folders_ids($foldersIds), $shared->item_id]);
 
-        // Filter files
-        $files = $searched_files->filter(function ($file) use ($accessible_parent_ids, $shared) {
-            // Set public urls
-            $file->setPublicUrl($shared->token);
+        // Prepare eloquent builder
+        $folder = new Folder();
+        $file = new File();
 
-            // check if item is in accessible folders
-            return in_array($file->parent_id, $accessible_parent_ids);
-        });
+        // Prepare folders constrain
+        $folderConstrain = $folder
+            ->where('user_id', $shared->user_id)
+            ->whereIn('id', $accessible_parent_ids);
 
-        // Filter folders
-        $folders = $searched_folders->filter(function ($folder) use ($accessible_parent_ids) {
-            // check if item is in accessible folders
-            return in_array($folder->id, $accessible_parent_ids);
-        });
+        // Prepare files constrain
+        $fileConstrain = $file
+            ->where('user_id', $shared->user_id)
+            ->whereIn('parent_id', $accessible_parent_ids);
+
+        // Search files and folders
+        $files = File::search($query)
+            ->constrain($fileConstrain)
+            ->get()
+            ->take(3);
+
+        // Map files and set public url for files
+        $files->map(fn ($file) => $file->setPublicUrl($shared->token));
+
+        $folders = Folder::search($query)
+            ->constrain($folderConstrain)
+            ->get()
+            ->take(3);
 
         // Collect folders and files to single array
         return [

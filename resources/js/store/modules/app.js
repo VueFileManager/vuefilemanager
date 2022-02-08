@@ -1,6 +1,7 @@
 import i18n from '../../i18n'
 import axios from 'axios'
 import Vue from 'vue'
+import router from "../../router";
 
 const defaultState = {
     isVisibleNavigationBars: localStorage.getItem('is_navigation_bars') !== 'false',
@@ -30,7 +31,9 @@ const actions = {
         })
 
         // Update user settings
-        Vue.prototype.$updateText('/user/settings', 'theme_mode', mode)
+        if (! Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) {
+            Vue.prototype.$updateText('/user/settings', 'theme_mode', mode)
+        }
     },
     toggleNavigationBars: ({ commit, state }) => {
         // Store dark mode into localStorage

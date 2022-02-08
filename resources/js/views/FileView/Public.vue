@@ -30,7 +30,7 @@
 
         <MobileMultiSelectToolbar>
             <template v-slot:visitor>
-                <ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+                <ToolbarButton @click.native="$downloadSelection()" class="action-btn" source="download" :action="$t('actions.download')" />
             </template>
             <template v-slot:editor>
                 <ToolbarButton
@@ -47,7 +47,7 @@
                     :class="{ 'is-inactive': clipboard.length < 1 }"
                     :action="$t('actions.delete')"
                 />
-                <ToolbarButton @click.native="downloadItem" class="action-btn" source="download" :action="$t('actions.download')" />
+                <ToolbarButton @click.native="$downloadSelection()" class="action-btn" source="download" :action="$t('actions.download')" />
             </template>
         </MobileMultiSelectToolbar>
 
@@ -104,7 +104,7 @@
                 <MobileActionButton @click.native="$openSpotlight()" icon="search">
                     {{ $t('Spotlight') }}
                 </MobileActionButton>
-                <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+                <MobileActionButton @click.native="$enableMultiSelectMode()" icon="check-square">
                     {{ $t('context_menu.select') }}
                 </MobileActionButton>
                 <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
@@ -127,7 +127,7 @@
             </template>
             <template v-if="$checkPermission('visitor')">
                 <h1 class="title">
-                    {{ $t('empty_page.title') }}
+                    {{ $t('There is nothing.') }}
                 </h1>
             </template>
         </EmptyFilePage>
@@ -188,6 +188,7 @@ export default {
 
         events.$on('context-menu:show', (event, item) => (this.item = item))
         events.$on('mobile-context-menu:show', (item) => (this.item = item))
-    },
+		events.$on('context-menu:current-folder', (folder) => (this.item = folder))
+	},
 }
 </script>

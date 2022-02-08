@@ -1,12 +1,10 @@
 <template>
     <div class="sticky top-14 z-20 block overflow-x-auto whitespace-nowrap bg-white px-4 pb-3 dark:bg-dark-background lg:hidden">
         <!--Show Buttons-->
-        <div v-if="!isMultiSelectMode" class="mobile-actions">
-            <slot></slot>
-        </div>
+		<slot v-if="!isMultiSelectMode" />
 
         <!-- Multi select mode -->
-        <div v-if="isMultiSelectMode" class="mobile-actions">
+        <div v-if="isMultiSelectMode">
             <MobileActionButton @click.native="selectAll" icon="check-square">
                 {{ $t('mobile_selecting.select_all') }}
             </MobileActionButton>

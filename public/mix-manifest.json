@@ -72,5 +72,6 @@
     "/js/chunks/invitation.js": "/js/chunks/invitation.js",
     "/css/tailwind.css": "/css/tailwind.css",
     "/css/app.css": "/css/app.css",
-    "/js/chunks/app-adsense.js": "/js/chunks/app-adsense.js"
+    "/js/chunks/app-adsense.js": "/js/chunks/app-adsense.js",
+    "/js/chunks/shared/browser.js": "/js/chunks/shared/browser.js"
 }

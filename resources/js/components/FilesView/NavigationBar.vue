@@ -9,15 +9,15 @@
         <chevron-left-icon
             size="17"
             :class="{
-                '-translate-x-3 opacity-0': !isLoadedFolder,
-                'translate-x-0 opacity-100': isLoadedFolder,
+                '-translate-x-3 opacity-0': !isLoadedFolder || !isNotHomepage,
+                'translate-x-0 opacity-100': isLoadedFolder && isNotHomepage,
             }"
             class="lg:-mt-0.5 mr-2 -ml-1 cursor-pointer align-middle transition-all duration-200"
         />
 
         <!--Folder Title-->
         <b
-            :class="{ '-translate-x-4': !isLoadedFolder }"
+            :class="{ '-translate-x-4': !isLoadedFolder || !isNotHomepage }"
             class="inline-block transform overflow-hidden text-ellipsis whitespace-nowrap align-middle text-sm font-bold transition-all duration-200 max-w-[200px]"
         >
             {{ $getCurrentLocationName() }}
@@ -26,8 +26,8 @@
         <div
             @click.stop="showItemActions"
             :class="{
-                '-translate-x-4 opacity-0': !currentFolder,
-                'translate-x-0 opacity-100': currentFolder,
+                '-translate-x-4 opacity-0': !currentFolder || !isNotHomepage,
+                'translate-x-0 opacity-100': currentFolder && isNotHomepage,
             }"
             class="ml-3 transform rounded-md bg-light-background py-0.5 px-1.5 transition-all duration-200 dark:bg-dark-foreground cursor-pointer"
 			id="folder-actions"
@@ -56,7 +56,7 @@ export default {
 		]),
 		isNotHomepage() {
 			if (this.$isThisRoute(this.$route, ['Public'])) {
-				return this.sharedDetail && this.sharedDetail.data.attributes.item_id === this.$route.params.id
+				return this.sharedDetail && this.sharedDetail.data.attributes.item_id !== this.$route.params.id
 			}
 
 			return this.$route.params.id

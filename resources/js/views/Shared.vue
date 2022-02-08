@@ -26,7 +26,7 @@
             @contextmenu.prevent.capture="contextMenu($event, undefined)"
             class="transition-transform duration-200 lg:grid lg:flex-grow lg:content-start lg:px-3.5"
         >
-            <DesktopToolbar />
+            <DesktopSharepageToolbar />
 
             <MobileToolbar />
 
@@ -61,10 +61,13 @@ import DragUI from '../components/FilesView/DragUI'
 import Alert from '../components/FilesView/Alert'
 import { mapGetters } from 'vuex'
 import { events } from '../bus'
+import router from "../router";
+import DesktopSharepageToolbar from "../components/FilesView/DesktopSharepageToolbar";
 
 export default {
     name: 'Shared',
     components: {
+		DesktopSharepageToolbar,
         MobileToolbar,
         InfoSidebar,
         NavigationSharePanel,
@@ -98,6 +101,9 @@ export default {
         // TODO: new scaledown effect
         events.$on('mobile-menu:show', () => (this.isScaledDown = true))
         events.$on('mobile-menu:hide', () => (this.isScaledDown = false))
+
+		this.$store.dispatch('getShareDetail', this.$router.currentRoute.params.token)
+			.then(() => this.$store.dispatch('getFolderTree'))
     },
 }
 </script>

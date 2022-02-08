@@ -1,7 +1,7 @@
 <template>
     <ContentSidebar v-if="isVisibleNavigationBars" class="relative">
         <!--Full screen button-->
-        <div @click="toggleNavigationBars" class="absolute top-2.5 right-0 inline-block cursor-pointer p-3 opacity-0 transition-all duration-200 hover:opacity-70">
+        <div @click="$store.dispatch('toggleNavigationBars')" class="absolute top-2.5 right-0 inline-block cursor-pointer p-3 opacity-0 transition-all duration-200 hover:opacity-70">
             <chevrons-left-icon size="18" />
         </div>
 
@@ -164,9 +164,6 @@ export default {
         }
     },
     methods: {
-        toggleNavigationBars() {
-            this.$store.dispatch('toggleNavigationBars')
-        },
         resetData() {
             this.$store.commit('SET_CURRENT_TEAM_FOLDER', null)
             this.$store.commit('CLIPBOARD_CLEAR')

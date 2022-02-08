@@ -44,7 +44,7 @@
             </div>
 
             <!--Show tips-->
-            <div v-if="isEmptyQuery && !activeFilter" class="relative z-50 px-4 pb-4">
+            <div v-if="isEmptyQuery && !activeFilter && ! $isThisRoute($route, ['Public'])" class="relative z-50 px-4 pb-4">
                 <CategoryName>
                     {{ $t('Suggested Filters') }}
                 </CategoryName>
@@ -236,7 +236,7 @@ export default {
         XIcon,
     },
     computed: {
-        ...mapGetters(['config', 'user']),
+        ...mapGetters(['config', 'user', 'sharedDetail']),
         actionList() {
             let adminLocations = [
                 {
@@ -381,6 +381,20 @@ export default {
                         value: 'Billing',
                     },
                 },
+				{
+					title: this.$t('Empty Your Trash'),
+					action: {
+						type: 'function',
+						value: 'empty-trash',
+					},
+				},
+				{
+					title: this.$t('Log Out'),
+					action: {
+						type: 'function',
+						value: 'log-out',
+					},
+				},
             ]
 
 			let createList = [
@@ -415,20 +429,6 @@ export default {
                         value: 'full-screen-mode',
                     },
                 },
-                {
-                    title: this.$t('Empty Your Trash'),
-                    action: {
-                        type: 'function',
-                        value: 'empty-trash',
-                    },
-                },
-                {
-                    title: this.$t('Log Out'),
-                    action: {
-                        type: 'function',
-                        value: 'log-out',
-                    },
-                },
             ]
 
             // Available only for apple users
@@ -442,6 +442,12 @@ export default {
                 })
             }
 
+			// Return commands for public page
+			if (this.$isThisRoute(this.$route, ['Public'])) {
+				return [].concat.apply([], [functionList])
+			}
+
+			// Return commands for logged admin
             if (this.user.data.attributes.role === 'admin') {
                 // Available only for fixed subscription
                 if (this.config.subscriptionType === 'fixed') {
@@ -468,7 +474,8 @@ export default {
                 return [].concat.apply([], [functionList, createList, userSettings, fileLocations, adminLocations, adminActions])
             }
 
-            if (this.user.data.attributes.role === 'user') {
+			// Return commands for logged user
+			if (this.user.data.attributes.role === 'user') {
                 return [].concat.apply([], [functionList, createList, userSettings, fileLocations])
             }
         },
@@ -616,7 +623,16 @@ export default {
         openItem(file) {
             // Show folder
             if (file.data.type === 'folder') {
-                if (file.data.attributes.isTeamFolder) {
+
+				if (this.$isThisRoute(this.$route, ['Public'])) {
+					this.$router.push({
+						name: 'Public',
+						params: {
+							token: this.sharedDetail.data.attributes.token,
+							id: file.data.id,
+						},
+					})
+				} else if (file.data.attributes.isTeamFolder) {
                     if (file.data.relationships.owner.data.id === this.user.data.id) {
                         this.$router.push({
                             name: 'TeamFolders',
@@ -654,15 +670,9 @@ export default {
             this.isLoading = true
 
             // Get route
-            let route = undefined
-
-            if (this.$store.getters.sharedDetail) {
-                let permission = this.$store.getters.sharedDetail.data.attributes.protected ? 'private' : 'public'
-
-                route = `/api/browse/search/${permission}/${this.$router.currentRoute.params.token}`
-            } else {
-                route = '/api/browse/search'
-            }
+            let route = this.$store.getters.sharedDetail
+				? `/api/browse/search/${this.$router.currentRoute.params.token}`
+				: '/api/browse/search'
 
             axios
                 .get(`${route}?filter=${this.activeFilter}`, {
