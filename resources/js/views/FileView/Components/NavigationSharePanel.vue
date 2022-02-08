@@ -24,7 +24,15 @@
 		</div>
 
 		<ContentGroup class="mt-auto">
-			<div @click="$store.dispatch('toggleThemeMode')" :title="$t('dark_mode_toggle')" class="flex items-center cursor-pointer group">
+			<router-link v-if="! config.isAuthenticated" :to="{name: 'SignIn'}" class="flex items-center cursor-pointer group py-2.5">
+                <div class="button-icon inline-block cursor-pointer rounded-xl pr-3">
+                    <user-icon size="14" class="vue-feather group-hover-text-theme" />
+                </div>
+				<b class="text-xs group-hover-text-theme">
+					Sign In or Create Account
+				</b>
+            </router-link>
+			<div @click="$store.dispatch('toggleThemeMode')" :title="$t('dark_mode_toggle')" class="flex items-center cursor-pointer group py-2.5">
                 <div class="button-icon inline-block cursor-pointer rounded-xl pr-3">
                     <sun-icon v-if="isDarkMode" size="14" class="vue-feather group-hover-text-theme" />
                     <moon-icon v-if="!isDarkMode" size="14" class="vue-feather group-hover-text-theme" />
@@ -39,7 +47,7 @@
 </template>
 
 <script>
-import { SunIcon, MoonIcon, ChevronsLeftIcon, FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon } from 'vue-feather-icons'
+import { UserIcon, SunIcon, MoonIcon, ChevronsLeftIcon, FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon } from 'vue-feather-icons'
 import TreeMenuNavigator from '../../../components/Others/TreeMenuNavigator'
 import ContentSidebar from '../../../components/Sidebar/ContentSidebar'
 import ContentGroup from '../../../components/Sidebar/ContentGroup'
@@ -52,6 +60,7 @@ export default {
         TreeMenuNavigator,
         ContentSidebar,
         ContentGroup,
+		UserIcon,
 		SunIcon,
 		MoonIcon,
         UploadCloudIcon,

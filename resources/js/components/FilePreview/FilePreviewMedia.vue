@@ -21,7 +21,7 @@
             <!--Show Audio, Video and Image-->
             <div class="w-full h-full flex items-center justify-center">
                 <Audio v-if="isAudio" :file="currentFile"/>
-                <Video v-if="isVideo" :file="currentFile" />
+                <Video v-if="isVideo" :file="currentFile" class="max-w-[1080px] max-h-full self-center mx-auto" />
                 <ImageFile v-if="isImage" :file="currentFile" class="max-w-[100%] max-h-[100%] self-center mx-auto" />
             </div>
         </div>

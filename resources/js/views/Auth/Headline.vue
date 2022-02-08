@@ -1,7 +1,7 @@
 <template>
     <div class="mb-14">
         <!--Custom content-->
-        <slot></slot>
+        <slot />
 
         <!--Default application logo-->
         <div v-if="!$slots.default">

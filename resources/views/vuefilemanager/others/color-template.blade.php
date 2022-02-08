@@ -12,10 +12,8 @@
             color: {{ $color }};
         }
 
-
         {{-- Group options --}}
         .group:hover:not(.hover-disabled) .group-hover-text-theme {color: {{ $color }} !important;}
-
 
         {{-- Single option --}}
         .svg-color-theme {
@@ -50,7 +48,7 @@
 
         .hover-text-theme:hover {color: {{ $color }}}
 
-        .shadow-theme {box-shadow: 0 7px 16px 2px {{ $color }}40}
+        .shadow-theme {box-shadow: 0 10px 15px -3px {{ $color }}40}
 
         .border-theme {border-color: {{ $color }}}
         .border-top-theme {border-top-color: {{ $color }} !important;}
