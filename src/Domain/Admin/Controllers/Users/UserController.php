@@ -1,21 +1,21 @@
 <?php
-
 namespace Domain\Admin\Controllers\Users;
 
-use App\Users\Actions\CreateNewUserAction;
-use App\Users\DTO\CreateUserData;
 use App\Users\Models\User;
 use Illuminate\Http\Response;
+use App\Users\DTO\CreateUserData;
 use App\Http\Controllers\Controller;
 use App\Users\Resources\UserResource;
 use App\Users\Resources\UsersCollection;
+use App\Users\Actions\CreateNewUserAction;
 use Domain\Admin\Requests\CreateUserByAdmin;
 
 class UserController extends Controller
 {
     public function __construct(
         protected CreateNewUserAction $createNewUser,
-    ) {}
+    ) {
+    }
 
     /**
      * Get all users

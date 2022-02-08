@@ -36,10 +36,11 @@ class VisitorNavigationFolderTreeController extends Controller
 
         return [
             [
-                'id'       => $shared->item_id,
-                'name'     => __t('home'),
-                'location' => 'public',
-                'folders'  => $folders,
+                'name'      => __t('home'),
+                'location'  => 'public',
+                'folders'   => $folders,
+                'isMovable' => true,
+                'isOpen'    => true,
             ],
         ];
     }

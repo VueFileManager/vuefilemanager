@@ -25,7 +25,7 @@ const itemHelpers = {
 
         Vue.prototype.$createFolder = function () {
             // Show alert message when create folder is disabled
-            if (!store.getters.user.data.meta.restrictions.canCreateFolder) {
+            if (store.getters.user && !store.getters.user.data.meta.restrictions.canCreateFolder) {
                 Vue.prototype.$temporarilyDisabledFolderCreate()
 
                 return

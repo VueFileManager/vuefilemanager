@@ -211,8 +211,6 @@ const actions = {
                 .catch((error) => {
                     reject(error)
 
-                    console.log(error)
-
                     let messages = {
                         423: {
                             title: i18n.t('popup_exceed_limit.title'),
@@ -227,15 +225,17 @@ const actions = {
                             message: i18n.t('popup_paylod_error.message'),
                         },
                         401: {
-                            //title: error.response.data.message,
+                            title: error.response.data.message,
                         },
                     }
 
-                    events.$emit('alert:open', {
-                        emoji: '😬😬😬',
-                        title: messages[error.response.status]['title'],
-                        message: messages[error.response.status]['message'] || null,
-                    })
+                    if (messages[error.response.status]) {
+                        events.$emit('alert:open', {
+                            emoji: '😬😬😬',
+                            title: messages[error.response.status]['title'] || null,
+                            message: messages[error.response.status]['message'] || null,
+                        })
+                    }
 
                     commit('PROCESSING_FILE', false)
                     commit('CLEAR_UPLOAD_PROGRESS')

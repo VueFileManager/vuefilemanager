@@ -24,7 +24,7 @@
             </span>
 
             <!--Item icon-->
-            <hard-drive-icon v-if="nodes.location === 'files'" size="17" class="icon vue-feather" :class="{ 'text-theme dark-text-theme': isSelectedItem }" />
+            <hard-drive-icon v-if="['public', 'files'].includes(nodes.location)" size="17" class="icon vue-feather" :class="{ 'text-theme dark-text-theme': isSelectedItem }" />
             <users-icon v-if="nodes.location === 'team-folders'" size="17" class="icon vue-feather" :class="{ 'text-theme dark-text-theme': isSelectedItem }" />
             <user-plus-icon v-if="nodes.location === 'shared-with-me'" size="17" class="icon vue-feather" :class="{ 'text-theme dark-text-theme': isSelectedItem }" />
             <folder-icon v-if="!nodes.location" size="17" class="icon vue-feather" :class="{ 'text-theme dark-text-theme': isSelectedItem }" />
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-//import TreeMenu from './TreeMenu'
 import { FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon, UserPlusIcon } from 'vue-feather-icons'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'

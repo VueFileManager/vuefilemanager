@@ -151,7 +151,7 @@ const FunctionHelpers = {
 
         Vue.prototype.$uploadFiles = async function (files) {
             // Show alert message when upload is disabled
-            if (!store.getters.user.data.meta.restrictions.canUpload) {
+            if (store.getters.user && !store.getters.user.data.meta.restrictions.canUpload) {
                 Vue.prototype.$temporarilyDisabledUpload()
 
                 return
@@ -325,6 +325,7 @@ const FunctionHelpers = {
 
         Vue.prototype.$getDataByLocation = function () {
             let routes = {
+                Public: ['getSharedFolder', router.currentRoute.params.id || undefined],
                 Files: ['getFolder', router.currentRoute.params.id || undefined],
                 RecentUploads: ['getRecentUploads'],
                 MySharedItems: ['getMySharedItems'],

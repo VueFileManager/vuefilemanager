@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Resources;
 
-use Carbon\Carbon;
 use ByteUnits\Metric;
 use Domain\Sharing\Resources\ShareResource;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -25,14 +24,14 @@ class FileResource extends JsonResource
                 'id'            => $this->id,
                 'type'          => $this->type,
                 'attributes'    => [
-                    'filesize'   => $fileSize,
-                    'name'       => $this->name,
-                    'basename'   => $this->basename,
-                    'mimetype'   => $this->mimetype,
-                    'file_url'   => $this->file_url,
-                    'thumbnail'  => $this->thumbnail,
-                    'metadata'   => $this->metadata,
-                    'parent_id'  => $this->parent_id,
+                    'filesize'      => $fileSize,
+                    'name'          => $this->name,
+                    'basename'      => $this->basename,
+                    'mimetype'      => $this->mimetype,
+                    'file_url'      => $this->file_url,
+                    'thumbnail'     => $this->thumbnail,
+                    'metadata'      => $this->metadata,
+                    'parent_id'     => $this->parent_id,
                     'created_at'    => set_time_by_user_timezone($this->owner, $this->created_at),
                     'updated_at'    => set_time_by_user_timezone($this->owner, $this->updated_at),
                     'deleted_at'    => $this->deleted_at

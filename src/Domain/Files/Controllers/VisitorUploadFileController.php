@@ -5,10 +5,13 @@ use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
+use Domain\Files\Resources\FileResource;
 use Domain\Files\Actions\UploadFileAction;
 use Support\Demo\Actions\FakeUploadFileAction;
+use App\Users\Exceptions\InvalidUserActionException;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 /**
  * guest user upload file into shared folder
@@ -23,6 +26,9 @@ class VisitorUploadFileController extends Controller
     ) {
     }
 
+    /**
+     * @throws FileNotFoundException
+     */
     public function __invoke(
         UploadRequest $request,
         Share $shared,
@@ -42,12 +48,19 @@ class VisitorUploadFileController extends Controller
         // Check access to requested directory
         ($this->verifyAccessToItem)($request->input('parent_id'), $shared);
 
-        // Return new uploaded file
-        $new_file = ($this->uploadFile)($request, $shared);
+        try {
+            // Return new uploaded file
+            $file = ($this->uploadFile)($request, $shared);
 
-        // Set public access url
-        $new_file->setPublicUrl($shared->token);
+            // Set public access url
+            $file->setPublicUrl($shared->token);
 
-        return response($new_file, 201);
+            return response(new FileResource($file), 201);
+        } catch (InvalidUserActionException $e) {
+            return response([
+                'type'    => 'error',
+                'message' => $e->getMessage(),
+            ], 401);
+        }
     }
 }

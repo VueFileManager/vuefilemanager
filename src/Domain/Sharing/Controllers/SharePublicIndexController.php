@@ -23,7 +23,6 @@ class SharePublicIndexController extends Controller
     public function __invoke(
         Share $share,
     ): View | StreamedResponse | RedirectResponse {
-
         // Check if user can see shared record
         if (! $share->user->canVisitShared()) {
             return redirect('/temporary-unavailable');
@@ -38,7 +37,6 @@ class SharePublicIndexController extends Controller
 
         // Check if shared is image file and then show it
         if ($share->type === 'file') {
-
             // Get file
             $file = File::whereUserId($share->user_id)
                 ->where('type', 'image')

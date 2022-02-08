@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Folders\Resources;
 
-use Carbon\Carbon;
 use Domain\Sharing\Resources\ShareResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Domain\Teams\Resources\TeamMembersCollection;

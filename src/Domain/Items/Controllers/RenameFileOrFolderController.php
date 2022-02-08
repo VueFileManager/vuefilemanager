@@ -6,8 +6,8 @@ use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
-use Domain\Folders\Actions\UpdateFolderPropertyAction;
 use Illuminate\Auth\Access\AuthorizationException;
+use Domain\Folders\Actions\UpdateFolderPropertyAction;
 use Support\Demo\Actions\FakeRenameFileOrFolderAction;
 
 class RenameFileOrFolderController extends Controller
@@ -41,7 +41,6 @@ class RenameFileOrFolderController extends Controller
         $item = ($this->renameFileOrFolder)($request, $id);
 
         if ($request->input('type') === 'folder') {
-
             return new FolderResource($item);
         }
 
