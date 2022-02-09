@@ -48,7 +48,7 @@
 					<div class="flex items-center justify-center">
 
 						<!--File & Image sub line-->
-						<small class="block text-xs text-gray-500">
+						<small class="block text-xs text-gray-500 dark:text-gray-500">
 							{{ file.data.attributes.filesize }}<span class="text-xs text-gray-500 lg:inline-block">, {{ file.data.attributes.created_at }}</span>
 						</small>
 					</div>

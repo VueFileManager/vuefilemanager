@@ -1,6 +1,6 @@
 <template>
     <label
-		class="flex items-center py-4 px-5 lg:py-3 2xl:py-4 group cursor-pointer hover:bg-light-background dark:hover:bg-4x-dark-foreground"
+		class="flex items-center py-4 px-5 group cursor-pointer hover:bg-light-background dark:hover:bg-4x-dark-foreground"
 	>
         <div class="mr-4">
             <upload-cloud-icon v-if="type === 'file'" size="17" class="vue-feather group-hover-text-theme" />

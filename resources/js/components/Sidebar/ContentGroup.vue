@@ -1,7 +1,7 @@
 <template>
     <div class="ml-6 mb-6" :class="{ 'is-collapsed': !isVisible, collapsable: canCollapse }">
         <div @click="hideGroup" class="mb-2 flex items-center justify-between">
-            <small class="text-xs font-bold text-gray-400 dark:text-gray-700">
+            <small class="text-xs font-bold text-gray-400 dark:text-gray-600">
                 {{ title }}
             </small>
             <chevron-up-icon v-if="canCollapseWrapper" size="12" class="vue-feather mr-5 transform cursor-pointer text-gray-300" :class="{ 'rotate-180': !isVisible }" />

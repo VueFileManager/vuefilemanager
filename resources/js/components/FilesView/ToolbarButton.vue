@@ -10,7 +10,7 @@
         <printer-icon v-if="source === 'print'" size="19" class="vue-feather group-hover-text-theme" />
         <trash-2-icon v-if="source === 'trash'" size="19" class="vue-feather group-hover-text-theme" />
         <list-icon v-if="source === 'th-list'" size="19" class="vue-feather group-hover-text-theme" />
-        <info-icon v-if="source === 'info'" size="19" class="vue-feather group-hover-text-theme" />
+        <info-icon v-if="source === 'info'" size="19" class="vue-feather group-hover-text-theme" :class="{'text-theme': isVisibleSidebar}" />
         <grid-icon v-if="source === 'th'" size="19" class="vue-feather group-hover-text-theme" />
         <link-icon v-if="source === 'share'" size="19" class="vue-feather group-hover-text-theme" />
         <x-icon v-if="source === 'close'" size="19" class="vue-feather group-hover-text-theme" />
@@ -42,10 +42,16 @@ import {
     LinkIcon,
     XIcon,
 } from 'vue-feather-icons'
+import {mapGetters} from "vuex";
 
 export default {
     name: 'ToolbarButton',
     props: ['source', 'action'],
+	computed: {
+		...mapGetters([
+			'isVisibleSidebar'
+		])
+	},
     components: {
         SearchIcon,
         CloudPlusIcon,

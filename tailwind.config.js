@@ -37,7 +37,7 @@ module.exports = {
 			},
 			backgroundColor: theme => ({
 				'dark-background': '#151515',
-				'dark-foreground': '#161718',
+				'dark-foreground': '#171819',
 				'2x-dark-foreground': '#191b1e',
 				'4x-dark-foreground': '#1e2124',
 				'light-background': '#f4f5f6',

@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-center rounded-lg relative h-[175px] bg-light-background" :class="{ 'is-error': error }">
+    <div class="flex items-center justify-center rounded-lg relative h-[175px] dark:bg-2x-dark-foreground bg-light-background" :class="{ 'is-error': error }">
 
 		<!--Reset Image-->
 		<div

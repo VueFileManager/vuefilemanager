@@ -39,7 +39,8 @@
         <div class="pl-2">
             <!--Item Title-->
             <b
-                class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm hover:underline"
+                class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm"
+				:class="{'hover:underline': canEditName}"
                 style="max-width: 240px"
                 ref="name"
                 @input="renameItem"
@@ -58,10 +59,12 @@
                 </div>
 
                 <!--File & Image sub line-->
-                <small v-if="!isFolder" class="block text-xs text-gray-500"> {{ entry.data.attributes.filesize }}, {{ timeStamp }} </small>
+                <small v-if="!isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
+					{{ entry.data.attributes.filesize }}, {{ timeStamp }}
+				</small>
 
                 <!--Folder sub line-->
-                <small v-if="isFolder" class="block text-xs text-gray-500">
+                <small v-if="isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
                     {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
                 </small>
             </div>

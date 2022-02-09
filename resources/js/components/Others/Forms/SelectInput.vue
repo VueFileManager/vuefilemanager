@@ -1,7 +1,7 @@
 <template>
     <div class="select">
         <!--Area-->
-        <div class="input-area rounded-lg bg-light-background" :class="{ 'is-active': isOpen, 'is-error': isError }" @click="openMenu">
+        <div class="input-area rounded-lg dark:bg-2x-dark-foreground bg-light-background" :class="{ 'is-active': isOpen, 'is-error': isError }" @click="openMenu">
             <!--If is selected-->
             <div class="selected flex w-full items-center" v-if="selected">
                 <div class="option-icon" v-if="selected.icon">
@@ -224,11 +224,6 @@ export default {
         .search-input {
             background: $dark_mode_background;
         }
-    }
-
-    .input-area {
-        background: $dark_mode_foreground;
-        border-color: $dark_mode_foreground;
     }
 
     .popup-wrapper {
