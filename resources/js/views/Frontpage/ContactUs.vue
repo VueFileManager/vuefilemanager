@@ -11,7 +11,7 @@
             <ValidationObserver v-if="!isSuccess" @submit.prevent="contactForm" ref="contactForm" v-slot="{ invalid }" tag="form" class="form block-form">
                 <div class="block-wrapper">
                     <label>{{ $t('page_contact_us.form.email') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="E-Mail" rules="required" v-slot="{ errors }">
+                    <ValidationProvider tag="div" mode="passive" name="E-Mail" rules="required" v-slot="{ errors }">
                         <input
                             v-model="contact.email"
                             :placeholder="$t('page_contact_us.form.email_plac')"
@@ -25,7 +25,7 @@
 
                 <div class="block-wrapper">
                     <label>{{ $t('page_contact_us.form.message') }}:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Message" rules="required" v-slot="{ errors }">
+                    <ValidationProvider tag="div" mode="passive" name="Message" rules="required" v-slot="{ errors }">
                         <textarea
                             v-model="contact.message"
                             :placeholder="$t('page_contact_us.form.message_plac')"

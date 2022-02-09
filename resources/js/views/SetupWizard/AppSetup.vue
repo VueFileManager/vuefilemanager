@@ -1,131 +1,126 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Database Credentials-->
-        <AuthContent name="database-credentials" :visible="true">
-            <Headline class="container mx-auto max-w-screen-sm" title="Setup Wizard" description="Set up your application appearance, analytics, etc.">
-                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+        <AuthContent name="database-credentials" :visible="true" class="!max-w-2xl mt-6 mb-12">
+            <Headline class="mx-auto max-w-screen-sm !mb-10" title="Setup Wizard" description="Set up your application appearance, analytics, etc.">
+                <settings-icon size="40" class="vue-feather text-theme mx-auto animate-[spin_5s_linear_infinite] mb-3" />
             </Headline>
 
-            <ValidationObserver @submit.prevent="appSetupSubmit" ref="appSetup" v-slot="{ invalid }" tag="form" class="form block-form">
-                <FormLabel>General Settings</FormLabel>
+            <ValidationObserver @submit.prevent="appSetupSubmit" ref="appSetup" v-slot="{ invalid }" tag="form">
 
-                <div class="block-wrapper">
-                    <label>App Title:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Title" rules="required" v-slot="{ errors }">
-                        <input v-model="app.title" placeholder="Type your app title" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<div class="card shadow-card text-left">
+					<FormLabel>General Settings</FormLabel>
 
-                <div class="block-wrapper">
-                    <label>App Description:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Description" rules="required" v-slot="{ errors }">
-                        <input v-model="app.description" placeholder="Type your app description" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="App Title" rules="required" v-slot="{ errors }">
+						<AppInputText title="App Title" :error="errors[0]">
+							<input class="focus-border-theme input-dark" v-model="app.title" placeholder="Type your app title" type="text" :class="{ 'border-red': errors[0] }" />
+						</AppInputText>
+					</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>App Logo (optional):</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
-                        <ImageInput v-model="app.logo" :error="errors[0]" />
-                    </ValidationProvider>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="App Description" rules="required" v-slot="{ errors }">
+						<AppInputText title="App Description" :error="errors[0]" :is-last="true">
+							<textarea class="focus-border-theme input-dark" v-model="app.description" placeholder="Type your app description" type="text" :class="{ 'border-red': errors[0] }"></textarea>
+						</AppInputText>
+					</ValidationProvider>
+				</div>
 
-                <div class="block-wrapper">
-                    <label>App Logo Horizontal (optional):</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Logo" v-slot="{ errors }">
-                        <ImageInput v-model="app.logo_horizontal" :error="errors[0]" />
-                    </ValidationProvider>
-                </div>
+				<div class="card shadow-card text-left">
+					<FormLabel>Appearance</FormLabel>
 
-                <div class="block-wrapper">
-                    <label>App Favicon (optional):</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
-                        <ImageInput v-model="app.favicon" :error="errors[0]" />
-                    </ValidationProvider>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="Theme Color" v-slot="{ errors }">
+						<AppInputSwitch title="Color Theme">
+							<input v-model="app.color" type="color" />
+						</AppInputSwitch>
+					</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>OG Image (optional):</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
-                        <ImageInput v-model="app.og_image" :error="errors[0]" />
-                        <small class="input-help">Image that appear when someone shares the content to Facebook or any other social medium. Preferred size is 1200x627</small>
-                    </ValidationProvider>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="App Logo" v-slot="{ errors }">
+						<AppInputText title="App Logo (optional)" :error="errors[0]">
+							<ImageInput v-model="app.logo" :error="errors[0]" />
+						</AppInputText>
+					</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>App Touch Icon (optional):</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="App Favicon" v-slot="{ errors }">
-                        <ImageInput v-model="app.touch_icon" :error="errors[0]" />
-                        <small class="input-help">If user store bookmark on his phone screen, this icon appear in app thumbnail. Preferred size is 156x156</small>
-                    </ValidationProvider>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="App Logo" v-slot="{ errors }">
+						<AppInputText title="App Logo Horizontal (optional)" :error="errors[0]">
+							<ImageInput v-model="app.logo_horizontal" :error="errors[0]" />
+						</AppInputText>
+					</ValidationProvider>
 
-                <FormLabel class="mt-70">Others Information</FormLabel>
+					<ValidationProvider tag="div" mode="passive" name="App Favicon" v-slot="{ errors }">
+						<AppInputText title="App Favicon (optional)" :error="errors[0]">
+							<ImageInput v-model="app.favicon" :error="errors[0]" />
+						</AppInputText>
+					</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Contact Email:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Contact Email" rules="required" v-slot="{ errors }">
-                        <input v-model="app.contactMail" placeholder="Type your contact email" type="email" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="App Favicon" v-slot="{ errors }">
+						<AppInputText title="OG Image (optional)" description="Image that appear when someone shares the content to Facebook or any other social medium. Preferred size is 1200x627" :error="errors[0]">
+							<ImageInput v-model="app.og_image" :error="errors[0]" />
+						</AppInputText>
+					</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Google Analytics Code (optional):</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Google Analytics Code" v-slot="{ errors }">
-                        <input v-model="app.googleAnalytics" placeholder="Paste your Google Analytics Code" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="App Favicon" v-slot="{ errors }">
+						<AppInputText title="App Touch Icon (optional)" description="If user store bookmark on his phone screen, this icon appear in app thumbnail. Preferred size is 156x156" :error="errors[0]" :is-last="true">
+							<ImageInput v-model="app.touch_icon" :error="errors[0]" />
+						</AppInputText>
+					</ValidationProvider>
+				</div>
 
-                <div class="block-wrapper">
-                    <div class="input-wrapper">
-                        <div class="inline-wrapper">
-                            <div class="switch-label">
-                                <label class="input-label">Storage Limitation:</label>
-                                <small class="input-help"
-                                    >If this value is off, all users will have infinity storage capacity and you won't be able to charge your users for storage plan.</small
-                                >
-                            </div>
-                            <SwitchInput v-model="app.storageLimitation" class="switch" :state="app.storageLimitation" />
-                        </div>
-                    </div>
-                </div>
+				<div class="card shadow-card text-left">
+					<FormLabel>Application</FormLabel>
 
-                <div class="block-wrapper" v-if="app.storageLimitation">
-                    <label>Default Storage Space for Accounts:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Default Storage Space" rules="required" v-slot="{ errors }">
-                        <input
-                            v-model="app.defaultStorage"
-                            min="1"
-                            max="999999999"
-                            placeholder="Set default storage space in GB"
-                            type="number"
-                            :class="{ 'border-red': errors[0] }"
-                        />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="Contact Email" rules="required" v-slot="{ errors }">
+						<AppInputText title="Contact Email" :error="errors[0]">
+							<input class="focus-border-theme input-dark" v-model="app.contactMail" placeholder="Type your contact email" type="email" :class="{ 'border-red': errors[0] }" />
+						</AppInputText>
+					</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <div class="input-wrapper">
-                        <div class="inline-wrapper">
-                            <div class="switch-label">
-                                <label class="input-label">Allow User Registration:</label>
-                                <small class="input-help"
-                                    >You can disable public registration for new users. You will still able to create new users in administration panel.</small
-                                >
-                            </div>
-                            <SwitchInput v-model="app.userRegistration" class="switch" :state="app.userRegistration" />
-                        </div>
-                    </div>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="Google Analytics Code" v-slot="{ errors }">
+						<AppInputText title="Google Analytics Code (optional)" :error="errors[0]">
+							<input class="focus-border-theme input-dark" v-model="app.googleAnalytics" placeholder="Paste your Google Analytics Code" type="text" :class="{ 'border-red': errors[0] }" />
+						</AppInputText>
+					</ValidationProvider>
 
-                <div class="submit-wrapper">
-                    <AuthButton icon="chevron-right" text="Save and Create Admin" :loading="isLoading" :disabled="isLoading" />
-                </div>
+					<AppInputSwitch title="Storage Limitation" description="If this value is off, all users will have infinity storage capacity and you won't be able to charge your users for storage plan.">
+						<SwitchInput v-model="app.storageLimitation" :state="app.storageLimitation" />
+					</AppInputSwitch>
+
+					<ValidationProvider tag="div" mode="passive" name="Default Storage Space" rules="required" v-slot="{ errors }">
+						<AppInputText v-if="app.storageLimitation" title="Default Storage Space for Accounts" :error="errors[0]">
+							<input
+								class="focus-border-theme input-dark"
+								v-model="app.defaultStorage"
+								min="1"
+								max="999999999"
+								placeholder="Set default storage space in GB"
+								type="number"
+								:class="{ 'border-red': errors[0] }"
+							/>
+						</AppInputText>
+					</ValidationProvider>
+
+					<AppInputSwitch title="Allow User Registration" description="You can disable public registration for new users. You will still able to create new users in administration panel.">
+						<SwitchInput v-model="app.userRegistration" class="switch" :state="app.userRegistration" />
+					</AppInputSwitch>
+
+					<AppInputSwitch title="Require Email Verification" description="Turn on, if you want to allow user email verification." :is-last="true">
+						<SwitchInput v-model="app.userVerification" class="switch" :state="app.userVerification" />
+					</AppInputSwitch>
+				</div>
+
+				<div class="card shadow-card text-left">
+					<FormLabel>Subscription</FormLabel>
+
+					<ValidationProvider tag="div" mode="passive" name="Contact Email" rules="required" v-slot="{ errors }">
+						<AppInputText :title="$t('Subscription Type')" description="Choose your preferred subscription system in advance. After installation and any other user registration, you can't change this setting later.">
+							<SelectInput v-model="app.subscriptionType" :options="$store.getters.subscriptionTypes" :placeholder="$t('Select your subscription type')" />
+						</AppInputText>
+					</ValidationProvider>
+
+					<InfoBox class="!mb-2">
+						<p>Any other subscription related settings you will be able set up later in admin panel.</p>
+					</InfoBox>
+				</div>
+
+				<AuthButton class="w-full justify-center" icon="chevron-right" text="Save and Create Admin" :loading="isLoading" :disabled="isLoading" />
             </ValidationObserver>
         </AuthContent>
     </AuthContentWrapper>
@@ -136,20 +131,23 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-va
 import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
 import SelectInput from '../../components/Others/Forms/SelectInput'
 import SwitchInput from '../../components/Others/Forms/SwitchInput'
+import AppInputSwitch from "../../components/Admin/AppInputSwitch"
 import ImageInput from '../../components/Others/Forms/ImageInput'
 import FormLabel from '../../components/Others/Forms/FormLabel'
+import AppInputText from "../../components/Admin/AppInputText"
 import InfoBox from '../../components/Others/Forms/InfoBox'
 import AuthContent from '../../components/Auth/AuthContent'
 import AuthButton from '../../components/Auth/AuthButton'
 import { SettingsIcon } from 'vue-feather-icons'
 import Headline from '../Auth/Headline'
 import { required } from 'vee-validate/dist/rules'
-import { mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default {
     name: 'EnvironmentSetup',
     components: {
+		AppInputText,
+		AppInputSwitch,
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,
@@ -168,6 +166,8 @@ export default {
         return {
             isLoading: false,
             app: {
+                color: '#00BC7E',
+				subscriptionType: undefined,
                 title: '',
                 description: '',
                 logo: undefined,
@@ -180,11 +180,16 @@ export default {
                 defaultStorage: '5',
                 userRegistration: 1,
                 storageLimitation: 1,
+				userVerification: 0,
             },
         }
     },
     methods: {
         async appSetupSubmit() {
+			if (this.$root.$data.config.isSetupWizardDemo) {
+				this.$router.push({name: 'AdminAccount'})
+			}
+
             // Validate fields
             const isValid = await this.$refs.appSetup.validate()
 
@@ -197,25 +202,35 @@ export default {
             let formData = new FormData()
 
             // Add image to form
+            formData.append('color', this.app.color)
             formData.append('title', this.app.title)
             formData.append('description', this.app.description)
             formData.append('contactMail', this.app.contactMail)
+            formData.append('subscriptionType', this.app.subscriptionType)
+            formData.append('userVerification', Boolean(this.app.userVerification) ? 1 : 0)
             formData.append('userRegistration', Boolean(this.app.userRegistration) ? 1 : 0)
             formData.append('storageLimitation', Boolean(this.app.storageLimitation) ? 1 : 0)
 
-            if (this.app.googleAnalytics) formData.append('googleAnalytics', this.app.googleAnalytics)
+            if (this.app.googleAnalytics)
+				formData.append('googleAnalytics', this.app.googleAnalytics)
 
-            if (this.app.defaultStorage) formData.append('defaultStorage', this.app.defaultStorage)
+            if (this.app.defaultStorage)
+				formData.append('defaultStorage', this.app.defaultStorage)
 
-            if (this.app.logo) formData.append('logo', this.app.logo)
+            if (this.app.logo)
+				formData.append('logo', this.app.logo)
 
-            if (this.app.logo_horizontal) formData.append('logo_horizontal', this.app.logo_horizontal)
+            if (this.app.logo_horizontal)
+				formData.append('logo_horizontal', this.app.logo_horizontal)
 
-            if (this.app.og_image) formData.append('og_image', this.app.og_image)
+            if (this.app.og_image)
+				formData.append('og_image', this.app.og_image)
 
-            if (this.app.touch_icon) formData.append('touch_icon', this.app.touch_icon)
+            if (this.app.touch_icon)
+				formData.append('touch_icon', this.app.touch_icon)
 
-            if (this.app.favicon) formData.append('favicon', this.app.favicon)
+            if (this.app.favicon)
+				formData.append('favicon', this.app.favicon)
 
             // Send request to get verify account
             axios
@@ -242,9 +257,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import '../../../sass/vuefilemanager/forms';
-@import '../../../sass/vuefilemanager/auth';
-@import '../../../sass/vuefilemanager/setup_wizard';
-</style>

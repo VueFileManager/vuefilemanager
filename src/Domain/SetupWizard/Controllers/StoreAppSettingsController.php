@@ -17,6 +17,18 @@ class StoreAppSettingsController extends Controller
     ): Response {
         collect([
             [
+                'name'  => 'subscription_type',
+                'value' => $request->input('subscriptionType'),
+            ],
+            [
+                'name'  => 'user_verification',
+                'value' => $request->input('userVerification'),
+            ],
+            [
+                'name'  => 'app_color',
+                'value' => $request->input('color'),
+            ],
+            [
                 'name'  => 'app_title',
                 'value' => $request->input('title'),
             ],

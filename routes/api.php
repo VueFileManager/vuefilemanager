@@ -1,5 +1,6 @@
 <?php
 
+use Domain\SetupWizard\Controllers\PingAPIController;
 use Domain\Zip\Controllers\ZipController;
 use Domain\Pages\Controllers\PagesController;
 use Domain\Sharing\Controllers\ShareController;
@@ -26,6 +27,9 @@ use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
 use Domain\Sharing\Controllers\GetShareLinkViaQrCodeController;
 use App\Users\Controllers\Authentication\RegisterUserController;
+
+// Ping Pong
+Route::get('/ping', PingAPIController::class);
 
 // Pages
 Route::apiResource('/page', PagesController::class);

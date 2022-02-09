@@ -1,98 +1,119 @@
 <template>
     <AuthContentWrapper ref="auth">
-        <!--Database Credentials-->
-        <AuthContent name="database-credentials" :visible="true">
+        <!--Server Check-->
+        <AuthContent :visible="true" class="!max-w-2xl mt-6 mb-12">
             <Headline
-                class="container mx-auto max-w-screen-sm"
+                class="mx-auto max-w-screen-sm !mb-10"
                 title="Server Check"
                 description="At first, we have to check if all modules and setup is ready for running VueFileManager"
             >
-                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+                <settings-icon size="40" class="vue-feather text-theme mx-auto animate-[spin_5s_linear_infinite] mb-3" />
             </Headline>
 
-            <div class="form block-form">
-                <!--PHP Extension info-->
-                <FormLabel>Required PHP Extensions</FormLabel>
-                <InfoBox>
+			<!--PHP Extension info-->
+            <div class="card shadow-card">
+                <FormLabel>
+					Required PHP Extensions
+				</FormLabel>
+
+                <InfoBox class="!mb-2">
                     <p>Those PHP modules are needed for accurate running VueFileManager on your server, please check and install if some is missing.</p>
                 </InfoBox>
 
-                <ul v-if="modules" class="check-list">
-                    <li v-for="(value, module, i) in modules" :key="i" class="check-item">
-                        <div class="content">
-                            <b class="parameter capitalize">{{ module }}</b>
-                        </div>
-                        <div class="status" :class="value ? 'success' : 'danger'">
-                            <check-icon v-if="value" size="16" />
-                            <x-icon v-if="!value" size="16" />
-                            <span class="note">{{ value ? 'Module Installed' : 'Missing Module' }}</span>
-                        </div>
-                    </li>
-                </ul>
+				<div v-if="modules" v-for="(value, module, i) in modules" :key="i" class="py-3 flex items-center justify-between border-b border-dashed border-light dark:border-opacity-5">
+					<b class="text-sm font-bold">
+						{{ module }}
+					</b>
+					<div class="flex items-center">
+						<check-icon v-if="value" size="16" class="vue-feather text-theme"/>
+						<x-icon v-if="!value" size="16" class="vue-feather text-red-600"/>
 
-                <!--PHP version and ini check-->
-                <FormLabel>PHP Version and php.ini</FormLabel>
-                <InfoBox>
+						<span class="ml-3 text-sm font-bold" :class="value ? 'text-green-600' : 'text-red-600'">
+							{{ value ? 'Module Installed' : 'Missing Module' }}
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<!--PHP version and ini check-->
+			<div class="card shadow-card">
+                <FormLabel>
+					PHP Version and php.ini
+				</FormLabel>
+
+                <InfoBox class="!mb-2">
                     <p>Those PHP settings are needed for accurate running VueFileManager on your server, please check and tweak in your php.ini if needed.</p>
                 </InfoBox>
 
-                <ul class="check-list">
-                    <li class="check-item">
-                        <div class="content">
-                            <b class="parameter">PHP Version</b>
-                            <small v-if="!phpVersion.acceptable" class="help">You need PHP version at least {{ phpVersion.minimal }}.</small>
-                        </div>
-                        <div class="status" :class="phpVersion.acceptable ? 'success' : 'danger'">
-                            <check-icon v-if="phpVersion.acceptable" size="16" />
-                            <x-icon v-if="!phpVersion.acceptable" size="16" />
-                            <span class="note">{{ phpVersion.current }}</span>
-                        </div>
-                    </li>
+				<div class="py-3 flex items-center justify-between border-b border-dashed border-light dark:border-opacity-5">
+					<div class="text-left">
+						<b class="text-sm font-bold block">PHP Version</b>
+						<small v-if="!phpVersion.acceptable" class="text-xs text-gray-600">
+							You need PHP version at least {{ phpVersion.minimal }}.
+						</small>
+					</div>
+					<div class="flex items-center">
+						<check-icon v-if="phpVersion.acceptable" size="16" class="vue-feather text-theme"/>
+						<x-icon v-if="!phpVersion.acceptable" size="16" class="vue-feather text-red-600" />
 
-                    <li v-for="(values, setting, i) in ini" :key="i" class="check-item">
-                        <div class="content">
-                            <b class="parameter">{{ setting }}</b>
-                            <small v-if="!values.status" class="help">We recommend set this value at least {{ values.minimal }}.</small>
-                        </div>
-                        <div class="status" :class="values.status ? 'success' : 'danger'">
-                            <check-icon v-if="values.status" size="16" />
-                            <x-icon v-if="!values.status" size="16" />
-                            <span class="note">{{ values.current }}{{ setting !== 'max_execution_time' ? 'M' : '' }}</span>
-                        </div>
-                    </li>
-                </ul>
+						<span class="ml-3 text-sm font-bold" :class="phpVersion.acceptable ? 'text-green-600' : 'text-red-600'">
+							{{ phpVersion.current }}
+						</span>
+					</div>
+				</div>
 
-                <!--API check-->
-                <FormLabel>API</FormLabel>
-                <InfoBox>
+				<div v-for="(values, setting, i) in ini" :key="i" class="py-3 flex items-center justify-between border-b border-dashed border-light dark:border-opacity-5">
+					<div class="text-left">
+						<b class="text-sm font-bold block">{{ setting }}</b>
+						<small v-if="!values.status" class="text-xs text-gray-600">
+							We recommend set this value at least {{ values.minimal }}.
+						</small>
+					</div>
+					<div class="flex items-center">
+						<check-icon v-if="values.status" size="16" class="vue-feather text-theme"/>
+						<x-icon v-if="!values.status" size="16" class="vue-feather text-red-600" />
+
+						<span class="ml-3 text-sm font-bold" :class="values.status ? 'text-green-600' : 'text-red-600'">
+							{{ values.current }}{{ setting !== 'max_execution_time' ? 'M' : '' }}
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<!--API check-->
+			<div class="card shadow-card">
+                <FormLabel>
+					API
+				</FormLabel>
+
+                <InfoBox class="!mb-2">
                     <p>The check, if your domain is set correctly.</p>
                 </InfoBox>
 
-                <ul class="check-list">
-                    <li class="check-item">
-                        <div class="content">
-                            <b class="parameter">API</b>
-                            <small v-if="isCheckedAPI && !apiRunning" class="help">We detect, your domain root is not set correctly, please check it.</small>
-                        </div>
-                        <div v-if="isCheckedAPI" class="status" :class="apiRunning ? 'success' : 'danger'">
-                            <check-icon v-if="apiRunning" size="16" />
-                            <x-icon v-if="!apiRunning" size="16" />
-                            <span class="note">{{ apiRunning ? 'Working correctly' : "Doesn't work" }}</span>
-                        </div>
-                        <div v-if="!isCheckedAPI" class="status">
-                            <span class="note">Checking your API...</span>
-                        </div>
-                    </li>
-                </ul>
+				<div class="pt-3 flex items-center justify-between">
+					<div class="text-left">
+						<b class="text-sm font-bold block">API</b>
+						<small v-if="isCheckedAPI && !apiRunning" class="text-xs text-gray-600">
+							We detect, your domain root is not set correctly, please check it.
+						</small>
+					</div>
+					<div v-if="isCheckedAPI" class="flex items-center">
+						<check-icon v-if="apiRunning" size="16" class="vue-feather text-theme"/>
+						<x-icon v-if="!apiRunning" size="16" class="vue-feather text-red-600" />
 
-                <InfoBox v-if="isError" type="error" style="margin-bottom: 10px">
+						<span class="ml-3 text-sm font-bold" :class="apiRunning ? 'text-green-600' : 'text-red-600'">
+							{{ apiRunning ? 'Working correctly' : "Doesn't work" }}
+						</span>
+					</div>
+					<span v-if="!isCheckedAPI" class="ml-3 text-sm font-bold text-gray-600">Checking your API...</span>
+				</div>
+
+                <InfoBox v-if="isError" type="error" class="!mb-2">
                     <p>We can't proceed to the next step because there are unresolved issues. Please solve it at first and next continue.</p>
                 </InfoBox>
+			</div>
 
-                <div class="submit-wrapper">
-                    <AuthButton @click.native="lastCheckBeforeNextPage" icon="chevron-right" text="Awesome, I'm done!" :loading="isLoading" :disabled="isLoading" />
-                </div>
-            </div>
+			<AuthButton @click.native="lastCheckBeforeNextPage" class="w-full justify-center" icon="chevron-right" text="Awesome, I'm done!" :loading="isLoading" :disabled="isLoading" />
         </AuthContent>
     </AuthContentWrapper>
 </template>
@@ -164,7 +185,7 @@ export default {
         },
         pingAPI() {
             axios
-                .get('/api/setup/ping')
+                .get('/api/ping')
                 .then((response) => {
                     if (response.data === 'pong') {
                         this.apiRunning = true
@@ -183,71 +204,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import '../../../sass/vuefilemanager/forms';
-@import '../../../sass/vuefilemanager/auth';
-@import '../../../sass/vuefilemanager/setup_wizard';
-
-.check-list {
-    display: block;
-    border-radius: 8px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
-    padding: 5px 20px;
-    margin-bottom: 50px;
-
-    .check-item {
-        padding: 12px 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 1px solid $light_mode_border;
-
-        &:last-child {
-            border-bottom: none;
-        }
-    }
-
-    .status {
-        display: flex;
-        align-items: center;
-
-        .note {
-            margin-left: 10px;
-            @include font-size(12);
-            font-weight: 600;
-            color: $text-muted;
-        }
-
-        &.success {
-            .note {
-                color: #00bc7e;
-            }
-
-            polyline {
-                color: #00bc7e;
-            }
-        }
-
-        &.danger {
-            .note {
-                color: #fd397a;
-            }
-
-            line {
-                color: #fd397a;
-            }
-        }
-    }
-
-    .parameter {
-        @include font-size(14);
-    }
-
-    .help {
-        @include font-size(12);
-        color: $text-muted;
-        display: block;
-    }
-}
-</style>

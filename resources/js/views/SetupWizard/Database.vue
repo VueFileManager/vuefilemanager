@@ -1,13 +1,16 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Database Credentials-->
-        <AuthContent name="database-credentials" :visible="true">
-            <Headline class="container mx-auto max-w-screen-sm" title="Setup Wizard" description="Set up your database connection to install application database.">
-                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+        <AuthContent name="database-credentials" :visible="true" class="!max-w-2xl mt-6 mb-12">
+            <Headline class="mx-auto max-w-screen-sm !mb-10" title="Setup Wizard" description="Set up your database connection to install application database.">
+                <settings-icon size="40" class="vue-feather text-theme mx-auto animate-[spin_5s_linear_infinite] mb-3" />
             </Headline>
 
-            <ValidationObserver @submit.prevent="databaseCredentialsSubmit" ref="verifyPurchaseCode" v-slot="{ invalid }" tag="form" class="form block-form">
-                <FormLabel>Database Credentials</FormLabel>
+            <ValidationObserver @submit.prevent="databaseCredentialsSubmit" ref="verifyPurchaseCode" v-slot="{ invalid }" tag="form" class="card shadow-card text-left">
+                <FormLabel>
+					Database Credentials
+				</FormLabel>
+
                 <InfoBox>
                     <p>
                         We strongly recommend use MySQL or MariaDB database. Create new database, set all privileges and get credentials. For those who use cPanel or Plesk, here is
@@ -21,59 +24,47 @@
                     </ul>
                 </InfoBox>
 
-                <div class="block-wrapper">
-                    <label>Connection:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Connection" rules="required" v-slot="{ errors }">
-                        <SelectInput
-                            v-model="databaseCredentials.connection"
-                            :options="connectionList"
-                            default="mysql"
-                            placeholder="Select your database connection"
-                            :isError="errors[0]"
-                        />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<ValidationProvider tag="div" mode="passive" name="Connection" rules="required" v-slot="{ errors }">
+					<AppInputText title="Connection" :error="errors[0]">
+						<SelectInput
+							v-model="databaseCredentials.connection"
+							:options="connectionList"
+							default="mysql"
+							placeholder="Select your database connection"
+							:isError="errors[0]"
+						/>
+					</AppInputText>
+				</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Host:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Host" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.host" placeholder="Type your database host" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<ValidationProvider tag="div" mode="passive" name="Host" rules="required" v-slot="{ errors }">
+					<AppInputText title="Host" :error="errors[0]">
+						<input v-model="databaseCredentials.host" class="focus-border-theme input-dark" placeholder="Type your database host" type="text" :class="{ 'border-red': errors[0] }" />
+					</AppInputText>
+				</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Port:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Port" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.port" placeholder="Type your database port" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<ValidationProvider tag="div" mode="passive" name="Port" rules="required" v-slot="{ errors }">
+					<AppInputText title="Port" :error="errors[0]">
+						<input v-model="databaseCredentials.port" class="focus-border-theme input-dark" placeholder="Type your database port" type="text" :class="{ 'border-red': errors[0] }" />
+					</AppInputText>
+				</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Database Name:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Database Name" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.name" placeholder="Select your database name" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<ValidationProvider tag="div" mode="passive" name="Database Name" rules="required" v-slot="{ errors }">
+					<AppInputText title="Database Name" :error="errors[0]">
+						<input v-model="databaseCredentials.name" class="focus-border-theme input-dark" placeholder="Select your database name" type="text" :class="{ 'border-red': errors[0] }" />
+					</AppInputText>
+				</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Database Username:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Database Username" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.username" placeholder="Select your database name" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<ValidationProvider tag="div" mode="passive" name="Database Username" rules="required" v-slot="{ errors }">
+					<AppInputText title="Database Username" :error="errors[0]">
+						<input v-model="databaseCredentials.username" class="focus-border-theme input-dark" placeholder="Select your database name" type="text" :class="{ 'border-red': errors[0] }" />
+					</AppInputText>
+				</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Database Password:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Database Password" rules="required" v-slot="{ errors }">
-                        <input v-model="databaseCredentials.password" placeholder="Select your database password" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<ValidationProvider tag="div" mode="passive" name="Database Password" rules="required" v-slot="{ errors }">
+					<AppInputText title="Database Password" :error="errors[0]" :is-last="true">
+						<input v-model="databaseCredentials.password" class="focus-border-theme input-dark" placeholder="Select your database password" type="text" :class="{ 'border-red': errors[0] }" />
+					</AppInputText>
+				</ValidationProvider>
 
                 <InfoBox v-if="isError" type="error" style="margin-bottom: 10px">
                     <p>We couldn't establish database connection. Please double check your database credentials.</p>
@@ -81,10 +72,8 @@
                     <p>Detailed error: {{ errorMessage }}</p>
                 </InfoBox>
 
-                <div class="submit-wrapper">
-                    <AuthButton icon="chevron-right" :text="submitButtonText" :loading="isLoading" :disabled="isLoading" />
-                </div>
             </ValidationObserver>
+			<AuthButton @click.native="databaseCredentialsSubmit" class="w-full justify-center" icon="chevron-right" :text="submitButtonText" :loading="isLoading" :disabled="isLoading" />
         </AuthContent>
     </AuthContentWrapper>
 </template>
@@ -93,6 +82,7 @@
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
 import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
 import SelectInput from '../../components/Others/Forms/SelectInput'
+import AppInputText from "../../components/Admin/AppInputText"
 import FormLabel from '../../components/Others/Forms/FormLabel'
 import InfoBox from '../../components/Others/Forms/InfoBox'
 import AuthContent from '../../components/Auth/AuthContent'
@@ -109,6 +99,7 @@ export default {
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,
+		AppInputText,
         SettingsIcon,
         SelectInput,
         AuthContent,
@@ -146,6 +137,10 @@ export default {
     },
     methods: {
         async databaseCredentialsSubmit() {
+			if (this.$root.$data.config.isSetupWizardDemo) {
+				this.$router.push({name: 'EnvironmentSetup'})
+			}
+
             // Validate fields
             const isValid = await this.$refs.verifyPurchaseCode.validate()
 
@@ -181,9 +176,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import '../../../sass/vuefilemanager/forms';
-@import '../../../sass/vuefilemanager/auth';
-@import '../../../sass/vuefilemanager/setup_wizard';
-</style>

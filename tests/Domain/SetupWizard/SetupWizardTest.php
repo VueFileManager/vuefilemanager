@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\SetupWizard;
 
 use Tests\TestCase;
@@ -10,14 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SetupWizardTest extends TestCase
 {
-    /**
-     * CAVEAT:
-     *
-     * The route '/api/setup/stripe-plans' which is part of setup wizard is moved to
-     * SubscriptionTest.php to group all live API test. For more info how to test
-     * subscription integration in VueFileManager platform visit https://laravel.com/docs/8.x/billing#testing
-     */
-
     /**
      * @test
      */
@@ -69,98 +62,18 @@ class SetupWizardTest extends TestCase
     /**
      * @test
      */
-    public function it_store_stripe_credentials()
-    {
-        $this->postJson('/api/setup/stripe-credentials', [
-            'currency'      => 'EUR',
-            'key'           => '123456789',
-            'secret'        => '123456789',
-            'webhookSecret' => '123456789',
-        ])->assertStatus(204);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'stripe_currency',
-            'value' => 'EUR',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'payments_configured',
-            'value' => 1,
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'payments_active',
-            'value' => 1,
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_store_stripe_billings()
-    {
-        $payload = collect([
-            'billing_phone_number' => '+421123456789',
-            'billing_postal_code'  => '04001',
-            'billing_vat_number'   => 'SK20042134234',
-            'billing_address'      => 'Does 20',
-            'billing_country'      => 'Doeland',
-            'billing_state'        => 'Doeslandia',
-            'billing_city'         => 'Does',
-            'billing_name'         => 'John Doe Ltd.',
-        ]);
-
-        $this->postJson('/api/setup/stripe-billings', $payload->toArray())
-            ->assertStatus(204);
-
-        $payload
-            ->each(function ($value, $key) {
-                $this->assertDatabaseHas('settings', [
-                    'name'  => $key,
-                    'value' => $value,
-                ]);
-            });
-    }
-
-    /**
-     *
-     */
-    public function it_store_stripe_plans()
-    {
-    }
-
-    /**
-     * @test
-     */
-    public function it_store_environment()
-    {
-        $this->postJson('/api/setup/environment-setup', [
-            'storage' => [
-                'driver' => 'local',
-            ],
-            'mail'    => [
-                'driver'     => 'smtp',
-                'host'       => 'smtp.email.com',
-                'port'       => '25',
-                'username'   => 'john@doe.com',
-                'password'   => 'secret',
-                'encryption' => 'tls',
-            ],
-        ])->assertStatus(204);
-    }
-
-    /**
-     * @test
-     */
     public function it_store_app_settings()
     {
         Setting::all()->each->delete();
 
         $this->postJson('/api/setup/app-setup', [
+            'color'             => '#00BC7E',
             'title'             => 'VueFileManager',
             'description'       => 'The best file manager on the internet',
             'googleAnalytics'   => 'UA-12345678-1',
             'contactMail'       => 'john@doe.com',
+            'subscriptionType'  => 'metered',
+            'userVerification'  => 1,
             'userRegistration'  => 1,
             'storageLimitation' => 1,
             'defaultStorage'    => 10,
@@ -169,30 +82,39 @@ class SetupWizardTest extends TestCase
             'favicon'           => UploadedFile::fake()->image('fake-favicon.jpg'),
         ])->assertStatus(204);
 
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'app_title',
-            'value' => 'VueFileManager',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'app_description',
-            'value' => 'The best file manager on the internet',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'google_analytics',
-            'value' => 'UA-12345678-1',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'contact_email',
-            'value' => 'john@doe.com',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'default_max_storage_amount',
-            'value' => '10',
-        ]);
+        $this
+            ->assertDatabaseHas('settings', [
+                'name'  => 'subscription_type',
+                'value' => 'metered',
+            ])
+            ->assertDatabaseHas('settings', [
+                'name'  => 'user_verification',
+                'value' => 1,
+            ])
+            ->assertDatabaseHas('settings', [
+                'name'  => 'app_color',
+                'value' => '#00BC7E',
+            ])
+            ->assertDatabaseHas('settings', [
+                'name'  => 'app_title',
+                'value' => 'VueFileManager',
+            ])
+            ->assertDatabaseHas('settings', [
+                'name'  => 'app_description',
+                'value' => 'The best file manager on the internet',
+            ])
+            ->assertDatabaseHas('settings', [
+                'name'  => 'google_analytics',
+                'value' => 'UA-12345678-1',
+            ])
+            ->assertDatabaseHas('settings', [
+                'name'  => 'contact_email',
+                'value' => 'john@doe.com',
+            ])
+            ->assertDatabaseHas('settings', [
+                'name'  => 'default_max_storage_amount',
+                'value' => '10',
+            ]);
 
         collect(['app_logo', 'app_logo_horizontal', 'app_favicon'])
             ->each(function ($file) {
@@ -279,9 +201,8 @@ class SetupWizardTest extends TestCase
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
-                fn ($size) =>
-            Storage::disk('local')
-                ->assertExists("avatars/{$size['name']}-{$avatar}")
+                fn($size) => Storage::disk('local')
+                    ->assertExists("avatars/{$size['name']}-{$avatar}")
             );
     }
 

@@ -527,7 +527,11 @@ export default {
             return `${this.config.host}/api/subscriptions/${service}/webhook`
         },
     },
-    mounted() {
+    created() {
+		events.$on('action:confirmed', (data) => {
+			if (data.operation === 'change-subscription-type') this.$updateText('/admin/settings', 'subscription_type', data.type)
+		})
+
         // Set payment description
         this.stripe.paymentDescription = this.config.stripe_payment_description
         this.paystack.paymentDescription = this.config.paystack_payment_description
@@ -549,11 +553,6 @@ export default {
         // Set metered
         this.allowedRegistrationBonus = this.config.allowed_registration_bonus
         this.registrationBonusAmount = this.config.registration_bonus_amount
-    },
-    created() {
-        events.$on('action:confirmed', (data) => {
-            if (data.operation === 'change-subscription-type') this.$updateText('/admin/settings', 'subscription_type', data.type)
-        })
     },
     destroyed() {
         events.$off('action:confirmed')

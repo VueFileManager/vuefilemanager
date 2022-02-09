@@ -49,7 +49,7 @@
                 </ValidationProvider>
 
                 <!--Member list-->
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Members" rules="required" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Members" rules="required" v-slot="{ errors }">
 					<AppInputText :title="$t('Your Members')" :error="errors[0]" :is-last="true">
 						<span v-if="errors[0]" class="error-message" style="margin-top: -5px">
 							{{ $t('Please add at least one member.') }}

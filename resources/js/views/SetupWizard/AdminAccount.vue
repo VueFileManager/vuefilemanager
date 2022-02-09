@@ -1,64 +1,54 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Database Credentials-->
-        <AuthContent name="database-credentials" :visible="true">
-            <div class="content-headline">
-                <settings-icon size="40" class="title-icon text-theme" />
-                <h1>Setup Wizard</h1>
-                <h2>Create your admin account.</h2>
-            </div>
+        <AuthContent name="database-credentials" :visible="true" class="!max-w-2xl mt-6 mb-12">
+			<Headline class="mx-auto max-w-screen-sm !mb-10" title="Setup Wizard" description="Create your admin account.">
+                <settings-icon size="40" class="vue-feather text-theme mx-auto animate-[spin_5s_linear_infinite] mb-3" />
+            </Headline>
 
-            <ValidationObserver @submit.prevent="adminAccountSubmit" ref="adminAccount" v-slot="{ invalid }" tag="form" class="form block-form">
-                <FormLabel>Create Admin Account</FormLabel>
+            <ValidationObserver @submit.prevent="adminAccountSubmit" ref="adminAccount" v-slot="{ invalid }" tag="form" class="card shadow-card text-left">
+                <FormLabel>
+					Create Admin Account
+				</FormLabel>
 
-                <div class="block-wrapper">
-                    <label>Avatar (optional):</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Avatar" v-slot="{ errors }">
+				<ValidationProvider tag="div" mode="passive" name="Avatar" v-slot="{ errors }">
+					<AppInputText title="Avatar (optional)" :error="errors[0]">
                         <ImageInput v-model="admin.avatar" :error="errors[0]" />
-                    </ValidationProvider>
-                </div>
+					</AppInputText>
+				</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Full Name:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Full Name" rules="required" v-slot="{ errors }">
-                        <input v-model="admin.name" placeholder="Type your full name" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<ValidationProvider tag="div" mode="passive" name="Full Name" rules="required" v-slot="{ errors }">
+					<AppInputText title="Full Name" :error="errors[0]">
+						<input v-model="admin.name" class="focus-border-theme input-dark" placeholder="Type your full name" type="text" :class="{ 'border-red': errors[0] }" />
+					</AppInputText>
+				</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Email:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Email" rules="required" v-slot="{ errors }">
-                        <input v-model="admin.email" placeholder="Type your email" type="email" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+					<AppInputText title="Email" :error="errors[0]">
+						<input v-model="admin.email" class="focus-border-theme input-dark" placeholder="Type your email" type="email" :class="{ 'border-red': errors[0] }" />
+					</AppInputText>
+				</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Password:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Password" rules="required|confirmed:confirmation" v-slot="{ errors }">
-                        <input v-model="admin.password" placeholder="Type your password" type="password" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<ValidationProvider tag="div" mode="passive" name="Password" rules="required|confirmed:confirmation" v-slot="{ errors }">
+					<AppInputText title="Password" :error="errors[0]">
+                        <input v-model="admin.password" class="focus-border-theme input-dark" placeholder="Type your password" type="password" :class="{ 'border-red': errors[0] }" />
+					</AppInputText>
+				</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Password Confirmation:</label>
-                    <ValidationProvider tag="div" class="input-wrapper" name="confirmation" rules="required" vid="confirmation" v-slot="{ errors }">
-                        <input v-model="admin.password_confirmation" placeholder="Confirm your password" type="password" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
-
-                <div class="submit-wrapper">
-                    <AuthButton icon="chevron-right" text="Create Admin and Login" :loading="isLoading" :disabled="isLoading" />
-                </div>
+				<ValidationProvider tag="div" name="confirmation" rules="required" vid="confirmation" v-slot="{ errors }">
+					<AppInputText title="Password Confirmation" :error="errors[0]" :is-last="true">
+                        <input v-model="admin.password_confirmation" class="focus-border-theme input-dark" placeholder="Confirm your password" type="password" :class="{ 'border-red': errors[0] }" />
+					</AppInputText>
+				</ValidationProvider>
             </ValidationObserver>
+
+			<AuthButton @click.native="adminAccountSubmit" class="w-full justify-center" icon="chevron-right" text="Create Admin and Login" :loading="isLoading" :disabled="isLoading" />
         </AuthContent>
     </AuthContentWrapper>
 </template>
 
 <script>
+import AppInputText from "../../components/Admin/AppInputText";
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
 import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
 import SelectInput from '../../components/Others/Forms/SelectInput'
@@ -68,8 +58,9 @@ import FormLabel from '../../components/Others/Forms/FormLabel'
 import InfoBox from '../../components/Others/Forms/InfoBox'
 import AuthContent from '../../components/Auth/AuthContent'
 import AuthButton from '../../components/Auth/AuthButton'
-import { SettingsIcon } from 'vue-feather-icons'
 import { required } from 'vee-validate/dist/rules'
+import { SettingsIcon } from 'vue-feather-icons'
+import Headline from "../Auth/Headline"
 import { events } from '../../bus'
 import axios from 'axios'
 
@@ -79,6 +70,7 @@ export default {
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,
+		AppInputText,
         SettingsIcon,
         SelectInput,
         SwitchInput,
@@ -87,6 +79,7 @@ export default {
         AuthButton,
         FormLabel,
         required,
+		Headline,
         InfoBox,
     },
     data() {
@@ -192,9 +185,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import '../../../sass/vuefilemanager/forms';
-@import '../../../sass/vuefilemanager/auth';
-@import '../../../sass/vuefilemanager/setup_wizard';
-</style>

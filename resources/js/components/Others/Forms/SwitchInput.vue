@@ -1,5 +1,5 @@
 <template>
-    <div class="input-wrapper">
+    <div>
         <div class="switch-content">
             <label class="input-label" v-if="label"> {{ label }}: </label>
             <small class="input-info" v-if="info">

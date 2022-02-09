@@ -1,11 +1,13 @@
 <?php
+
 namespace Domain\Homepage\Controllers;
 
+use DB;
 use Domain\Pages\Models\Page;
 use Illuminate\Contracts\View\View;
-use Doctrine\DBAL\Driver\PDOException;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\Foundation\Application;
+use PDOException;
 
 class IndexController
 {
@@ -16,7 +18,7 @@ class IndexController
     {
         try {
             // Try to connect to database
-            \DB::getPdo();
+            DB::getPdo();
 
             // Get setup status
             $setup_status = get_setup_status();
@@ -33,7 +35,7 @@ class IndexController
             $upload_max_filesize = 128;
             $post_max_size = 128;
             $memory_limit = 512;
-            $max_execution_time = 3600;
+            $max_execution_time = 600;
             $php_version = '8.0';
 
             $status_check = [
@@ -47,6 +49,7 @@ class IndexController
                     'ctype'     => extension_loaded('ctype'),
                     'json'      => extension_loaded('json'),
                     'exif'      => extension_loaded('exif'),
+                    'intl'      => extension_loaded('intl'),
                     'pdo'       => extension_loaded('pdo'),
                     'xml'       => extension_loaded('xml'),
                     'gd'        => extension_loaded('gd'),

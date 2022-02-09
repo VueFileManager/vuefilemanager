@@ -37,7 +37,7 @@
                 </ValidationProvider>
 
                 <!--Member list-->
-                <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Members" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Members" v-slot="{ errors }">
                     <label class="input-label">{{ $t('Your Members') }}:</label>
                     <span v-if="errors[0]" class="error-message" style="margin-top: -5px">{{ $t('Please add at least one member.') }}</span>
                     <TeamList v-model="members" />

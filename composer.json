@@ -36,7 +36,8 @@
         "spatie/laravel-tail": "^4.3.3",
         "stechstudio/laravel-zipstream": "^4.5",
         "teamtnt/laravel-scout-tntsearch-driver": "^11.5.0.0",
-        "vimeo/psalm": "^4.11.2"
+        "vimeo/psalm": "^4.11.2",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "ext-json": "*",

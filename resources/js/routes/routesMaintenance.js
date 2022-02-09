@@ -32,46 +32,6 @@ const routesMaintenance = [
                 },
             },
             {
-                name: 'InstallationDisclaimer',
-                path: '/setup-wizard/installation-disclaimer',
-                component: () => import(/* webpackChunkName: "chunks/installation-disclaimer" */ '../views/SetupWizard/InstallationDisclaimer'),
-                meta: {
-                    requiresAuth: false,
-                },
-            },
-            {
-                name: 'SubscriptionService',
-                path: '/setup-wizard/subscription-service',
-                component: () => import(/* webpackChunkName: "chunks/subscription-service" */ '../views/SetupWizard/SubscriptionService'),
-                meta: {
-                    requiresAuth: false,
-                },
-            },
-            {
-                name: 'StripeCredentials',
-                path: '/setup-wizard/stripe-credentials',
-                component: () => import(/* webpackChunkName: "chunks/stripe-credentials" */ '../views/SetupWizard/StripeCredentials'),
-                meta: {
-                    requiresAuth: false,
-                },
-            },
-            {
-                name: 'BillingsDetail',
-                path: '/setup-wizard/stripe-billings',
-                component: () => import(/* webpackChunkName: "chunks/billings-detail" */ '../views/SetupWizard/BillingsDetail'),
-                meta: {
-                    requiresAuth: false,
-                },
-            },
-            {
-                name: 'SubscriptionPlans',
-                path: '/setup-wizard/stripe-plans',
-                component: () => import(/* webpackChunkName: "chunks/subscription-plans" */ '../views/SetupWizard/SubscriptionPlans'),
-                meta: {
-                    requiresAuth: false,
-                },
-            },
-            {
                 name: 'EnvironmentSetup',
                 path: '/setup-wizard/environment-setup',
                 component: () => import(/* webpackChunkName: "chunks/environment-setup" */ '../views/SetupWizard/EnvironmentSetup'),

@@ -1,134 +1,104 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Database Credentials-->
-        <AuthContent name="database-credentials" :visible="true">
-            <Headline class="container mx-auto max-w-screen-sm" title="Setup Wizard" description="Set up your storage driver and email client.">
-                <settings-icon size="40" class="title-icon text-theme mx-auto" />
+        <AuthContent name="database-credentials" :visible="true" class="!max-w-2xl mt-6 mb-12">
+            <Headline class="mx-auto max-w-screen-sm !mb-10" title="Setup Wizard" description="Set up your storage driver and email client.">
+                <settings-icon size="40" class="vue-feather text-theme mx-auto animate-[spin_5s_linear_infinite] mb-3" />
             </Headline>
-            <ValidationObserver @submit.prevent="EnvironmentSetupSubmit" ref="environmentSetup" v-slot="{ invalid }" tag="form" class="form block-form">
-                <InfoBox>
-                    <p>
-                        If you don’t know which storage driver set, keep selected <b>'Local Driver'</b>. For more info, where you can host your files
-                        <a href="https://vuefilemanager.com/docs/guide/storage.html#introduction" target="_blank">visit our guide</a>.
-                    </p>
-                </InfoBox>
 
-                <FormLabel>Storage Setup</FormLabel>
+            <ValidationObserver @submit.prevent="EnvironmentSetupSubmit" ref="environmentSetup" v-slot="{ invalid }" tag="form">
 
-                <div class="block-wrapper">
-                    <label>Storage Service:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Storage Service" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="storage.driver" :options="storageServiceList" default="local" placeholder="Select your storage service" :isError="errors[0]" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<div class="card shadow-card text-left">
+					<FormLabel>Storage Setup</FormLabel>
 
-                <div class="storage-additionals" v-if="storage.driver !== 'local'">
-                    <div class="block-wrapper">
-                        <label>Key:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Key" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.key" placeholder="Paste your key" type="text" :class="{ 'border-red': errors[0] }" />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-                    <div class="block-wrapper">
-                        <label>Secret:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Secret" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.secret" placeholder="Paste your secret" type="text" :class="{ 'border-red': errors[0] }" />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-                    <div class="block-wrapper">
-                        <label>Region:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Region" rules="required" v-slot="{ errors }">
-                            <SelectInput v-model="storage.region" :options="regionList" :key="storage.driver" placeholder="Select your region" :isError="errors[0]" />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            <small class="input-help"> Select your region where is your bucket/space created. </small>
-                        </ValidationProvider>
-                    </div>
-                    <div class="block-wrapper" v-if="storage.driver !== 's3'">
-                        <label>Endpoint URL:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Endpoint" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{ 'border-red': errors[0] }" readonly />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                        </ValidationProvider>
-                    </div>
-                    <div class="block-wrapper">
-                        <label>Bucket:</label>
-                        <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Bucket" rules="required" v-slot="{ errors }">
-                            <input v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{ 'border-red': errors[0] }" />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                            <small class="input-help"> Provide your created unique bucket name </small>
-                        </ValidationProvider>
-                    </div>
+					<ValidationProvider tag="div" mode="passive" name="Storage Service" rules="required" v-slot="{ errors }">
+						<AppInputText title="Storage Service" :error="errors[0]" :is-last="storage.driver === 'local'">
+							<SelectInput v-model="storage.driver" :options="storageServiceList" default="local" placeholder="Select your storage service" :isError="errors[0]" />
+						</AppInputText>
+					</ValidationProvider>
 
-                    <InfoBox>
-                        <p>
-                            Later, you can edit these data in your
-                            <b>.env</b> file which is located in app root folder.
-                        </p>
-                    </InfoBox>
-                </div>
+					<div v-if="storage.driver !== 'local'">
 
-                <FormLabel class="mt-70">Email Setup</FormLabel>
+						<ValidationProvider tag="div" mode="passive" name="Key" rules="required" v-slot="{ errors }">
+							<AppInputText title="Key" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="storage.key" placeholder="Paste your key" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Mail Driver:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Driver" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="mail.driver" :options="mailDriverList" default="smtp" placeholder="Select your mail driver" :isError="errors[0]" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+						<ValidationProvider tag="div" mode="passive" name="Secret" rules="required" v-slot="{ errors }">
+							<AppInputText title="Secret" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="storage.secret" placeholder="Paste your secret" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Mail Host:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Host" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.host" placeholder="Type your mail host" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+						<ValidationProvider tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
+							<AppInputText title="Region" description="Select your region where is your bucket/space created." :error="errors[0]">
+								<SelectInput v-model="storage.region" :options="regionList" :key="storage.driver" placeholder="Select your region" :isError="errors[0]" />
+							</AppInputText>
+						</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Mail Port:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Port" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.port" placeholder="Type your mail port" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+						<ValidationProvider tag="div" mode="passive" name="Endpoint" rules="required" v-slot="{ errors }">
+							<AppInputText v-if="storage.driver !== 's3'" title="Endpoint URL" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="storage.endpoint" placeholder="Type your endpoint" type="text" :class="{ 'border-red': errors[0] }" readonly />
+							</AppInputText>
+						</ValidationProvider>
 
-                <div class="block-wrapper">
-                    <label>Mail Username:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Username" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.username" placeholder="Type your mail username" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+						<ValidationProvider tag="div" mode="passive" name="Bucket" rules="required" v-slot="{ errors }">
+							<AppInputText title="Bucket" description="Provide your created unique bucket name" :error="errors[0]" :is-last="true">
+								<input class="focus-border-theme input-dark" v-model="storage.bucket" placeholder="Type your bucket name" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
+					</div>
+				</div>
 
-                <div class="block-wrapper">
-                    <label>Mail Password:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Password" rules="required" v-slot="{ errors }">
-                        <input v-model="mail.password" placeholder="Type your mail password" type="text" :class="{ 'border-red': errors[0] }" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+				<div class="card shadow-card text-left">
+					<FormLabel>Email Setup</FormLabel>
 
-                <div class="block-wrapper">
-                    <label>Mail Encryption:</label>
-                    <ValidationProvider tag="div" mode="passive" class="input-wrapper" name="Mail Encryption" rules="required" v-slot="{ errors }">
-                        <SelectInput v-model="mail.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]" />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
-                    </ValidationProvider>
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="Mail Driver" rules="required" v-slot="{ errors }">
+						<AppInputText title="Mail Driver" :error="errors[0]">
+							<SelectInput v-model="mail.driver" :options="mailDriverList" default="smtp" placeholder="Select your mail driver" :isError="errors[0]" />
+						</AppInputText>
+					</ValidationProvider>
 
-                <div class="submit-wrapper">
-                    <AuthButton icon="chevron-right" text="Save and Set General Settings" :loading="isLoading" :disabled="isLoading" />
-                </div>
+					<ValidationProvider tag="div" mode="passive" name="Mail Host" rules="required" v-slot="{ errors }">
+						<AppInputText title="Mail Host" :error="errors[0]">
+							<input class="focus-border-theme input-dark" v-model="mail.host" placeholder="Type your mail host" type="text" :class="{ 'border-red': errors[0] }" />
+						</AppInputText>
+					</ValidationProvider>
+
+					<ValidationProvider tag="div" mode="passive" name="Mail Port" rules="required" v-slot="{ errors }">
+						<AppInputText title="Mail Port" :error="errors[0]">
+							<input class="focus-border-theme input-dark" v-model="mail.port" placeholder="Type your mail port" type="text" :class="{ 'border-red': errors[0] }" />
+						</AppInputText>
+					</ValidationProvider>
+
+					<ValidationProvider tag="div" mode="passive" name="Mail Username" rules="required" v-slot="{ errors }">
+						<AppInputText title="Mail Username" :error="errors[0]">
+							<input class="focus-border-theme input-dark" v-model="mail.username" placeholder="Type your mail username" type="text" :class="{ 'border-red': errors[0] }" />
+						</AppInputText>
+					</ValidationProvider>
+
+					<ValidationProvider tag="div" mode="passive" name="Mail Password" rules="required" v-slot="{ errors }">
+						<AppInputText title="Mail Password" :error="errors[0]">
+							<input class="focus-border-theme input-dark" v-model="mail.password" placeholder="Type your mail password" type="text" :class="{ 'border-red': errors[0] }" />
+						</AppInputText>
+					</ValidationProvider>
+
+					<ValidationProvider tag="div" mode="passive" name="Mail Encryption" rules="required" v-slot="{ errors }">
+						<AppInputText title="Mail Encryption" :error="errors[0]" :is-last="true">
+							<SelectInput v-model="mail.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]" />
+						</AppInputText>
+					</ValidationProvider>
+				</div>
+
+				<AuthButton class="w-full justify-center" icon="chevron-right" text="Save and Set General Settings" :loading="isLoading" :disabled="isLoading" />
             </ValidationObserver>
         </AuthContent>
     </AuthContentWrapper>
 </template>
 
 <script>
+import AppInputText from "../../components/Admin/AppInputText";
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
 import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
 import SelectInput from '../../components/Others/Forms/SelectInput'
@@ -148,6 +118,7 @@ export default {
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,
+		AppInputText,
         SettingsIcon,
         SelectInput,
         AuthContent,
@@ -467,6 +438,10 @@ export default {
     },
     methods: {
         async EnvironmentSetupSubmit() {
+			if (this.$root.$data.config.isSetupWizardDemo) {
+				this.$router.push({name: 'AppSetup'})
+			}
+
             // Validate fields
             const isValid = await this.$refs.environmentSetup.validate()
 
@@ -499,9 +474,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import '../../../sass/vuefilemanager/forms';
-@import '../../../sass/vuefilemanager/auth';
-@import '../../../sass/vuefilemanager/setup_wizard';
-</style>

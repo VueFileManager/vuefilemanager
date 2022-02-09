@@ -85,13 +85,12 @@ export default {
         // Get installation state
         let installation = this.$root.$data.config.installation
 
-        if (['setup-disclaimer', 'setup-database'].includes(installation)) this.isLoaded = true
+        if (['setup-disclaimer', 'setup-database'].includes(installation))
+			this.isLoaded = true
 
         // Redirect to database verify code
-        if (installation === 'setup-database') this.$router.push({ name: 'StatusCheck' })
-
-        // Redirect to starting installation process
-        if (installation === 'setup-disclaimer') this.$router.push({ name: 'InstallationDisclaimer' })
+        //if (installation === 'setup-database')
+		//this.$router.push({ name: 'StatusCheck' })
 
         if (installation === 'setup-done')
             this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale).then(() => {
@@ -100,11 +99,6 @@ export default {
                 // Store config to vuex
                 this.$store.commit('INIT', {
                     config: this.$root.$data.config,
-                    rootDirectory: {
-                        name: this.$t('locations.home'),
-                        location: 'base',
-                        id: undefined,
-                    },
                 })
             })
     },

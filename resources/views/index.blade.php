@@ -3,19 +3,28 @@
     use VueFileManager\Subscription\Domain\Transactions\Models\Transaction;
     use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
-    // Subscription
-    $plan = Plan::where('status', 'active')->where('type', 'metered');
+    try {
+        // Subscription
+        $isEmptySubscriptions = Subscription::count() === 0;
+        $isEmptyTransactions = Transaction::count() === 0;
+        $isEmptyPlans = Plan::count() === 0;
+        $plan = Plan::where('status', 'active')
+            ->where('type', 'metered');
 
-    $isEmptyPlans = Plan::count() === 0;
-    $isEmptyTransactions = Transaction::count() === 0;
-    $isEmptySubscriptions = Subscription::count() === 0;
+        // User
+        $isUser = auth()->check();
+        $user = Auth::user();
 
-    // User
-    $isUser = auth()->check();
-    $user = Auth::user();
+        // Default user settings
+        $defaultEmoji = $isUser ? $user->settings->emoji_type : 'twemoji';
+        $defaultThemeMode = $isUser ? $user->settings->theme_mode : 'system';
+    } catch (PDOException $e) {
+        [$isUser, $isEmptyPlans, $isEmptyTransactions, $isEmptySubscriptions] = false;
 
-    $defaultEmoji = $isUser ? $user->settings->emoji_type : 'twemoji';
-    $defaultThemeMode = $isUser ? $user->settings->theme_mode : 'system';
+        $plan = null;
+        $defaultEmoji = 'twemoji';
+        $defaultThemeMode = 'system';
+    }
 @endphp
 
 <!DOCTYPE html>
@@ -55,7 +64,7 @@
 
     @include('vuefilemanager.others.color-template')
 </head>
-<body class="{{ is_dev() ? 'debug-screens' : '' }}">
+<body class="bg-light-background {{ is_dev() ? 'debug-screens' : '' }}">
 
     <div id="app"></div>
 
@@ -66,6 +75,7 @@
             host: '{{ url('/') }}',
             api: '{{ url('/api') }}',
             locale: '{{ app()->getLocale() }}',
+			isSetupWizardDemo: '{{ env('IS_SETUP_WIZARD_DEMO', 0) }}',
 
             app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
             app_logo: '{{ $settings->app_logo ?? null }}',
@@ -83,7 +93,7 @@
             uploadLimitFormatted: '{{ isset($settings->upload_limit) ? format_megabytes($settings->upload_limit) : null }}',
             chunkSize: {{ format_bytes(config('vuefilemanager.chunk_size')) }},
 
-            isAuthenticated: {{ auth()->check() ? 1 : 0 }},
+            isAuthenticated: {{ $isUser ? 1 : 0 }},
             isSaaS: {{ $settings && $settings->license === 'Extended' ? 1 : 0 }},
 
             isDev: {{ is_dev() ? 1 : 0 }},
@@ -105,8 +115,8 @@
             // Metered
 			allowed_registration_bonus: {{ $settings->allowed_registration_bonus ?? 0 }},
 			registration_bonus_amount: {{ $settings->registration_bonus_amount ?? 0 }},
-			isCreatedMeteredPlan: {{ $plan->exists() ? 1 : 0 }},
-			meteredPlanId: '{{ $plan->exists() ? $plan->first()->id : null }}',
+			isCreatedMeteredPlan: {{ $plan && $plan->exists() ? 1 : 0 }},
+			meteredPlanId: '{{ $plan && $plan->exists() ? $plan->first()->id : null }}',
 
             // Payments
             allowed_payments: {{ $settings->allowed_payments ?? 0 }},
