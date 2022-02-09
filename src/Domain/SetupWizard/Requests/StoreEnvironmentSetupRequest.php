@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\SetupWizard\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -30,13 +31,10 @@ class StoreEnvironmentSetupRequest extends FormRequest
             'storage.endpoint' => 'sometimes|nullable|string',
             'storage.region'   => 'sometimes|nullable|string',
             'storage.bucket'   => 'sometimes|nullable|string',
-            'mail'             => 'required|array',
-            'mail.driver'      => 'required|string',
-            'mail.host'        => 'required|string',
-            'mail.port'        => 'required|string',
-            'mail.username'    => 'required|string',
-            'mail.password'    => 'required|string',
-            'mail.encryption'  => 'required|string',
+            'mailDriver'       => 'required|string',
+            'mail'             => 'sometimes|array',
+            'ses'              => 'sometimes|array',
+            'mailgun'          => 'sometimes|array',
         ];
     }
 }

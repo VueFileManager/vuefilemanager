@@ -55,40 +55,96 @@
 					<FormLabel>Email Setup</FormLabel>
 
 					<ValidationProvider tag="div" mode="passive" name="Mail Driver" rules="required" v-slot="{ errors }">
-						<AppInputText title="Mail Driver" :error="errors[0]">
-							<SelectInput v-model="mail.driver" :options="mailDriverList" default="smtp" placeholder="Select your mail driver" :isError="errors[0]" />
+						<AppInputText title="Mail Driver" :error="errors[0]" :is-last="!mailDriver || mailDriver === 'log'">
+							<SelectInput v-model="mailDriver" :options="mailDriverList" placeholder="Select your mail driver" :isError="errors[0]" />
 						</AppInputText>
 					</ValidationProvider>
 
-					<ValidationProvider tag="div" mode="passive" name="Mail Host" rules="required" v-slot="{ errors }">
-						<AppInputText title="Mail Host" :error="errors[0]">
-							<input class="focus-border-theme input-dark" v-model="mail.host" placeholder="Type your mail host" type="text" :class="{ 'border-red': errors[0] }" />
-						</AppInputText>
-					</ValidationProvider>
+					<div v-if="mailDriver === 'smtp'">
+						<ValidationProvider tag="div" mode="passive" name="Mail Host" rules="required" v-slot="{ errors }">
+							<AppInputText title="Mail Host" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="smtp.host" placeholder="Type your mail host" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
 
-					<ValidationProvider tag="div" mode="passive" name="Mail Port" rules="required" v-slot="{ errors }">
-						<AppInputText title="Mail Port" :error="errors[0]">
-							<input class="focus-border-theme input-dark" v-model="mail.port" placeholder="Type your mail port" type="text" :class="{ 'border-red': errors[0] }" />
-						</AppInputText>
-					</ValidationProvider>
+						<ValidationProvider tag="div" mode="passive" name="Mail Port" rules="required" v-slot="{ errors }">
+							<AppInputText title="Mail Port" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="smtp.port" placeholder="Type your mail port" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
 
-					<ValidationProvider tag="div" mode="passive" name="Mail Username" rules="required" v-slot="{ errors }">
-						<AppInputText title="Mail Username" :error="errors[0]">
-							<input class="focus-border-theme input-dark" v-model="mail.username" placeholder="Type your mail username" type="text" :class="{ 'border-red': errors[0] }" />
-						</AppInputText>
-					</ValidationProvider>
+						<ValidationProvider tag="div" mode="passive" name="Mail Username" rules="required" v-slot="{ errors }">
+							<AppInputText title="Mail Username" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="smtp.username" placeholder="Type your mail username" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
 
-					<ValidationProvider tag="div" mode="passive" name="Mail Password" rules="required" v-slot="{ errors }">
-						<AppInputText title="Mail Password" :error="errors[0]">
-							<input class="focus-border-theme input-dark" v-model="mail.password" placeholder="Type your mail password" type="text" :class="{ 'border-red': errors[0] }" />
-						</AppInputText>
-					</ValidationProvider>
+						<ValidationProvider tag="div" mode="passive" name="Mail Password" rules="required" v-slot="{ errors }">
+							<AppInputText title="Mail Password" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="smtp.password" placeholder="Type your mail password" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
 
-					<ValidationProvider tag="div" mode="passive" name="Mail Encryption" rules="required" v-slot="{ errors }">
-						<AppInputText title="Mail Encryption" :error="errors[0]" :is-last="true">
-							<SelectInput v-model="mail.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]" />
-						</AppInputText>
-					</ValidationProvider>
+						<ValidationProvider tag="div" mode="passive" name="Mail Encryption" rules="required" v-slot="{ errors }">
+							<AppInputText title="Mail Encryption" :error="errors[0]" :is-last="true">
+								<SelectInput v-model="smtp.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]" />
+							</AppInputText>
+						</ValidationProvider>
+					</div>
+
+					<div v-if="mailDriver === 'mailgun'">
+						<ValidationProvider tag="div" mode="passive" name="Domain" rules="required" v-slot="{ errors }">
+							<AppInputText title="Domain" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="mailgun.domain" placeholder="Type your domain" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
+
+						<ValidationProvider tag="div" mode="passive" name="Secret" rules="required" v-slot="{ errors }">
+							<AppInputText title="Secret" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="mailgun.secret" placeholder="Type your secret" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
+
+						<ValidationProvider tag="div" mode="passive" name="Endpoint" rules="required" v-slot="{ errors }">
+							<AppInputText title="Endpoint" :error="errors[0]" :is-last="true">
+								<input class="focus-border-theme input-dark" v-model="mailgun.endpoint" placeholder="Type your endpoint" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
+					</div>
+
+					<div v-if="mailDriver === 'postmark'">
+						<ValidationProvider tag="div" mode="passive" name="Token" rules="required" v-slot="{ errors }">
+							<AppInputText title="Token" :error="errors[0]" :is-last="true">
+								<input class="focus-border-theme input-dark" v-model="postmark.token" placeholder="Type your token" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
+					</div>
+
+					<div v-if="mailDriver === 'ses'">
+						<ValidationProvider tag="div" mode="passive" name="Access Key" rules="required" v-slot="{ errors }">
+							<AppInputText title="Access Key" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="ses.access_key" placeholder="Type your access key" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
+
+						<ValidationProvider tag="div" mode="passive" name="Secret Access Key" rules="required" v-slot="{ errors }">
+							<AppInputText title="Secret Access Key" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="ses.secret_access_key" placeholder="Type your secret access key" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
+
+						<ValidationProvider tag="div" mode="passive" name="Default Region" rules="required" v-slot="{ errors }">
+							<AppInputText title="Default Region" :error="errors[0]">
+								<input class="focus-border-theme input-dark" v-model="ses.default_region" placeholder="Type your default region" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
+
+						<ValidationProvider tag="div" mode="passive" name="Session Token" v-slot="{ errors }">
+							<AppInputText title="Session Token" :error="errors[0]" :is-last="true">
+								<input class="focus-border-theme input-dark" v-model="ses.session_token" placeholder="Type your session token" type="text" :class="{ 'border-red': errors[0] }" />
+							</AppInputText>
+						</ValidationProvider>
+					</div>
 				</div>
 
 				<AuthButton class="w-full justify-center" icon="chevron-right" text="Save and Set General Settings" :loading="isLoading" :disabled="isLoading" />
@@ -99,378 +155,396 @@
 
 <script>
 import AppInputText from "../../components/Admin/AppInputText";
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
 import SelectInput from '../../components/Others/Forms/SelectInput'
 import FormLabel from '../../components/Others/Forms/FormLabel'
 import InfoBox from '../../components/Others/Forms/InfoBox'
 import AuthContent from '../../components/Auth/AuthContent'
 import AuthButton from '../../components/Auth/AuthButton'
-import { SettingsIcon } from 'vue-feather-icons'
+import {SettingsIcon} from 'vue-feather-icons'
 import Headline from '../Auth/Headline'
-import { required } from 'vee-validate/dist/rules'
-import { mapGetters } from 'vuex'
+import {required} from 'vee-validate/dist/rules'
 import axios from 'axios'
 
 export default {
-    name: 'EnvironmentSetup',
-    components: {
-        AuthContentWrapper,
-        ValidationProvider,
-        ValidationObserver,
+	name: 'EnvironmentSetup',
+	components: {
+		AuthContentWrapper,
+		ValidationProvider,
+		ValidationObserver,
 		AppInputText,
-        SettingsIcon,
-        SelectInput,
-        AuthContent,
-        AuthButton,
-        FormLabel,
-        required,
-        InfoBox,
-        Headline,
-    },
-    watch: {
-        'storage.driver': function () {
-            this.storage.region = ''
-        },
-        'storage.region': function (val) {
-            if (this.storage.driver === 'spaces') this.storage.endpoint = 'https://' + val + '.digitaloceanspaces.com'
-
-            if (this.storage.driver === 'wasabi') this.storage.endpoint = 'https://s3.' + val + '.wasabisys.com'
-
-            if (this.storage.driver === 'backblaze') this.storage.endpoint = 'https://s3.' + val + '.backblazeb2.com'
-
-            if (this.storage.driver === 'oss') this.storage.endpoint = 'https://' + val + '.aliyuncs.com'
-        },
-    },
-    computed: {
-        regionList() {
-            switch (this.storage.driver) {
-                case 's3':
-                    return this.s3Regions
-                    break
-                case 'spaces':
-                    return this.digitalOceanRegions
-                    break
-                case 'wasabi':
-                    return this.wasabiRegions
-                    break
-                case 'backblaze':
-                    return this.backblazeRegions
-                    break
-                case 'oss':
-                    return this.ossRegions
-                    break
-            }
-        },
-    },
-    data() {
-        return {
-            isLoading: false,
-            ossRegions: [
-                {
-                    label: 'China (Hangzhou)',
-                    value: 'oss-cn-hangzhou',
-                },
-                {
-                    label: 'China (Shanghai)',
-                    value: 'oss-cn-shanghai',
-                },
-                {
-                    label: 'China (Qingdao)',
-                    value: 'oss-cn-qingdao',
-                },
-                {
-                    label: 'China (Beijing)',
-                    value: 'oss-cn-beijing',
-                },
-                {
-                    label: 'China (Zhangjiakou)',
-                    value: 'oss-cn-zhangjiakou',
-                },
-                {
-                    label: 'China (Hohhot)',
-                    value: 'oss-cn-huhehaote',
-                },
-                {
-                    label: 'China (Ulanqab)',
-                    value: 'oss-cn-wulanchabu',
-                },
-                {
-                    label: 'China (Shenzhen)',
-                    value: 'oss-cn-shenzhen',
-                },
-                {
-                    label: 'China (Heyuan)',
-                    value: 'oss-cn-heyuan',
-                },
-                {
-                    label: 'China (Guangzhou)',
-                    value: 'oss-cn-guangzhou',
-                },
-                {
-                    label: 'China (Chengdu)',
-                    value: 'oss-cn-chengdu',
-                },
-                {
-                    label: 'China (Hong Kong)',
-                    value: 'oss-cn-hongkong',
-                },
-            ],
-            wasabiRegions: [
-                {
-                    label: 'US East 1 (N. Virginia)',
-                    value: 'us-east-1',
-                },
-                {
-                    label: 'US East 2 (N. Virginia)',
-                    value: 'us-east-2',
-                },
-                {
-                    label: 'US West 1 (Oregon)',
-                    value: 'us-west-1',
-                },
-                {
-                    label: 'EU Central 1 (Amsterdam)',
-                    value: 'eu-central-1',
-                },
-            ],
-            backblazeRegions: [
-                {
-                    label: 'us-west-001',
-                    value: 'us-west-001',
-                },
-                {
-                    label: 'us-west-002',
-                    value: 'us-west-002',
-                },
-                {
-                    label: 'eu-central-003',
-                    value: 'eu-central-003',
-                },
-            ],
-            digitalOceanRegions: [
-                {
-                    label: 'New York',
-                    value: 'nyc3',
-                },
-                {
-                    label: 'San Francisco',
-                    value: 'sfo2',
-                },
-                {
-                    label: 'Amsterdam',
-                    value: 'ams3',
-                },
-                {
-                    label: 'Singapore',
-                    value: 'sgp1',
-                },
-                {
-                    label: 'Frankfurt',
-                    value: 'fra1',
-                },
-            ],
-            s3Regions: [
-                {
-                    label: 'us-east-1',
-                    value: 'us-east-1',
-                },
-                {
-                    label: 'us-east-2',
-                    value: 'us-east-2',
-                },
-                {
-                    label: 'us-west-1',
-                    value: 'us-west-1',
-                },
-                {
-                    label: 'us-west-2',
-                    value: 'us-west-2',
-                },
-                {
-                    label: 'af-south-1',
-                    value: 'af-south-1',
-                },
-                {
-                    label: 'ap-east-1',
-                    value: 'ap-east-1',
-                },
-                {
-                    label: 'ap-south-1',
-                    value: 'ap-south-1',
-                },
-                {
-                    label: 'ap-northeast-2',
-                    value: 'ap-northeast-2',
-                },
-                {
-                    label: 'ap-southeast-1',
-                    value: 'ap-southeast-1',
-                },
-                {
-                    label: 'ap-southeast-2',
-                    value: 'ap-southeast-2',
-                },
-                {
-                    label: 'ap-northeast-1',
-                    value: 'ap-northeast-1',
-                },
-                {
-                    label: 'ca-central-1',
-                    value: 'ca-central-1',
-                },
-                {
-                    label: 'eu-central-1',
-                    value: 'eu-central-1',
-                },
-                {
-                    label: 'eu-west-1',
-                    value: 'eu-west-1',
-                },
-                {
-                    label: 'eu-west-2',
-                    value: 'eu-west-2',
-                },
-                {
-                    label: 'eu-south-1',
-                    value: 'eu-south-1',
-                },
-                {
-                    label: 'eu-west-3',
-                    value: 'eu-west-3',
-                },
-                {
-                    label: 'eu-north-1',
-                    value: 'eu-north-1',
-                },
-                {
-                    label: 'me-south-1',
-                    value: 'me-south-1',
-                },
-                {
-                    label: 'sa-east-1',
-                    value: 'sa-east-1',
-                },
-            ],
-            storageServiceList: [
-                {
-                    label: 'Local Driver',
-                    value: 'local',
-                },
-                {
-                    label: 'Amazon Web Services S3',
-                    value: 's3',
-                },
-                {
-                    label: 'Digital Ocean Spaces',
-                    value: 'spaces',
-                },
-                {
-                    label: 'Object Cloud Storage by Wasabi',
-                    value: 'wasabi',
-                },
-                {
-                    label: 'Backblaze B2 Cloud Storage',
-                    value: 'backblaze',
-                },
-                {
-                    label: 'Alibaba Cloud OSS',
-                    value: 'oss',
-                },
-            ],
-            encryptionList: [
-                {
-                    label: 'TLS',
-                    value: 'tls',
-                },
-                {
-                    label: 'SSL',
-                    value: 'ssl',
-                },
-            ],
-            mailDriverList: [
-                {
-                    label: 'smtp',
-                    value: 'smtp',
-                },
-                {
-                    label: 'sendmail',
-                    value: 'sendmail',
-                },
-                {
-                    label: 'mailgun',
-                    value: 'mailgun',
-                },
-                {
-                    label: 'ses',
-                    value: 'ses',
-                },
-                {
-                    label: 'postmark',
-                    value: 'postmark',
-                },
-                {
-                    label: 'log',
-                    value: 'log',
-                },
-                {
-                    label: 'array',
-                    value: 'array',
-                },
-            ],
-            storage: {
-                driver: 'local',
-                key: '',
-                secret: '',
-                endpoint: '',
-                region: '',
-                bucket: '',
-            },
-            mail: {
-                driver: 'smtp',
-                host: '',
-                port: '',
-                username: '',
-                password: '',
-                encryption: '',
-            },
-        }
-    },
-    methods: {
-        async EnvironmentSetupSubmit() {
+		SettingsIcon,
+		SelectInput,
+		AuthContent,
+		AuthButton,
+		FormLabel,
+		required,
+		InfoBox,
+		Headline,
+	},
+	watch: {
+		'storage.driver': function () {
+			this.storage.region = ''
+		},
+		'storage.region': function (val) {
+			this.storage.endpoint = {
+				storj: 'https://gateway.' + val + '.storjshare.io',
+				spaces: 'https://' + val + '.digitaloceanspaces.com',
+				wasabi: 'https://s3.' + val + '.wasabisys.com',
+				backblaze: 'https://s3.' + val + '.backblazeb2.com',
+				oss: 'https://' + val + '.aliyuncs.com',
+			}[this.storage.driver]
+		},
+	},
+	computed: {
+		regionList() {
+			return {
+				storj: this.storjRegions,
+				s3: this.s3Regions,
+				spaces: this.digitalOceanRegions,
+				wasabi: this.wasabiRegions,
+				backblaze: this.backblazeRegions,
+				oss: this.ossRegions,
+			}[this.storage.driver]
+		},
+	},
+	data() {
+		return {
+			isLoading: false,
+			ossRegions: [
+				{
+					label: 'China (Hangzhou)',
+					value: 'oss-cn-hangzhou',
+				},
+				{
+					label: 'China (Shanghai)',
+					value: 'oss-cn-shanghai',
+				},
+				{
+					label: 'China (Qingdao)',
+					value: 'oss-cn-qingdao',
+				},
+				{
+					label: 'China (Beijing)',
+					value: 'oss-cn-beijing',
+				},
+				{
+					label: 'China (Zhangjiakou)',
+					value: 'oss-cn-zhangjiakou',
+				},
+				{
+					label: 'China (Hohhot)',
+					value: 'oss-cn-huhehaote',
+				},
+				{
+					label: 'China (Ulanqab)',
+					value: 'oss-cn-wulanchabu',
+				},
+				{
+					label: 'China (Shenzhen)',
+					value: 'oss-cn-shenzhen',
+				},
+				{
+					label: 'China (Heyuan)',
+					value: 'oss-cn-heyuan',
+				},
+				{
+					label: 'China (Guangzhou)',
+					value: 'oss-cn-guangzhou',
+				},
+				{
+					label: 'China (Chengdu)',
+					value: 'oss-cn-chengdu',
+				},
+				{
+					label: 'China (Hong Kong)',
+					value: 'oss-cn-hongkong',
+				},
+			],
+			wasabiRegions: [
+				{
+					label: 'US East 1 (N. Virginia)',
+					value: 'us-east-1',
+				},
+				{
+					label: 'US East 2 (N. Virginia)',
+					value: 'us-east-2',
+				},
+				{
+					label: 'US West 1 (Oregon)',
+					value: 'us-west-1',
+				},
+				{
+					label: 'EU Central 1 (Amsterdam)',
+					value: 'eu-central-1',
+				},
+			],
+			storjRegions: [
+				{
+					label: 'EU Central 1',
+					value: 'eu1',
+				},
+				{
+					label: 'US Central 1',
+					value: 'us1',
+				},
+				{
+					label: 'AP Central 1',
+					value: 'ap1',
+				},
+			],
+			backblazeRegions: [
+				{
+					label: 'us-west-001',
+					value: 'us-west-001',
+				},
+				{
+					label: 'us-west-002',
+					value: 'us-west-002',
+				},
+				{
+					label: 'eu-central-003',
+					value: 'eu-central-003',
+				},
+			],
+			digitalOceanRegions: [
+				{
+					label: 'New York',
+					value: 'nyc3',
+				},
+				{
+					label: 'San Francisco',
+					value: 'sfo2',
+				},
+				{
+					label: 'Amsterdam',
+					value: 'ams3',
+				},
+				{
+					label: 'Singapore',
+					value: 'sgp1',
+				},
+				{
+					label: 'Frankfurt',
+					value: 'fra1',
+				},
+			],
+			s3Regions: [
+				{
+					label: 'us-east-1',
+					value: 'us-east-1',
+				},
+				{
+					label: 'us-east-2',
+					value: 'us-east-2',
+				},
+				{
+					label: 'us-west-1',
+					value: 'us-west-1',
+				},
+				{
+					label: 'us-west-2',
+					value: 'us-west-2',
+				},
+				{
+					label: 'af-south-1',
+					value: 'af-south-1',
+				},
+				{
+					label: 'ap-east-1',
+					value: 'ap-east-1',
+				},
+				{
+					label: 'ap-south-1',
+					value: 'ap-south-1',
+				},
+				{
+					label: 'ap-northeast-2',
+					value: 'ap-northeast-2',
+				},
+				{
+					label: 'ap-southeast-1',
+					value: 'ap-southeast-1',
+				},
+				{
+					label: 'ap-southeast-2',
+					value: 'ap-southeast-2',
+				},
+				{
+					label: 'ap-northeast-1',
+					value: 'ap-northeast-1',
+				},
+				{
+					label: 'ca-central-1',
+					value: 'ca-central-1',
+				},
+				{
+					label: 'eu-central-1',
+					value: 'eu-central-1',
+				},
+				{
+					label: 'eu-west-1',
+					value: 'eu-west-1',
+				},
+				{
+					label: 'eu-west-2',
+					value: 'eu-west-2',
+				},
+				{
+					label: 'eu-south-1',
+					value: 'eu-south-1',
+				},
+				{
+					label: 'eu-west-3',
+					value: 'eu-west-3',
+				},
+				{
+					label: 'eu-north-1',
+					value: 'eu-north-1',
+				},
+				{
+					label: 'me-south-1',
+					value: 'me-south-1',
+				},
+				{
+					label: 'sa-east-1',
+					value: 'sa-east-1',
+				},
+			],
+			storageServiceList: [
+				{
+					label: 'Local Driver',
+					value: 'local',
+				},
+				{
+					label: 'Amazon Web Services S3',
+					value: 's3',
+				},
+				{
+					label: 'Storj',
+					value: 'storj',
+				},
+				{
+					label: 'Digital Ocean Spaces',
+					value: 'spaces',
+				},
+				{
+					label: 'Object Cloud Storage by Wasabi',
+					value: 'wasabi',
+				},
+				{
+					label: 'Backblaze B2 Cloud Storage',
+					value: 'backblaze',
+				},
+				{
+					label: 'Alibaba Cloud OSS',
+					value: 'oss',
+				},
+			],
+			encryptionList: [
+				{
+					label: 'TLS',
+					value: 'tls',
+				},
+				{
+					label: 'SSL',
+					value: 'ssl',
+				},
+			],
+			mailDriverList: [
+				{
+					label: 'SMTP',
+					value: 'smtp',
+				},
+				{
+					label: 'Mailgun',
+					value: 'mailgun',
+				},
+				{
+					label: 'SES',
+					value: 'ses',
+				},
+				{
+					label: 'Postmark',
+					value: 'postmark',
+				},
+				{
+					label: 'Log',
+					value: 'log',
+				},
+			],
+			storage: {
+				driver: 'local',
+				key: undefined,
+				secret: undefined,
+				endpoint: undefined,
+				region: undefined,
+				bucket: undefined,
+			},
+			mailDriver: undefined,
+			ses: {
+				access_key: undefined,
+				secret_access_key: undefined,
+				default_region: undefined,
+				session_token: undefined,
+			},
+			smtp: {
+				host: undefined,
+				port: undefined,
+				username: undefined,
+				password: undefined,
+				encryption: undefined,
+			},
+			mailgun: {
+				domain: undefined,
+				secret: undefined,
+				endpoint: undefined,
+			},
+			postmark: {
+				token: undefined,
+			},
+		}
+	},
+	methods: {
+		async EnvironmentSetupSubmit() {
 			if (this.$root.$data.config.isSetupWizardDemo) {
 				this.$router.push({name: 'AppSetup'})
 			}
 
-            // Validate fields
-            const isValid = await this.$refs.environmentSetup.validate()
+			// Validate fields
+			const isValid = await this.$refs.environmentSetup.validate()
 
-            if (!isValid) return
+			if (!isValid) return
 
-            // Start loading
-            this.isLoading = true
+			// Start loading
+			this.isLoading = true
 
-            // Send request to get verify account
-            axios
-                .post('/api/setup/environment-setup', {
-                    storage: this.storage,
-                    mail: this.mail,
-                })
-                .then((response) => {
-                    // End loading
-                    this.isLoading = false
+			// Send request to get verify account
+			axios
+				.post('/api/setup/environment-setup', {
+					storage: this.storage,
+					mailDriver: this.mailDriver,
+					smtp: this.smtp,
+					mailgun: this.mailgun,
+					ses: this.ses,
+					postmark: this.postmark,
+				})
+				.then(() => {
+					// End loading
+					this.isLoading = false
 
-                    // Redirect to next step
-                    this.$router.push({ name: 'AppSetup' })
-                })
-                .catch((error) => {
-                    // End loading
-                    this.isLoading = false
-                })
-        },
-    },
-    created() {
-        this.$scrollTop()
-    },
+					// Redirect to next step
+					this.$router.push({name: 'AppSetup'})
+				})
+				.catch((error) => {
+					// End loading
+					this.isLoading = false
+				})
+		},
+	},
+	created() {
+		this.$scrollTop()
+	},
 }
 </script>
