@@ -14,8 +14,7 @@ class StoreEnvironmentSettingsController extends Controller
      */
     public function __invoke(
         StoreEnvironmentSetupRequest $request,
-    ): Response
-    {
+    ): Response {
         if (!app()->runningUnitTests()) {
             $drivers = [
                 'local' => [
@@ -71,9 +70,9 @@ class StoreEnvironmentSettingsController extends Controller
             ];
 
             // Store credentials for mail
-            setEnvironmentValue([
-                $mail[$request->input('mail.driver')]
-            ]);
+            setEnvironmentValue(
+                $mail[$request->input('mailDriver')]
+            );
 
             Artisan::call('config:cache');
         }

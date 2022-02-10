@@ -147,6 +147,10 @@
 					</div>
 				</div>
 
+				<InfoBox v-if="isError" type="error" class="!mb-5">
+                    <p>Something went wrong, please try it again.</p>
+                </InfoBox>
+
 				<AuthButton class="w-full justify-center" icon="chevron-right" text="Save and Set General Settings" :loading="isLoading" :disabled="isLoading" />
             </ValidationObserver>
         </AuthContent>
@@ -211,6 +215,7 @@ export default {
 	},
 	data() {
 		return {
+			isError: false,
 			isLoading: false,
 			ossRegions: [
 				{
@@ -510,6 +515,7 @@ export default {
 		async EnvironmentSetupSubmit() {
 			if (this.$root.$data.config.isSetupWizardDemo) {
 				this.$router.push({name: 'AppSetup'})
+				return
 			}
 
 			// Validate fields
@@ -540,6 +546,10 @@ export default {
 				.catch((error) => {
 					// End loading
 					this.isLoading = false
+
+					if (error.response.status === 500) {
+						this.isError = true
+					}
 				})
 		},
 	},
