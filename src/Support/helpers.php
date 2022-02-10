@@ -155,10 +155,8 @@ if (! function_exists('add_paragraphs')) {
 if (! function_exists('setEnvironmentValue')) {
     /**
      * Set environment value
-     *
-     * @return bool
      */
-    function setEnvironmentValue(array $values)
+    function setEnvironmentValue(array $values): bool
     {
         $envFile = app()->environmentFilePath();
         $str = file_get_contents($envFile);

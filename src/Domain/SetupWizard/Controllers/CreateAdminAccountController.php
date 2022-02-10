@@ -2,13 +2,13 @@
 namespace Domain\SetupWizard\Controllers;
 
 use App\Users\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
+use Domain\SetupWizard\Requests\StoreAdminAccountRequest;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
 /**
@@ -24,19 +24,8 @@ class CreateAdminAccountController extends Controller
     }
 
     public function __invoke(
-        Request $request
+        StoreAdminAccountRequest $request
     ): Response {
-        // Validate request
-        // TODO: validator do requestu
-        $request->validate([
-            'email'         => 'required|string|email|unique:users',
-            'password'      => 'required|string|min:6|confirmed',
-            'name'          => 'required|string',
-            'purchase_code' => 'required|string',
-            'license'       => 'required|string',
-            'avatar'        => 'sometimes|file',
-        ]);
-
         // Create user
         $user = User::forceCreate([
             'role'              => 'admin',
@@ -48,13 +37,12 @@ class CreateAdminAccountController extends Controller
         // Split username
         $name = split_name($request->input('name'));
 
-        $user
-            ->settings()
-            ->create([
-                'avatar'     => store_avatar($request, 'avatar'),
-                'first_name' => $name['first_name'],
-                'last_name'  => $name['last_name'],
-            ]);
+        // Store user data
+        $user->settings()->create([
+            'avatar'     => store_avatar($request, 'avatar'),
+            'first_name' => $name['first_name'],
+            'last_name'  => $name['last_name'],
+        ]);
 
         collect([
             [

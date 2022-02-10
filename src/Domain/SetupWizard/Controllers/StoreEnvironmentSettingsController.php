@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\SetupWizard\Controllers;
 
 use Artisan;
@@ -15,7 +14,7 @@ class StoreEnvironmentSettingsController extends Controller
     public function __invoke(
         StoreEnvironmentSetupRequest $request,
     ): Response {
-        if (!app()->runningUnitTests()) {
+        if (! app()->runningUnitTests()) {
             $drivers = [
                 'local' => [
                     'FILESYSTEM_DRIVER' => 'local',
@@ -65,7 +64,6 @@ class StoreEnvironmentSettingsController extends Controller
                     'MAILGUN_DOMAIN'   => $request->input('mailgun.domain'),
                     'MAILGUN_SECRET'   => $request->input('mailgun.secret'),
                     'MAILGUN_ENDPOINT' => $request->input('mailgun.endpoint'),
-
                 ],
             ];
 

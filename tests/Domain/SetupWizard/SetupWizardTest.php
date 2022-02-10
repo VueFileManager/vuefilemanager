@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\SetupWizard;
 
 use Tests\TestCase;
@@ -201,7 +200,7 @@ class SetupWizardTest extends TestCase
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
-                fn($size) => Storage::disk('local')
+                fn ($size) => Storage::disk('local')
                     ->assertExists("avatars/{$size['name']}-{$avatar}")
             );
     }
