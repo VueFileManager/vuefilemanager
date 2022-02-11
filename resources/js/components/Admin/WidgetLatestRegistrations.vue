@@ -171,12 +171,12 @@
                 </td>
                 <td class="px-3 md:px-1">
                     <span class="text-sm font-bold">
-                        {{ row.data.meta.usages.featureEstimates.storage.usage }}
+                        {{ row.data.meta.usages ? row.data.meta.usages.featureEstimates.storage.usage : '-' }}
                     </span>
                 </td>
                 <td class="px-3 md:px-1">
                     <span class="text-sm font-bold">
-                        {{ row.data.meta.usages.costEstimate }}
+                        {{ row.data.meta.usages ? row.data.meta.usages.costEstimate : '-' }}
                     </span>
                 </td>
                 <td class="px-3 md:px-1">

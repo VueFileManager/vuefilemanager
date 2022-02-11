@@ -1,7 +1,7 @@
 <template>
     <PageTab :is-loading="isLoading">
         <!--Store & Upload-->
-        <div class="card shadow-card">
+        <div v-if="app" class="card shadow-card">
             <FormLabel>
                 {{ $t('Storage & Upload') }}
             </FormLabel>
@@ -55,7 +55,7 @@
         </div>
 
         <!--Other Settings-->
-        <div class="card shadow-card">
+        <div v-if="app" class="card shadow-card">
             <FormLabel>
                 {{ $t('Application') }}
             </FormLabel>
@@ -88,7 +88,7 @@
         </div>
 
         <!-- ReCaptcha -->
-        <div class="card shadow-card">
+        <div v-if="app" class="card shadow-card">
             <FormLabel icon="shield">
                 {{ $t('reCaptcha') }}
             </FormLabel>

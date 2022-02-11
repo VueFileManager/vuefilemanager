@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -28,10 +29,11 @@ class SetupProdEnvironment extends Command
 
     public function __construct(
         private CreateDiskDirectoriesAction $createDiskDirectories,
-        private SeedDefaultSettingsAction $seedDefaultSettings,
-        private SeedDefaultLanguageAction $seedDefaultLanguage,
-        private SeedDefaultPagesAction $seedDefaultPages,
-    ) {
+        private SeedDefaultSettingsAction   $seedDefaultSettings,
+        private SeedDefaultLanguageAction   $seedDefaultLanguage,
+        private SeedDefaultPagesAction      $seedDefaultPages,
+    )
+    {
         parent::__construct();
         $this->setUpFaker();
     }
@@ -186,6 +188,20 @@ class SetupProdEnvironment extends Command
                 'value' => $col['value'],
             ]);
         });
+
+        if ($this->argument('license') === 'extended') {
+            $choice = $this->choice("Choose subscription type", [
+                'metered' => 'Metered',
+                'fixed'   => 'Fixed',
+                'none'    => 'None',
+            ]);
+
+            Setting::updateOrCreate([
+                'name'  => 'subscription_type'
+            ], [
+                'value' => $choice
+            ]);
+        }
     }
 
     /**

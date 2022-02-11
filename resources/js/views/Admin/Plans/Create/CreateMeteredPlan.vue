@@ -175,7 +175,7 @@ export default {
         InfoBox,
     },
     computed: {
-        ...mapGetters(['currencyList', 'intervalList']),
+        ...mapGetters(['currencyList', 'intervalList', 'config']),
     },
     data() {
         return {
@@ -273,6 +273,7 @@ export default {
                     }
                 })
                 .catch((error) => {
+					console.log(error);
                     events.$emit('toaster', {
                         type: 'danger',
                         message: this.$t('popup_error.title'),

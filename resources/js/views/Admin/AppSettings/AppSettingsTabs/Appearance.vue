@@ -54,7 +54,7 @@
                 <ImageInput @input="$updateImage('/admin/settings', 'app_og_image', app.og_image)" :image="$getImage(app.og_image)" v-model="app.og_image" />
             </AppInputText>
 
-            <AppInputText :title="$t('app_touch_icon')" :description="$t('app_touch_icon_description')">
+            <AppInputText :title="$t('app_touch_icon')" :description="$t('app_touch_icon_description')" :is-last="true">
                 <ImageInput @input="$updateImage('/admin/settings', 'app_touch_icon', app.touch_icon)" :image="$getImage(app.touch_icon)" v-model="app.touch_icon" />
             </AppInputText>
         </div>

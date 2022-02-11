@@ -94,6 +94,10 @@ const defaultState = {
             label: 'Fixed',
             value: 'fixed',
         },
+        {
+            label: 'None',
+            value: 'none',
+        },
     ],
     teamPermissions: {
         'can-edit': 'Can Edit',

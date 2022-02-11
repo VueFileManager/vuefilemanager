@@ -124,51 +124,57 @@ export default {
                 ],
             }[this.config.subscriptionType]
 
-            return [
-                {
-                    groupCollapsable: false,
-                    groupTitle: this.$t('global.admin'),
-                    groupLinks: [
-                        {
-                            title: this.$t('admin_menu.dashboard'),
-                            route: 'Dashboard',
-                            icon: 'box',
-                        },
-                        {
-                            title: this.$t('admin_menu.users'),
-                            route: 'Users',
-                            icon: 'users',
-                            linkActivation: ['users', 'user'],
-                        },
-                        {
-                            title: this.$t('admin_menu.settings'),
-                            route: 'AppSettings',
-                            icon: 'settings',
-                        },
-                    ],
-                },
-                {
-                    groupCollapsable: false,
-                    groupTitle: this.$t('Content'),
-                    groupLinks: [
-                        {
-                            title: this.$t('admin_menu.pages'),
-                            route: 'Pages',
-                            icon: 'monitor',
-                        },
-                        {
-                            title: this.$t('admin_menu.languages'),
-                            route: 'Language',
-                            icon: 'globe',
-                        },
-                    ],
-                },
-                {
-                    groupCollapsable: false,
-                    groupTitle: this.$t('Subscription'),
-                    groupLinks: subscriptionLinks,
-                },
-            ]
+			let sections = [
+				{
+					groupCollapsable: false,
+					groupTitle: this.$t('global.admin'),
+					groupLinks: [
+						{
+							title: this.$t('admin_menu.dashboard'),
+							route: 'Dashboard',
+							icon: 'box',
+						},
+						{
+							title: this.$t('admin_menu.users'),
+							route: 'Users',
+							icon: 'users',
+							linkActivation: ['users', 'user'],
+						},
+						{
+							title: this.$t('admin_menu.settings'),
+							route: 'AppSettings',
+							icon: 'settings',
+						},
+					],
+				},
+				{
+					groupCollapsable: false,
+					groupTitle: this.$t('Content'),
+					groupLinks: [
+						{
+							title: this.$t('admin_menu.pages'),
+							route: 'Pages',
+							icon: 'monitor',
+						},
+						{
+							title: this.$t('admin_menu.languages'),
+							route: 'Language',
+							icon: 'globe',
+						},
+					],
+				},
+			]
+
+			// Push subscription if there is metered or fixed type
+			if (this.config.subscriptionType !== 'none') {
+				sections.push({
+					groupCollapsable: false,
+					groupTitle: this.$t('Subscription'),
+					groupLinks: subscriptionLinks,
+				})
+			}
+
+			return sections
         },
     },
     components: {

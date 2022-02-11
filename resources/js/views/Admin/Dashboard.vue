@@ -22,7 +22,13 @@
                             {{ data.app.license }}
                         </ColorLabel>
                     </a>
-                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="bg-theme-100 ml-8 inline-block hidden items-center rounded-lg py-1.5 px-3 md:flex">
+                    <b v-if="data.app.license === 'extended'" class="mr-4 inline-block">
+                        <span class="text-sm font-bold"> {{ $t('Subscription') }}: </span>
+                        <ColorLabel color="purple">
+                            {{ config.subscriptionType }}
+                        </ColorLabel>
+                    </b>
+                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="bg-theme-100 lg:ml-4 ml-8 inline-block hidden items-center rounded-lg py-1.5 px-3 md:flex">
                         <thumbs-up-icon size="15" class="vue-feather text-theme mr-2.5" />
                         <span class="text-theme text-sm font-bold">
                             {{ $t('Write a Feedback') }}
@@ -30,6 +36,11 @@
                     </a>
                 </div>
             </div>
+
+			<div v-if="config.subscriptionType === 'metered' && config.isEmptyPlans" class="p-5 bg-rose-200 rounded-xl shadow-card mb-6 flex items-center">
+				<alert-octagon-icon size="18" class="vue-feather text-rose-700 mr-4 shrink-0"/>
+				<p class="text-sm text-rose-700">As you installed app with metered subscription type, you have to <router-link :to="{name: 'CreateMeteredPlan'}" class="font-bold underline text-sm">create your plan</router-link> as soon as possible to prevent new user registration without automatically assigned subscription plan.</p>
+			</div>
 
             <!--Metric widgets-->
             <div class="mb-2 md:mb-6 md:flex md:space-x-6">
@@ -144,7 +155,7 @@
 <script>
 import WidgetLatestRegistrations from '../../components/Admin/WidgetLatestRegistrations'
 import ColorLabel from '../../components/Others/ColorLabel'
-import { ChevronRightIcon, ThumbsUpIcon } from 'vue-feather-icons'
+import { AlertOctagonIcon, ChevronRightIcon, ThumbsUpIcon } from 'vue-feather-icons'
 import WidgetWrapper from '../../components/Admin/WidgetWrapper'
 import Spinner from '../../components/FilesView/Spinner'
 import FormLabel from '../../components/Others/Forms/FormLabel'
@@ -152,13 +163,16 @@ import BarChart from '../../components/UI/BarChart'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import WidgetLatestTransactions from '../../components/Admin/WidgetLatestTransactions'
+import InfoBox from "../../components/Others/Forms/InfoBox";
 
 export default {
     name: 'Dashboard',
     components: {
+		InfoBox,
         WidgetLatestTransactions,
         WidgetLatestRegistrations,
         ChevronRightIcon,
+		AlertOctagonIcon,
         WidgetWrapper,
         ThumbsUpIcon,
         ColorLabel,
