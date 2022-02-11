@@ -67,6 +67,11 @@
         <!--Select Payment Plans-->
         <div v-if="!isPaymentOptionPage">
             <PopupContent v-if="plans">
+
+				<InfoBox v-if="plans.data.length === 0" class="!mb-0">
+					<p>There isn't any plan yet.</p>
+				</InfoBox>
+
                 <!--Toggle yearly billing-->
                 <div v-if="hasYearlyPlans.length > 0" class="mb-2 px-5 text-right">
                     <label :class="{ 'text-gray-400': !isSelectedYearlyPlans }" class="cursor-pointer text-xs font-bold">
@@ -93,7 +98,7 @@
             <!--Actions-->
             <PopupActions>
                 <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">{{ $t('popup_move_item.cancel') }} </ButtonBase>
-                <ButtonBase class="w-full" :button-style="buttonStyle" @click.native="isPaymentOptionPage = true">{{ $t('Upgrade Account') }} </ButtonBase>
+                <ButtonBase class="w-full" v-if="plans.data.length !== 0" :button-style="buttonStyle" @click.native="isPaymentOptionPage = true">{{ $t('Upgrade Account') }} </ButtonBase>
             </PopupActions>
         </div>
     </PopupWrapper>
@@ -114,10 +119,12 @@ import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
 import Spinner from '../FilesView/Spinner'
+import InfoBox from "../Others/Forms/InfoBox";
 
 export default {
     name: 'SelectPlanSubscriptionPopup',
     components: {
+		InfoBox,
         Spinner,
         PaymentMethod,
         paystack,

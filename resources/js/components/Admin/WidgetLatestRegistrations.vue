@@ -275,10 +275,6 @@ export default {
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.plan'),
-                        sortable: false,
-                    },
-                    {
                         label: this.$t('admin_page_user.table.storage_used'),
                         sortable: false,
                     },

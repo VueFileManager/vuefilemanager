@@ -62,6 +62,8 @@ class StorePaymentServiceCredentialsController
             // Store credentials into the .env file
             setEnvironmentValue($credentials[$request->input('service')]);
 
+            // TODO: call plan creation
+
             // Clear cache
             if (! is_dev()) {
                 Artisan::call('cache:clear');

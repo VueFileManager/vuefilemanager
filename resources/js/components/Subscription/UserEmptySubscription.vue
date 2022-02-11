@@ -8,11 +8,11 @@
             {{ $t('Free Plan') }}
         </b>
 
-        <b class="mb-3 mb-8 block text-sm text-gray-400">
-            {{ $t('1GB Free storage space with 5 Team members') }}
+        <b v-if="$store.getters.config.allowed_payments" class="mb-3 mb-8 block text-sm text-gray-400">
+            {{ $t('Upgrade your account to get more.') }}
         </b>
 
-        <ButtonBase @click.native="$openUpgradeOptions" type="submit" button-style="theme" class="mt-4 w-full">
+        <ButtonBase v-if="$store.getters.config.allowed_payments" @click.native="$openUpgradeOptions" type="submit" button-style="theme" class="mt-4 w-full">
             {{ $t('Upgrade Your Account') }}
         </ButtonBase>
     </div>
