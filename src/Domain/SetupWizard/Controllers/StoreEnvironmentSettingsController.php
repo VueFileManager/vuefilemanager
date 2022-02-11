@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\SetupWizard\Controllers;
 
 use Artisan;
@@ -13,8 +14,9 @@ class StoreEnvironmentSettingsController extends Controller
      */
     public function __invoke(
         StoreEnvironmentSetupRequest $request,
-    ): Response {
-        if (! app()->runningUnitTests()) {
+    ): Response
+    {
+        if (!app()->runningUnitTests()) {
             $drivers = [
                 'local' => [
                     'FILESYSTEM_DRIVER' => 'local',
@@ -38,28 +40,28 @@ class StoreEnvironmentSettingsController extends Controller
             );
 
             $mail = [
-                'log'     => [
+                'log'      => [
                     'MAIL_DRIVER' => 'log',
                 ],
-                'postmark'     => [
+                'postmark' => [
                     'POSTMARK_TOKEN' => $request->input('postmark.token'),
                 ],
-                'smtp'    => [
+                'smtp'     => [
                     'MAIL_DRIVER'     => 'smtp',
-                    'MAIL_HOST'       => $request->input('mail.host'),
-                    'MAIL_PORT'       => $request->input('mail.port'),
-                    'MAIL_USERNAME'   => $request->input('mail.username'),
-                    'MAIL_PASSWORD'   => $request->input('mail.password'),
-                    'MAIL_ENCRYPTION' => $request->input('mail.encryption'),
+                    'MAIL_HOST'       => $request->input('smtp.host'),
+                    'MAIL_PORT'       => $request->input('smtp.port'),
+                    'MAIL_USERNAME'   => $request->input('smtp.username'),
+                    'MAIL_PASSWORD'   => $request->input('smtp.password'),
+                    'MAIL_ENCRYPTION' => $request->input('smtp.encryption'),
                 ],
-                'ses'     => [
+                'ses'      => [
                     'MAIL_DRIVER'           => 'ses',
                     'AWS_ACCESS_KEY_ID'     => $request->input('ses.access_key'),
                     'AWS_SECRET_ACCESS_KEY' => $request->input('ses.secret_access_key'),
                     'AWS_DEFAULT_REGION'    => $request->input('ses.default_region'),
                     'AWS_SESSION_TOKEN'     => $request->input('ses.session_token'),
                 ],
-                'mailgun' => [
+                'mailgun'  => [
                     'MAIL_DRIVER'      => 'mailgun',
                     'MAILGUN_DOMAIN'   => $request->input('mailgun.domain'),
                     'MAILGUN_SECRET'   => $request->input('mailgun.secret'),
@@ -71,6 +73,29 @@ class StoreEnvironmentSettingsController extends Controller
             setEnvironmentValue(
                 $mail[$request->input('mailDriver')]
             );
+
+            $environmentSetup = [
+                'production' => [
+                    'APP_ENV'   => 'production',
+                    'APP_DEBUG' => 'false',
+                ],
+                'local' => [
+                    'APP_ENV'   => 'local',
+                    'APP_DEBUG' => 'true',
+                ],
+            ];
+
+            setEnvironmentValue(
+                $environmentSetup[$request->input('environment')]
+            );
+
+            $sanctumStatefulDomains = request()->getHost() . ',' . request()->getHost() . ':' . request()->getPort();
+
+            // Set other environment variables
+            setEnvironmentValue([
+                'APP_URL'                  => url('/'),
+                'SANCTUM_STATEFUL_DOMAINS' => $sanctumStatefulDomains,
+            ]);
 
             Artisan::call('config:cache');
         }

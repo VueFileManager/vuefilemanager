@@ -119,41 +119,19 @@ export default {
             if (this.admin.avatar) formData.append('avatar', this.admin.avatar)
 
             axios
-                .post('/api/setup/admin-setup', formData, {
+                .post('/admin-setup', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
                 })
                 .then((response) => {
-                    // End loading
-                    this.isLoading = false
 
-                    // Set login state
-                    this.$store.commit('SET_AUTHORIZED', true)
-
-                    if (localStorage.getItem('license') === 'Extended') {
-                        this.$store.commit('SET_SAAS', true)
-                    }
-
-                    // Go to files page
-                    this.$router.push({ name: 'Dashboard' })
-
-                    // Remove license from localStorage
-                    localStorage.removeItem('purchase_code')
-                    localStorage.removeItem('license')
+                    // Go to sign page
+					window.location = '/sign-in'
                 })
                 .catch((error) => {
-                    if (error.response.status == 401) {
-                        if (error.response.data.error === 'invalid_client') {
-                            events.$emit('alert:open', {
-                                emoji: '🤔',
-                                title: this.$t('popup_passport_error.title'),
-                                message: this.$t('popup_passport_error.message'),
-                            })
-                        }
-                    }
 
-                    if (error.response.status == 500) {
+                    if (error.response.status === 500) {
                         events.$emit('alert:open', {
                             emoji: '🤔',
                             title: this.$t('popup_signup_error.title'),
@@ -161,7 +139,7 @@ export default {
                         })
                     }
 
-                    if (error.response.status == 422) {
+                    if (error.response.status === 422) {
                         if (error.response.data.errors['email']) {
                             this.$refs.adminAccount.setErrors({
                                 Email: error.response.data.errors['email'],
@@ -175,13 +153,21 @@ export default {
                         }
                     }
 
-                    // End loading
-                    this.isLoading = false
-                })
+                }).finally(() => this.isLoading = false)
         },
     },
     created() {
         this.$scrollTop()
+
+		if (this.$root.$data.config.isSetupWizardDebug) {
+			this.admin = {
+				name: 'Jane Doe',
+				email: 'howdy@hi5ve.digital',
+				avatar: undefined,
+				password: 'vuefilemanager',
+				password_confirmation: 'vuefilemanager',
+			}
+		}
     },
 }
 </script>

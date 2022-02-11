@@ -5,7 +5,7 @@
             <MemberAvatar class="mx-auto inline-block" :size="44" :is-border="false" :member="user" />
 
             <!--Usage-->
-            <div v-if="config.subscriptionType === 'metered'" class="mt-1 text-center leading-3">
+            <div v-if="config.subscriptionType === 'metered' && user.data.meta.usages" class="mt-1 text-center leading-3">
                 <b class="text-theme block text-xs font-bold leading-3">
                     {{ user.data.meta.usages.costEstimate }}
                 </b>

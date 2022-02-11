@@ -139,6 +139,7 @@ export default {
         async databaseCredentialsSubmit() {
 			if (this.$root.$data.config.isSetupWizardDemo) {
 				this.$router.push({name: 'EnvironmentSetup'})
+				return
 			}
 
             // Validate fields
@@ -158,7 +159,7 @@ export default {
                     this.isLoading = false
 
                     // Redirect to next step
-                    this.$router.push({ name: 'InstallationDisclaimer' })
+                    this.$router.push({ name: 'EnvironmentSetup' })
                 })
                 .catch((error) => {
                     if ((error.response.status = 500)) {
@@ -173,6 +174,17 @@ export default {
     },
     created() {
         this.$scrollTop()
+
+		if (this.$root.$data.config.isSetupWizardDebug) {
+			this.databaseCredentials = {
+				connection: 'mysql',
+				host: '127.0.0.1',
+				port: '3306',
+				name: 'vuefilemanager-v2',
+				username: 'root',
+				password: 'secret',
+			}
+		}
     },
 }
 </script>

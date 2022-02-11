@@ -1,5 +1,5 @@
 <template>
-    <AuthContentWrapper ref="auth" class="h-screen bg-white">
+    <AuthContentWrapper ref="auth" class="h-screen dark:bg-dark-background bg-white">
         <!--Licence Verify-->
         <AuthContent name="licence-verify" :visible="true">
             <Headline title="Setup Wizard" description="Please set your purchase code before continue to set up your application.">
@@ -49,6 +49,7 @@ export default {
     data() {
         return {
             isLoading: false,
+            isExtended: undefined,
             purchaseCode: '',
         }
     },
@@ -71,9 +72,19 @@ export default {
                 .post('/api/setup/purchase-code', {
                     purchaseCode: this.purchaseCode,
                 })
-                .then(() => {
+                .then((response) => {
                     // End loading
                     this.isLoading = false
+
+					console.log(response);
+
+					if (response.data === 'b6896a44017217c36f4a6fdc56699728') {
+						this.isExtended = true
+						localStorage.setItem('license', 'Extended')
+					} else {
+						this.isExtended = false
+						localStorage.setItem('license', 'Regular')
+					}
 
                     localStorage.setItem('purchase_code', this.purchaseCode)
 

@@ -15,6 +15,8 @@ class IndexController
      */
     public function __invoke(): Application|Factory|View
     {
+        $setup_status = 'installation-needed';
+
         try {
             // Try to connect to database
             DB::getPdo();
@@ -27,8 +29,9 @@ class IndexController
 
             // Get all settings
             $settings = get_settings_in_json();
-        } catch (PDOException $e) {
-            $setup_status = 'setup-database';
+        } catch (PDOException $e) {}
+
+        if ($setup_status === 'installation-needed') {
 
             // Required parameters
             $upload_max_filesize = 128;

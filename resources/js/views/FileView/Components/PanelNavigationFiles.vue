@@ -23,7 +23,7 @@
 
         <!--Navigator-->
         <ContentGroup v-if="navigation" :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true">
-            <small v-if="tree.length === 0" class="text-xs font-bold text-gray-500">
+            <small v-if="tree.length === 0" class="text-xs text-gray-500 dark:text-gray-500">
                 {{ $t("There isn't any folder.") }}
             </small>
             <TreeMenuNavigator :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id" />
@@ -39,7 +39,7 @@
                 class="border-2 border-dashed border-transparent"
             >
                 <!--Empty message-->
-                <small v-if="favourites.length === 0" class="favourites text-xs font-bold text-gray-500" :key="0">
+                <small v-if="favourites.length === 0" class="text-xs text-gray-500 dark:text-gray-500" :key="0">
                     {{ $t('sidebar.favourites_empty') }}
                 </small>
 

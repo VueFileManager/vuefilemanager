@@ -1,5 +1,5 @@
 <template>
-    <div class="flex h-full items-center justify-center" v-if="isLoading || isEmpty">
+    <div class="flex h-screen items-center justify-center" v-if="isLoading || isEmpty">
         <!--Show message for user-->
         <div v-if="!isLoading" class="text-content text-center">
             <slot></slot>

@@ -4,7 +4,7 @@
         <UserHeadline v-if="!clickedSubmenu" class="p-5 pb-3" />
 
         <!--User estimate-->
-        <div v-if="config.subscriptionType === 'metered' && user && !clickedSubmenu" class="block px-5 pt-2">
+        <div v-if="config.subscriptionType === 'metered' && user && user.data.meta.usages && !clickedSubmenu" class="block px-5 pt-2">
             <div class="rounded-lg bg-light-background px-3 py-1.5 dark:bg-4x-dark-foreground">
                 <span class="text-sm font-semibold">
                     {{ $t('Your current estimated usage:') }}

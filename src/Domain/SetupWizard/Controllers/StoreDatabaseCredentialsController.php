@@ -2,6 +2,7 @@
 namespace Domain\SetupWizard\Controllers;
 
 use Artisan;
+use DB;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
@@ -21,28 +22,30 @@ class StoreDatabaseCredentialsController extends Controller
             try {
                 // Set temporary database connection
                 config([
-                    'database' => [
-                        'connections' => [
-                            'tests' => [
-                                'driver'   => $request->input('connection'),
-                                'host'     => $request->input('host'),
-                                'port'     => $request->input('port'),
-                                'database' => $request->input('name'),
-                                'username' => $request->input('username'),
-                                'password' => $request->input('password'),
-                            ],
-                        ],
+                    'database.connections.mysql' => [
+                        'driver'   => $request->input('connection'),
+                        'host'     => $request->input('host'),
+                        'port'     => $request->input('port'),
+                        'database' => $request->input('name'),
+                        'username' => $request->input('username'),
+                        'password' => $request->input('password'),
                     ],
                 ]);
 
+                // Refresh connection
+                DB::reconnect('mysql');
+
                 // Test connection
-                \DB::connection('test')->getPdo();
+                DB::connection('mysql')->getPdo();
             } catch (PDOException $e) {
                 throw new HttpException(500, $e->getMessage());
             }
 
-            // TODO: add SANCTUM_STATEFUL_DOMAINS parameter
+            Artisan::call('migrate:fresh', [
+                '--force' => true,
+            ]);
 
+            // Set database variables
             setEnvironmentValue([
                 'DB_CONNECTION' => $request->input('connection'),
                 'DB_HOST'       => $request->input('host'),
@@ -53,21 +56,7 @@ class StoreDatabaseCredentialsController extends Controller
             ]);
 
             Artisan::call('config:cache');
-
-            Artisan::call('key:generate', [
-                '--force' => true,
-            ]);
-
-            Artisan::call('migrate:fresh', [
-                '--force' => true,
-            ]);
         }
-
-        // Store setup wizard progress
-        Setting::forceCreate([
-            'name'  => 'setup_wizard_database',
-            'value' => 1,
-        ]);
 
         return response('Done', 204);
     }

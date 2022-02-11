@@ -64,7 +64,7 @@
 
     @include('vuefilemanager.others.color-template')
 </head>
-<body class="bg-light-background {{ is_dev() ? 'debug-screens' : '' }}">
+<body class="{{ $installation === 'installation-needed' ? 'bg-light-background' : '' }} {{ is_dev() ? 'debug-screens' : '' }}">
 
     <div id="app"></div>
 
@@ -75,7 +75,6 @@
             host: '{{ url('/') }}',
             api: '{{ url('/api') }}',
             locale: '{{ app()->getLocale() }}',
-			isSetupWizardDemo: '{{ env('IS_SETUP_WIZARD_DEMO', 0) }}',
 
             app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
             app_logo: '{{ $settings->app_logo ?? null }}',
@@ -94,7 +93,7 @@
             chunkSize: {{ format_bytes(config('vuefilemanager.chunk_size')) }},
 
             isAuthenticated: {{ $isUser ? 1 : 0 }},
-            isSaaS: {{ $settings && $settings->license === 'Extended' ? 1 : 0 }},
+            isSaaS: {{ $settings && optional($settings)->license === 'Extended' ? 1 : 0 }},
 
             isDev: {{ is_dev() ? 1 : 0 }},
             isDemo: {{ config('vuefilemanager.is_demo') ? 1 : 0 }},
@@ -103,6 +102,8 @@
 
             installation: '{{ $installation ?? 'initial' }}',
             statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
+			isSetupWizardDemo: {{ env('IS_SETUP_WIZARD_DEMO') ? 1 : 0 }},
+			isSetupWizardDebug: {{ env('IS_SETUP_WIZARD_DEBUG') ? 1 : 0 }},
 
             // States
 			isEmptyPlans: {{ $isEmptyPlans ? 1 : 0 }},

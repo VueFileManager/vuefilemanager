@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\SetupWizard\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -24,6 +25,7 @@ class StoreEnvironmentSetupRequest extends FormRequest
     {
         return [
             'storage'          => 'required|array',
+            'environment'      => 'required|string',
             'storage.driver'   => 'required|string',
             'storage.key'      => 'sometimes|nullable|string',
             'storage.secret'   => 'sometimes|nullable|string',

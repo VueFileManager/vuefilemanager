@@ -99,7 +99,7 @@ if (! function_exists('get_setup_status')) {
     {
         $setup_success = get_settings('setup_wizard_success');
 
-        return boolval($setup_success) ? 'setup-done' : 'setup-disclaimer';
+        return boolval($setup_success) ? 'installation-done' : 'installation-needed';
     }
 }
 

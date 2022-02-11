@@ -25,8 +25,7 @@ class SetupDevEnvironment extends Command
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'setup:dev';
-    protected string $license = 'Extended';
+    protected $signature = 'setup:dev {license=extended}';
 
     /**
      * The console command description.
@@ -58,7 +57,7 @@ class SetupDevEnvironment extends Command
 
         $this->info('Storing default settings and content...');
         ($this->seedDefaultPages)();
-        ($this->seedDefaultSettings)($this->license);
+        ($this->seedDefaultSettings)($this->argument('type'));
         ($this->seedDefaultLanguage)();
         $this->store_default_settings();
 
@@ -958,8 +957,8 @@ class SetupDevEnvironment extends Command
         // Get options
         collect([
             [
-                'name'  => 'setup_wizard_database',
-                'value' => 1,
+                'name'  => 'app_color',
+                'value' => '#00BC7E',
             ],
             [
                 'name'  => 'app_title',
@@ -1027,7 +1026,7 @@ class SetupDevEnvironment extends Command
             ],
             [
                 'name'  => 'license',
-                'value' => $this->license,
+                'value' => $this->argument('type'),
             ],
             [
                 'name'  => 'purchase_code',

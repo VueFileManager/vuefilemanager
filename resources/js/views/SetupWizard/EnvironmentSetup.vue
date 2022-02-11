@@ -13,7 +13,7 @@
 
 					<ValidationProvider tag="div" mode="passive" name="Storage Service" rules="required" v-slot="{ errors }">
 						<AppInputText title="Storage Service" :error="errors[0]" :is-last="storage.driver === 'local'">
-							<SelectInput v-model="storage.driver" :options="storageServiceList" default="local" placeholder="Select your storage service" :isError="errors[0]" />
+							<SelectInput v-model="storage.driver" :options="storageServiceList" :default="storage.driver" placeholder="Select your storage service" :isError="errors[0]" />
 						</AppInputText>
 					</ValidationProvider>
 
@@ -33,7 +33,7 @@
 
 						<ValidationProvider tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
 							<AppInputText title="Region" description="Select your region where is your bucket/space created." :error="errors[0]">
-								<SelectInput v-model="storage.region" :options="regionList" :key="storage.driver" placeholder="Select your region" :isError="errors[0]" />
+								<SelectInput v-model="storage.region" :options="regionList" :default="storage.region" placeholder="Select your region" :isError="errors[0]" />
 							</AppInputText>
 						</ValidationProvider>
 
@@ -56,7 +56,7 @@
 
 					<ValidationProvider tag="div" mode="passive" name="Mail Driver" rules="required" v-slot="{ errors }">
 						<AppInputText title="Mail Driver" :error="errors[0]" :is-last="!mailDriver || mailDriver === 'log'">
-							<SelectInput v-model="mailDriver" :options="mailDriverList" placeholder="Select your mail driver" :isError="errors[0]" />
+							<SelectInput v-model="mailDriver" :default="mailDriver" :options="mailDriverList" placeholder="Select your mail driver" :isError="errors[0]" />
 						</AppInputText>
 					</ValidationProvider>
 
@@ -87,7 +87,7 @@
 
 						<ValidationProvider tag="div" mode="passive" name="Mail Encryption" rules="required" v-slot="{ errors }">
 							<AppInputText title="Mail Encryption" :error="errors[0]" :is-last="true">
-								<SelectInput v-model="smtp.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]" />
+								<SelectInput v-model="smtp.encryption" :default="smtp.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]" />
 							</AppInputText>
 						</ValidationProvider>
 					</div>
@@ -147,8 +147,18 @@
 					</div>
 				</div>
 
+				<div class="card shadow-card text-left">
+					<FormLabel>Environment Setup</FormLabel>
+
+					<ValidationProvider tag="div" mode="passive" name="Environment" rules="required" v-slot="{ errors }">
+						<AppInputText title="Environment" :error="errors[0]" :is-last="true">
+							<SelectInput v-model="environment" :options="environmentSetupList" default="production" placeholder="Select your environment setup" :isError="errors[0]" />
+						</AppInputText>
+					</ValidationProvider>
+				</div>
+
 				<InfoBox v-if="isError" type="error" class="!mb-5">
-                    <p>Something went wrong, please try it again.</p>
+                    <p>Whooops, something went wrong, please try it again.</p>
                 </InfoBox>
 
 				<AuthButton class="w-full justify-center" icon="chevron-right" text="Save and Set General Settings" :loading="isLoading" :disabled="isLoading" />
@@ -217,6 +227,17 @@ export default {
 		return {
 			isError: false,
 			isLoading: false,
+			environment: 'production',
+			environmentSetupList: [
+				{
+					label: 'Production',
+					value: 'production',
+				},
+				{
+					label: 'Dev',
+					value: 'local',
+				},
+			],
 			ossRegions: [
 				{
 					label: 'China (Hangzhou)',
@@ -529,6 +550,7 @@ export default {
 			// Send request to get verify account
 			axios
 				.post('/api/setup/environment-setup', {
+					environment: this.environment,
 					storage: this.storage,
 					mailDriver: this.mailDriver,
 					smtp: this.smtp,
@@ -537,21 +559,40 @@ export default {
 					postmark: this.postmark,
 				})
 				.then(() => {
-					// End loading
-					this.isLoading = false
-
 					// Redirect to next step
 					this.$router.push({name: 'AppSetup'})
 				})
 				.catch((error) => {
-					// End loading
-					this.isLoading = false
+					this.isError = true
 
-					if (error.response.status === 500) {
-						this.isError = true
-					}
+				})
+				.finally(() => {
+					this.isLoading = false
 				})
 		},
+	},
+	beforeMount() {
+		if (this.$root.$data.config.isSetupWizardDebug) {
+			this.mailDriver = 'smtp'
+
+			this.smtp = {
+				host: 'test.mail.com',
+				port: 445,
+				username: 'howdy@hi5ve.digital',
+				password: 'root',
+				encryption: 'ssl',
+			}
+
+			this.environment = 'local'
+
+			this.storage.driver = 'local'
+			//this.storage.key = '51oLNVBaNKcxHG0lFucxBbJyhxmTwmF3WnzVLRqMZj0'
+			//this.storage.secret = 'sC1YuKsbWv7MdWugb9ZsYBqv2QZJ+QOuHZHEddOsAao'
+			//this.storage.endpoint = 'https://nyc3.digitaloceanspaces.com'
+			//this.storage.bucket = 'cloud'
+			//this.storage.region = 'nyc3'
+			setTimeout(() => this.storage.region = 'nyc3', 100)
+		}
 	},
 	created() {
 		this.$scrollTop()

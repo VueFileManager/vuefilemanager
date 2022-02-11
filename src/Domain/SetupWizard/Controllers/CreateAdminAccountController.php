@@ -2,10 +2,11 @@
 namespace Domain\SetupWizard\Controllers;
 
 use App\Users\Models\User;
+use Artisan;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\SetupWizard\Requests\StoreAdminAccountRequest;
@@ -17,6 +18,7 @@ use Domain\Localization\Actions\SeedDefaultLanguageAction;
 class CreateAdminAccountController extends Controller
 {
     public function __construct(
+        protected StatefulGuard $guard,
         public SeedDefaultPagesAction $seedDefaultPages,
         public SeedDefaultLanguageAction $seedDefaultLanguage,
         public SeedDefaultSettingsAction $seedDefaultSettingsAction,
@@ -27,7 +29,7 @@ class CreateAdminAccountController extends Controller
         StoreAdminAccountRequest $request
     ): Response {
         // Create user
-        $user = User::forceCreate([
+        $admin = User::forceCreate([
             'role'              => 'admin',
             'email'             => $request->input('email'),
             'password'          => bcrypt($request->input('password')),
@@ -38,7 +40,7 @@ class CreateAdminAccountController extends Controller
         $name = split_name($request->input('name'));
 
         // Store user data
-        $user->settings()->create([
+        $admin->settings()->create([
             'avatar'     => store_avatar($request, 'avatar'),
             'first_name' => $name['first_name'],
             'last_name'  => $name['last_name'],
@@ -58,24 +60,24 @@ class CreateAdminAccountController extends Controller
                 'value' => $request->input('purchase_code'),
             ],
         ])->each(function ($col) {
-            Setting::forceCreate([
-                'name'  => $col['name'],
-                'value' => $col['value'],
+            Setting::updateOrCreate([
+                'name'  => $col['name']
+            ], [
+                'value' => $col['value']
             ]);
         });
+
+        Artisan::call('key:generate', [
+            '--force' => true,
+        ]);
+
+        Artisan::call('config:clear');
 
         // Set up application
         ($this->seedDefaultPages)();
         ($this->seedDefaultSettingsAction)($request->input('license'));
         ($this->seedDefaultLanguage)();
 
-        // Login account
-        if (Auth::attempt($request->only(['email', 'password']))) {
-            $request->session()->regenerate();
-
-            return response('Registration was successful', 204);
-        }
-
-        return response('Something went wrong', 500);
+        return response('Registration was successful', 204);
     }
 }

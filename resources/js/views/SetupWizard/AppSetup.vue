@@ -106,12 +106,12 @@
 					</AppInputSwitch>
 				</div>
 
-				<div class="card shadow-card text-left">
+				<div v-if="isExtended" class="card shadow-card text-left">
 					<FormLabel>Subscription</FormLabel>
 
 					<ValidationProvider tag="div" mode="passive" name="Contact Email" rules="required" v-slot="{ errors }">
 						<AppInputText :title="$t('Subscription Type')" description="Choose your preferred subscription system in advance. After installation and any other user registration, you can't change this setting later.">
-							<SelectInput v-model="app.subscriptionType" :options="$store.getters.subscriptionTypes" :placeholder="$t('Select your subscription type')" />
+							<SelectInput v-model="app.subscriptionType" :default="app.subscriptionType" :options="$store.getters.subscriptionTypes" :placeholder="$t('Select your subscription type')" />
 						</AppInputText>
 					</ValidationProvider>
 
@@ -165,6 +165,7 @@ export default {
     data() {
         return {
             isLoading: false,
+			isExtended: undefined,
             app: {
                 color: '#00BC7E',
 				subscriptionType: undefined,
@@ -254,6 +255,20 @@ export default {
     },
     created() {
         this.$scrollTop()
+
+		this.isExtended = localStorage.getItem('license') === 'Extended'
+
+		if (this.$root.$data.config.isSetupWizardDebug) {
+			this.app.subscriptionType = 'metered'
+			this.app.title = 'VueFileManager'
+			this.app.description = 'Your private cloud storage software build on Laravel & Vue.js.'
+			this.app.contactMail = 'howdy@hi5ve.digital'
+			this.app.googleAnalytics = 'UA-123456789'
+			this.app.defaultStorage = '5'
+			this.app.userRegistration = 1
+			this.app.storageLimitation = 1
+			this.app.userVerification = 0
+		}
     },
 }
 </script>

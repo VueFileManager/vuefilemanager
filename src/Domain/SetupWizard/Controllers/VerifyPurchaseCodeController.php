@@ -17,7 +17,7 @@ class VerifyPurchaseCodeController extends Controller
         $response = Http::get("https://verify.vuefilemanager.com/api/verify-code/{$request->input('purchaseCode')}");
 
         if ($response->successful()) {
-            return response($response, 204);
+            return response($response->body(), 201);
         }
 
         return response('Purchase code is invalid.', 400);

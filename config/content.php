@@ -92,10 +92,6 @@ return [
                 'value' => 1,
             ],
             [
-                'name'  => 'app_color',
-                'value' => '#00BC7E',
-            ],
-            [
                 'name'  => 'allowed_adsense',
                 'value' => 0,
             ],
@@ -176,10 +172,6 @@ return [
             [
                 'name'  => 'footer_content',
                 'value' => '© 2021 Simple & Powerful Personal Cloud Storage. Developed by <a href="https://hi5ve.digital" target="_blank" class="text-theme">Hi5Ve.Digital</a>',
-            ],
-            [
-                'name'  => 'app_color',
-                'value' => '#00BC7E',
             ],
             [
                 'name'  => 'allowed_adsense',

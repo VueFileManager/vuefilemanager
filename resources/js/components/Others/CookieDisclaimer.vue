@@ -39,7 +39,7 @@ export default {
         },
     },
     created() {
-        this.isVisibleDisclaimer = !localStorage.getItem('isHiddenDisclaimer')
+		this.isVisibleDisclaimer = this.config.installation === 'installation-done' && !localStorage.getItem('isHiddenDisclaimer')
     },
 }
 </script>

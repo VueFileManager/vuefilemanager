@@ -47,13 +47,13 @@ class UserResource extends JsonResource
                     $this->mergeWhen($this->hasSubscription(), fn () => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription, fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
                         'balance' => new BalanceResource($this->balance),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription, fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
                         'alert' => new BillingAlertResource($this->billingAlert),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription, fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
                         'failedPayments' => new FailedPaymentsCollection($this->failedPayments),
                     ]),
                 ],
@@ -68,10 +68,10 @@ class UserResource extends JsonResource
                     $this->mergeWhen($isFixedSubscription, fn () => [
                         'limitations' => $this->limitations->summary(),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription, fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
                         'usages' => $this->getUsageEstimates(),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription, fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
                         'totalDebt' => [
                             'formatted' => format_currency($this->failedPayments->sum('amount'), $this->subscription->plan->currency),
                             'amount'    => $this->failedPayments->sum('amount'),

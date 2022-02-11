@@ -8,7 +8,8 @@
 		mounted() {
 			let status = this.$root.$data.config.installation
 
-			//if (status && status === 'setup-done') this.$router.push({ name: 'SignIn' })
+			if (status && status === 'installation-done')
+				this.$router.push({ name: 'SignIn' })
 		},
 	}
 </script>

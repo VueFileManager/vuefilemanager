@@ -91,7 +91,7 @@ export default {
         openMenu() {
             this.isOpen = !this.isOpen
 
-            if (this.isOpen) {
+            if (this.$refs.search && this.isOpen) {
                 this.$nextTick(() => this.$refs.search.focus())
             }
         },

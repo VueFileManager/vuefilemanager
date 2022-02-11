@@ -14,9 +14,7 @@ class SetupProdEnvironment extends Command
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'setup:prod';
-
-    protected string $license = 'Extended';
+    protected $signature = 'setup:prod {license=extended}';
 
     /**
      * The console command description.
@@ -53,7 +51,7 @@ class SetupProdEnvironment extends Command
         $this->store_default_settings();
 
         ($this->seedDefaultPages)();
-        ($this->seedDefaultSettings)($this->license);
+        ($this->seedDefaultSettings)($this->argument('type'));
         ($this->seedDefaultLanguage)();
 
         $this->info('Creating default admin...');
@@ -73,8 +71,8 @@ class SetupProdEnvironment extends Command
         // Get options
         collect([
             [
-                'name'  => 'setup_wizard_database',
-                'value' => 1,
+                'name'  => 'app_color',
+                'value' => '#00BC7E',
             ],
             [
                 'name'  => 'app_title',
@@ -138,7 +136,7 @@ class SetupProdEnvironment extends Command
             ],
             [
                 'name'  => 'license',
-                'value' => $this->license,
+                'value' => $this->argument('type'),
             ],
             [
                 'name'  => 'purchase_code',

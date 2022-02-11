@@ -25,12 +25,12 @@ class HomepageTest extends TestCase
 
         Setting::create([
             'name'  => 'setup_wizard_success',
-            'value' => 'setup-done',
+            'value' => 'installation-done',
         ]);
 
         $this->get('/')
             ->assertStatus(200)
-            ->assertSee('setup-done')
+            ->assertSee('installation-done')
             ->assertSee('VueFileManager');
     }
 

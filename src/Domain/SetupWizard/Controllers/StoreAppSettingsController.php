@@ -81,9 +81,10 @@ class StoreAppSettingsController extends Controller
                 'value' => $request->input('defaultMaxTeamMember') ?? 10,
             ],
         ])->each(function ($col) {
-            Setting::forceCreate([
-                'name'  => $col['name'],
-                'value' => $col['value'],
+            Setting::updateOrCreate([
+                'name'  => $col['name']
+            ], [
+                'value' => $col['value']
             ]);
         });
 

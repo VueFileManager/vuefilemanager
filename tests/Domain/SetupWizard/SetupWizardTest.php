@@ -51,11 +51,6 @@ class SetupWizardTest extends TestCase
             'username'   => 'null',
             'password'   => 'null',
         ])->assertStatus(204);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'setup_wizard_database',
-            'value' => 1,
-        ]);
     }
 
     /**
@@ -66,7 +61,7 @@ class SetupWizardTest extends TestCase
         Setting::all()->each->delete();
 
         $this->postJson('/api/setup/app-setup', [
-            'color'             => '#00BC7E',
+            'color'             => '#00BC72',
             'title'             => 'VueFileManager',
             'description'       => 'The best file manager on the internet',
             'googleAnalytics'   => 'UA-12345678-1',
@@ -92,7 +87,7 @@ class SetupWizardTest extends TestCase
             ])
             ->assertDatabaseHas('settings', [
                 'name'  => 'app_color',
-                'value' => '#00BC7E',
+                'value' => '#00BC72',
             ])
             ->assertDatabaseHas('settings', [
                 'name'  => 'app_title',

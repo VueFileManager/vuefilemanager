@@ -25,10 +25,10 @@
             <image-icon size="34" class="vue-feather text-theme inline-block mb-4" />
 
 			<b class="font-bold text-base block leading-3">
-                {{ $t('input_image.title') }}
+                {{ $te('input_image.title') || 'Upload Image' }}
             </b>
             <small class="text-xs text-gray-500">
-                {{ $t('input_image.supported') }}
+                {{ $te('input_image.supported') || 'Supported formats are .png, .jpg, .jpeg.' }}
             </small>
         </div>
     </div>
