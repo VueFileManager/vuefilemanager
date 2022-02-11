@@ -87,7 +87,7 @@
 
 						<ValidationProvider tag="div" mode="passive" name="Mail Encryption" rules="required" v-slot="{ errors }">
 							<AppInputText title="Mail Encryption" :error="errors[0]" :is-last="true">
-								<SelectInput v-model="smtp.encryption" :default="smtp.encryption" :options="encryptionList" placeholder="Select your mail encryption" :isError="errors[0]" />
+								<SelectInput v-model="smtp.encryption" :default="smtp.encryption" :options="mailEncryptionList" placeholder="Select your mail encryption" :isError="errors[0]" />
 							</AppInputText>
 						</ValidationProvider>
 					</div>
@@ -180,6 +180,7 @@ import {SettingsIcon} from 'vue-feather-icons'
 import Headline from '../Auth/Headline'
 import {required} from 'vee-validate/dist/rules'
 import axios from 'axios'
+import {mapGetters} from "vuex";
 
 export default {
 	name: 'EnvironmentSetup',
@@ -212,6 +213,10 @@ export default {
 		},
 	},
 	computed: {
+		...mapGetters([
+			'mailEncryptionList',
+			'mailDriverList',
+		]),
 		regionList() {
 			return {
 				storj: this.storjRegions,
@@ -466,38 +471,6 @@ export default {
 				{
 					label: 'Alibaba Cloud OSS',
 					value: 'oss',
-				},
-			],
-			encryptionList: [
-				{
-					label: 'TLS',
-					value: 'tls',
-				},
-				{
-					label: 'SSL',
-					value: 'ssl',
-				},
-			],
-			mailDriverList: [
-				{
-					label: 'SMTP',
-					value: 'smtp',
-				},
-				{
-					label: 'Mailgun',
-					value: 'mailgun',
-				},
-				{
-					label: 'SES',
-					value: 'ses',
-				},
-				{
-					label: 'Postmark',
-					value: 'postmark',
-				},
-				{
-					label: 'Log',
-					value: 'log',
 				},
 			],
 			storage: {

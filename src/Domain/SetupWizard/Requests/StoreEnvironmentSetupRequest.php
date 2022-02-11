@@ -33,9 +33,10 @@ class StoreEnvironmentSetupRequest extends FormRequest
             'storage.region'   => 'sometimes|nullable|string',
             'storage.bucket'   => 'sometimes|nullable|string',
             'mailDriver'       => 'required|string',
-            'mail'             => 'sometimes|array',
+            'smtp'             => 'sometimes|array',
             'ses'              => 'sometimes|array',
             'mailgun'          => 'sometimes|array',
+            'postmark'         => 'sometimes|array',
         ];
     }
 }

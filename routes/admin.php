@@ -2,7 +2,7 @@
 
 use Domain\Admin\Controllers\Users\UserController;
 use Domain\Pages\Controllers\AdminPagesController;
-use Domain\Settings\Controllers\SetEmailController;
+use Domain\Settings\Controllers\StoreEmailCredentialsController;
 use Domain\Settings\Controllers\FlushCacheController;
 use Domain\Localization\Controllers\LanguageController;
 use Domain\Admin\Controllers\Users\DeleteUserController;
@@ -48,7 +48,7 @@ Route::group(['prefix' => 'settings'], function () {
     Route::get('/', GetSettingsValueController::class);
 
     Route::get('/flush-cache', FlushCacheController::class);
-    Route::post('/email', SetEmailController::class);
+    Route::post('/email', StoreEmailCredentialsController::class);
 
     Route::post('/payment-service', StorePaymentServiceCredentialsController::class);
     Route::post('/social-service', StoreSocialServiceCredentialsController::class);

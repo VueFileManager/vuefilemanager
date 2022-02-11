@@ -1,6 +1,38 @@
 import i18n from '../../i18n'
 
 const defaultState = {
+    mailEncryptionList: [
+        {
+            label: 'TLS',
+            value: 'tls',
+        },
+        {
+            label: 'SSL',
+            value: 'ssl',
+        },
+    ],
+    mailDriverList: [
+        {
+            label: 'SMTP',
+            value: 'smtp',
+        },
+        {
+            label: 'Mailgun',
+            value: 'mailgun',
+        },
+        {
+            label: 'SES',
+            value: 'ses',
+        },
+        {
+            label: 'Postmark',
+            value: 'postmark',
+        },
+        {
+            label: 'Log',
+            value: 'log',
+        },
+    ],
     transactionColumns: [
         {
             label: i18n.t('Note'),
@@ -1023,9 +1055,11 @@ const defaultState = {
 }
 
 const getters = {
+    mailEncryptionList: (state) => state.mailEncryptionList,
     transactionColumns: (state) => state.transactionColumns,
     subscriptionTypes: (state) => state.subscriptionTypes,
     teamPermissions: (state) => state.teamPermissions,
+    mailDriverList: (state) => state.mailDriverList,
     expirationList: (state) => state.expirationList,
     currencyList: (state) => state.currencyList,
     intervalList: (state) => state.intervalList,

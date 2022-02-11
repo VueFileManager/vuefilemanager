@@ -44,6 +44,7 @@ class StoreEnvironmentSettingsController extends Controller
                     'MAIL_DRIVER' => 'log',
                 ],
                 'postmark' => [
+                    'MAIL_DRIVER'    => 'postmark',
                     'POSTMARK_TOKEN' => $request->input('postmark.token'),
                 ],
                 'smtp'     => [

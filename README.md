@@ -1,5 +1,3 @@
-[![Frontend Build](https://github.com/MakingCG/vuefilemanager/actions/workflows/build.yml/badge.svg)](https://github.com/MakingCG/vuefilemanager/actions/workflows/build.yml)
-[![Unit Testing](https://github.com/MakingCG/vuefilemanager/actions/workflows/unit-testing.yml/badge.svg)](https://github.com/MakingCG/vuefilemanager/actions/workflows/unit-testing.yml)
 
 ![logo](https://vuefilemanager.com/assets/images/vuefilemanager-horizontal-logo.svg)
 # Private Cloud Storage Build on Laravel & Vue.js
@@ -33,7 +31,7 @@
 
 **For running app make sure you have installed:**
 
-- PHP >= 7.3 version
+- PHP >= 8.0.2 version
 - MySQL 5.6+
 - Nginx or Apache
 
@@ -176,49 +174,15 @@ These instructions is applicable for all updates. Please follow this step:
 
 - Just rewrite all project files with new excluded `/.env` file and `/storage` folder. These items must be preserved!
 
-
-# Payments
-VueFileManager is packed with **Stripe** payment options. To configure Stripe, you will be asked in Setup Wizard to set up. Or, if you skip this installation process, you will find stripe set up in you admin `Dashboard / Settings / Payments`.
-
-## Manage Failed Payments
-VueFileManager manage failed payments with additional email notification. But, there is more you can do for better User Experience. There is some additionals option in Stripe, look on [prevent failed payments](https://dashboard.stripe.com/settings/billing/automatic).
-
-## Tax Rates
-You are able to manage tax rates. When adding a new tax rate, if no Region is specified, the tax rate will apply to everyone. Add a [ISO 3166-1 alpha-2 country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements) to the Region field if you wish to apply taxes per country.
-
-Just log in to your stripe dashboard, and you will find taxes under `Dashboard / Products / Tax Rates`.
-
 # Developers
 ## Running development environment on your localhost
-
-When you download repository from GitHub, you have to rename your `.env.example` file to `.env`. Then run command below in your terminal to install vendors. Composer is required.
-```
-composer install
-```
-
-Set your `APP_ENV` to local mode, in default, it's in production mode.
-```
-APP_ENV=local
-```
-
-Also, to debug application, set `APP_DEBUG` on true:
-```
-APP_DEBUG=true
-```
 
 To start server on your localhost, run command below. Then go to your generated localhost URL by terminal, and follow Setup Wizard steps to configure VueFileManager.
 ```
 php artisan serve
 ```
 
-After successfully installation via Setup Wizard, stop your artisan server, clear config cache and run your artisan server again:
-```
-php artisan config:clear
-php artisan serve
-```
-*After any change in your .env you have to restart your artisan server to reload your config cache.*
-
-To develop your Vue front-end, you have to install npm modules by this command:
+For developing Vue front-end, you have to install npm modules by this command:
 ```
 npm install
 ```

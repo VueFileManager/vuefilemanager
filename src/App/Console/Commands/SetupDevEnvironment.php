@@ -57,7 +57,7 @@ class SetupDevEnvironment extends Command
 
         $this->info('Storing default settings and content...');
         ($this->seedDefaultPages)();
-        ($this->seedDefaultSettings)($this->argument('type'));
+        ($this->seedDefaultSettings)($this->argument('license'));
         ($this->seedDefaultLanguage)();
         $this->store_default_settings();
 
@@ -81,6 +81,8 @@ class SetupDevEnvironment extends Command
         $this->call('queue:work', [
             '--stop-when-empty' => true,
         ]);
+
+        $this->warn('Please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.');
 
         $this->info('Everything is done, congratulations! 🥳🥳🥳');
     }
@@ -1026,7 +1028,7 @@ class SetupDevEnvironment extends Command
             ],
             [
                 'name'  => 'license',
-                'value' => $this->argument('type'),
+                'value' => $this->argument('license'),
             ],
             [
                 'name'  => 'purchase_code',

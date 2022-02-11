@@ -8,9 +8,12 @@ use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
+use Illuminate\Foundation\Testing\WithFaker;
 
 class SetupProdEnvironment extends Command
 {
+    use WithFaker;
+
     /**
      * The name and signature of the console command.
      */
@@ -30,6 +33,7 @@ class SetupProdEnvironment extends Command
         private SeedDefaultPagesAction $seedDefaultPages,
     ) {
         parent::__construct();
+        $this->setUpFaker();
     }
 
     /**
@@ -51,7 +55,7 @@ class SetupProdEnvironment extends Command
         $this->store_default_settings();
 
         ($this->seedDefaultPages)();
-        ($this->seedDefaultSettings)($this->argument('type'));
+        ($this->seedDefaultSettings)($this->argument('license'));
         ($this->seedDefaultLanguage)();
 
         $this->info('Creating default admin...');
@@ -59,6 +63,8 @@ class SetupProdEnvironment extends Command
 
         $this->info('Clearing application cache...');
         $this->clear_cache();
+
+        $this->warn('Please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.');
 
         $this->info('Everything is done, congratulations! 🥳🥳🥳');
     }
@@ -136,7 +142,7 @@ class SetupProdEnvironment extends Command
             ],
             [
                 'name'  => 'license',
-                'value' => $this->argument('type'),
+                'value' => $this->argument('license'),
             ],
             [
                 'name'  => 'purchase_code',
@@ -197,7 +203,15 @@ class SetupProdEnvironment extends Command
         $user
             ->settings()
             ->create([
-                'name'               => 'Admin',
+                'first_name'   => 'Jane',
+                'last_name'    => 'Doe',
+                'address'      => $this->faker->address,
+                'state'        => $this->faker->state,
+                'city'         => $this->faker->city,
+                'postal_code'  => $this->faker->postcode,
+                'country'      => $this->faker->randomElement(['SK', 'CZ', 'DE', 'FR']),
+                'phone_number' => $this->faker->phoneNumber,
+                'timezone'     => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
             ]);
 
         // Show user credentials
@@ -217,6 +231,12 @@ class SetupProdEnvironment extends Command
         // Generate app key
         $this->call('key:generate', [
             '--force' => true,
+        ]);
+
+        $currentHost = request()->getHost() . ',' . request()->getHost() . ':' . request()->getPort();
+
+        setEnvironmentValue([
+            'SANCTUM_STATEFUL_DOMAINS' => "localhost,localhost:8000,127.0.0.1,127.0.0.1:8000,::1,$currentHost",
         ]);
     }
 
