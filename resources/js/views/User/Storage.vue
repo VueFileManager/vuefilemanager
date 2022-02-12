@@ -14,7 +14,7 @@
                 {{ $t('Used') }}
             </b>
 
-            <ProgressLine :data="distribution" class="mt-5" />
+            <ProgressLine v-if="storage.data.attributes.used !== '0B'" :data="distribution" class="mt-5" />
         </div>
         <div v-if="distribution" class="card shadow-card">
             <FormLabel icon="hard-drive">

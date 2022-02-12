@@ -3,7 +3,7 @@ import store from '../store/index'
 const ValidatorHelpers = {
     install(Vue) {
         Vue.prototype.$cantInviteMember = function (email, invitations) {
-            if (store.getters.config.subscriptionType === 'metered') {
+            if (['metered', 'none'].includes(store.getters.config.subscriptionType)) {
                 return false
             }
 
@@ -28,9 +28,7 @@ const ValidatorHelpers = {
         Vue.prototype.$reCaptchaToken = async function (action) {
             await this.$recaptchaLoaded()
 
-            let token = await this.$recaptcha(action)
-
-            return token
+            return await this.$recaptcha(action)
         }
     },
 }

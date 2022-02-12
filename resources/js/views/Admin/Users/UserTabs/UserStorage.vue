@@ -10,7 +10,7 @@
                 {{ storage.data.attributes.used }}
             </b>
 
-            <b v-if="['fixed', 'none'].includes(config.subscriptionType)" class="mt-0.5 block text-sm text-gray-400">
+            <b v-if="config.subscriptionType === 'fixed' || (config.subscriptionType === 'none' && config.storageLimit)" class="mt-0.5 block text-sm text-gray-400">
                 {{ $t('Total of') }} {{ storage.data.attributes.capacity }}
                 {{ $t('Used') }}
             </b>

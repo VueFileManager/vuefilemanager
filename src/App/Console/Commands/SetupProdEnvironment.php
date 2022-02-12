@@ -66,6 +66,11 @@ class SetupProdEnvironment extends Command
         $this->info('Clearing application cache...');
         $this->clear_cache();
 
+        $this->info('Dispatching jobs...');
+        $this->call('queue:work', [
+            '--stop-when-empty' => true,
+        ]);
+
         $this->warn('Please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.');
 
         $this->info('Everything is done, congratulations! 🥳🥳🥳');

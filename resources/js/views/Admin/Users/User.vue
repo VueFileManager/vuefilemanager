@@ -9,7 +9,7 @@
                     <img
                         :src="user.data.relationships.settings.data.attributes.avatar.sm"
                         :alt="user.data.relationships.settings.data.attributes.name"
-                        class="relative z-0 h-14 w-14 cursor-pointer rounded-xl object-cover shadow-lg md:h-16 md:w-16"
+                        class="relative z-0 h-14 w-14 rounded-xl object-cover shadow-lg md:h-16 md:w-16"
                     />
 
                     <!--User name & email-->
