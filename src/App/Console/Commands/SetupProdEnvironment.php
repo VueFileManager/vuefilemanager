@@ -187,6 +187,10 @@ class SetupProdEnvironment extends Command
                 'name'  => 'billing_vat_number',
                 'value' => null,
             ],
+            [
+                'name'  => 'allowed_recaptcha',
+                'value' => 0,
+            ],
         ])->each(function ($col) {
             Setting::forceCreate([
                 'name'  => $col['name'],

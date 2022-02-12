@@ -81,8 +81,9 @@ class StoreEnvironmentSettingsController extends Controller
                     'APP_DEBUG' => 'false',
                 ],
                 'local' => [
-                    'APP_ENV'   => 'local',
-                    'APP_DEBUG' => 'true',
+                    'APP_ENV'          => 'local',
+                    'APP_DEBUG'        => 'true',
+                    'QUEUE_CONNECTION' => 'sync',
                 ],
             ];
 

@@ -300,6 +300,7 @@ class VisitorManipulatingTest extends TestCase
         collect([true, false])
             ->each(function ($is_protected) {
                 $user = User::factory()
+                    ->hasSettings()
                     ->create();
 
                 $folder = Folder::factory(Folder::class)

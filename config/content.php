@@ -95,6 +95,10 @@ return [
                 'name'  => 'allowed_adsense',
                 'value' => 0,
             ],
+            [
+                'name'  => 'allowed_recaptcha',
+                'value' => 0,
+            ],
         ],
         'extended' => [
             [
@@ -175,6 +179,10 @@ return [
             ],
             [
                 'name'  => 'allowed_adsense',
+                'value' => 0,
+            ],
+            [
+                'name'  => 'allowed_recaptcha',
                 'value' => 0,
             ],
 

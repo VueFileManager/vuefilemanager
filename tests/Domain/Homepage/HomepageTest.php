@@ -41,7 +41,7 @@ class HomepageTest extends TestCase
     {
         $this->get('/')
             ->assertStatus(200)
-            ->assertSee('setup-disclaimer')
+            ->assertSee('installation-needed')
             ->assertSee('VueFileManager');
     }
 

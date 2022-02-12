@@ -190,12 +190,12 @@ class SettingsTest extends TestCase
         $this
             ->actingAs($admin)
             ->postJson('/api/admin/settings/email', [
-                'driver'     => 'smtp',
-                'host'       => 'smtp.email.com',
-                'port'       => 25,
-                'username'   => 'john@doe.com',
-                'password'   => 'secret',
-                'encryption' => 'tls',
+                'mailDriver'     => 'smtp',
+                'smtp.host'       => 'smtp.email.com',
+                'smtp.port'       => 25,
+                'smtp.username'   => 'john@doe.com',
+                'smtp.password'   => 'secret',
+                'smtp.encryption' => 'tls',
             ])->assertStatus(204);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Teams\Resources;
 
+use App\Users\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TeamInvitationResource extends JsonResource
@@ -17,6 +18,7 @@ class TeamInvitationResource extends JsonResource
                     'color'      => $this->color,
                     'status'     => $this->status,
                     'permission' => $this->permission,
+                    'isExistedUser' => User::where('email', $this->email)->exists(),
                 ],
                 'relationships' => [
                     $this->mergeWhen($this->inviter, fn () => [

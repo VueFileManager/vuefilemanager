@@ -20,7 +20,7 @@ class CreateTeamFolderInvitationsTable extends Migration
             $table->text('email');
             $table->string('color')->nullable();
             $table->enum('permission', ['can-edit', 'can-view', 'can-view-and-download']);
-            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
+            $table->enum('status', ['pending', 'accepted', 'waiting-for-registration', 'rejected'])->default('pending');
             $table->timestamps();
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';

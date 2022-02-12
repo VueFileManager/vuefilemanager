@@ -2,6 +2,7 @@
 namespace Domain\Teams\Controllers;
 
 use App\Users\Models\User;
+use Domain\Teams\Models\TeamFolderMember;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -13,7 +14,7 @@ class InvitationsController extends Controller
 {
     public function show(TeamFolderInvitation $invitation)
     {
-        if ($invitation->status === 'accepted') {
+        if ($invitation->status !== 'pending') {
             abort(410);
         }
 
@@ -23,19 +24,24 @@ class InvitationsController extends Controller
     public function update(
         TeamFolderInvitation $invitation
     ): ResponseFactory | Response {
-        $user = User::where('email', $invitation->email)
-            ->firstOrFail();
+        $user = User::where('email', $invitation->email);
 
-        $invitation->update([
-            'status' => 'accepted',
-        ]);
+        if ($user->exists()) {
+            $invitation->accept();
 
-        DB::table('team_folder_members')
-            ->insert([
+            // Store team member
+            TeamFolderMember::create([
+                'user_id'    => $user->first()->id,
                 'parent_id'  => $invitation->parent_id,
-                'user_id'    => $user->id,
-                'permission' => 'can-edit',
+                'permission' => $invitation->permission,
             ]);
+        }
+
+        if ($user->doesntExist()) {
+            $invitation->update([
+                'status' => 'waiting-for-registration',
+            ]);
+        }
 
         return response('Done', 204);
     }
@@ -43,9 +49,7 @@ class InvitationsController extends Controller
     public function destroy(
         TeamFolderInvitation $invitation
     ): ResponseFactory | Response {
-        $invitation->update([
-            'status' => 'rejected',
-        ]);
+        $invitation->reject();
 
         return response('Done', 204);
     }

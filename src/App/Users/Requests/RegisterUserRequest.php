@@ -32,7 +32,7 @@ class RegisterUserRequest extends FormRequest
             'email'     => ['required', 'string', 'email', 'max:255', 'unique:users,email', new EmailProvider],
             'name'      => 'required|string|max:255',
             'password'  => $this->passwordRules(),
-            'reCaptcha' => [new RequiredIf(get_settings('allowed_recaptcha') == 1), 'string', app(ReCaptchaRules::class)],
+            'reCaptcha' => [new RequiredIf(get_settings('allowed_recaptcha') == 1), 'string', 'nullable', app(ReCaptchaRules::class)],
         ];
     }
 }

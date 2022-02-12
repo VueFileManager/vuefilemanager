@@ -44,7 +44,7 @@ class TeamManagementTest extends TestCase
     /**
      * @test
      */
-    public function it_accept_team_folder_invite()
+    public function it_accept_team_folder_invite_as_registered_user()
     {
         $member = User::factory()
             ->create([
@@ -59,7 +59,7 @@ class TeamManagementTest extends TestCase
                 'parent_id'  => $folder->id,
                 'email'      => $member->email,
                 'status'     => 'pending',
-                'permission' => 'can-edit',
+                'permission' => 'can-view',
             ]);
 
         $this
@@ -75,7 +75,68 @@ class TeamManagementTest extends TestCase
             ->assertDatabaseHas('team_folder_members', [
                 'parent_id'  => $folder->id,
                 'user_id'    => $member->id,
+                'permission' => 'can-view',
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_accept_team_folder_invite_as_guest_user()
+    {
+        $folder = Folder::factory()
+            ->create();
+
+        $invitation = TeamFolderInvitation::factory()
+            ->create([
+                'parent_id'  => $folder->id,
+                'email'      => 'howdy@hi5ve.digital',
+                'status'     => 'pending',
                 'permission' => 'can-edit',
+            ]);
+
+        $this
+            ->putJson("/api/teams/invitations/{$invitation->id}")
+            ->assertNoContent();
+
+        $this
+            ->assertDatabaseHas('team_folder_invitations', [
+                'parent_id' => $folder->id,
+                'status'    => 'waiting-for-registration',
+            ])
+            ->assertDatabaseMissing('team_folder_members', [
+                'parent_id'  => $folder->id,
+                'permission' => 'can-edit',
+            ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_apply_accepted_invitation_after_user_registration()
+    {
+        $invitation = TeamFolderInvitation::factory()
+            ->create([
+                'email'      => 'john@doe.com',
+                'status'     => 'waiting-for-registration',
+            ]);
+
+        $this->postJson('api/register', [
+            'email'                 => 'john@doe.com',
+            'password'              => 'SecretPassword',
+            'password_confirmation' => 'SecretPassword',
+            'name'                  => 'John Doe',
+        ])->assertStatus(201);
+
+        $this
+            ->assertDatabaseHas('team_folder_invitations', [
+                'parent_id' => $invitation->parent_id,
+                'status'    => 'accepted',
+            ])
+            ->assertDatabaseHas('team_folder_members', [
+                'parent_id'  => $invitation->parent_id,
+                'user_id'    => User::first()->id,
+                'permission' => $invitation->permission,
             ]);
     }
 

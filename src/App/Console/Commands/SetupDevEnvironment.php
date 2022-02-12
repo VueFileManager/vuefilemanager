@@ -1090,6 +1090,10 @@ class SetupDevEnvironment extends Command
                 'name'  => 'subscription_type',
                 'value' => 'fixed',
             ],
+            [
+                'name'  => 'allowed_recaptcha',
+                'value' => 0,
+            ],
         ])->each(function ($col) {
             Setting::updateOrCreate([
                 'name'  => $col['name'],

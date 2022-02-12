@@ -21,7 +21,7 @@ class SetupWizardTest extends TestCase
 
         $this->postJson('/api/setup/purchase-code', [
             'purchaseCode' => '8624194e-3156-4cd0-944e-3440fcecdacb',
-        ])->assertStatus(204);
+        ])->assertStatus(201);
     }
 
     /**
