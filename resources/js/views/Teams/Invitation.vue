@@ -23,7 +23,7 @@
             </Headline>
 
             <p
-                v-if="invitation"
+                v-if="invitation && !invitation.data.attributes.isExistedUser"
                 class="mx-auto mb-4 max-w-md text-sm text-gray-500"
                 v-html="
                     $t('Register account with your email peterpapp@makingcg.com and get access to this Team Folder.', {
