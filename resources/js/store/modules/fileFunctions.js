@@ -6,6 +6,7 @@ import Vue from 'vue'
 
 const defaultState = {
     processingPopup: undefined,
+    isUploadingFolder: false,
     isProcessingFile: false,
     filesInQueueUploaded: 0,
     filesInQueueTotal: 0,
@@ -107,8 +108,8 @@ const actions = {
                     }
                 }, 10)
 
-                if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) dispatch('getFolderTree')
-                else dispatch('getAppData')
+                // Refresh folder tree navigation
+                dispatch('getFolderTree')
             })
             .catch((error) => {
                 events.$emit('alert:open', {
@@ -200,11 +201,17 @@ const actions = {
                         if (!getters.fileQueue.length) {
                             commit('CLEAR_UPLOAD_PROGRESS')
 
-                            // Reload folder tree
-                            dispatch('getFolderTree')
+                            // Reload File data after folder uploading is finished
+                            if (getters.isUploadingFolder) {
 
-                            // Reload files after upload is done
-                            Vue.prototype.$getDataByLocation()
+                                // Reload files after upload is done
+                                Vue.prototype.$getDataByLocation()
+
+                                // Reload folder tree
+                                dispatch('getFolderTree')
+
+                                commit('UPDATE_UPLOADING_FOLDER_STATE', false)
+                            }
                         }
                     }
                 })
@@ -323,19 +330,13 @@ const actions = {
             .then(() => {
                 itemsToDelete.forEach((data) => {
                     // If is folder, update app data
-                    if (data.type === 'folder') {
-                        if (data.id === getters.currentFolder.data.id) {
-                            if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) {
-                                dispatch('browseShared')
-                            } else {
-                                dispatch('getFolder')
-                            }
-                        }
+                    if (data.type === 'folder' && (getters.currentFolder && data.id === getters.currentFolder.data.id)) {
+                        router.back()
                     }
                 })
 
-                if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) dispatch('getFolderTree')
-                else dispatch('getAppData')
+                // Refresh folder tree navigation
+                dispatch('getFolderTree')
             })
         //.catch(() => Vue.prototype.$isSomethingWrong())
     },
@@ -375,6 +376,9 @@ const actions = {
 }
 
 const mutations = {
+    UPDATE_UPLOADING_FOLDER_STATE(state, status) {
+        state.isUploadingFolder = status
+    },
     PROCESSING_POPUP(state, status) {
         state.processingPopup = status
     },
@@ -407,6 +411,7 @@ const getters = {
     filesInQueueUploaded: (state) => state.filesInQueueUploaded,
     filesInQueueTotal: (state) => state.filesInQueueTotal,
     uploadingProgress: (state) => state.uploadingProgress,
+    isUploadingFolder: (state) => state.isUploadingFolder,
     isProcessingFile: (state) => state.isProcessingFile,
     processingPopup: (state) => state.processingPopup,
     fileQueue: (state) => state.fileQueue,

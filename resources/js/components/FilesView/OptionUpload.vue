@@ -10,7 +10,7 @@
             {{ title }}
 
             <input v-if="type === 'file'" @change="emmitFiles" v-show="false" id="file" type="file" name="files[]" multiple />
-            <input v-if="type === 'folder'" @change="emmitFiles" v-show="false" id="folder" type="file" name="folders[]" webkitdirectory mozdirectory />
+            <input v-if="type === 'folder'" @change="emmitFolder" v-show="false" id="folder" type="file" name="folders[]" webkitdirectory mozdirectory />
         </div>
     </label>
 </template>
@@ -28,6 +28,11 @@ export default {
     },
     methods: {
         emmitFiles(e) {
+            this.$uploadFiles(e.target.files)
+        },
+		emmitFolder(e) {
+			this.$store.commit('UPDATE_UPLOADING_FOLDER_STATE', true)
+
             this.$uploadFiles(e.target.files)
         },
     },

@@ -103,13 +103,9 @@ const actions = {
     getFolderTree: ({ commit, getters }) => {
         return new Promise((resolve, reject) => {
             // Get route
-            let route = undefined
-
-            if (getters.sharedDetail) {
-                route = `/api/browse/navigation/${router.currentRoute.params.token}`
-            } else {
-                route = '/api/browse/navigation'
-            }
+            let route = getters.sharedDetail
+                ? `/api/browse/navigation/${router.currentRoute.params.token}`
+                : '/api/browse/navigation'
 
             axios
                 .get(route + getters.sorting.URI)
