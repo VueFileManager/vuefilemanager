@@ -67,5 +67,6 @@
     "/js/chunks/shared-with-me.js": "/js/chunks/shared-with-me.js",
     "/js/chunks/invitation.js": "/js/chunks/invitation.js",
     "/css/tailwind.css": "/css/tailwind.css",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/chunks/app-server.js": "/js/chunks/app-server.js"
 }

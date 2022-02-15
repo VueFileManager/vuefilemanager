@@ -17,6 +17,16 @@ use Domain\Localization\Models\Language;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+if (! function_exists('isRunningCron')) {
+    /**
+     * Check if cron is running
+     */
+    function isRunningCron(): bool
+    {
+        return cache()->has('latest_cron_update') && Carbon::parse(cache()->get('latest_cron_update'))->diffInMinutes(now()) < 5;
+    }
+}
+
 if (! function_exists('obfuscate_email')) {
     /**
      * Obfuscate email

@@ -10,31 +10,6 @@
                 <settings-icon size="40" class="vue-feather text-theme mx-auto animate-[spin_5s_linear_infinite] mb-3" />
             </Headline>
 
-			<!--PHP Extension info-->
-            <div class="card shadow-card">
-                <FormLabel>
-					Required PHP Extensions
-				</FormLabel>
-
-                <InfoBox class="!mb-2">
-                    <p>Those PHP modules are needed for accurate running VueFileManager on your server, please check and install if some is missing.</p>
-                </InfoBox>
-
-				<div v-if="modules" v-for="(value, module, i) in modules" :key="i" class="py-3 flex items-center justify-between border-b border-dashed border-light dark:border-opacity-5">
-					<b class="text-sm font-bold">
-						{{ module }}
-					</b>
-					<div class="flex items-center">
-						<check-icon v-if="value" size="16" class="vue-feather text-theme"/>
-						<x-icon v-if="!value" size="16" class="vue-feather text-red-600"/>
-
-						<span class="ml-3 text-sm font-bold" :class="value ? 'text-green-600' : 'text-red-600'">
-							{{ value ? 'Module Installed' : 'Missing Module' }}
-						</span>
-					</div>
-				</div>
-			</div>
-
 			<!--PHP version and ini check-->
 			<div class="card shadow-card">
                 <FormLabel>
@@ -75,6 +50,31 @@
 
 						<span class="ml-3 text-sm font-bold" :class="values.status ? 'text-green-600' : 'text-red-600'">
 							{{ values.current }}{{ setting !== 'max_execution_time' ? 'M' : '' }}
+						</span>
+					</div>
+				</div>
+			</div>
+
+			<!--PHP Extension info-->
+            <div class="card shadow-card">
+                <FormLabel>
+					Required PHP Extensions
+				</FormLabel>
+
+                <InfoBox class="!mb-2">
+                    <p>Those PHP modules are needed for accurate running VueFileManager on your server, please check and install if some is missing.</p>
+                </InfoBox>
+
+				<div v-if="modules" v-for="(value, module, i) in modules" :key="i" class="py-3 flex items-center justify-between border-b border-dashed border-light dark:border-opacity-5">
+					<b class="text-sm font-bold">
+						{{ module }}
+					</b>
+					<div class="flex items-center">
+						<check-icon v-if="value" size="16" class="vue-feather text-theme"/>
+						<x-icon v-if="!value" size="16" class="vue-feather text-red-600"/>
+
+						<span class="ml-3 text-sm font-bold" :class="value ? 'text-green-600' : 'text-red-600'">
+							{{ value ? 'Module Installed' : 'Missing Module' }}
 						</span>
 					</div>
 				</div>
@@ -126,12 +126,11 @@ import FormLabel from '../../components/Others/Forms/FormLabel'
 import InfoBox from '../../components/Others/Forms/InfoBox'
 import AuthContent from '../../components/Auth/AuthContent'
 import AuthButton from '../../components/Auth/AuthButton'
-import { SettingsIcon } from 'vue-feather-icons'
 import { required } from 'vee-validate/dist/rules'
 import Headline from '../Auth/Headline'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import { CheckIcon, XIcon } from 'vue-feather-icons'
+import { CheckIcon, XIcon, SettingsIcon } from 'vue-feather-icons'
 
 export default {
     name: 'StatusCheck',
@@ -187,11 +186,7 @@ export default {
             axios
                 .get('/api/ping')
                 .then((response) => {
-                    if (response.data === 'pong') {
-                        this.apiRunning = true
-                    } else {
-                        this.apiRunning = false
-                    }
+                    this.apiRunning = response.data === 'pong';
                 })
                 .catch(() => {
                     this.apiRunning = false

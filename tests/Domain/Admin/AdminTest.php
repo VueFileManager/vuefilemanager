@@ -17,6 +17,21 @@ class AdminTest extends TestCase
     /**
      * @test
      */
+    public function it_get_server_status()
+    {
+        $admin = User::factory()
+            ->hasSettings()
+            ->create(['role' => 'admin']);
+
+        $this
+            ->actingAs($admin)
+            ->getJson("/api/admin/status")
+            ->assertOk();
+    }
+
+    /**
+     * @test
+     */
     public function it_get_all_users()
     {
         $users = User::factory()
@@ -53,7 +68,6 @@ class AdminTest extends TestCase
             ->hasSettings()
             ->create(['role' => 'admin']);
 
-        // TODO: pridat exactjson po refaktorovani userresource
         $this
             ->actingAs($admin)
             ->getJson("/api/admin/users/$user->id")

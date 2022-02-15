@@ -37,9 +37,16 @@
                 </div>
             </div>
 
+			<!--Create metered plan alert-->
 			<div v-if="config.subscriptionType === 'metered' && config.isEmptyPlans" class="p-5 bg-rose-200 rounded-xl shadow-card mb-6 flex items-center">
 				<alert-octagon-icon size="18" class="vue-feather text-rose-700 mr-4 shrink-0"/>
 				<p class="text-sm text-rose-700">As you installed app with metered subscription type, you have to <router-link :to="{name: 'CreateMeteredPlan'}" class="font-bold underline text-sm">create your plan</router-link> as soon as possible to prevent new user registration without automatically assigned subscription plan.</p>
+			</div>
+
+			<!--Cron Alert-->
+			<div v-if="! data.app.isRunningCron && !config.isDev" class="p-5 bg-rose-200 rounded-xl shadow-card mb-6 flex items-center">
+				<alert-octagon-icon size="18" class="vue-feather text-rose-700 mr-4 shrink-0"/>
+				<p class="text-sm text-rose-700">We detect your cron jobs probably doesn't work correctly, please check it, you need it for running app correctly. If you set your cron job, please get back one minute later.</p>
 			</div>
 
             <!--Metric widgets-->

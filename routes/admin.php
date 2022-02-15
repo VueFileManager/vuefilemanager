@@ -2,6 +2,7 @@
 
 use Domain\Admin\Controllers\Users\UserController;
 use Domain\Pages\Controllers\AdminPagesController;
+use Domain\Settings\Controllers\GetServerStatusController;
 use Domain\Settings\Controllers\StoreEmailCredentialsController;
 use Domain\Settings\Controllers\FlushCacheController;
 use Domain\Localization\Controllers\LanguageController;
@@ -57,3 +58,6 @@ Route::group(['prefix' => 'settings'], function () {
 // Language
 Route::patch('/languages/{language}/strings', UpdateLanguageStringController::class);
 Route::apiResource('/languages', LanguageController::class);
+
+// Server Status
+Route::get('/status', GetServerStatusController::class);

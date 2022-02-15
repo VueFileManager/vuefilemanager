@@ -45,6 +45,10 @@ export default {
                     title: this.$t('admin_settings.tabs.email'),
                     route: 'AppEmail',
                 },
+                {
+                    title: this.$t('Server'),
+                    route: 'AppServer',
+                },
             ],
         }
     },

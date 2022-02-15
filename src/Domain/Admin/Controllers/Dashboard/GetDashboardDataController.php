@@ -39,10 +39,11 @@ class GetDashboardDataController extends Controller
                     'records' => $upload,
                 ],
             ],
-            'app'   => [
-                'license'  => get_settings('license'),
-                'version'  => config('vuefilemanager.version'),
-                'earnings' => format_currency($totalEarnings, 'USD'), // todo: refactor currency to global setup
+            'app' => [
+                'isRunningCron' => isRunningCron(),
+                'license'       => get_settings('license'),
+                'version'       => config('vuefilemanager.version'),
+                'earnings'      => format_currency($totalEarnings, 'USD'), // todo: refactor currency to global setup or plan currency
             ],
         ]);
     }

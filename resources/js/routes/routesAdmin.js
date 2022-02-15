@@ -321,6 +321,15 @@ const routesAdmin = [
                             title: 'Adsense',
                         },
                     },
+                    {
+                        name: 'AppServer',
+                        path: '/admin/settings/server',
+                        component: () => import(/* webpackChunkName: "chunks/app-server" */ '../views/Admin/AppSettings/AppSettingsTabs/Server'),
+                        meta: {
+                            requiresAuth: true,
+                            title: 'Server',
+                        },
+                    },
                 ],
             },
             {

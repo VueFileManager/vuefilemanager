@@ -1,6 +1,7 @@
 <?php
 namespace App\Console;
 
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
@@ -59,9 +60,13 @@ class Kernel extends ConsoleKernel
         $schedule->command('backup:clean')
             ->daily()
             ->at('00:15');
+
         $schedule->command('backup:run --only-db')
             ->daily()
             ->at('00:20');
+
+        // Store latest cron timestamp
+        cache()->set('latest_cron_update', now()->toString());
     }
 
     /**
