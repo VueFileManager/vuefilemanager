@@ -13,7 +13,7 @@
 			<!--PHP version and ini check-->
 			<div class="card shadow-card">
                 <FormLabel>
-					PHP Version and php.ini
+					PHP Setup
 				</FormLabel>
 
                 <InfoBox class="!mb-2">

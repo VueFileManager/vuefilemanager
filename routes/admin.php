@@ -2,16 +2,16 @@
 
 use Domain\Admin\Controllers\Users\UserController;
 use Domain\Pages\Controllers\AdminPagesController;
-use Domain\Settings\Controllers\GetServerStatusController;
-use Domain\Settings\Controllers\StoreEmailCredentialsController;
 use Domain\Settings\Controllers\FlushCacheController;
 use Domain\Localization\Controllers\LanguageController;
 use Domain\Admin\Controllers\Users\DeleteUserController;
+use Domain\Settings\Controllers\GetServerStatusController;
 use Domain\Settings\Controllers\GetSettingsValueController;
 use Domain\Admin\Controllers\Dashboard\GetNewbiesController;
 use Domain\Admin\Controllers\Users\ChangeUserRoleController;
 use Domain\Settings\Controllers\UpdateSettingValueController;
 use Domain\Admin\Controllers\Users\ResetUserPasswordController;
+use Domain\Settings\Controllers\StoreEmailCredentialsController;
 use Domain\Transactions\Controllers\GetAllTransactionsController;
 use Domain\Admin\Controllers\Dashboard\GetDashboardDataController;
 use Domain\Transactions\Controllers\GetUserTransactionsController;

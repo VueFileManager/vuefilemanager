@@ -1,5 +1,4 @@
 <?php
-
 namespace Support\Status\Actions;
 
 class GetServerSetupStatusAction

@@ -13,11 +13,11 @@ class TeamInvitationResource extends JsonResource
                 'id'            => $this->id,
                 'type'          => 'invitation',
                 'attributes'    => [
-                    'parent_id'  => $this->parent_id,
-                    'email'      => $this->email,
-                    'color'      => $this->color,
-                    'status'     => $this->status,
-                    'permission' => $this->permission,
+                    'parent_id'     => $this->parent_id,
+                    'email'         => $this->email,
+                    'color'         => $this->color,
+                    'status'        => $this->status,
+                    'permission'    => $this->permission,
                     'isExistedUser' => User::where('email', $this->email)->exists(),
                 ],
                 'relationships' => [

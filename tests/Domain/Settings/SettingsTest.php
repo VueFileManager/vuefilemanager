@@ -190,7 +190,7 @@ class SettingsTest extends TestCase
         $this
             ->actingAs($admin)
             ->postJson('/api/admin/settings/email', [
-                'mailDriver'     => 'smtp',
+                'mailDriver'      => 'smtp',
                 'smtp.host'       => 'smtp.email.com',
                 'smtp.port'       => 25,
                 'smtp.username'   => 'john@doe.com',

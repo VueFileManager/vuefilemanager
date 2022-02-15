@@ -1,11 +1,9 @@
 <?php
-
 namespace Domain\Settings\Controllers;
 
 use Artisan;
-use Domain\Settings\Requests\StoreEmailCredentialsRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Domain\Settings\Requests\StoreEmailCredentialsRequest;
 
 class StoreEmailCredentialsController
 {
@@ -17,8 +15,7 @@ class StoreEmailCredentialsController
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
-        if (!app()->runningUnitTests()) {
-
+        if (! app()->runningUnitTests()) {
             $mail = [
                 'log'      => [
                     'MAIL_DRIVER' => 'log',

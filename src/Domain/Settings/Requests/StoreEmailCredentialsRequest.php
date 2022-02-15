@@ -23,10 +23,10 @@ class StoreEmailCredentialsRequest extends FormRequest
     public function rules()
     {
         return [
-            'mailDriver'       => 'required|string',
-            'smtp'             => 'sometimes|array',
-            'ses'              => 'sometimes|array',
-            'mailgun'          => 'sometimes|array',
+            'mailDriver'        => 'required|string',
+            'smtp'              => 'sometimes|array',
+            'ses'               => 'sometimes|array',
+            'mailgun'           => 'sometimes|array',
             'postmark'          => 'sometimes|array',
         ];
     }

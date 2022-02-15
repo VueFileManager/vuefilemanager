@@ -82,9 +82,9 @@ class StoreAppSettingsController extends Controller
             ],
         ])->each(function ($col) {
             Setting::updateOrCreate([
-                'name'  => $col['name']
+                'name'  => $col['name'],
             ], [
-                'value' => $col['value']
+                'value' => $col['value'],
             ]);
         });
 

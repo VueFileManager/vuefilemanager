@@ -25,7 +25,7 @@ class AdminTest extends TestCase
 
         $this
             ->actingAs($admin)
-            ->getJson("/api/admin/status")
+            ->getJson('/api/admin/status')
             ->assertOk();
     }
 

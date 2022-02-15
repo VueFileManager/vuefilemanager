@@ -1,7 +1,6 @@
 <?php
 namespace App\Console;
 
-use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;

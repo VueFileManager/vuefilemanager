@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Sharing;
 
 use Tests\TestCase;
@@ -194,7 +193,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/browse/folders/$root->id/$share->token")
                         ->assertStatus(200)
                         ->assertJsonFragment([
@@ -310,7 +309,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/browse/navigation/$share->token")
                         ->assertStatus(200)
                         ->assertExactJson($tree);
@@ -362,7 +361,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/browse/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([
@@ -413,7 +412,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/browse/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([]);
@@ -460,7 +459,7 @@ class VisitorBrowseTest extends TestCase
                 }
 
                 // Check public shared item
-                if (!$is_protected) {
+                if (! $is_protected) {
                     $this->getJson("/api/browse/file/$share->token")
                         ->assertStatus(200)
                         ->assertJsonFragment([

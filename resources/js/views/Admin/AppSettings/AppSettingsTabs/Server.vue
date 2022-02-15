@@ -1,9 +1,64 @@
 <template>
     <PageTab v-if="! isLoading">
+		<!--Cron check-->
+		<div class="card shadow-card">
+			<FormLabel icon="info">
+				Cron
+			</FormLabel>
+
+			<div class="flex items-center justify-between">
+				<div class="text-left">
+					<b class="text-sm font-bold block">Cron Jobs</b>
+					<small v-if="!cron.running" class="text-xs text-gray-600">
+						We detect, your cron jobs probably doesn't work correctly, please check it.
+					</small>
+					<small v-if="cron.running" class="text-xs text-gray-600">
+						Latest Update: {{ cron.lastUpdate }}
+					</small>
+				</div>
+				<div class="flex items-center">
+					<check-icon v-if="cron.running" size="16" class="vue-feather text-theme"/>
+					<x-icon v-if="!cron.running" size="16" class="vue-feather text-red-600" />
+
+					<span class="ml-3 text-sm font-bold" :class="cron.running ? 'text-green-600' : 'text-red-600'">
+						{{ cron.running ? 'Working correctly' : "Doesn't work" }}
+					</span>
+				</div>
+			</div>
+		</div>
+
+		<!--Database Backups check-->
+		<div class="card shadow-card">
+			<FormLabel icon="database">
+				Latest Database Backups
+			</FormLabel>
+
+			<InfoBox v-if="! backups.length" class="!mb-0">
+				<p v-html="$t('There is not any database backup stored.')"></p>
+			</InfoBox>
+
+			<InfoBox v-if="backups.length" class="!mb-3">
+				<p v-html="$t('You can find your backups in <b>/storage/app/app-backups</b>.')"></p>
+			</InfoBox>
+
+			<div v-if="backups.length" v-for="(filename, i) in backups" :key="i" class="py-3 flex items-center justify-between border-b border-dashed border-light dark:border-opacity-5">
+				<div class="text-left">
+					<b class="text-sm font-bold block">{{ filename }}</b>
+				</div>
+				<div class="flex items-center">
+					<check-icon size="16" class="vue-feather text-theme"/>
+
+					<span class="ml-3 text-sm font-bold text-green-600">
+						Stored Successfully
+					</span>
+				</div>
+			</div>
+		</div>
+
 		<!--PHP version and ini check-->
 		<div class="card shadow-card">
-			<FormLabel>
-				PHP Version & php.ini
+			<FormLabel icon="info">
+				PHP Settings
 			</FormLabel>
 
 			<div class="py-3 flex items-center justify-between border-b border-dashed border-light dark:border-opacity-5">
@@ -43,8 +98,8 @@
 
 		<!--PHP Extension info-->
 		<div class="card shadow-card">
-			<FormLabel>
-				Required PHP Extensions
+			<FormLabel icon="info">
+				PHP Extensions
 			</FormLabel>
 
 			<div v-if="modules" v-for="(value, module, i) in modules" :key="i" class="py-3 flex items-center justify-between border-b border-dashed border-light dark:border-opacity-5">
@@ -61,58 +116,14 @@
 				</div>
 			</div>
 		</div>
-
-		<!--API check-->
-		<div class="card shadow-card">
-			<FormLabel>
-				Others
-			</FormLabel>
-
-			<div class="py-3 flex items-center justify-between border-b border-dashed border-light dark:border-opacity-5">
-				<div class="text-left">
-					<b class="text-sm font-bold block">API</b>
-					<small v-if="isCheckedAPI && !apiRunning" class="text-xs text-gray-600">
-						We detect, your domain root is not set correctly, please check it.
-					</small>
-				</div>
-				<div v-if="isCheckedAPI" class="flex items-center">
-					<check-icon v-if="apiRunning" size="16" class="vue-feather text-theme"/>
-					<x-icon v-if="!apiRunning" size="16" class="vue-feather text-red-600" />
-
-					<span class="ml-3 text-sm font-bold" :class="apiRunning ? 'text-green-600' : 'text-red-600'">
-						{{ apiRunning ? 'Working correctly' : "Doesn't work" }}
-					</span>
-				</div>
-				<span v-if="!isCheckedAPI" class="ml-3 text-sm font-bold text-gray-600">Checking your API...</span>
-			</div>
-
-			<div class="pt-3 flex items-center justify-between">
-				<div class="text-left">
-					<b class="text-sm font-bold block">Cron</b>
-					<small v-if="!cron.running" class="text-xs text-gray-600">
-						We detect, your cron jobs probably doesn't work correctly, please check it.
-					</small>
-					<small v-if="cron.running" class="text-xs text-gray-600">
-						Latest Update: {{ cron.lastUpdate }}
-					</small>
-				</div>
-				<div class="flex items-center">
-					<check-icon v-if="cron.running" size="16" class="vue-feather text-theme"/>
-					<x-icon v-if="!cron.running" size="16" class="vue-feather text-red-600" />
-
-					<span class="ml-3 text-sm font-bold" :class="cron.running ? 'text-green-600' : 'text-red-600'">
-						{{ cron.running ? 'Working correctly' : "Doesn't work" }}
-					</span>
-				</div>
-			</div>
-		</div>
     </PageTab>
 </template>
 
 <script>
-import { CheckIcon, XIcon } from 'vue-feather-icons'
+import InfoBox from "../../../../components/Others/Forms/InfoBox"
 import FormLabel from '../../../../components/Others/Forms/FormLabel'
 import PageTab from '../../../../components/Others/Layout/PageTab'
+import { CheckIcon, XIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 import axios from "axios";
 
@@ -120,6 +131,7 @@ export default {
     name: 'Server',
     components: {
         FormLabel,
+		InfoBox,
         PageTab,
 		CheckIcon,
 		XIcon,
@@ -138,6 +150,7 @@ export default {
 			modules: undefined,
 			phpVersion: undefined,
 			apiRunning: undefined,
+			backups: undefined,
         }
     },
     created() {
@@ -149,6 +162,7 @@ export default {
 				this.cron = response.data.cron
 				this.modules = response.data.modules
 				this.phpVersion = response.data.php_version
+				this.backups = response.data.backups
 			})
 
 		// Ping API

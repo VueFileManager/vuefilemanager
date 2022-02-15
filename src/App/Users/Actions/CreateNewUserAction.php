@@ -1,19 +1,19 @@
 <?php
-
 namespace App\Users\Actions;
 
 use App\Users\Models\User;
 use App\Users\DTO\CreateUserData;
 use App\Http\Controllers\Controller;
-use Domain\Teams\Models\TeamFolderInvitation;
-use Domain\Teams\Models\TeamFolderMember;
 use Illuminate\Auth\Events\Registered;
+use Domain\Teams\Models\TeamFolderMember;
+use Domain\Teams\Models\TeamFolderInvitation;
 
 class CreateNewUserAction extends Controller
 {
     public function __construct(
         protected AutoSubscribeForMeteredBillingAction $autoSubscribeForMeteredBilling,
-    ) {}
+    ) {
+    }
 
     /**
      * Validate and create a new user.
@@ -61,7 +61,7 @@ class CreateNewUserAction extends Controller
         }
 
         // Mark as verified if verification is disabled
-        if (!$data->password || !intval($settings['user_verification'])) {
+        if (! $data->password || ! intval($settings['user_verification'])) {
             $user->markEmailAsVerified();
         }
 

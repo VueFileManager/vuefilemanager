@@ -1,15 +1,14 @@
 <?php
-
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
 use Illuminate\Console\Command;
 use Domain\Settings\Models\Setting;
+use Illuminate\Foundation\Testing\WithFaker;
 use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
-use Illuminate\Foundation\Testing\WithFaker;
 
 class SetupProdEnvironment extends Command
 {
@@ -29,11 +28,10 @@ class SetupProdEnvironment extends Command
 
     public function __construct(
         private CreateDiskDirectoriesAction $createDiskDirectories,
-        private SeedDefaultSettingsAction   $seedDefaultSettings,
-        private SeedDefaultLanguageAction   $seedDefaultLanguage,
-        private SeedDefaultPagesAction      $seedDefaultPages,
-    )
-    {
+        private SeedDefaultSettingsAction $seedDefaultSettings,
+        private SeedDefaultLanguageAction $seedDefaultLanguage,
+        private SeedDefaultPagesAction $seedDefaultPages,
+    ) {
         parent::__construct();
         $this->setUpFaker();
     }
@@ -199,16 +197,16 @@ class SetupProdEnvironment extends Command
         });
 
         if ($this->argument('license') === 'extended') {
-            $choice = $this->choice("Choose subscription type", [
+            $choice = $this->choice('Choose subscription type', [
                 'metered' => 'Metered',
                 'fixed'   => 'Fixed',
                 'none'    => 'None',
             ]);
 
             Setting::updateOrCreate([
-                'name'  => 'subscription_type'
+                'name'  => 'subscription_type',
             ], [
-                'value' => $choice
+                'value' => $choice,
             ]);
         }
     }

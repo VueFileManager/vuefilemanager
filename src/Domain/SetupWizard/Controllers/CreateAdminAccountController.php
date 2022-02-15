@@ -1,8 +1,8 @@
 <?php
 namespace Domain\SetupWizard\Controllers;
 
-use App\Users\Models\User;
 use Artisan;
+use App\Users\Models\User;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
@@ -61,9 +61,9 @@ class CreateAdminAccountController extends Controller
             ],
         ])->each(function ($col) {
             Setting::updateOrCreate([
-                'name'  => $col['name']
+                'name'  => $col['name'],
             ], [
-                'value' => $col['value']
+                'value' => $col['value'],
             ]);
         });
 

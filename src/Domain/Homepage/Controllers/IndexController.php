@@ -13,7 +13,8 @@ class IndexController
 {
     public function __construct(
         public GetServerSetupStatusAction $getServerSetupStatus,
-    ) {}
+    ) {
+    }
 
     /**
      * Show index page
@@ -34,7 +35,8 @@ class IndexController
 
             // Get all settings
             $settings = get_settings_in_json();
-        } catch (PDOException $e) {}
+        } catch (PDOException $e) {
+        }
 
         if ($setup_status === 'installation-needed') {
             $status_check = ($this->getServerSetupStatus)();

@@ -2,6 +2,8 @@
     <div class="mb-8 flex items-center">
         <edit-2-icon v-if="!icon" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <frown-icon v-if="icon === 'frown'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
+        <info-icon v-if="icon === 'info'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
+        <database-icon v-if="icon === 'database'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <file-text-icon v-if="icon === 'file-text'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <dollar-sign-icon v-if="icon === 'dollar'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <credit-card-icon v-if="icon === 'credit-card'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
@@ -21,6 +23,8 @@
 
 <script>
 import {
+	InfoIcon,
+	DatabaseIcon,
     UsersIcon,
     ShieldIcon,
     CreditCardIcon,
@@ -40,6 +44,8 @@ export default {
     name: 'FormLabel',
     props: ['icon'],
     components: {
+		InfoIcon,
+		DatabaseIcon,
         UsersIcon,
         CreditCardIcon,
         DollarSignIcon,

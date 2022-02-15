@@ -2,10 +2,9 @@
 namespace Domain\Teams\Controllers;
 
 use App\Users\Models\User;
-use Domain\Teams\Models\TeamFolderMember;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Domain\Teams\Models\TeamFolderMember;
 use Domain\Teams\Models\TeamFolderInvitation;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Resources\TeamInvitationResource;

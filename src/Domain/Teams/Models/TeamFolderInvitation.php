@@ -31,13 +31,15 @@ class TeamFolderInvitation extends Model
 
     protected $keyType = 'string';
 
-    public function accept() {
+    public function accept()
+    {
         $this->update([
             'status' => 'accepted',
         ]);
     }
 
-    public function reject() {
+    public function reject()
+    {
         $this->update([
             'status' => 'rejected',
         ]);

@@ -1,10 +1,9 @@
 <?php
 namespace Domain\SetupWizard\Controllers;
 
-use Artisan;
 use DB;
+use Artisan;
 use Illuminate\Http\Response;
-use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Doctrine\DBAL\Driver\PDOException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
