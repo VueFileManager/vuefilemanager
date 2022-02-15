@@ -104,40 +104,6 @@ export default {
                 },
             })
         },
-        dragLeave() {
-            this.area = false
-        },
-        dragEnter() {
-            if (this.draggedItem && this.draggedItem.type !== 'folder') return
-
-            if (this.clipboard.length > 0 && this.clipboard.find((item) => item.type !== 'folder')) return
-
-            this.area = true
-        },
-        dragFinish() {
-            this.area = false
-
-            events.$emit('drop')
-
-            // Check if dragged item is folder
-            if (this.draggedItem && this.draggedItem.type !== 'folder') return
-
-            // Check if folder exist in favourites
-            if (this.favourites.find((folder) => folder.id === this.draggedItem.id)) return
-
-            // Prevent to move folders to self
-            if (this.clipboard.length > 0 && this.clipboard.find((item) => item.type !== 'folder')) return
-
-            //Add to favourites non selected folder
-            if (!this.clipboard.includes(this.draggedItem)) {
-                this.$store.dispatch('addToFavourites', this.draggedItem)
-            }
-
-            //Add to favourites selected folders
-            if (this.clipboard.includes(this.draggedItem)) {
-                this.$store.dispatch('addToFavourites', null)
-            }
-        },
     },
     created() {
         // Listen for dragstart folder items

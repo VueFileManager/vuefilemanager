@@ -12,7 +12,7 @@
         <CheckBox v-if="isMultiSelectMode" v-model="isClicked" :is-clicked="isClicked" class="mr-5" />
 
         <!--Item thumbnail-->
-        <div class="relative w-16">
+        <div class="relative w-16 shrink-0">
             <!--Member thumbnail for team folders-->
             <MemberAvatar v-if="user && canShowAuthor" :size="28" :is-border="true" :member="entry.data.relationships.owner" class="absolute right-1.5 -bottom-2 z-10" />
 

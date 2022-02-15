@@ -1,15 +1,34 @@
 <template>
     <ContentSidebar v-if="isVisibleNavigationBars" class="relative">
         <!--Full screen button-->
-        <div @click="$store.dispatch('toggleNavigationBars')" class="absolute top-2.5 right-0 inline-block cursor-pointer p-3 opacity-0 transition-all duration-200 hover:opacity-70">
+        <div
+            @click="$store.dispatch('toggleNavigationBars')"
+            class="absolute top-[11px] right-1 inline-block cursor-pointer p-3 opacity-20 transition-all duration-200 hover:opacity-70"
+        >
             <chevrons-left-icon size="18" />
         </div>
 
         <!--Locations-->
-        <ContentGroup v-for="(menu, i) in nav" :key="i" :title="menu.groupTitle" :slug="menu.groupTitle" :can-collapse="menu.groupCollapsable">
-            <router-link v-for="(item, i) in menu.groupLinks" :key="i" @click.native="resetData" :to="{ name: item.route }" class="flex items-center py-2.5">
+        <ContentGroup
+            v-for="(menu, i) in nav"
+            :key="i"
+            :title="menu.groupTitle"
+            :slug="menu.groupTitle"
+            :can-collapse="menu.groupCollapsable"
+        >
+            <router-link
+                v-for="(item, i) in menu.groupLinks"
+                :key="i"
+                @click.native="resetData"
+                :to="{ name: item.route }"
+                class="flex items-center py-2.5"
+            >
                 <home-icon v-if="item.icon === 'home'" size="17" class="vue-feather icon-active mr-2.5" />
-                <upload-cloud-icon v-if="item.icon === 'upload-cloud'" size="17" class="vue-feather icon-active mr-2.5" />
+                <upload-cloud-icon
+                    v-if="item.icon === 'upload-cloud'"
+                    size="17"
+                    class="vue-feather icon-active mr-2.5"
+                />
                 <link-icon v-if="item.icon === 'link'" size="17" class="vue-feather icon-active mr-2.5" />
                 <trash2-icon v-if="item.icon === 'trash'" size="17" class="vue-feather icon-active mr-2.5" />
                 <users-icon size="17" v-if="item.icon === 'users'" class="vue-feather icon-active mr-2.5" />
@@ -35,8 +54,8 @@
                 @dragover.prevent="dragEnter"
                 @dragleave="dragLeave"
                 @drop="dragFinish($event)"
-                :class="{ 'border-theme': area }"
-                class="border-2 border-dashed border-transparent"
+                :class="{'border-theme': area}"
+                class="pl-5 -ml-5 rounded-lg border-2 border-dashed border-transparent"
             >
                 <!--Empty message-->
                 <small v-if="favourites.length === 0" class="text-xs text-gray-500 dark:text-gray-500" :key="0">
@@ -44,7 +63,12 @@
                 </small>
 
                 <!--Folder item-->
-                <div @click="goToFolder(folder)" v-for="folder in favourites" :key="folder.data.id" class="group flex cursor-pointer items-center justify-between py-2.5">
+                <div
+                    @click="goToFolder(folder)"
+                    v-for="folder in favourites"
+                    :key="folder.data.id"
+                    class="group flex cursor-pointer items-center justify-between py-2.5"
+                >
                     <div class="flex items-center">
                         <folder-icon
                             size="17"
@@ -62,7 +86,12 @@
                             {{ folder.data.attributes.name }}
                         </span>
                     </div>
-                    <x-icon @click.stop="$removeFavourite(folder)" size="12" class="mr-5 opacity-0 group-hover:opacity-100" />
+					<div @click.stop="$removeFavourite(folder)" class="p-2 -m-2">
+						<x-icon
+							size="12"
+							class="mr-5 opacity-0 group-hover:opacity-100"
+						/>
+					</div>
                 </div>
             </div>
         </ContentGroup>
@@ -70,7 +99,17 @@
 </template>
 
 <script>
-import { ChevronsLeftIcon, FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon } from 'vue-feather-icons'
+import {
+    ChevronsLeftIcon,
+    FolderIcon,
+    HomeIcon,
+    LinkIcon,
+    Trash2Icon,
+    UploadCloudIcon,
+    UserCheckIcon,
+    UsersIcon,
+    XIcon,
+} from 'vue-feather-icons'
 import TreeMenuNavigator from '../../../components/Others/TreeMenuNavigator'
 import ContentSidebar from '../../../components/Sidebar/ContentSidebar'
 import ContentGroup from '../../../components/Sidebar/ContentGroup'
@@ -175,9 +214,9 @@ export default {
             this.area = false
         },
         dragEnter() {
-            if (this.draggedItem && this.draggedItem.type !== 'folder') return
+            if (this.draggedItem && this.draggedItem.data.type !== 'folder') return
 
-            if (this.clipboard.length > 0 && this.clipboard.find((item) => item.type !== 'folder')) return
+            if (this.clipboard.length > 0 && this.clipboard.find((item) => item.data.type !== 'folder')) return
 
             this.area = true
         },
@@ -187,20 +226,20 @@ export default {
             events.$emit('drop')
 
             // Check if dragged item is folder
-            if (this.draggedItem && this.draggedItem.type !== 'folder') return
+            if (this.draggedItem && this.draggedItem.data.type !== 'folder') return
 
             // Check if folder exist in favourites
-            if (this.favourites.find((folder) => folder.id === this.draggedItem.id)) return
+            if (this.favourites.find((folder) => folder.data.id === this.draggedItem.data.id)) return
 
             // Prevent to move folders to self
-            if (this.clipboard.length > 0 && this.clipboard.find((item) => item.type !== 'folder')) return
+            if (this.clipboard.length > 0 && this.clipboard.find((item) => item.data.type !== 'folder')) return
 
-            //Add to favourites non selected folder
+            // Add to favourites non selected folder
             if (!this.clipboard.includes(this.draggedItem)) {
                 this.$store.dispatch('addToFavourites', this.draggedItem)
             }
 
-            //Add to favourites selected folders
+            // Add to favourites selected folders
             if (this.clipboard.includes(this.draggedItem)) {
                 this.$store.dispatch('addToFavourites', null)
             }
