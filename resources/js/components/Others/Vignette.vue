@@ -1,6 +1,6 @@
 <template>
     <transition name="vignette">
-        <div v-if="isVisible" class="vignette" @click="closePopup"></div>
+        <div v-if="isVisible" class="vignette bg-dark-background bg-opacity-[0.35] dark:bg-opacity-[0.45]" @click="closePopup"></div>
     </transition>
 </template>
 
@@ -31,13 +31,11 @@ export default {
     created() {
         // Show vignette
         events.$on('popup:open', () => (this.isVisibleVignette = true))
-        events.$on('mobile-menu:show', () => (this.isVisibleVignette = true))
         events.$on('alert:open', () => (this.isVisibleVignette = true))
         events.$on('success:open', () => (this.isVisibleVignette = true))
         events.$on('confirm:open', () => (this.isVisibleVignette = true))
 
         // Hide vignette
-        events.$on('mobile-menu:hide', () => (this.isVisibleVignette = false))
         events.$on('popup:close', () => (this.isVisibleVignette = false))
     },
 }
@@ -54,20 +52,14 @@ export default {
     left: 0;
     bottom: 0;
     z-index: 40;
-    background: $light_mode_vignette;
-}
-
-// Dark mode
-.dark .vignette {
-    background: $dark_mode_vignette;
 }
 
 .vignette-enter-active {
-    animation: vignette-in 0.35s ease;
+    animation: vignette-in 0.15s linear;
 }
 
 .vignette-leave-active {
-    animation: vignette-in 0.15s ease reverse;
+    animation: vignette-in 0.15s cubic-bezier(0.4, 0, 1, 1) reverse;
 }
 
 @keyframes vignette-in {

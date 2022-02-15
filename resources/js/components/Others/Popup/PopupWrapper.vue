@@ -44,21 +44,41 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-	@media only screen and (max-width: 690px) {
+
+	.popup-leave-active {
+		animation: popup-slide-in 0.15s ease reverse;
+	}
+
+	@media only screen and (min-width: 960px) {
 		.popup-enter-active {
-			animation: popup-slide-in 0.35s 0.15s ease both;
+			animation: popup-slide-in 0.25s 0.10s ease both;
 		}
-		.popup-leave-active {
-			animation: popup-slide-in 0.15s ease reverse;
+
+		@keyframes popup-slide-in {
+			0% {
+				opacity: 0;
+				transform: translateY(100px);
+			}
+
+			100% {
+				opacity: 1;
+				transform: translateY(0);
+			}
 		}
 	}
 
-	@keyframes popup-slide-in {
-		0% {
-			transform: translateY(100%);
+	@media only screen and (max-width: 960px) {
+		.popup-enter-active {
+			animation: popup-slide-in 0.35s 0.15s ease both;
 		}
-		100% {
-			transform: translateY(0);
+
+		@keyframes popup-slide-in {
+			0% {
+				transform: translateY(100%);
+			}
+			100% {
+				transform: translateY(0);
+			}
 		}
 	}
 </style>

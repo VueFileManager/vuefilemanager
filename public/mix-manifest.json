@@ -44,6 +44,7 @@
     "/js/chunks/app-others.js": "/js/chunks/app-others.js",
     "/js/chunks/app-sign-in-out.js": "/js/chunks/app-sign-in-out.js",
     "/js/chunks/app-adsense.js": "/js/chunks/app-adsense.js",
+    "/js/chunks/app-server.js": "/js/chunks/app-server.js",
     "/js/chunks/app-language.js": "/js/chunks/app-language.js",
     "/js/chunks/homepage.js": "/js/chunks/homepage.js",
     "/js/chunks/dynamic-page.js": "/js/chunks/dynamic-page.js",
@@ -67,6 +68,5 @@
     "/js/chunks/shared-with-me.js": "/js/chunks/shared-with-me.js",
     "/js/chunks/invitation.js": "/js/chunks/invitation.js",
     "/css/tailwind.css": "/css/tailwind.css",
-    "/css/app.css": "/css/app.css",
-    "/js/chunks/app-server.js": "/js/chunks/app-server.js"
+    "/css/app.css": "/css/app.css"
 }

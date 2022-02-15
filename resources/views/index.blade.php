@@ -31,6 +31,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
+    <meta name="theme-color" content="{{ $settings->app_color ?? '#00BC7E' }}">
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <meta name="description" content="{{ $settings->app_description ?? __t('app_description') }}">

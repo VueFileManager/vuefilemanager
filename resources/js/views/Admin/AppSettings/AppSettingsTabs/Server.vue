@@ -17,10 +17,10 @@
 					</small>
 				</div>
 				<div class="flex items-center">
-					<check-icon v-if="cron.running" size="16" class="vue-feather text-theme"/>
-					<x-icon v-if="!cron.running" size="16" class="vue-feather text-red-600" />
+					<check-icon v-if="cron.running" size="16" class="vue-feather text-green-600 dark:text-green-600"/>
+					<x-icon v-if="!cron.running" size="16" class="vue-feather text-red-600 dark:text-red-600" />
 
-					<span class="ml-3 text-sm font-bold" :class="cron.running ? 'text-green-600' : 'text-red-600'">
+					<span class="ml-3 text-sm font-bold" :class="cron.running ? 'text-green-600 dark:text-green-600' : 'text-red-600 dark:text-red-600'">
 						{{ cron.running ? 'Working correctly' : "Doesn't work" }}
 					</span>
 				</div>
@@ -46,9 +46,9 @@
 					<b class="text-sm font-bold block">{{ filename }}</b>
 				</div>
 				<div class="flex items-center">
-					<check-icon size="16" class="vue-feather text-theme"/>
+					<check-icon size="16" class="vue-feather text-green-600 dark:text-green-600"/>
 
-					<span class="ml-3 text-sm font-bold text-green-600">
+					<span class="ml-3 text-sm font-bold text-green-600 dark:text-green-600">
 						Stored Successfully
 					</span>
 				</div>
@@ -69,10 +69,10 @@
 					</small>
 				</div>
 				<div class="flex items-center">
-					<check-icon v-if="phpVersion.acceptable" size="16" class="vue-feather text-theme"/>
-					<x-icon v-if="!phpVersion.acceptable" size="16" class="vue-feather text-red-600" />
+					<check-icon v-if="phpVersion.acceptable" size="16" class="vue-feather text-green-600 dark:text-green-600"/>
+					<x-icon v-if="!phpVersion.acceptable" size="16" class="vue-feather text-red-600 dark:text-red-600" />
 
-					<span class="ml-3 text-sm font-bold" :class="phpVersion.acceptable ? 'text-green-600' : 'text-red-600'">
+					<span class="ml-3 text-sm font-bold" :class="phpVersion.acceptable ? 'text-green-600 dark:text-green-600' : 'text-red-600 dark:text-red-600'">
 						{{ phpVersion.current }}
 					</span>
 				</div>
@@ -86,10 +86,10 @@
 					</small>
 				</div>
 				<div class="flex items-center">
-					<check-icon v-if="values.status" size="16" class="vue-feather text-theme"/>
-					<x-icon v-if="!values.status" size="16" class="vue-feather text-red-600" />
+					<check-icon v-if="values.status" size="16" class="vue-feather text-green-600 dark:text-green-600"/>
+					<x-icon v-if="!values.status" size="16" class="vue-feather text-red-600 dark:text-red-600" />
 
-					<span class="ml-3 text-sm font-bold" :class="values.status ? 'text-green-600' : 'text-red-600'">
+					<span class="ml-3 text-sm font-bold" :class="values.status ? 'text-green-600 dark:text-green-600' : 'text-red-600 dark:text-red-600'">
 						{{ values.current }}{{ setting !== 'max_execution_time' ? 'M' : '' }}
 					</span>
 				</div>
@@ -107,10 +107,10 @@
 					{{ module }}
 				</b>
 				<div class="flex items-center">
-					<check-icon v-if="value" size="16" class="vue-feather text-theme"/>
-					<x-icon v-if="!value" size="16" class="vue-feather text-red-600"/>
+					<check-icon v-if="value" size="16" class="vue-feather text-green-600 dark:text-green-600"/>
+					<x-icon v-if="!value" size="16" class="vue-feather text-red-600 dark:text-red-600"/>
 
-					<span class="ml-3 text-sm font-bold" :class="value ? 'text-green-600' : 'text-red-600'">
+					<span class="ml-3 text-sm font-bold" :class="value ? 'text-green-600 dark:text-green-600' : 'text-red-600 dark:text-red-600'">
 						{{ value ? 'Module Installed' : 'Missing Module' }}
 					</span>
 				</div>

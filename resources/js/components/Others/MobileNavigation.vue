@@ -40,7 +40,7 @@
                 <Option @click.native="goToRoute('Profile')" :title="$t('menu.profile')" icon="user" :is-hover-disabled="true" />
                 <Option @click.native="goToRoute('Password')" :title="$t('menu.password')" icon="lock" :is-hover-disabled="true" />
                 <Option @click.native="goToRoute('Storage')" :title="$t('menu.storage')" icon="hard-drive" :is-hover-disabled="true" />
-                <Option @click.native="goToRoute('Billing')" v-if="config.isSaaS" :title="$t('Billing')" icon="cloud" :is-hover-disabled="true" />
+                <Option @click.native="goToRoute('Billing')" v-if="config.subscriptionType !== 'none'" :title="$t('Billing')" icon="cloud" :is-hover-disabled="true" />
             </OptionGroup>
 
             <!--Submenu: Admin settings-->
@@ -57,7 +57,7 @@
             </OptionGroup>
 
             <!--Submenu: Billing settings-->
-            <OptionGroup v-if="clickedSubmenu === 'admin' && config.isSaaS">
+            <OptionGroup v-if="clickedSubmenu === 'admin' && config.subscriptionType !== 'none'">
                 <Option @click.native="goToRoute('AppPayments')" :title="$t('Payments')" icon="credit-card" :is-hover-disabled="true" />
                 <Option
                     @click.native="goToRoute('Subscriptions')"
