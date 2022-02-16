@@ -1,53 +1,84 @@
 <template>
-    <ContentSidebar v-if="(navigationTree && navigationTree.length >= 1) && isVisibleNavigationBars" class="relative lg:!grid">
-
-		<!--Full screen button-->
-        <div @click="$store.dispatch('toggleNavigationBars')" class="absolute top-2.5 right-0 inline-block cursor-pointer p-3 opacity-0 transition-all duration-200 hover:opacity-70">
+    <ContentSidebar
+        v-if="navigationTree && navigationTree.length >= 1 && isVisibleNavigationBars"
+        class="relative lg:!grid"
+    >
+        <!--Full screen button-->
+        <div
+            @click="$store.dispatch('toggleNavigationBars')"
+            class="absolute top-2.5 right-0 inline-block cursor-pointer p-3 opacity-0 transition-all duration-200 hover:opacity-70"
+        >
             <chevrons-left-icon size="18" />
         </div>
 
-		<div class="mb-auto">
-			<!--Locations-->
-			<ContentGroup :title="$t('Base')">
-				<b @click="goHome" class="flex items-center py-2.5 cursor-pointer" :class="{'router-link-active': $route.params.id === sharedDetail.data.attributes.item_id}">
-					<home-icon size="17" class="vue-feather icon-active mr-2.5" />
-					<small class="text-active text-xs font-bold">
-						{{ $t('Home') }}
-					</small>
-				</b>
-			</ContentGroup>
+        <div class="mb-auto">
+            <!--Locations-->
+            <ContentGroup :title="$t('Base')">
+                <b
+                    @click="goHome"
+                    class="flex cursor-pointer items-center py-2.5"
+                    :class="{ 'router-link-active': $route.params.id === sharedDetail.data.attributes.item_id }"
+                >
+                    <home-icon size="17" class="vue-feather icon-active mr-2.5" />
+                    <small class="text-active text-xs font-bold">
+                        {{ $t('Home') }}
+                    </small>
+                </b>
+            </ContentGroup>
 
-			<!--Navigator-->
-			<ContentGroup :title="$t('sidebar.navigator_title')" can-collapse="true">
-				<TreeMenuNavigator class="folder-tree" :depth="0" :nodes="folder" v-for="folder in navigationTree" :key="folder.id" />
-			</ContentGroup>
-		</div>
+            <!--Navigator-->
+            <ContentGroup :title="$t('sidebar.navigator_title')" can-collapse="true">
+                <TreeMenuNavigator
+                    class="folder-tree"
+                    :depth="0"
+                    :nodes="folder"
+                    v-for="folder in navigationTree"
+                    :key="folder.id"
+                />
+            </ContentGroup>
+        </div>
 
-		<ContentGroup class="mt-auto">
-			<router-link v-if="! config.isAuthenticated" :to="{name: 'SignIn'}" class="flex items-center cursor-pointer group py-2.5">
+        <ContentGroup class="mt-auto">
+            <router-link
+                v-if="!config.isAuthenticated"
+                :to="{ name: 'SignIn' }"
+                class="group flex cursor-pointer items-center py-2.5"
+            >
                 <div class="button-icon inline-block cursor-pointer rounded-xl pr-3">
                     <user-icon size="14" class="vue-feather group-hover-text-theme" />
                 </div>
-				<b class="text-xs group-hover-text-theme">
-					Sign In or Create Account
-				</b>
+                <b class="group-hover-text-theme text-xs"> Sign In or Create Account </b>
             </router-link>
-			<div @click="$store.dispatch('toggleThemeMode')" :title="$t('dark_mode_toggle')" class="flex items-center cursor-pointer group py-2.5">
+            <div
+                @click="$store.dispatch('toggleThemeMode')"
+                :title="$t('dark_mode_toggle')"
+                class="group flex cursor-pointer items-center py-2.5"
+            >
                 <div class="button-icon inline-block cursor-pointer rounded-xl pr-3">
                     <sun-icon v-if="isDarkMode" size="14" class="vue-feather group-hover-text-theme" />
                     <moon-icon v-if="!isDarkMode" size="14" class="vue-feather group-hover-text-theme" />
                 </div>
-				<b class="text-xs group-hover-text-theme">
-					Set {{ isDarkMode ? 'Light' : 'Dark' }} Mode
-				</b>
+                <b class="group-hover-text-theme text-xs"> Set {{ isDarkMode ? 'Light' : 'Dark' }} Mode </b>
             </div>
-		</ContentGroup>
-
+        </ContentGroup>
     </ContentSidebar>
 </template>
 
 <script>
-import { UserIcon, SunIcon, MoonIcon, ChevronsLeftIcon, FolderIcon, HomeIcon, LinkIcon, Trash2Icon, UploadCloudIcon, UserCheckIcon, UsersIcon, XIcon } from 'vue-feather-icons'
+import {
+    UserIcon,
+    SunIcon,
+    MoonIcon,
+    ChevronsLeftIcon,
+    FolderIcon,
+    HomeIcon,
+    LinkIcon,
+    Trash2Icon,
+    UploadCloudIcon,
+    UserCheckIcon,
+    UsersIcon,
+    XIcon,
+} from 'vue-feather-icons'
 import TreeMenuNavigator from '../../../components/Others/TreeMenuNavigator'
 import ContentSidebar from '../../../components/Sidebar/ContentSidebar'
 import ContentGroup from '../../../components/Sidebar/ContentGroup'
@@ -60,11 +91,11 @@ export default {
         TreeMenuNavigator,
         ContentSidebar,
         ContentGroup,
-		UserIcon,
-		SunIcon,
-		MoonIcon,
+        UserIcon,
+        SunIcon,
+        MoonIcon,
         UploadCloudIcon,
-		ChevronsLeftIcon,
+        ChevronsLeftIcon,
         UserCheckIcon,
         FolderIcon,
         Trash2Icon,
@@ -74,7 +105,15 @@ export default {
         XIcon,
     },
     computed: {
-        ...mapGetters(['sharedDetail', 'navigation', 'clipboard', 'config', 'user', 'isVisibleNavigationBars', 'isDarkMode']),
+        ...mapGetters([
+            'sharedDetail',
+            'navigation',
+            'clipboard',
+            'config',
+            'user',
+            'isVisibleNavigationBars',
+            'isDarkMode',
+        ]),
         favourites() {
             return this.user.data.relationships.favourites.data.attributes.folders
         },

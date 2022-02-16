@@ -1,6 +1,11 @@
 <template>
     <ul>
-        <li v-if="Object.values(members).length > 0 && entry.id !== user.data.id" v-for="(entry, i) in members" :key="i" class="flex items-center py-2">
+        <li
+            v-if="Object.values(members).length > 0 && entry.id !== user.data.id"
+            v-for="(entry, i) in members"
+            :key="i"
+            class="flex items-center py-2"
+        >
             <!--Remove Member-->
             <div @click="deleteMember(entry)" class="-ml-1.5 cursor-pointer py-2 px-1 leading-none">
                 <x-icon size="14" class="vue-feather dark:text-gray-600" />
@@ -13,7 +18,10 @@
 
                 <!--Member-->
                 <div v-if="entry.type === 'member'" class="info">
-                    <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                    <b
+                        class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                        style="max-width: 155px"
+                    >
                         {{ entry.name }}
                     </b>
                     <span class="block text-xs text-gray-600 dark:text-gray-500">
@@ -23,7 +31,10 @@
 
                 <!--Invitation-->
                 <div v-if="entry.type === 'invitation'" class="info">
-                    <b class="block max-w-xs overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                    <b
+                        class="block max-w-xs overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                        style="max-width: 155px"
+                    >
                         {{ entry.email }}
                     </b>
                     <span v-if="entry.id" class="block text-xs text-gray-600 dark:text-gray-500">

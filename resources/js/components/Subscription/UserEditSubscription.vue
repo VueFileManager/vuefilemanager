@@ -7,14 +7,27 @@
         <AppInputButton
             v-if="subscription.attributes.status !== 'cancelled'"
             :title="$t('Cancel Subscription')"
-            :description="$t('You can cancel your subscription now. You\'ll continue to have access to the features you\'ve paid for until the end of your billing cycle.')"
+            :description="
+                $t(
+                    'You can cancel your subscription now. You\'ll continue to have access to the features you\'ve paid for until the end of your billing cycle.'
+                )
+            "
         >
-            <ButtonBase @click.native="cancelSubscriptionConfirmation" :loading="isCancelling" class="w-full sm:w-auto" button-style="secondary">
+            <ButtonBase
+                @click.native="cancelSubscriptionConfirmation"
+                :loading="isCancelling"
+                class="w-full sm:w-auto"
+                button-style="secondary"
+            >
                 {{ $t('Cancel Now') }}
             </ButtonBase>
         </AppInputButton>
 
-        <AppInputButton :title="$t('Upgrade or Downgrade Plan')" :description="$t('You can upgrade your plan at any time you want.')" :is-last="true">
+        <AppInputButton
+            :title="$t('Upgrade or Downgrade Plan')"
+            :description="$t('You can upgrade your plan at any time you want.')"
+            :is-last="true"
+        >
             <ButtonBase @click.native="$openUpgradeOptions" class="w-full sm:w-auto" button-style="secondary">
                 {{ $t('Change Plan') }}
             </ButtonBase>
@@ -57,7 +70,9 @@ export default {
         cancelSubscriptionConfirmation() {
             events.$emit('confirm:open', {
                 title: this.$t('Are you sure you want to cancel subscription?'),
-                message: this.$t("You'll continue to have access to the features you've paid for until the end of your billing cycle."),
+                message: this.$t(
+                    "You'll continue to have access to the features you've paid for until the end of your billing cycle."
+                ),
                 action: {
                     operation: 'cancel-subscription',
                 },

@@ -55,7 +55,12 @@
                     </a>
                 </li>
 
-                <li v-for="(page, index) in data.meta.last_page" :key="index" class="inline-block p-1" @click="goToPage(page)">
+                <li
+                    v-for="(page, index) in data.meta.last_page"
+                    :key="index"
+                    class="inline-block p-1"
+                    @click="goToPage(page)"
+                >
                     <a
                         class="page-link"
                         :class="{
@@ -100,7 +105,13 @@
                     <a class="page-link"> 1 </a>
                 </li>
 
-                <li v-if="pageIndex < 5" v-for="(page, index) in 5" :key="index" class="inline-block p-1" @click="goToPage(page)">
+                <li
+                    v-if="pageIndex < 5"
+                    v-for="(page, index) in 5"
+                    :key="index"
+                    class="inline-block p-1"
+                    @click="goToPage(page)"
+                >
                     <a
                         class="page-link"
                         :class="{
@@ -116,7 +127,13 @@
                 </li>
 
                 <!--Floated Pages-->
-                <li v-if="pageIndex >= 5 && pageIndex < data.meta.last_page - 3" v-for="(page, index) in floatPages" :key="index" class="inline-block p-1" @click="goToPage(page)">
+                <li
+                    v-if="pageIndex >= 5 && pageIndex < data.meta.last_page - 3"
+                    v-for="(page, index) in floatPages"
+                    :key="index"
+                    class="inline-block p-1"
+                    @click="goToPage(page)"
+                >
                     <a
                         class="page-link"
                         :class="{
@@ -141,7 +158,8 @@
                     <a
                         class="page-link"
                         :class="{
-                            'bg-light-background dark:bg-4x-dark-foreground dark:text-gray-300': pageIndex === data.meta.last_page - (4 - index),
+                            'bg-light-background dark:bg-4x-dark-foreground dark:text-gray-300':
+                                pageIndex === data.meta.last_page - (4 - index),
                         }"
                     >
                         {{ data.meta.last_page - (4 - index) }}
@@ -149,7 +167,11 @@
                 </li>
 
                 <!--Show last page-->
-                <li class="inline-block p-1" v-if="pageIndex < data.meta.last_page - 3" @click="goToPage(data.meta.last_page)">
+                <li
+                    class="inline-block p-1"
+                    v-if="pageIndex < data.meta.last_page - 3"
+                    @click="goToPage(data.meta.last_page)"
+                >
                     <a class="page-link">
                         {{ data.meta.last_page }}
                     </a>
@@ -169,7 +191,9 @@
                 </li>
             </ul>
 
-            <span class="text-xs text-gray-600 dark:text-gray-500"> Showing {{ data.meta.from }} - {{ data.meta.to }} from {{ data.meta.total }} records </span>
+            <span class="text-xs text-gray-600 dark:text-gray-500">
+                Showing {{ data.meta.from }} - {{ data.meta.to }} from {{ data.meta.total }} records
+            </span>
         </div>
     </div>
 </template>
@@ -239,7 +263,14 @@ export default {
             if (this.paginator) this.URI = this.URI + '?page=' + page
 
             // Add filder URI if is defined sorting
-            if (this.filter.field) this.URI = this.URI + (this.paginator ? '&' : '?') + 'sort=' + this.filter.field + '&direction=' + this.filter.sort
+            if (this.filter.field)
+                this.URI =
+                    this.URI +
+                    (this.paginator ? '&' : '?') +
+                    'sort=' +
+                    this.filter.field +
+                    '&direction=' +
+                    this.filter.sort
 
             this.isLoading = true
 

@@ -11,7 +11,10 @@
                     <div v-if="row.data.relationships.user" class="flex items-center">
                         <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                         <div class="ml-3 pr-10">
-                            <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                            <b
+                                class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                style="max-width: 155px"
+                            >
                                 {{ row.data.relationships.user.data.attributes.name }}
                             </b>
                             <span class="block text-xs text-gray-600 dark:text-gray-500">
@@ -24,10 +27,16 @@
                     </span>
                 </td>
                 <td class="px-3 md:px-1">
-                    <ColorLabel v-if="config.subscriptionType === 'fixed'" :color="$getTransactionStatusColor(row.data.attributes.status)">
+                    <ColorLabel
+                        v-if="config.subscriptionType === 'fixed'"
+                        :color="$getTransactionStatusColor(row.data.attributes.status)"
+                    >
                         {{ row.data.attributes.status }}
                     </ColorLabel>
-                    <ColorLabel v-if="config.subscriptionType === 'metered'" :color="$getTransactionTypeColor(row.data.attributes.type)">
+                    <ColorLabel
+                        v-if="config.subscriptionType === 'metered'"
+                        :color="$getTransactionTypeColor(row.data.attributes.type)"
+                    >
                         {{ row.data.attributes.type }}
                     </ColorLabel>
                 </td>
@@ -43,7 +52,11 @@
                 </td>
                 <td class="pl-3 md:pl-1">
                     <div class="w-32 text-right md:w-full">
-                        <img class="w-32 md:inline-block" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver" />
+                        <img
+                            class="w-32 md:inline-block"
+                            :src="$getPaymentLogo(row.data.attributes.driver)"
+                            :alt="row.data.attributes.driver"
+                        />
                     </div>
                 </td>
             </tr>

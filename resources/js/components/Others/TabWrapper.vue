@@ -1,7 +1,13 @@
 <template>
     <div>
         <div class="tab-wrapper">
-            <div class="tab" :class="{ active: tab.isActive }" @click="selectTab(tab)" v-for="(tab, i) in tabs" :key="i">
+            <div
+                class="tab"
+                :class="{ active: tab.isActive }"
+                @click="selectTab(tab)"
+                v-for="(tab, i) in tabs"
+                :key="i"
+            >
                 <!--Icon-->
                 <mail-icon v-if="tab.icon === 'email'" class="tab-icon text-theme dark-text-theme" size="17" />
                 <link-icon v-if="tab.icon === 'link'" class="tab-icon text-theme dark-text-theme" size="17" />

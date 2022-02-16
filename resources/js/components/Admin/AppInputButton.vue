@@ -1,5 +1,8 @@
 <template>
-    <div :class="{ 'sm:mb-7 mb-6': !isLast }" class="w-full justify-between space-y-4 sm:flex sm:space-x-8 sm:space-x-2 sm:space-y-0">
+    <div
+        :class="{ 'mb-6 sm:mb-7': !isLast }"
+        class="w-full justify-between space-y-4 sm:flex sm:space-x-8 sm:space-x-2 sm:space-y-0"
+    >
         <!--Label for input-->
         <div class="leading-5">
             <label class="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-200"> {{ title }}: </label>

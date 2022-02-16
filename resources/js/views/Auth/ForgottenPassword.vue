@@ -2,7 +2,10 @@
     <AuthContentWrapper ref="auth" class="h-screen">
         <!--Forgotten your password?-->
         <AuthContent name="forgotten-password" :visible="true">
-            <Headline :title="$t('page_forgotten_password.title')" :description="$t('page_forgotten_password.subtitle')" />
+            <Headline
+                :title="$t('page_forgotten_password.title')"
+                :description="$t('page_forgotten_password.subtitle')"
+            />
 
             <ValidationObserver
                 @submit.prevent="forgottenPassword"
@@ -11,7 +14,14 @@
                 tag="form"
                 class="mb-12 items-start space-y-4 md:flex md:space-x-4 md:space-y-0"
             >
-                <ValidationProvider tag="div" mode="passive" class="relative w-full text-left" name="E-Mail" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    class="relative w-full text-left"
+                    name="E-Mail"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <input
                         v-model="recoverEmail"
                         :placeholder="$t('page_login.placeholder_email')"
@@ -41,7 +51,10 @@
 
         <!--Password reset link send-->
         <AuthContent name="password-reset-link-sended" :visible="false">
-            <Headline :title="$t('page_forgotten_password.pass_sennded_title')" :description="$t('page_forgotten_password.pass_sennded_subtitle')" />
+            <Headline
+                :title="$t('page_forgotten_password.pass_sennded_title')"
+                :description="$t('page_forgotten_password.pass_sennded_subtitle')"
+            />
 
             <span class="block">
                 {{ $t('page_forgotten_password.password_remember_text') }}

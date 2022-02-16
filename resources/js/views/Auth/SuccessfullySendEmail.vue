@@ -1,7 +1,10 @@
 <template>
     <AuthContentWrapper class="h-screen">
         <AuthContent :visible="true">
-            <Headline :title="$t('page_email_successfully_send.title')" :description="$t('page_email_successfully_send.subtitle')" />
+            <Headline
+                :title="$t('page_email_successfully_send.title')"
+                :description="$t('page_email_successfully_send.subtitle')"
+            />
 
             <span class="block">
                 <router-link :to="{ name: 'Homepage' }" class="text-theme font-bold">

@@ -61,13 +61,13 @@ import DragUI from '../components/FilesView/DragUI'
 import Alert from '../components/FilesView/Alert'
 import { mapGetters } from 'vuex'
 import { events } from '../bus'
-import router from "../router";
-import DesktopSharepageToolbar from "../components/FilesView/DesktopSharepageToolbar";
+import router from '../router'
+import DesktopSharepageToolbar from '../components/FilesView/DesktopSharepageToolbar'
 
 export default {
     name: 'Shared',
     components: {
-		DesktopSharepageToolbar,
+        DesktopSharepageToolbar,
         MobileToolbar,
         InfoSidebar,
         NavigationSharePanel,
@@ -102,8 +102,9 @@ export default {
         events.$on('mobile-menu:show', () => (this.isScaledDown = true))
         events.$on('mobile-menu:hide', () => (this.isScaledDown = false))
 
-		this.$store.dispatch('getShareDetail', this.$router.currentRoute.params.token)
-			.then(() => this.$store.dispatch('getFolderTree'))
+        this.$store
+            .dispatch('getShareDetail', this.$router.currentRoute.params.token)
+            .then(() => this.$store.dispatch('getFolderTree'))
     },
 }
 </script>

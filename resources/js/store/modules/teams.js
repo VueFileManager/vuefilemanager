@@ -28,7 +28,10 @@ const actions = {
                 })
                 commit('SET_CURRENT_FOLDER', response.data.root)
 
-                if (!getters.currentTeamFolder || getters.currentTeamFolder.data.id !== response.data.teamFolder.data.id) {
+                if (
+                    !getters.currentTeamFolder ||
+                    getters.currentTeamFolder.data.id !== response.data.teamFolder.data.id
+                ) {
                     commit('SET_CURRENT_TEAM_FOLDER', response.data.teamFolder)
                 }
 
@@ -67,7 +70,10 @@ const actions = {
                 })
                 commit('SET_CURRENT_FOLDER', response.data.root)
 
-                if (!getters.currentTeamFolder || getters.currentTeamFolder.data.id !== response.data.teamFolder.data.id) {
+                if (
+                    !getters.currentTeamFolder ||
+                    getters.currentTeamFolder.data.id !== response.data.teamFolder.data.id
+                ) {
                     commit('SET_CURRENT_TEAM_FOLDER', response.data.teamFolder)
                 }
 

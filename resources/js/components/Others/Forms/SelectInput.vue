@@ -1,7 +1,11 @@
 <template>
     <div class="select">
         <!--Area-->
-        <div class="input-area rounded-lg dark:bg-2x-dark-foreground bg-light-background" :class="{ 'is-active': isOpen, 'is-error': isError }" @click="openMenu">
+        <div
+            class="input-area rounded-lg bg-light-background dark:bg-2x-dark-foreground"
+            :class="{ 'is-active': isOpen, 'is-error': isError }"
+            @click="openMenu"
+        >
             <!--If is selected-->
             <div class="selected flex w-full items-center" v-if="selected">
                 <div class="option-icon" v-if="selected.icon">
@@ -25,7 +29,13 @@
         <transition name="slide-in">
             <div class="input-options rounded-lg" v-if="isOpen">
                 <div v-if="options.length > 5" class="select-search">
-                    <input v-model="query" ref="search" type="text" :placeholder="$t('select_search_placeholder')" class="search-input focus-border-theme rounded-lg" />
+                    <input
+                        v-model="query"
+                        ref="search"
+                        type="text"
+                        :placeholder="$t('select_search_placeholder')"
+                        class="search-input focus-border-theme rounded-lg"
+                    />
                 </div>
                 <ul class="option-list">
                     <li class="option-item" @click="selectOption(option)" v-for="(option, i) in optionList" :key="i">

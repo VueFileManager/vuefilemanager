@@ -8,7 +8,9 @@
             <!--Name-->
             <AppInputText :title="$t('admin_page_plans.form.name')">
                 <input
-                    @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'name', plan.attributes.name)"
+                    @input="
+                        $updateInput('/subscriptions/admin/plans/' + $route.params.id, 'name', plan.attributes.name)
+                    "
                     v-model="plan.attributes.name"
                     :placeholder="$t('admin_page_plans.form.name_plac')"
                     type="text"
@@ -19,7 +21,13 @@
             <!--Description-->
             <AppInputText :title="$t('admin_page_plans.form.description')" :is-last="true">
                 <textarea
-                    @input="$updateInput('/subscriptions/admin/plans/' + $route.params.id, 'description', plan.attributes.description)"
+                    @input="
+                        $updateInput(
+                            '/subscriptions/admin/plans/' + $route.params.id,
+                            'description',
+                            plan.attributes.description
+                        )
+                    "
                     v-model="plan.attributes.description"
                     :placeholder="$t('admin_page_plans.form.description_plac')"
                     class="focus-border-theme input-dark"
@@ -39,7 +47,9 @@
                 class="w-full"
             >
                 <input
-                    :value="formatCurrency(plan.attributes.currency, plan.attributes.features.bandwidth.tiers[0].per_unit)"
+                    :value="
+                        formatCurrency(plan.attributes.currency, plan.attributes.features.bandwidth.tiers[0].per_unit)
+                    "
                     type="text"
                     class="focus-border-theme input-dark"
                     disabled
@@ -54,7 +64,9 @@
                 class="w-full"
             >
                 <input
-                    :value="formatCurrency(plan.attributes.currency, plan.attributes.features.storage.tiers[0].per_unit)"
+                    :value="
+                        formatCurrency(plan.attributes.currency, plan.attributes.features.storage.tiers[0].per_unit)
+                    "
                     type="text"
                     class="focus-border-theme input-dark"
                     disabled
@@ -77,9 +89,16 @@
             </AppInputText>
 
             <!--Flat Fee-->
-            <AppInputText v-if="plan.attributes.features.flatFee" :title="$t('Flat Fee per Cycle')" :description="$t('Charge monthly flat fee.')" class="w-full">
+            <AppInputText
+                v-if="plan.attributes.features.flatFee"
+                :title="$t('Flat Fee per Cycle')"
+                :description="$t('Charge monthly flat fee.')"
+                class="w-full"
+            >
                 <input
-                    :value="formatCurrency(plan.attributes.currency, plan.attributes.features.flatFee.tiers[0].per_unit)"
+                    :value="
+                        formatCurrency(plan.attributes.currency, plan.attributes.features.flatFee.tiers[0].per_unit)
+                    "
                     type="text"
                     class="focus-border-theme input-dark"
                     disabled
@@ -88,7 +107,11 @@
 
             <InfoBox style="margin-bottom: 0">
                 <p>
-                    {{ $t('Price change is not possible. If you would like to change your price or currency, please feel free to create a new plan.') }}
+                    {{
+                        $t(
+                            'Price change is not possible. If you would like to change your price or currency, please feel free to create a new plan.'
+                        )
+                    }}
                 </p>
             </InfoBox>
         </div>

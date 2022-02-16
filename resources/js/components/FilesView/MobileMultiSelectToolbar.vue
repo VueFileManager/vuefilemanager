@@ -5,7 +5,12 @@
             <slot v-if="$slots.editor && $checkPermission('editor')" name="editor" />
             <slot v-if="$slots.visitor && $checkPermission('visitor')" name="visitor" />
 
-            <ToolbarButton @click.native="closeSelecting" class="action-btn close-icon" source="close" :action="$t('actions.close')" />
+            <ToolbarButton
+                @click.native="closeSelecting"
+                class="action-btn close-icon"
+                source="close"
+                :action="$t('actions.close')"
+            />
         </div>
     </transition>
 </template>

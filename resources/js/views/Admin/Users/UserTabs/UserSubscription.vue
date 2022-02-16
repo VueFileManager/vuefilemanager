@@ -1,8 +1,16 @@
 <template>
     <PageTab :is-loading="isLoading">
-        <UserMeteredSubscription v-if="subscription && config.subscriptionType === 'metered'" :subscription="subscription" :user="user" />
+        <UserMeteredSubscription
+            v-if="subscription && config.subscriptionType === 'metered'"
+            :subscription="subscription"
+            :user="user"
+        />
 
-        <UserFixedSubscription v-if="subscription && config.subscriptionType === 'fixed'" :subscription="subscription" :user="user" />
+        <UserFixedSubscription
+            v-if="subscription && config.subscriptionType === 'fixed'"
+            :subscription="subscription"
+            :user="user"
+        />
 
         <!--Free Plan-->
         <div v-if="!subscription && config.subscriptionType === 'fixed'" class="card shadow-card">
@@ -34,11 +42,18 @@
             >
                 <template slot-scope="{ row }">
                     <!--Transaction rows-->
-                    <MeteredTransactionRow v-if="config.subscriptionType === 'metered'" :row="row" @showDetail="showTransactionDetail" />
+                    <MeteredTransactionRow
+                        v-if="config.subscriptionType === 'metered'"
+                        :row="row"
+                        @showDetail="showTransactionDetail"
+                    />
                     <FixedTransactionRow v-if="config.subscriptionType === 'fixed'" :row="row" />
 
                     <!--Transaction detail-->
-                    <MeteredTransactionDetailRow v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id" :row="row" />
+                    <MeteredTransactionDetailRow
+                        v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id"
+                        :row="row"
+                    />
                 </template>
 
                 <!--Empty page-->
@@ -89,7 +104,9 @@ export default {
                 fixed: ['type', 'user_id'],
             }
 
-            return this.$store.getters.transactionColumns.filter((column) => !filter[config.subscriptionType].includes(column.field))
+            return this.$store.getters.transactionColumns.filter(
+                (column) => !filter[config.subscriptionType].includes(column.field)
+            )
         },
     },
     data() {

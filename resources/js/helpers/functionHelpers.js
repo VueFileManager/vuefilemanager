@@ -288,6 +288,7 @@ const FunctionHelpers = {
                 return store.getters.currentFolder.data.attributes.name
             } else {
                 return {
+                    RequestUpload: this.$t('Home'),
                     RecentUploads: this.$t('Recent Uploads'),
                     MySharedItems: this.$t('sidebar.my_shared'),
                     Trash: this.$t('Trash'),
@@ -340,8 +341,12 @@ const FunctionHelpers = {
         Vue.prototype.$getPaymentLogo = function (driver) {
             return (
                 {
-                    paypal: store.getters.isDarkMode ? '/assets/payments/paypal-dark.svg' : '/assets/payments/paypal.svg',
-                    paystack: store.getters.isDarkMode ? '/assets/payments/paystack-dark.svg' : '/assets/payments/paystack.svg',
+                    paypal: store.getters.isDarkMode
+                        ? '/assets/payments/paypal-dark.svg'
+                        : '/assets/payments/paypal.svg',
+                    paystack: store.getters.isDarkMode
+                        ? '/assets/payments/paystack-dark.svg'
+                        : '/assets/payments/paystack.svg',
                     stripe: '/assets/payments/stripe.svg',
                     system: this.$getImage(store.getters.config.app_logo_horizontal),
                 }[driver] || this.$getImage(store.getters.config.app_logo_horizontal)

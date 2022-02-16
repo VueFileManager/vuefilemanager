@@ -1,54 +1,108 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Database Credentials-->
-        <AuthContent name="database-credentials" :visible="true" class="!max-w-2xl mt-6 mb-12">
-			<Headline class="mx-auto max-w-screen-sm !mb-10" title="Setup Wizard" description="Create your admin account.">
-                <settings-icon size="40" class="vue-feather text-theme mx-auto animate-[spin_5s_linear_infinite] mb-3" />
+        <AuthContent name="database-credentials" :visible="true" class="mt-6 mb-12 !max-w-2xl">
+            <Headline
+                class="mx-auto !mb-10 max-w-screen-sm"
+                title="Setup Wizard"
+                description="Create your admin account."
+            >
+                <settings-icon
+                    size="40"
+                    class="vue-feather text-theme mx-auto mb-3 animate-[spin_5s_linear_infinite]"
+                />
             </Headline>
 
-            <ValidationObserver @submit.prevent="adminAccountSubmit" ref="adminAccount" v-slot="{ invalid }" tag="form" class="card shadow-card text-left">
-                <FormLabel>
-					Create Admin Account
-				</FormLabel>
+            <ValidationObserver
+                @submit.prevent="adminAccountSubmit"
+                ref="adminAccount"
+                v-slot="{ invalid }"
+                tag="form"
+                class="card text-left shadow-card"
+            >
+                <FormLabel> Create Admin Account </FormLabel>
 
-				<ValidationProvider tag="div" mode="passive" name="Avatar" v-slot="{ errors }">
-					<AppInputText title="Avatar (optional)" :error="errors[0]">
+                <ValidationProvider tag="div" mode="passive" name="Avatar" v-slot="{ errors }">
+                    <AppInputText title="Avatar (optional)" :error="errors[0]">
                         <ImageInput v-model="admin.avatar" :error="errors[0]" />
-					</AppInputText>
-				</ValidationProvider>
+                    </AppInputText>
+                </ValidationProvider>
 
-				<ValidationProvider tag="div" mode="passive" name="Full Name" rules="required" v-slot="{ errors }">
-					<AppInputText title="Full Name" :error="errors[0]">
-						<input v-model="admin.name" class="focus-border-theme input-dark" placeholder="Type your full name" type="text" :class="{ 'border-red': errors[0] }" />
-					</AppInputText>
-				</ValidationProvider>
+                <ValidationProvider tag="div" mode="passive" name="Full Name" rules="required" v-slot="{ errors }">
+                    <AppInputText title="Full Name" :error="errors[0]">
+                        <input
+                            v-model="admin.name"
+                            class="focus-border-theme input-dark"
+                            placeholder="Type your full name"
+                            type="text"
+                            :class="{ 'border-red': errors[0] }"
+                        />
+                    </AppInputText>
+                </ValidationProvider>
 
-				<ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
-					<AppInputText title="Email" :error="errors[0]">
-						<input v-model="admin.email" class="focus-border-theme input-dark" placeholder="Type your email" type="email" :class="{ 'border-red': errors[0] }" />
-					</AppInputText>
-				</ValidationProvider>
+                <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+                    <AppInputText title="Email" :error="errors[0]">
+                        <input
+                            v-model="admin.email"
+                            class="focus-border-theme input-dark"
+                            placeholder="Type your email"
+                            type="email"
+                            :class="{ 'border-red': errors[0] }"
+                        />
+                    </AppInputText>
+                </ValidationProvider>
 
-				<ValidationProvider tag="div" mode="passive" name="Password" rules="required|confirmed:confirmation" v-slot="{ errors }">
-					<AppInputText title="Password" :error="errors[0]">
-                        <input v-model="admin.password" class="focus-border-theme input-dark" placeholder="Type your password" type="password" :class="{ 'border-red': errors[0] }" />
-					</AppInputText>
-				</ValidationProvider>
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    name="Password"
+                    rules="required|confirmed:confirmation"
+                    v-slot="{ errors }"
+                >
+                    <AppInputText title="Password" :error="errors[0]">
+                        <input
+                            v-model="admin.password"
+                            class="focus-border-theme input-dark"
+                            placeholder="Type your password"
+                            type="password"
+                            :class="{ 'border-red': errors[0] }"
+                        />
+                    </AppInputText>
+                </ValidationProvider>
 
-				<ValidationProvider tag="div" name="confirmation" rules="required" vid="confirmation" v-slot="{ errors }">
-					<AppInputText title="Password Confirmation" :error="errors[0]" :is-last="true">
-                        <input v-model="admin.password_confirmation" class="focus-border-theme input-dark" placeholder="Confirm your password" type="password" :class="{ 'border-red': errors[0] }" />
-					</AppInputText>
-				</ValidationProvider>
+                <ValidationProvider
+                    tag="div"
+                    name="confirmation"
+                    rules="required"
+                    vid="confirmation"
+                    v-slot="{ errors }"
+                >
+                    <AppInputText title="Password Confirmation" :error="errors[0]" :is-last="true">
+                        <input
+                            v-model="admin.password_confirmation"
+                            class="focus-border-theme input-dark"
+                            placeholder="Confirm your password"
+                            type="password"
+                            :class="{ 'border-red': errors[0] }"
+                        />
+                    </AppInputText>
+                </ValidationProvider>
             </ValidationObserver>
 
-			<AuthButton @click.native="adminAccountSubmit" class="w-full justify-center" icon="chevron-right" text="Create Admin and Login" :loading="isLoading" :disabled="isLoading" />
+            <AuthButton
+                @click.native="adminAccountSubmit"
+                class="w-full justify-center"
+                icon="chevron-right"
+                text="Create Admin and Login"
+                :loading="isLoading"
+                :disabled="isLoading"
+            />
         </AuthContent>
     </AuthContentWrapper>
 </template>
 
 <script>
-import AppInputText from "../../components/Admin/AppInputText";
+import AppInputText from '../../components/Admin/AppInputText'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
 import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
 import SelectInput from '../../components/Others/Forms/SelectInput'
@@ -60,7 +114,7 @@ import AuthContent from '../../components/Auth/AuthContent'
 import AuthButton from '../../components/Auth/AuthButton'
 import { required } from 'vee-validate/dist/rules'
 import { SettingsIcon } from 'vue-feather-icons'
-import Headline from "../Auth/Headline"
+import Headline from '../Auth/Headline'
 import { events } from '../../bus'
 import axios from 'axios'
 
@@ -70,7 +124,7 @@ export default {
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,
-		AppInputText,
+        AppInputText,
         SettingsIcon,
         SelectInput,
         SwitchInput,
@@ -79,7 +133,7 @@ export default {
         AuthButton,
         FormLabel,
         required,
-		Headline,
+        Headline,
         InfoBox,
     },
     data() {
@@ -125,12 +179,10 @@ export default {
                     },
                 })
                 .then((response) => {
-
                     // Go to sign page
-					window.location = '/sign-in'
+                    window.location = '/sign-in'
                 })
                 .catch((error) => {
-
                     if (error.response.status === 500) {
                         events.$emit('alert:open', {
                             emoji: '🤔',
@@ -152,22 +204,22 @@ export default {
                             })
                         }
                     }
-
-                }).finally(() => this.isLoading = false)
+                })
+                .finally(() => (this.isLoading = false))
         },
     },
     created() {
         this.$scrollTop()
 
-		if (this.$root.$data.config.isSetupWizardDebug) {
-			this.admin = {
-				name: 'Jane Doe',
-				email: 'howdy@hi5ve.digital',
-				avatar: undefined,
-				password: 'vuefilemanager',
-				password_confirmation: 'vuefilemanager',
-			}
-		}
+        if (this.$root.$data.config.isSetupWizardDebug) {
+            this.admin = {
+                name: 'Jane Doe',
+                email: 'howdy@hi5ve.digital',
+                avatar: undefined,
+                password: 'vuefilemanager',
+                password_confirmation: 'vuefilemanager',
+            }
+        }
     },
 }
 </script>

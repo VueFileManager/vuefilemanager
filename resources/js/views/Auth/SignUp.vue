@@ -4,10 +4,25 @@
         <AuthContent name="sign-up" :visible="true" class="mt-4 mb-12">
             <Headline :title="$t('page_registration.title')" :description="$t('page_registration.subtitle')" />
 
-            <ValidationObserver @submit.prevent="signUp" ref="sign_up" v-slot="{ invalid }" tag="form" class="mb-12 space-y-4 text-left">
+            <ValidationObserver
+                @submit.prevent="signUp"
+                ref="sign_up"
+                v-slot="{ invalid }"
+                tag="form"
+                class="mb-12 space-y-4 text-left"
+            >
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
-                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right"> {{ $t('page_registration.label_email') }}: </label>
-                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="E-Mail" rules="required" v-slot="{ errors }">
+                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
+                        {{ $t('page_registration.label_email') }}:
+                    </label>
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        class="w-full text-left"
+                        name="E-Mail"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <input
                             v-model="register.email"
                             :placeholder="$t('page_registration.placeholder_email')"
@@ -20,8 +35,17 @@
                 </div>
 
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
-                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right"> {{ $t('page_registration.label_name') }}: </label>
-                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="Full Name" rules="required" v-slot="{ errors }">
+                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
+                        {{ $t('page_registration.label_name') }}:
+                    </label>
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        class="w-full text-left"
+                        name="Full Name"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <input
                             v-model="register.name"
                             :placeholder="$t('page_registration.placeholder_name')"
@@ -34,8 +58,17 @@
                 </div>
 
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
-                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right"> {{ $t('page_registration.label_pass') }}: </label>
-                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="Your New Password" rules="required" v-slot="{ errors }">
+                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
+                        {{ $t('page_registration.label_pass') }}:
+                    </label>
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        class="w-full text-left"
+                        name="Your New Password"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <input
                             v-model="register.password"
                             :placeholder="$t('page_registration.placeholder_pass')"
@@ -48,8 +81,17 @@
                 </div>
 
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
-                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right"> {{ $t('page_registration.label_confirm_pass') }}: </label>
-                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="Confirm Your Password" rules="required" v-slot="{ errors }">
+                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
+                        {{ $t('page_registration.label_confirm_pass') }}:
+                    </label>
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        class="w-full text-left"
+                        name="Confirm Your Password"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <input
                             v-model="register.password_confirmation"
                             :placeholder="$t('page_registration.placeholder_confirm_pass')"

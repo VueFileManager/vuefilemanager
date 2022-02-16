@@ -5,8 +5,16 @@
             <FormLabel icon="smartphone">
                 {{ $t('2fa.settings.title') }}
             </FormLabel>
-            <AppInputSwitch :title="$t('popup_2fa.switch_title')" :description="$t('popup_2fa.switch_info')" :is-last="!user.data.attributes.two_factor_authentication">
-                <SwitchInput v-model="user.data.attributes.two_factor_authentication" class="switch" :state="user.data.attributes.two_factor_authentication" />
+            <AppInputSwitch
+                :title="$t('popup_2fa.switch_title')"
+                :description="$t('popup_2fa.switch_info')"
+                :is-last="!user.data.attributes.two_factor_authentication"
+            >
+                <SwitchInput
+                    v-model="user.data.attributes.two_factor_authentication"
+                    class="switch"
+                    :state="user.data.attributes.two_factor_authentication"
+                />
             </AppInputSwitch>
             <AppInputButton
                 v-if="user && user.data.attributes.two_factor_authentication"
@@ -56,13 +64,24 @@
                 </div>
             </div>
 
-            <ButtonBase @click.native="openCreateTokenPopup" type="submit" button-style="theme" class="w-full sm:w-auto">
+            <ButtonBase
+                @click.native="openCreateTokenPopup"
+                type="submit"
+                button-style="theme"
+                class="w-full sm:w-auto"
+            >
                 {{ $t('personal_token.create_token') }}
             </ButtonBase>
         </div>
 
         <!--Change password-->
-        <ValidationObserver ref="password" @submit.prevent="resetPassword" v-slot="{ invalid }" tag="form" class="card shadow-card">
+        <ValidationObserver
+            ref="password"
+            @submit.prevent="resetPassword"
+            v-slot="{ invalid }"
+            tag="form"
+            class="card shadow-card"
+        >
             <FormLabel>
                 {{ $t('user_password.title') }}
             </FormLabel>
@@ -91,7 +110,13 @@
                 </AppInputText>
             </ValidationProvider>
 
-            <ValidationProvider tag="div" mode="passive" name="Confirm Your Password" rules="required" v-slot="{ errors }">
+            <ValidationProvider
+                tag="div"
+                mode="passive"
+                name="Confirm Your Password"
+                rules="required"
+                v-slot="{ errors }"
+            >
                 <AppInputText :title="$t('page_create_password.label_confirm_pass')" :error="errors[0]">
                     <input
                         v-model="passwordForm.password_confirmation"

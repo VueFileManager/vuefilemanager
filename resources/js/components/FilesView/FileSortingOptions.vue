@@ -1,12 +1,32 @@
 <template>
     <div>
         <OptionGroup :title="$t('View')">
-            <Option v-if="isList" @click.native="changePreview('grid')" :title="$t('preview_sorting.grid_view')" icon="grid" />
-            <Option v-if="isGrid" @click.native="changePreview('list')" :title="$t('preview_sorting.list_view')" icon="list" />
+            <Option
+                v-if="isList"
+                @click.native="changePreview('grid')"
+                :title="$t('preview_sorting.grid_view')"
+                icon="grid"
+            />
+            <Option
+                v-if="isGrid"
+                @click.native="changePreview('list')"
+                :title="$t('preview_sorting.list_view')"
+                icon="list"
+            />
         </OptionGroup>
         <OptionGroup :title="$t('Sorting')">
-            <Option @click.native.stop="sort('created_at')" :arrow="arrowForCreatedAtField" :title="$t('preview_sorting.sort_date')" icon="calendar" />
-            <Option @click.native.stop="sort('name')" :arrow="arrowForNameField" :title="$t('preview_sorting.sort_alphabet')" icon="alphabet" />
+            <Option
+                @click.native.stop="sort('created_at')"
+                :arrow="arrowForCreatedAtField"
+                :title="$t('preview_sorting.sort_date')"
+                icon="calendar"
+            />
+            <Option
+                @click.native.stop="sort('name')"
+                :arrow="arrowForNameField"
+                :title="$t('preview_sorting.sort_alphabet')"
+                icon="alphabet"
+            />
         </OptionGroup>
     </div>
 </template>

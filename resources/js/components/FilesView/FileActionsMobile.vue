@@ -1,7 +1,9 @@
 <template>
-    <div class="sticky top-14 z-[19] block overflow-x-auto whitespace-nowrap bg-white px-4 pb-3 dark:bg-dark-background lg:hidden">
+    <div
+        class="sticky top-14 z-[19] block overflow-x-auto whitespace-nowrap bg-white px-4 pb-3 dark:bg-dark-background lg:hidden"
+    >
         <!--Show Buttons-->
-		<slot v-if="!isMultiSelectMode" />
+        <slot v-if="!isMultiSelectMode" />
 
         <!-- Multi select mode -->
         <div v-if="isMultiSelectMode">

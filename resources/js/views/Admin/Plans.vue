@@ -12,10 +12,20 @@
             </div>
 
             <!--Datatable-->
-            <DatatableWrapper @data="plans = $event" @init="isLoading = false" api="/api/subscriptions/admin/plans" :paginator="true" :columns="columns" class="overflow-x-auto">
+            <DatatableWrapper
+                @data="plans = $event"
+                @init="isLoading = false"
+                api="/api/subscriptions/admin/plans"
+                :paginator="true"
+                :columns="columns"
+                class="overflow-x-auto"
+            >
                 <template slot-scope="{ row }">
                     <!--Metered subscription-->
-                    <tr v-if="config.subscriptionType === 'metered'" class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+                    <tr
+                        v-if="config.subscriptionType === 'metered'"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                    >
                         <td class="py-5 pr-3 md:pr-1">
                             <router-link
                                 class="text-sm font-bold"
@@ -73,10 +83,19 @@
                     </tr>
 
                     <!--Fixed subscription-->
-                    <tr v-if="config.subscriptionType === 'fixed'" class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+                    <tr
+                        v-if="config.subscriptionType === 'fixed'"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                    >
                         <td class="py-5 pr-3 md:pr-1">
                             <SwitchInput
-                                @input="$updateInput(`/subscriptions/admin/plans/${row.data.id}`, 'visible', row.data.attributes.visible)"
+                                @input="
+                                    $updateInput(
+                                        `/subscriptions/admin/plans/${row.data.id}`,
+                                        'visible',
+                                        row.data.attributes.visible
+                                    )
+                                "
                                 v-model="row.data.attributes.visible"
                                 :state="row.data.attributes.visible"
                                 class="switch"
@@ -144,7 +163,11 @@
         <!--Empty State-->
         <div v-if="config.isEmptyPlans" class="flex h-full items-center justify-center">
             <div class="text-center">
-                <img class="mb-6 inline-block w-28" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f9fe.svg" alt="transaction" />
+                <img
+                    class="mb-6 inline-block w-28"
+                    src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f9fe.svg"
+                    alt="transaction"
+                />
 
                 <h1 class="mb-1 text-2xl font-bold">
                     {{ $t('There is Nothing') }}

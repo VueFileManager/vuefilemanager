@@ -5,16 +5,16 @@
         <ToasterWrapper />
         <CookieDisclaimer />
 
-		<!--Show spinner before translations is loaded-->
+        <!--Show spinner before translations is loaded-->
         <Spinner v-if="!isLoaded" />
 
-		<!--Show warning bar when user functionality is restricted-->
+        <!--Show warning bar when user functionality is restricted-->
         <RestrictionWarningBar />
 
-		<!--App view-->
+        <!--App view-->
         <router-view v-if="isLoaded" />
 
-		<!--Background under popups-->
+        <!--Background under popups-->
         <Vignette />
     </div>
 </template>
@@ -26,94 +26,93 @@ import Spinner from './components/FilesView/Spinner'
 import Vignette from './components/Others/Vignette'
 import Alert from './components/FilesView/Alert'
 import RestrictionWarningBar from './components/Subscription/RestrictionWarningBar'
-import {mapGetters} from 'vuex'
-import {events} from './bus'
+import { mapGetters } from 'vuex'
+import { events } from './bus'
 
 export default {
-	name: 'App',
-	components: {
-		RestrictionWarningBar,
-		CookieDisclaimer,
-		ToasterWrapper,
-		Vignette,
-		Spinner,
-		Alert,
-	},
-	data() {
-		return {
-			isLoaded: false,
-		}
-	},
-	computed: {
-		...mapGetters(['config', 'user']),
-	},
-	watch: {
-		'config.defaultThemeMode': function () {
-			this.handleDarkMode()
-		},
-	},
-	methods: {
-		spotlightListener(e) {
-			if (e.key === 'k' && e.metaKey) {
-				events.$emit('spotlight:show')
-			}
-		},
-		handleDarkMode() {
-			const app = document.getElementsByTagName('html')[0]
-			const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)')
+    name: 'App',
+    components: {
+        RestrictionWarningBar,
+        CookieDisclaimer,
+        ToasterWrapper,
+        Vignette,
+        Spinner,
+        Alert,
+    },
+    data() {
+        return {
+            isLoaded: false,
+        }
+    },
+    computed: {
+        ...mapGetters(['config', 'user']),
+    },
+    watch: {
+        'config.defaultThemeMode': function () {
+            this.handleDarkMode()
+        },
+    },
+    methods: {
+        spotlightListener(e) {
+            if (e.key === 'k' && e.metaKey) {
+                events.$emit('spotlight:show')
+            }
+        },
+        handleDarkMode() {
+            const app = document.getElementsByTagName('html')[0]
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)')
 
-			if (this.config.defaultThemeMode === 'dark') {
-				app.classList.add('dark')
-				this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
-			} else if (this.config.defaultThemeMode === 'light') {
-				app.classList.remove('dark')
-				this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
-			} else if (this.config.defaultThemeMode === 'system' && prefersDarkScheme.matches) {
-				app.classList.add('dark')
-				this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
-			} else if (this.config.defaultThemeMode === 'system' && !prefersDarkScheme.matches) {
-				app.classList.remove('dark')
-				this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
-			}
-		},
-	},
-	beforeMount() {
-		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-			this.handleDarkMode()
-		})
+            if (this.config.defaultThemeMode === 'dark') {
+                app.classList.add('dark')
+                this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
+            } else if (this.config.defaultThemeMode === 'light') {
+                app.classList.remove('dark')
+                this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
+            } else if (this.config.defaultThemeMode === 'system' && prefersDarkScheme.matches) {
+                app.classList.add('dark')
+                this.$store.commit('UPDATE_DARK_MODE_STATUS', true)
+            } else if (this.config.defaultThemeMode === 'system' && !prefersDarkScheme.matches) {
+                app.classList.remove('dark')
+                this.$store.commit('UPDATE_DARK_MODE_STATUS', false)
+            }
+        },
+    },
+    beforeMount() {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            this.handleDarkMode()
+        })
 
-		// Commit config
-		this.$store.commit('INIT', {
-			config: this.$root.$data.config,
-		})
+        // Commit config
+        this.$store.commit('INIT', {
+            config: this.$root.$data.config,
+        })
 
-		// Get installation state
-		let installation = this.$root.$data.config.installation
+        // Get installation state
+        let installation = this.$root.$data.config.installation
 
-		// Redirect to setup wizard
-		if (installation === 'installation-needed') {
-			this.isLoaded = true
+        // Redirect to setup wizard
+        if (installation === 'installation-needed') {
+            this.isLoaded = true
 
-			if (window.location.pathname.split('/')[1] !== 'setup-wizard') {
-				this.$router.push({name: 'StatusCheck'})
-			}
-		} else {
-			this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale)
-				.then(() => {
-					this.isLoaded = true
-				})
-		}
-	},
-	created() {
-		if (this.$isWindows()) {
-			document.body.classList.add('windows')
-		}
+            if (window.location.pathname.split('/')[1] !== 'setup-wizard') {
+                this.$router.push({ name: 'StatusCheck' })
+            }
+        } else {
+            this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale).then(() => {
+                this.isLoaded = true
+            })
+        }
+    },
+    created() {
+        if (this.$isWindows()) {
+            document.body.classList.add('windows')
+        }
 
-		window.addEventListener('keydown', this.spotlightListener)
-	},
-	destroyed() {
-		window.removeEventListener('keydown', this.spotlightListener)
-	},
+        window.addEventListener('keydown', this.spotlightListener)
+    },
+    destroyed() {
+        window.removeEventListener('keydown', this.spotlightListener)
+    },
 }
 </script>
 
@@ -123,54 +122,54 @@ export default {
 @import '../sass/vuefilemanager/mixins';
 
 input:-webkit-autofill {
-	transition-delay: 999999999999s;
+    transition-delay: 999999999999s;
 }
 
 [v-cloak],
 [v-cloak] > * {
-	display: none;
+    display: none;
 }
 
 * {
-	outline: 0;
-	margin: 0;
-	padding: 0;
-	font-family: 'Nunito', sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	box-sizing: border-box;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-	font-size: 16px;
-	text-decoration: none;
-	color: $text;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-size: 16px;
+    text-decoration: none;
+    color: $text;
 }
 
 .vue-feather {
-	path,
-	circle,
-	line,
-	rect,
-	polyline,
-	ellipse,
-	polygon {
-		color: inherit;
-	}
+    path,
+    circle,
+    line,
+    rect,
+    polyline,
+    ellipse,
+    polygon {
+        color: inherit;
+    }
 }
 
 // Dark mode
 .dark {
-	* {
-		color: $dark_mode_text_primary;
-	}
+    * {
+        color: $dark_mode_text_primary;
+    }
 
-	body,
-	html {
-		background: $dark_mode_background;
-		color: $dark_mode_text_primary;
+    body,
+    html {
+        background: $dark_mode_background;
+        color: $dark_mode_text_primary;
 
-		img {
-			opacity: 0.95;
-		}
-	}
+        img {
+            opacity: 0.95;
+        }
+    }
 }
 </style>

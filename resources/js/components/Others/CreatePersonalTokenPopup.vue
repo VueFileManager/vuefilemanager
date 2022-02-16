@@ -3,7 +3,13 @@
         <PopupHeader :title="$t('popup_personal_token.title')" icon="key" />
 
         <PopupContent>
-            <ValidationObserver v-if="!token" @submit.prevent="createTokenForm" ref="createToken" v-slot="{ invalid }" tag="form">
+            <ValidationObserver
+                v-if="!token"
+                @submit.prevent="createTokenForm"
+                ref="createToken"
+                v-slot="{ invalid }"
+                tag="form"
+            >
                 <ValidationProvider tag="div" mode="passive" name="Token Name" rules="required" v-slot="{ errors }">
                     <AppInputText :title="$t('popup_personal_token.label')" :error="errors[0]" :is-last="true">
                         <input
@@ -31,7 +37,13 @@
             <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
                 {{ $t('global.cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="createTokenForm" button-style="theme" :loading="isLoading" :disabled="isLoading">
+            <ButtonBase
+                class="w-full"
+                @click.native="createTokenForm"
+                button-style="theme"
+                :loading="isLoading"
+                :disabled="isLoading"
+            >
                 {{ $t('personal_token.create_token') }}
             </ButtonBase>
         </PopupActions>

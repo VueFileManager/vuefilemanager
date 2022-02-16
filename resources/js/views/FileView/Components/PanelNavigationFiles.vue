@@ -54,8 +54,8 @@
                 @dragover.prevent="dragEnter"
                 @dragleave="dragLeave"
                 @drop="dragFinish($event)"
-                :class="{'border-theme': area}"
-                class="pl-5 -ml-5 rounded-lg border-2 border-dashed border-transparent"
+                :class="{ 'border-theme': area }"
+                class="-ml-5 rounded-lg border-2 border-dashed border-transparent pl-5"
             >
                 <!--Empty message-->
                 <small v-if="favourites.length === 0" class="text-xs text-gray-500 dark:text-gray-500" :key="0">
@@ -86,12 +86,9 @@
                             {{ folder.data.attributes.name }}
                         </span>
                     </div>
-					<div @click.stop="$removeFavourite(folder)" class="p-2 -m-2">
-						<x-icon
-							size="12"
-							class="mr-5 opacity-0 group-hover:opacity-100"
-						/>
-					</div>
+                    <div @click.stop="$removeFavourite(folder)" class="-m-2 p-2">
+                        <x-icon size="12" class="mr-5 opacity-0 group-hover:opacity-100" />
+                    </div>
                 </div>
             </div>
         </ContentGroup>

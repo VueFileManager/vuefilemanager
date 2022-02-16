@@ -10,8 +10,8 @@
             <!--VueFileManager ScreenShot-->
             <HeroScreenshot />
 
-			<!--Google Adsense banner-->
-			<div v-if="config.allowedAdsense" v-html="config.adsenseBanner01" class="min-h-[120px] mb-5"></div>
+            <!--Google Adsense banner-->
+            <div v-if="config.allowedAdsense" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
 
             <!--Main Features-->
             <MainFeatures />

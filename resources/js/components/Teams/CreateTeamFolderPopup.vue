@@ -11,7 +11,14 @@
             <!--Form to set team folder-->
             <ValidationObserver @submit.prevent="createTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">
                 <!--Set folder name-->
-                <ValidationProvider v-if="isNewFolderTeamCreation" tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                    v-if="isNewFolderTeamCreation"
+                    tag="div"
+                    mode="passive"
+                    name="Name"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
                         <input
                             v-model="name"
@@ -50,16 +57,16 @@
 
                 <!--Member list-->
                 <ValidationProvider tag="div" mode="passive" name="Members" rules="required" v-slot="{ errors }">
-					<AppInputText :title="$t('Your Members')" :error="errors[0]" :is-last="true">
-						<span v-if="errors[0]" class="error-message" style="margin-top: -5px">
-							{{ $t('Please add at least one member.') }}
-						</span>
+                    <AppInputText :title="$t('Your Members')" :error="errors[0]" :is-last="true">
+                        <span v-if="errors[0]" class="error-message" style="margin-top: -5px">
+                            {{ $t('Please add at least one member.') }}
+                        </span>
 
-						<TeamList v-model="invitations" />
+                        <TeamList v-model="invitations" />
 
-						<p v-if="Object.values(invitations).length === 0" class="text-xs dark:text-gray-500">
-							{{ $t('Please add at least one member into your Team Folders.') }}
-						</p>
+                        <p v-if="Object.values(invitations).length === 0" class="text-xs dark:text-gray-500">
+                            {{ $t('Please add at least one member into your Team Folders.') }}
+                        </p>
                     </AppInputText>
                 </ValidationProvider>
 
@@ -71,8 +78,17 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">{{ $t('popup_move_item.cancel') }} </ButtonBase>
-            <ButtonBase class="w-full" @click.native="createTeamFolder" button-style="theme" :loading="isLoading" :disabled="isLoading">{{ popupSubmit }} </ButtonBase>
+            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+                >{{ $t('popup_move_item.cancel') }}
+            </ButtonBase>
+            <ButtonBase
+                class="w-full"
+                @click.native="createTeamFolder"
+                button-style="theme"
+                :loading="isLoading"
+                :disabled="isLoading"
+                >{{ popupSubmit }}
+            </ButtonBase>
         </PopupActions>
     </PopupWrapper>
 </template>

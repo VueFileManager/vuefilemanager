@@ -4,7 +4,10 @@
             <FormLabel>
                 {{ page.data.attributes.title }}
             </FormLabel>
-            <AppInputSwitch :title="$t('admin_pages.form.visibility')" :description="$t('admin_pages.form.visibility_help')">
+            <AppInputSwitch
+                :title="$t('admin_pages.form.visibility')"
+                :description="$t('admin_pages.form.visibility_help')"
+            >
                 <SwitchInput @input="changeStatus" class="switch" :state="page.data.attributes.visibility" />
             </AppInputSwitch>
             <AppInputText :title="$t('admin_pages.form.title')">

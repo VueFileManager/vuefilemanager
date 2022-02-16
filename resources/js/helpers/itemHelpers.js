@@ -53,7 +53,10 @@ const itemHelpers = {
 
             // Download single item
             if (item && item.data.type !== 'folder') {
-                Vue.prototype.$downloadFile(item.data.attributes.file_url, item.data.attributes.name + '.' + item.data.attributes.mimetype)
+                Vue.prototype.$downloadFile(
+                    item.data.attributes.file_url,
+                    item.data.attributes.name + '.' + item.data.attributes.mimetype
+                )
 
                 return
             }
@@ -69,7 +72,9 @@ const itemHelpers = {
         Vue.prototype.$dissolveTeamFolder = function (folder) {
             events.$emit('confirm:open', {
                 title: i18n.t('Are you sure you want to dissolve this team?'),
-                message: i18n.t('All team members will lose access to your files and existing folder will be moved into your "Files" section.'),
+                message: i18n.t(
+                    'All team members will lose access to your files and existing folder will be moved into your "Files" section.'
+                ),
                 action: {
                     id: folder.data.id,
                     operation: 'dissolve-team-folder',
@@ -80,7 +85,9 @@ const itemHelpers = {
         Vue.prototype.$detachMeFromTeamFolder = function (folder) {
             events.$emit('confirm:open', {
                 title: i18n.t('Are you sure you want to leave this team folder?'),
-                message: i18n.t("You will don't have access to the files and all your previously uploaded content will be part of this Team Folder you are leaving."),
+                message: i18n.t(
+                    "You will don't have access to the files and all your previously uploaded content will be part of this Team Folder you are leaving."
+                ),
                 action: {
                     id: folder.data.id,
                     operation: 'leave-team-folder',

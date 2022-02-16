@@ -1,6 +1,14 @@
 <template>
-    <div class="relative block cursor-pointer lg:mr-2 lg:w-2 2xl:w-3" :style="{ height: bar.percentage + '%' }" @mouseover="isVisible = true" @mouseleave="isVisible = false">
-        <div v-if="isVisible" class="absolute -top-4 z-10 ml-1.5 -translate-y-full -translate-x-1/2 transform rounded-lg bg-gray-800 py-2 px-3 shadow-lg dark:bg-white">
+    <div
+        class="relative block cursor-pointer lg:mr-2 lg:w-2 2xl:w-3"
+        :style="{ height: bar.percentage + '%' }"
+        @mouseover="isVisible = true"
+        @mouseleave="isVisible = false"
+    >
+        <div
+            v-if="isVisible"
+            class="absolute -top-4 z-10 ml-1.5 -translate-y-full -translate-x-1/2 transform rounded-lg bg-gray-800 py-2 px-3 shadow-lg dark:bg-white"
+        >
             <b class="mb-2 block whitespace-nowrap text-xs text-white dark:text-gray-800">
                 {{ bar.created_at }}
             </b>

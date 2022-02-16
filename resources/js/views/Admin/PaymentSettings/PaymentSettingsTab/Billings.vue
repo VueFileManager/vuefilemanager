@@ -63,7 +63,13 @@
 
                 <AppInputText :title="$t('admin_settings.billings.postal_code')" class="w-full">
                     <input
-                        @input="$updateText('/admin/settings', 'billing_postal_code', billingInformation.billing_postal_code)"
+                        @input="
+                            $updateText(
+                                '/admin/settings',
+                                'billing_postal_code',
+                                billingInformation.billing_postal_code
+                            )
+                        "
                         v-model="billingInformation.billing_postal_code"
                         :placeholder="$t('admin_settings.billings.postal_code_plac')"
                         type="text"
@@ -84,7 +90,9 @@
 
             <AppInputText :title="$t('admin_settings.billings.phone_number')" :is-last="true">
                 <input
-                    @input="$updateText('/admin/settings', 'billing_phone_number', billingInformation.billing_phone_number)"
+                    @input="
+                        $updateText('/admin/settings', 'billing_phone_number', billingInformation.billing_phone_number)
+                    "
                     v-model="billingInformation.billing_phone_number"
                     :placeholder="$t('admin_settings.billings.phone_number_plac')"
                     type="text"

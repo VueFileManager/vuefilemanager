@@ -5,8 +5,18 @@
                 {{ $t('user_box_password.title') }}
             </FormLabel>
 
-            <AppInputText :title="$t('Reset User Password')" :description="$t('user_box_password.description')" :is-last="true">
-                <ButtonBase @click.native="requestPasswordResetEmail" :loading="isSendingRequest" :disabled="isSendingRequest" class="w-full sm:w-auto" button-style="theme">
+            <AppInputText
+                :title="$t('Reset User Password')"
+                :description="$t('user_box_password.description')"
+                :is-last="true"
+            >
+                <ButtonBase
+                    @click.native="requestPasswordResetEmail"
+                    :loading="isSendingRequest"
+                    :disabled="isSendingRequest"
+                    class="w-full sm:w-auto"
+                    button-style="theme"
+                >
                     {{ $t('admin_page_user.send_password_link') }}
                 </ButtonBase>
             </AppInputText>

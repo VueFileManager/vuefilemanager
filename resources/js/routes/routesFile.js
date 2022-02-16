@@ -15,7 +15,8 @@ const routesFile = [
             {
                 name: 'RecentUploads',
                 path: '/platform/recent-uploads',
-                component: () => import(/* webpackChunkName: "chunks/recent-uploads" */ '../views/FileView/RecentUploads'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/recent-uploads" */ '../views/FileView/RecentUploads'),
                 meta: {
                     requiresAuth: true,
                 },
@@ -23,7 +24,8 @@ const routesFile = [
             {
                 name: 'MySharedItems',
                 path: '/platform/my-shared-items',
-                component: () => import(/* webpackChunkName: "chunks/my-shared-items" */ '../views/FileView/MySharedItems'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/my-shared-items" */ '../views/FileView/MySharedItems'),
                 meta: {
                     requiresAuth: true,
                 },
@@ -47,7 +49,8 @@ const routesFile = [
             {
                 name: 'SharedWithMe',
                 path: '/platform/shared-with-me/:id?',
-                component: () => import(/* webpackChunkName: "chunks/shared-with-me" */ '../views/FileView/SharedWithMe'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/shared-with-me" */ '../views/FileView/SharedWithMe'),
                 meta: {
                     requiresAuth: true,
                 },

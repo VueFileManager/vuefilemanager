@@ -10,10 +10,15 @@
                 </AppInputText>
             </ValidationProvider>
 
-			<!--User Role-->
+            <!--User Role-->
             <ValidationProvider tag="div" mode="passive" name="permission" rules="required" v-slot="{ errors }">
                 <AppInputText :title="$t('admin_page_user.select_role')" :error="errors[0]">
-                    <SelectInput v-model="user.role" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
+                    <SelectInput
+                        v-model="user.role"
+                        :options="$translateSelectOptions(roles)"
+                        :placeholder="$t('admin_page_user.select_role')"
+                        :isError="errors[0]"
+                    />
                 </AppInputText>
             </ValidationProvider>
 
@@ -45,7 +50,14 @@
 
             <!--Password-->
             <div class="flex space-x-4">
-                <ValidationProvider tag="div" mode="passive" name="password" rules="required" v-slot="{ errors }" class="w-full">
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    name="password"
+                    rules="required"
+                    v-slot="{ errors }"
+                    class="w-full"
+                >
                     <AppInputText :title="$t('page_registration.label_pass')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="user.password"
@@ -56,8 +68,19 @@
                         />
                     </AppInputText>
                 </ValidationProvider>
-                <ValidationProvider tag="div" mode="passive" name="password confirm" rules="required" v-slot="{ errors }" class="w-full">
-                    <AppInputText :title="$t('page_registration.label_confirm_pass')" :error="errors[0]" :is-last="true">
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    name="password confirm"
+                    rules="required"
+                    v-slot="{ errors }"
+                    class="w-full"
+                >
+                    <AppInputText
+                        :title="$t('page_registration.label_confirm_pass')"
+                        :error="errors[0]"
+                        :is-last="true"
+                    >
                         <input
                             v-model="user.password_confirmation"
                             :placeholder="$t('admin_page_user.create_user.label_conf_pass')"
@@ -70,7 +93,13 @@
             </div>
         </div>
         <div class="form-group">
-            <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full sm:w-auto">
+            <ButtonBase
+                :disabled="isLoading"
+                :loading="isLoading"
+                button-style="theme"
+                type="submit"
+                class="w-full sm:w-auto"
+            >
                 {{ $t('admin_page_user.create_user.submit') }}
             </ButtonBase>
         </div>

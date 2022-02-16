@@ -6,11 +6,19 @@
         <div v-if="isPaymentOptionPage">
             <PopupContent>
                 <!--Stripe implementation-->
-                <PaymentMethod v-if="config.isStripe" driver="stripe" :description="$t('Pay by your credit card or Apple Pay')">
+                <PaymentMethod
+                    v-if="config.isStripe"
+                    driver="stripe"
+                    :description="$t('Pay by your credit card or Apple Pay')"
+                >
                     <div v-if="stripe.isGettingCheckoutLink" class="translate-y-3 scale-50 transform">
                         <Spinner />
                     </div>
-                    <span @click="payByStripe" :class="{ 'opacity-0': stripe.isGettingCheckoutLink }" class="text-theme cursor-pointer text-sm font-bold">
+                    <span
+                        @click="payByStripe"
+                        :class="{ 'opacity-0': stripe.isGettingCheckoutLink }"
+                        class="text-theme cursor-pointer text-sm font-bold"
+                    >
                         {{ $t('Select') }}
                     </span>
                 </PaymentMethod>
@@ -22,11 +30,19 @@
                         'mb-2 rounded-xl bg-light-background px-4 dark:bg-2x-dark-foreground': paypal.isMethodsLoaded,
                     }"
                 >
-                    <PaymentMethod @click.native="pickedPaymentMethod('paypal')" driver="paypal" :description="$t('Available PayPal Credit, Debit or Credit Card.')">
+                    <PaymentMethod
+                        @click.native="pickedPaymentMethod('paypal')"
+                        driver="paypal"
+                        :description="$t('Available PayPal Credit, Debit or Credit Card.')"
+                    >
                         <div v-if="paypal.isMethodLoading" class="translate-y-3 scale-50 transform">
                             <Spinner />
                         </div>
-                        <span v-if="!paypal.isMethodsLoaded" :class="{ 'opacity-0': paypal.isMethodLoading }" class="text-theme cursor-pointer text-sm font-bold">
+                        <span
+                            v-if="!paypal.isMethodsLoaded"
+                            :class="{ 'opacity-0': paypal.isMethodLoading }"
+                            class="text-theme cursor-pointer text-sm font-bold"
+                        >
                             {{ $t('Select') }}
                         </span>
                     </PaymentMethod>
@@ -36,7 +52,11 @@
                 </div>
 
                 <!--Paystack implementation-->
-                <PaymentMethod v-if="config.isPaystack" driver="paystack" :description="$t('Available Bank Account, USSD, Mobile Money, Apple Pay')">
+                <PaymentMethod
+                    v-if="config.isPaystack"
+                    driver="paystack"
+                    :description="$t('Available Bank Account, USSD, Mobile Money, Apple Pay')"
+                >
                     <paystack
                         v-if="user && config"
                         :channels="['bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer']"
@@ -67,18 +87,24 @@
         <!--Select Payment Plans-->
         <div v-if="!isPaymentOptionPage">
             <PopupContent v-if="plans">
-
-				<InfoBox v-if="plans.data.length === 0" class="!mb-0">
-					<p>There isn't any plan yet.</p>
-				</InfoBox>
+                <InfoBox v-if="plans.data.length === 0" class="!mb-0">
+                    <p>There isn't any plan yet.</p>
+                </InfoBox>
 
                 <!--Toggle yearly billing-->
                 <div v-if="hasYearlyPlans.length > 0" class="mb-2 px-5 text-right">
-                    <label :class="{ 'text-gray-400': !isSelectedYearlyPlans }" class="cursor-pointer text-xs font-bold">
+                    <label
+                        :class="{ 'text-gray-400': !isSelectedYearlyPlans }"
+                        class="cursor-pointer text-xs font-bold"
+                    >
                         {{ $t('Billed Annually') }}
                     </label>
                     <div class="relative inline-block w-12 select-none align-middle">
-                        <SwitchInput class="scale-75 transform" v-model="isSelectedYearlyPlans" :state="isSelectedYearlyPlans" />
+                        <SwitchInput
+                            class="scale-75 transform"
+                            v-model="isSelectedYearlyPlans"
+                            :state="isSelectedYearlyPlans"
+                        />
                     </div>
                 </div>
 
@@ -88,7 +114,9 @@
                         v-for="(plan, i) in plans.data"
                         :plan="plan"
                         :key="plan.data.id"
-                        v-if="plan.data.attributes.interval === intervalPlanType && userSubscribedPlanId !== plan.data.id"
+                        v-if="
+                            plan.data.attributes.interval === intervalPlanType && userSubscribedPlanId !== plan.data.id
+                        "
                         :is-selected="selectedPlan && selectedPlan.data.id === plan.data.id"
                         @click.native="selectPlan(plan)"
                     />
@@ -97,8 +125,16 @@
 
             <!--Actions-->
             <PopupActions>
-                <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">{{ $t('popup_move_item.cancel') }} </ButtonBase>
-                <ButtonBase class="w-full" v-if="plans.data.length !== 0" :button-style="buttonStyle" @click.native="isPaymentOptionPage = true">{{ $t('Upgrade Account') }} </ButtonBase>
+                <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+                    >{{ $t('popup_move_item.cancel') }}
+                </ButtonBase>
+                <ButtonBase
+                    class="w-full"
+                    v-if="plans.data.length !== 0"
+                    :button-style="buttonStyle"
+                    @click.native="isPaymentOptionPage = true"
+                    >{{ $t('Upgrade Account') }}
+                </ButtonBase>
             </PopupActions>
         </div>
     </PopupWrapper>
@@ -119,12 +155,12 @@ import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
 import Spinner from '../FilesView/Spinner'
-import InfoBox from "../Others/Forms/InfoBox";
+import InfoBox from '../Others/Forms/InfoBox'
 
 export default {
     name: 'SelectPlanSubscriptionPopup',
     components: {
-		InfoBox,
+        InfoBox,
         Spinner,
         PaymentMethod,
         paystack,
@@ -150,7 +186,11 @@ export default {
             return this.selectedPlan ? 'theme' : 'secondary'
         },
         userSubscribedPlanId() {
-            return this.user && this.user.data.relationships.subscription && this.user.data.relationships.subscription.data.relationships.plan.data.id
+            return (
+                this.user &&
+                this.user.data.relationships.subscription &&
+                this.user.data.relationships.subscription.data.relationships.plan.data.id
+            )
         },
         hasYearlyPlans() {
             return this.plans.data.filter((plan) => plan.data.attributes.interval === 'year')

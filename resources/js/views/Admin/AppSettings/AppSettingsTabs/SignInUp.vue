@@ -6,7 +6,10 @@
                 {{ $t('User Login/Registration') }}
             </FormLabel>
 
-            <AppInputSwitch :title="$t('admin_settings.others.allow_registration')" :description="$t('admin_settings.others.allow_registration_help')">
+            <AppInputSwitch
+                :title="$t('admin_settings.others.allow_registration')"
+                :description="$t('admin_settings.others.allow_registration_help')"
+            >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'registration', app.userRegistration)"
                     v-model="app.userRegistration"
@@ -15,7 +18,11 @@
                 />
             </AppInputSwitch>
 
-            <AppInputSwitch :title="$t('Require Email Verification')" :description="$t('admin_settings.others.allow_user_verification_help')" :is-last="true">
+            <AppInputSwitch
+                :title="$t('Require Email Verification')"
+                :description="$t('admin_settings.others.allow_user_verification_help')"
+                :is-last="true"
+            >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'user_verification', app.userVerification)"
                     v-model="app.userVerification"
@@ -29,7 +36,11 @@
         <div class="card shadow-card">
             <img :src="$getSocialLogo('facebook')" alt="Facebook" class="mb-8 h-5" />
 
-            <AppInputSwitch :title="$t('Allow Login via Facebook')" :description="$t('You users will be able to login via Facebook account.')" :is-last="!facebook.allowedService">
+            <AppInputSwitch
+                :title="$t('Allow Login via Facebook')"
+                :description="$t('You users will be able to login via Facebook account.')"
+                :is-last="!facebook.allowedService"
+            >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'allowed_facebook_login', facebook.allowedService)"
                     v-model="facebook.allowedService"
@@ -50,7 +61,9 @@
 
             <!--Set up facebook credentials-->
             <ValidationObserver
-                v-if="(!config.isFacebookLoginConfigured || facebook.isVisibleCredentialsForm) && facebook.allowedService"
+                v-if="
+                    (!config.isFacebookLoginConfigured || facebook.isVisibleCredentialsForm) && facebook.allowedService
+                "
                 @submit.prevent="storeCredentials('facebook_login')"
                 ref="credentialsForm"
                 v-slot="{ invalid }"
@@ -85,7 +98,13 @@
                     </AppInputText>
                 </ValidationProvider>
 
-                <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+                <ButtonBase
+                    :disabled="isLoading"
+                    :loading="isLoading"
+                    button-style="theme"
+                    type="submit"
+                    class="w-full"
+                >
                     {{ $t('Store Credentials') }}
                 </ButtonBase>
             </ValidationObserver>
@@ -95,7 +114,11 @@
         <div class="card shadow-card">
             <img :src="$getSocialLogo('google')" alt="Google" class="mb-8 h-7" />
 
-            <AppInputSwitch :title="$t('Allow Login via Google')" :description="$t('You users will be able to login via Google account.')" :is-last="!google.allowedService">
+            <AppInputSwitch
+                :title="$t('Allow Login via Google')"
+                :description="$t('You users will be able to login via Google account.')"
+                :is-last="!google.allowedService"
+            >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'allowed_google_login', google.allowedService)"
                     v-model="google.allowedService"
@@ -151,7 +174,13 @@
                     </AppInputText>
                 </ValidationProvider>
 
-                <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+                <ButtonBase
+                    :disabled="isLoading"
+                    :loading="isLoading"
+                    button-style="theme"
+                    type="submit"
+                    class="w-full"
+                >
                     {{ $t('Store Credentials') }}
                 </ButtonBase>
             </ValidationObserver>
@@ -161,7 +190,11 @@
         <div class="card shadow-card">
             <img :src="$getSocialLogo('github')" alt="Github" class="mb-8 h-5" />
 
-            <AppInputSwitch :title="$t('Allow Login via GitHub')" :description="$t('You users will be able to login via GitHub account.')" :is-last="!github.allowedService">
+            <AppInputSwitch
+                :title="$t('Allow Login via GitHub')"
+                :description="$t('You users will be able to login via GitHub account.')"
+                :is-last="!github.allowedService"
+            >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'allowed_github_login', github.allowedService)"
                     v-model="github.allowedService"
@@ -217,7 +250,13 @@
                     </AppInputText>
                 </ValidationProvider>
 
-                <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+                <ButtonBase
+                    :disabled="isLoading"
+                    :loading="isLoading"
+                    button-style="theme"
+                    type="submit"
+                    class="w-full"
+                >
                     {{ $t('Store Credentials') }}
                 </ButtonBase>
             </ValidationObserver>

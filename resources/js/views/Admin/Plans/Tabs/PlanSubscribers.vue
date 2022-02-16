@@ -10,7 +10,10 @@
         >
             <!--Table data content-->
             <template slot-scope="{ row }">
-                <tr v-if="config.subscriptionType === 'metered'" class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+                <tr
+                    v-if="config.subscriptionType === 'metered'"
+                    class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                >
                     <td class="py-3 pr-3 md:pr-1">
                         <router-link
                             class="flex items-center"
@@ -23,7 +26,10 @@
                         >
                             <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                             <div class="ml-3 pr-10">
-                                <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                                <b
+                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    style="max-width: 155px"
+                                >
                                     {{ row.data.relationships.user.data.attributes.name }}
                                 </b>
                                 <span class="block text-xs text-gray-600 dark:text-gray-500">
@@ -38,10 +44,17 @@
                         </span>
                     </td>
                     <td class="pl-3 text-right md:pl-1">
-                        <img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver" />
+                        <img
+                            class="inline-block max-h-5"
+                            :src="$getPaymentLogo(row.data.attributes.driver)"
+                            :alt="row.data.attributes.driver"
+                        />
                     </td>
                 </tr>
-                <tr v-if="config.subscriptionType === 'fixed'" class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+                <tr
+                    v-if="config.subscriptionType === 'fixed'"
+                    class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                >
                     <td class="py-3 pr-3 md:pr-1">
                         <router-link
                             class="flex items-center"
@@ -54,7 +67,10 @@
                         >
                             <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                             <div class="ml-3 pr-10">
-                                <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                                <b
+                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    style="max-width: 155px"
+                                >
                                     {{ row.data.relationships.user.data.attributes.name }}
                                 </b>
                                 <span class="block text-xs text-gray-600 dark:text-gray-500">
@@ -76,7 +92,11 @@
                     <td class="px-3 md:px-1">
                         <span class="text-sm font-bold">
                             <!--todo: update renew attribute-->
-                            {{ row.data.attributes.renews_at ? row.data.attributes.renews_at : row.data.attributes.created_at }}
+                            {{
+                                row.data.attributes.renews_at
+                                    ? row.data.attributes.renews_at
+                                    : row.data.attributes.created_at
+                            }}
                         </span>
                     </td>
                     <td class="px-3 md:px-1">
@@ -85,7 +105,11 @@
                         </span>
                     </td>
                     <td class="pl-3 text-right md:pl-1">
-                        <img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver" />
+                        <img
+                            class="inline-block max-h-5"
+                            :src="$getPaymentLogo(row.data.attributes.driver)"
+                            :alt="row.data.attributes.driver"
+                        />
                     </td>
                 </tr>
             </template>

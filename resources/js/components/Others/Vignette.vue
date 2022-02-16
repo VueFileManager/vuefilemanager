@@ -1,6 +1,10 @@
 <template>
     <transition name="vignette">
-        <div v-if="isVisible" class="vignette bg-dark-background bg-opacity-[0.35] dark:bg-opacity-[0.45]" @click="closePopup"></div>
+        <div
+            v-if="isVisible"
+            class="vignette bg-dark-background bg-opacity-[0.35] dark:bg-opacity-[0.45]"
+            @click="closePopup"
+        ></div>
     </transition>
 </template>
 

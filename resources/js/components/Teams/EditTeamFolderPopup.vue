@@ -39,11 +39,16 @@
                 <!--Member list-->
                 <ValidationProvider tag="div" mode="passive" name="Members" v-slot="{ errors }">
                     <label class="input-label">{{ $t('Your Members') }}:</label>
-                    <span v-if="errors[0]" class="error-message" style="margin-top: -5px">{{ $t('Please add at least one member.') }}</span>
+                    <span v-if="errors[0]" class="error-message" style="margin-top: -5px">{{
+                        $t('Please add at least one member.')
+                    }}</span>
                     <TeamList v-model="members" />
                     <TeamList v-model="invitations" />
 
-                    <p v-if="Object.values(members).length === 0 && Object.values(invitations).length === 0" class="text-xs dark:text-gray-500">
+                    <p
+                        v-if="Object.values(members).length === 0 && Object.values(invitations).length === 0"
+                        class="text-xs dark:text-gray-500"
+                    >
                         {{ $t('Please add at least one member into your Team Folder.') }}
                     </p>
                 </ValidationProvider>
@@ -52,7 +57,9 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">{{ $t('popup_move_item.cancel') }} </ButtonBase>
+            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+                >{{ $t('popup_move_item.cancel') }}
+            </ButtonBase>
             <ButtonBase
                 class="w-full"
                 @click.native="updateTeamFolder"

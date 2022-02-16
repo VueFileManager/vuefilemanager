@@ -14,16 +14,30 @@
         <!--Item thumbnail-->
         <div class="relative w-16 shrink-0">
             <!--Member thumbnail for team folders-->
-            <MemberAvatar v-if="user && canShowAuthor" :size="28" :is-border="true" :member="entry.data.relationships.owner" class="absolute right-1.5 -bottom-2 z-10" />
+            <MemberAvatar
+                v-if="user && canShowAuthor"
+                :size="28"
+                :is-border="true"
+                :member="entry.data.relationships.owner"
+                class="absolute right-1.5 -bottom-2 z-10"
+            />
 
             <!--Emoji Icon-->
-            <Emoji v-if="entry.data.attributes.emoji" :emoji="entry.data.attributes.emoji" class="ml-1 scale-110 transform text-5xl" />
+            <Emoji
+                v-if="entry.data.attributes.emoji"
+                :emoji="entry.data.attributes.emoji"
+                class="ml-1 scale-110 transform text-5xl"
+            />
 
             <!--Folder Icon-->
             <FolderIcon v-if="isFolder && !entry.data.attributes.emoji" :item="entry" />
 
             <!--File Icon-->
-            <FileIconThumbnail v-if="isFile || isVideo || isAudio || (isImage && !entry.data.attributes.thumbnail)" :entry="entry" class="pr-2" />
+            <FileIconThumbnail
+                v-if="isFile || isVideo || isAudio || (isImage && !entry.data.attributes.thumbnail)"
+                :entry="entry"
+                class="pr-2"
+            />
 
             <!--Image thumbnail-->
             <img
@@ -40,7 +54,7 @@
             <!--Item Title-->
             <b
                 class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm"
-				:class="{'hover:underline': canEditName}"
+                :class="{ 'hover:underline': canEditName }"
                 style="max-width: 240px"
                 ref="name"
                 @input="renameItem"
@@ -60,19 +74,23 @@
 
                 <!--File & Image sub line-->
                 <small v-if="!isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
-					{{ entry.data.attributes.filesize }}, {{ timeStamp }}
-				</small>
+                    {{ entry.data.attributes.filesize }}, {{ timeStamp }}
+                </small>
 
                 <!--Folder sub line-->
                 <small v-if="isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
-                    {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
+                    {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }},
+                    {{ timeStamp }}
                 </small>
             </div>
         </div>
 
         <!-- Mobile item action button-->
         <div v-if="mobileHandler && !isMultiSelectMode && $isMobile()" class="relative flex-grow pr-1 text-right">
-            <div @mouseup.stop="$openInDetailPanel(entry)" class="absolute right-10 -mr-4 hidden -translate-y-2/4 transform p-2.5 lg:block">
+            <div
+                @mouseup.stop="$openInDetailPanel(entry)"
+                class="absolute right-10 -mr-4 hidden -translate-y-2/4 transform p-2.5 lg:block"
+            >
                 <eye-icon size="18" class="vue-feather inline-block opacity-30" />
             </div>
             <div @mouseup.stop="showItemActions" class="absolute right-0 -mr-4 -translate-y-2/4 transform p-2.5">
@@ -149,7 +167,9 @@ export default {
             )
         },
         folderItems() {
-            return this.entry.data.attributes.deleted_at ? this.entry.data.attributes.trashed_items : this.entry.data.attributes.items
+            return this.entry.data.attributes.deleted_at
+                ? this.entry.data.attributes.trashed_items
+                : this.entry.data.attributes.items
         },
         canShowAuthor() {
             return !this.isFolder && this.user.data.id !== this.entry.data.relationships.owner.data.id
@@ -182,14 +202,14 @@ export default {
         this.itemName = this.entry.data.attributes.name
 
         // Change item name
-        events.$on('change:name', item => {
+        events.$on('change:name', (item) => {
             if (this.entry.data.id === item.id) {
-				this.itemName = item.name
-			}
+                this.itemName = item.name
+            }
         })
 
         // Autofocus after newly created folder
-        events.$on('newFolder:focus', id => {
+        events.$on('newFolder:focus', (id) => {
             if (!this.$isMobile() && this.entry.data.id === id) {
                 this.$refs.name.focus()
                 document.execCommand('selectAll')

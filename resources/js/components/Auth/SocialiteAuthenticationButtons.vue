@@ -1,5 +1,8 @@
 <template>
-    <div v-if="config.allowedFacebookLogin || config.allowedGoogleLogin || config.allowedGithubLogin" class="mb-10 flex items-center justify-center">
+    <div
+        v-if="config.allowedFacebookLogin || config.allowedGoogleLogin || config.allowedGithubLogin"
+        class="mb-10 flex items-center justify-center"
+    >
         <div v-if="config.allowedFacebookLogin" class="mx-5 cursor-pointer">
             <facebook-icon @click="socialiteRedirect('facebook')" />
         </div>

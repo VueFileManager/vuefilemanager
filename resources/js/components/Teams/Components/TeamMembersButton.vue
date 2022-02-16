@@ -5,7 +5,13 @@
                 {{ $t('Not selected') }}
             </span>
         </div>
-        <TeamMembersPreview v-else :folder="teamFolder" :limit="true" :avatar-size="size" class="justify-end md:justify-center" />
+        <TeamMembersPreview
+            v-else
+            :folder="teamFolder"
+            :limit="true"
+            :avatar-size="size"
+            class="justify-end md:justify-center"
+        />
     </div>
 </template>
 

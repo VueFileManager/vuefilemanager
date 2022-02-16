@@ -21,7 +21,10 @@
         </div>
 
         <!--Hidden options-->
-        <ul v-if="isOpenedMoreOptions" class="absolute top-12 left-0 right-0 z-10 select-none overflow-y-auto overflow-x-hidden rounded-lg shadow-xl">
+        <ul
+            v-if="isOpenedMoreOptions"
+            class="absolute top-12 left-0 right-0 z-10 select-none overflow-y-auto overflow-x-hidden rounded-lg shadow-xl"
+        >
             <li
                 @click="getQrCode"
                 class="block flex cursor-pointer items-center bg-white py-2.5 px-5 hover:bg-light-background dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground"
@@ -57,7 +60,11 @@
             </li>
         </ul>
 
-        <textarea v-model="iframeCode" ref="iframe" class="pointer-events-none absolute right-full opacity-0"></textarea>
+        <textarea
+            v-model="iframeCode"
+            ref="iframe"
+            class="pointer-events-none absolute right-full opacity-0"
+        ></textarea>
     </div>
 </template>
 

@@ -1,11 +1,17 @@
 <template>
-    <nav v-if="isVisibleNavigationBars" class="menu-bar z-10 hidden w-16 flex-none select-none bg-light-background pt-7 dark:bg-dark-foreground lg:grid xl:w-20">
+    <nav
+        v-if="isVisibleNavigationBars"
+        class="menu-bar z-10 hidden w-16 flex-none select-none bg-light-background pt-7 dark:bg-dark-foreground lg:grid xl:w-20"
+    >
         <!--Navigation-->
         <div v-if="user" class="mb-auto text-center">
             <MemberAvatar class="mx-auto inline-block" :size="44" :is-border="false" :member="user" />
 
             <!--Usage-->
-            <div v-if="config.subscriptionType === 'metered' && user.data.meta.usages" class="mt-1 text-center leading-3">
+            <div
+                v-if="config.subscriptionType === 'metered' && user.data.meta.usages"
+                class="mt-1 text-center leading-3"
+            >
                 <b class="text-theme block text-xs font-bold leading-3">
                     {{ user.data.meta.usages.costEstimate }}
                 </b>
@@ -24,7 +30,9 @@
                     :class="[{ 'router-link-active': isSection(item.section) }, item.icon]"
                     class="mb-1.5 block"
                 >
-                    <div class="button-icon text-theme inline-block cursor-pointer rounded-xl p-3 hover:bg-light-300 dark:hover:bg-4x-dark-foreground">
+                    <div
+                        class="button-icon text-theme inline-block cursor-pointer rounded-xl p-3 hover:bg-light-300 dark:hover:bg-4x-dark-foreground"
+                    >
                         <hard-drive-icon v-if="item.icon === 'home'" size="20" />
                         <settings-icon v-if="item.icon === 'settings'" size="20" />
                         <user-icon v-if="item.icon === 'user'" size="20" />
@@ -34,7 +42,9 @@
 
             <!--Toggle Dark/Light mode-->
             <div @click="$store.dispatch('toggleThemeMode')" :title="$t('dark_mode_toggle')" class="mt-6 block">
-                <div class="button-icon inline-block cursor-pointer rounded-xl p-3 hover:bg-light-300 dark:hover:bg-4x-dark-foreground">
+                <div
+                    class="button-icon inline-block cursor-pointer rounded-xl p-3 hover:bg-light-300 dark:hover:bg-4x-dark-foreground"
+                >
                     <sun-icon v-if="isDarkMode" size="20" />
                     <moon-icon v-if="!isDarkMode" size="20" />
                 </div>
@@ -57,7 +67,16 @@
 <script>
 import MemberAvatar from '../FilesView/MemberAvatar'
 import { mapGetters } from 'vuex'
-import { MoonIcon, SunIcon, HardDriveIcon, SettingsIcon, Trash2Icon, UserIcon, PowerIcon, ShareIcon } from 'vue-feather-icons'
+import {
+    MoonIcon,
+    SunIcon,
+    HardDriveIcon,
+    SettingsIcon,
+    Trash2Icon,
+    UserIcon,
+    PowerIcon,
+    ShareIcon,
+} from 'vue-feather-icons'
 
 export default {
     name: 'SidebarNavigation',

@@ -1,5 +1,7 @@
 <template>
-    <div class="flex items-center justify-between rounded-lg bg-light-background py-3 px-2 dark:bg-2x-dark-foreground md:px-4">
+    <div
+        class="flex items-center justify-between rounded-lg bg-light-background py-3 px-2 dark:bg-2x-dark-foreground md:px-4"
+    >
         <div class="flex items-center">
             <img :src="`/assets/gateways/${card.data.attributes.brand}.svg`" alt="" class="mr-3 h-5 rounded" />
             <b class="whitespace-nowrap text-sm font-bold capitalize leading-none">
@@ -26,7 +28,9 @@ export default {
         deleteCreditCard(id) {
             events.$emit('confirm:open', {
                 title: this.$t('Are you sure you want to delete your credit card?'),
-                message: this.$t('We will no longer settle your payments automatically and you will have to fund your account for the next payments.'),
+                message: this.$t(
+                    'We will no longer settle your payments automatically and you will have to fund your account for the next payments.'
+                ),
                 action: {
                     id: id,
                     operation: 'delete-credit-card',

@@ -5,7 +5,8 @@
             <div
                 class="z-20 bg-white pt-3 sm:pt-5"
                 :class="{
-                    'fixed top-0 left-0 right-0 z-10 rounded-none bg-white bg-opacity-70 px-6 backdrop-blur-lg backdrop-filter dark:bg-dark-foreground': fixedNav,
+                    'fixed top-0 left-0 right-0 z-10 rounded-none bg-white bg-opacity-70 px-6 backdrop-blur-lg backdrop-filter dark:bg-dark-foreground':
+                        fixedNav,
                     'card sticky top-0 z-10 block py-0 shadow-card md:hidden': !fixedNav,
                 }"
             >
@@ -19,8 +20,12 @@
                         :key="language.data.id"
                         class="border-bottom-theme inline-block border-b-2 border-transparent px-4 py-5 text-sm font-bold"
                         :class="{
-                            'text-theme router-link-active': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale,
-                            'text-gray-600': !selectedLanguage && selectedLanguage.data.attributes.locale !== language.data.attributes.locale,
+                            'text-theme router-link-active':
+                                selectedLanguage &&
+                                selectedLanguage.data.attributes.locale === language.data.attributes.locale,
+                            'text-gray-600':
+                                !selectedLanguage &&
+                                selectedLanguage.data.attributes.locale !== language.data.attributes.locale,
                         }"
                     >
                         {{ language.data.attributes.name }}
@@ -52,12 +57,19 @@
                         <label
                             class="text-base font-bold"
                             :class="{
-                                'text-theme': selectedLanguage && selectedLanguage.data.attributes.locale === language.data.attributes.locale,
+                                'text-theme':
+                                    selectedLanguage &&
+                                    selectedLanguage.data.attributes.locale === language.data.attributes.locale,
                             }"
                         >
                             {{ language.data.attributes.name }}
                         </label>
-                        <x-icon v-if="language.data.attributes.locale !== 'en'" @click.stop="deleteLanguage(language)" class="opacity-0 group-hover:opacity-100" size="12" />
+                        <x-icon
+                            v-if="language.data.attributes.locale !== 'en'"
+                            @click.stop="deleteLanguage(language)"
+                            class="opacity-0 group-hover:opacity-100"
+                            size="12"
+                        />
                     </div>
 
                     <!-- Create Language button -->
@@ -78,10 +90,22 @@
                             {{ $t('language_settings') }}
                         </FormLabel>
 
-                        <ValidationProvider tag="div" mode="passive" name="Language name" rules="required" v-slot="{ errors }">
+                        <ValidationProvider
+                            tag="div"
+                            mode="passive"
+                            name="Language name"
+                            rules="required"
+                            v-slot="{ errors }"
+                        >
                             <AppInputText :title="$t('language_name')" :error="errors[0]">
                                 <input
-                                    @input="$updateText(`/admin/languages/${selectedLanguage.data.id}`, 'name', selectedLanguage.data.attributes.name)"
+                                    @input="
+                                        $updateText(
+                                            `/admin/languages/${selectedLanguage.data.id}`,
+                                            'name',
+                                            selectedLanguage.data.attributes.name
+                                        )
+                                    "
                                     v-model="selectedLanguage.data.attributes.name"
                                     :placeholder="$t('admin_settings.appearance.description_plac')"
                                     type="text"
@@ -93,14 +117,19 @@
 
                         <AppInputSwitch
                             :title="$t('set_as_default_language')"
-                            :description="$t('If this language is set as default, app will appear in this language for all users.')"
+                            :description="
+                                $t(
+                                    'If this language is set as default, app will appear in this language for all users.'
+                                )
+                            "
                             :is-last="true"
                         >
                             <SwitchInput
                                 @input="setDefaultLanguage"
                                 class="switch"
                                 :class="{
-                                    'disable-switch': selectedLanguage.data.attributes.locale === this.defaultLanguageLocale,
+                                    'disable-switch':
+                                        selectedLanguage.data.attributes.locale === this.defaultLanguageLocale,
                                 }"
                                 :state="selectedLanguage.data.attributes.locale === this.defaultLanguageLocale"
                             />
@@ -126,10 +155,21 @@
                         </div>
 
                         <ValidationProvider tag="div" name="Language string" rules="required" v-slot="{ errors }">
-                            <AppInputText :title="referenceTranslations[key]" :error="errors[0]" v-for="(translation, key) in translationList" :key="key">
+                            <AppInputText
+                                :title="referenceTranslations[key]"
+                                :error="errors[0]"
+                                v-for="(translation, key) in translationList"
+                                :key="key"
+                            >
                                 <textarea
                                     v-model="selectedLanguage.data.attributes.translations[key]"
-                                    @input="$updateText(`/admin/languages/${selectedLanguage.data.id}/strings`, key, selectedLanguage.data.attributes.translations[key])"
+                                    @input="
+                                        $updateText(
+                                            `/admin/languages/${selectedLanguage.data.id}/strings`,
+                                            key,
+                                            selectedLanguage.data.attributes.translations[key]
+                                        )
+                                    "
                                     :rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
                                     class="focus-border-theme input-dark"
                                     :class="{ 'border-red': errors[0] }"
@@ -210,7 +250,9 @@ export default {
             return this.searchedTranslationResults && this.query !== ''
         },
         translationList() {
-            return this.isSearching ? this.searchedTranslationResults : this.selectedLanguage.data.attributes.translations
+            return this.isSearching
+                ? this.searchedTranslationResults
+                : this.selectedLanguage.data.attributes.translations
         },
     },
     methods: {

@@ -9,9 +9,22 @@
             <ThumbnailItem class="mb-5" :item="pickedItem" />
 
             <!--Form to set sharing-->
-            <ValidationObserver v-if="!isGeneratedShared" @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form">
+            <ValidationObserver
+                v-if="!isGeneratedShared"
+                @submit.prevent
+                ref="shareForm"
+                v-slot="{ invalid }"
+                tag="form"
+            >
                 <!--Permission Select-->
-                <ValidationProvider v-if="isFolder" tag="div" mode="passive" name="Permission" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                    v-if="isFolder"
+                    tag="div"
+                    mode="passive"
+                    name="Permission"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <AppInputText :title="$t('shared_form.label_permission')" :error="errors[0]">
                         <SelectInput
                             v-model="shareOptions.permission"
@@ -24,12 +37,26 @@
 
                 <!--Password Switch-->
                 <div>
-                    <AppInputSwitch :title="$t('shared_form.label_password_protection')" :description="$t('popup.share.password_description')">
-                        <SwitchInput v-model="shareOptions.isPassword" class="switch" :state="shareOptions.isPassword" />
+                    <AppInputSwitch
+                        :title="$t('shared_form.label_password_protection')"
+                        :description="$t('popup.share.password_description')"
+                    >
+                        <SwitchInput
+                            v-model="shareOptions.isPassword"
+                            class="switch"
+                            :state="shareOptions.isPassword"
+                        />
                     </AppInputSwitch>
 
                     <!--Set password-->
-                    <ValidationProvider v-if="shareOptions.isPassword" tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
+                    <ValidationProvider
+                        v-if="shareOptions.isPassword"
+                        tag="div"
+                        mode="passive"
+                        name="Password"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <AppInputText :error="errors[0]" class="-mt-2">
                             <input
                                 v-model="shareOptions.password"
@@ -50,19 +77,40 @@
 
                     <!--Set expiration-->
                     <AppInputText v-if="isExpiration" class="-mt-2">
-                        <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" class="box" />
+                        <SelectBoxInput
+                            v-model="shareOptions.expiration"
+                            :data="$translateSelectOptions(expirationList)"
+                            class="box"
+                        />
                     </AppInputText>
                 </div>
 
                 <!--Send on emails switch-->
                 <div>
-                    <AppInputSwitch :title="$t('popup.share.email_send')" :description="$t('popup.share.email_description')" :is-last="!isEmailSharing">
+                    <AppInputSwitch
+                        :title="$t('popup.share.email_send')"
+                        :description="$t('popup.share.email_description')"
+                        :is-last="!isEmailSharing"
+                    >
                         <SwitchInput v-model="isEmailSharing" class="switch" :state="isEmailSharing" />
                     </AppInputSwitch>
 
                     <!--Set expiration-->
-                    <ValidationProvider v-if="isEmailSharing" tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }" class="-mt-2">
-                        <MultiEmailInput rules="required" v-model="shareOptions.emails" :label="$t('shared_form.recipients_label')" :isError="errors[0]" />
+                    <ValidationProvider
+                        v-if="isEmailSharing"
+                        tag="div"
+                        mode="passive"
+                        name="Email"
+                        rules="required"
+                        v-slot="{ errors }"
+                        class="-mt-2"
+                    >
+                        <MultiEmailInput
+                            rules="required"
+                            v-model="shareOptions.emails"
+                            :label="$t('shared_form.recipients_label')"
+                            :isError="errors[0]"
+                        />
                     </ValidationProvider>
                 </div>
             </ValidationObserver>
@@ -78,7 +126,13 @@
             <ButtonBase v-if="!isGeneratedShared" class="w-full" @click.native="$closePopup()" button-style="secondary">
                 {{ $t('popup_move_item.cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="submitShareOptions" button-style="theme" :loading="isLoading" :disabled="isLoading">
+            <ButtonBase
+                class="w-full"
+                @click.native="submitShareOptions"
+                button-style="theme"
+                :loading="isLoading"
+                :disabled="isLoading"
+            >
                 {{ submitButtonText }}
             </ButtonBase>
         </PopupActions>
@@ -135,7 +189,9 @@ export default {
     computed: {
         ...mapGetters(['permissionOptions', 'expirationList']),
         itemTypeTitle() {
-            return this.pickedItem && this.pickedItem.data.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
+            return this.pickedItem && this.pickedItem.data.type === 'folder'
+                ? this.$t('types.folder')
+                : this.$t('types.file')
         },
         isFolder() {
             return this.pickedItem && this.pickedItem.data.type === 'folder'

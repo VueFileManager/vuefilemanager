@@ -18,7 +18,7 @@
             :entry="item"
             :highlight="true"
             :mobile-handler="true"
-			:can-hover="true"
+            :can-hover="true"
             @mouseup.stop.native="clickFilter"
             @dragstart.native="$emit('dragstart')"
             @drop.native="drop()"
@@ -184,7 +184,10 @@ export default {
 
                 events.$emit('file-preview:show')
             } else if (this.isFile || (!this.isFolder && !this.isVideo && !this.isAudio && !this.isImage)) {
-                this.$downloadFile(this.item.data.attributes.file_url, this.item.data.attributes.name + '.' + this.item.data.attributes.mimetype)
+                this.$downloadFile(
+                    this.item.data.attributes.file_url,
+                    this.item.data.attributes.name + '.' + this.item.data.attributes.mimetype
+                )
             } else if (this.isFolder) {
                 this.$goToFileView(this.item.data.id)
             }

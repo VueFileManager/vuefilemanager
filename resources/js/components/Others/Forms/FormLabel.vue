@@ -23,8 +23,8 @@
 
 <script>
 import {
-	InfoIcon,
-	DatabaseIcon,
+    InfoIcon,
+    DatabaseIcon,
     UsersIcon,
     ShieldIcon,
     CreditCardIcon,
@@ -44,8 +44,8 @@ export default {
     name: 'FormLabel',
     props: ['icon'],
     components: {
-		InfoIcon,
-		DatabaseIcon,
+        InfoIcon,
+        DatabaseIcon,
         UsersIcon,
         CreditCardIcon,
         DollarSignIcon,

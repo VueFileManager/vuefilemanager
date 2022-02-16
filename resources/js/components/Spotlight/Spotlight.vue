@@ -1,17 +1,33 @@
 <template>
-    <div v-if="isVisible" @keyup.esc="exitSpotlight" @click.exact.self="exitSpotlight" tabindex="-1" class="fixed z-50 h-full w-full left-0 right-0 bottom-0 top-0 z-50 md:absolute dark:bg-dark-background bg-white md:bg-dark-background dark:md:bg-opacity-[0.45] md:bg-opacity-[0.35]">
-        <div class="relative z-50 mx-auto w-full overflow-y-auto md:mt-8 md:max-w-xl md:rounded-xl 2xl:mt-20 md:bg-white dark:md:bg-2x-dark-foreground md:shadow-xl">
+    <div
+        v-if="isVisible"
+        @keyup.esc="exitSpotlight"
+        @click.exact.self="exitSpotlight"
+        tabindex="-1"
+        class="fixed left-0 right-0 bottom-0 top-0 z-50 z-50 h-full w-full bg-white dark:bg-dark-background md:absolute md:bg-dark-background md:bg-opacity-[0.35] dark:md:bg-opacity-[0.45]"
+    >
+        <div
+            class="relative z-50 mx-auto w-full overflow-y-auto md:mt-8 md:max-w-xl md:rounded-xl md:bg-white md:shadow-xl dark:md:bg-2x-dark-foreground 2xl:mt-20"
+        >
             <!--Query bar-->
             <div class="z-50 mx-auto flex items-center px-5 py-4">
                 <div class="relative mr-4">
                     <div v-if="isLoading" class="spinner-icon origin-center translate-y-2.5 scale-50 transform">
                         <Spinner />
                     </div>
-                    <search-icon :class="{ 'opacity-0': isLoading }" size="22" class="magnify dark-text-theme text-theme vue-feather" />
+                    <search-icon
+                        :class="{ 'opacity-0': isLoading }"
+                        size="22"
+                        class="magnify dark-text-theme text-theme vue-feather"
+                    />
                 </div>
 
                 <!--Filter-->
-                <div v-if="activeFilter" @click="removeFilter" class="mr-3 flex cursor-pointer items-center rounded-lg bg-light-background px-2 py-1 dark:bg-4x-dark-foreground">
+                <div
+                    v-if="activeFilter"
+                    @click="removeFilter"
+                    class="mr-3 flex cursor-pointer items-center rounded-lg bg-light-background px-2 py-1 dark:bg-4x-dark-foreground"
+                >
                     <b class="dark-text-theme -mt-0.5 pr-1.5 text-sm font-bold">
                         {{ activeFilter }}
                     </b>
@@ -44,12 +60,21 @@
             </div>
 
             <!--Show tips-->
-            <div v-if="isEmptyQuery && !activeFilter && ! $isThisRoute($route, ['Public'])" class="relative z-50 px-4 pb-4">
+            <div
+                v-if="isEmptyQuery && !activeFilter && !$isThisRoute($route, ['Public'])"
+                class="relative z-50 px-4 pb-4"
+            >
                 <CategoryName>
                     {{ $t('Suggested Filters') }}
                 </CategoryName>
 
-                <FilterSuggestion v-for="filter in filters" :key="filter.slug" :keyword="filter.keyword" :description="filter.description" @click.native="setFilter(filter.slug)" />
+                <FilterSuggestion
+                    v-for="filter in filters"
+                    :key="filter.slug"
+                    :keyword="filter.keyword"
+                    :description="filter.description"
+                    @click.native="setFilter(filter.slug)"
+                />
             </div>
 
             <!--Results-->
@@ -68,30 +93,126 @@
                                 'rounded-xl bg-light-background dark:bg-4x-dark-foreground': i === index,
                             }"
                         >
-                            <settings-icon v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)" size="18" class="vue-feather text-theme" />
-                            <credit-card-icon v-if="result.action.value === 'AppPayments'" size="18" class="vue-feather text-theme" />
-                            <home-icon v-if="result.action.value === 'Files'" size="18" class="vue-feather text-theme" />
-                            <trash2-icon v-if="result.action.value === 'Trash'" size="18" class="vue-feather text-theme" />
-                            <database-icon v-if="['CreateFixedPlan', 'CreateMeteredPlan'].includes(result.action.value)" size="18" class="vue-feather text-theme" />
-                            <user-plus-icon v-if="result.action.value === 'UserCreate'" size="18" class="vue-feather text-theme" />
-                            <users-icon v-if="['TeamFolders', 'Users'].includes(result.action.value)" size="18" class="vue-feather text-theme" />
-                            <user-check-icon v-if="result.action.value === 'SharedWithMe'" size="18" class="vue-feather text-theme" />
-                            <link-icon v-if="result.action.value === 'MySharedItems'" size="18" class="vue-feather text-theme" />
-                            <upload-cloud-icon v-if="result.action.value === 'RecentUploads'" size="18" class="vue-feather text-theme" />
-                            <file-text-icon v-if="['Invoices', 'Invoice'].includes(result.action.value)" size="18" class="vue-feather text-theme" />
-                            <database-icon v-if="result.action.value === 'Plans'" size="18" class="vue-feather text-theme" />
-                            <dollar-sign-icon v-if="['Subscriptions', 'Billing'].includes(result.action.value)" size="18" class="vue-feather text-theme" />
-                            <globe-icon v-if="result.action.value === 'Language'" size="18" class="vue-feather text-theme" />
-                            <monitor-icon v-if="result.action.value === 'Pages'" size="18" class="vue-feather text-theme" />
-                            <box-icon v-if="result.action.value === 'Dashboard'" size="18" class="vue-feather text-theme" />
-                            <hard-drive-icon v-if="result.action.value === 'Storage'" size="18" class="vue-feather text-theme" />
-                            <moon-icon v-if="result.action.value === 'dark-mode'" size="18" class="vue-feather text-theme" />
-                            <maximize2-icon v-if="result.action.value === 'full-screen-mode'" size="18" class="vue-feather text-theme" />
-                            <power-icon v-if="result.action.value === 'log-out'" size="18" class="vue-feather text-theme" />
-                            <trash-icon v-if="result.action.value === 'empty-trash'" size="18" class="vue-feather text-theme" />
-                            <grid-icon v-if="result.action.value === 'toggle-grid-list'" size="18" class="vue-feather text-theme" />
-                            <smile-icon v-if="result.action.value === 'toggle-emoji'" size="18" class="vue-feather text-theme" />
-                            <folder-plus-icon v-if="result.action.value === 'create-team-folder'" size="18" class="vue-feather text-theme" />
+                            <settings-icon
+                                v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <credit-card-icon
+                                v-if="result.action.value === 'AppPayments'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <home-icon
+                                v-if="result.action.value === 'Files'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <trash2-icon
+                                v-if="result.action.value === 'Trash'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <database-icon
+                                v-if="['CreateFixedPlan', 'CreateMeteredPlan'].includes(result.action.value)"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <user-plus-icon
+                                v-if="result.action.value === 'UserCreate'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <users-icon
+                                v-if="['TeamFolders', 'Users'].includes(result.action.value)"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <user-check-icon
+                                v-if="result.action.value === 'SharedWithMe'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <link-icon
+                                v-if="result.action.value === 'MySharedItems'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <upload-cloud-icon
+                                v-if="result.action.value === 'RecentUploads'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <file-text-icon
+                                v-if="['Invoices', 'Invoice'].includes(result.action.value)"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <database-icon
+                                v-if="result.action.value === 'Plans'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <dollar-sign-icon
+                                v-if="['Subscriptions', 'Billing'].includes(result.action.value)"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <globe-icon
+                                v-if="result.action.value === 'Language'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <monitor-icon
+                                v-if="result.action.value === 'Pages'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <box-icon
+                                v-if="result.action.value === 'Dashboard'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <hard-drive-icon
+                                v-if="result.action.value === 'Storage'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <moon-icon
+                                v-if="result.action.value === 'dark-mode'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <maximize2-icon
+                                v-if="result.action.value === 'full-screen-mode'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <power-icon
+                                v-if="result.action.value === 'log-out'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <trash-icon
+                                v-if="result.action.value === 'empty-trash'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <grid-icon
+                                v-if="result.action.value === 'toggle-grid-list'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <smile-icon
+                                v-if="result.action.value === 'toggle-emoji'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
+                            <folder-plus-icon
+                                v-if="result.action.value === 'create-team-folder'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
 
                             <b class="ml-3.5 text-sm font-bold">
                                 {{ result.title }}
@@ -122,7 +243,10 @@
                     >
                         <MemberAvatar :is-border="false" :size="44" :member="result" />
                         <div class="ml-3">
-                            <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                            <b
+                                class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                style="max-width: 155px"
+                            >
                                 {{ result.data.attributes.name }}
                             </b>
                             <span class="block text-xs text-gray-600 dark:text-gray-500">
@@ -145,12 +269,17 @@
 
                     <!--Keyboard shortcut hint-->
                     <div v-if="!$isMobile()" class="absolute right-4 top-1/2 -translate-y-1/2 transform">
-                        <span class="text-xs text-gray-400">{{ i + actions.length === 0 ? '↵' : metaKeyIcon + (i + actions.length) }}</span>
+                        <span class="text-xs text-gray-400">{{
+                            i + actions.length === 0 ? '↵' : metaKeyIcon + (i + actions.length)
+                        }}</span>
                     </div>
                 </div>
 
                 <!--Show Empty message-->
-                <span v-if="results.length === 0 && actions.length === 0" class="p-2.5 text-sm text-gray-700 dark:text-gray-400">
+                <span
+                    v-if="results.length === 0 && actions.length === 0"
+                    class="p-2.5 text-sm text-gray-700 dark:text-gray-400"
+                >
                     {{ $t('messages.nothing_was_found') }}
                 </span>
             </div>
@@ -172,7 +301,7 @@ import KeyboardHints from './KeyboardHints'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import {
-	FolderPlusIcon,
+    FolderPlusIcon,
     SmileIcon,
     BoxIcon,
     CreditCardIcon,
@@ -203,7 +332,7 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'Spotlight',
     components: {
-		FolderPlusIcon,
+        FolderPlusIcon,
         SmileIcon,
         KeyboardHints,
         CreditCardIcon,
@@ -381,31 +510,31 @@ export default {
                         value: 'Billing',
                     },
                 },
-				{
-					title: this.$t('Empty Your Trash'),
-					action: {
-						type: 'function',
-						value: 'empty-trash',
-					},
-				},
-				{
-					title: this.$t('Log Out'),
-					action: {
-						type: 'function',
-						value: 'log-out',
-					},
-				},
+                {
+                    title: this.$t('Empty Your Trash'),
+                    action: {
+                        type: 'function',
+                        value: 'empty-trash',
+                    },
+                },
+                {
+                    title: this.$t('Log Out'),
+                    action: {
+                        type: 'function',
+                        value: 'log-out',
+                    },
+                },
             ]
 
-			let createList = [
-				{
-					title: this.$t('Create Team Folder'),
-					action: {
-						type: 'function',
-						value: 'create-team-folder',
-					},
-				},
-			]
+            let createList = [
+                {
+                    title: this.$t('Create Team Folder'),
+                    action: {
+                        type: 'function',
+                        value: 'create-team-folder',
+                    },
+                },
+            ]
 
             let functionList = [
                 {
@@ -442,12 +571,12 @@ export default {
                 })
             }
 
-			// Return commands for public page
-			if (this.$isThisRoute(this.$route, ['Public'])) {
-				return [].concat.apply([], [functionList])
-			}
+            // Return commands for public page
+            if (this.$isThisRoute(this.$route, ['Public'])) {
+                return [].concat.apply([], [functionList])
+            }
 
-			// Return commands for logged admin
+            // Return commands for logged admin
             if (this.user.data.attributes.role === 'admin') {
                 // Available only for fixed subscription
                 if (this.config.subscriptionType === 'fixed') {
@@ -461,7 +590,10 @@ export default {
                 }
 
                 // Available only when is metered billing and plan doesnt exist or when is fixed billing
-                if ((this.config.subscriptionType === 'metered' && !this.config.isCreatedMeteredPlan) || this.config.subscriptionType === 'fixed') {
+                if (
+                    (this.config.subscriptionType === 'metered' && !this.config.isCreatedMeteredPlan) ||
+                    this.config.subscriptionType === 'fixed'
+                ) {
                     adminActions.push({
                         title: this.$t('Create Plan'),
                         action: {
@@ -471,11 +603,14 @@ export default {
                     })
                 }
 
-                return [].concat.apply([], [functionList, createList, userSettings, fileLocations, adminLocations, adminActions])
+                return [].concat.apply(
+                    [],
+                    [functionList, createList, userSettings, fileLocations, adminLocations, adminActions]
+                )
             }
 
-			// Return commands for logged user
-			if (this.user.data.attributes.role === 'user') {
+            // Return commands for logged user
+            if (this.user.data.attributes.role === 'user') {
                 return [].concat.apply([], [functionList, createList, userSettings, fileLocations])
             }
         },
@@ -533,7 +668,9 @@ export default {
 
             // Browse actions
             if (!this.activeFilter) {
-                this.actions = this.actionList.filter((el) => el.title.toLowerCase().indexOf(formattedQuery) > -1).slice(0, 3)
+                this.actions = this.actionList
+                    .filter((el) => el.title.toLowerCase().indexOf(formattedQuery) > -1)
+                    .slice(0, 3)
             }
 
             this.findResult(formattedQuery)
@@ -623,16 +760,15 @@ export default {
         openItem(file) {
             // Show folder
             if (file.data.type === 'folder') {
-
-				if (this.$isThisRoute(this.$route, ['Public'])) {
-					this.$router.push({
-						name: 'Public',
-						params: {
-							token: this.sharedDetail.data.attributes.token,
-							id: file.data.id,
-						},
-					})
-				} else if (file.data.attributes.isTeamFolder) {
+                if (this.$isThisRoute(this.$route, ['Public'])) {
+                    this.$router.push({
+                        name: 'Public',
+                        params: {
+                            token: this.sharedDetail.data.attributes.token,
+                            id: file.data.id,
+                        },
+                    })
+                } else if (file.data.attributes.isTeamFolder) {
                     if (file.data.relationships.owner.data.id === this.user.data.id) {
                         this.$router.push({
                             name: 'TeamFolders',
@@ -657,7 +793,10 @@ export default {
 
                     events.$emit('file-preview:show')
                 } else {
-                    this.$downloadFile(file.data.attributes.file_url, file.data.attributes.name + '.' + file.data.attributes.mimetype)
+                    this.$downloadFile(
+                        file.data.attributes.file_url,
+                        file.data.attributes.name + '.' + file.data.attributes.mimetype
+                    )
                 }
             }
 
@@ -671,8 +810,8 @@ export default {
 
             // Get route
             let route = this.$store.getters.sharedDetail
-				? `/api/browse/search/${this.$router.currentRoute.params.token}`
-				: '/api/browse/search'
+                ? `/api/browse/search/${this.$router.currentRoute.params.token}`
+                : '/api/browse/search'
 
             axios
                 .get(`${route}?filter=${this.activeFilter}`, {

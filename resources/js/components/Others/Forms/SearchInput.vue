@@ -6,7 +6,14 @@
         <div @click="clearInput" v-if="query" class="icon">
             <x-icon class="pointer" size="19"></x-icon>
         </div>
-        <input v-model="query" @input="$emit('input', query)" class="query focus-border-theme" type="text" name="searchInput" :placeholder="$t('search_translations')" />
+        <input
+            v-model="query"
+            @input="$emit('input', query)"
+            class="query focus-border-theme"
+            type="text"
+            name="searchInput"
+            :placeholder="$t('search_translations')"
+        />
     </div>
 </template>
 

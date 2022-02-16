@@ -4,7 +4,11 @@
             <OptionGroup v-if="item && isFolder">
                 <Option
                     @click.native="addToFavourites"
-                    :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')"
+                    :title="
+                        isInFavourites
+                            ? $t('context_menu.remove_from_favourites')
+                            : $t('context_menu.add_to_favourites')
+                    "
                     icon="favourites"
                 />
             </OptionGroup>
@@ -15,8 +19,17 @@
                 <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
             <OptionGroup v-if="item">
-                <Option @click.native="$shareFileOrFolder(item)" :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
-                <Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Edit Team Members')" icon="users" />
+                <Option
+                    @click.native="$shareFileOrFolder(item)"
+                    :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')"
+                    icon="share"
+                />
+                <Option
+                    @click.native="$updateTeamFolder(item)"
+                    v-if="isFolder"
+                    :title="$t('Edit Team Members')"
+                    icon="users"
+                />
             </OptionGroup>
 
             <OptionGroup v-if="item">
@@ -30,8 +43,18 @@
                 <OptionUpload :title="$t('actions.upload_folder')" type="folder" :is-hover-disabled="true" />
             </OptionGroup>
             <OptionGroup :title="$t('Create')">
-                <Option @click.stop.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" :is-hover-disabled="true" />
-                <Option @click.stop.native="createFolder" :title="$t('actions.create_folder')" icon="folder-plus" :is-hover-disabled="true" />
+                <Option
+                    @click.stop.native="$createTeamFolder"
+                    :title="$t('Create Team Folder')"
+                    icon="users"
+                    :is-hover-disabled="true"
+                />
+                <Option
+                    @click.stop.native="createFolder"
+                    :title="$t('actions.create_folder')"
+                    icon="folder-plus"
+                    :is-hover-disabled="true"
+                />
             </OptionGroup>
         </MobileCreateMenu>
 
@@ -57,7 +80,12 @@
                 :class="{ 'is-inactive': clipboard.length < 1 }"
                 :action="$t('actions.delete')"
             />
-            <ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
+            <ToolbarButton
+                @click.native="$downloadSelection(item)"
+                class="action-btn"
+                source="download"
+                :action="$t('actions.download')"
+            />
         </MobileMultiSelectToolbar>
 
         <ContextMenu>
@@ -65,7 +93,11 @@
                 <OptionGroup v-if="!isTeamFolderHomepage">
                     <OptionUpload :title="$t('actions.upload')" type="file" />
                     <OptionUpload :title="$t('actions.upload_folder')" type="folder" />
-                    <Option @click.stop.native="$createFolder" :title="$t('actions.create_folder')" icon="folder-plus" />
+                    <Option
+                        @click.stop.native="$createFolder"
+                        :title="$t('actions.create_folder')"
+                        icon="folder-plus"
+                    />
                 </OptionGroup>
                 <OptionGroup v-if="isTeamFolderHomepage">
                     <Option @click.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" />
@@ -76,26 +108,45 @@
                 <OptionGroup v-if="isFolder">
                     <Option
                         @click.native="addToFavourites"
-                        :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')"
+                        :title="
+                            isInFavourites
+                                ? $t('context_menu.remove_from_favourites')
+                                : $t('context_menu.add_to_favourites')
+                        "
                         icon="favourites"
                     />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+                    <Option
+                        @click.native="$renameFileOrFolder(item)"
+                        :title="$t('context_menu.rename')"
+                        icon="rename"
+                    />
                     <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
                     <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option
                         @click.native="$shareFileOrFolder(item)"
-                        :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')"
+                        :title="
+                            item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')
+                        "
                         icon="share"
                     />
-                    <Option @click.native="$updateTeamFolder(item)" v-if="isFolder" :title="$t('Edit Team Members')" icon="users" />
+                    <Option
+                        @click.native="$updateTeamFolder(item)"
+                        v-if="isFolder"
+                        :title="$t('Edit Team Members')"
+                        icon="users"
+                    />
                 </OptionGroup>
                 <OptionGroup>
                     <Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
-                    <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+                    <Option
+                        @click.native="$downloadSelection(item)"
+                        :title="$t('context_menu.download')"
+                        icon="download"
+                    />
                 </OptionGroup>
             </template>
 
@@ -103,7 +154,11 @@
                 <OptionGroup v-if="!hasFile">
                     <Option
                         @click.native="addToFavourites"
-                        :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')"
+                        :title="
+                            isInFavourites
+                                ? $t('context_menu.remove_from_favourites')
+                                : $t('context_menu.add_to_favourites')
+                        "
                         icon="favourites"
                     />
                 </OptionGroup>
@@ -124,7 +179,11 @@
             <MobileActionButton @click.native="$showMobileMenu('file-filter')" :icon="$getCurrentSectionIcon()">
                 {{ $getCurrentSectionName() }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$showMobileMenu('create-list')" v-if="$checkPermission(['master', 'editor'])" icon="cloud-plus">
+            <MobileActionButton
+                @click.native="$showMobileMenu('create-list')"
+                v-if="$checkPermission(['master', 'editor'])"
+                icon="cloud-plus"
+            >
                 {{ $t('mobile.create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">

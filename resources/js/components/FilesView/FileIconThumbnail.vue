@@ -1,10 +1,19 @@
 <template>
     <div class="flex items-center justify-center">
-        <span class="text-theme absolute z-10 mx-auto mt-1 inline-block w-7 overflow-hidden text-ellipsis text-center font-semibold text-[9px]">
+        <span
+            class="text-theme absolute z-10 mx-auto mt-1 inline-block w-7 overflow-hidden text-ellipsis text-center text-[9px] font-semibold"
+        >
             {{ entry.data.attributes.mimetype }}
         </span>
 
-        <svg width="38px" height="51px" viewBox="0 0 38 51" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <svg
+            width="38px"
+            height="51px"
+            viewBox="0 0 38 51"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+        >
             <path
                 stroke-width="0"
                 fill="#f4f5f6"

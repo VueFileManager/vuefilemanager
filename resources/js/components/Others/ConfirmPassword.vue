@@ -23,7 +23,13 @@
             <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
                 {{ $t('global.cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="confirmPassword" button-style="theme" :loading="isLoading" :disabled="isLoading">
+            <ButtonBase
+                class="w-full"
+                @click.native="confirmPassword"
+                button-style="theme"
+                :loading="isLoading"
+                :disabled="isLoading"
+            >
                 {{ $t('popup_2fa.confirm_button') }}
             </ButtonBase>
         </PopupActions>

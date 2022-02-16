@@ -41,7 +41,7 @@
             <MobileToolbar />
 
             <!--Google Adsense banner-->
-            <div v-if="config.allowedAdsense" v-html="config.adsenseBanner01" class="min-h-[120px] mb-5"></div>
+            <div v-if="config.allowedAdsense" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
 
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden">

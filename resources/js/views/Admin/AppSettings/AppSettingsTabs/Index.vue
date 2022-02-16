@@ -7,7 +7,11 @@
                         {{ $t('Homepage') }}
                     </FormLabel>
 
-                    <AppInputSwitch :title="$t('Allow Homepage')" :description="$t('When this is turned on, your visitors can visit your default homepage.')" :is-last="true">
+                    <AppInputSwitch
+                        :title="$t('Allow Homepage')"
+                        :description="$t('When this is turned on, your visitors can visit your default homepage.')"
+                        :is-last="true"
+                    >
                         <SwitchInput
                             @input="$updateText('/admin/settings', 'allow_homepage', app.allow_homepage)"
                             v-model="app.allow_homepage"
@@ -27,7 +31,13 @@
 
                     <div class="block-wrapper">
                         <label>Title:</label>
-                        <ValidationProvider tag="div" mode="passive" name="App Title" rules="required" v-slot="{ errors }">
+                        <ValidationProvider
+                            tag="div"
+                            mode="passive"
+                            name="App Title"
+                            rules="required"
+                            v-slot="{ errors }"
+                        >
                             <input
                                 @input="$updateText('/admin/settings', 'header_title', app.header_title)"
                                 v-model="app.header_title"
@@ -41,7 +51,13 @@
 
                     <div class="block-wrapper">
                         <label>Description:</label>
-                        <ValidationProvider tag="div" mode="passive" name="App Description" rules="required" v-slot="{ errors }">
+                        <ValidationProvider
+                            tag="div"
+                            mode="passive"
+                            name="App Description"
+                            rules="required"
+                            v-slot="{ errors }"
+                        >
                             <textarea
                                 @input="$updateText('/admin/settings', 'header_description', app.header_description)"
                                 rows="2"
@@ -81,7 +97,13 @@
 
                         <div class="block-wrapper">
                             <label>Title:</label>
-                            <ValidationProvider tag="div" mode="passive" name="App Title" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="App Title"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <input
                                     @input="$updateText('/admin/settings', 'features_title', app.features_title)"
                                     v-model="app.features_title"
@@ -95,9 +117,17 @@
 
                         <div class="block-wrapper">
                             <label>Description:</label>
-                            <ValidationProvider tag="div" mode="passive" name="App Description" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="App Description"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <textarea
-                                    @input="$updateText('/admin/settings', 'features_description', app.features_description)"
+                                    @input="
+                                        $updateText('/admin/settings', 'features_description', app.features_description)
+                                    "
                                     rows="2"
                                     v-model="app.features_description"
                                     :class="{ 'border-red': errors[0] }"
@@ -120,7 +150,13 @@
                                     <label class="input-label"> Show section: </label>
                                 </div>
                                 <SwitchInput
-                                    @input="$updateText('/admin/settings', 'section_feature_boxes', app.section_feature_boxes)"
+                                    @input="
+                                        $updateText(
+                                            '/admin/settings',
+                                            'section_feature_boxes',
+                                            app.section_feature_boxes
+                                        )
+                                    "
                                     v-model="app.section_feature_boxes"
                                     class="switch"
                                     :state="app.section_feature_boxes"
@@ -135,7 +171,13 @@
                         </div>
                         <div class="block-wrapper">
                             <label>First Box Title:</label>
-                            <ValidationProvider tag="div" mode="passive" name="Feature Title 1" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="Feature Title 1"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <input
                                     @input="$updateText('/admin/settings', 'feature_title_1', app.feature_title_1)"
                                     v-model="app.feature_title_1"
@@ -148,9 +190,21 @@
                         </div>
                         <div class="block-wrapper">
                             <label>First Box Description:</label>
-                            <ValidationProvider tag="div" mode="passive" name="Feature Description 1" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="Feature Description 1"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <textarea
-                                    @input="$updateText('/admin/settings', 'feature_description_1', app.feature_description_1)"
+                                    @input="
+                                        $updateText(
+                                            '/admin/settings',
+                                            'feature_description_1',
+                                            app.feature_description_1
+                                        )
+                                    "
                                     rows="2"
                                     v-model="app.feature_description_1"
                                     :class="{ 'border-red': errors[0] }"
@@ -161,7 +215,13 @@
                         </div>
                         <div class="block-wrapper">
                             <label>Second Box Title:</label>
-                            <ValidationProvider tag="div" mode="passive" name="Feature Title 2" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="Feature Title 2"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <input
                                     @input="$updateText('/admin/settings', 'feature_title_2', app.feature_title_2)"
                                     v-model="app.feature_title_2"
@@ -174,9 +234,21 @@
                         </div>
                         <div class="block-wrapper">
                             <label>Second Box Description:</label>
-                            <ValidationProvider tag="div" mode="passive" name="Feature Description 2" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="Feature Description 2"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <textarea
-                                    @input="$updateText('/admin/settings', 'feature_description_2', app.feature_description_2)"
+                                    @input="
+                                        $updateText(
+                                            '/admin/settings',
+                                            'feature_description_2',
+                                            app.feature_description_2
+                                        )
+                                    "
                                     rows="2"
                                     v-model="app.feature_description_2"
                                     :class="{ 'border-red': errors[0] }"
@@ -187,7 +259,13 @@
                         </div>
                         <div class="block-wrapper">
                             <label>Third Box Title:</label>
-                            <ValidationProvider tag="div" mode="passive" name="Feature Title 3" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="Feature Title 3"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <input
                                     @input="$updateText('/admin/settings', 'feature_title_3', app.feature_title_3)"
                                     v-model="app.feature_title_3"
@@ -200,9 +278,21 @@
                         </div>
                         <div class="block-wrapper">
                             <label>Third Box Description:</label>
-                            <ValidationProvider tag="div" mode="passive" name="Feature Description 3" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="Feature Description 3"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <textarea
-                                    @input="$updateText('/admin/settings', 'feature_description_3', app.feature_description_3)"
+                                    @input="
+                                        $updateText(
+                                            '/admin/settings',
+                                            'feature_description_3',
+                                            app.feature_description_3
+                                        )
+                                    "
                                     rows="2"
                                     v-model="app.feature_description_3"
                                     :class="{ 'border-red': errors[0] }"
@@ -225,7 +315,13 @@
                                     <label class="input-label"> Show section: </label>
                                 </div>
                                 <SwitchInput
-                                    @input="$updateText('/admin/settings', 'section_pricing_content', app.section_pricing_content)"
+                                    @input="
+                                        $updateText(
+                                            '/admin/settings',
+                                            'section_pricing_content',
+                                            app.section_pricing_content
+                                        )
+                                    "
                                     v-model="app.section_pricing_content"
                                     class="switch"
                                     :state="app.section_pricing_content"
@@ -236,11 +332,21 @@
 
                     <div v-if="app.section_pricing_content">
                         <div class="block-wrapper">
-                            <img src="/assets/images/admin/pricing-content.jpg" alt="Main Features" class="page-image" />
+                            <img
+                                src="/assets/images/admin/pricing-content.jpg"
+                                alt="Main Features"
+                                class="page-image"
+                            />
                         </div>
                         <div class="block-wrapper">
                             <label>Title:</label>
-                            <ValidationProvider tag="div" mode="passive" name="App Title" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="App Title"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <input
                                     @input="$updateText('/admin/settings', 'pricing_title', app.pricing_title)"
                                     v-model="app.pricing_title"
@@ -254,9 +360,17 @@
 
                         <div class="block-wrapper">
                             <label>Description:</label>
-                            <ValidationProvider tag="div" mode="passive" name="App Description" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="App Description"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <textarea
-                                    @input="$updateText('/admin/settings', 'pricing_description', app.pricing_description)"
+                                    @input="
+                                        $updateText('/admin/settings', 'pricing_description', app.pricing_description)
+                                    "
                                     rows="2"
                                     v-model="app.pricing_description"
                                     :class="{ 'border-red': errors[0] }"
@@ -279,7 +393,9 @@
                                     <label class="input-label"> Show section: </label>
                                 </div>
                                 <SwitchInput
-                                    @input="$updateText('/admin/settings', 'section_get_started', app.section_get_started)"
+                                    @input="
+                                        $updateText('/admin/settings', 'section_get_started', app.section_get_started)
+                                    "
                                     v-model="app.section_get_started"
                                     class="switch"
                                     :state="app.section_get_started"
@@ -290,11 +406,21 @@
 
                     <div v-if="app.section_get_started">
                         <div class="block-wrapper">
-                            <img src="/assets/images/admin/get-started-content.jpg" alt="Main Features" class="page-image" />
+                            <img
+                                src="/assets/images/admin/get-started-content.jpg"
+                                alt="Main Features"
+                                class="page-image"
+                            />
                         </div>
                         <div class="block-wrapper">
                             <label>Title:</label>
-                            <ValidationProvider tag="div" mode="passive" name="App Title" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="App Title"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <input
                                     @input="$updateText('/admin/settings', 'get_started_title', app.get_started_title)"
                                     v-model="app.get_started_title"
@@ -308,9 +434,21 @@
 
                         <div class="block-wrapper">
                             <label>Description:</label>
-                            <ValidationProvider tag="div" mode="passive" name="App Description" rules="required" v-slot="{ errors }">
+                            <ValidationProvider
+                                tag="div"
+                                mode="passive"
+                                name="App Description"
+                                rules="required"
+                                v-slot="{ errors }"
+                            >
                                 <textarea
-                                    @input="$updateText('/admin/settings', 'get_started_description', app.get_started_description)"
+                                    @input="
+                                        $updateText(
+                                            '/admin/settings',
+                                            'get_started_description',
+                                            app.get_started_description
+                                        )
+                                    "
                                     rows="2"
                                     v-model="app.get_started_description"
                                     :class="{ 'border-red': errors[0] }"
@@ -328,7 +466,13 @@
 
                     <div class="block-wrapper">
                         <label>Footer content:</label>
-                        <ValidationProvider tag="div" mode="passive" name="App Title" rules="required" v-slot="{ errors }">
+                        <ValidationProvider
+                            tag="div"
+                            mode="passive"
+                            name="App Title"
+                            rules="required"
+                            v-slot="{ errors }"
+                        >
                             <input
                                 @input="$updateText('/admin/settings', 'footer_content', app.footer_content)"
                                 v-model="app.footer_content"

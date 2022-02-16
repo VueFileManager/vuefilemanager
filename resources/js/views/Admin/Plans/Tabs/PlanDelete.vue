@@ -4,7 +4,13 @@
             {{ $t('admin_page_plans.form.title_delete') }}
         </FormLabel>
         <ValidationObserver ref="deletePlan" @submit.prevent="deletePlan" v-slot="{ invalid }" tag="form">
-            <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Plan name" :rules="'required|is:' + plan.attributes.name">
+            <ValidationProvider
+                tag="div"
+                v-slot="{ errors }"
+                mode="passive"
+                name="Plan name"
+                :rules="'required|is:' + plan.attributes.name"
+            >
                 <AppInputText
                     :title="
                         $t('admin_page_user.label_delete_user', {
@@ -23,7 +29,13 @@
                             :class="{ 'border-red': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
-                        <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="w-full sm:w-auto">
+                        <ButtonBase
+                            :loading="isSendingRequest"
+                            :disabled="isSendingRequest"
+                            type="submit"
+                            button-style="danger"
+                            class="w-full sm:w-auto"
+                        >
                             {{ $t('admin_page_plans.delete_plan_button') }}
                         </ButtonBase>
                     </div>

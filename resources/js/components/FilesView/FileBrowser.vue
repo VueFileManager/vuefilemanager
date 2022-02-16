@@ -109,7 +109,7 @@ export default {
                     })
                 }
             } else {
-				console.log(data.data.type);
+                console.log(data.data.type)
                 // Get id from current folder
                 const id = data.data.type !== 'folder' ? this.currentFolder?.data.id : data.data.id
 
@@ -144,13 +144,3 @@ export default {
     },
 }
 </script>
-
-<style>
-.grid-view {
-    @apply grid grid-cols-3 content-start sm:grid-cols-4 lg:gap-2 xl:grid-cols-6 xl:gap-4;
-}
-
-.grid-view-sidebar {
-    @apply grid grid-cols-3 content-start md:grid-cols-2 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4 xl:gap-4 2xl:grid-cols-5;
-}
-</style>

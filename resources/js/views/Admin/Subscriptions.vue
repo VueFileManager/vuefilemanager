@@ -24,7 +24,10 @@
                         >
                             <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                             <div class="ml-3 pr-10">
-                                <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                                <b
+                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    style="max-width: 155px"
+                                >
                                     {{ row.data.relationships.user.data.attributes.name }}
                                 </b>
                                 <span class="block text-xs text-gray-600 dark:text-gray-500">
@@ -51,7 +54,11 @@
                     <td class="px-3 md:px-1">
                         <span class="text-sm font-bold">
                             <!--todo: update renew attribute-->
-                            {{ row.data.attributes.renews_at ? row.data.attributes.renews_at : row.data.attributes.created_at }}
+                            {{
+                                row.data.attributes.renews_at
+                                    ? row.data.attributes.renews_at
+                                    : row.data.attributes.created_at
+                            }}
                         </span>
                     </td>
                     <td class="px-3 md:px-1">
@@ -60,7 +67,11 @@
                         </span>
                     </td>
                     <td class="pl-3 text-right md:pl-1">
-                        <img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver" />
+                        <img
+                            class="inline-block max-h-5"
+                            :src="$getPaymentLogo(row.data.attributes.driver)"
+                            :alt="row.data.attributes.driver"
+                        />
                     </td>
                 </tr>
             </template>
@@ -69,7 +80,11 @@
         <!--Empty State-->
         <div v-if="config.isEmptySubscriptions" class="flex h-full items-center justify-center">
             <div class="text-center">
-                <img class="mb-6 inline-block w-28" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f5c3.svg" alt="transaction" />
+                <img
+                    class="mb-6 inline-block w-28"
+                    src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f5c3.svg"
+                    alt="transaction"
+                />
 
                 <h1 class="mb-1 text-2xl font-bold">
                     {{ $t('There is Nothing') }}

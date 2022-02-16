@@ -28,7 +28,13 @@
 
             <AppInputText :title="$t('GMT')" :is-last="true">
                 <SelectInput
-                    @input="$updateText('/user/settings', 'timezone', user.data.relationships.settings.data.attributes.timezone)"
+                    @input="
+                        $updateText(
+                            '/user/settings',
+                            'timezone',
+                            user.data.relationships.settings.data.attributes.timezone
+                        )
+                    "
                     v-model="user.data.relationships.settings.data.attributes.timezone"
                     :default="user.data.relationships.settings.data.attributes.timezone"
                     :options="timezones"
@@ -43,7 +49,13 @@
             </FormLabel>
             <AppInputText :title="$t('user_settings.address')">
                 <input
-                    @keyup="$updateText('/user/settings', 'address', user.data.relationships.settings.data.attributes.address)"
+                    @keyup="
+                        $updateText(
+                            '/user/settings',
+                            'address',
+                            user.data.relationships.settings.data.attributes.address
+                        )
+                    "
                     v-model="user.data.relationships.settings.data.attributes.address"
                     :placeholder="$t('user_settings.address_plac')"
                     type="text"
@@ -53,7 +65,9 @@
             <div class="flex space-x-4">
                 <AppInputText :title="$t('user_settings.city')" class="w-full">
                     <input
-                        @keyup="$updateText('/user/settings', 'city', user.data.relationships.settings.data.attributes.city)"
+                        @keyup="
+                            $updateText('/user/settings', 'city', user.data.relationships.settings.data.attributes.city)
+                        "
                         v-model="user.data.relationships.settings.data.attributes.city"
                         :placeholder="$t('user_settings.city_plac')"
                         type="text"
@@ -62,7 +76,13 @@
                 </AppInputText>
                 <AppInputText :title="$t('user_settings.postal_code')" class="w-full">
                     <input
-                        @keyup="$updateText('/user/settings', 'postal_code', user.data.relationships.settings.data.attributes.postal_code)"
+                        @keyup="
+                            $updateText(
+                                '/user/settings',
+                                'postal_code',
+                                user.data.relationships.settings.data.attributes.postal_code
+                            )
+                        "
                         v-model="user.data.relationships.settings.data.attributes.postal_code"
                         :placeholder="$t('user_settings.postal_code_plac')"
                         type="text"
@@ -72,7 +92,13 @@
             </div>
             <AppInputText :title="$t('user_settings.country')">
                 <SelectInput
-                    @input="$updateText('/user/settings', 'country', user.data.relationships.settings.data.attributes.country)"
+                    @input="
+                        $updateText(
+                            '/user/settings',
+                            'country',
+                            user.data.relationships.settings.data.attributes.country
+                        )
+                    "
                     v-model="user.data.relationships.settings.data.attributes.country"
                     :default="user.data.relationships.settings.data.attributes.country"
                     :options="countries"
@@ -81,7 +107,9 @@
             </AppInputText>
             <AppInputText :title="$t('user_settings.state')" :description="$t('State, county, province, or region.')">
                 <input
-                    @keyup="$updateText('/user/settings', 'state', user.data.relationships.settings.data.attributes.state)"
+                    @keyup="
+                        $updateText('/user/settings', 'state', user.data.relationships.settings.data.attributes.state)
+                    "
                     v-model="user.data.relationships.settings.data.attributes.state"
                     :placeholder="$t('user_settings.state_plac')"
                     type="text"
@@ -90,7 +118,13 @@
             </AppInputText>
             <AppInputText :title="$t('user_settings.phone_number')" :is-last="true">
                 <input
-                    @keyup="$updateText('/user/settings', 'phone_number', user.data.relationships.settings.data.attributes.phone_number)"
+                    @keyup="
+                        $updateText(
+                            '/user/settings',
+                            'phone_number',
+                            user.data.relationships.settings.data.attributes.phone_number
+                        )
+                    "
                     v-model="user.data.relationships.settings.data.attributes.phone_number"
                     :placeholder="$t('user_settings.phone_number_plac')"
                     type="text"
@@ -99,48 +133,60 @@
             </AppInputText>
         </div>
 
-		<div class="card shadow-card">
+        <div class="card shadow-card">
             <FormLabel>
                 {{ $t('Appearance') }}
             </FormLabel>
 
-            <AppInputText :title="$t('Theme Mode')" :description="$t('Set your theme mode on dark, light or based on your system settings.')" :is-last="!$isApple()">
+            <AppInputText
+                :title="$t('Theme Mode')"
+                :description="$t('Set your theme mode on dark, light or based on your system settings.')"
+                :is-last="!$isApple()"
+            >
                 <div class="items-center space-y-4 md:flex md:space-x-6 md:space-x-4 md:space-y-0">
                     <div
-						v-for="(theme, i) in themeSetup"
-						:key="i"
-						:title="theme.title"
-						@click="$store.dispatch('toggleThemeMode', theme.type)"
-						class="w-full cursor-pointer overflow-hidden rounded-xl border-3 shadow-lg"
-						:class="{
+                        v-for="(theme, i) in themeSetup"
+                        :key="i"
+                        :title="theme.title"
+                        @click="$store.dispatch('toggleThemeMode', theme.type)"
+                        class="w-full cursor-pointer overflow-hidden rounded-xl border-3 shadow-lg"
+                        :class="{
                             'border-theme': config.defaultThemeMode === theme.type,
                             'border-transparent': config.defaultThemeMode !== theme.type,
                         }"
-					>
-                        <img :src="theme.image" :alt="theme.type" class="w-full"/>
+                    >
+                        <img :src="theme.image" :alt="theme.type" class="w-full" />
                     </div>
                 </div>
             </AppInputText>
 
             <AppInputText
-				v-if="$isApple()"
-				:title="$t('Default Emojis')"
-				:description="$t('Set your default emojis for your folder custom icons. You can set Twemoji or default Apple emojis.')"
-				:is-last="true"
-			>
+                v-if="$isApple()"
+                :title="$t('Default Emojis')"
+                :description="
+                    $t(
+                        'Set your default emojis for your folder custom icons. You can set Twemoji or default Apple emojis.'
+                    )
+                "
+                :is-last="true"
+            >
                 <div class="items-center space-y-4 md:flex md:space-x-6 md:space-x-4 md:space-y-0">
                     <div
-						v-for="(emoji, i) in emojiSetup"
-						:key="i"
-						:title="emoji.title"
-						@click="$store.dispatch('toggleEmojiType', emoji.type)"
-						class="w-full cursor-pointer overflow-hidden rounded-xl border-3 shadow-lg"
-						:class="{
+                        v-for="(emoji, i) in emojiSetup"
+                        :key="i"
+                        :title="emoji.title"
+                        @click="$store.dispatch('toggleEmojiType', emoji.type)"
+                        class="w-full cursor-pointer overflow-hidden rounded-xl border-3 shadow-lg"
+                        :class="{
                             'border-theme': currentEmojis === emoji.type,
                             'border-transparent': currentEmojis !== emoji.type,
                         }"
-					>
-                        <img :src="isDarkMode ? emoji.image.dark : emoji.image.light" :alt="emoji.type" class="w-full" />
+                    >
+                        <img
+                            :src="isDarkMode ? emoji.image.dark : emoji.image.light"
+                            :alt="emoji.type"
+                            class="w-full"
+                        />
                     </div>
                 </div>
             </AppInputText>
@@ -213,11 +259,19 @@ export default {
     methods: {
         updateFirstName() {
             this.$store.commit('UPDATE_FIRST_NAME', this.user.data.relationships.settings.data.attributes.first_name)
-            this.$updateText('/user/settings', 'first_name', this.user.data.relationships.settings.data.attributes.first_name)
+            this.$updateText(
+                '/user/settings',
+                'first_name',
+                this.user.data.relationships.settings.data.attributes.first_name
+            )
         },
         updateLastName() {
             this.$store.commit('UPDATE_LAST_NAME', this.user.data.relationships.settings.data.attributes.last_name)
-            this.$updateText('/user/settings', 'last_name', this.user.data.relationships.settings.data.attributes.last_name)
+            this.$updateText(
+                '/user/settings',
+                'last_name',
+                this.user.data.relationships.settings.data.attributes.last_name
+            )
         },
     },
 }

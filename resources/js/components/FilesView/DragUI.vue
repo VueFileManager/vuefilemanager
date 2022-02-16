@@ -1,7 +1,11 @@
 <template>
-	<div v-show="isVisible" id="drag-ui" class="w-64 fixed z-20 pointer-events-none p-5 rounded-xl shadow-lg dark:bg-dark-foreground bg-white">
-    	<TitlePreview icon="check-square" :title="title" :subtitle="subtitle" />
-	</div>
+    <div
+        v-show="isVisible"
+        id="drag-ui"
+        class="pointer-events-none fixed z-20 w-64 rounded-xl bg-white p-5 shadow-lg dark:bg-dark-foreground"
+    >
+        <TitlePreview icon="check-square" :title="title" :subtitle="subtitle" />
+    </div>
 </template>
 
 <script>
@@ -42,7 +46,9 @@ export default {
             if ((filesLength < 2 || !hasDraggedItem) && this.draggedItem) {
                 // Subtitle for single folder
                 if (this.draggedItem.data.type === 'folder') {
-                    return this.draggedItem.items == 0 ? this.$t('folder.empty') : this.$tc('folder.item_counts', this.draggedItem.items)
+                    return this.draggedItem.items == 0
+                        ? this.$t('folder.empty')
+                        : this.$tc('folder.item_counts', this.draggedItem.items)
                 }
 
                 // Subtitle for single file

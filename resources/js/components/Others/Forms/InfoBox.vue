@@ -7,9 +7,7 @@
 <script>
 export default {
     name: 'InfoBox',
-    props: [
-		'type'
-	],
+    props: ['type'],
 }
 </script>
 

@@ -9,13 +9,13 @@
                 <slot />
             </div>
         </transition>
-		<transition name="vignette">
-			<div
-				v-if="isVisible"
-				@click="closeMenu"
-				class="fixed left-0 right-0 top-0 bottom-0 z-20 bg-dark-background bg-opacity-[0.35] dark:bg-opacity-[0.45]"
-			></div>
-		</transition>
+        <transition name="vignette">
+            <div
+                v-if="isVisible"
+                @click="closeMenu"
+                class="fixed left-0 right-0 top-0 bottom-0 z-20 bg-dark-background bg-opacity-[0.35] dark:bg-opacity-[0.45]"
+            ></div>
+        </transition>
     </div>
 </template>
 
@@ -75,19 +75,19 @@ export default {
 }
 
 .vignette-enter-active {
-	animation: vignette-in 0.15s cubic-bezier(0.4, 0, 1, 1);
+    animation: vignette-in 0.15s cubic-bezier(0.4, 0, 1, 1);
 }
 
 .vignette-leave-active {
-	animation: vignette-in 0.15s linear reverse;
+    animation: vignette-in 0.15s linear reverse;
 }
 
 @keyframes vignette-in {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 </style>

@@ -39,7 +39,14 @@
 
             <div class="justify-items md:flex md:space-x-4">
                 <!--Price-->
-                <ValidationProvider tag="div" mode="passive" name="Price" rules="required" v-slot="{ errors }" class="w-full">
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    name="Price"
+                    rules="required"
+                    v-slot="{ errors }"
+                    class="w-full"
+                >
                     <AppInputText :title="$t('admin_page_plans.form.price')" class="w-full">
                         <input
                             v-model="plan.amount"
@@ -55,9 +62,21 @@
                 </ValidationProvider>
 
                 <!--Currency-->
-                <ValidationProvider tag="div" mode="passive" name="Currency" rules="required" v-slot="{ errors }" class="w-full">
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    name="Currency"
+                    rules="required"
+                    v-slot="{ errors }"
+                    class="w-full"
+                >
                     <AppInputText :title="$t('Currency')" class="w-full">
-                        <SelectInput v-model="plan.currency" :options="currencyList" :placeholder="$t('Select plan currency')" :isError="errors[0]" />
+                        <SelectInput
+                            v-model="plan.currency"
+                            :options="currencyList"
+                            :placeholder="$t('Select plan currency')"
+                            :isError="errors[0]"
+                        />
                     </AppInputText>
                 </ValidationProvider>
             </div>
@@ -65,7 +84,12 @@
             <!--Interval-->
             <ValidationProvider tag="div" mode="passive" name="Interval" rules="required" v-slot="{ errors }">
                 <AppInputText :title="$t('Interval')" :is-last="true">
-                    <SelectInput v-model="plan.interval" :options="intervalList" :placeholder="$t('Select billing interval')" :isError="errors[0]" />
+                    <SelectInput
+                        v-model="plan.interval"
+                        :options="intervalList"
+                        :placeholder="$t('Select billing interval')"
+                        :isError="errors[0]"
+                    />
                 </AppInputText>
             </ValidationProvider>
         </div>
@@ -76,8 +100,17 @@
             </FormLabel>
 
             <!--Storage Capacity-->
-            <ValidationProvider tag="div" mode="passive" name="Max Storage Capacity" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('admin_page_plans.form.storage')" :description="$t('admin_page_plans.form.storage_helper')">
+            <ValidationProvider
+                tag="div"
+                mode="passive"
+                name="Max Storage Capacity"
+                rules="required"
+                v-slot="{ errors }"
+            >
+                <AppInputText
+                    :title="$t('admin_page_plans.form.storage')"
+                    :description="$t('admin_page_plans.form.storage_helper')"
+                >
                     <input
                         v-model="plan.features.max_storage_amount"
                         :placeholder="$t('admin_page_plans.form.storage_plac')"
@@ -92,7 +125,11 @@
 
             <!--Team Members-->
             <ValidationProvider tag="div" mode="passive" name="Max Team Members" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('Team Members')" :description="$t('To set unlimited team members, type -1 into form')" :is-last="true">
+                <AppInputText
+                    :title="$t('Team Members')"
+                    :description="$t('To set unlimited team members, type -1 into form')"
+                    :is-last="true"
+                >
                     <input
                         v-model="plan.features.max_team_members"
                         :placeholder="$t('Add max team members in number')"

@@ -83,7 +83,7 @@ export default {
                 })
                 .then((response) => {
                     // Show file browser
-                    if ( response.data.data.attributes.type === 'folder' ) {
+                    if (response.data.data.attributes.type === 'folder') {
                         this.$router.replace({
                             name: 'Public',
                             params: {
@@ -94,7 +94,7 @@ export default {
                     }
 
                     // Show single file
-                    if ( response.data.data.attributes.type !== 'folder' ) {
+                    if (response.data.data.attributes.type !== 'folder') {
                         this.$router.push({ name: 'SharedSingleFile' })
                     }
                 })

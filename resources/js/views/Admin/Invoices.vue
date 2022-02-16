@@ -1,22 +1,40 @@
 <template>
     <div>
         <!--Datatable-->
-        <DatatableWrapper v-if="!config.isEmptyTransactions" class="card overflow-x-auto shadow-card" api="/api/admin/transactions" :paginator="true" :columns="columns">
+        <DatatableWrapper
+            v-if="!config.isEmptyTransactions"
+            class="card overflow-x-auto shadow-card"
+            api="/api/admin/transactions"
+            :paginator="true"
+            :columns="columns"
+        >
             <template slot-scope="{ row }">
                 <!--Transaction rows-->
-                <MeteredTransactionRow v-if="config.subscriptionType === 'metered'" :row="row" :user="true" @showDetail="showTransactionDetail" />
+                <MeteredTransactionRow
+                    v-if="config.subscriptionType === 'metered'"
+                    :row="row"
+                    :user="true"
+                    @showDetail="showTransactionDetail"
+                />
 
                 <FixedTransactionRow v-if="config.subscriptionType === 'fixed'" :row="row" :user="true" />
 
                 <!--Transaction detail-->
-                <MeteredTransactionDetailRow v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id" :row="row" />
+                <MeteredTransactionDetailRow
+                    v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id"
+                    :row="row"
+                />
             </template>
         </DatatableWrapper>
 
         <!--Empty State-->
         <div v-if="config.isEmptyTransactions" class="flex h-full items-center justify-center">
             <div class="text-center">
-                <img class="mb-6 inline-block w-28" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f9ee.svg" alt="transaction" />
+                <img
+                    class="mb-6 inline-block w-28"
+                    src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f9ee.svg"
+                    alt="transaction"
+                />
                 <h1 class="mb-1 text-2xl font-bold">
                     {{ $t('There is Nothing') }}
                 </h1>

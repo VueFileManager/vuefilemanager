@@ -83,7 +83,10 @@ const routesAdmin = [
             {
                 name: 'CreateFixedPlan',
                 path: '/admin/plan/create/fixed',
-                component: () => import(/* webpackChunkName: "chunks/plan-create/fixed" */ '../views/Admin/Plans/Create/CreateFixedPlan'),
+                component: () =>
+                    import(
+                        /* webpackChunkName: "chunks/plan-create/fixed" */ '../views/Admin/Plans/Create/CreateFixedPlan'
+                    ),
                 meta: {
                     requiresAuth: true,
                     title: 'routes_title.plan_create',
@@ -92,7 +95,10 @@ const routesAdmin = [
             {
                 name: 'CreateMeteredPlan',
                 path: '/admin/plan/create/metered',
-                component: () => import(/* webpackChunkName: "chunks/plan-create/metered" */ '../views/Admin/Plans/Create/CreateMeteredPlan'),
+                component: () =>
+                    import(
+                        /* webpackChunkName: "chunks/plan-create/metered" */ '../views/Admin/Plans/Create/CreateMeteredPlan'
+                    ),
                 meta: {
                     requiresAuth: true,
                     title: 'routes_title.plan_create',
@@ -109,7 +115,10 @@ const routesAdmin = [
                     {
                         name: 'UserDetail',
                         path: '/admin/user/:id/details',
-                        component: () => import(/* webpackChunkName: "chunks/user-detail" */ '../views/Admin/Users/UserTabs/UserDetail'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/user-detail" */ '../views/Admin/Users/UserTabs/UserDetail'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.users_detail',
@@ -118,7 +127,10 @@ const routesAdmin = [
                     {
                         name: 'UserStorage',
                         path: '/admin/user/:id/storage',
-                        component: () => import(/* webpackChunkName: "chunks/user-storage" */ '../views/Admin/Users/UserTabs/UserStorage'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/user-storage" */ '../views/Admin/Users/UserTabs/UserStorage'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.users_storage_usage',
@@ -127,7 +139,10 @@ const routesAdmin = [
                     {
                         name: 'UserSubscription',
                         path: '/admin/user/:id/subscription',
-                        component: () => import(/* webpackChunkName: "chunks/user-subscription" */ '../views/Admin/Users/UserTabs/UserSubscription'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/user-subscription" */ '../views/Admin/Users/UserTabs/UserSubscription'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.subscription',
@@ -136,7 +151,10 @@ const routesAdmin = [
                     {
                         name: 'UserPassword',
                         path: '/admin/user/:id/password',
-                        component: () => import(/* webpackChunkName: "chunks/user-password" */ '../views/Admin/Users/UserTabs/UserPassword'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/user-password" */ '../views/Admin/Users/UserTabs/UserPassword'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.users_password',
@@ -145,7 +163,10 @@ const routesAdmin = [
                     {
                         name: 'UserDelete',
                         path: '/admin/user/:id/delete',
-                        component: () => import(/* webpackChunkName: "chunks/user-delete" */ '../views/Admin/Users/UserTabs/UserDelete'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/user-delete" */ '../views/Admin/Users/UserTabs/UserDelete'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.users_delete',
@@ -165,7 +186,10 @@ const routesAdmin = [
                     {
                         name: 'PlanFixedSubscribers',
                         path: '/admin/plan/:id/fixed/subscribers',
-                        component: () => import(/* webpackChunkName: "chunks/plan-subscribers" */ '../views/Admin/Plans/Tabs/PlanSubscribers'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/plan-subscribers" */ '../views/Admin/Plans/Tabs/PlanSubscribers'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.subscribers',
@@ -174,7 +198,10 @@ const routesAdmin = [
                     {
                         name: 'PlanFixedSettings',
                         path: '/admin/plan/:id/fixed/settings',
-                        component: () => import(/* webpackChunkName: "chunks/plan-settings" */ '../views/Admin/Plans/Tabs/PlanFixedSettings'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/plan-settings" */ '../views/Admin/Plans/Tabs/PlanFixedSettings'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.plan_settings',
@@ -183,7 +210,8 @@ const routesAdmin = [
                     {
                         name: 'PlanFixedDelete',
                         path: '/admin/plan/:id/fixed/delete',
-                        component: () => import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.plan_delete',
@@ -203,7 +231,10 @@ const routesAdmin = [
                     {
                         name: 'PlanMeteredSubscribers',
                         path: '/admin/plan/:id/metered/subscribers',
-                        component: () => import(/* webpackChunkName: "chunks/plan-subscribers" */ '../views/Admin/Plans/Tabs/PlanSubscribers'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/plan-subscribers" */ '../views/Admin/Plans/Tabs/PlanSubscribers'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.subscribers',
@@ -212,7 +243,10 @@ const routesAdmin = [
                     {
                         name: 'PlanMeteredSettings',
                         path: '/admin/plan/:id/metered/settings',
-                        component: () => import(/* webpackChunkName: "chunks/plan-settings" */ '../views/Admin/Plans/Tabs/PlanMeteredSettings'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/plan-settings" */ '../views/Admin/Plans/Tabs/PlanMeteredSettings'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.plan_settings',
@@ -221,7 +255,8 @@ const routesAdmin = [
                     {
                         name: 'PlanMeteredDelete',
                         path: '/admin/plan/:id/metered/delete',
-                        component: () => import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
+                        component: () =>
+                            import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.plan_delete',
@@ -232,7 +267,8 @@ const routesAdmin = [
             {
                 name: 'PaymentSettings',
                 path: '/admin/payments',
-                component: () => import(/* webpackChunkName: "chunks/payments" */ '../views/Admin/PaymentSettings/PaymentSettings'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/payments" */ '../views/Admin/PaymentSettings/PaymentSettings'),
                 meta: {
                     requiresAuth: true,
                     title: 'Payment Settings',
@@ -241,7 +277,10 @@ const routesAdmin = [
                     {
                         name: 'AppBillings',
                         path: '/admin/payments/billings',
-                        component: () => import(/* webpackChunkName: "chunks/payments/billings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Billings'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/payments/billings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Billings'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.billings',
@@ -250,7 +289,10 @@ const routesAdmin = [
                     {
                         name: 'AppPayments',
                         path: '/admin/payments/payments',
-                        component: () => import(/* webpackChunkName: "chunks/payments/settings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Payments'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/payments/settings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Payments'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.payments',
@@ -261,7 +303,8 @@ const routesAdmin = [
             {
                 name: 'AppSettings',
                 path: '/admin/settings',
-                component: () => import(/* webpackChunkName: "chunks/app-settings" */ '../views/Admin/AppSettings/AppSettings'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/app-settings" */ '../views/Admin/AppSettings/AppSettings'),
                 meta: {
                     requiresAuth: true,
                     title: 'routes_title.settings',
@@ -270,7 +313,10 @@ const routesAdmin = [
                     {
                         name: 'AppAppearance',
                         path: '/admin/settings/appearance',
-                        component: () => import(/* webpackChunkName: "chunks/app-appearance" */ '../views/Admin/AppSettings/AppSettingsTabs/Appearance'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/app-appearance" */ '../views/Admin/AppSettings/AppSettingsTabs/Appearance'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.appearance',
@@ -279,7 +325,10 @@ const routesAdmin = [
                     {
                         name: 'AppIndex',
                         path: '/admin/settings/index',
-                        component: () => import(/* webpackChunkName: "chunks/app-index" */ '../views/Admin/AppSettings/AppSettingsTabs/Index'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/app-index" */ '../views/Admin/AppSettings/AppSettingsTabs/Index'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'Index',
@@ -288,7 +337,10 @@ const routesAdmin = [
                     {
                         name: 'AppEmail',
                         path: '/admin/settings/email',
-                        component: () => import(/* webpackChunkName: "chunks/app-email" */ '../views/Admin/AppSettings/AppSettingsTabs/Email'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/app-email" */ '../views/Admin/AppSettings/AppSettingsTabs/Email'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.email',
@@ -297,7 +349,10 @@ const routesAdmin = [
                     {
                         name: 'AppOthers',
                         path: '/admin/settings/others',
-                        component: () => import(/* webpackChunkName: "chunks/app-others" */ '../views/Admin/AppSettings/AppSettingsTabs/Others'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/app-others" */ '../views/Admin/AppSettings/AppSettingsTabs/Others'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'routes_title.others',
@@ -306,7 +361,10 @@ const routesAdmin = [
                     {
                         name: 'AppSignInUp',
                         path: '/admin/settings/sign-in',
-                        component: () => import(/* webpackChunkName: "chunks/app-sign-in-out" */ '../views/Admin/AppSettings/AppSettingsTabs/SignInUp'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/app-sign-in-out" */ '../views/Admin/AppSettings/AppSettingsTabs/SignInUp'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'Sign In/Up',
@@ -315,7 +373,10 @@ const routesAdmin = [
                     {
                         name: 'AppAdsense',
                         path: '/admin/settings/adsense',
-                        component: () => import(/* webpackChunkName: "chunks/app-adsense" */ '../views/Admin/AppSettings/AppSettingsTabs/Adsense'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/app-adsense" */ '../views/Admin/AppSettings/AppSettingsTabs/Adsense'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'Adsense',
@@ -324,7 +385,10 @@ const routesAdmin = [
                     {
                         name: 'AppServer',
                         path: '/admin/settings/server',
-                        component: () => import(/* webpackChunkName: "chunks/app-server" */ '../views/Admin/AppSettings/AppSettingsTabs/Server'),
+                        component: () =>
+                            import(
+                                /* webpackChunkName: "chunks/app-server" */ '../views/Admin/AppSettings/AppSettingsTabs/Server'
+                            ),
                         meta: {
                             requiresAuth: true,
                             title: 'Server',
@@ -335,7 +399,8 @@ const routesAdmin = [
             {
                 name: 'Language',
                 path: '/admin/language',
-                component: () => import(/* webpackChunkName: "chunks/app-language" */ '../views/Admin/Languages/Language'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/app-language" */ '../views/Admin/Languages/Language'),
                 meta: {
                     requiresAuth: true,
                     title: 'Language Editor',

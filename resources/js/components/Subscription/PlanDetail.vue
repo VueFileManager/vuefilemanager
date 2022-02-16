@@ -10,7 +10,9 @@
             <b class="flex-1 pl-4 text-left text-lg">
                 {{ plan.data.attributes.name }}
             </b>
-            <span class="text-theme bg-theme-100 ml-9 inline-block whitespace-nowrap rounded-xl py-1 px-2 text-sm font-extrabold">
+            <span
+                class="text-theme bg-theme-100 ml-9 inline-block whitespace-nowrap rounded-xl py-1 px-2 text-sm font-extrabold"
+            >
                 {{ plan.data.attributes.price }} /
                 {{ $t(`interval.${plan.data.attributes.interval}`) }}
             </span>

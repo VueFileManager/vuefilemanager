@@ -3,16 +3,30 @@
         <!--Item thumbnail-->
         <div class="relative w-16">
             <!--Member thumbnail for team folders-->
-            <MemberAvatar v-if="user && canShowAuthor" :size="28" :is-border="true" :member="item.data.relationships.owner" class="absolute right-1.5 -bottom-2 z-10" />
+            <MemberAvatar
+                v-if="user && canShowAuthor"
+                :size="28"
+                :is-border="true"
+                :member="item.data.relationships.owner"
+                class="absolute right-1.5 -bottom-2 z-10"
+            />
 
             <!--Emoji Icon-->
-            <Emoji v-if="item.data.attributes.emoji" :emoji="item.data.attributes.emoji" class="ml-1 scale-110 transform text-5xl" />
+            <Emoji
+                v-if="item.data.attributes.emoji"
+                :emoji="item.data.attributes.emoji"
+                class="ml-1 scale-110 transform text-5xl"
+            />
 
             <!--Folder Icon-->
             <FolderIcon v-if="isFolder && !item.data.attributes.emoji" :item="item" />
 
             <!--File Icon-->
-            <FileIconThumbnail v-if="isFile || isVideo || isAudio || (isImage && !item.data.attributes.thumbnail)" :item="item" class="pr-2" />
+            <FileIconThumbnail
+                v-if="isFile || isVideo || isAudio || (isImage && !item.data.attributes.thumbnail)"
+                :item="item"
+                class="pr-2"
+            />
 
             <!--Image thumbnail-->
             <img
@@ -27,7 +41,10 @@
         <!--Item Info-->
         <div class="pl-2">
             <!--Item Title-->
-            <b class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm hover:underline" style="max-width: 240px">
+            <b
+                class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm hover:underline"
+                style="max-width: 240px"
+            >
                 {{ item.data.attributes.name }}
             </b>
 
@@ -39,11 +56,14 @@
                 </div>
 
                 <!--File & Image sub line-->
-                <small v-if="!isFolder" class="block text-xs text-gray-500"> {{ item.data.attributes.filesize }}, {{ timeStamp }} </small>
+                <small v-if="!isFolder" class="block text-xs text-gray-500">
+                    {{ item.data.attributes.filesize }}, {{ timeStamp }}
+                </small>
 
                 <!--Folder sub line-->
                 <small v-if="isFolder" class="block text-xs text-gray-500">
-                    {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }}, {{ timeStamp }}
+                    {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }},
+                    {{ timeStamp }}
                 </small>
             </div>
         </div>
@@ -105,7 +125,9 @@ export default {
             )
         },
         folderItems() {
-            return this.item.data.attributes.deleted_at ? this.item.data.attributes.trashed_items : this.item.data.attributes.items
+            return this.item.data.attributes.deleted_at
+                ? this.item.data.attributes.trashed_items
+                : this.item.data.attributes.items
         },
         canShowAuthor() {
             return !this.isFolder && this.user.data.id !== this.item.data.relationships.owner.data.id

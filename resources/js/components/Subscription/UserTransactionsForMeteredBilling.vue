@@ -10,7 +10,10 @@
                 <MeteredTransactionRow :row="row" @showDetail="showTransactionDetail" />
 
                 <!--Transaction detail-->
-                <MeteredTransactionDetailRow v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id" :row="row" />
+                <MeteredTransactionDetailRow
+                    v-if="row.data.attributes.metadata && showedTransactionDetailById === row.data.id"
+                    :row="row"
+                />
             </template>
 
             <!--Empty page-->

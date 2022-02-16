@@ -1,5 +1,7 @@
 <template>
-    <div class="hidden 2xl:w-[360px] xl:w-[320px] w-[300px] shrink-0 overflow-y-auto overflow-x-hidden px-2.5 pt-2 lg:block">
+    <div
+        class="hidden w-[300px] shrink-0 overflow-y-auto overflow-x-hidden px-2.5 pt-2 lg:block xl:w-[320px] 2xl:w-[360px]"
+    >
         <!--Is empty clipboard-->
         <div v-if="isEmpty" class="flex h-full items-center justify-center">
             <div class="text-center">
@@ -23,10 +25,19 @@
         <div v-if="isSingleFile && !isEmpty">
             <FilePreviewDetail />
 
-            <TitlePreview class="mb-6" :icon="clipboard[0].data.type" :title="clipboard[0].data.attributes.name" :subtitle="clipboard[0].data.attributes.mimetype" />
+            <TitlePreview
+                class="mb-6"
+                :icon="clipboard[0].data.type"
+                :title="clipboard[0].data.attributes.name"
+                :subtitle="clipboard[0].data.attributes.mimetype"
+            />
 
             <!--Filesize-->
-            <ListInfoItem v-if="singleFile.data.attributes.filesize" :title="$t('file_detail.size')" :content="singleFile.data.attributes.filesize" />
+            <ListInfoItem
+                v-if="singleFile.data.attributes.filesize"
+                :title="$t('file_detail.size')"
+                :content="singleFile.data.attributes.filesize"
+            />
 
             <!--Created At-->
             <ListInfoItem :title="$t('file_detail.created_at')" :content="singleFile.data.attributes.created_at" />
@@ -35,14 +46,21 @@
             <ListInfoItem v-if="$checkPermission(['master'])" :title="$t('file_detail.where')">
                 <div @click="$moveFileOrFolder(singleFile)" class="flex cursor-pointer items-center">
                     <b class="inline-block text-sm font-bold">
-                        {{ singleFile.data.relationships.parent ? singleFile.data.relationships.parent.data.attributes.name : $getCurrentLocationName() }}
+                        {{
+                            singleFile.data.relationships.parent
+                                ? singleFile.data.relationships.parent.data.attributes.name
+                                : $getCurrentLocationName()
+                        }}
                     </b>
                     <Edit2Icon size="10" class="ml-2" />
                 </div>
             </ListInfoItem>
 
             <!--Shared-->
-            <ListInfoItem v-if="$checkPermission('master') && singleFile.data.relationships.shared" :title="$t('file_detail.shared')">
+            <ListInfoItem
+                v-if="$checkPermission('master') && singleFile.data.relationships.shared"
+                :title="$t('file_detail.shared')"
+            >
                 <div @click="$shareFileOrFolder(singleFile)" class="mb-2 flex cursor-pointer items-center">
                     <span class="inline-block text-sm font-bold">
                         {{ sharedInfo }}
@@ -50,8 +68,18 @@
                     <Edit2Icon size="10" class="ml-2" />
                 </div>
                 <div class="flex w-full items-center">
-                    <lock-icon v-if="isLocked" @click="$shareFileOrFolder(singleFile)" size="17" class="hover-text-theme vue-feather cursor-pointer" />
-                    <unlock-icon v-if="!isLocked" @click="$shareFileOrFolder(singleFile)" size="17" class="hover-text-theme vue-feather cursor-pointer" />
+                    <lock-icon
+                        v-if="isLocked"
+                        @click="$shareFileOrFolder(singleFile)"
+                        size="17"
+                        class="hover-text-theme vue-feather cursor-pointer"
+                    />
+                    <unlock-icon
+                        v-if="!isLocked"
+                        @click="$shareFileOrFolder(singleFile)"
+                        size="17"
+                        class="hover-text-theme vue-feather cursor-pointer"
+                    />
                     <CopyShareLink :item="singleFile" size="small" class="w-full pl-2.5" />
                 </div>
             </ListInfoItem>
@@ -60,7 +88,7 @@
             <ListInfoItem v-if="canShowAuthor" :title="$t('Author')">
                 <div class="mt-1.5 flex items-center">
                     <MemberAvatar :size="32" :member="singleFile.data.relationships.owner" />
-                    <span class="text-sm ml-3 block font-bold">
+                    <span class="ml-3 block text-sm font-bold">
                         {{ singleFile.data.relationships.owner.data.attributes.name }}
                     </span>
                 </div>
@@ -112,7 +140,9 @@ export default {
             return this.clipboard[0]
         },
         canShowMetaData() {
-            return this.clipboard[0].data.attributes.metadata && this.clipboard[0].data.attributes.metadata.ExifImageWidth
+            return (
+                this.clipboard[0].data.attributes.metadata && this.clipboard[0].data.attributes.metadata.ExifImageWidth
+            )
         },
         isLocked() {
             return this.clipboard[0].data.relationships.shared.protected

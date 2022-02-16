@@ -1,7 +1,13 @@
 <template>
     <div>
         <div class="card shadow-card">
-            <DatatableWrapper @init="isLoading = false" api="/api/admin/pages" :paginator="false" :columns="columns" class="overflow-x-auto">
+            <DatatableWrapper
+                @init="isLoading = false"
+                api="/api/admin/pages"
+                :paginator="false"
+                :columns="columns"
+                class="overflow-x-auto"
+            >
                 <template slot-scope="{ row }">
                     <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
                         <td class="py-5 pr-3 md:pr-1">
@@ -24,7 +30,13 @@
                         <td class="px-3 md:px-1">
                             <span class="text-sm font-bold">
                                 <SwitchInput
-                                    @input="$updateText(`/admin/pages/${row.data.id}`, 'visibility', row.data.attributes.visibility)"
+                                    @input="
+                                        $updateText(
+                                            `/admin/pages/${row.data.id}`,
+                                            'visibility',
+                                            row.data.attributes.visibility
+                                        )
+                                    "
                                     v-model="row.data.attributes.visibility"
                                     :state="row.data.attributes.visibility"
                                     class="switch"

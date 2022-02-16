@@ -10,7 +10,8 @@ const routesMaintenance = [
             {
                 name: 'StatusCheck',
                 path: '/setup-wizard/status-check',
-                component: () => import(/* webpackChunkName: "chunks/status-check" */ '../views/SetupWizard/StatusCheck'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/status-check" */ '../views/SetupWizard/StatusCheck'),
                 meta: {
                     requiresAuth: false,
                 },
@@ -18,7 +19,8 @@ const routesMaintenance = [
             {
                 name: 'PurchaseCode',
                 path: '/setup-wizard/purchase-code',
-                component: () => import(/* webpackChunkName: "chunks/purchase-code" */ '../views/SetupWizard/PurchaseCode'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/purchase-code" */ '../views/SetupWizard/PurchaseCode'),
                 meta: {
                     requiresAuth: false,
                 },
@@ -34,7 +36,8 @@ const routesMaintenance = [
             {
                 name: 'EnvironmentSetup',
                 path: '/setup-wizard/environment-setup',
-                component: () => import(/* webpackChunkName: "chunks/environment-setup" */ '../views/SetupWizard/EnvironmentSetup'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/environment-setup" */ '../views/SetupWizard/EnvironmentSetup'),
                 meta: {
                     requiresAuth: false,
                 },
@@ -50,7 +53,8 @@ const routesMaintenance = [
             {
                 name: 'AdminAccount',
                 path: '/setup-wizard/admin-setup',
-                component: () => import(/* webpackChunkName: "chunks/admin-account" */ '../views/SetupWizard/AdminAccount'),
+                component: () =>
+                    import(/* webpackChunkName: "chunks/admin-account" */ '../views/SetupWizard/AdminAccount'),
                 meta: {
                     requiresAuth: false,
                 },

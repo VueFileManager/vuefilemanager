@@ -7,10 +7,26 @@
             </FormLabel>
             <ValidationObserver ref="changeRole" @submit.prevent="changeRole" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Role" rules="required">
-                    <AppInputText :title="$t('admin_page_user.select_role')" :description="$t('user_box_role.description')" :error="errors[0]" :is-last="true">
+                    <AppInputText
+                        :title="$t('admin_page_user.select_role')"
+                        :description="$t('user_box_role.description')"
+                        :error="errors[0]"
+                        :is-last="true"
+                    >
                         <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
-                            <SelectInput v-model="userRole" :options="$translateSelectOptions(roles)" :placeholder="$t('admin_page_user.select_role')" :isError="errors[0]" />
-                            <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="theme" class="w-full sm:w-auto">
+                            <SelectInput
+                                v-model="userRole"
+                                :options="$translateSelectOptions(roles)"
+                                :placeholder="$t('admin_page_user.select_role')"
+                                :isError="errors[0]"
+                            />
+                            <ButtonBase
+                                :loading="isSendingRequest"
+                                :disabled="isSendingRequest"
+                                type="submit"
+                                button-style="theme"
+                                class="w-full sm:w-auto"
+                            >
                                 {{ $t('admin_page_user.save_role') }}
                             </ButtonBase>
                         </div>

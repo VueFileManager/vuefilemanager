@@ -1,6 +1,10 @@
 <template>
     <div v-if="emoji">
-        <div v-if="config.defaultEmoji === 'twemoji'" v-html="transferEmoji" style="font-size: inherit; transform: scale(0.95)"></div>
+        <div
+            v-if="config.defaultEmoji === 'twemoji'"
+            v-html="transferEmoji"
+            style="font-size: inherit; transform: scale(0.95)"
+        ></div>
         <div v-if="config.defaultEmoji === 'applemoji'" style="font-size: inherit">
             {{ emoji.char }}
         </div>

@@ -5,18 +5,30 @@
             <div v-if="config.isAdminVueFileManagerBar" class="mb-4 hidden justify-between md:mb-6 md:block md:flex">
                 <!--VueFileManager logo-->
                 <a href="https://vuefilemanager.com" target="_blank">
-                    <img src="/assets/images/vuefilemanager-horizontal-logo.svg" alt="VueFileManager" class="light-mode" />
+                    <img
+                        src="/assets/images/vuefilemanager-horizontal-logo.svg"
+                        alt="VueFileManager"
+                        class="light-mode"
+                    />
                 </a>
 
                 <!--App Info-->
                 <div class="mt-4 flex items-center md:mt-0">
-                    <a href="https://gist.github.com/MakingCG/9c07f8af392081ae5d5290d920a79b5d" target="_blank" class="mr-4 inline-block">
+                    <a
+                        href="https://gist.github.com/MakingCG/9c07f8af392081ae5d5290d920a79b5d"
+                        target="_blank"
+                        class="mr-4 inline-block"
+                    >
                         <span class="text-sm font-bold"> {{ $t('admin_page_dashboard.version') }}: </span>
                         <ColorLabel color="purple">
                             {{ data.app.version }}
                         </ColorLabel>
                     </a>
-                    <a href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986" target="_blank" class="mr-4 inline-block">
+                    <a
+                        href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986"
+                        target="_blank"
+                        class="mr-4 inline-block"
+                    >
                         <span class="text-sm font-bold"> {{ $t('admin_page_dashboard.license') }}: </span>
                         <ColorLabel color="purple">
                             {{ data.app.license }}
@@ -28,7 +40,11 @@
                             {{ config.subscriptionType }}
                         </ColorLabel>
                     </b>
-                    <a href="https://bit.ly/VueFileManager-survey" target="_blank" class="bg-theme-100 lg:ml-4 ml-8 inline-block hidden items-center rounded-lg py-1.5 px-3 md:flex">
+                    <a
+                        href="https://bit.ly/VueFileManager-survey"
+                        target="_blank"
+                        class="bg-theme-100 ml-8 inline-block hidden items-center rounded-lg py-1.5 px-3 md:flex lg:ml-4"
+                    >
                         <thumbs-up-icon size="15" class="vue-feather text-theme mr-2.5" />
                         <span class="text-theme text-sm font-bold">
                             {{ $t('Write a Feedback') }}
@@ -37,17 +53,33 @@
                 </div>
             </div>
 
-			<!--Create metered plan alert-->
-			<div v-if="config.subscriptionType === 'metered' && config.isEmptyPlans" class="p-5 bg-rose-200 rounded-xl shadow-card mb-6 flex items-center">
-				<alert-octagon-icon size="18" class="vue-feather text-rose-700 mr-4 shrink-0"/>
-				<p class="text-sm text-rose-700">As you installed app with metered subscription type, you have to <router-link :to="{name: 'CreateMeteredPlan'}" class="font-bold underline text-sm">create your plan</router-link> as soon as possible to prevent new user registration without automatically assigned subscription plan.</p>
-			</div>
+            <!--Create metered plan alert-->
+            <div
+                v-if="config.subscriptionType === 'metered' && config.isEmptyPlans"
+                class="mb-6 flex items-center rounded-xl bg-rose-200 p-5 shadow-card"
+            >
+                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 text-rose-700" />
+                <p class="text-sm text-rose-700">
+                    As you installed app with metered subscription type, you have to
+                    <router-link :to="{ name: 'CreateMeteredPlan' }" class="text-sm font-bold underline"
+                        >create your plan</router-link
+                    >
+                    as soon as possible to prevent new user registration without automatically assigned subscription
+                    plan.
+                </p>
+            </div>
 
-			<!--Cron Alert-->
-			<div v-if="! data.app.isRunningCron && !config.isDev" class="p-5 bg-rose-200 rounded-xl shadow-card mb-6 flex items-center">
-				<alert-octagon-icon size="18" class="vue-feather text-rose-700 mr-4 shrink-0"/>
-				<p class="text-sm text-rose-700">We detect your cron jobs probably doesn't work correctly, please check it, you need it for running app correctly. If you set your cron job, please get back one minute later.</p>
-			</div>
+            <!--Cron Alert-->
+            <div
+                v-if="!data.app.isRunningCron && !config.isDev"
+                class="mb-6 flex items-center rounded-xl bg-rose-200 p-5 shadow-card"
+            >
+                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 text-rose-700" />
+                <p class="text-sm text-rose-700">
+                    We detect your cron jobs probably doesn't work correctly, please check it, you need it for running
+                    app correctly. If you set your cron job, please get back one minute later.
+                </p>
+            </div>
 
             <!--Metric widgets-->
             <div class="mb-2 md:mb-6 md:flex md:space-x-6">
@@ -145,7 +177,10 @@
             </div>
 
             <!--Latest transactions widgets-->
-            <div v-if="['fixed', 'metered'].includes(this.config.subscriptionType)" class="card mb-4 shadow-card md:mb-6">
+            <div
+                v-if="['fixed', 'metered'].includes(this.config.subscriptionType)"
+                class="card mb-4 shadow-card md:mb-6"
+            >
                 <FormLabel icon="dollar">
                     {{ $t('Latest Transactions') }}
                 </FormLabel>
@@ -170,16 +205,16 @@ import BarChart from '../../components/UI/BarChart'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import WidgetLatestTransactions from '../../components/Admin/WidgetLatestTransactions'
-import InfoBox from "../../components/Others/Forms/InfoBox";
+import InfoBox from '../../components/Others/Forms/InfoBox'
 
 export default {
     name: 'Dashboard',
     components: {
-		InfoBox,
+        InfoBox,
         WidgetLatestTransactions,
         WidgetLatestRegistrations,
         ChevronRightIcon,
-		AlertOctagonIcon,
+        AlertOctagonIcon,
         WidgetWrapper,
         ThumbsUpIcon,
         ColorLabel,

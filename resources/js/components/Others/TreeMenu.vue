@@ -24,10 +24,30 @@
             </span>
 
             <!--Item icon-->
-            <hard-drive-icon v-if="['public', 'files'].includes(nodes.location)" size="17" class="icon vue-feather" :class="{ 'text-theme dark-text-theme': isSelectedItem }" />
-            <users-icon v-if="nodes.location === 'team-folders'" size="17" class="icon vue-feather" :class="{ 'text-theme dark-text-theme': isSelectedItem }" />
-            <user-plus-icon v-if="nodes.location === 'shared-with-me'" size="17" class="icon vue-feather" :class="{ 'text-theme dark-text-theme': isSelectedItem }" />
-            <folder-icon v-if="!nodes.location" size="17" class="icon vue-feather" :class="{ 'text-theme dark-text-theme': isSelectedItem }" />
+            <hard-drive-icon
+                v-if="['public', 'files'].includes(nodes.location)"
+                size="17"
+                class="icon vue-feather"
+                :class="{ 'text-theme dark-text-theme': isSelectedItem }"
+            />
+            <users-icon
+                v-if="nodes.location === 'team-folders'"
+                size="17"
+                class="icon vue-feather"
+                :class="{ 'text-theme dark-text-theme': isSelectedItem }"
+            />
+            <user-plus-icon
+                v-if="nodes.location === 'shared-with-me'"
+                size="17"
+                class="icon vue-feather"
+                :class="{ 'text-theme dark-text-theme': isSelectedItem }"
+            />
+            <folder-icon
+                v-if="!nodes.location"
+                size="17"
+                class="icon vue-feather"
+                :class="{ 'text-theme dark-text-theme': isSelectedItem }"
+            />
 
             <!--Item label-->
             <b
@@ -40,7 +60,14 @@
         </div>
 
         <!--Children-->
-        <tree-node :disabled-by-id="disabledById" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id" />
+        <tree-node
+            :disabled-by-id="disabledById"
+            :depth="depth + 1"
+            v-if="isVisible"
+            :nodes="item"
+            v-for="item in nodes.folders"
+            :key="item.id"
+        />
     </div>
 </template>
 

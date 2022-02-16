@@ -43,7 +43,13 @@ export default {
         XIcon,
     },
     computed: {
-        ...mapGetters(['filesInQueueUploaded', 'filesInQueueTotal', 'uploadingProgress', 'isProcessingFile', 'fileQueue']),
+        ...mapGetters([
+            'filesInQueueUploaded',
+            'filesInQueueTotal',
+            'uploadingProgress',
+            'isProcessingFile',
+            'fileQueue',
+        ]),
     },
     methods: {
         cancelUpload() {

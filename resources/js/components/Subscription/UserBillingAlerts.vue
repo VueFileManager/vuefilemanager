@@ -13,7 +13,12 @@
                     size="12"
                     class="vue-feather ml-2 -translate-y-0.5 transform cursor-pointer"
                 />
-                <trash2-icon v-if="showUpdateBillingAlertForm" @click="deleteBillingAlert" size="12" class="vue-feather ml-2 -translate-y-0.5 transform cursor-pointer" />
+                <trash2-icon
+                    v-if="showUpdateBillingAlertForm"
+                    @click="deleteBillingAlert"
+                    size="12"
+                    class="vue-feather ml-2 -translate-y-0.5 transform cursor-pointer"
+                />
             </b>
 
             <b class="block text-sm text-gray-400">
@@ -21,9 +26,24 @@
             </b>
         </div>
 
-        <ValidationObserver v-if="showUpdateBillingAlertForm" ref="updatebillingAlertForm" @submit.prevent="updateBillingAlert" v-slot="{ invalid }" tag="form" class="mt-6">
+        <ValidationObserver
+            v-if="showUpdateBillingAlertForm"
+            ref="updatebillingAlertForm"
+            @submit.prevent="updateBillingAlert"
+            v-slot="{ invalid }"
+            tag="form"
+            class="mt-6"
+        >
             <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" rules="required">
-                <AppInputText :description="$t('You will receive an email whenever your monthly balance reaches the specified amount above.')" :error="errors[0]" :is-last="true">
+                <AppInputText
+                    :description="
+                        $t(
+                            'You will receive an email whenever your monthly balance reaches the specified amount above.'
+                        )
+                    "
+                    :error="errors[0]"
+                    :is-last="true"
+                >
                     <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
                         <input
                             v-model="billingAlertAmount"
@@ -34,7 +54,13 @@
                             class="focus-border-theme input-dark"
                             :class="{ 'border-red': errors[0] }"
                         />
-                        <ButtonBase :loadint="isSendingBillingAlert" :disabled="isSendingBillingAlert" type="submit" button-style="theme" class="w-full sm:w-auto">
+                        <ButtonBase
+                            :loadint="isSendingBillingAlert"
+                            :disabled="isSendingBillingAlert"
+                            type="submit"
+                            button-style="theme"
+                            class="w-full sm:w-auto"
+                        >
                             {{ $t('Update Alert') }}
                         </ButtonBase>
                     </div>
@@ -42,9 +68,24 @@
             </ValidationProvider>
         </ValidationObserver>
 
-        <ValidationObserver v-if="!user.data.relationships.alert" ref="billingAlertForm" @submit.prevent="setBillingAlert" v-slot="{ invalid }" tag="form" class="mt-6">
+        <ValidationObserver
+            v-if="!user.data.relationships.alert"
+            ref="billingAlertForm"
+            @submit.prevent="setBillingAlert"
+            v-slot="{ invalid }"
+            tag="form"
+            class="mt-6"
+        >
             <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" rules="required">
-                <AppInputText :description="$t('You will receive an email whenever your monthly balance reaches the specified amount above.')" :error="errors[0]" :is-last="true">
+                <AppInputText
+                    :description="
+                        $t(
+                            'You will receive an email whenever your monthly balance reaches the specified amount above.'
+                        )
+                    "
+                    :error="errors[0]"
+                    :is-last="true"
+                >
                     <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
                         <input
                             v-model="billingAlertAmount"
@@ -55,7 +96,13 @@
                             class="focus-border-theme input-dark"
                             :class="{ 'border-red': errors[0] }"
                         />
-                        <ButtonBase :loadint="isSendingBillingAlert" :disabled="isSendingBillingAlert" type="submit" button-style="theme" class="w-full sm:w-auto">
+                        <ButtonBase
+                            :loadint="isSendingBillingAlert"
+                            :disabled="isSendingBillingAlert"
+                            type="submit"
+                            button-style="theme"
+                            class="w-full sm:w-auto"
+                        >
                             {{ $t('Set Alert') }}
                         </ButtonBase>
                     </div>
@@ -161,7 +208,9 @@ export default {
         deleteBillingAlert() {
             events.$emit('confirm:open', {
                 title: this.$t('Are you sure you want to delete your alert?'),
-                message: this.$t('You will no longer receive any notifications that your billing limit has been exceeded.'),
+                message: this.$t(
+                    'You will no longer receive any notifications that your billing limit has been exceeded.'
+                ),
                 action: {
                     id: this.user.data.relationships.alert.data.id,
                     operation: 'delete-billing-alert',

@@ -19,14 +19,22 @@
         <MobileNavigationToolbar />
 
         <ContentSidebar>
-            <ContentGroup v-for="(menu, i) in nav" :key="i" :title="menu.groupTitle" :slug="menu.groupTitle" :can-collapse="false">
+            <ContentGroup
+                v-for="(menu, i) in nav"
+                :key="i"
+                :title="menu.groupTitle"
+                :slug="menu.groupTitle"
+                :can-collapse="false"
+            >
                 <router-link
                     v-for="(item, i) in menu.groupLinks"
                     :key="i"
                     :to="{ name: item.route }"
                     class="flex items-center py-2.5"
                     :class="{
-                        'router-link-active': item.linkActivation && item.linkActivation.includes($router.currentRoute.fullPath.split('/')[2]),
+                        'router-link-active':
+                            item.linkActivation &&
+                            item.linkActivation.includes($router.currentRoute.fullPath.split('/')[2]),
                     }"
                 >
                     <box-icon v-if="item.icon === 'box'" size="17" class="vue-feather icon-active mr-2.5" />
@@ -124,57 +132,57 @@ export default {
                 ],
             }[this.config.subscriptionType]
 
-			let sections = [
-				{
-					groupCollapsable: false,
-					groupTitle: this.$t('global.admin'),
-					groupLinks: [
-						{
-							title: this.$t('admin_menu.dashboard'),
-							route: 'Dashboard',
-							icon: 'box',
-						},
-						{
-							title: this.$t('admin_menu.users'),
-							route: 'Users',
-							icon: 'users',
-							linkActivation: ['users', 'user'],
-						},
-						{
-							title: this.$t('admin_menu.settings'),
-							route: 'AppSettings',
-							icon: 'settings',
-						},
-					],
-				},
-				{
-					groupCollapsable: false,
-					groupTitle: this.$t('Content'),
-					groupLinks: [
-						{
-							title: this.$t('admin_menu.pages'),
-							route: 'Pages',
-							icon: 'monitor',
-						},
-						{
-							title: this.$t('admin_menu.languages'),
-							route: 'Language',
-							icon: 'globe',
-						},
-					],
-				},
-			]
+            let sections = [
+                {
+                    groupCollapsable: false,
+                    groupTitle: this.$t('global.admin'),
+                    groupLinks: [
+                        {
+                            title: this.$t('admin_menu.dashboard'),
+                            route: 'Dashboard',
+                            icon: 'box',
+                        },
+                        {
+                            title: this.$t('admin_menu.users'),
+                            route: 'Users',
+                            icon: 'users',
+                            linkActivation: ['users', 'user'],
+                        },
+                        {
+                            title: this.$t('admin_menu.settings'),
+                            route: 'AppSettings',
+                            icon: 'settings',
+                        },
+                    ],
+                },
+                {
+                    groupCollapsable: false,
+                    groupTitle: this.$t('Content'),
+                    groupLinks: [
+                        {
+                            title: this.$t('admin_menu.pages'),
+                            route: 'Pages',
+                            icon: 'monitor',
+                        },
+                        {
+                            title: this.$t('admin_menu.languages'),
+                            route: 'Language',
+                            icon: 'globe',
+                        },
+                    ],
+                },
+            ]
 
-			// Push subscription if there is metered or fixed type
-			if (this.config.subscriptionType !== 'none') {
-				sections.push({
-					groupCollapsable: false,
-					groupTitle: this.$t('Subscription'),
-					groupLinks: subscriptionLinks,
-				})
-			}
+            // Push subscription if there is metered or fixed type
+            if (this.config.subscriptionType !== 'none') {
+                sections.push({
+                    groupCollapsable: false,
+                    groupTitle: this.$t('Subscription'),
+                    groupLinks: subscriptionLinks,
+                })
+            }
 
-			return sections
+            return sections
         },
     },
     components: {

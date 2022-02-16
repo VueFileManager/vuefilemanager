@@ -26,13 +26,19 @@
 
         <MobileNavigationToolbar />
 
-        <div v-if="user" class="relative mx-auto w-full overflow-x-hidden px-2.5 pb-12 md:max-w-4xl md:px-6 lg:pt-6 lg:pb-0 xl:max-w-screen-lg">
+        <div
+            v-if="user"
+            class="relative mx-auto w-full overflow-x-hidden px-2.5 pb-12 md:max-w-4xl md:px-6 lg:pt-6 lg:pb-0 xl:max-w-screen-lg"
+        >
             <div v-if="!isLoading" id="page-content">
                 <div class="card sticky top-0 z-10 shadow-card" style="padding-bottom: 0">
                     <!--User thumbnail-->
                     <div class="mb-3 flex items-center">
                         <!--Image input for replace avatar-->
-                        <AvatarInput v-model="avatar" :avatar="user.data.relationships.settings.data.attributes.avatar.md" />
+                        <AvatarInput
+                            v-model="avatar"
+                            :avatar="user.data.relationships.settings.data.attributes.avatar.md"
+                        />
 
                         <!--User name & email-->
                         <div class="ml-4">

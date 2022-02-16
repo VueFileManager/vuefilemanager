@@ -6,12 +6,25 @@
                 {{ $t('Subscription Payments') }}
             </FormLabel>
 
-            <AppInputSwitch :title="$t('Allow Subscription Payments')" :description="$t('User can subscribe to fixed or metered plan')" :is-last="!allowedPayments">
-                <SwitchInput @input="$updateText('/admin/settings', 'allowed_payments', allowedPayments)" v-model="allowedPayments" :state="allowedPayments" />
+            <AppInputSwitch
+                :title="$t('Allow Subscription Payments')"
+                :description="$t('User can subscribe to fixed or metered plan')"
+                :is-last="!allowedPayments"
+            >
+                <SwitchInput
+                    @input="$updateText('/admin/settings', 'allowed_payments', allowedPayments)"
+                    v-model="allowedPayments"
+                    :state="allowedPayments"
+                />
             </AppInputSwitch>
 
             <AppInputText v-if="allowedPayments" :title="$t('Subscription Type')" :is-last="true">
-                <SelectInput @change="subscriptionTypeChange" :default="config.subscriptionType" :options="subscriptionTypes" :placeholder="$t('Select your subscription type')" />
+                <SelectInput
+                    @change="subscriptionTypeChange"
+                    :default="config.subscriptionType"
+                    :options="subscriptionTypes"
+                    :placeholder="$t('Select your subscription type')"
+                />
             </AppInputText>
         </div>
 
@@ -21,7 +34,10 @@
                 {{ $t('Metered Billing Settings') }}
             </FormLabel>
 
-            <AppInputSwitch :title="$t('Allow Registration Bonus')" :description="$t('Credit user automatically bonus to his balance after registration.')">
+            <AppInputSwitch
+                :title="$t('Allow Registration Bonus')"
+                :description="$t('Credit user automatically bonus to his balance after registration.')"
+            >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'allowed_registration_bonus', allowedRegistrationBonus)"
                     v-model="allowedRegistrationBonus"
@@ -43,7 +59,11 @@
                 />
             </AppInputText>
 
-            <AppInputButton :title="$t('Metered Plan')" :description="$t('Your price set up for billing multiple features by user usage.')" :is-last="true">
+            <AppInputButton
+                :title="$t('Metered Plan')"
+                :description="$t('Your price set up for billing multiple features by user usage.')"
+                :is-last="true"
+            >
                 <router-link
                     v-if="config.isCreatedMeteredPlan"
                     :to="{
@@ -68,8 +88,16 @@
         <div v-if="allowedPayments" class="card shadow-card">
             <img :src="$getPaymentLogo('stripe')" alt="Stripe" class="mb-8 h-8" />
 
-            <AppInputSwitch :title="$t('Allow Stripe Service')" :description="$t('Allow your users pay by their credit card')" :is-last="!stripe.allowedService">
-                <SwitchInput @input="$updateText('/admin/settings', 'allowed_stripe', stripe.allowedService)" v-model="stripe.allowedService" :state="stripe.allowedService" />
+            <AppInputSwitch
+                :title="$t('Allow Stripe Service')"
+                :description="$t('Allow your users pay by their credit card')"
+                :is-last="!stripe.allowedService"
+            >
+                <SwitchInput
+                    @input="$updateText('/admin/settings', 'allowed_stripe', stripe.allowedService)"
+                    v-model="stripe.allowedService"
+                    :state="stripe.allowedService"
+                />
             </AppInputSwitch>
 
             <!--Stripe credentials are set up-->
@@ -82,15 +110,27 @@
                     >
                         <textarea
                             rows="2"
-                            @input="$updateText('/admin/settings', 'stripe_payment_description', stripe.paymentDescription, true)"
+                            @input="
+                                $updateText(
+                                    '/admin/settings',
+                                    'stripe_payment_description',
+                                    stripe.paymentDescription,
+                                    true
+                                )
+                            "
                             v-model="stripe.paymentDescription"
-                            :placeholder="$t('Describe in short which methods user can pay with this payment method...')"
+                            :placeholder="
+                                $t('Describe in short which methods user can pay with this payment method...')
+                            "
                             type="text"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
 
-                    <AppInputText :title="$t('Your Webhook URL')" :description="$t('Please copy your url and paste it to the service webhook setup.')">
+                    <AppInputText
+                        :title="$t('Your Webhook URL')"
+                        :description="$t('Please copy your url and paste it to the service webhook setup.')"
+                    >
                         <CopyInput size="small" :str="getWebhookEndpoint('stripe')" />
                     </AppInputText>
 
@@ -116,7 +156,13 @@
                     <FormLabel v-if="!stripe.isConfigured" icon="shield">
                         {{ $t('Configure Your Credentials') }}
                     </FormLabel>
-                    <ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        name="Publishable Key"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <AppInputText :title="$t('admin_settings.payments.stripe_pub_key')" :error="errors[0]">
                             <input
                                 v-model="stripe.credentials.key"
@@ -138,7 +184,13 @@
                             />
                         </AppInputText>
                     </ValidationProvider>
-                    <ValidationProvider tag="div" mode="passive" name="Webhook Secret" rules="required" v-slot="{ errors }">
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        name="Webhook Secret"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <AppInputText :title="$t('Webhook Secret')" :error="errors[0]">
                             <input
                                 v-model="stripe.credentials.webhook"
@@ -150,7 +202,13 @@
                         </AppInputText>
                     </ValidationProvider>
 
-                    <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+                    <ButtonBase
+                        :disabled="isLoading"
+                        :loading="isLoading"
+                        button-style="theme"
+                        type="submit"
+                        class="w-full"
+                    >
                         {{ $t('Store Credentials') }}
                     </ButtonBase>
                 </ValidationObserver>
@@ -161,7 +219,11 @@
         <div v-if="allowedPayments" class="card shadow-card">
             <img :src="$getPaymentLogo('paystack')" alt="Paystack" class="mb-8 h-7" />
 
-            <AppInputSwitch :title="$t('Allow Paystack Service')" :description="$t('Allow your users pay by their credit card')" :is-last="!paystack.allowedService">
+            <AppInputSwitch
+                :title="$t('Allow Paystack Service')"
+                :description="$t('Allow your users pay by their credit card')"
+                :is-last="!paystack.allowedService"
+            >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'allowed_paystack', paystack.allowedService)"
                     v-model="paystack.allowedService"
@@ -173,21 +235,35 @@
             <div v-if="paystack.allowedService">
                 <div v-if="paystack.isConfigured">
                     <AppInputText
-                        @input="$updateText('/admin/settings', 'paystack_payment_description', paystack.paymentDescription)"
+                        @input="
+                            $updateText('/admin/settings', 'paystack_payment_description', paystack.paymentDescription)
+                        "
                         :title="$t('Payment Description')"
                         :description="$t('The description showed below user payment method selection.')"
                     >
                         <textarea
                             rows="2"
-                            @input="$updateText('/admin/settings', 'paystack_payment_description', paystack.paymentDescription, true)"
+                            @input="
+                                $updateText(
+                                    '/admin/settings',
+                                    'paystack_payment_description',
+                                    paystack.paymentDescription,
+                                    true
+                                )
+                            "
                             v-model="paystack.paymentDescription"
-                            :placeholder="$t('Describe in short which methods user can pay with this payment method...')"
+                            :placeholder="
+                                $t('Describe in short which methods user can pay with this payment method...')
+                            "
                             type="text"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
 
-                    <AppInputText :title="$t('Your Webhook URL')" :description="$t('Please copy your url and paste it to the service webhook setup.')">
+                    <AppInputText
+                        :title="$t('Your Webhook URL')"
+                        :description="$t('Please copy your url and paste it to the service webhook setup.')"
+                    >
                         <CopyInput size="small" :str="getWebhookEndpoint('paystack')" />
                     </AppInputText>
 
@@ -213,7 +289,13 @@
                     <FormLabel v-if="!paystack.isConfigured" icon="shield">
                         {{ $t('Configure Your Credentials') }}
                     </FormLabel>
-                    <ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        name="Publishable Key"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <AppInputText :title="$t('admin_settings.payments.stripe_pub_key')" :error="errors[0]">
                             <input
                                 v-model="paystack.credentials.key"
@@ -236,7 +318,13 @@
                         </AppInputText>
                     </ValidationProvider>
 
-                    <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+                    <ButtonBase
+                        :disabled="isLoading"
+                        :loading="isLoading"
+                        button-style="theme"
+                        type="submit"
+                        class="w-full"
+                    >
                         {{ $t('Store Credentials') }}
                     </ButtonBase>
                 </ValidationObserver>
@@ -247,15 +335,27 @@
         <div v-if="allowedPayments" class="card shadow-card">
             <img :src="$getPaymentLogo('paypal')" alt="PayPal" class="mb-8 h-8" />
 
-            <AppInputSwitch :title="$t('Allow PayPal Service')" :description="$t('Allow your users pay by their credit card')" :is-last="!paypal.allowedService">
-                <SwitchInput @input="$updateText('/admin/settings', 'allowed_paypal', paypal.allowedService)" v-model="paypal.allowedService" :state="paypal.allowedService" />
+            <AppInputSwitch
+                :title="$t('Allow PayPal Service')"
+                :description="$t('Allow your users pay by their credit card')"
+                :is-last="!paypal.allowedService"
+            >
+                <SwitchInput
+                    @input="$updateText('/admin/settings', 'allowed_paypal', paypal.allowedService)"
+                    v-model="paypal.allowedService"
+                    :state="paypal.allowedService"
+                />
             </AppInputSwitch>
 
             <!--Stripe credentials are set up-->
             <div v-if="paypal.allowedService">
                 <div v-if="paypal.isConfigured">
                     <AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle amid live and sandbox mode')">
-                        <SwitchInput @input="$updateText('/admin/settings', 'paypal_live', config.isPayPalLive)" v-model="config.isPayPalLive" :state="config.isPayPalLive" />
+                        <SwitchInput
+                            @input="$updateText('/admin/settings', 'paypal_live', config.isPayPalLive)"
+                            v-model="config.isPayPalLive"
+                            :state="config.isPayPalLive"
+                        />
                     </AppInputSwitch>
 
                     <AppInputText
@@ -265,15 +365,27 @@
                     >
                         <textarea
                             rows="2"
-                            @input="$updateText('/admin/settings', 'paypal_payment_description', paypal.paymentDescription, true)"
+                            @input="
+                                $updateText(
+                                    '/admin/settings',
+                                    'paypal_payment_description',
+                                    paypal.paymentDescription,
+                                    true
+                                )
+                            "
                             v-model="paypal.paymentDescription"
-                            :placeholder="$t('Describe in short which methods user can pay with this payment method...')"
+                            :placeholder="
+                                $t('Describe in short which methods user can pay with this payment method...')
+                            "
                             type="text"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
 
-                    <AppInputText :title="$t('Your Webhook URL')" :description="$t('Please copy your url and paste it to the service webhook setup.')">
+                    <AppInputText
+                        :title="$t('Your Webhook URL')"
+                        :description="$t('Please copy your url and paste it to the service webhook setup.')"
+                    >
                         <CopyInput size="small" :str="getWebhookEndpoint('paypal')" />
                     </AppInputText>
 
@@ -299,7 +411,13 @@
                     <FormLabel v-if="!paypal.isConfigured" icon="shield">
                         {{ $t('Configure Your Credentials') }}
                     </FormLabel>
-                    <ValidationProvider tag="div" mode="passive" name="Publishable Key" rules="required" v-slot="{ errors }">
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        name="Publishable Key"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <AppInputText :title="$t('admin_settings.payments.stripe_pub_key')" :error="errors[0]">
                             <input
                                 v-model="paypal.credentials.key"
@@ -333,7 +451,13 @@
                         </AppInputText>
                     </ValidationProvider>
 
-                    <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+                    <ButtonBase
+                        :disabled="isLoading"
+                        :loading="isLoading"
+                        button-style="theme"
+                        type="submit"
+                        class="w-full"
+                    >
                         {{ $t('Store Credentials') }}
                     </ButtonBase>
                 </ValidationObserver>
@@ -390,7 +514,9 @@ export default {
     computed: {
         ...mapGetters(['subscriptionTypes', 'config']),
         submitButtonText() {
-            return this.isLoading ? this.$t('admin_settings.payments.button_testing') : this.$t('admin_settings.payments.button_submit')
+            return this.isLoading
+                ? this.$t('admin_settings.payments.button_testing')
+                : this.$t('admin_settings.payments.button_submit')
         },
     },
     data() {
@@ -528,9 +654,10 @@ export default {
         },
     },
     created() {
-		events.$on('action:confirmed', (data) => {
-			if (data.operation === 'change-subscription-type') this.$updateText('/admin/settings', 'subscription_type', data.type)
-		})
+        events.$on('action:confirmed', (data) => {
+            if (data.operation === 'change-subscription-type')
+                this.$updateText('/admin/settings', 'subscription_type', data.type)
+        })
 
         // Set payment description
         this.stripe.paymentDescription = this.config.stripe_payment_description

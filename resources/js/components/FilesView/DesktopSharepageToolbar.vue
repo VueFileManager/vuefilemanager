@@ -31,13 +31,12 @@
 
                 <!--File Controls-->
                 <div class="ml-5 flex items-center xl:ml-8">
-
                     <!--Action buttons-->
                     <div v-if="canEdit && !$isMobile()" class="flex items-center">
                         <ToolbarButton
                             @click.native="$moveFileOrFolder(clipboard[0])"
                             :class="{
-                                'is-inactive': ! canManipulate,
+                                'is-inactive': !canManipulate,
                             }"
                             source="move"
                             :action="$t('actions.move')"
@@ -45,7 +44,7 @@
                         <ToolbarButton
                             @click.native="$deleteFileOrFolder(clipboard[0])"
                             :class="{
-                                'is-inactive': ! canManipulate,
+                                'is-inactive': !canManipulate,
                             }"
                             source="trash"
                             :action="$t('actions.delete')"
@@ -107,19 +106,13 @@ export default {
         Option,
     },
     computed: {
-        ...mapGetters([
-            'isVisibleNavigationBars',
-            'currentTeamFolder',
-            'currentFolder',
-            'sharedDetail',
-            'clipboard',
-        ]),
+        ...mapGetters(['isVisibleNavigationBars', 'currentTeamFolder', 'currentFolder', 'sharedDetail', 'clipboard']),
         canEdit() {
             return this.sharedDetail && this.sharedDetail.data.attributes.permission === 'editor'
         },
-		canManipulate() {
-			return this.clipboard[0]
-		}
+        canManipulate() {
+            return this.clipboard[0]
+        },
     },
     methods: {
         showCreateMenu() {

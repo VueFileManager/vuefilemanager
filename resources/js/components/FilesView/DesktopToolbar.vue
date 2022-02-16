@@ -12,20 +12,27 @@
                         :action="$t('actions.create')"
                     />
                     <PopoverItem name="desktop-create" side="left">
-                        <OptionGroup :title="$t('Upload')" :class="{'is-inactive': canUploadInView || isTeamFolderHomepage || isSharedWithMeHomepage}">
+                        <OptionGroup
+                            :title="$t('Upload')"
+                            :class="{
+                                'is-inactive': canUploadInView || isTeamFolderHomepage || isSharedWithMeHomepage,
+                            }"
+                        >
                             <OptionUpload :title="$t('actions.upload')" type="file" />
                             <OptionUpload :title="$t('actions.upload_folder')" type="folder" />
                         </OptionGroup>
                         <OptionGroup :title="$t('Create')">
                             <Option
                                 @click.stop.native="$createFolder"
-                                :class="{ 'is-inactive': canCreateFolder || isTeamFolderHomepage || isSharedWithMeHomepage }"
+                                :class="{
+                                    'is-inactive': canCreateFolder || isTeamFolderHomepage || isSharedWithMeHomepage,
+                                }"
                                 :title="$t('actions.create_folder')"
                                 icon="folder-plus"
                             />
                             <Option
                                 @click.stop.native="$createTeamFolder"
-								:class="{ 'is-inactive': canCreateTeamFolder || isSharedWithMeHomepage }"
+                                :class="{ 'is-inactive': canCreateTeamFolder || isSharedWithMeHomepage }"
                                 :title="$t('Create Team Folder')"
                                 icon="users"
                             />

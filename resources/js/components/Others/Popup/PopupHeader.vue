@@ -22,7 +22,17 @@
 </template>
 
 <script>
-import { CreditCardIcon, KeyIcon, UserPlusIcon, CornerDownRightIcon, LinkIcon, XIcon, Edit2Icon, ShareIcon, UsersIcon } from 'vue-feather-icons'
+import {
+    CreditCardIcon,
+    KeyIcon,
+    UserPlusIcon,
+    CornerDownRightIcon,
+    LinkIcon,
+    XIcon,
+    Edit2Icon,
+    ShareIcon,
+    UsersIcon,
+} from 'vue-feather-icons'
 import { events } from '../../../bus'
 
 export default {

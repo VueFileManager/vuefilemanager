@@ -31,7 +31,11 @@
                 <ValidationObserver @submit.prevent v-slot="{ invalid }" ref="shareEmail" tag="form">
                     <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
                         <AppInputText title="Share with" :error="errors[0]" :is-last="true">
-                            <MultiEmailInput rules="required" v-model="emails" :label="$t('shared_form.label_send_to_recipients')" />
+                            <MultiEmailInput
+                                rules="required"
+                                v-model="emails"
+                                :label="$t('shared_form.label_send_to_recipients')"
+                            />
                         </AppInputText>
                     </ValidationProvider>
                 </ValidationObserver>
@@ -41,7 +45,13 @@
                 <ButtonBase class="w-full" @click.native="showSection(undefined)" button-style="secondary">
                     {{ $t('Show Details') }}
                 </ButtonBase>
-                <ButtonBase class="w-full" @click.native="sendViaEmail" button-style="theme" :loading="isLoading" :disabled="isLoading">
+                <ButtonBase
+                    class="w-full"
+                    @click.native="sendViaEmail"
+                    button-style="theme"
+                    :loading="isLoading"
+                    :disabled="isLoading"
+                >
                     {{ $t('Send') }}
                 </ButtonBase>
             </PopupActions>
@@ -60,7 +70,14 @@
 
                 <ValidationObserver @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form">
                     <!--Permission Select-->
-                    <ValidationProvider v-if="isFolder" tag="div" mode="passive" name="Permission" rules="required" v-slot="{ errors }">
+                    <ValidationProvider
+                        v-if="isFolder"
+                        tag="div"
+                        mode="passive"
+                        name="Permission"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <AppInputText :title="$t('shared_form.label_permission')" :error="errors[0]">
                             <SelectInput
                                 v-model="shareOptions.permission"
@@ -74,12 +91,23 @@
 
                     <!--Password Switch-->
                     <div>
-                        <AppInputSwitch :title="$t('shared_form.label_password_protection')" :description="$t('popup.share.password_description')">
-                            <SwitchInput v-model="shareOptions.isProtected" class="switch" :state="shareOptions.isProtected" />
+                        <AppInputSwitch
+                            :title="$t('shared_form.label_password_protection')"
+                            :description="$t('popup.share.password_description')"
+                        >
+                            <SwitchInput
+                                v-model="shareOptions.isProtected"
+                                class="switch"
+                                :state="shareOptions.isProtected"
+                            />
                         </AppInputSwitch>
 
                         <ActionButton
-                            v-if="pickedItem.data.relationships.shared.data.attributes.protected && canChangePassword && shareOptions.isProtected"
+                            v-if="
+                                pickedItem.data.relationships.shared.data.attributes.protected &&
+                                canChangePassword &&
+                                shareOptions.isProtected
+                            "
                             @click.native="changePassword"
                             class="mb-6 -mt-4"
                         >
@@ -87,7 +115,14 @@
                         </ActionButton>
 
                         <!--Set password-->
-                        <ValidationProvider v-if="shareOptions.isProtected && !canChangePassword" tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
+                        <ValidationProvider
+                            v-if="shareOptions.isProtected && !canChangePassword"
+                            tag="div"
+                            mode="passive"
+                            name="Password"
+                            rules="required"
+                            v-slot="{ errors }"
+                        >
                             <AppInputText :error="errors[0]" class="-mt-2">
                                 <input
                                     v-model="shareOptions.password"
@@ -102,23 +137,48 @@
 
                     <!--Expiration switch-->
                     <div>
-                        <AppInputSwitch :title="$t('expiration')" :description="$t('popup.share.expiration_description')" :is-last="!shareOptions.expiration">
-                            <SwitchInput v-model="shareOptions.expiration" class="switch" :state="shareOptions.expiration ? 1 : 0" />
+                        <AppInputSwitch
+                            :title="$t('expiration')"
+                            :description="$t('popup.share.expiration_description')"
+                            :is-last="!shareOptions.expiration"
+                        >
+                            <SwitchInput
+                                v-model="shareOptions.expiration"
+                                class="switch"
+                                :state="shareOptions.expiration ? 1 : 0"
+                            />
                         </AppInputSwitch>
 
                         <!--Set expiration-->
                         <AppInputText v-if="shareOptions.expiration" class="-mt-2" :is-last="true">
-                            <SelectBoxInput v-model="shareOptions.expiration" :data="$translateSelectOptions(expirationList)" :value="shareOptions.expiration" class="box" />
+                            <SelectBoxInput
+                                v-model="shareOptions.expiration"
+                                :data="$translateSelectOptions(expirationList)"
+                                :value="shareOptions.expiration"
+                                class="box"
+                            />
                         </AppInputText>
                     </div>
                 </ValidationObserver>
             </PopupContent>
 
             <PopupActions>
-                <ButtonBase class="w-full" @click.native="destroySharing" :button-style="destroyButtonStyle" :loading="isDeleting" :disabled="isDeleting">
+                <ButtonBase
+                    class="w-full"
+                    @click.native="destroySharing"
+                    :button-style="destroyButtonStyle"
+                    :loading="isDeleting"
+                    :disabled="isDeleting"
+                >
                     {{ destroyButtonText }}
                 </ButtonBase>
-                <ButtonBase class="w-full" @click.native="updateShareOptions" button-style="theme" :loading="isLoading" :disabled="isLoading">
+                <ButtonBase
+                    class="w-full"
+                    @click.native="updateShareOptions"
+                    button-style="theme"
+                    :loading="isLoading"
+                    :disabled="isLoading"
+                >
                     {{ $t('Store Changes') }}
                 </ButtonBase>
             </PopupActions>

@@ -4,7 +4,12 @@
             {{ $t('Transactions') }}
         </FormLabel>
 
-        <DatatableWrapper class="overflow-x-auto" api="/api/subscriptions/transactions" :paginator="true" :columns="columns">
+        <DatatableWrapper
+            class="overflow-x-auto"
+            api="/api/subscriptions/transactions"
+            :paginator="true"
+            :columns="columns"
+        >
             <template slot-scope="{ row }">
                 <FixedTransactionRow :row="row" />
             </template>
@@ -36,7 +41,9 @@ export default {
     },
     computed: {
         columns() {
-            return this.$store.getters.transactionColumns.filter((column) => !['type', 'user_id'].includes(column.field))
+            return this.$store.getters.transactionColumns.filter(
+                (column) => !['type', 'user_id'].includes(column.field)
+            )
         },
     },
 }

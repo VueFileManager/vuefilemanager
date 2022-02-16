@@ -96,13 +96,17 @@
                     <!--File & Image sub line-->
                     <small v-if="!isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
                         {{ entry.data.attributes.filesize }}
-						<span class="hidden text-xs text-gray-500 dark:text-gray-500 lg:inline-block">, {{ timeStamp }}</span>
+                        <span class="hidden text-xs text-gray-500 dark:text-gray-500 lg:inline-block"
+                            >, {{ timeStamp }}</span
+                        >
                     </small>
 
                     <!--Folder sub line-->
                     <small v-if="isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
                         {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems)
-                        }}<span class="hidden text-xs text-gray-500 dark:text-gray-500 lg:inline-block">, {{ timeStamp }}</span>
+                        }}<span class="hidden text-xs text-gray-500 dark:text-gray-500 lg:inline-block"
+                            >, {{ timeStamp }}</span
+                        >
                     </small>
                 </div>
             </div>

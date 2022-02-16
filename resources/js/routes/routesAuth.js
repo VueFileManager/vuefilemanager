@@ -10,7 +10,8 @@ const routesAuth = [
     {
         name: 'SuccessfullyVerified',
         path: '/successfully-verified',
-        component: () => import(/* webpackChunkName: "chunks/email-verified" */ '../views/Auth/SuccessfullyEmailVerified'),
+        component: () =>
+            import(/* webpackChunkName: "chunks/email-verified" */ '../views/Auth/SuccessfullyEmailVerified'),
         meta: {
             requiresAuth: false,
         },

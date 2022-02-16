@@ -20,14 +20,25 @@
                     v-if="clipboard.length > 1 && !isSelectedItem"
                 />
 
-                <TreeMenu class="-mx-4" :disabled-by-id="pickedItem" :depth="1" :nodes="items" v-for="items in navigation" :key="items.id" />
+                <TreeMenu
+                    class="-mx-4"
+                    :disabled-by-id="pickedItem"
+                    :depth="1"
+                    :nodes="items"
+                    v-for="items in navigation"
+                    :key="items.id"
+                />
             </div>
         </PopupContent>
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">{{ $t('popup_move_item.cancel') }} </ButtonBase>
-            <ButtonBase class="w-full" @click.native="moveItem" :button-style="selectedFolder ? 'theme' : 'secondary'">{{ $t('popup_move_item.submit') }} </ButtonBase>
+            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+                >{{ $t('popup_move_item.cancel') }}
+            </ButtonBase>
+            <ButtonBase class="w-full" @click.native="moveItem" :button-style="selectedFolder ? 'theme' : 'secondary'"
+                >{{ $t('popup_move_item.submit') }}
+            </ButtonBase>
         </PopupActions>
     </PopupWrapper>
 </template>
@@ -76,7 +87,11 @@ export default {
             if (!this.selectedFolder) return
 
             // Prevent to move items to the same parent
-            if (isArray(this.selectedFolder) && this.clipboard.find((item) => item.parent_id === this.selectedFolder.id)) return
+            if (
+                isArray(this.selectedFolder) &&
+                this.clipboard.find((item) => item.parent_id === this.selectedFolder.id)
+            )
+                return
 
             // Move item
             if (!this.isSelectedItem) {

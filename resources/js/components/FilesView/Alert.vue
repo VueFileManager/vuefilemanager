@@ -10,7 +10,9 @@
                     <p v-if="message" class="message">{{ message }}</p>
                 </div>
                 <div class="popup-actions">
-                    <ButtonBase @click.native="closePopup" :button-style="buttonStyle" class="action-confirm">{{ button }} </ButtonBase>
+                    <ButtonBase @click.native="closePopup" :button-style="buttonStyle" class="action-confirm"
+                        >{{ button }}
+                    </ButtonBase>
                 </div>
             </div>
         </div>

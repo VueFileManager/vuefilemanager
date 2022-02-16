@@ -3,17 +3,35 @@
         <MobileContextMenu>
             <template v-slot:editor>
                 <OptionGroup>
-                    <Option v-if="item" @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
-                    <Option v-if="item" @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
+                    <Option
+                        v-if="item"
+                        @click.native="$renameFileOrFolder(item)"
+                        :title="$t('context_menu.rename')"
+                        icon="rename"
+                    />
+                    <Option
+                        v-if="item"
+                        @click.native="$moveFileOrFolder(item)"
+                        :title="$t('context_menu.move')"
+                        icon="move-item"
+                    />
                     <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+                    <Option
+                        @click.native="$downloadSelection(item)"
+                        :title="$t('context_menu.download')"
+                        icon="download"
+                    />
                 </OptionGroup>
             </template>
             <template v-slot:visitor>
                 <OptionGroup>
-                    <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+                    <Option
+                        @click.native="$downloadSelection(item)"
+                        :title="$t('context_menu.download')"
+                        icon="download"
+                    />
                 </OptionGroup>
             </template>
         </MobileContextMenu>
@@ -24,13 +42,23 @@
                 <OptionUpload :title="$t('actions.upload_folder')" type="folder" :is-hover-disabled="true" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.stop.native="createFolder" :title="$t('actions.create_folder')" icon="folder-plus" :is-hover-disabled="true" />
+                <Option
+                    @click.stop.native="createFolder"
+                    :title="$t('actions.create_folder')"
+                    icon="folder-plus"
+                    :is-hover-disabled="true"
+                />
             </OptionGroup>
         </MobileCreateMenu>
 
         <MobileMultiSelectToolbar>
             <template v-slot:visitor>
-                <ToolbarButton @click.native="$downloadSelection()" class="action-btn" source="download" :action="$t('actions.download')" />
+                <ToolbarButton
+                    @click.native="$downloadSelection()"
+                    class="action-btn"
+                    source="download"
+                    :action="$t('actions.download')"
+                />
             </template>
             <template v-slot:editor>
                 <ToolbarButton
@@ -47,7 +75,12 @@
                     :class="{ 'is-inactive': clipboard.length < 1 }"
                     :action="$t('actions.delete')"
                 />
-                <ToolbarButton @click.native="$downloadSelection()" class="action-btn" source="download" :action="$t('actions.download')" />
+                <ToolbarButton
+                    @click.native="$downloadSelection()"
+                    class="action-btn"
+                    source="download"
+                    :action="$t('actions.download')"
+                />
             </template>
         </MobileMultiSelectToolbar>
 
@@ -58,19 +91,31 @@
                     <OptionUpload :title="$t('actions.upload_folder')" type="folder" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$createFolder" :title="$t('context_menu.create_folder')" icon="create-folder" />
+                    <Option
+                        @click.native="$createFolder"
+                        :title="$t('context_menu.create_folder')"
+                        icon="create-folder"
+                    />
                 </OptionGroup>
             </template>
 
             <template v-slot:single-select v-if="item">
                 <OptionGroup v-if="$checkPermission('editor')">
-                    <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+                    <Option
+                        @click.native="$renameFileOrFolder(item)"
+                        :title="$t('context_menu.rename')"
+                        icon="rename"
+                    />
                     <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
                     <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
-                    <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+                    <Option
+                        @click.native="$downloadSelection(item)"
+                        :title="$t('context_menu.download')"
+                        icon="download"
+                    />
                 </OptionGroup>
             </template>
 
@@ -188,7 +233,7 @@ export default {
 
         events.$on('context-menu:show', (event, item) => (this.item = item))
         events.$on('mobile-context-menu:show', (item) => (this.item = item))
-		events.$on('context-menu:current-folder', (folder) => (this.item = folder))
-	},
+        events.$on('context-menu:current-folder', (folder) => (this.item = folder))
+    },
 }
 </script>

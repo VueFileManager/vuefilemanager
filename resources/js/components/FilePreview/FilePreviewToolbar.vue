@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentFile" class="items-center px-3.5 py-4 lg:grid lg:grid-cols-3 lg:py-3 select-none">
+    <div v-if="currentFile" class="select-none items-center px-3.5 py-4 lg:grid lg:grid-cols-3 lg:py-3">
         <div class="flex items-center justify-between lg:w-auto lg:justify-start">
             <!--Close icon-->
             <div @click="closeFullPreview" class="order-last -m-3 cursor-pointer p-3 lg:order-none">

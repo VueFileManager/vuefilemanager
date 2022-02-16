@@ -33,7 +33,12 @@
             <!--Currency-->
             <ValidationProvider tag="div" mode="passive" name="Currency" rules="required" v-slot="{ errors }">
                 <AppInputText :title="$t('Currency')" class="w-full" :is-last="true">
-                    <SelectInput v-model="plan.currency" :options="currencyList" :placeholder="$t('Select plan currency')" :isError="errors[0]" />
+                    <SelectInput
+                        v-model="plan.currency"
+                        :options="currencyList"
+                        :placeholder="$t('Select plan currency')"
+                        :isError="errors[0]"
+                    />
                 </AppInputText>
             </ValidationProvider>
         </div>
@@ -45,11 +50,26 @@
 
             <!--Bandwidth-->
             <div>
-                <AppInputSwitch :title="$t('Bandwidth Price per 1GB')" :description="$t('Charge your user by the amount of data he upload or download.')">
-                    <SwitchInput v-model="plan.features.bandwidth.active" class="switch" :state="plan.features.bandwidth.active" />
+                <AppInputSwitch
+                    :title="$t('Bandwidth Price per 1GB')"
+                    :description="$t('Charge your user by the amount of data he upload or download.')"
+                >
+                    <SwitchInput
+                        v-model="plan.features.bandwidth.active"
+                        class="switch"
+                        :state="plan.features.bandwidth.active"
+                    />
                 </AppInputSwitch>
 
-                <ValidationProvider v-if="plan.features.bandwidth.active" class="-mt-3" tag="div" mode="passive" name="Bandwidth Price" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                    v-if="plan.features.bandwidth.active"
+                    class="-mt-3"
+                    tag="div"
+                    mode="passive"
+                    name="Bandwidth Price"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <AppInputText class="w-full">
                         <input
                             v-model="plan.features.bandwidth.per_unit"
@@ -67,12 +87,27 @@
 
             <!--Storage-->
             <div>
-                <AppInputSwitch :title="$t('Storage Price per 1GB')" :description="$t('Charge your user by the amount of data he has stored on the disk per 1GB.')">
-                    <SwitchInput v-model="plan.features.storage.active" class="switch" :state="plan.features.storage.active" />
+                <AppInputSwitch
+                    :title="$t('Storage Price per 1GB')"
+                    :description="$t('Charge your user by the amount of data he has stored on the disk per 1GB.')"
+                >
+                    <SwitchInput
+                        v-model="plan.features.storage.active"
+                        class="switch"
+                        :state="plan.features.storage.active"
+                    />
                 </AppInputSwitch>
             </div>
 
-            <ValidationProvider v-if="plan.features.storage.active" class="-mt-3" tag="div" mode="passive" name="Storage Price" rules="required" v-slot="{ errors }">
+            <ValidationProvider
+                v-if="plan.features.storage.active"
+                class="-mt-3"
+                tag="div"
+                mode="passive"
+                name="Storage Price"
+                rules="required"
+                v-slot="{ errors }"
+            >
                 <AppInputText class="w-full">
                     <input
                         v-model="plan.features.storage.per_unit"
@@ -89,12 +124,27 @@
 
             <!--Member-->
             <div>
-                <AppInputSwitch :title="$t('Price per 1 Member')" :description="$t('Charge your user by the total members he use in his Team Folders.')">
-                    <SwitchInput v-model="plan.features.member.active" class="switch" :state="plan.features.member.active" />
+                <AppInputSwitch
+                    :title="$t('Price per 1 Member')"
+                    :description="$t('Charge your user by the total members he use in his Team Folders.')"
+                >
+                    <SwitchInput
+                        v-model="plan.features.member.active"
+                        class="switch"
+                        :state="plan.features.member.active"
+                    />
                 </AppInputSwitch>
             </div>
 
-            <ValidationProvider v-if="plan.features.member.active" class="-mt-3" tag="div" mode="passive" name="Member Price" rules="required" v-slot="{ errors }">
+            <ValidationProvider
+                v-if="plan.features.member.active"
+                class="-mt-3"
+                tag="div"
+                mode="passive"
+                name="Member Price"
+                rules="required"
+                v-slot="{ errors }"
+            >
                 <AppInputText class="w-full">
                     <input
                         v-model="plan.features.member.per_unit"
@@ -111,11 +161,27 @@
 
             <!--Flat Fee-->
             <div>
-                <AppInputSwitch :title="$t('Flat Fee per Cycle')" :description="$t('Charge monthly flat fee.')" :is-last="!plan.features.flatFee.active">
-                    <SwitchInput v-model="plan.features.flatFee.active" class="switch" :state="plan.features.flatFee.active" />
+                <AppInputSwitch
+                    :title="$t('Flat Fee per Cycle')"
+                    :description="$t('Charge monthly flat fee.')"
+                    :is-last="!plan.features.flatFee.active"
+                >
+                    <SwitchInput
+                        v-model="plan.features.flatFee.active"
+                        class="switch"
+                        :state="plan.features.flatFee.active"
+                    />
                 </AppInputSwitch>
 
-                <ValidationProvider v-if="plan.features.flatFee.active" class="-mt-3" tag="div" mode="passive" name="FlatFee Price" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                    v-if="plan.features.flatFee.active"
+                    class="-mt-3"
+                    tag="div"
+                    mode="passive"
+                    name="FlatFee Price"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <AppInputText class="w-full" :is-last="true">
                         <input
                             v-model="plan.features.flatFee.per_unit"
@@ -273,7 +339,7 @@ export default {
                     }
                 })
                 .catch((error) => {
-					console.log(error);
+                    console.log(error)
                     events.$emit('toaster', {
                         type: 'danger',
                         message: this.$t('popup_error.title'),

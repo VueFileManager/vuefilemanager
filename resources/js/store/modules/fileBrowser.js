@@ -140,7 +140,7 @@ const mutations = {
         })
     },
     CHANGE_ITEM_NAME(state, file) {
-        state.entries.find(item => {
+        state.entries.find((item) => {
             if (item.data.id === file.data.id) {
                 item.data.attributes.name = file.data.attributes.name
                 item.data.attributes.color = file.data.attributes.color ? file.data.attributes.color : null

@@ -4,8 +4,21 @@
         <AuthContent name="log-in" :visible="true">
             <Headline :title="$t('page_login.title')" :description="$t('page_login.subtitle')" />
 
-            <ValidationObserver @submit.prevent="logIn" ref="log_in" v-slot="{ invalid }" tag="form" class="mb-12 items-start space-y-4 md:flex md:space-x-4 md:space-y-0">
-                <ValidationProvider class="w-full text-left" tag="div" mode="passive" name="E-Mail" rules="required" v-slot="{ errors }">
+            <ValidationObserver
+                @submit.prevent="logIn"
+                ref="log_in"
+                v-slot="{ invalid }"
+                tag="form"
+                class="mb-12 items-start space-y-4 md:flex md:space-x-4 md:space-y-0"
+            >
+                <ValidationProvider
+                    class="w-full text-left"
+                    tag="div"
+                    mode="passive"
+                    name="E-Mail"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <input
                         class="focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
                         :class="{ 'border-red': errors[0] }"
@@ -16,7 +29,13 @@
                     <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton class="w-full justify-center md:w-min" icon="chevron-right" :text="$t('page_login.button_next')" :loading="isLoading" :disabled="isLoading" />
+                <AuthButton
+                    class="w-full justify-center md:w-min"
+                    icon="chevron-right"
+                    :text="$t('page_login.button_next')"
+                    :loading="isLoading"
+                    :disabled="isLoading"
+                />
             </ValidationObserver>
 
             <SocialiteAuthenticationButtons />
@@ -31,12 +50,33 @@
 
         <!--Log in By Password-->
         <AuthContent name="sign-in" :visible="false">
-            <Headline v-if="checkedAccount" :title="$t('page_sign_in.title', { name: checkedAccount.name })" :description="$t('page_sign_in.subtitle')">
-                <img class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name" />
+            <Headline
+                v-if="checkedAccount"
+                :title="$t('page_sign_in.title', { name: checkedAccount.name })"
+                :description="$t('page_sign_in.subtitle')"
+            >
+                <img
+                    class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl"
+                    :src="checkedAccount.avatar.md"
+                    :alt="checkedAccount.name"
+                />
             </Headline>
 
-            <ValidationObserver @submit.prevent="singIn" ref="sign_in" v-slot="{ invalid }" tag="form" class="mb-12 items-start space-y-4 md:flex md:space-x-4 md:space-y-0">
-                <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="User Password" rules="required" v-slot="{ errors }">
+            <ValidationObserver
+                @submit.prevent="singIn"
+                ref="sign_in"
+                v-slot="{ invalid }"
+                tag="form"
+                class="mb-12 items-start space-y-4 md:flex md:space-x-4 md:space-y-0"
+            >
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    class="w-full text-left"
+                    name="User Password"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <input
                         v-model="loginPassword"
                         :placeholder="$t('page_sign_in.placeholder_password')"
@@ -47,7 +87,13 @@
                     <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
 
-                <AuthButton class="w-full justify-center md:w-min" icon="chevron-right" :text="$t('page_sign_in.button_log_in')" :loading="isLoading" :disabled="isLoading" />
+                <AuthButton
+                    class="w-full justify-center md:w-min"
+                    icon="chevron-right"
+                    :text="$t('page_sign_in.button_log_in')"
+                    :loading="isLoading"
+                    :disabled="isLoading"
+                />
             </ValidationObserver>
 
             <span class="block">
@@ -60,8 +106,16 @@
 
         <!--Resend verification email-->
         <AuthContent name="not-verified" :visible="false">
-            <Headline v-if="checkedAccount" :title="$t('page_sign_in_2fa_title', { name: checkedAccount.name })" :description="$t('page_not_verified.subtitle')">
-                <img class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name" />
+            <Headline
+                v-if="checkedAccount"
+                :title="$t('page_sign_in_2fa_title', { name: checkedAccount.name })"
+                :description="$t('page_not_verified.subtitle')"
+            >
+                <img
+                    class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl"
+                    :src="checkedAccount.avatar.md"
+                    :alt="checkedAccount.name"
+                />
             </Headline>
 
             <span class="block">
@@ -74,12 +128,27 @@
 
         <!-- Log in by 2fa -->
         <AuthContent name="two-factor-authentication" :visible="false">
-            <Headline v-if="checkedAccount" :title="$t('page_sign_in_2fa_title', { name: checkedAccount.name })" :description="$t('page_sign_in_2fa_subtitle')">
-                <img class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name" />
+            <Headline
+                v-if="checkedAccount"
+                :title="$t('page_sign_in_2fa_title', { name: checkedAccount.name })"
+                :description="$t('page_sign_in_2fa_subtitle')"
+            >
+                <img
+                    class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl"
+                    :src="checkedAccount.avatar.md"
+                    :alt="checkedAccount.name"
+                />
             </Headline>
 
             <ValidationObserver ref="two_factor_authentication" v-slot="{ invalid }" tag="form" class="mb-12">
-                <ValidationProvider tag="div" mode="passive" class="mx-auto" name="Two Factor Authentication" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    class="mx-auto"
+                    name="Two Factor Authentication"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <input
                         v-model="twoFactorCode"
                         ref="twoFactorCodeInput"
@@ -108,12 +177,27 @@
 
         <!-- Log in by 2fa with recovery code -->
         <AuthContent name="two-factor-recovery" :visible="false">
-            <Headline v-if="checkedAccount" :title="$t('page_sign_in_2fa_title', { name: checkedAccount.name })" :description="$t('page_sign_in.2fa_recovery_subtitle')">
-                <img class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl" :src="checkedAccount.avatar.md" :alt="checkedAccount.name" />
+            <Headline
+                v-if="checkedAccount"
+                :title="$t('page_sign_in_2fa_title', { name: checkedAccount.name })"
+                :description="$t('page_sign_in.2fa_recovery_subtitle')"
+            >
+                <img
+                    class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl"
+                    :src="checkedAccount.avatar.md"
+                    :alt="checkedAccount.name"
+                />
             </Headline>
 
             <ValidationObserver ref="two_factor_recovery" v-slot="{ invalid }" tag="form" class="mb-12">
-                <ValidationProvider tag="div" mode="passive" class="mx-auto" name="Two Factor Recovery" rules="required" v-slot="{ errors }">
+                <ValidationProvider
+                    tag="div"
+                    mode="passive"
+                    class="mx-auto"
+                    name="Two Factor Recovery"
+                    rules="required"
+                    v-slot="{ errors }"
+                >
                     <input
                         v-model="twoFactorRecoveryCode"
                         :placeholder="$t('page_sign_in.placeholder_2fa_recovery')"
@@ -299,7 +383,10 @@ export default {
         },
         async twoFactorChallenge(recovery) {
             // Check if is normal authentication or recovery
-            if ((!recovery && this.twoFactorCode.length === 6) || (recovery && this.twoFactorRecoveryCode.length === 21)) {
+            if (
+                (!recovery && this.twoFactorCode.length === 6) ||
+                (recovery && this.twoFactorRecoveryCode.length === 21)
+            ) {
                 this.isLoading = true
 
                 let payload = recovery ? { recovery_code: this.twoFactorRecoveryCode } : { code: this.twoFactorCode }

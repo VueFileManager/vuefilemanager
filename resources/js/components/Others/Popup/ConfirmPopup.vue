@@ -14,8 +14,12 @@
         </div>
 
         <PopupActions>
-            <ButtonBase @click.native="closePopup" button-style="secondary" class="w-full">{{ $t('global.cancel') }} </ButtonBase>
-            <ButtonBase @click.native="confirm" :button-style="buttonColor" class="w-full">{{ $t('global.confirm_action') }} </ButtonBase>
+            <ButtonBase @click.native="closePopup" button-style="secondary" class="w-full"
+                >{{ $t('global.cancel') }}
+            </ButtonBase>
+            <ButtonBase @click.native="confirm" :button-style="buttonColor" class="w-full"
+                >{{ $t('global.confirm_action') }}
+            </ButtonBase>
         </PopupActions>
     </PopupWrapper>
 </template>

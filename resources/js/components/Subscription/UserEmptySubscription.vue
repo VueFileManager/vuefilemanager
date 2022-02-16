@@ -12,7 +12,13 @@
             {{ $t('Upgrade your account to get more.') }}
         </b>
 
-        <ButtonBase v-if="$store.getters.config.allowed_payments" @click.native="$openUpgradeOptions" type="submit" button-style="theme" class="mt-4 w-full">
+        <ButtonBase
+            v-if="$store.getters.config.allowed_payments"
+            @click.native="$openUpgradeOptions"
+            type="submit"
+            button-style="theme"
+            class="mt-4 w-full"
+        >
             {{ $t('Upgrade Your Account') }}
         </ButtonBase>
     </div>

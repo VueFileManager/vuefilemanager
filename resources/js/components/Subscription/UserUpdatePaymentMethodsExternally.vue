@@ -4,8 +4,17 @@
             {{ $t('Update Payments') }}
         </FormLabel>
 
-        <AppInputButton :title="$t('Update your Payment Method')" :description="$t('You will be redirected to your payment provider to edit your payment method.')" :is-last="true">
-            <ButtonBase @click.native="updatePaymentMethod" :loading="isGeneratedUpdateLink" class="w-full sm:w-auto" button-style="theme">
+        <AppInputButton
+            :title="$t('Update your Payment Method')"
+            :description="$t('You will be redirected to your payment provider to edit your payment method.')"
+            :is-last="true"
+        >
+            <ButtonBase
+                @click.native="updatePaymentMethod"
+                :loading="isGeneratedUpdateLink"
+                class="w-full sm:w-auto"
+                button-style="theme"
+            >
                 {{ $t('Update Payments') }}
             </ButtonBase>
         </AppInputButton>
@@ -30,7 +39,11 @@ export default {
     },
     computed: {
         canShowForSubscription() {
-            return this.hasSubscription && !this.subscription.attributes.is_cancelled && ['paystack', 'paypal'].includes(this.subscription.attributes.driver)
+            return (
+                this.hasSubscription &&
+                !this.subscription.attributes.is_cancelled &&
+                ['paystack', 'paypal'].includes(this.subscription.attributes.driver)
+            )
         },
         subscription() {
             return this.$store.getters.user.data.relationships.subscription.data

@@ -5,24 +5,38 @@
                 <OptionGroup v-if="isFolder">
                     <Option
                         @click.native="addToFavourites"
-                        :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')"
+                        :title="
+                            isInFavourites
+                                ? $t('context_menu.remove_from_favourites')
+                                : $t('context_menu.add_to_favourites')
+                        "
                         icon="favourites"
                     />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
+                    <Option
+                        @click.native="$renameFileOrFolder(item)"
+                        :title="$t('context_menu.rename')"
+                        icon="rename"
+                    />
                     <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option
                         @click.native="$shareFileOrFolder(item)"
-                        :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')"
+                        :title="
+                            item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')
+                        "
                         icon="share"
                     />
                 </OptionGroup>
                 <OptionGroup>
                     <Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
-                    <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+                    <Option
+                        @click.native="$downloadSelection(item)"
+                        :title="$t('context_menu.download')"
+                        icon="download"
+                    />
                 </OptionGroup>
             </template>
 
@@ -30,7 +44,11 @@
                 <OptionGroup v-if="!hasFile">
                     <Option
                         @click.native="addToFavourites"
-                        :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')"
+                        :title="
+                            isInFavourites
+                                ? $t('context_menu.remove_from_favourites')
+                                : $t('context_menu.add_to_favourites')
+                        "
                         icon="favourites"
                     />
                 </OptionGroup>
@@ -48,7 +66,11 @@
             <OptionGroup v-if="isFolder">
                 <Option
                     @click.native="addToFavourites"
-                    :title="isInFavourites ? $t('context_menu.remove_from_favourites') : $t('context_menu.add_to_favourites')"
+                    :title="
+                        isInFavourites
+                            ? $t('context_menu.remove_from_favourites')
+                            : $t('context_menu.add_to_favourites')
+                    "
                     icon="favourites"
                 />
             </OptionGroup>
@@ -57,7 +79,15 @@
                 <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="$shareFileOrFolder(item)" :title="item && item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')" icon="share" />
+                <Option
+                    @click.native="$shareFileOrFolder(item)"
+                    :title="
+                        item && item.data.relationships.shared
+                            ? $t('context_menu.share_edit')
+                            : $t('context_menu.share')
+                    "
+                    icon="share"
+                />
             </OptionGroup>
             <OptionGroup>
                 <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
@@ -86,7 +116,12 @@
         <FileBrowser />
 
         <MobileMultiSelectToolbar>
-            <ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
+            <ToolbarButton
+                @click.native="$downloadSelection(item)"
+                class="action-btn"
+                source="download"
+                :action="$t('actions.download')"
+            />
             <ToolbarButton @click.native="$shareCancel" class="action-btn" source="shared-off" />
         </MobileMultiSelectToolbar>
     </div>

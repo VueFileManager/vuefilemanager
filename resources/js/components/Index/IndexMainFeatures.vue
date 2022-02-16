@@ -1,6 +1,11 @@
 <template>
     <section class="main-features page-wrapper medium">
-        <PageTitle v-if="index.section_features === '1'" type="center" :title="index.features_title" :description="index.features_description"></PageTitle>
+        <PageTitle
+            v-if="index.section_features === '1'"
+            type="center"
+            :title="index.features_title"
+            :description="index.features_description"
+        ></PageTitle>
         <div v-if="index.section_feature_boxes === '1'" class="content">
             <div class="hero">
                 <img src="/assets/images/hero-Illustration.svg" alt="Hero" />

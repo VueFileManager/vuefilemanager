@@ -16,7 +16,8 @@
                     v-if="data.length === 1"
                     :class="[
                         {
-                            'rounded-tl-lg rounded-bl-lg border-r-2 border-white dark:border-gray-800': chart.progress < 100,
+                            'rounded-tl-lg rounded-bl-lg border-r-2 border-white dark:border-gray-800':
+                                chart.progress < 100,
                             'rounded-lg border-none': chart.progress >= 100,
                         },
                         chart.color,

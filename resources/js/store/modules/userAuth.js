@@ -64,7 +64,10 @@ const actions = {
 
         items.forEach((item) => {
             if (item.data.type === 'folder') {
-                if (context.getters.user.data.relationships.favourites.data.find((folder) => folder.id === item.data.id)) return
+                if (
+                    context.getters.user.data.relationships.favourites.data.find((folder) => folder.id === item.data.id)
+                )
+                    return
 
                 addFavourites.push({ id: item.data.id })
             }
@@ -137,7 +140,9 @@ const mutations = {
         state.user.data.relationships.settings.data.attributes.avatar.sm = avatar
     },
     REMOVE_ITEM_FROM_FAVOURITES(state, item) {
-        state.user.data.relationships.favourites.data = state.user.data.relationships.favourites.data.filter((folder) => folder.data.id !== item.data.id)
+        state.user.data.relationships.favourites.data = state.user.data.relationships.favourites.data.filter(
+            (folder) => folder.data.id !== item.data.id
+        )
     },
     UPDATE_NAME_IN_FAVOURITES(state, data) {
         state.user.data.relationships.favourites.data.find((folder) => {
@@ -149,7 +154,10 @@ const mutations = {
 }
 
 const getters = {
-    isLimitedUser: (state) => state.user && state.user.data.relationships.failedPayments && state.user.data.relationships.failedPayments.data.length === 3,
+    isLimitedUser: (state) =>
+        state.user &&
+        state.user.data.relationships.failedPayments &&
+        state.user.data.relationships.failedPayments.data.length === 3,
     permission: (state) => state.permission,
     user: (state) => state.user,
 }

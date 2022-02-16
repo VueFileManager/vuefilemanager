@@ -1,6 +1,12 @@
 <template>
     <div class="select-box">
-        <div class="box-item active-bg-theme-100 active-border-theme" :class="{ active: item.value === input }" @click="getSelectedValue(item)" v-for="(item, i) in data" :key="i">
+        <div
+            class="box-item active-bg-theme-100 active-border-theme"
+            :class="{ active: item.value === input }"
+            @click="getSelectedValue(item)"
+            v-for="(item, i) in data"
+            :key="i"
+        >
             <span class="box-value active-text-theme">{{ item.label }}</span>
         </div>
     </div>

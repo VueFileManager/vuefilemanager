@@ -23,11 +23,21 @@
                 />
             </div>
             <folder-icon size="17" class="vue-feather mr-2.5" :class="{ 'text-theme': isSelected }" />
-            <b class="max-w-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold" :class="{ 'text-theme': isSelected }">
+            <b
+                class="max-w-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold"
+                :class="{ 'text-theme': isSelected }"
+            >
                 {{ nodes.name }}
             </b>
         </div>
-        <tree-node :disabled="disableChildren" :depth="depth + 1" v-if="isVisible" :nodes="item" v-for="item in nodes.folders" :key="item.id" />
+        <tree-node
+            :disabled="disableChildren"
+            :depth="depth + 1"
+            v-if="isVisible"
+            :nodes="item"
+            v-for="item in nodes.folders"
+            :key="item.id"
+        />
     </div>
 </template>
 

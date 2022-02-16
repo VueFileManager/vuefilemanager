@@ -1,6 +1,7 @@
 import Vuex from 'vuex'
 import Vue from 'vue'
 
+import uploadRequest from './modules/uploadRequest'
 import fileFunctions from './modules/fileFunctions'
 import fileBrowser from './modules/fileBrowser'
 import payments from './modules/payments'
@@ -14,6 +15,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     modules: {
+        uploadRequest,
         fileFunctions,
         fileBrowser,
         payments,

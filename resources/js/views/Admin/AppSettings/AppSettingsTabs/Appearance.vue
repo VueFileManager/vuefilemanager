@@ -6,7 +6,12 @@
             </FormLabel>
 
             <AppInputSwitch :title="$t('color_theme')" :description="$t('color_theme_description')">
-                <input @input="$updateText('/admin/settings', 'app_color', app.color)" v-model="app.color" :placeholder="$t('admin_settings.appearance.title_plac')" type="color" />
+                <input
+                    @input="$updateText('/admin/settings', 'app_color', app.color)"
+                    v-model="app.color"
+                    :placeholder="$t('admin_settings.appearance.title_plac')"
+                    type="color"
+                />
             </AppInputSwitch>
 
             <AppInputText :title="$t('admin_settings.appearance.title')">
@@ -35,7 +40,11 @@
             </FormLabel>
 
             <AppInputText :title="$t('admin_settings.appearance.logo')">
-                <ImageInput @input="$updateImage('/admin/settings', 'app_logo', app.logo)" :image="$getImage(app.logo)" v-model="app.logo" />
+                <ImageInput
+                    @input="$updateImage('/admin/settings', 'app_logo', app.logo)"
+                    :image="$getImage(app.logo)"
+                    v-model="app.logo"
+                />
             </AppInputText>
 
             <AppInputText :title="$t('admin_settings.appearance.logo_horizontal')">
@@ -47,15 +56,27 @@
             </AppInputText>
 
             <AppInputText :title="$t('admin_settings.appearance.favicon')">
-                <ImageInput @input="$updateImage('/admin/settings', 'app_favicon', app.favicon)" :image="$getImage(app.favicon)" v-model="app.favicon" />
+                <ImageInput
+                    @input="$updateImage('/admin/settings', 'app_favicon', app.favicon)"
+                    :image="$getImage(app.favicon)"
+                    v-model="app.favicon"
+                />
             </AppInputText>
 
             <AppInputText :title="$t('og_image')" :description="$t('og_image_description')">
-                <ImageInput @input="$updateImage('/admin/settings', 'app_og_image', app.og_image)" :image="$getImage(app.og_image)" v-model="app.og_image" />
+                <ImageInput
+                    @input="$updateImage('/admin/settings', 'app_og_image', app.og_image)"
+                    :image="$getImage(app.og_image)"
+                    v-model="app.og_image"
+                />
             </AppInputText>
 
             <AppInputText :title="$t('app_touch_icon')" :description="$t('app_touch_icon_description')" :is-last="true">
-                <ImageInput @input="$updateImage('/admin/settings', 'app_touch_icon', app.touch_icon)" :image="$getImage(app.touch_icon)" v-model="app.touch_icon" />
+                <ImageInput
+                    @input="$updateImage('/admin/settings', 'app_touch_icon', app.touch_icon)"
+                    :image="$getImage(app.touch_icon)"
+                    v-model="app.touch_icon"
+                />
             </AppInputText>
         </div>
     </PageTab>

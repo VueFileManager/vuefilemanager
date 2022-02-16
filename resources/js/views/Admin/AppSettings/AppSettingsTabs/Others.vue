@@ -8,7 +8,10 @@
 
             <!--Available only when is not metered billing-->
             <div v-if="config.subscriptionType !== 'metered'">
-                <AppInputSwitch :title="$t('admin_settings.others.storage_limit')" :description="$t('admin_settings.others.storage_limit_help')">
+                <AppInputSwitch
+                    :title="$t('admin_settings.others.storage_limit')"
+                    :description="$t('admin_settings.others.storage_limit_help')"
+                >
                     <SwitchInput
                         @input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
                         v-model="app.storageLimitation"
@@ -30,7 +33,10 @@
                 </AppInputText>
             </div>
 
-            <AppInputText :title="$t('admin_settings.others.upload_limit')" :description="$t('admin_settings.others.upload_limit_help')">
+            <AppInputText
+                :title="$t('admin_settings.others.upload_limit')"
+                :description="$t('admin_settings.others.upload_limit_help')"
+            >
                 <input
                     @input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit, true)"
                     v-model="app.uploadLimit"
@@ -42,7 +48,11 @@
                 />
             </AppInputText>
 
-            <AppInputText :title="$t('admin_settings.others.mimetypes_blacklist')" :description="$t('admin_settings.others.mimetypes_blacklist_help')" :is-last="true">
+            <AppInputText
+                :title="$t('admin_settings.others.mimetypes_blacklist')"
+                :description="$t('admin_settings.others.mimetypes_blacklist_help')"
+                :is-last="true"
+            >
                 <textarea
                     rows="2"
                     @input="$updateText('/admin/settings', 'mimetypes_blacklist', app.mimetypesBlacklist, true)"
@@ -60,8 +70,17 @@
                 {{ $t('Application') }}
             </FormLabel>
 
-            <AppInputButton :title="$t('Cache')" :description="$t('Did you change anything in your .env file? Then clear your cache.')">
-                <ButtonBase @click.native="flushCache" :loading="isFlushingCache" :disabled="isFlushingCache" class="w-full sm:w-auto" button-style="theme">
+            <AppInputButton
+                :title="$t('Cache')"
+                :description="$t('Did you change anything in your .env file? Then clear your cache.')"
+            >
+                <ButtonBase
+                    @click.native="flushCache"
+                    :loading="isFlushingCache"
+                    :disabled="isFlushingCache"
+                    class="w-full sm:w-auto"
+                    button-style="theme"
+                >
                     {{ $t('admin_settings.others.cache_clear') }}
                 </ButtonBase>
             </AppInputButton>
@@ -153,7 +172,13 @@
                     </AppInputText>
                 </ValidationProvider>
 
-                <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full">
+                <ButtonBase
+                    :disabled="isLoading"
+                    :loading="isLoading"
+                    button-style="theme"
+                    type="submit"
+                    class="w-full"
+                >
                     {{ $t('Store Credentials') }}
                 </ButtonBase>
             </ValidationObserver>

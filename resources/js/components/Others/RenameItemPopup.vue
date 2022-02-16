@@ -12,7 +12,11 @@
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form">
                 <!--Update item name-->
                 <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
-                    <AppInputText :title="$t('popup_rename.label')" :error="errors[0]" :is-last="pickedItem.data.type !== 'folder'">
+                    <AppInputText
+                        :title="$t('popup_rename.label')"
+                        :error="errors[0]"
+                        :is-last="pickedItem.data.type !== 'folder'"
+                    >
                         <div class="relative flex items-center">
                             <input
                                 v-model="pickedItem.data.attributes.name"
@@ -30,12 +34,21 @@
                 </ValidationProvider>
 
                 <!--Emoji-->
-                <AppInputSwitch v-if="pickedItem.data.type === 'folder'" :title="$t('Emoji as an Icon')" :description="$t('Replace folder icon with an Emoji')" :is-last="!isEmoji">
+                <AppInputSwitch
+                    v-if="pickedItem.data.type === 'folder'"
+                    :title="$t('Emoji as an Icon')"
+                    :description="$t('Replace folder icon with an Emoji')"
+                    :is-last="!isEmoji"
+                >
                     <SwitchInput v-model="isEmoji" :state="isEmoji" />
                 </AppInputSwitch>
 
                 <!--Set emoji-->
-                <EmojiPicker v-if="pickedItem.data.type === 'folder' && isEmoji" v-model="emoji" :default-emoji="emoji" />
+                <EmojiPicker
+                    v-if="pickedItem.data.type === 'folder' && isEmoji"
+                    v-model="emoji"
+                    :default-emoji="emoji"
+                />
             </ValidationObserver>
         </PopupContent>
 
@@ -87,7 +100,9 @@ export default {
     },
     computed: {
         itemTypeTitle() {
-            return this.pickedItem && this.pickedItem.data.type === 'folder' ? this.$t('types.folder') : this.$t('types.file')
+            return this.pickedItem && this.pickedItem.data.type === 'folder'
+                ? this.$t('types.folder')
+                : this.$t('types.file')
         },
     },
     watch: {

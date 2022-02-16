@@ -23,7 +23,13 @@
                             class="focus-border-theme input-dark"
                             :class="{ 'border-red': errors[0] }"
                         />
-                        <ButtonBase :loading="isSendingRequest" :disabled="isSendingRequest" type="submit" button-style="danger" class="w-full sm:w-auto">
+                        <ButtonBase
+                            :loading="isSendingRequest"
+                            :disabled="isSendingRequest"
+                            type="submit"
+                            button-style="danger"
+                            class="w-full sm:w-auto"
+                        >
                             {{ $t('admin_page_user.delete_user') }}
                         </ButtonBase>
                     </div>

@@ -4,7 +4,12 @@
             <small class="text-xs font-bold text-gray-400 dark:text-gray-600">
                 {{ title }}
             </small>
-            <chevron-up-icon v-if="canCollapseWrapper" size="12" class="vue-feather mr-5 transform cursor-pointer text-gray-300" :class="{ 'rotate-180': !isVisible }" />
+            <chevron-up-icon
+                v-if="canCollapseWrapper"
+                size="12"
+                class="vue-feather mr-5 transform cursor-pointer text-gray-300"
+                :class="{ 'rotate-180': !isVisible }"
+            />
         </div>
 
         <slot v-if="isVisible" />

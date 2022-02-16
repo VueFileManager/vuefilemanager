@@ -6,9 +6,20 @@
         <!--Page content-->
         <div class="page-wrapper small">
             <!--Headline-->
-            <PageTitle class="headline" :title="$t('page_contact_us.title')" :description="$t('page_contact_us.description')"></PageTitle>
+            <PageTitle
+                class="headline"
+                :title="$t('page_contact_us.title')"
+                :description="$t('page_contact_us.description')"
+            ></PageTitle>
 
-            <ValidationObserver v-if="!isSuccess" @submit.prevent="contactForm" ref="contactForm" v-slot="{ invalid }" tag="form" class="form block-form">
+            <ValidationObserver
+                v-if="!isSuccess"
+                @submit.prevent="contactForm"
+                ref="contactForm"
+                v-slot="{ invalid }"
+                tag="form"
+                class="form block-form"
+            >
                 <div class="block-wrapper">
                     <label>{{ $t('page_contact_us.form.email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" name="E-Mail" rules="required" v-slot="{ errors }">
@@ -42,7 +53,13 @@
                 </InfoBox>
 
                 <div>
-                    <AuthButton class="submit-button" icon="chevron-right" :text="$t('page_contact_us.form.submit_button')" :loading="isLoading" :disabled="isLoading" />
+                    <AuthButton
+                        class="submit-button"
+                        icon="chevron-right"
+                        :text="$t('page_contact_us.form.submit_button')"
+                        :loading="isLoading"
+                        :disabled="isLoading"
+                    />
                 </div>
             </ValidationObserver>
             <InfoBox v-if="isSuccess">

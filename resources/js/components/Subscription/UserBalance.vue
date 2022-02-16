@@ -9,9 +9,27 @@
         </b>
 
         <!-- Make payment form -->
-        <ValidationObserver ref="fundAccount" @submit.prevent="makePayment" v-slot="{ invalid }" tag="form" class="mt-6">
-            <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Amount" :rules="`required|min_value:${user.data.meta.totalDebt.amount}`">
-                <AppInputText :description="$t('The amount will be increased as soon as we register your charge from payment gateway.')" :error="errors[0]" :is-last="true">
+        <ValidationObserver
+            ref="fundAccount"
+            @submit.prevent="makePayment"
+            v-slot="{ invalid }"
+            tag="form"
+            class="mt-6"
+        >
+            <ValidationProvider
+                tag="div"
+                v-slot="{ errors }"
+                mode="passive"
+                name="Amount"
+                :rules="`required|min_value:${user.data.meta.totalDebt.amount}`"
+            >
+                <AppInputText
+                    :description="
+                        $t('The amount will be increased as soon as we register your charge from payment gateway.')
+                    "
+                    :error="errors[0]"
+                    :is-last="true"
+                >
                     <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
                         <input
                             v-model="chargeAmount"

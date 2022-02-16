@@ -23,7 +23,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { FolderPlusIcon, HardDriveIcon, SettingsIcon, Trash2Icon, SearchIcon, ImageIcon, GridIcon, LinkIcon, StarIcon, EyeIcon } from 'vue-feather-icons'
+import {
+    FolderPlusIcon,
+    HardDriveIcon,
+    SettingsIcon,
+    Trash2Icon,
+    SearchIcon,
+    ImageIcon,
+    GridIcon,
+    LinkIcon,
+    StarIcon,
+    EyeIcon,
+} from 'vue-feather-icons'
 
 export default {
     name: 'IndexHeroScreenshot',

@@ -1,7 +1,9 @@
 <template>
-    <div :class="{ 'sm:mb-7 mb-6': !isLast }">
+    <div :class="{ 'mb-6 sm:mb-7': !isLast }">
         <!--Label for input-->
-        <label v-if="title" class="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-200"> {{ title }}: </label>
+        <label v-if="title" class="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-200">
+            {{ title }}:
+        </label>
 
         <!--Form element-->
         <slot />

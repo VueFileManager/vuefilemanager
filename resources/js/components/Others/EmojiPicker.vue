@@ -8,7 +8,13 @@
             </div>
 
             <!-- Search input -->
-            <input @click="openList" v-model="query" class="focus-border-theme input-dark" type="text" :placeholder="$t('Select or search emoji icon...')" />
+            <input
+                @click="openList"
+                v-model="query"
+                class="focus-border-theme input-dark"
+                type="text"
+                :placeholder="$t('Select or search emoji icon...')"
+            />
         </div>
 
         <!-- Spinner -->
@@ -17,9 +23,18 @@
         </div>
 
         <!-- Emojis List -->
-        <div v-if="isOpen && isLoaded && emojis" @scroll="checkGroupInView" id="group-box" class="relative h-96 select-none overflow-y-auto lg:h-60 2xl:h-96">
+        <div
+            v-if="isOpen && isLoaded && emojis"
+            @scroll="checkGroupInView"
+            id="group-box"
+            class="relative h-96 select-none overflow-y-auto lg:h-60 2xl:h-96"
+        >
             <!-- Navigation of Emojis Groups -->
-            <ul v-if="!query" class="sticky top-0 z-10 flex items-center justify-between space-x-1 bg-white dark:bg-dark-background sm:dark:bg-4x-dark-foreground" id="group-bar">
+            <ul
+                v-if="!query"
+                class="sticky top-0 z-10 flex items-center justify-between space-x-1 bg-white dark:bg-dark-background sm:dark:bg-4x-dark-foreground"
+                id="group-bar"
+            >
                 <li
                     @click.stop="scrollToGroup(group.name)"
                     v-for="(group, i) in emojis.groups"
@@ -39,7 +54,12 @@
                     {{ name }}
                 </label>
                 <ul class="space-between grid grid-cols-7 gap-4 md:grid-cols-9">
-                    <li @click="setEmoji(emoji)" v-for="(emoji, i) in group" :key="i" class="flex cursor-pointer items-center justify-center">
+                    <li
+                        @click="setEmoji(emoji)"
+                        v-for="(emoji, i) in group"
+                        :key="i"
+                        class="flex cursor-pointer items-center justify-center"
+                    >
                         <Emoji :emoji="emoji" class="text-4xl" />
                     </li>
                 </ul>
@@ -47,7 +67,12 @@
 
             <!-- Searched emojis -->
             <ul v-if="query" class="space-between grid grid-cols-7 gap-4 md:grid-cols-9">
-                <li @click="setEmoji(emoji)" v-for="(emoji, i) in filteredEmojis" :key="i" class="flex cursor-pointer items-center justify-center">
+                <li
+                    @click="setEmoji(emoji)"
+                    v-for="(emoji, i) in filteredEmojis"
+                    :key="i"
+                    class="flex cursor-pointer items-center justify-center"
+                >
                     <Emoji :emoji="emoji" class="text-4xl" />
                 </li>
             </ul>

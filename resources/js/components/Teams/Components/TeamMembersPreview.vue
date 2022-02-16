@@ -2,7 +2,12 @@
     <div class="team-folder">
         <span v-if="limit && membersCount > 3" class="member-count"> +{{ membersCount - 3 }} </span>
         <div class="members">
-            <div v-for="member in members" :key="member.data.id" :title="member.data.attributes.email" class="member-preview z-10">
+            <div
+                v-for="member in members"
+                :key="member.data.id"
+                :title="member.data.attributes.email"
+                class="member-preview z-10"
+            >
                 <MemberAvatar :is-border="true" :size="34" :member="member" />
             </div>
         </div>
@@ -20,10 +25,15 @@ export default {
     },
     computed: {
         membersCount() {
-            return this.folder.data.relationships.members.data.length + this.folder.data.relationships.invitations.data.length
+            return (
+                this.folder.data.relationships.members.data.length +
+                this.folder.data.relationships.invitations.data.length
+            )
         },
         members() {
-            let allMembers = this.folder.data.relationships.members.data.concat(this.folder.data.relationships.invitations.data)
+            let allMembers = this.folder.data.relationships.members.data.concat(
+                this.folder.data.relationships.invitations.data
+            )
 
             if (this.limit) {
                 return allMembers.slice(0, 3)

@@ -31,9 +31,7 @@ export default {
     components: {
         pdf,
     },
-    props: [
-		'file',
-	],
+    props: ['file'],
     watch: {
         file() {
             this.getPdf()

@@ -10,11 +10,19 @@
                     'mb-2 rounded-xl bg-light-background px-4 dark:bg-2x-dark-foreground': paypal.isMethodsLoaded,
                 }"
             >
-                <PaymentMethod @click.native="pickedPaymentMethod('paypal')" driver="paypal" :description="config.paypal_payment_description">
+                <PaymentMethod
+                    @click.native="pickedPaymentMethod('paypal')"
+                    driver="paypal"
+                    :description="config.paypal_payment_description"
+                >
                     <div v-if="paypal.isMethodLoading" class="translate-y-3 scale-50 transform">
                         <Spinner />
                     </div>
-                    <span v-if="!paypal.isMethodsLoaded" :class="{ 'opacity-0': paypal.isMethodLoading }" class="text-theme cursor-pointer text-sm font-bold">
+                    <span
+                        v-if="!paypal.isMethodsLoaded"
+                        :class="{ 'opacity-0': paypal.isMethodLoading }"
+                        class="text-theme cursor-pointer text-sm font-bold"
+                    >
                         {{ $t('Select') }}
                     </span>
                 </PaymentMethod>
@@ -24,7 +32,11 @@
             </div>
 
             <!--Paystack implementation-->
-            <PaymentMethod v-if="config.isPaystack" driver="paystack" :description="config.paystack_payment_description">
+            <PaymentMethod
+                v-if="config.isPaystack"
+                driver="paystack"
+                :description="config.paystack_payment_description"
+            >
                 <paystack
                     @click.native="pickedPaymentMethod('paystack')"
                     v-if="user && config"

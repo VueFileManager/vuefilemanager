@@ -4,10 +4,25 @@
         <AuthContent name="create-new-password" :visible="true">
             <Headline :title="$t('page_create_password.title')" :description="$t('page_create_password.subtitle')" />
 
-            <ValidationObserver @submit.prevent="createNewPassword" ref="create_new_password" v-slot="{ invalid }" tag="form" class="mb-12 space-y-4 text-left">
+            <ValidationObserver
+                @submit.prevent="createNewPassword"
+                ref="create_new_password"
+                v-slot="{ invalid }"
+                tag="form"
+                class="mb-12 space-y-4 text-left"
+            >
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
-                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right"> {{ $t('page_create_password.label_email') }}: </label>
-                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="E-Mail" rules="required" v-slot="{ errors }">
+                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
+                        {{ $t('page_create_password.label_email') }}:
+                    </label>
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        class="w-full text-left"
+                        name="E-Mail"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <input
                             v-model="recoverPassword.email"
                             :placeholder="$t('page_login.placeholder_email')"
@@ -20,8 +35,17 @@
                 </div>
 
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
-                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right"> {{ $t('page_create_password.label_new_pass') }}: </label>
-                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="New Password" rules="required" v-slot="{ errors }">
+                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
+                        {{ $t('page_create_password.label_new_pass') }}:
+                    </label>
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        class="w-full text-left"
+                        name="New Password"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <input
                             v-model="recoverPassword.newPassword"
                             :placeholder="$t('page_create_password.label_new_pass')"
@@ -34,8 +58,17 @@
                 </div>
 
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
-                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right"> {{ $t('page_create_password.label_confirm_pass') }}: </label>
-                    <ValidationProvider tag="div" mode="passive" class="w-full text-left" name="Confirm Password" rules="required" v-slot="{ errors }">
+                    <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
+                        {{ $t('page_create_password.label_confirm_pass') }}:
+                    </label>
+                    <ValidationProvider
+                        tag="div"
+                        mode="passive"
+                        class="w-full text-left"
+                        name="Confirm Password"
+                        rules="required"
+                        v-slot="{ errors }"
+                    >
                         <input
                             v-model="recoverPassword.newPasswordConfirm"
                             :placeholder="$t('page_create_password.label_confirm_pass')"

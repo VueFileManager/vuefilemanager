@@ -166,12 +166,11 @@ export default {
             axios
                 .put(`/api/teams/invitations/${this.$router.currentRoute.params.id}`)
                 .then(() => {
-
-					if (this.invitation.data.attributes.isExistedUser) {
-                    	this.goToAuthPage('accepted')
-					} else {
-						this.$router.push({name: 'SignUp'})
-					}
+                    if (this.invitation.data.attributes.isExistedUser) {
+                        this.goToAuthPage('accepted')
+                    } else {
+                        this.$router.push({ name: 'SignUp' })
+                    }
                 })
                 .catch(() => {
                     this.$isSomethingWrong()

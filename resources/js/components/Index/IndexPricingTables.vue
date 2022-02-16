@@ -1,5 +1,8 @@
 <template>
-    <div class="page-wrapper medium pricing" v-if="!isEmpty && index.section_pricing_content === '1' && config.stripe_public_key">
+    <div
+        class="page-wrapper medium pricing"
+        v-if="!isEmpty && index.section_pricing_content === '1' && config.stripe_public_key"
+    >
         <div id="pricing" class="page-title center">
             <h1 class="title" v-html="index.pricing_title"></h1>
         </div>

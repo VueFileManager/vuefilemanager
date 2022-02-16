@@ -14,10 +14,19 @@
             </div>
 
             <!--Datatable-->
-            <DatatableWrapper @init="isLoading = false" api="/api/admin/users" :paginator="true" :columns="columns" class="overflow-x-auto">
+            <DatatableWrapper
+                @init="isLoading = false"
+                api="/api/admin/users"
+                :paginator="true"
+                :columns="columns"
+                class="overflow-x-auto"
+            >
                 <template slot-scope="{ row }">
                     <!--Not a subscription-->
-                    <tr v-if="config.subscriptionType === 'none'" class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+                    <tr
+                        v-if="config.subscriptionType === 'none'"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                    >
                         <td class="py-3 pr-3 md:pr-1">
                             <router-link
                                 :to="{
@@ -26,9 +35,16 @@
                                 }"
                             >
                                 <div class="flex items-center">
-                                    <MemberAvatar :is-border="false" :size="44" :member="row.data.relationships.settings" />
+                                    <MemberAvatar
+                                        :is-border="false"
+                                        :size="44"
+                                        :member="row.data.relationships.settings"
+                                    />
                                     <div class="ml-3 pr-10">
-                                        <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                                        <b
+                                            class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                            style="max-width: 155px"
+                                        >
                                             {{ row.data.relationships.settings.data.attributes.name }}
                                         </b>
                                         <span class="block text-xs text-gray-600 dark:text-gray-500">
@@ -85,7 +101,10 @@
                     </tr>
 
                     <!--Fixed subscription-->
-                    <tr v-if="config.subscriptionType === 'fixed'" class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+                    <tr
+                        v-if="config.subscriptionType === 'fixed'"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                    >
                         <td class="py-3 pr-3 md:pr-1">
                             <router-link
                                 :to="{
@@ -94,9 +113,16 @@
                                 }"
                             >
                                 <div class="flex items-center">
-                                    <MemberAvatar :is-border="false" :size="44" :member="row.data.relationships.settings" />
+                                    <MemberAvatar
+                                        :is-border="false"
+                                        :size="44"
+                                        :member="row.data.relationships.settings"
+                                    />
                                     <div class="ml-3 pr-10">
-                                        <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                                        <b
+                                            class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                            style="max-width: 155px"
+                                        >
                                             {{ row.data.relationships.settings.data.attributes.name }}
                                         </b>
                                         <span class="block text-xs text-gray-600 dark:text-gray-500">
@@ -158,7 +184,10 @@
                     </tr>
 
                     <!--Metered subscription-->
-                    <tr v-if="config.subscriptionType === 'metered'" class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+                    <tr
+                        v-if="config.subscriptionType === 'metered'"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                    >
                         <td class="py-3 pr-3 md:pr-1">
                             <router-link
                                 :to="{
@@ -167,9 +196,16 @@
                                 }"
                             >
                                 <div class="flex items-center">
-                                    <MemberAvatar :is-border="false" :size="44" :member="row.data.relationships.settings" />
+                                    <MemberAvatar
+                                        :is-border="false"
+                                        :size="44"
+                                        :member="row.data.relationships.settings"
+                                    />
                                     <div class="ml-3 pr-10">
-                                        <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                                        <b
+                                            class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                            style="max-width: 155px"
+                                        >
                                             {{ row.data.relationships.settings.data.attributes.name }}
                                         </b>
                                         <span class="block text-xs text-gray-600 dark:text-gray-500">

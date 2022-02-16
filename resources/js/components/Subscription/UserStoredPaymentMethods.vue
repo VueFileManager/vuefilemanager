@@ -6,7 +6,12 @@
 
         <!-- User has registered payment method -->
         <div v-if="hasPaymentMethod">
-            <b v-if="config.subscriptionType === 'metered' && user.data.relationships.balance.data.attributes.balance > 0" class="mb-3 mb-5 block text-sm">
+            <b
+                v-if="
+                    config.subscriptionType === 'metered' && user.data.relationships.balance.data.attributes.balance > 0
+                "
+                class="mb-3 mb-5 block text-sm"
+            >
                 {{
                     $t('credit_to_auto_withdraw', {
                         credit: user.data.relationships.balance.data.attributes.formatted,
@@ -44,7 +49,12 @@
                 <div id="payment-element">
                     <!-- Elements will create form elements here -->
                 </div>
-                <ButtonBase :loading="stripe.storingStripePaymentMethod" type="submit" button-style="theme" class="mt-4 w-full">
+                <ButtonBase
+                    :loading="stripe.storingStripePaymentMethod"
+                    type="submit"
+                    button-style="theme"
+                    class="mt-4 w-full"
+                >
                     {{ $t('Store My Credit Card') }}
                 </ButtonBase>
                 <div id="error-message">

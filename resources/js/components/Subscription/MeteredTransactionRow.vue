@@ -9,7 +9,10 @@
             <div v-if="row.data.relationships.user" class="flex items-center">
                 <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                 <div class="ml-3 pr-10">
-                    <b class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold" style="max-width: 155px">
+                    <b
+                        class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                        style="max-width: 155px"
+                    >
                         {{ row.data.relationships.user.data.attributes.name }}
                     </b>
                     <span class="block text-xs text-gray-600 dark:text-gray-500">
@@ -43,7 +46,11 @@
         </td>
         <td class="px-3 md:px-1">
             <div class="w-28">
-                <img class="inline-block max-h-5" :src="$getPaymentLogo(row.data.attributes.driver)" :alt="row.data.attributes.driver" />
+                <img
+                    class="inline-block max-h-5"
+                    :src="$getPaymentLogo(row.data.attributes.driver)"
+                    :alt="row.data.attributes.driver"
+                />
             </div>
         </td>
         <td class="pl-3 text-right md:pl-1">

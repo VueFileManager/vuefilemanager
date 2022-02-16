@@ -1,13 +1,22 @@
 <template>
-    <div v-if="user.data.relationships.failedPayments && user.data.relationships.failedPayments.data.length > 0" class="card shadow-card">
+    <div
+        v-if="user.data.relationships.failedPayments && user.data.relationships.failedPayments.data.length > 0"
+        class="card shadow-card"
+    >
         <FormLabel icon="frown">
             {{ $t('Failed Payments') }}
         </FormLabel>
 
-        <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl"> -{{ user.data.meta.totalDebt.formatted }} </b>
+        <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl">
+            -{{ user.data.meta.totalDebt.formatted }}
+        </b>
 
         <b class="mb-3 mb-5 block text-sm text-gray-400">
-            {{ $t("We are unable to charge your usage. Please register new credit card or fund your account with sufficient amount and we'll give it another try!") }}
+            {{
+                $t(
+                    "We are unable to charge your usage. Please register new credit card or fund your account with sufficient amount and we'll give it another try!"
+                )
+            }}
         </b>
 
         <!--Failed Payments-->

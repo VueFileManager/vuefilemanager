@@ -10,9 +10,19 @@
                 {{ user.data.relationships.balance.data.attributes.formatted }}
             </b>
 
-            <ValidationObserver ref="creditUserBalance" @submit.prevent="increaseBalance" v-slot="{ invalid }" tag="form" class="mt-6">
+            <ValidationObserver
+                ref="creditUserBalance"
+                @submit.prevent="increaseBalance"
+                v-slot="{ invalid }"
+                tag="form"
+                class="mt-6"
+            >
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Balance Amount" rules="required">
-                    <AppInputText :description="$t('User balance will be increased for the amount above.')" :error="errors[0]" :is-last="true">
+                    <AppInputText
+                        :description="$t('User balance will be increased for the amount above.')"
+                        :error="errors[0]"
+                        :is-last="true"
+                    >
                         <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
                             <input
                                 v-model="balanceAmount"
@@ -23,7 +33,13 @@
                                 class="focus-border-theme input-dark"
                                 :class="{ 'border-red': errors[0] }"
                             />
-                            <ButtonBase type="submit" button-style="theme" class="w-full sm:w-auto" :loading="isUpdatingBalanceAmount" :disabled="isUpdatingBalanceAmount">
+                            <ButtonBase
+                                type="submit"
+                                button-style="theme"
+                                class="w-full sm:w-auto"
+                                :loading="isUpdatingBalanceAmount"
+                                :disabled="isUpdatingBalanceAmount"
+                            >
                                 {{ $t('Increase Balance') }}
                             </ButtonBase>
                         </div>

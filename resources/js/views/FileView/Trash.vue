@@ -9,19 +9,38 @@
 
             <template v-slot:single-select v-if="item">
                 <OptionGroup>
-                    <Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
-                    <Option @click.native="$deleteFileOrFolder(item)" v-if="item" :title="$t('context_menu.delete')" icon="trash" />
+                    <Option
+                        @click.native="$restoreFileOrFolder(item)"
+                        v-if="item"
+                        :title="$t('context_menu.restore')"
+                        icon="restore"
+                    />
+                    <Option
+                        @click.native="$deleteFileOrFolder(item)"
+                        v-if="item"
+                        :title="$t('context_menu.delete')"
+                        icon="trash"
+                    />
                     <Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
-                    <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+                    <Option
+                        @click.native="$downloadSelection(item)"
+                        :title="$t('context_menu.download')"
+                        icon="download"
+                    />
                 </OptionGroup>
             </template>
 
             <template v-slot:multiple-select v-if="item">
                 <OptionGroup>
-                    <Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+                    <Option
+                        @click.native="$restoreFileOrFolder(item)"
+                        v-if="item"
+                        :title="$t('context_menu.restore')"
+                        icon="restore"
+                    />
                     <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
                     <Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
                 </OptionGroup>
@@ -33,7 +52,12 @@
 
         <MobileContextMenu>
             <OptionGroup v-if="item">
-                <Option @click.native="$restoreFileOrFolder(item)" v-if="item" :title="$t('context_menu.restore')" icon="restore" />
+                <Option
+                    @click.native="$restoreFileOrFolder(item)"
+                    v-if="item"
+                    :title="$t('context_menu.restore')"
+                    icon="restore"
+                />
                 <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
             </OptionGroup>
 
@@ -74,7 +98,12 @@
                 :class="{ 'is-inactive': clipboard.length < 1 }"
                 :action="$t('actions.delete')"
             />
-            <ToolbarButton @click.native="$downloadSelection(item)" class="action-btn" source="download" :action="$t('actions.download')" />
+            <ToolbarButton
+                @click.native="$downloadSelection(item)"
+                class="action-btn"
+                source="download"
+                :action="$t('actions.download')"
+            />
         </MobileMultiSelectToolbar>
     </div>
 </template>

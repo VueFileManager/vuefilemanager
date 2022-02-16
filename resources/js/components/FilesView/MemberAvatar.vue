@@ -39,7 +39,9 @@ export default {
     props: ['isBorder', 'member', 'size'],
     computed: {
         letter() {
-            let string = this.member.data.attributes.name ? this.member.data.attributes.name : this.member.data.attributes.email
+            let string = this.member.data.attributes.name
+                ? this.member.data.attributes.name
+                : this.member.data.attributes.email
 
             return string.substr(0, 1)
         },

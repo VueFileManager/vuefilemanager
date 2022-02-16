@@ -203,7 +203,6 @@ const actions = {
 
                             // Reload File data after folder uploading is finished
                             if (getters.isUploadingFolder) {
-
                                 // Reload files after upload is done
                                 Vue.prototype.$getDataByLocation()
 
@@ -330,7 +329,7 @@ const actions = {
             .then(() => {
                 itemsToDelete.forEach((data) => {
                     // If is folder, update app data
-                    if (data.type === 'folder' && (getters.currentFolder && data.id === getters.currentFolder.data.id)) {
+                    if (data.type === 'folder' && getters.currentFolder && data.id === getters.currentFolder.data.id) {
                         router.back()
                     }
                 })

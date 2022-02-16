@@ -21,3 +21,11 @@
 .is-inactive {
     @apply pointer-events-none opacity-40
 }
+
+.grid-view {
+    @apply grid grid-cols-3 content-start sm:grid-cols-4 lg:gap-2 xl:grid-cols-6 xl:gap-4;
+}
+
+.grid-view-sidebar {
+    @apply grid grid-cols-3 content-start md:grid-cols-2 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4 xl:gap-4 2xl:grid-cols-5;
+}
