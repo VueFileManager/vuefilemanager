@@ -136,9 +136,9 @@
                         icon="user-plus"
                     />
                     <Option
-                        @click.native="$convertAsTeamFolder(item)"
+                        @click.native="$createUploadRequest(item)"
                         v-if="isFolder"
-                        :title="$t('Send Upload Request')"
+                        :title="$t('Create Upload Request')"
                         icon="upload-cloud"
                     />
                 </OptionGroup>

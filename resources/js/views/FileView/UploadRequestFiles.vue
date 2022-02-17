@@ -40,7 +40,7 @@
             />
         </MobileMultiSelectToolbar>
 
-        <ContextMenu>
+        <ContextMenu v-if="entries.length">
             <template v-slot:empty-select>
                 <OptionGroup>
                     <OptionUpload :title="$t('actions.upload')" type="file" />
@@ -104,7 +104,7 @@
             <div v-if="uploadRequest" class="relative mx-auto mb-8 w-24 text-center">
                 <VueFolderIcon class="inline-block w-28" />
                 <MemberAvatar
-                    :member="uploadRequest.user"
+                    :member="uploadRequest.data.relationships.user"
                     class="absolute -bottom-2.5 -right-2"
                     :is-border="true"
                     :size="32"
@@ -185,14 +185,15 @@ export default {
         },
     },
     created() {
+		events.$on('context-menu:show', (event, item) => (this.item = item))
+		events.$on('context-menu:current-folder', (folder) => (this.item = folder))
+		events.$on('mobile-context-menu:show', (item) => (this.item = item))
+
         //this.$store.dispatch('getFolder', this.$route.params.id)
         this.$store.commit('LOADING_STATE', { loading: false, data: [] })
 
-        axios.get('/api/request').then((response) => this.$store.commit('SET_UPLOAD_REQUEST', response.data))
-
-        events.$on('context-menu:show', (event, item) => (this.item = item))
-        events.$on('context-menu:current-folder', (folder) => (this.item = folder))
-        events.$on('mobile-context-menu:show', (item) => (this.item = item))
+        axios.get(`/api/upload-request/${this.$router.currentRoute.params.token}`)
+			.then((response) => this.$store.commit('SET_UPLOAD_REQUEST', response.data))
     },
 }
 </script>

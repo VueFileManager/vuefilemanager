@@ -113,6 +113,13 @@ const itemHelpers = {
             })
         }
 
+        Vue.prototype.$createUploadRequest = function (entry) {
+            events.$emit('popup:open', {
+                name: 'create-upload-request',
+                item: entry,
+            })
+        }
+
         Vue.prototype.$updateTeamFolder = function (entry) {
             events.$emit('popup:open', {
                 name: 'update-team-folder',

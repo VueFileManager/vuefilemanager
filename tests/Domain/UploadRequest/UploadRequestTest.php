@@ -24,7 +24,7 @@ class UploadRequestTest extends TestCase
     /**
      * @test
      */
-    public function user_create_upload_request()
+    public function user_create_upload_request_with_email()
     {
         $user = User::factory()
             ->hasSettings()
@@ -46,6 +46,32 @@ class UploadRequestTest extends TestCase
         ]);
 
         Notification::assertTimesSent(1, UploadRequestNotification::class);
+    }
+
+    /**
+     * @test
+     */
+    public function user_create_upload_request_without_email()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $this
+            ->actingAs($user)
+            ->postJson("/api/upload-request", [
+                'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+                'notes'     => 'Please send me your files...',
+            ])
+            ->assertCreated();
+
+        $this->assertDatabasehas('upload_requests', [
+            'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+            'notes'     => 'Please send me your files...',
+            'email'     => null,
+        ]);
+
+        Notification::assertNothingSent();
     }
 
     /**

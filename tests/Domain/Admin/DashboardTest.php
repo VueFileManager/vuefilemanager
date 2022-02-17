@@ -25,9 +25,10 @@ class DashboardTest extends TestCase
             ->assertStatus(200)
             ->assertExactJson([
                 'app' => [
-                    'earnings' => '$0.00',
-                    'license'  => 'extended',
-                    'version'  => config('vuefilemanager.version'),
+                    'earnings'      => '$0.00',
+                    'isRunningCron' => false,
+                    'license'       => 'extended',
+                    'version'       => config('vuefilemanager.version'),
                 ],
                 'disk' => [
                     'download' => [

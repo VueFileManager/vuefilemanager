@@ -45,7 +45,7 @@ class UploadRequestNotification extends Notification implements ShouldQueue
             ->subject("{$this->uploadRequest->user->settings->first_name} Request You for File Upload")
             ->greeting('Hello')
             ->line("We are emailing you because {$this->uploadRequest->user->settings->first_name} needs files from you. Please click on the link below and upload your files for {$this->uploadRequest->user->settings->first_name}.")
-            ->action('Upload Files', url('/'))
+            ->action('Upload Files', url("/request/{$this->uploadRequest->id}/upload"))
             ->line('Thank you for using our application!');
     }
 

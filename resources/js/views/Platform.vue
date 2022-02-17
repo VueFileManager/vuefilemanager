@@ -14,6 +14,7 @@
         <ShareCreatePopup />
         <ShareEditPopup />
 
+        <CreateUploadRequestPopup />
         <CreateFolderPopup />
         <RenameItemPopup />
         <MoveItemPopup />
@@ -76,10 +77,12 @@ import DragUI from '../components/FilesView/DragUI'
 import InfoSidebar from '../components/FilesView/InfoSidebar'
 import { events } from '../bus'
 import { mapGetters } from 'vuex'
+import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
 
 export default {
     name: 'Platform',
     components: {
+		CreateUploadRequestPopup,
         CreateTeamFolderPopup,
         PanelNavigationFiles,
         EditTeamFolderPopup,
