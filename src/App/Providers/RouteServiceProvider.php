@@ -30,21 +30,14 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapApiRoutes();
-
         $this->mapShareRoutes();
-
+        $this->mapUploadRequestRoutes();
         $this->mapAdminApiRoutes();
-
         $this->mapSetupWizardApiRoutes();
-
         $this->mapUserApiRoutes();
-
         $this->mapMaintenanceRoutes();
-
         $this->mapFileRoutes();
-
         $this->mapTeamsRoutes();
-
         $this->mapWebRoutes();
     }
 
@@ -92,6 +85,13 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('api')
             ->middleware('api')
             ->group(base_path('routes/share.php'));
+    }
+
+    protected function mapUploadRequestRoutes()
+    {
+        Route::prefix('api/upload-request')
+            ->middleware('api')
+            ->group(base_path('routes/upload-request.php'));
     }
 
     protected function mapAdminApiRoutes()

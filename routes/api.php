@@ -27,13 +27,9 @@ use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
 use Domain\Sharing\Controllers\GetShareLinkViaQrCodeController;
 use App\Users\Controllers\Authentication\RegisterUserController;
-use Domain\UploadRequest\Controllers\GetUploadRequestController;
 
 // Ping Pong
 Route::get('/ping', PingAPIController::class);
-
-// Upload Request
-Route::get('/request', GetUploadRequestController::class);
 
 // Pages
 Route::apiResource('/page', PagesController::class);

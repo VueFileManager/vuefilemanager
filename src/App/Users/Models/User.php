@@ -16,6 +16,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Users\Notifications\ResetPassword;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Domain\UploadRequest\Models\UploadRequest;
 use App\Users\Restrictions\RestrictionsManager;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -178,6 +179,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function traffics(): HasMany
     {
         return $this->hasMany(Traffic::class);
+    }
+
+    public function uploadRequest(): HasOne
+    {
+        return $this->hasOne(UploadRequest::class);
     }
 
     /**
