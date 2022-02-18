@@ -5,6 +5,8 @@ namespace Tests\Domain\UploadRequest;
 use Domain\UploadRequest\Notifications\UploadRequestNotification;
 use Domain\UploadRequest\Models\UploadRequest;
 use App\Users\Models\User;
+use Illuminate\Http\UploadedFile;
+use Storage;
 use Tests\TestCase;
 use Notification;
 
@@ -93,5 +95,41 @@ class UploadRequestTest extends TestCase
             ->assertJsonFragment([
                 'id' => $uploadRequest->id,
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_upload_file_and_create_upload_request_folder()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $uploadRequest = UploadRequest::factory()
+            ->create([
+                'user_id' => $user->id,
+                'created_at' => now(),
+            ]);
+
+        $file = UploadedFile::fake()
+            ->create('fake-file.pdf', 12000000, 'application/pdf');
+
+        $this
+            ->actingAs($user)
+            ->postJson("/api/upload-request/$uploadRequest->id", [
+                'filename'  => $file->name,
+                'file'      => $file,
+                'parent_id' => $uploadRequest->id,
+                'path'      => "/$file->name",
+                'is_last'   => 'true',
+            ])->assertStatus(201);
+
+        $this->assertDatabaseHas('folders', [
+            'id'   => $uploadRequest->id,
+            'name' => 'Upload Request from 01. Jan. 2021',
+        ]);
+
+        //Storage::assertExists("files/$user->id/$file->basename");
     }
 }

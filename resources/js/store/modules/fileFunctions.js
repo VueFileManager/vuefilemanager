@@ -145,7 +145,10 @@ const actions = {
     uploadFiles: ({ commit, getters, dispatch }, { form, fileSize, totalUploadedSize }) => {
         return new Promise((resolve, reject) => {
             // Get route
-            let route = getters.sharedDetail ? `/api/editor/upload/${router.currentRoute.params.token}` : '/api/upload'
+            let route = {
+                RequestUpload: `/api/upload-request/${router.currentRoute.params.token}`,
+                Public: `/api/editor/upload/${router.currentRoute.params.token}`,
+            }[router.currentRoute.name] || '/api/upload'
 
             // Create cancel token for axios cancellation
             const CancelToken = axios.CancelToken,
