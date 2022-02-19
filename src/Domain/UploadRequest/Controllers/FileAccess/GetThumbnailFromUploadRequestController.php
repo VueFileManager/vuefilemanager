@@ -1,11 +1,14 @@
 <?php
 namespace Domain\UploadRequest\Controllers\FileAccess;
 
-use App\Http\Controllers\Controller;
-use Domain\Files\Actions\DownloadThumbnailAction;
-use Domain\Traffic\Actions\RecordDownloadAction;
-use Domain\UploadRequest\Models\UploadRequest;
 use Domain\Files\Models\File;
+use Illuminate\Http\Response;
+use App\Http\Controllers\Controller;
+use Domain\UploadRequest\Models\UploadRequest;
+use Domain\Traffic\Actions\RecordDownloadAction;
+use Illuminate\Contracts\Foundation\Application;
+use Domain\Files\Actions\DownloadThumbnailAction;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -22,12 +25,16 @@ class GetThumbnailFromUploadRequestController extends Controller
     public function __invoke(
         string $filename,
         UploadRequest $uploadRequest
-    ): StreamedResponse {
-        $originalFileName = substr($filename, 3);
+    ): Application|ResponseFactory|Response|StreamedResponse {
+        // Check if upload request is active
+        if ($uploadRequest->status !== 'active') {
+            return response('Gone', 410);
+        }
 
         // Get file
         $file = File::where('user_id', $uploadRequest->user_id)
-            ->where('basename', $originalFileName)
+            ->where('basename', substr($filename, 3))
+            ->where('parent_id', $uploadRequest->id)
             ->firstOrFail();
 
         // Store user download size

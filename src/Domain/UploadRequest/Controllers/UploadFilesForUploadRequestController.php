@@ -1,20 +1,20 @@
 <?php
-
 namespace Domain\UploadRequest\Controllers;
 
-use App\Users\Exceptions\InvalidUserActionException;
-use Domain\Files\Resources\FileResource;
-use Domain\UploadRequest\Models\UploadRequest;
-use Domain\Files\Actions\UploadFileAction;
-use Domain\Folders\Models\Folder;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use DB;
+use Domain\Folders\Models\Folder;
+use Domain\Files\Resources\FileResource;
+use Domain\Files\Actions\UploadFileAction;
+use Domain\UploadRequest\Models\UploadRequest;
+use App\Users\Exceptions\InvalidUserActionException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class UploadFilesForUploadRequestController
 {
     public function __construct(
         private UploadFileAction $uploadFile,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws FileNotFoundException
@@ -48,7 +48,6 @@ class UploadFilesForUploadRequestController
 
             // Return new uploaded file
             return response(new FileResource($file), 201);
-
         } catch (InvalidUserActionException $e) {
             return response([
                 'type'    => 'error',

@@ -115,7 +115,6 @@ class File extends Model
 
         // Generate thumbnail link for local storage
         if ($this->type === 'image') {
-
             foreach ($thumbnail_sizes as $item) {
                 $route = route('thumbnail', ['name' => $item['name'] . '-' . $this->basename]);
 

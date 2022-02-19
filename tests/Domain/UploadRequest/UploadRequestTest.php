@@ -1,16 +1,14 @@
 <?php
-
 namespace Tests\Domain\UploadRequest;
 
-use Domain\Files\Models\File;
-use Domain\UploadRequest\Notifications\UploadRequestNotification;
-use Domain\UploadRequest\Models\UploadRequest;
-use App\Users\Models\User;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Str;
 use Storage;
-use Tests\TestCase;
 use Notification;
+use Tests\TestCase;
+use App\Users\Models\User;
+use Domain\Files\Models\File;
+use Illuminate\Http\UploadedFile;
+use Domain\UploadRequest\Models\UploadRequest;
+use Domain\UploadRequest\Notifications\UploadRequestNotification;
 
 class UploadRequestTest extends TestCase
 {
@@ -36,7 +34,7 @@ class UploadRequestTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/upload-request", [
+            ->postJson('/api/upload-request', [
                 'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
                 'email'     => 'howdy@hi5ve.digital',
                 'notes'     => 'Please send me your files...',
@@ -63,7 +61,7 @@ class UploadRequestTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/upload-request", [
+            ->postJson('/api/upload-request', [
                 'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
                 'notes'     => 'Please send me your files...',
             ])
@@ -144,7 +142,7 @@ class UploadRequestTest extends TestCase
     /**
      * @test
      */
-    public function it_upload_file_into_non_active_upload_request()
+    public function it_try_upload_file_into_non_active_upload_request()
     {
         $user = User::factory()
             ->hasSettings()
@@ -168,72 +166,5 @@ class UploadRequestTest extends TestCase
                 'path'      => "/$file->name",
                 'is_last'   => 'true',
             ])->assertStatus(410);
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_file_from_upload_request_folder()
-    {
-        $user = User::factory()
-            ->hasSettings()
-            ->create();
-
-        $uploadRequest = UploadRequest::factory()
-            ->create([
-                'status'     => 'active',
-                'user_id'    => $user->id,
-                'created_at' => now(),
-            ]);
-
-        $file = UploadedFile::fake()
-            ->create(Str::random() . '-fake-file.pdf', 1200, 'application/pdf');
-
-        Storage::putFileAs("files/$user->id", $file, $file->name);
-
-        File::factory()
-            ->create([
-                'parent_id' => $uploadRequest->id,
-                'basename'  => $file->name,
-                'user_id'   => $user->id,
-                'name'      => 'fake-file.pdf',
-            ]);
-
-        $this
-            ->get("/file/$file->name/upload-request/$uploadRequest->id")
-            ->assertOk();
-    }
-
-    /**
-     * @test
-     */
-    public function it_get_thumbnail_from_upload_request_folder()
-    {
-        $user = User::factory()
-            ->hasSettings()
-            ->create();
-
-        $uploadRequest = UploadRequest::factory()
-            ->create([
-                'status'     => 'active',
-                'user_id'    => $user->id,
-                'created_at' => now(),
-            ]);
-
-        $thumbnail = UploadedFile::fake()
-            ->image('fake-thumbnail.jpg');
-
-        Storage::putFileAs("files/$user->id", $thumbnail, $thumbnail->name);
-
-        File::factory()
-            ->create([
-                'parent_id' => $uploadRequest->id,
-                'basename'  => 'fake-thumbnail.jpg',
-                'user_id'   => $user->id,
-            ]);
-
-        $this
-            ->get("/thumbnail/xs-$thumbnail->name/upload-request/$uploadRequest->id")
-            ->assertOk();
     }
 }

@@ -1,13 +1,12 @@
 <?php
-
 namespace Domain\UploadRequest\Controllers;
 
-use App\Http\Controllers\Controller;
 use Auth;
-use Domain\UploadRequest\Notifications\UploadRequestNotification;
+use Notification;
+use App\Http\Controllers\Controller;
 use Domain\UploadRequest\Requests\StoreUploadRequest;
 use Domain\UploadRequest\Resources\UploadRequestResource;
-use Notification;
+use Domain\UploadRequest\Notifications\UploadRequestNotification;
 
 class CreateUploadRequestController extends Controller
 {

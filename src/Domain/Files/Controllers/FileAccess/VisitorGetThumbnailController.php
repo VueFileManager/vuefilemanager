@@ -30,11 +30,9 @@ class VisitorGetThumbnailController extends Controller
         // Check ability to access protected share files
         ($this->protectShareRecord)($shared);
 
-        $originalFileName = substr($filename, 3);
-
         // Get file record
         $file = UserFile::where('user_id', $shared->user_id)
-            ->where('basename', $originalFileName)
+            ->where('basename', substr($filename, 3))
             ->firstOrFail();
 
         // Check file access

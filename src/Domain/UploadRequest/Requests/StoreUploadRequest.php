@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\UploadRequest\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;

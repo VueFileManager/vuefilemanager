@@ -20,10 +20,8 @@ class GetThumbnailController extends Controller
         Request $request,
         string $filename,
     ): FileNotFoundException | StreamedResponse {
-        $originalFileName = substr($filename, 3);
-
         $file = File::withTrashed()
-            ->where('basename', $originalFileName)
+            ->where('basename', substr($filename, 3))
             ->firstOrFail();
 
         if (! Gate::any(['can-edit', 'can-view'], [$file, null])) {

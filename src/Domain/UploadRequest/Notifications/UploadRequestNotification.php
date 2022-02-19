@@ -1,12 +1,11 @@
 <?php
-
 namespace Domain\UploadRequest\Notifications;
 
-use Domain\UploadRequest\Models\UploadRequest;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Domain\UploadRequest\Models\UploadRequest;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class UploadRequestNotification extends Notification implements ShouldQueue
 {
@@ -19,7 +18,8 @@ class UploadRequestNotification extends Notification implements ShouldQueue
      */
     public function __construct(
         public UploadRequest $uploadRequest
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.
@@ -58,7 +58,6 @@ class UploadRequestNotification extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            //
         ];
     }
 }

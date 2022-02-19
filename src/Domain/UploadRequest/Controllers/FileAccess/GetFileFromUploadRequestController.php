@@ -1,16 +1,13 @@
 <?php
 namespace Domain\UploadRequest\Controllers\FileAccess;
 
-use Domain\Files\Actions\DownloadFileAction;
-use Domain\Sharing\Actions\ProtectShareRecordAction;
-use Domain\Sharing\Actions\VerifyAccessToItemWithinAction;
-use Domain\Traffic\Actions\RecordDownloadAction;
-use Domain\UploadRequest\Models\UploadRequest;
-use Gate;
 use Domain\Files\Models\File;
 use Illuminate\Http\Response;
-use Domain\Sharing\Models\Share;
-use Domain\Files\Resources\FileResource;
+use Domain\Files\Actions\DownloadFileAction;
+use Domain\UploadRequest\Models\UploadRequest;
+use Domain\Traffic\Actions\RecordDownloadAction;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 /**
@@ -27,10 +24,16 @@ class GetFileFromUploadRequestController
     public function __invoke(
         string $filename,
         UploadRequest $uploadRequest
-    ): BinaryFileResponse {
+    ): Application|ResponseFactory|Response|BinaryFileResponse {
+        // Check if upload request is active
+        if ($uploadRequest->status !== 'active') {
+            return response('Gone', 410);
+        }
+
         // Get file
         $file = File::where('user_id', $uploadRequest->user_id)
             ->where('basename', $filename)
+            ->where('parent_id', $uploadRequest->id)
             ->firstOrFail();
 
         // Store user download size

@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\UploadRequest\Resources;
 
 use Domain\Folders\Resources\FolderResource;

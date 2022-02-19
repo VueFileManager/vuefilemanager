@@ -2,10 +2,10 @@
 namespace Domain\UploadRequest\Models;
 
 use App\Users\Models\User;
-use Database\Factories\UploadRequestFactory;
-use Domain\Folders\Models\Folder;
 use Illuminate\Support\Str;
+use Domain\Folders\Models\Folder;
 use Illuminate\Database\Eloquent\Model;
+use Database\Factories\UploadRequestFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
