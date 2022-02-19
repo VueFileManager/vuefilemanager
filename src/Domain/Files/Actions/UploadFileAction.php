@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Files\Actions;
 
+use App\Users\Models\User;
 use Illuminate\Support\Str;
-use Domain\Sharing\Models\Share;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +29,7 @@ class UploadFileAction
      */
     public function __invoke(
         UploadRequest $request,
-        ?Share $shared = null,
+        ?string $userId = null,
     ) {
         $file = $request->file('file');
 
@@ -62,7 +62,7 @@ class UploadFileAction
             $disk_local = Storage::disk('local');
 
             // Get user data
-            $user = $shared->user ?? Auth::user();
+            $user = $userId ? User::find($userId) : Auth::user();
 
             // File Info
             $fileSize = $disk_local->size("chunks/$chunkName");
@@ -98,7 +98,7 @@ class UploadFileAction
                 'metadata'  => $metadata,
                 'name'      => $request->input('filename'),
                 'basename'  => $fileName,
-                'author'    => $shared ? 'visitor' : 'user',
+                'author'    => $userId ? 'visitor' : 'user',
                 'filesize'  => $fileSize,
                 'user_id'   => $user->id,
             ]);

@@ -185,7 +185,7 @@ class TrafficTest extends TestCase
                 'is_protected' => false,
             ]);
 
-        $this->get("/file/$document->name/$share->token")
+        $this->get("/file/$document->name/shared/$share->token")
             ->assertStatus(200);
 
         $this->assertDatabaseHas('traffic', [

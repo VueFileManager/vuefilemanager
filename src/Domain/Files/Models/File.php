@@ -43,7 +43,8 @@ class File extends Model
     use HasFactory;
     use Sortable;
 
-    public ?string $public_access = null;
+    public ?string $sharedAccess = null;
+    public ?string $uploadRequestAccess = null;
 
     protected $guarded = [
         'id',
@@ -78,11 +79,19 @@ class File extends Model
     }
 
     /**
-     * Set routes with public access
+     * Set shared routes with public access
      */
-    public function setPublicUrl(string $token)
+    public function setSharedPublicUrl(string $token)
     {
-        $this->public_access = $token;
+        $this->sharedAccess = $token;
+    }
+
+    /**
+     * Set upload request routes with public access
+     */
+    public function setUploadRequestPublicUrl(string $token)
+    {
+        $this->uploadRequestAccess = $token;
     }
 
     /**
@@ -94,7 +103,7 @@ class File extends Model
         $thumbnail_sizes = collect(config('vuefilemanager.image_sizes'))->collapse()->all();
 
         // Generate thumbnail link for external storage service
-        if ($this->type === 'image' && ! is_storage_driver(['local'])) {
+        if ($this->type === 'image' && ! is_storage_driver('local')) {
             foreach ($thumbnail_sizes as $item) {
                 $filePath = "files/{$this->user_id}/{$item['name']}-{$this->basename}";
 
@@ -106,11 +115,19 @@ class File extends Model
 
         // Generate thumbnail link for local storage
         if ($this->type === 'image') {
+
             foreach ($thumbnail_sizes as $item) {
                 $route = route('thumbnail', ['name' => $item['name'] . '-' . $this->basename]);
 
-                if ($this->public_access) {
-                    $route .= "/$this->public_access";
+                // Set shared public url
+                if ($this->sharedAccess) {
+                    $route .= "/shared/$this->sharedAccess";
+                }
+
+                // Set upload request public url
+                if ($this->uploadRequestAccess) {
+                    // TODO: review request for s3
+                    $route .= "/upload-request/$this->uploadRequestAccess";
                 }
 
                 $links[$item['name']] = $route;
@@ -147,8 +164,15 @@ class File extends Model
         // Get thumbnail from local storage
         $route = route('file', ['name' => $this->attributes['basename']]);
 
-        if ($this->public_access) {
-            return "$route/$this->public_access";
+        // Set shared public url
+        if ($this->sharedAccess) {
+            return "$route/$this->sharedAccess";
+        }
+
+        // Set upload request public url
+        if ($this->uploadRequestAccess) {
+            // TODO: review request for s3
+            $route .= "/upload-request/$this->uploadRequestAccess";
         }
 
         return $route;

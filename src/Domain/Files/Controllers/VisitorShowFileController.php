@@ -22,7 +22,7 @@ class VisitorShowFileController
         Gate::authorize('can-view', [$file, $shared]);
 
         // Set access urls
-        $file->setPublicUrl($shared->token);
+        $file->setSharedPublicUrl($shared->token);
 
         return response(new FileResource($file), 200);
     }

@@ -189,11 +189,8 @@ export default {
 		events.$on('context-menu:current-folder', (folder) => (this.item = folder))
 		events.$on('mobile-context-menu:show', (item) => (this.item = item))
 
-        //this.$store.dispatch('getFolder', this.$route.params.id)
-        this.$store.commit('LOADING_STATE', { loading: false, data: [] })
+        this.$store.dispatch('getUploadRequestDetail')
 
-        axios.get(`/api/upload-request/${this.$router.currentRoute.params.token}`)
-			.then((response) => this.$store.commit('SET_UPLOAD_REQUEST', response.data))
     },
 }
 </script>

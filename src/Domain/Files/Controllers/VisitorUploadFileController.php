@@ -50,10 +50,10 @@ class VisitorUploadFileController extends Controller
 
         try {
             // Return new uploaded file
-            $file = ($this->uploadFile)($request, $shared);
+            $file = ($this->uploadFile)($request, $shared->user_id);
 
             // Set public access url
-            $file->setPublicUrl($shared->token);
+            $file->setSharedPublicUrl($shared->token);
 
             return response(new FileResource($file), 201);
         } catch (InvalidUserActionException $e) {

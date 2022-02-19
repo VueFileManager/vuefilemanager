@@ -2,6 +2,7 @@
 
 namespace Domain\UploadRequest\Resources;
 
+use Domain\Folders\Resources\FolderResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UploadRequestResource extends JsonResource
@@ -20,6 +21,9 @@ class UploadRequestResource extends JsonResource
                     'url'       => url("/request/$this->id/upload"),
                 ],
                 'relationships' => [
+                    $this->mergeWhen($this->folder, fn () => [
+                        'folder' => new FolderResource($this->folder),
+                    ]),
                     'user' => [
                         'data' => [
                             'id'         => $this->user->id,

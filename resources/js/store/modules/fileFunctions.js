@@ -169,7 +169,7 @@ const actions = {
                         if (percentCompleted >= 100) commit('PROCESSING_FILE', true)
                     },
                 })
-                .then((response) => {
+                .then(async (response) => {
                     resolve(response)
 
                     // Proceed if was returned database record
@@ -178,6 +178,11 @@ const actions = {
 
                         // Remove first file from file queue
                         commit('SHIFT_FROM_FILE_QUEUE')
+
+                        // Refresh request detail to update currentFolder in Vuex
+                        if (router.currentRoute.name === 'RequestUpload' && !getters.currentFolder) {
+                            await dispatch('getUploadRequestDetail')
+                        }
 
                         // Check if user is in uploading folder, if yes, than show new file
                         if (

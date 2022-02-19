@@ -62,7 +62,7 @@ class VisitorSearchFilesAndFoldersController extends Controller
             ->take(3);
 
         // Map files and set public url for files
-        $files->map(fn ($file) => $file->setPublicUrl($shared->token));
+        $files->map(fn ($file) => $file->setSharedPublicUrl($shared->token));
 
         $folders = Folder::search($query)
             ->constrain($folderConstrain)

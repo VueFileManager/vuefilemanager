@@ -10,8 +10,6 @@ class FileResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * TODO: optimize created_at/updated_at conversion because of performance issue
-     *
      * @param \Illuminate\Http\Request $request
      * @return array
      */

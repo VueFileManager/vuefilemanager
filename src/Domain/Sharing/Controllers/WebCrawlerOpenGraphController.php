@@ -26,7 +26,7 @@ class WebCrawlerOpenGraphController extends Controller
             ->first();
 
         if ($item->thumbnail) {
-            $item->setPublicUrl($share->token);
+            $item->setSharedPublicUrl($share->token);
         }
 
         return view('vuefilemanager.crawler.og-view')

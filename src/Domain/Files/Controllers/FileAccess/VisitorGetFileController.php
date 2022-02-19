@@ -53,7 +53,7 @@ class VisitorGetFileController extends Controller
             user_id: $shared->user_id,
         );
 
-        // Finally download file
+        // Finally, download file
         return ($this->downloadFile)($file, $shared->user_id);
     }
 }

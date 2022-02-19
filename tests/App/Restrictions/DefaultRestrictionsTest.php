@@ -160,7 +160,7 @@ class DefaultRestrictionsTest extends TestCase
 
         // 404 but, ok, because there is not stored temporary file in test
         $this
-            ->get("file/$file->name/$share->token")
+            ->get("file/$file->name/shared/$share->token")
             ->assertStatus(404);
     }
 

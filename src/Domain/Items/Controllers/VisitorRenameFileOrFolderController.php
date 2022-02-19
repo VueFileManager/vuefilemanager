@@ -60,7 +60,7 @@ class VisitorRenameFileOrFolderController extends Controller
 
         // Set public url
         if ($request->input('type') !== 'folder') {
-            $item->setPublicUrl($shared->token);
+            $item->setSharedPublicUrl($shared->token);
         }
 
         if ($request->input('type') === 'folder') {

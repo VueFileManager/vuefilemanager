@@ -3,6 +3,7 @@ namespace Domain\UploadRequest\Models;
 
 use App\Users\Models\User;
 use Database\Factories\UploadRequestFactory;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -41,6 +42,11 @@ class UploadRequest extends Model
     public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
+    }
+
+    public function folder(): HasOne
+    {
+        return $this->hasOne(Folder::class, 'id', 'id');
     }
 
     protected static function boot()

@@ -46,7 +46,7 @@ class VisitorBrowseFolderController
             ->get();
 
         // Set thumbnail links for public files
-        $files->map(fn ($file) => $file->setPublicUrl($shared->token));
+        $files->map(fn ($file) => $file->setSharedPublicUrl($shared->token));
 
         return [
             'folders' => new FolderCollection($folders),
