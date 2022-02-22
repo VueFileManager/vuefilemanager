@@ -11,14 +11,17 @@ class ExpireUnfilledUploadRequestAction
         UploadRequest::where('status', 'active')
             ->cursor()
             ->each(function ($uploadRequest) {
-                // Get dates
-                $created_at = Carbon::parse($uploadRequest->created_at);
+                // Get timestamp of last upload if exist
+                $isLastUpload = cache()->has("auto-filling.$uploadRequest->id");
 
-                // If time was over, then expire record
-                if ($created_at->diffInHours(now()) >= 72) {
-                    $uploadRequest->update([
-                        'status' => 'expired',
-                    ]);
+                // Set as filled 3 hours after last upload
+                if ($isLastUpload && Carbon::parse(cache()->get("auto-filling.$uploadRequest->id"))->diffInHours(now()) >= 3) {
+                    $uploadRequest->update(['status' => 'filled']);
+                }
+
+                // If upload request exist more than 72 hours, then expire it
+                if (! $isLastUpload && $uploadRequest->created_at->diffInHours(now()) >= 72) {
+                    $uploadRequest->update(['status' => 'expired']);
                 }
             });
     }

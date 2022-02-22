@@ -46,6 +46,9 @@ class UploadFilesForUploadRequestController
             // Set public access url
             $file->setUploadRequestPublicUrl($uploadRequest->id);
 
+            // Set timestamp for auto filling
+            cache()->set("auto-filling.$uploadRequest->id", now()->toString());
+
             // Return new uploaded file
             return response(new FileResource($file), 201);
         } catch (InvalidUserActionException $e) {

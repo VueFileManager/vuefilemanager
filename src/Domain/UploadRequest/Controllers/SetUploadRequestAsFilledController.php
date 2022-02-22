@@ -1,12 +1,11 @@
 <?php
-
 namespace Domain\UploadRequest\Controllers;
 
+use Illuminate\Http\Response;
 use Domain\UploadRequest\Models\UploadRequest;
-use Domain\UploadRequest\Resources\UploadRequestResource;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Response;
+use Domain\UploadRequest\Resources\UploadRequestResource;
 
 class SetUploadRequestAsFilledController
 {

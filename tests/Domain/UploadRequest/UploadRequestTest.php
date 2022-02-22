@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\UploadRequest;
 
 use Storage;
@@ -208,6 +209,43 @@ class UploadRequestTest extends TestCase
 
         $this->assertDatabaseHas('upload_requests', [
             'status' => 'expired',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_mark_upload_request_as_filled_3_hours_after_last_upload()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $uploadRequest = UploadRequest::factory()
+            ->create([
+                'status'     => 'active',
+                'user_id'    => $user->id,
+                'created_at' => now(),
+            ]);
+
+        $file = UploadedFile::fake()
+            ->create('fake-file.pdf', 12000000, 'application/pdf');
+
+        $this
+            ->postJson("/api/upload-request/$uploadRequest->id/upload", [
+                'filename'  => $file->name,
+                'file'      => $file,
+                'parent_id' => null,
+                'path'      => "/$file->name",
+                'is_last'   => 'true',
+            ])->assertCreated();
+
+        $this->travel(3)->hours();
+
+        resolve(ExpireUnfilledUploadRequestAction::class)();
+
+        $this->assertDatabaseHas('upload_requests', [
+            'status' => 'filled',
         ]);
     }
 }
