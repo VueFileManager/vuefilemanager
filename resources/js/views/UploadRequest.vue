@@ -23,7 +23,7 @@
             class="transition-transform duration-200 lg:grid lg:flex-grow lg:content-start lg:px-3.5"
         >
             <DesktopUploadRequestToolbar v-if="entries.length" />
-            <!--<MobileToolbar />-->
+            <MobileUploadRequestToolBar v-if="entries.length" />
 
             <!--Google Adsense banner-->
             <div v-if="config.allowedAdsense" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
@@ -40,13 +40,13 @@
 
 <script>
 import DesktopUploadRequestToolbar from '../components/FilesView/DesktopUploadRequestToolbar'
+import MobileUploadRequestToolBar from "../components/FilesView/MobileUploadRequestToolbar"
 import FileSortingMobile from '../components/FilesView/FileSortingMobile'
 import FileFilterMobile from '../components/FilesView/FileFilterMobile'
 import CreateFolderPopup from '../components/Others/CreateFolderPopup'
 import DesktopToolbar from '../components/FilesView/DesktopToolbar'
 import ConfirmPopup from "../components/Others/Popup/ConfirmPopup"
 import RenameItemPopup from '../components/Others/RenameItemPopup'
-import MobileToolbar from '../components/FilesView/MobileToolbar'
 import FilePreview from '../components/FilePreview/FilePreview'
 import MoveItemPopup from '../components/Others/MoveItemPopup'
 import InfoSidebar from '../components/FilesView/InfoSidebar'
@@ -58,15 +58,15 @@ import { events } from '../bus'
 export default {
     name: 'UploadRequest',
     components: {
-		ConfirmPopup,
         DesktopUploadRequestToolbar,
+		MobileUploadRequestToolBar,
         CreateFolderPopup,
         FileSortingMobile,
         FileFilterMobile,
         RenameItemPopup,
         DesktopToolbar,
         MoveItemPopup,
-        MobileToolbar,
+		ConfirmPopup,
         InfoSidebar,
         FilePreview,
         Spotlight,

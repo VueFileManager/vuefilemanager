@@ -82,9 +82,17 @@
         </ContextMenu>
 
         <FileActionsMobile v-if="entries.length">
-            <MobileActionButton @click.native="$openSpotlight()" icon="search">
-                {{ $t('Spotlight') }}
-            </MobileActionButton>
+			<!--I am Done-->
+			<button @click="uploadingDone" class="flex shrink-0 items-center mr-2 rounded-xl bg-theme-200 py-1 px-1 pr-3">
+				<MemberAvatar
+					:member="uploadRequest.data.relationships.user"
+					:size="26"
+				/>
+				<b class="text-theme ml-2 text-sm">
+					{{ $t('Tell Jane you are done!') }}
+				</b>
+			</button>
+
             <MobileActionButton
 				@click.native="$showMobileMenu('create-list')"
 				v-if="$checkPermission(['master', 'editor'])"
@@ -174,8 +182,8 @@ export default {
 		emptyPageTitle() {
 			// Todo: add name into translation
 			return {
-				active: this.$t('Jane Request You for File Upload'),
-				filled: this.$t('Upload Request was Fulfilled Successfully'),
+				active: this.$t('{name} Request You for File Upload', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
+				filled: this.$t('Upload Request for {name} was Fulfilled Successfully', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
 				expired: this.$t('Upload Request Expired'),
 			}[this.uploadRequest.data.attributes.status]
 		},
@@ -193,6 +201,16 @@ export default {
 		}
 	},
 	methods: {
+		uploadingDone() {
+			events.$emit('confirm:open', {
+				title: this.$t('Are you sure you uploaded all files you want for {name}?', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
+				message: this.$t("You won't be able to upload any files here once again."),
+				action: {
+					id: this.$router.currentRoute.params.token,
+					operation: 'close-upload-request',
+				},
+			})
+		},
 		createFolder() {
 			events.$emit('popup:open', {name: 'create-folder'})
 		},

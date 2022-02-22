@@ -6,8 +6,8 @@
             <div class="flex items-center">
 
 				<!--I am Done-->
-                <div class="bg-theme-200 mr-6 flex cursor-pointer items-center rounded-lg py-1 pr-1 pl-4">
-                    <b @click="uploadingDone" class="text-theme mr-3 text-xs">
+                <div @click="uploadingDone" class="bg-theme-200 mr-6 flex cursor-pointer items-center rounded-lg py-1 pr-1 pl-4">
+                    <b class="text-theme mr-3 text-xs">
                         {{ $t('Tell Jane you are done!') }}
                     </b>
 					<MemberAvatar
@@ -121,9 +121,8 @@ export default {
     },
     methods: {
         uploadingDone() {
-            // TODO: add name to the message
 			events.$emit('confirm:open', {
-				title: this.$t('Are you sure you uploaded all files you want for {name}?', {name: this.uploadRequest.relationships.user.data.attributes.name}),
+				title: this.$t('Are you sure you uploaded all files you want for {name}?', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
 				message: this.$t("You won't be able to upload any files here once again."),
 				action: {
 					id: this.$router.currentRoute.params.token,
