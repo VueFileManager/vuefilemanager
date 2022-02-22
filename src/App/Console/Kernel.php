@@ -10,6 +10,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
 use App\Console\Commands\GenerateDemoSubscriptionContentCommand;
+use Support\Scheduler\Actions\ExpireUnfilledUploadRequestAction;
 
 class Kernel extends ConsoleKernel
 {
@@ -41,6 +42,10 @@ class Kernel extends ConsoleKernel
         $schedule->call(
             fn () => resolve(DeleteExpiredShareLinksAction::class)()
         )->everyTenMinutes();
+
+        $schedule->call(
+            fn () => resolve(ExpireUnfilledUploadRequestAction::class)()
+        )->hourly();
 
         $schedule->call(
             fn () => resolve(DeleteUnverifiedUsersAction::class)()

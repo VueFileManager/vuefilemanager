@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\UploadRequest;
 
 use Storage;
@@ -9,6 +8,7 @@ use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Illuminate\Http\UploadedFile;
 use Domain\UploadRequest\Models\UploadRequest;
+use Support\Scheduler\Actions\ExpireUnfilledUploadRequestAction;
 use Domain\UploadRequest\Notifications\UploadRequestNotification;
 
 class UploadRequestTest extends TestCase
@@ -191,5 +191,23 @@ class UploadRequestTest extends TestCase
                 'id'     => $uploadRequest->id,
                 'status' => 'filled',
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_mark_upload_request_as_expired_after_72_hours()
+    {
+        UploadRequest::factory()
+            ->create([
+                'status'     => 'active',
+                'created_at' => now()->subHours(72),
+            ]);
+
+        resolve(ExpireUnfilledUploadRequestAction::class)();
+
+        $this->assertDatabaseHas('upload_requests', [
+            'status' => 'expired',
+        ]);
     }
 }
