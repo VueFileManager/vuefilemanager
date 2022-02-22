@@ -4,6 +4,8 @@
         <FilePreview />
         <Spotlight />
 
+		<ConfirmPopup />
+
         <!--Popups-->
         <CreateFolderPopup />
         <RenameItemPopup />
@@ -42,6 +44,7 @@ import FileSortingMobile from '../components/FilesView/FileSortingMobile'
 import FileFilterMobile from '../components/FilesView/FileFilterMobile'
 import CreateFolderPopup from '../components/Others/CreateFolderPopup'
 import DesktopToolbar from '../components/FilesView/DesktopToolbar'
+import ConfirmPopup from "../components/Others/Popup/ConfirmPopup"
 import RenameItemPopup from '../components/Others/RenameItemPopup'
 import MobileToolbar from '../components/FilesView/MobileToolbar'
 import FilePreview from '../components/FilePreview/FilePreview'
@@ -55,6 +58,7 @@ import { events } from '../bus'
 export default {
     name: 'UploadRequest',
     components: {
+		ConfirmPopup,
         DesktopUploadRequestToolbar,
         CreateFolderPopup,
         FileSortingMobile,
@@ -85,6 +89,11 @@ export default {
         // TODO: new scaledown effect
         events.$on('mobile-menu:show', () => (this.isScaledDown = true))
         events.$on('mobile-menu:hide', () => (this.isScaledDown = false))
+
+		events.$on('action:confirmed', (data) => {
+			if (data.operation === 'close-upload-request')
+				this.$store.dispatch('closeUploadRequest')
+		})
     },
 }
 </script>

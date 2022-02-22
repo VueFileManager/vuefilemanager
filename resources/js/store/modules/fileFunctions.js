@@ -146,7 +146,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             // Get route
             let route = {
-                RequestUpload: `/api/upload-request/${router.currentRoute.params.token}`,
+                RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/upload`,
                 Public: `/api/editor/upload/${router.currentRoute.params.token}`,
             }[router.currentRoute.name] || '/api/upload'
 

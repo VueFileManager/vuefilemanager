@@ -4,15 +4,16 @@
             <NavigationBar />
 
             <div class="flex items-center">
+
+				<!--I am Done-->
                 <div class="bg-theme-200 mr-6 flex cursor-pointer items-center rounded-lg py-1 pr-1 pl-4">
                     <b @click="uploadingDone" class="text-theme mr-3 text-xs">
-                        {{ isDone ? $t('Awesome!') : $t('Tell Jane you are done!') }}
+                        {{ $t('Tell Jane you are done!') }}
                     </b>
-                    <img
-                        class="w-8 rounded-lg"
-                        src="http://192.168.1.112:8000/avatars/md-f45abbe5-962c-4229-aef2-9991e96d54d9.png"
-                        alt="Avatar"
-                    />
+					<MemberAvatar
+						:member="uploadRequest.data.relationships.user"
+						:size="34"
+					/>
                 </div>
 
                 <!--Create button-->
@@ -89,6 +90,7 @@ import PopoverItem from '../Desktop/PopoverItem'
 import UploadProgress from './UploadProgress'
 import NavigationBar from './NavigationBar'
 import ToolbarButton from './ToolbarButton'
+import MemberAvatar from "./MemberAvatar"
 import OptionUpload from './OptionUpload'
 import OptionGroup from './OptionGroup'
 import SearchBar from './SearchBar'
@@ -104,6 +106,7 @@ export default {
         PopoverWrapper,
         NavigationBar,
         ToolbarButton,
+		MemberAvatar,
         OptionUpload,
         OptionGroup,
         PopoverItem,
@@ -111,30 +114,22 @@ export default {
         Option,
     },
     computed: {
-        ...mapGetters(['isVisibleNavigationBars', 'currentTeamFolder', 'currentFolder', 'sharedDetail', 'clipboard']),
-        canEdit() {
-            return this.sharedDetail && this.sharedDetail.data.attributes.permission === 'editor'
-        },
+        ...mapGetters(['isVisibleNavigationBars', 'currentTeamFolder', 'currentFolder', 'sharedDetail', 'clipboard', 'uploadRequest']),
         canManipulate() {
             return this.clipboard[0]
         },
     },
-    data() {
-        return {
-            isDone: false,
-        }
-    },
     methods: {
         uploadingDone() {
             // TODO: add name to the message
-            if (!this.isDone) {
-                events.$emit('toaster', {
-                    type: 'success',
-                    message: this.$t('We notified Jane about your new uploads successfully.'),
-                })
-            }
-
-            this.isDone = true
+			events.$emit('confirm:open', {
+				title: this.$t('Are you sure you uploaded all files you want for {name}?', {name: this.uploadRequest.relationships.user.data.attributes.name}),
+				message: this.$t("You won't be able to upload any files here once again."),
+				action: {
+					id: this.$router.currentRoute.params.token,
+					operation: 'close-upload-request',
+				},
+			})
         },
         showCreateMenu() {
             events.$emit('popover:open', 'desktop-create')

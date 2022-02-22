@@ -15,29 +15,29 @@
             </OptionGroup>
             <OptionGroup :title="$t('Create')">
                 <Option
-                    @click.stop.native="createFolder"
-                    :title="$t('actions.create_folder')"
-                    icon="folder-plus"
-                    :is-hover-disabled="true"
-                />
+					@click.stop.native="createFolder"
+					:title="$t('actions.create_folder')"
+					icon="folder-plus"
+					:is-hover-disabled="true"
+				/>
             </OptionGroup>
         </MobileCreateMenu>
 
         <MobileMultiSelectToolbar>
             <ToolbarButton
-                @click.native="$moveFileOrFolder(clipboard)"
-                class="action-btn"
-                source="move"
-                :action="$t('actions.move')"
-                :class="{ 'is-inactive': clipboard.length < 1 }"
-            />
+				@click.native="$moveFileOrFolder(clipboard)"
+				class="action-btn"
+				source="move"
+				:action="$t('actions.move')"
+				:class="{ 'is-inactive': clipboard.length < 1 }"
+			/>
             <ToolbarButton
-                @click.native="$deleteFileOrFolder(clipboard)"
-                class="action-btn"
-                source="trash"
-                :class="{ 'is-inactive': clipboard.length < 1 }"
-                :action="$t('actions.delete')"
-            />
+				@click.native="$deleteFileOrFolder(clipboard)"
+				class="action-btn"
+				source="trash"
+				:class="{ 'is-inactive': clipboard.length < 1 }"
+				:action="$t('actions.delete')"
+			/>
         </MobileMultiSelectToolbar>
 
         <ContextMenu v-if="entries.length">
@@ -48,20 +48,20 @@
                 </OptionGroup>
                 <OptionGroup>
                     <Option
-                        @click.native="$createFolder"
-                        :title="$t('context_menu.create_folder')"
-                        icon="create-folder"
-                    />
+						@click.native="$createFolder"
+						:title="$t('context_menu.create_folder')"
+						icon="create-folder"
+					/>
                 </OptionGroup>
             </template>
 
             <template v-slot:single-select v-if="item">
                 <OptionGroup>
                     <Option
-                        @click.native="$renameFileOrFolder(item)"
-                        :title="$t('context_menu.rename')"
-                        icon="rename"
-                    />
+						@click.native="$renameFileOrFolder(item)"
+						:title="$t('context_menu.rename')"
+						icon="rename"
+					/>
                     <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
                     <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
                 </OptionGroup>
@@ -86,10 +86,10 @@
                 {{ $t('Spotlight') }}
             </MobileActionButton>
             <MobileActionButton
-                @click.native="$showMobileMenu('create-list')"
-                v-if="$checkPermission(['master', 'editor'])"
-                icon="cloud-plus"
-            >
+				@click.native="$showMobileMenu('create-list')"
+				v-if="$checkPermission(['master', 'editor'])"
+				icon="cloud-plus"
+			>
                 {{ $t('mobile.create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
@@ -100,28 +100,26 @@
             </MobileActionButton>
         </FileActionsMobile>
 
-        <EmptyFilePage>
-            <div v-if="uploadRequest" class="relative mx-auto mb-8 w-24 text-center">
+        <EmptyFilePage v-if="uploadRequest">
+            <div class="relative mx-auto mb-8 w-24 text-center">
                 <VueFolderIcon class="inline-block w-28" />
                 <MemberAvatar
-                    :member="uploadRequest.data.relationships.user"
-                    class="absolute -bottom-2.5 -right-2"
-                    :is-border="true"
-                    :size="32"
-                />
+					v-if="uploadRequest.data.attributes.status !== 'expired'"
+					:member="uploadRequest.data.relationships.user"
+					class="absolute -bottom-2.5 -right-2"
+					:is-border="true"
+					:size="32"
+				/>
             </div>
 
             <h1 class="title">
-                {{ $t('Jane Request You for File Upload') }}
+                {{ emptyPageTitle }}
             </h1>
             <p class="description max-w-[420px]">
-                {{
-                    $t(
-                        'Your files will be uploaded automatically and after that, you can organize your files in folders.'
-                    )
-                }}
+                {{ emptyPageDescription }}
             </p>
-            <ButtonUpload button-style="theme">
+
+            <ButtonUpload v-if="uploadRequest.data.attributes.status === 'active'" button-style="theme">
                 {{ $t('empty_page.call_to_action') }}
             </ButtonUpload>
         </EmptyFilePage>
@@ -146,51 +144,65 @@ import FileBrowser from '../../components/FilesView/FileBrowser'
 import ContextMenu from '../../components/FilesView/ContextMenu'
 import OptionGroup from '../../components/FilesView/OptionGroup'
 import Option from '../../components/FilesView/Option'
-import { events } from '../../bus'
-import { mapGetters } from 'vuex'
+import {events} from '../../bus'
+import {mapGetters} from 'vuex'
 
 export default {
-    name: 'Files',
-    components: {
-        MobileMultiSelectToolbar,
-        MobileActionButton,
-        FileActionsMobile,
-        MobileContextMenu,
-        MobileCreateMenu,
-        EmptyFilePage,
-        VueFolderIcon,
-        ToolbarButton,
-        MemberAvatar,
-        ButtonUpload,
-        OptionUpload,
-        OptionGroup,
-        FileBrowser,
-        ContextMenu,
-        Option,
-    },
-    computed: {
-        ...mapGetters(['fastPreview', 'clipboard', 'config', 'user', 'entries', 'uploadRequest']),
-        isFolder() {
-            return this.item && this.item.data.type === 'folder'
-        },
-    },
-    data() {
-        return {
-            item: undefined,
-        }
-    },
-    methods: {
-        createFolder() {
-            events.$emit('popup:open', { name: 'create-folder' })
-        },
-    },
-    created() {
+	name: 'Files',
+	components: {
+		MobileMultiSelectToolbar,
+		MobileActionButton,
+		FileActionsMobile,
+		MobileContextMenu,
+		MobileCreateMenu,
+		EmptyFilePage,
+		VueFolderIcon,
+		ToolbarButton,
+		MemberAvatar,
+		ButtonUpload,
+		OptionUpload,
+		OptionGroup,
+		FileBrowser,
+		ContextMenu,
+		Option,
+	},
+	computed: {
+		...mapGetters(['fastPreview', 'clipboard', 'config', 'user', 'entries', 'uploadRequest']),
+		isFolder() {
+			return this.item && this.item.data.type === 'folder'
+		},
+		emptyPageTitle() {
+			// Todo: add name into translation
+			return {
+				active: this.$t('Jane Request You for File Upload'),
+				filled: this.$t('Upload Request was Fulfilled Successfully'),
+				expired: this.$t('Upload Request Expired'),
+			}[this.uploadRequest.data.attributes.status]
+		},
+		emptyPageDescription() {
+			return {
+				active: this.$t('Your files will be uploaded automatically and after that, you can organize your files in folders.'),
+				filled: this.$t('This upload request is no longer available for uploading files.'),
+				expired: this.$t('This upload request is no longer available for uploading files.'),
+			}[this.uploadRequest.data.attributes.status]
+		}
+	},
+	data() {
+		return {
+			item: undefined,
+		}
+	},
+	methods: {
+		createFolder() {
+			events.$emit('popup:open', {name: 'create-folder'})
+		},
+	},
+	created() {
 		events.$on('context-menu:show', (event, item) => (this.item = item))
 		events.$on('context-menu:current-folder', (folder) => (this.item = folder))
 		events.$on('mobile-context-menu:show', (item) => (this.item = item))
 
-        this.$store.dispatch('getUploadRequestDetail')
-
-    },
+		this.$store.dispatch('getUploadRequestDetail')
+	},
 }
 </script>

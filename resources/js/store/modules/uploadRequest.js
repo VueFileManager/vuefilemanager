@@ -9,8 +9,7 @@ const defaultState = {
 }
 
 const actions = {
-    getUploadRequestDetail: ({ commit, getters }) => {
-
+    getUploadRequestDetail: ({ commit }) => {
         axios.get(`/api/upload-request/${router.currentRoute.params.token}`)
             .then((response) => {
 
@@ -23,6 +22,15 @@ const actions = {
                     commit('SET_CURRENT_FOLDER', response.data.data.relationships.folder)
                 }
             })
+    },
+    closeUploadRequest: ({ commit }) => {
+        axios
+            .delete(`/api/upload-request/${router.currentRoute.params.token}`)
+            .then((response) => {
+                commit('LOADING_STATE', { loading: false, data: [] })
+                commit('SET_UPLOAD_REQUEST', response.data)
+            })
+            .catch(() => this.$isSomethingWrong())
     },
 }
 
