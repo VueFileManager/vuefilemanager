@@ -35,9 +35,7 @@ class FileFactory extends Factory
             'author'     => $this->faker->randomElement(
                 ['user', 'member', 'visitor']
             ),
-            'created_at' => $this->faker->dateTimeBetween(
-                $startDate = '-36 months', $endDate = 'now', $timezone = null
-            ),
+            'created_at' => $this->faker->dateTimeBetween('-36 months'),
         ];
     }
 }

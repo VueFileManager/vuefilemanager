@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Files;
 
 use Storage;
@@ -47,11 +48,9 @@ class FileTest extends TestCase
                 'is_last'   => 'true',
             ])->assertStatus(201);
 
-        $disk = Storage::disk('local');
-
         $file = File::first();
 
-        $disk->assertMissing(
+        Storage::assertMissing(
             "chunks/$file->basename"
         );
 
@@ -61,7 +60,7 @@ class FileTest extends TestCase
         ])
             ->collapse()
             ->each(
-                fn ($item) => $disk->assertExists(
+                fn($item) => Storage::assertExists(
                     "files/{$user->id}/{$item['name']}-{$file->basename}"
                 )
             );
@@ -234,6 +233,63 @@ class FileTest extends TestCase
             'id'        => $file->id,
             'parent_id' => $folder->id,
         ]);
+    }
+    
+    /**
+     * @test
+     */
+    public function it_delete_image_with_their_thumbnails()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $image = File::factory()
+            ->create([
+                'mimetype' => 'jpeg',
+                'type'     => 'image',
+                'basename' => 'fake-image.jpeg',
+                'user_id'  => $user->id,
+            ]);
+
+        // Mock files
+        $thumbnail_sizes = collect([
+            config('vuefilemanager.image_sizes.later'),
+            config('vuefilemanager.image_sizes.immediately')
+        ])->collapse();
+
+        $fakeFile = UploadedFile::fake()
+            ->create("fake-image.jpeg", 2000, 'image/jpeg');
+
+        Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
+
+        // Create fake image thumbnails
+        $thumbnail_sizes
+            ->each(function ($item) use ($user) {
+                $fakeFile = UploadedFile::fake()
+                    ->create("{$item['name']}-fake-image.jpeg", 2000, 'image/jpeg');
+
+                Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
+            });
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/remove', [
+                'items' => [
+                    [
+                        'id'           => $image->id,
+                        'type'         => 'file',
+                        'force_delete' => true,
+                    ],
+                ],
+            ])->assertStatus(204);
+
+        // Assert primary file was deleted
+        Storage::assertMissing("files/$user->id/fake-image.jpeg");
+
+        // Assert thumbnail was deleted
+        getThumbnailFileList("fake-image.jpeg")
+            ->each(fn($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
     }
 
     /**

@@ -313,14 +313,6 @@ const actions = {
             if (getters.permission === 'master') {
                 if (data.data.type === 'folder') commit('REMOVE_ITEM_FROM_FAVOURITES', data)
             }
-
-            // Remove file
-            commit('REMOVE_ITEM', data.data.id)
-
-            // Remove item from sidebar
-            if (getters.permission === 'master') {
-                if (data.data.type === 'folder') commit('REMOVE_ITEM_FROM_FAVOURITES', data)
-            }
         })
 
         // Remove file preview
@@ -329,7 +321,10 @@ const actions = {
         }
 
         // Get route
-        let route = getters.sharedDetail ? `/api/editor/remove/${router.currentRoute.params.token}` : '/api/remove'
+        let route = {
+            RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/remove`,
+            Public: `/api/editor/remove/${router.currentRoute.params.token}`,
+        }[router.currentRoute.name] || '/api/remove'
 
         axios
             .post(route, {

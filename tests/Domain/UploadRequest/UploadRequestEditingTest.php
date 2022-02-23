@@ -2,10 +2,12 @@
 
 namespace Tests\Domain\UploadRequest;
 
+use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\UploadedFile;
 use Domain\UploadRequest\Models\UploadRequest;
 
 class UploadRequestEditingTest extends TestCase
@@ -107,12 +109,184 @@ class UploadRequestEditingTest extends TestCase
             ])
             ->assertStatus(201)
             ->assertJsonFragment([
-                'name'      => 'New Folder',
+                'name' => 'New Folder',
             ]);
 
         $this->assertDatabaseHas('folders', [
             'name'      => 'New Folder',
             'parent_id' => $uploadRequest->id,
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_delete_image_with_their_thumbnails()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $uploadRequest = UploadRequest::factory()
+            ->create([
+                'status'  => 'active',
+                'user_id' => $user->id,
+            ]);
+
+        $image = File::factory()
+            ->create([
+                'mimetype'  => 'jpeg',
+                'type'      => 'image',
+                'basename'  => 'fake-image.jpeg',
+                'user_id'   => $user->id,
+                'parent_id' => $uploadRequest->id,
+            ]);
+
+        // Mock files
+        $thumbnail_sizes = collect([
+            config('vuefilemanager.image_sizes.later'),
+            config('vuefilemanager.image_sizes.immediately')
+        ])->collapse();
+
+        $fakeFile = UploadedFile::fake()
+            ->create("fake-image.jpeg", 2000, 'image/jpeg');
+
+        Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
+
+        // Create fake image thumbnails
+        $thumbnail_sizes
+            ->each(function ($item) use ($user) {
+                $fakeFile = UploadedFile::fake()
+                    ->create("{$item['name']}-fake-image.jpeg", 2000, 'image/jpeg');
+
+                Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
+            });
+
+        $this
+            ->postJson("/api/upload-request/$uploadRequest->id/remove", [
+                'items' => [
+                    [
+                        'id'           => $image->id,
+                        'type'         => 'file',
+                        'force_delete' => true,
+                    ],
+                ],
+            ])->assertStatus(204);
+
+        // Assert primary file was deleted
+        Storage::assertMissing("files/$user->id/fake-image.jpeg");
+
+        // Assert thumbnail was deleted
+        getThumbnailFileList("fake-image.jpeg")
+            ->each(fn($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
+    }
+
+    /**
+     * @test
+     */
+    public function it_delete_file()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $uploadRequest = UploadRequest::factory()
+            ->create([
+                'status'  => 'active',
+                'user_id' => $user->id,
+            ]);
+
+        $file = File::factory()
+            ->create([
+                'type'      => 'file',
+                'basename'  => 'fake-file.pdf',
+                'user_id'   => $user->id,
+                'parent_id' => $uploadRequest->id,
+            ]);
+
+        $fakeFile = UploadedFile::fake()
+            ->create('fake-file.pdf', 1200, 'application/pdf');
+
+        Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
+
+        $this
+            ->postJson("/api/upload-request/$uploadRequest->id/remove", [
+                'items' => [
+                    [
+                        'id'           => $file->id,
+                        'type'         => 'file',
+                        'force_delete' => true,
+                    ],
+                ],
+            ])->assertStatus(204);
+
+        // Assert primary file was deleted
+        Storage::assertMissing("files/$user->id/fake-file.pdf");
+    }
+
+    /**
+     * @test
+     */
+    public function it_delete_folder_with_file_within()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $uploadRequest = UploadRequest::factory()
+            ->create([
+                'status'  => 'active',
+                'user_id' => $user->id,
+            ]);
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'   => $user->id,
+                'parent_id' => $uploadRequest->id,
+            ]);
+
+        $folderWithin = Folder::factory()
+            ->create([
+                'user_id'   => $user->id,
+                'parent_id' => $folder->id,
+            ]);
+
+        $file = File::factory()
+            ->create([
+                'type'      => 'file',
+                'basename'  => 'fake-file.pdf',
+                'user_id'   => $user->id,
+                'parent_id' => $folder->id,
+            ]);
+
+        $fakeFile = UploadedFile::fake()
+            ->create('fake-file.pdf', 1200, 'application/pdf');
+
+        Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
+
+        $this
+            ->postJson("/api/upload-request/$uploadRequest->id/remove", [
+                'items' => [
+                    [
+                        'id'           => $folder->id,
+                        'type'         => 'folder',
+                        'force_delete' => true,
+                    ],
+                ],
+            ])->assertStatus(204);
+
+        $this
+            ->assertDatabaseMissing('folders', [
+                'id' => $folder->id,
+            ])
+            ->assertDatabaseMissing('folders', [
+                'id' => $folderWithin->id,
+            ])
+            ->assertDatabaseMissing('files', [
+                'id' => $file->id,
+            ]);
+
+        // Assert primary file was deleted
+        Storage::assertMissing("files/$user->id/fake-file.pdf");
     }
 }

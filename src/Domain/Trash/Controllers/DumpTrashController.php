@@ -13,7 +13,7 @@ class DumpTrashController extends Controller
     public function __invoke(): Response
     {
         abort_if(
-            is_demo_account(auth()->user()->email),
+            is_demo_account(),
             204,
             'Done.'
         );

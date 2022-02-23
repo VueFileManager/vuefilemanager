@@ -1,6 +1,7 @@
 <?php
 
 use Domain\UploadRequest\Controllers\CreateFolderController;
+use Domain\UploadRequest\Controllers\DeleteFileOrFolderController;
 use Tests\Domain\UploadRequest\RenameFileOrFolderController;
 use Domain\UploadRequest\Controllers\GetUploadRequestController;
 use Domain\UploadRequest\Controllers\CreateUploadRequestController;
@@ -14,6 +15,7 @@ Route::post('/{uploadRequest}/upload', UploadFilesForUploadRequestController::cl
 // Edit
 Route::patch('/{uploadRequest}/rename/{id}', RenameFileOrFolderController::class);
 Route::post('/{uploadRequest}/create-folder', CreateFolderController::class);
+Route::post('/{uploadRequest}/remove', DeleteFileOrFolderController::class);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/', CreateUploadRequestController::class);

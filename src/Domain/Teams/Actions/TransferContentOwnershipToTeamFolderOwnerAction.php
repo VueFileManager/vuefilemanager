@@ -53,7 +53,7 @@ class TransferContentOwnershipToTeamFolderOwnerAction
         // Move image thumbnails
         if ($file->type === 'image') {
             // Get image thumbnail list
-            $thumbnailList = get_thumbnail_file_list($file->basename);
+            $thumbnailList = getThumbnailFileList($file->basename);
 
             // move thumbnails to the new location
             $thumbnailList->each(function ($basename) use ($file, $folder) {

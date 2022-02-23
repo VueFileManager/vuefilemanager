@@ -634,11 +634,11 @@ if (! function_exists('get_file_type')) {
     }
 }
 
-if (! function_exists('get_thumbnail_file_list')) {
+if (! function_exists('getThumbnailFileList')) {
     /**
      * Get list of image thumbnails
      */
-    function get_thumbnail_file_list(string $basename): Collection
+    function getThumbnailFileList(string $basename): Collection
     {
         return collect([
             config('vuefilemanager.image_sizes.later'),

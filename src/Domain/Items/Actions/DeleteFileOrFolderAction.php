@@ -65,10 +65,9 @@ class DeleteFileOrFolderAction
                     Storage::delete("/files/$file->user_id/$file->basename");
 
                     // Delete thumbnail if exist
-                    if ($file->thumbnail) {
-                        Storage::delete(
-                            "/files/$file->user_id/{$file->getRawOriginal('thumbnail')}"
-                        );
+                    if ($file->type === 'image') {
+                        getThumbnailFileList($file->basename)
+                            ->each(fn ($thumbnail) => Storage::delete("files/$file->user_id/$thumbnail"));
                     }
 
                     // Delete file permanently
@@ -104,10 +103,9 @@ class DeleteFileOrFolderAction
                 Storage::delete("/files/$file->user_id/$file->basename");
 
                 // Delete thumbnail if exist
-                if ($file->thumbnail) {
-                    Storage::delete(
-                        "/files/$file->user_id/{$file->getRawOriginal('thumbnail')}"
-                    );
+                if ($file->type === 'image') {
+                    getThumbnailFileList($file->basename)
+                        ->each(fn ($thumbnail) => Storage::delete("files/$file->user_id/$thumbnail"));
                 }
 
                 // Delete file permanently
