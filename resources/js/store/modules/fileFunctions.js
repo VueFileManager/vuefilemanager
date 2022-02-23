@@ -120,12 +120,14 @@ const actions = {
     },
     renameItem: ({ commit, getters, dispatch }, data) => {
         // Updated name in favourites panel
-        if (getters.permission === 'master' && data.type === 'folder') commit('UPDATE_NAME_IN_FAVOURITES', data)
+        if (getters.permission === 'master' && data.type === 'folder')
+            commit('UPDATE_NAME_IN_FAVOURITES', data)
 
         // Get route
-        let route = getters.sharedDetail
-            ? `/api/editor/rename/${data.id}/${router.currentRoute.params.token}`
-            : `/api/rename/${data.id}`
+        let route = {
+            RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/rename/${data.id}`,
+            Public: `/api/editor/rename/${data.id}/${router.currentRoute.params.token}`,
+        }[router.currentRoute.name] || `/api/rename/${data.id}`
 
         axios
             .post(route, {
@@ -135,9 +137,9 @@ const actions = {
             .then((response) => {
                 commit('CHANGE_ITEM_NAME', response.data)
 
-                if (data.type === 'folder' && !Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
+                if (data.type === 'folder' && router.currentRoute.name !== 'Public')
                     dispatch('getAppData')
-                if (data.type === 'folder' && Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
+                if (data.type === 'folder' && router.currentRoute.name === 'Public')
                     dispatch('getFolderTree')
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
