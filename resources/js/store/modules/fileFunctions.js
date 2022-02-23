@@ -58,7 +58,10 @@ const actions = {
         if (!noSelectedItem) commit('CLIPBOARD_CLEAR')
 
         // Get route
-        let route = getters.sharedDetail ? `/api/editor/move/${router.currentRoute.params.token}` : '/api/move'
+        let route = {
+            RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/move`,
+            Public: `/api/editor/move/${router.currentRoute.params.token}`,
+        }[router.currentRoute.name] || '/api/move'
 
         let moveToId = null
 

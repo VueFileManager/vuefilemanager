@@ -19,11 +19,6 @@ class CreateFolderController
 
     public function __invoke(CreateFolderRequest $request, UploadRequest $uploadRequest)
     {
-        // Check if upload request is active
-        if ($uploadRequest->status !== 'active') {
-            return response('Gone', 410);
-        }
-
         // Check privileges
         if (! in_array($request->input('parent_id'), getChildrenFolderIds($uploadRequest->id))) {
             return response('Access Denied', 403);

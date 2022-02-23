@@ -21,11 +21,6 @@ class UploadFilesForUploadRequestController
      */
     public function __invoke(\Domain\Files\Requests\UploadRequest $request, UploadRequest $uploadRequest)
     {
-        // Check if upload request is active
-        if ($uploadRequest->status !== 'active') {
-            return response('Gone', 410);
-        }
-
         // Get upload request root folder query
         $folder = Folder::where('id', $uploadRequest->id);
 

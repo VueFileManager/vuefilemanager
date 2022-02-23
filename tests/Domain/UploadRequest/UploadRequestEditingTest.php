@@ -289,4 +289,48 @@ class UploadRequestEditingTest extends TestCase
         // Assert primary file was deleted
         Storage::assertMissing("files/$user->id/fake-file.pdf");
     }
+
+    /**
+     * @test
+     */
+    public function it_move_file_to_another_folder_in_upload_request()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $uploadRequest = UploadRequest::factory()
+            ->create([
+                'status'  => 'active',
+                'user_id' => $user->id,
+            ]);
+
+        $folder = Folder::factory()
+            ->create([
+                'id'      => $uploadRequest->id,
+                'user_id' => $user->id,
+            ]);
+
+        $file = File::factory()
+            ->create([
+                'parent_id' => $uploadRequest->id,
+                'user_id'   => $user->id,
+            ]);
+
+        $this
+            ->postJson("/api/upload-request/$uploadRequest->id/move", [
+                'to_id' => $folder->id,
+                'items' => [
+                    [
+                        'type' => 'file',
+                        'id'   => $file->id,
+                    ],
+                ],
+            ])->assertStatus(204);
+
+        $this->assertDatabaseHas('files', [
+            'id'        => $file->id,
+            'parent_id' => $folder->id,
+        ]);
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http;
 
+use Domain\UploadRequest\Middleware\ProtectUploadRequestRoutes;
 use Fruitcake\Cors\HandleCors;
 use Support\Middleware\TrimStrings;
 use Support\Middleware\TrustProxies;
@@ -75,5 +76,6 @@ class Kernel extends HttpKernel
         'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'setup-wizard'     => ProtectSetupWizardRoutes::class,
+        'upload-request'   => ProtectUploadRequestRoutes::class,
     ];
 }

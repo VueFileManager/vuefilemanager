@@ -7,18 +7,12 @@ use Domain\Folders\Models\Folder;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\UploadRequest\Models\UploadRequest;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class DeleteFileOrFolderController
 {
     public function __invoke(DeleteItemRequest $request, UploadRequest $uploadRequest)
     {
-        // Check if upload request is active
-        if ($uploadRequest->status !== 'active') {
-            return response('Gone', 410);
-        }
-
         foreach ($request->input('items') as $file) {
             // Get file or folder item
             $item = get_item($file['type'], $file['id']);
