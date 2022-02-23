@@ -10,12 +10,15 @@ use Domain\UploadRequest\Controllers\CreateUploadRequestController;
 use Domain\UploadRequest\Controllers\SetUploadRequestAsFilledController;
 use Domain\UploadRequest\Controllers\UploadFilesForUploadRequestController;
 
+Route::get('/{uploadRequest}', GetUploadRequestController::class);
+
+// Available only for active upload requests
 Route::group(['middleware' => 'upload-request'], function() {
-    Route::get('/{uploadRequest}', GetUploadRequestController::class);
+    // Detail
     Route::delete('/{uploadRequest}', SetUploadRequestAsFilledController::class);
-    Route::post('/{uploadRequest}/upload', UploadFilesForUploadRequestController::class);
 
     // Edit
+    Route::post('/{uploadRequest}/upload', UploadFilesForUploadRequestController::class);
     Route::patch('/{uploadRequest}/rename/{id}', RenameFileOrFolderController::class);
     Route::post('/{uploadRequest}/create-folder', CreateFolderController::class);
     Route::post('/{uploadRequest}/remove', DeleteFileOrFolderController::class);
@@ -25,6 +28,7 @@ Route::group(['middleware' => 'upload-request'], function() {
     Route::post('/{uploadRequest}/move', MoveItemInUploadRequestController::class);
 });
 
+// User functionality
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/', CreateUploadRequestController::class);
 });

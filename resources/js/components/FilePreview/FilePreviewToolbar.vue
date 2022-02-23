@@ -48,7 +48,7 @@
                                 @click.native="$shareFileOrFolder(currentFile)"
                                 :title="sharingTitle"
                                 icon="share"
-                                v-if="$checkPermission('master')"
+                                v-if="!$isThisRoute($route, ['Public', 'RequestUpload', 'SharedWithMe'])"
                             />
                             <Option
                                 @click.native="$deleteFileOrFolder(currentFile)"
@@ -57,7 +57,7 @@
                                 class="menu-option"
                             />
                         </OptionGroup>
-                        <OptionGroup>
+                        <OptionGroup v-if="!$isThisRoute($route, ['RequestUpload'])">
                             <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
                         </OptionGroup>
                     </PopoverItem>
@@ -78,7 +78,12 @@
             </div>
 
             <div class="ml-5">
-                <ToolbarButton @click.native="downloadItem" source="download" :action="$t('actions.download')" />
+                <ToolbarButton
+                    v-if="!$isThisRoute($route, ['RequestUpload'])"
+                    @click.native="downloadItem"
+                    source="download"
+                    :action="$t('actions.download')"
+                />
                 <ToolbarButton
                     v-if="canShareItem"
                     @click.native="$shareFileOrFolder(currentFile)"
