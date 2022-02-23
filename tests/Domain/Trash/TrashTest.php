@@ -25,7 +25,7 @@ class TrashTest extends TestCase
             'deleted_at' => now(),
         ];
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create($attributes);
 
         $file = File::factory()
@@ -66,7 +66,7 @@ class TrashTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);

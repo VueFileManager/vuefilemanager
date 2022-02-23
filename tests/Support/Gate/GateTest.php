@@ -19,7 +19,7 @@ class GateTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -52,12 +52,12 @@ class GateTest extends TestCase
                     ->hasSettings()
                     ->create();
 
-                $root = Folder::factory(Folder::class)
+                $root = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
 
-                $children = Folder::factory(Folder::class)
+                $children = Folder::factory()
                     ->create([
                         'user_id'   => $user->id,
                         'parent_id' => $root->id,
@@ -123,20 +123,20 @@ class GateTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $teamFolder = Folder::factory(Folder::class)
+        $teamFolder = Folder::factory()
             ->create([
                 'user_id'     => $owner->id,
                 'team_folder' => 1,
                 'name'        => 'Team Folder',
             ]);
 
-        $parent = Folder::factory(Folder::class)
+        $parent = Folder::factory()
             ->create([
                 'user_id'   => $owner->id,
                 'parent_id' => $teamFolder->id,
             ]);
 
-        $children = Folder::factory(Folder::class)
+        $children = Folder::factory()
             ->create([
                 'user_id'   => $owner->id,
                 'parent_id' => $parent->id,
@@ -174,20 +174,20 @@ class GateTest extends TestCase
         $member = User::factory()
             ->create();
 
-        $teamFolder = Folder::factory(Folder::class)
+        $teamFolder = Folder::factory()
             ->create([
                 'user_id'     => $owner->id,
                 'team_folder' => 1,
                 'name'        => 'Team Folder',
             ]);
 
-        $parent = Folder::factory(Folder::class)
+        $parent = Folder::factory()
             ->create([
                 'user_id'   => $owner->id,
                 'parent_id' => $teamFolder->id,
             ]);
 
-        $children = Folder::factory(Folder::class)
+        $children = Folder::factory()
             ->create([
                 'user_id'   => $owner->id,
                 'parent_id' => $parent->id,
@@ -229,7 +229,7 @@ class GateTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $teamFolder = Folder::factory(Folder::class)
+        $teamFolder = Folder::factory()
             ->create([
                 'user_id'     => $owner->id,
                 'team_folder' => 1,

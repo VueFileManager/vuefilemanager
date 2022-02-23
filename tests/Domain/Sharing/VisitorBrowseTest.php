@@ -139,7 +139,7 @@ class VisitorBrowseTest extends TestCase
                     ->hasSettings()
                     ->create();
 
-                $root = Folder::factory(Folder::class)
+                $root = Folder::factory()
                     ->create([
                         'name'    => 'root',
                         'user_id' => $user->id,
@@ -154,7 +154,7 @@ class VisitorBrowseTest extends TestCase
                         'permission'   => 'editor',
                     ]);
 
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create([
                         'parent_id' => $root->id,
                         'name'      => 'Documents',
@@ -217,7 +217,7 @@ class VisitorBrowseTest extends TestCase
                 $user = User::factory()
                     ->create();
 
-                $folder_level_1 = Folder::factory(Folder::class)
+                $folder_level_1 = Folder::factory()
                     ->create([
                         'name'    => 'level 1',
                         'author'  => 'user',
@@ -234,7 +234,7 @@ class VisitorBrowseTest extends TestCase
                         'password'     => bcrypt('secret'),
                     ]);
 
-                $folder_level_2 = Folder::factory(Folder::class)
+                $folder_level_2 = Folder::factory()
                     ->create([
                         'name'      => 'level 2',
                         'parent_id' => $folder_level_1->id,
@@ -242,7 +242,7 @@ class VisitorBrowseTest extends TestCase
                         'user_id'   => $user->id,
                     ]);
 
-                $folder_level_3 = Folder::factory(Folder::class)
+                $folder_level_3 = Folder::factory()
                     ->create([
                         'name'      => 'level 3',
                         'parent_id' => $folder_level_2->id,
@@ -250,7 +250,7 @@ class VisitorBrowseTest extends TestCase
                         'user_id'   => $user->id,
                     ]);
 
-                $folder_level_2_sibling = Folder::factory(Folder::class)
+                $folder_level_2_sibling = Folder::factory()
                     ->create([
                         'name'      => 'level 2 Sibling',
                         'parent_id' => $folder_level_1->id,
@@ -325,7 +325,7 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create();
 
                 $share = Share::factory()
@@ -379,7 +379,7 @@ class VisitorBrowseTest extends TestCase
         // check private or public share record
         collect([true, false])
             ->each(function ($is_protected) {
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create();
 
                 $share = Share::factory()

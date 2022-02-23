@@ -100,7 +100,7 @@ class TrafficTest extends TestCase
      */
     public function editor_upload_file_into_shared_folder()
     {
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $this->user->id,
                 'author'  => 'user',

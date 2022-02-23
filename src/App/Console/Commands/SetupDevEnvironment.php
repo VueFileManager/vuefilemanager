@@ -188,7 +188,7 @@ class SetupDevEnvironment extends Command
             ->first();
 
         // 1.
-        $shared_folder = Folder::factory(Folder::class)
+        $shared_folder = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
                 'author'     => 'user',
@@ -215,7 +215,7 @@ class SetupDevEnvironment extends Command
                 'expire_in'    => null,
             ]);
 
-        $peters_files = Folder::factory(Folder::class)
+        $peters_files = Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $shared_folder->id,
@@ -224,7 +224,7 @@ class SetupDevEnvironment extends Command
             ]);
 
         // 2.
-        $random_pics = Folder::factory(Folder::class)
+        $random_pics = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
                 'author'     => 'user',
@@ -240,7 +240,7 @@ class SetupDevEnvironment extends Command
                 'created_at' => now()->subMinutes(1),
             ]);
 
-        $nature = Folder::factory(Folder::class)
+        $nature = Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $random_pics->id,
@@ -256,7 +256,7 @@ class SetupDevEnvironment extends Command
                 ],
             ]);
 
-        $apartments = Folder::factory(Folder::class)
+        $apartments = Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $random_pics->id,
@@ -273,7 +273,7 @@ class SetupDevEnvironment extends Command
             ]);
 
         // 3.
-        $playable_media = Folder::factory(Folder::class)
+        $playable_media = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
                 'author'     => 'user',
@@ -281,7 +281,7 @@ class SetupDevEnvironment extends Command
                 'created_at' => now()->subMinutes(2),
             ]);
 
-        $video = Folder::factory(Folder::class)
+        $video = Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $playable_media->id,
@@ -289,7 +289,7 @@ class SetupDevEnvironment extends Command
                 'name'      => 'Video',
             ]);
 
-        $audio = Folder::factory(Folder::class)
+        $audio = Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $playable_media->id,
@@ -298,7 +298,7 @@ class SetupDevEnvironment extends Command
             ]);
 
         // 4.
-        $multi_level = Folder::factory(Folder::class)
+        $multi_level = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
                 'author'     => 'user',
@@ -306,7 +306,7 @@ class SetupDevEnvironment extends Command
                 'created_at' => now()->subMinutes(3),
             ]);
 
-        $first_level = Folder::factory(Folder::class)
+        $first_level = Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $multi_level->id,
@@ -314,7 +314,7 @@ class SetupDevEnvironment extends Command
                 'name'      => 'First Level',
             ]);
 
-        $second_level = Folder::factory(Folder::class)
+        $second_level = Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $first_level->id,
@@ -322,7 +322,7 @@ class SetupDevEnvironment extends Command
                 'name'      => 'Second Level',
             ]);
 
-        Folder::factory(Folder::class)
+        Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $second_level->id,
@@ -331,7 +331,7 @@ class SetupDevEnvironment extends Command
             ]);
 
         // 5.
-        $documents = Folder::factory(Folder::class)
+        $documents = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
                 'author'     => 'user',
@@ -351,7 +351,7 @@ class SetupDevEnvironment extends Command
             ]);
 
         // 6.
-        $videohive = Folder::factory(Folder::class)
+        $videohive = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
                 'author'     => 'user',

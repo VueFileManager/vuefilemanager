@@ -23,12 +23,12 @@ class SharedZippingTest extends TestCase
                 $user = User::factory()
                     ->create();
 
-                $sharedFolder = Folder::factory(Folder::class)
+                $sharedFolder = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
 
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create([
                         'user_id'   => $user->id,
                         'parent_id' => $sharedFolder->id,
@@ -115,7 +115,7 @@ class SharedZippingTest extends TestCase
                 $user = User::factory()
                     ->create();
 
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
@@ -178,12 +178,12 @@ class SharedZippingTest extends TestCase
                 $user = User::factory()
                     ->create();
 
-                $root = Folder::factory(Folder::class)
+                $root = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
 
-                $children = Folder::factory(Folder::class)
+                $children = Folder::factory()
                     ->create([
                         'user_id'   => $user->id,
                         'parent_id' => $root->id,
@@ -246,7 +246,7 @@ class SharedZippingTest extends TestCase
                 $user = User::factory()
                     ->create();
 
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);

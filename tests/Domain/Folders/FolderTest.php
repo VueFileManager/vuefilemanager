@@ -16,7 +16,7 @@ class FolderTest extends TestCase
      */
     public function it_test_folder_factory()
     {
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create();
 
         $this->assertDatabaseHas('folders', [
@@ -57,7 +57,7 @@ class FolderTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -87,7 +87,7 @@ class FolderTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -126,7 +126,7 @@ class FolderTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -160,12 +160,12 @@ class FolderTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $root = Folder::factory(Folder::class)
+        $root = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
 
-        $children = Folder::factory(Folder::class)
+        $children = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -197,12 +197,12 @@ class FolderTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder_1 = Folder::factory(Folder::class)
+        $folder_1 = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
 
-        $folder_2 = Folder::factory(Folder::class)
+        $folder_2 = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -248,12 +248,12 @@ class FolderTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder_1 = Folder::factory(Folder::class)
+        $folder_1 = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
 
-        $folder_2 = Folder::factory(Folder::class)
+        $folder_2 = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -293,12 +293,12 @@ class FolderTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder_root = Folder::factory(Folder::class)
+        $folder_root = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
 
-        $folder_children = Folder::factory(Folder::class)
+        $folder_children = Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $folder_root->id,
@@ -354,12 +354,12 @@ class FolderTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $folder_root = Folder::factory(Folder::class)
+        $folder_root = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
 
-        $folder_children = Folder::factory(Folder::class)
+        $folder_children = Folder::factory()
             ->create([
                 'user_id'   => $user->id,
                 'parent_id' => $folder_root->id,

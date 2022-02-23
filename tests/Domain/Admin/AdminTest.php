@@ -294,7 +294,7 @@ class AdminTest extends TestCase
         Sanctum::actingAs($user);
 
         // Create folders
-        $folders = Folder::factory(Folder::class)
+        $folders = Folder::factory()
             ->count(2)
             ->create(['user_id' => $user->id]);
 

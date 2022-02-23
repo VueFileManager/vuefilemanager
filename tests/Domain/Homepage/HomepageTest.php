@@ -54,7 +54,7 @@ class HomepageTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $user->id,
                 'name'    => 'Folder Title',

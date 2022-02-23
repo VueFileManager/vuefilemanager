@@ -21,7 +21,7 @@ class UserZippingTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);
@@ -76,7 +76,7 @@ class UserZippingTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);

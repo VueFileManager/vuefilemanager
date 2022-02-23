@@ -69,7 +69,7 @@ class UserShareTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create(['user_id' => $user->id]);
 
         $this
@@ -103,7 +103,7 @@ class UserShareTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create(['user_id' => $user->id]);
 
         $this
@@ -143,7 +143,7 @@ class UserShareTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create(['user_id' => $user->id]);
 
         $this
@@ -171,7 +171,7 @@ class UserShareTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create(['user_id' => $user->id]);
 
         $this
@@ -199,7 +199,7 @@ class UserShareTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create(['user_id' => $user->id]);
 
         Sanctum::actingAs($user);
@@ -230,7 +230,7 @@ class UserShareTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create(['user_id' => $user->id]);
 
         Sanctum::actingAs($user);

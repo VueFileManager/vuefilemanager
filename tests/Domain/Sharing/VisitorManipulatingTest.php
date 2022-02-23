@@ -23,7 +23,7 @@ class VisitorManipulatingTest extends TestCase
                     ->hasSettings()
                     ->create();
 
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
@@ -93,12 +93,12 @@ class VisitorManipulatingTest extends TestCase
                     ->hasSettings()
                     ->create();
 
-                $root = Folder::factory(Folder::class)
+                $root = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
 
-                $children = Folder::factory(Folder::class)
+                $children = Folder::factory()
                     ->create([
                         'user_id'   => $user->id,
                         'parent_id' => $root->id,
@@ -163,7 +163,7 @@ class VisitorManipulatingTest extends TestCase
                     ->hasSettings()
                     ->create();
 
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
@@ -227,7 +227,7 @@ class VisitorManipulatingTest extends TestCase
                 $user = User::factory()
                     ->create();
 
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
@@ -303,7 +303,7 @@ class VisitorManipulatingTest extends TestCase
                     ->hasSettings()
                     ->create();
 
-                $folder = Folder::factory(Folder::class)
+                $folder = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                         'author'  => 'user',
@@ -374,12 +374,12 @@ class VisitorManipulatingTest extends TestCase
                 $user = User::factory()
                     ->create();
 
-                $root = Folder::factory(Folder::class)
+                $root = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
 
-                $children = Folder::factory(Folder::class)
+                $children = Folder::factory()
                     ->create([
                         'user_id'   => $user->id,
                         'parent_id' => $root->id,
@@ -447,18 +447,18 @@ class VisitorManipulatingTest extends TestCase
                 $user = User::factory()
                     ->create();
 
-                $root = Folder::factory(Folder::class)
+                $root = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
                     ]);
 
-                $brother = Folder::factory(Folder::class)
+                $brother = Folder::factory()
                     ->create([
                         'user_id'   => $user->id,
                         'parent_id' => $root->id,
                     ]);
 
-                $sister = Folder::factory(Folder::class)
+                $sister = Folder::factory()
                     ->create([
                         'user_id'   => $user->id,
                         'parent_id' => $root->id,

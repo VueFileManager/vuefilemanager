@@ -23,14 +23,14 @@ class BrowseTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder_level_1 = Folder::factory(Folder::class)
+        $folder_level_1 = Folder::factory()
             ->create([
                 'name'    => 'level 1',
                 'author'  => 'user',
                 'user_id' => $user->id,
             ]);
 
-        $folder_level_2 = Folder::factory(Folder::class)
+        $folder_level_2 = Folder::factory()
             ->create([
                 'name'      => 'level 2',
                 'parent_id' => $folder_level_1->id,
@@ -38,7 +38,7 @@ class BrowseTest extends TestCase
                 'user_id'   => $user->id,
             ]);
 
-        $folder_level_3 = Folder::factory(Folder::class)
+        $folder_level_3 = Folder::factory()
             ->create([
                 'name'      => 'level 3',
                 'parent_id' => $folder_level_2->id,
@@ -46,7 +46,7 @@ class BrowseTest extends TestCase
                 'user_id'   => $user->id,
             ]);
 
-        $folder_level_2_sibling = Folder::factory(Folder::class)
+        $folder_level_2_sibling = Folder::factory()
             ->create([
                 'name'      => 'level 2 Sibling',
                 'parent_id' => $folder_level_1->id,
@@ -138,13 +138,13 @@ class BrowseTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $root = Folder::factory(Folder::class)
+        $root = Folder::factory()
             ->create([
                 'name'    => 'root',
                 'user_id' => $user->id,
             ]);
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'parent_id' => $root->id,
                 'name'      => 'Documents',
@@ -187,7 +187,7 @@ class BrowseTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $root = Folder::factory(Folder::class)
+        $root = Folder::factory()
             ->create([
                 'name'    => 'root',
                 'user_id' => $user->id,
@@ -240,7 +240,7 @@ class BrowseTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'parent_id'  => null,
                 'name'       => 'root',
@@ -291,7 +291,7 @@ class BrowseTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'user_id' => $user->id,
             ]);

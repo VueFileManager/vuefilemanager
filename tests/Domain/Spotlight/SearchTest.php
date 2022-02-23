@@ -58,7 +58,7 @@ class SearchTest extends TestCase
             ->hasSettings()
             ->create();
 
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create([
                 'name'    => 'Documents',
                 'user_id' => $user->id,

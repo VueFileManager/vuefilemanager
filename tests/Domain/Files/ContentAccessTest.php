@@ -170,7 +170,7 @@ class ContentAccessTest extends TestCase
      */
     public function guest_try_to_get_private_user_folder()
     {
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create();
 
         $this->getJson("/api/browse/folders/$folder->id")

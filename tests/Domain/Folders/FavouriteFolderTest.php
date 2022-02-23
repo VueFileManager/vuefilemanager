@@ -12,7 +12,7 @@ class FavouriteFolderTest extends TestCase
      */
     public function it_add_folder_to_favourites()
     {
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create();
 
         $user = User::factory()
@@ -38,7 +38,7 @@ class FavouriteFolderTest extends TestCase
      */
     public function it_remove_folder_from_favourites()
     {
-        $folder = Folder::factory(Folder::class)
+        $folder = Folder::factory()
             ->create();
 
         $user = User::factory()
