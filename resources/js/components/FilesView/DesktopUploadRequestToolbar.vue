@@ -7,8 +7,8 @@
 
 				<!--I am Done-->
                 <div @click="uploadingDone" class="bg-theme-200 mr-6 flex cursor-pointer items-center rounded-lg py-1 pr-1 pl-4">
-                    <b class="text-theme mr-3 text-xs">
-                        {{ $t('Tell Jane you are done!') }}
+                    <b class="text-theme mr-3 text-sm leading-3">
+                        {{ $t('Tell {name} you are done!', {name: uploadRequest.data.relationships.user.data.attributes.name}) }}
                     </b>
 					<MemberAvatar
 						:member="uploadRequest.data.relationships.user"

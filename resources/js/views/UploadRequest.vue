@@ -32,7 +32,7 @@
             <div class="flex space-x-3 lg:overflow-hidden">
                 <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
 
-                <!--<InfoSidebar v-if="isVisibleSidebar" />-->
+                <InfoSidebarUploadRequest v-if="entries.length && isVisibleSidebar" />
             </div>
         </div>
     </div>
@@ -41,6 +41,7 @@
 <script>
 import DesktopUploadRequestToolbar from '../components/FilesView/DesktopUploadRequestToolbar'
 import MobileUploadRequestToolBar from "../components/FilesView/MobileUploadRequestToolbar"
+import InfoSidebarUploadRequest from "../components/FilesView/InfoSidebarUploadRequest"
 import FileSortingMobile from '../components/FilesView/FileSortingMobile'
 import FileFilterMobile from '../components/FilesView/FileFilterMobile'
 import CreateFolderPopup from '../components/Others/CreateFolderPopup'
@@ -49,7 +50,6 @@ import ConfirmPopup from "../components/Others/Popup/ConfirmPopup"
 import RenameItemPopup from '../components/Others/RenameItemPopup'
 import FilePreview from '../components/FilePreview/FilePreview'
 import MoveItemPopup from '../components/Others/MoveItemPopup'
-import InfoSidebar from '../components/FilesView/InfoSidebar'
 import Spotlight from '../components/Spotlight/Spotlight'
 import DragUI from '../components/FilesView/DragUI'
 import { mapGetters } from 'vuex'
@@ -60,6 +60,7 @@ export default {
     components: {
         DesktopUploadRequestToolbar,
 		MobileUploadRequestToolBar,
+		InfoSidebarUploadRequest,
         CreateFolderPopup,
         FileSortingMobile,
         FileFilterMobile,
@@ -67,7 +68,6 @@ export default {
         DesktopToolbar,
         MoveItemPopup,
 		ConfirmPopup,
-        InfoSidebar,
         FilePreview,
         Spotlight,
         DragUI,

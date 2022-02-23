@@ -52,7 +52,7 @@ class DeleteFileOrFolderAction
             // Force delete children files
             if ($item['force_delete']) {
                 // Get children folder ids
-                $child_folders = filter_folders_ids($folder->trashedFolders, 'id');
+                $child_folders = filter_folders_ids($folder->trashedFolders);
 
                 // Get children files
                 $files = File::onlyTrashed()
