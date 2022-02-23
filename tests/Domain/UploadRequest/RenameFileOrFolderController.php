@@ -1,8 +1,6 @@
 <?php
 namespace Tests\Domain\UploadRequest;
 
-use Illuminate\Support\Arr;
-use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
@@ -29,16 +27,8 @@ class RenameFileOrFolderController extends Controller
         // Get item
         $item = get_item($request->input('type'), $id);
 
-        // Get folders within upload request
-        $folderWithinIds = Folder::with('folders:id,parent_id')
-            ->where('parent_id', $uploadRequest->id)
-            ->get(['id']);
-
-        // Then get all accessible folders within
-        $accessibleParentIds = Arr::flatten([filter_folders_ids($folderWithinIds), $uploadRequest->id]);
-
         // Check privileges
-        if (! in_array($item->parent_id, $accessibleParentIds)) {
+        if (! in_array($item->parent_id, getChildrenFolderIds($uploadRequest->id))) {
             return response('Access Denied', 403);
         }
 

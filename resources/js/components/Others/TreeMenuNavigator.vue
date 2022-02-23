@@ -22,7 +22,7 @@
                     }"
                 />
             </div>
-            <folder-icon size="17" class="vue-feather mr-2.5" :class="{ 'text-theme': isSelected }" />
+            <folder-icon size="17" class="vue-feather mr-2.5 shrink-0" :class="{ 'text-theme': isSelected }" />
             <b
                 class="max-w-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold"
                 :class="{ 'text-theme': isSelected }"

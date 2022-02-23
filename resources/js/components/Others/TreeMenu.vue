@@ -27,25 +27,25 @@
             <hard-drive-icon
                 v-if="['public', 'files'].includes(nodes.location)"
                 size="17"
-                class="icon vue-feather"
+                class="icon vue-feather shrink-0"
                 :class="{ 'text-theme dark-text-theme': isSelectedItem }"
             />
             <users-icon
                 v-if="nodes.location === 'team-folders'"
                 size="17"
-                class="icon vue-feather"
+                class="icon vue-feather shrink-0"
                 :class="{ 'text-theme dark-text-theme': isSelectedItem }"
             />
             <user-plus-icon
                 v-if="nodes.location === 'shared-with-me'"
                 size="17"
-                class="icon vue-feather"
+                class="icon vue-feather shrink-0"
                 :class="{ 'text-theme dark-text-theme': isSelectedItem }"
             />
             <folder-icon
                 v-if="!nodes.location"
                 size="17"
-                class="icon vue-feather"
+                class="icon vue-feather shrink-0"
                 :class="{ 'text-theme dark-text-theme': isSelectedItem }"
             />
 

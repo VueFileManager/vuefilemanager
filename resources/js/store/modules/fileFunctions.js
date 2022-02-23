@@ -84,17 +84,16 @@ const actions = {
     },
     createFolder: ({ commit, getters, dispatch }, folder) => {
         // Get route
-        let route = getters.sharedDetail
-            ? `/api/editor/create-folder/${router.currentRoute.params.token}`
-            : '/api/create-folder'
-
-        let parent_id = getters.currentFolder ? getters.currentFolder.data.id : undefined
+        let route = {
+            RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/create-folder`,
+            Public: `/api/editor/create-folder/${router.currentRoute.params.token}`,
+        }[router.currentRoute.name] || '/api/create-folder'
 
         axios
             .post(route, {
-                parent_id: parent_id,
                 name: folder.name,
                 emoji: folder.emoji,
+                parent_id: getters.currentFolder?.data.id,
             })
             .then((response) => {
                 commit('ADD_NEW_FOLDER', response.data)
@@ -120,7 +119,7 @@ const actions = {
     },
     renameItem: ({ commit, getters, dispatch }, data) => {
         // Updated name in favourites panel
-        if (getters.permission === 'master' && data.type === 'folder')
+        if (data.type === 'folder' && getters.user)
             commit('UPDATE_NAME_IN_FAVOURITES', data)
 
         // Get route

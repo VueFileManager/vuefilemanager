@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use ByteUnits\Metric;
 use App\Users\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
@@ -24,6 +25,22 @@ if (! function_exists('isRunningCron')) {
     function isRunningCron(): bool
     {
         return cache()->has('latest_cron_update') && Carbon::parse(cache()->get('latest_cron_update'))->diffInMinutes(now()) < 5;
+    }
+}
+
+if (! function_exists('getInnerFolderIds')) {
+    /**
+     * Get all folder children ids
+     */
+    function getChildrenFolderIds(string $id): array
+    {
+        // Get folders within upload request
+        $folderWithinIds = Folder::with('folders:id,parent_id')
+            ->where('parent_id', $id)
+            ->get(['id']);
+
+        // Then get all accessible folders within
+        return Arr::flatten([filter_folders_ids($folderWithinIds), $id]);
     }
 }
 

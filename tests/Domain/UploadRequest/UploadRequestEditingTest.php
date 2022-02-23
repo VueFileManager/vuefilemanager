@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\UploadRequest;
 
 use Tests\TestCase;
@@ -32,7 +33,7 @@ class UploadRequestEditingTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/upload-request/$uploadRequest->id/rename/$folder->id", [
+            ->patchJson("/api/upload-request/$uploadRequest->id/rename/$folder->id", [
                 'name' => 'Renamed Folder',
                 'type' => 'folder',
             ])
@@ -45,6 +46,7 @@ class UploadRequestEditingTest extends TestCase
             'name' => 'Renamed Folder',
         ]);
     }
+
     /**
      * @test
      */
@@ -68,7 +70,7 @@ class UploadRequestEditingTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/upload-request/$uploadRequest->id/rename/$file->id", [
+            ->patchJson("/api/upload-request/$uploadRequest->id/rename/$file->id", [
                 'name' => 'Renamed File',
                 'type' => 'file',
             ])
@@ -79,6 +81,38 @@ class UploadRequestEditingTest extends TestCase
 
         $this->assertDatabaseHas('files', [
             'name' => 'Renamed File',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_create_new_folder_in_upload_request()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $uploadRequest = UploadRequest::factory()
+            ->create([
+                'status'  => 'active',
+                'user_id' => $user->id,
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->postJson("/api/upload-request/$uploadRequest->id/create-folder", [
+                'name'      => 'New Folder',
+                'parent_id' => $uploadRequest->id,
+            ])
+            ->assertStatus(201)
+            ->assertJsonFragment([
+                'name'      => 'New Folder',
+            ]);
+
+        $this->assertDatabaseHas('folders', [
+            'name'      => 'New Folder',
+            'parent_id' => $uploadRequest->id,
         ]);
     }
 }
