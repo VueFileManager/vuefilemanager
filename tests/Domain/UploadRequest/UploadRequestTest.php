@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\UploadRequest;
 
+use Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification;
 use Storage;
 use Notification;
 use Tests\TestCase;
@@ -194,6 +195,8 @@ class UploadRequestTest extends TestCase
                 'id'     => $uploadRequest->id,
                 'status' => 'filled',
             ]);
+
+        Notification::assertSentTo($user, UploadRequestFulfilledNotification::class);
     }
 
     /**

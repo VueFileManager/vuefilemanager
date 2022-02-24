@@ -49,6 +49,11 @@ class UploadRequest extends Model
         return $this->hasOne(Folder::class, 'id', 'id');
     }
 
+    public function parent(): HasOne
+    {
+        return $this->hasOne(Folder::class, 'id', 'folder_id');
+    }
+
     protected static function boot()
     {
         parent::boot();

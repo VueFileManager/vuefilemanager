@@ -42,7 +42,7 @@ const actions = {
                     resolve(response)
 
                     // Stop loading spinner
-                    if (response.data.data.attributes.status === 'active')
+                    if (['active', 'filled', 'expired'].includes(response.data.data.attributes.status) )
                         commit('LOADING_STATE', { loading: false, data: [] })
 
                     commit('SET_UPLOAD_REQUEST', response.data)

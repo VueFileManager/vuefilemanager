@@ -194,11 +194,14 @@ export default {
 		isFolder() {
 			return this.item && this.item.data.type === 'folder'
 		},
+		userName() {
+			return this.uploadRequest.data.relationships.user.data.attributes.name
+		},
 		emptyPageTitle() {
 			// Todo: add name into translation
 			return {
-				active: this.$t('{name} Request You for File Upload', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
-				filled: this.$t('Upload Request for {name} was Fulfilled Successfully', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
+				active: this.$t('{name} Request You for File Upload', {name: this.userName}),
+				filled: this.$t('Upload Request for {name} was Fulfilled Successfully', {name: this.userName}),
 				expired: this.$t('Upload Request Expired'),
 			}[this.uploadRequest.data.attributes.status]
 		},
@@ -218,7 +221,7 @@ export default {
 	methods: {
 		uploadingDone() {
 			events.$emit('confirm:open', {
-				title: this.$t('Are you sure you uploaded all files you want for {name}?', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
+				title: this.$t('Are you sure you uploaded all files you want for {name}?', {name: this.userName}),
 				message: this.$t("You won't be able to upload any files here once again."),
 				action: {
 					id: this.$router.currentRoute.params.token,
