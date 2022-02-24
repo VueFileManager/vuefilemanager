@@ -326,6 +326,7 @@ const FunctionHelpers = {
 
         Vue.prototype.$getDataByLocation = function () {
             let routes = {
+                RequestUpload: ['getUploadRequestFolder', router.currentRoute.params.id || undefined ],
                 Public: ['getSharedFolder', router.currentRoute.params.id || undefined],
                 Files: ['getFolder', router.currentRoute.params.id || undefined],
                 RecentUploads: ['getRecentUploads'],
@@ -424,10 +425,8 @@ const FunctionHelpers = {
 
         Vue.prototype.$goToFileView = function (id) {
             let locations = {
-                Public: {
-                    name: 'Public',
-                    params: { token: this.$route.params.token, id: id },
-                },
+                RequestUpload: {name: 'RequestUpload', params: { token: this.$route.params.token, id: id }},
+                Public: {name: 'Public', params: { token: this.$route.params.token, id: id }},
                 TeamFolders: { name: 'TeamFolders', params: { id: id } },
                 SharedWithMe: { name: 'SharedWithMe', params: { id: id } },
                 MySharedItems: { name: 'Files', params: { id: id } },

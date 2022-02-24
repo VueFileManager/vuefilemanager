@@ -11,8 +11,11 @@ class ProtectUploadRequestRoutes
      */
     public function handle(Request $request, Closure $next): mixed
     {
+        // Get upload request
+        $uploadRequest = $request->route()->parameter('uploadRequest');
+
         // Check if upload request is active
-        if ($request->route()->parameter('uploadRequest')->status !== 'active') {
+        if (! in_array($uploadRequest->status, ['active', 'filling'])) {
             return response('Gone', 410);
         }
 

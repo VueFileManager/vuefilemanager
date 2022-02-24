@@ -65,7 +65,7 @@
                     <img
                         class="h-full w-full rounded-lg object-cover shadow-lg"
                         :src="entry.data.attributes.thumbnail.sm"
-                        :alt="entry.data.attributes.name"
+						alt=""
                         loading="lazy"
                     />
                 </div>

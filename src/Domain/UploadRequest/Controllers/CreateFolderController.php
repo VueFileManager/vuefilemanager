@@ -1,12 +1,11 @@
 <?php
-
 namespace Domain\UploadRequest\Controllers;
 
-use Domain\Folders\Actions\CreateFolderAction;
 use Domain\Folders\Models\Folder;
-use Domain\Folders\Requests\CreateFolderRequest;
 use Domain\Folders\Resources\FolderResource;
+use Domain\Folders\Actions\CreateFolderAction;
 use Domain\UploadRequest\Models\UploadRequest;
+use Domain\Folders\Requests\CreateFolderRequest;
 use Support\Demo\Actions\FakeCreateFolderAction;
 
 class CreateFolderController

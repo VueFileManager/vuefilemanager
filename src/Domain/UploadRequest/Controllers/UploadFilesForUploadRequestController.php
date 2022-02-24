@@ -59,13 +59,20 @@ class UploadFilesForUploadRequestController
      */
     private function createFolder(UploadRequest $uploadRequest): void
     {
+        // Format timestamp
         $timestampName = format_date($uploadRequest->created_at, 'd. M. Y');
 
+        // Create folder
         DB::table('folders')->insert([
             'id'        => $uploadRequest->id,
             'parent_id' => $uploadRequest->folder_id,
             'user_id'   => $uploadRequest->user_id,
             'name'      => "Upload Request from $timestampName",
+        ]);
+
+        // Update upload request status
+        $uploadRequest->update([
+            'status' => 'filling',
         ]);
     }
 }

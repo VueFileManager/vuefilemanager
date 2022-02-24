@@ -17,7 +17,7 @@ class CreateUploadRequestsTable extends Migration
             $table->uuid('id');
             $table->uuid('user_id');
             $table->uuid('folder_id');
-            $table->enum('status', ['active', 'filled', 'expired'])->default('active');
+            $table->enum('status', ['active', 'filling', 'filled', 'expired'])->default('active');
             $table->string('email')->nullable();
             $table->longText('notes')->nullable();
             $table->timestamps();

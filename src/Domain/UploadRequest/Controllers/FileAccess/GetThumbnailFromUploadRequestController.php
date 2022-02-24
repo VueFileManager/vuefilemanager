@@ -26,15 +26,9 @@ class GetThumbnailFromUploadRequestController extends Controller
         string $filename,
         UploadRequest $uploadRequest
     ): Application|ResponseFactory|Response|StreamedResponse {
-        // Check if upload request is active
-        if ($uploadRequest->status !== 'active') {
-            return response('Gone', 410);
-        }
-
         // Get file
         $file = File::where('user_id', $uploadRequest->user_id)
             ->where('basename', substr($filename, 3))
-            ->where('parent_id', $uploadRequest->id)
             ->firstOrFail();
 
         // Store user download size

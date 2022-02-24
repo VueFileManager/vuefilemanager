@@ -1,6 +1,5 @@
 import router from '../../router'
 import { events } from '../../bus'
-import i18n from '../../i18n'
 import axios from 'axios'
 import Vue from 'vue'
 
@@ -9,19 +8,51 @@ const defaultState = {
 }
 
 const actions = {
+    getUploadRequestFolder: ({ commit, getters }, id) => {
+        commit('LOADING_STATE', { loading: true, data: [] })
+
+        return new Promise((resolve, reject) => {
+            axios
+                .get(`/api/upload-request/${router.currentRoute.params.token}/browse/${id}${getters.sorting.URI}`)
+                .then((response) => {
+                    let folders = response.data.folders.data
+                    let files = response.data.files.data
+
+                    commit('LOADING_STATE', {
+                        loading: false,
+                        data: folders.concat(files),
+                    })
+                    commit('SET_CURRENT_FOLDER', response.data.root)
+
+                    events.$emit('scrollTop')
+
+                    resolve(response)
+                })
+                .catch((error) => {
+                    Vue.prototype.$isSomethingWrong()
+
+                    reject(error)
+                })
+        })
+    },
     getUploadRequestDetail: ({ commit }) => {
-        axios.get(`/api/upload-request/${router.currentRoute.params.token}`)
-            .then((response) => {
+        return new Promise((resolve, reject) => {
+            axios.get(`/api/upload-request/${router.currentRoute.params.token}`)
+                .then((response) => {
+                    resolve(response)
 
-                commit('LOADING_STATE', { loading: false, data: [] })
+                    // Stop loading spinner
+                    if (response.data.data.attributes.status === 'active')
+                        commit('LOADING_STATE', { loading: false, data: [] })
 
-                commit('SET_UPLOAD_REQUEST', response.data)
+                    commit('SET_UPLOAD_REQUEST', response.data)
 
-                // Set current folder if exist
-                if (response.data.data.relationships.folder) {
-                    commit('SET_CURRENT_FOLDER', response.data.data.relationships.folder)
-                }
-            })
+                    // Set current folder if exist
+                    if (! router.currentRoute.params.id) {
+                        commit('SET_CURRENT_FOLDER', response.data.data.relationships.folder)
+                    }
+                })
+        })
     },
     closeUploadRequest: ({ commit }) => {
         axios

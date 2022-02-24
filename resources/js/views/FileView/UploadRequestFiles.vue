@@ -40,7 +40,7 @@
 			/>
         </MobileMultiSelectToolbar>
 
-        <ContextMenu v-if="entries.length">
+        <ContextMenu v-if="uploadRequest && uploadRequest.data.attributes.status === 'filling'">
             <template v-slot:empty-select>
                 <OptionGroup>
                     <OptionUpload :title="$t('actions.upload')" type="file" />
@@ -81,7 +81,7 @@
             </template>
         </ContextMenu>
 
-        <FileActionsMobile v-if="entries.length">
+        <FileActionsMobile v-if="uploadRequest && uploadRequest.data.attributes.status === 'filling'">
 			<!--I am Done-->
 			<button @click="uploadingDone" class="flex shrink-0 items-center mr-2 rounded-xl bg-theme-200 py-1 px-1 pr-3">
 				<MemberAvatar
@@ -109,27 +109,42 @@
         </FileActionsMobile>
 
         <EmptyFilePage v-if="uploadRequest">
-            <div class="relative mx-auto mb-8 w-24 text-center">
-                <VueFolderIcon class="inline-block w-28" />
-                <MemberAvatar
-					v-if="uploadRequest.data.attributes.status !== 'expired'"
-					:member="uploadRequest.data.relationships.user"
-					class="absolute -bottom-2.5 -right-2"
-					:is-border="true"
-					:size="32"
-				/>
-            </div>
 
-            <h1 class="title">
-                {{ emptyPageTitle }}
-            </h1>
-            <p class="description max-w-[420px]">
-                {{ emptyPageDescription }}
-            </p>
+			<div v-if="uploadRequest.data.attributes.status === 'filling'">
+				<h1 class="title">
+					{{ $t('empty_page.title') }}
+				</h1>
+				<p class="description">
+					{{ $t('empty_page.description') }}
+				</p>
+				<ButtonUpload button-style="theme">
+					{{ $t('empty_page.call_to_action') }}
+				</ButtonUpload>
+			</div>
 
-            <ButtonUpload v-if="uploadRequest.data.attributes.status === 'active'" button-style="theme">
-                {{ $t('empty_page.call_to_action') }}
-            </ButtonUpload>
+			<div v-if="['active', 'filled', 'expired'].includes(uploadRequest.data.attributes.status)">
+				<div class="relative mx-auto mb-8 w-24 text-center">
+					<VueFolderIcon class="inline-block w-28" />
+					<MemberAvatar
+						v-if="uploadRequest.data.attributes.status !== 'expired'"
+						:member="uploadRequest.data.relationships.user"
+						class="absolute -bottom-2.5 -right-2"
+						:is-border="true"
+						:size="32"
+					/>
+				</div>
+
+				<h1 class="title">
+					{{ emptyPageTitle }}
+				</h1>
+				<p class="description max-w-[420px] mx-auto">
+					{{ emptyPageDescription }}
+				</p>
+
+				<ButtonUpload v-if="uploadRequest.data.attributes.status === 'active'" button-style="theme">
+					{{ $t('empty_page.call_to_action') }}
+				</ButtonUpload>
+			</div>
         </EmptyFilePage>
 
         <FileBrowser />
@@ -175,7 +190,7 @@ export default {
 		Option,
 	},
 	computed: {
-		...mapGetters(['fastPreview', 'clipboard', 'config', 'user', 'entries', 'uploadRequest']),
+		...mapGetters(['fastPreview', 'clipboard', 'config', 'user', 'uploadRequest']),
 		isFolder() {
 			return this.item && this.item.data.type === 'folder'
 		},
@@ -215,12 +230,20 @@ export default {
 			events.$emit('popup:open', {name: 'create-folder'})
 		},
 	},
-	created() {
+	mounted() {
 		events.$on('context-menu:show', (event, item) => (this.item = item))
 		events.$on('context-menu:current-folder', (folder) => (this.item = folder))
 		events.$on('mobile-context-menu:show', (item) => (this.item = item))
 
-		this.$store.dispatch('getUploadRequestDetail')
+		// Load folder from id in router
+		if (this.$route.params.id) {
+			this.$store.dispatch('getUploadRequestFolder', this.$route.params.id)
+		}
+
+		// Load root folder for upload request
+		if (! this.$route.params.id && this.uploadRequest && this.uploadRequest.data.attributes.status === 'filling') {
+			this.$store.dispatch('getUploadRequestFolder')
+		}
 	},
 }
 </script>

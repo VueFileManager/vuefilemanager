@@ -1,7 +1,6 @@
 <?php
 namespace App\Http;
 
-use Domain\UploadRequest\Middleware\ProtectUploadRequestRoutes;
 use Fruitcake\Cors\HandleCors;
 use Support\Middleware\TrimStrings;
 use Support\Middleware\TrustProxies;
@@ -15,6 +14,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Support\Middleware\PreventRequestsDuringMaintenance;
 use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Domain\UploadRequest\Middleware\ProtectUploadRequestRoutes;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 

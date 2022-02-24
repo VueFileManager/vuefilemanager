@@ -128,6 +128,9 @@ class UploadRequestTest extends TestCase
             ])->assertStatus(201);
 
         $this
+            ->assertDatabaseHas('upload_requests', [
+                'status' => 'filling',
+            ])
             ->assertDatabaseHas('folders', [
                 'id'   => $uploadRequest->id,
                 'name' => 'Upload Request from 01. Jan. 2021',

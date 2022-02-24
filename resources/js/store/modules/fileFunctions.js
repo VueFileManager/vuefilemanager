@@ -313,7 +313,7 @@ const actions = {
             commit('REMOVE_ITEM', data.data.id)
 
             // Remove item from sidebar
-            if (getters.permission === 'master') {
+            if (! ['Public', 'RequestUpload'].includes(router.currentRoute.name)) {
                 if (data.data.type === 'folder') commit('REMOVE_ITEM_FROM_FAVOURITES', data)
             }
         })

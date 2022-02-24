@@ -8,7 +8,7 @@ class ExpireUnfilledUploadRequestAction
 {
     public function __invoke()
     {
-        UploadRequest::where('status', 'active')
+        UploadRequest::whereIn('status', ['active', 'filling'])
             ->cursor()
             ->each(function ($uploadRequest) {
                 // Get timestamp of last upload if exist

@@ -1,19 +1,20 @@
 <?php
 
 use Domain\UploadRequest\Controllers\CreateFolderController;
-use Domain\UploadRequest\Controllers\DeleteFileOrFolderController;
-use Domain\UploadRequest\Controllers\GetFolderTreeForUploadRequestController;
-use Domain\UploadRequest\Controllers\MoveItemInUploadRequestController;
-use Tests\Domain\UploadRequest\RenameFileOrFolderController;
 use Domain\UploadRequest\Controllers\GetUploadRequestController;
+use Domain\UploadRequest\Controllers\DeleteFileOrFolderController;
+use Domain\UploadRequest\Controllers\RenameFileOrFolderController;
+use Domain\UploadRequest\Controllers\BrowseUploadRequestController;
 use Domain\UploadRequest\Controllers\CreateUploadRequestController;
+use Domain\UploadRequest\Controllers\MoveItemInUploadRequestController;
 use Domain\UploadRequest\Controllers\SetUploadRequestAsFilledController;
 use Domain\UploadRequest\Controllers\UploadFilesForUploadRequestController;
+use Domain\UploadRequest\Controllers\GetFolderTreeForUploadRequestController;
 
 Route::get('/{uploadRequest}', GetUploadRequestController::class);
 
 // Available only for active upload requests
-Route::group(['middleware' => 'upload-request'], function() {
+Route::group(['middleware' => 'upload-request'], function () {
     // Detail
     Route::delete('/{uploadRequest}', SetUploadRequestAsFilledController::class);
 
@@ -25,6 +26,7 @@ Route::group(['middleware' => 'upload-request'], function() {
 
     // Browsing
     Route::get('/{uploadRequest}/navigation', GetFolderTreeForUploadRequestController::class);
+    Route::get('/{uploadRequest}/browse/{folder?}', BrowseUploadRequestController::class);
     Route::post('/{uploadRequest}/move', MoveItemInUploadRequestController::class);
 });
 

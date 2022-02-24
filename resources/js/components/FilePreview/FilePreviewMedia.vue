@@ -141,7 +141,7 @@ export default {
                     this.currentIndex = index
                 }
             })
-        }, 100),
+        }, 50),
         getFilesForView() {
             let requestedFile = this.clipboard[0]
 

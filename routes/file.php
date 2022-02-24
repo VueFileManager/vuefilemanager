@@ -13,8 +13,10 @@ Route::get('/avatars/{avatar}', GetAvatarController::class);
 Route::get('/system/{image}', GetAppImageController::class);
 
 // Get Upload request thumbnails and files
-Route::get('/thumbnail/{name}/upload-request/{uploadRequest}', GetThumbnailFromUploadRequestController::class);
-Route::get('/file/{name}/upload-request/{uploadRequest}', GetFileFromUploadRequestController::class);
+Route::group(['middleware' => ['upload-request']], function () {
+    Route::get('/thumbnail/{name}/upload-request/{uploadRequest}', GetThumbnailFromUploadRequestController::class);
+    Route::get('/file/{name}/upload-request/{uploadRequest}', GetFileFromUploadRequestController::class);
+});
 
 // Get public thumbnails and files
 Route::get('/thumbnail/{name}/shared/{shared}', VisitorGetThumbnailController::class);

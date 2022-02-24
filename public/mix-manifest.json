@@ -1,5 +1,7 @@
 {
     "/js/main.js": "/js/main.js",
+    "/js/chunks/request.js": "/js/chunks/request.js",
+    "/js/chunks/request-upload.js": "/js/chunks/request-upload.js",
     "/js/chunks/setup-wizard.js": "/js/chunks/setup-wizard.js",
     "/js/chunks/status-check.js": "/js/chunks/status-check.js",
     "/js/chunks/purchase-code.js": "/js/chunks/purchase-code.js",
@@ -68,7 +70,5 @@
     "/js/chunks/shared-with-me.js": "/js/chunks/shared-with-me.js",
     "/js/chunks/invitation.js": "/js/chunks/invitation.js",
     "/css/tailwind.css": "/css/tailwind.css",
-    "/css/app.css": "/css/app.css",
-    "/js/chunks/request-upload.js": "/js/chunks/request-upload.js",
-    "/js/chunks/request.js": "/js/chunks/request.js"
+    "/css/app.css": "/css/app.css"
 }

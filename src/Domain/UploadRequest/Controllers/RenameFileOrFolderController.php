@@ -1,5 +1,5 @@
 <?php
-namespace Tests\Domain\UploadRequest;
+namespace Domain\UploadRequest\Controllers;
 
 use App\Http\Controllers\Controller;
 use Domain\Files\Resources\FileResource;
@@ -19,11 +19,6 @@ class RenameFileOrFolderController extends Controller
 
     public function __invoke(UploadRequest $uploadRequest, string $id, RenameItemRequest $request)
     {
-        // Check if upload request is active
-        if ($uploadRequest->status !== 'active') {
-            return response('Gone', 410);
-        }
-
         // Get item
         $item = get_item($request->input('type'), $id);
 

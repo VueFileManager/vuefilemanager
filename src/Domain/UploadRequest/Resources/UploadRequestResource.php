@@ -13,11 +13,11 @@ class UploadRequestResource extends JsonResource
                 'id'            => $this->id,
                 'type'          => 'upload-request',
                 'attributes'    => [
-                    'folder_id' => $this->folder_id,
-                    'status'    => $this->status,
-                    'email'     => $this->email,
-                    'notes'     => $this->notes,
-                    'url'       => url("/request/$this->id/upload"),
+                    'folder_id'  => $this->folder_id,
+                    'status'     => $this->status,
+                    'email'      => $this->email,
+                    'notes'      => $this->notes,
+                    'url'        => url("/request/$this->id/upload"),
                 ],
                 'relationships' => [
                     $this->mergeWhen($this->folder, fn () => [

@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\UploadRequest;
 
 use Storage;
@@ -145,11 +144,11 @@ class UploadRequestEditingTest extends TestCase
         // Mock files
         $thumbnail_sizes = collect([
             config('vuefilemanager.image_sizes.later'),
-            config('vuefilemanager.image_sizes.immediately')
+            config('vuefilemanager.image_sizes.immediately'),
         ])->collapse();
 
         $fakeFile = UploadedFile::fake()
-            ->create("fake-image.jpeg", 2000, 'image/jpeg');
+            ->create('fake-image.jpeg', 2000, 'image/jpeg');
 
         Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
 
@@ -177,8 +176,8 @@ class UploadRequestEditingTest extends TestCase
         Storage::assertMissing("files/$user->id/fake-image.jpeg");
 
         // Assert thumbnail was deleted
-        getThumbnailFileList("fake-image.jpeg")
-            ->each(fn($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
+        getThumbnailFileList('fake-image.jpeg')
+            ->each(fn ($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
     }
 
     /**

@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Files;
 
 use Storage;
@@ -60,7 +59,7 @@ class FileTest extends TestCase
         ])
             ->collapse()
             ->each(
-                fn($item) => Storage::assertExists(
+                fn ($item) => Storage::assertExists(
                     "files/{$user->id}/{$item['name']}-{$file->basename}"
                 )
             );
@@ -255,11 +254,11 @@ class FileTest extends TestCase
         // Mock files
         $thumbnail_sizes = collect([
             config('vuefilemanager.image_sizes.later'),
-            config('vuefilemanager.image_sizes.immediately')
+            config('vuefilemanager.image_sizes.immediately'),
         ])->collapse();
 
         $fakeFile = UploadedFile::fake()
-            ->create("fake-image.jpeg", 2000, 'image/jpeg');
+            ->create('fake-image.jpeg', 2000, 'image/jpeg');
 
         Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
 
@@ -288,8 +287,8 @@ class FileTest extends TestCase
         Storage::assertMissing("files/$user->id/fake-image.jpeg");
 
         // Assert thumbnail was deleted
-        getThumbnailFileList("fake-image.jpeg")
-            ->each(fn($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
+        getThumbnailFileList('fake-image.jpeg')
+            ->each(fn ($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
     }
 
     /**

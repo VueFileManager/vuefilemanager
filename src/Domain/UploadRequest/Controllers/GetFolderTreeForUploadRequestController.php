@@ -1,13 +1,12 @@
 <?php
-
 namespace Domain\UploadRequest\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
+use App\Http\Controllers\Controller;
 use Domain\UploadRequest\Models\UploadRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Response;
 
 class GetFolderTreeForUploadRequestController extends Controller
 {

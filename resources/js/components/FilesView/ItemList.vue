@@ -44,7 +44,7 @@
                 v-if="isImage && entry.data.attributes.thumbnail"
                 class="ml-0.5 h-12 w-12 rounded object-cover"
                 :src="entry.data.attributes.thumbnail.xs"
-                :alt="entry.data.attributes.name"
+				alt=""
                 loading="lazy"
             />
         </div>

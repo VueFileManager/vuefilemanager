@@ -25,15 +25,9 @@ class GetFileFromUploadRequestController
         string $filename,
         UploadRequest $uploadRequest
     ): Application|ResponseFactory|Response|BinaryFileResponse {
-        // Check if upload request is active
-        if ($uploadRequest->status !== 'active') {
-            return response('Gone', 410);
-        }
-
         // Get file
         $file = File::where('user_id', $uploadRequest->user_id)
             ->where('basename', $filename)
-            ->where('parent_id', $uploadRequest->id)
             ->firstOrFail();
 
         // Store user download size

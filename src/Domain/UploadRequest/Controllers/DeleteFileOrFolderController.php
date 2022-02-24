@@ -1,13 +1,12 @@
 <?php
-
 namespace Domain\UploadRequest\Controllers;
 
+use Illuminate\Support\Arr;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
+use Illuminate\Support\Facades\Storage;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\UploadRequest\Models\UploadRequest;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
 
 class DeleteFileOrFolderController
 {
