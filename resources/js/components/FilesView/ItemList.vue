@@ -52,18 +52,19 @@
         <!--Item Info-->
         <div class="pl-2">
             <!--Item Title-->
-            <b
-                class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm"
+            <span
+                class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                 :class="{ 'hover:underline': canEditName }"
                 style="max-width: 240px"
                 ref="name"
                 @input="renameItem"
                 @keydown.delete.stop
                 @click.stop
+				@keydown.enter="$refs.name.blur()"
                 :contenteditable="canEditName"
             >
                 {{ itemName }}
-            </b>
+            </span>
 
             <!--Item sub line-->
             <div class="flex items-center">

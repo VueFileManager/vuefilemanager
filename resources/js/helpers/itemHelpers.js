@@ -113,9 +113,9 @@ const itemHelpers = {
             })
         }
 
-        Vue.prototype.$createUploadRequest = function (entry) {
+        Vue.prototype.$createFileRequest = function (entry = undefined) {
             events.$emit('popup:open', {
-                name: 'create-upload-request',
+                name: 'create-file-request',
                 item: entry,
             })
         }

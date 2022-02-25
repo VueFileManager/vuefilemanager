@@ -136,9 +136,9 @@
                         icon="user-plus"
                     />
                     <Option
-                        @click.native="$createUploadRequest(item)"
+                        @click.native="$createFileRequest(item)"
                         v-if="isFolder"
-                        :title="$t('Create Upload Request')"
+                        :title="$t('File Request')"
                         icon="upload-cloud"
                     />
                 </OptionGroup>

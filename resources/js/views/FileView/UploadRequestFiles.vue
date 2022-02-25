@@ -89,7 +89,7 @@
 					:size="26"
 				/>
 				<b class="text-theme ml-2 text-sm">
-					{{ $t('Tell Jane you are done!') }}
+					{{ $t('Tell {name} you are done!', {name: userName}) }}
 				</b>
 			</button>
 
@@ -137,9 +137,15 @@
 				<h1 class="title">
 					{{ emptyPageTitle }}
 				</h1>
+
 				<p class="description max-w-[420px] mx-auto">
 					{{ emptyPageDescription }}
 				</p>
+
+				<InfoBox class="max-w-[420px] mx-auto">
+					<b>{{ $t('{name} leave you a message', {name: userName}) }}: </b>
+					<p>{{ uploadRequest.data.attributes.notes }}</p>
+				</InfoBox>
 
 				<ButtonUpload v-if="uploadRequest.data.attributes.status === 'active'" button-style="theme">
 					{{ $t('empty_page.call_to_action') }}
@@ -169,10 +175,12 @@ import OptionGroup from '../../components/FilesView/OptionGroup'
 import Option from '../../components/FilesView/Option'
 import {events} from '../../bus'
 import {mapGetters} from 'vuex'
+import InfoBox from "../../components/Others/Forms/InfoBox";
 
 export default {
 	name: 'Files',
 	components: {
+		InfoBox,
 		MobileMultiSelectToolbar,
 		MobileActionButton,
 		FileActionsMobile,

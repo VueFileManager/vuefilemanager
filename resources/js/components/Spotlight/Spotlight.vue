@@ -213,6 +213,11 @@
                                 size="18"
                                 class="vue-feather text-theme"
                             />
+                            <upload-cloud-icon
+                                v-if="result.action.value === 'create-file-request'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
 
                             <b class="ml-3.5 text-sm font-bold">
                                 {{ result.title }}
@@ -534,6 +539,13 @@ export default {
                         value: 'create-team-folder',
                     },
                 },
+                {
+                    title: this.$t('Create File Request'),
+                    action: {
+                        type: 'function',
+                        value: 'create-file-request',
+                    },
+                },
             ]
 
             let functionList = [
@@ -744,6 +756,10 @@ export default {
 
                 if (arg.action.value === 'create-team-folder') {
                     this.$createTeamFolder()
+                }
+
+                if (arg.action.value === 'create-file-request') {
+                    this.$createFileRequest()
                 }
             }
 

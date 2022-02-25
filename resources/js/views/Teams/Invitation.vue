@@ -6,7 +6,7 @@
                 v-if="invitation"
                 :title="$t('Invitation To Join Team Folder')"
                 :description="
-                    $t('Jane invite you to join with his team into shared team folder', {
+                    $t('{name} invite you to join with his team into shared team folder', {
                         name: invitation.data.relationships.inviter.data.attributes.name,
                     })
                 "

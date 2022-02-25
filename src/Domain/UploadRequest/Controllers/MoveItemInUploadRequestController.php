@@ -19,7 +19,7 @@ class MoveItemInUploadRequestController extends Controller
                 return response('Access Denied', 403);
             }
 
-            $item->update(['parent_id' => $request->input('to_id')]);
+            $item->update(['parent_id' => $request->input('to_id') ?? $uploadRequest->id]);
         }
 
         return response('Done.', 204);

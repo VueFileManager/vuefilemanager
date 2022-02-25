@@ -94,25 +94,17 @@ export default {
                 return
 
             // Move item
-            if (!this.isSelectedItem) {
-                this.$store.dispatch('moveItem', {
-                    to_item: this.selectedFolder,
-                    isSelectedItem: null,
-                })
-            }
-
-            if (this.isSelectedItem) {
-                this.$store.dispatch('moveItem', {
-                    to_item: this.selectedFolder,
-                    isSelectedItem: this.pickedItem,
-                })
-            }
+			this.$store.dispatch('moveItem', {
+				to_item: this.selectedFolder,
+				noSelectedItem: this.isSelectedItem ? this.pickedItem : null,
+			})
 
             // Close popup
             events.$emit('popup:close')
 
             // If is mobile, close the selecting mod after done the move action
-            if (this.$isMobile()) this.$store.commit('DISABLE_MULTISELECT_MODE')
+            if (this.$isMobile())
+				this.$store.commit('DISABLE_MULTISELECT_MODE')
         },
     },
     mounted() {
