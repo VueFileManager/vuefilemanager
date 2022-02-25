@@ -16,9 +16,10 @@ class CreateUploadRequestsTable extends Migration
         Schema::create('upload_requests', function (Blueprint $table) {
             $table->uuid('id');
             $table->uuid('user_id');
-            $table->uuid('folder_id');
+            $table->uuid('folder_id')->nullable();
             $table->enum('status', ['active', 'filling', 'filled', 'expired'])->default('active');
             $table->string('email')->nullable();
+            $table->text('name')->nullable();
             $table->longText('notes')->nullable();
             $table->timestamps();
             $table->charset = 'utf8mb4';

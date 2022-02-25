@@ -53,7 +53,7 @@ import ThumbnailItem from './ThumbnailItem'
 import ButtonBase from '../FilesView/ButtonBase'
 import Spinner from '../FilesView/Spinner'
 import TreeMenu from './TreeMenu'
-import { isArray, isNull } from 'lodash'
+import { isArray } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 

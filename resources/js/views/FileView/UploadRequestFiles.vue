@@ -142,7 +142,7 @@
 					{{ emptyPageDescription }}
 				</p>
 
-				<InfoBox class="max-w-[420px] mx-auto">
+				<InfoBox v-if="uploadRequest.data.attributes.notes && uploadRequest.data.attributes.status === 'active'" class="max-w-[420px] mx-auto">
 					<b>{{ $t('{name} leave you a message', {name: userName}) }}: </b>
 					<p>{{ uploadRequest.data.attributes.notes }}</p>
 				</InfoBox>

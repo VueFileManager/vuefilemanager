@@ -16,11 +16,12 @@
 				v-slot="{ invalid }"
 				tag="form"
 			>
+				<!--Send Request by Email-->
                 <AppInputSwitch
 					:title="$t('Send Request by Email')"
 					:description="$t('Send your file request on recipients email')"
 				>
-                    <SwitchInput v-model="shareViaEmail" :state="shareViaEmail" class="switch" />
+                    <SwitchInput v-model="shareViaEmail" :state="shareViaEmail" />
                 </AppInputSwitch>
 
 				<!--Set email-->
@@ -40,6 +41,35 @@
 							ref="input"
 							class="focus-border-theme input-dark"
 							:placeholder="$t('Type email...')"
+						/>
+                    </AppInputText>
+                </ValidationProvider>
+
+				<!--Custom Folder Name-->
+                <AppInputSwitch
+					:title="$t('Custom Folder Name')"
+					:description="$t('Created folder with files will be named with your own name.')"
+				>
+                    <SwitchInput v-model="customFolderName" :state="customFolderName" />
+                </AppInputSwitch>
+
+				<!--Set email-->
+                <ValidationProvider
+					v-if="customFolderName"
+					tag="div"
+					mode="passive"
+					name="Name"
+					rules="required"
+					v-slot="{ errors }"
+				>
+                    <AppInputText :error="errors[0]" class="-mt-2">
+                        <input
+							v-model="form.name"
+							:class="{ 'border-red': errors[0] }"
+							type="text"
+							ref="input"
+							class="focus-border-theme input-dark"
+							:placeholder="$t('Type name...')"
 						/>
                     </AppInputText>
                 </ValidationProvider>
@@ -124,9 +154,11 @@ export default {
 				email: undefined,
 				notes: undefined,
 				folder_id: undefined,
+				name: undefined,
 			},
 			generatedUploadRequest: undefined,
 			shareViaEmail: false,
+			customFolderName: false,
 			pickedItem: undefined,
 			isLoading: false,
 		}
@@ -159,8 +191,10 @@ export default {
 	},
 	created() {
 		events.$on('popup:open', (args) => {
-			if (args.name === 'create-file-request') this.pickedItem = args.item
-			this.form.folder_id = args.item.data.id
+			if (args.name === 'create-file-request')
+				this.pickedItem = args.item
+
+			this.form.folder_id = args.item?.data.id
 		})
 
 		// Close popup
@@ -172,8 +206,10 @@ export default {
 				this.pickedItem = undefined
 
 				this.shareViaEmail = false
+				this.customFolderName = false
 
 				this.form = {
+					name: undefined,
 					email: undefined,
 					notes: undefined,
 					folder_id: undefined,

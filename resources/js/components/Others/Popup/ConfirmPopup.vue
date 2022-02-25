@@ -2,7 +2,7 @@
     <PopupWrapper>
         <div class="flex h-full -translate-y-7 transform items-center justify-center px-8 text-center md:translate-y-0">
             <div>
-                <img src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f914.svg" alt="" class="mx-auto mb-4 w-20 md:mt-6" />
+                <img src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f914.svg" alt="" class="mx-auto mb-4 w-20 md:mt-6 min-h-[80px]" />
 
                 <h1 v-if="title" class="mb-2 text-2xl font-bold">
                     {{ title }}

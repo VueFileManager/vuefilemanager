@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\UploadRequest\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,9 +24,10 @@ class StoreUploadRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'     => 'sometimes|string',
-            'notes'     => 'sometimes|string',
-            'folder_id' => 'required|string',
+            'email'     => 'sometimes|string|nullable',
+            'notes'     => 'sometimes|string|nullable',
+            'folder_id' => 'sometimes|string',
+            'name'      => 'sometimes|string|nullable',
         ];
     }
 }

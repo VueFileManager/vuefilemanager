@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\UploadRequest\Controllers;
 
 use Auth;
@@ -16,6 +17,7 @@ class CreateUploadRequestController extends Controller
             'folder_id' => $request->input('folder_id'),
             'email'     => $request->input('email'),
             'notes'     => $request->input('notes'),
+            'name'      => $request->input('name'),
         ]);
 
         // If user type email, notify by email

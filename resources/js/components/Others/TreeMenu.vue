@@ -25,7 +25,7 @@
 
             <!--Item icon-->
             <hard-drive-icon
-                v-if="['public', 'files'].includes(nodes.location)"
+                v-if="['public', 'files', 'upload-request'].includes(nodes.location)"
                 size="17"
                 class="icon vue-feather shrink-0"
                 :class="{ 'text-theme dark-text-theme': isSelectedItem }"

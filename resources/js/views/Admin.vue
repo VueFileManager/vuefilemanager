@@ -4,7 +4,11 @@
         <FilePreview />
         <Spotlight />
 
-        <!--Mobile Navigation-->
+		<!--Spotlight Addons-->
+		<CreateUploadRequestPopup />
+		<CreateTeamFolderPopup />
+
+		<!--Mobile Navigation-->
         <MobileNavigation />
 
         <!--ConfirmPopup Popup-->
@@ -82,6 +86,8 @@ import {
     UsersIcon,
 } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
+import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
+import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
 
 export default {
     name: 'Admin',
@@ -186,6 +192,8 @@ export default {
         },
     },
     components: {
+		CreateTeamFolderPopup,
+		CreateUploadRequestPopup,
         MobileNavigationToolbar,
         FilePreview,
         Spotlight,

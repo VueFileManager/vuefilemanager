@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\UploadRequest;
 
 use Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification;
@@ -81,6 +82,34 @@ class UploadRequestTest extends TestCase
     /**
      * @test
      */
+    public function user_create_upload_request_with_name()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload-request', [
+                'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+                'notes'     => 'Please send me your files...',
+                'name'      => 'My name',
+            ])
+            ->assertCreated();
+
+        $this->assertDatabasehas('upload_requests', [
+            'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+            'notes'     => 'Please send me your files...',
+            'email'     => null,
+            'name'      => 'My name',
+        ]);
+
+        Notification::assertNothingSent();
+    }
+
+    /**
+     * @test
+     */
     public function it_get_upload_request_detail()
     {
         $user = User::factory()
@@ -103,7 +132,7 @@ class UploadRequestTest extends TestCase
     /**
      * @test
      */
-    public function it_upload_file_and_create_upload_request_folder()
+    public function it_upload_file_and_create_upload_request_folder_without_custom_folder_name()
     {
         $user = User::factory()
             ->hasSettings()
@@ -114,6 +143,7 @@ class UploadRequestTest extends TestCase
                 'status'     => 'active',
                 'user_id'    => $user->id,
                 'created_at' => now(),
+                'name'       => null,
             ]);
 
         $file = UploadedFile::fake()
@@ -135,6 +165,51 @@ class UploadRequestTest extends TestCase
             ->assertDatabaseHas('folders', [
                 'id'   => $uploadRequest->id,
                 'name' => 'Upload Request from 01. Jan. 2021',
+            ])->assertDatabaseHas('files', [
+                'parent_id' => $uploadRequest->id,
+            ]);
+
+        $file = File::first();
+
+        Storage::assertExists("files/$user->id/$file->basename");
+    }
+
+    /**
+     * @test
+     */
+    public function it_upload_file_and_create_upload_request_folder_with_custom_folder_name()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $uploadRequest = UploadRequest::factory()
+            ->create([
+                'status'     => 'active',
+                'user_id'    => $user->id,
+                'created_at' => now(),
+                'name'       => 'My Documents',
+            ]);
+
+        $file = UploadedFile::fake()
+            ->create('fake-file.pdf', 12000000, 'application/pdf');
+
+        $this
+            ->postJson("/api/upload-request/$uploadRequest->id/upload", [
+                'filename'  => $file->name,
+                'file'      => $file,
+                'parent_id' => null,
+                'path'      => "/$file->name",
+                'is_last'   => 'true',
+            ])->assertStatus(201);
+
+        $this
+            ->assertDatabaseHas('upload_requests', [
+                'status' => 'filling',
+            ])
+            ->assertDatabaseHas('folders', [
+                'id'   => $uploadRequest->id,
+                'name' => 'My Documents',
             ])->assertDatabaseHas('files', [
                 'parent_id' => $uploadRequest->id,
             ]);

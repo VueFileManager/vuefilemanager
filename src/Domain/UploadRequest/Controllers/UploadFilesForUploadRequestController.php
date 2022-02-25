@@ -65,9 +65,9 @@ class UploadFilesForUploadRequestController
         // Create folder
         DB::table('folders')->insert([
             'id'        => $uploadRequest->id,
-            'parent_id' => $uploadRequest->folder_id,
+            'parent_id' => $uploadRequest->folder_id ?? null,
             'user_id'   => $uploadRequest->user_id,
-            'name'      => "Upload Request from $timestampName",
+            'name'      => $uploadRequest->name ?? "Upload Request from $timestampName",
         ]);
 
         // Update upload request status

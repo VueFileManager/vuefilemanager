@@ -4,6 +4,10 @@
         <FilePreview />
         <Spotlight />
 
+		<!--Spotlight Addons-->
+		<CreateUploadRequestPopup />
+		<CreateTeamFolderPopup />
+
         <ConfirmPopup />
 
         <ConfirmPassword />
@@ -87,10 +91,14 @@ import { mapGetters } from 'vuex'
 import CardNavigation from '../components/Admin/CardNavigation'
 import ConfirmPassword from '../components/Others/ConfirmPassword'
 import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar'
+import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
+import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
 
 export default {
     name: 'Settings',
     components: {
+		CreateTeamFolderPopup,
+		CreateUploadRequestPopup,
         MobileNavigationToolbar,
         MobileNavigation,
         ConfirmPassword,
