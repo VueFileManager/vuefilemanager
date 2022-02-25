@@ -151,7 +151,7 @@
 				return this.clipboard[0]
 			},
 			canShowMetaData() {
-				return this.clipboard[0].data.relationships.metadata
+				return this.clipboard[0].data.relationships.exif
 			},
 			isLocked() {
 				return this.clipboard[0].data.relationships.shared.protected

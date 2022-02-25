@@ -1,81 +1,81 @@
 <template>
     <div>
         <ul class="meta-data-list">
-            <li v-if="clipboard.date_time_original">
+            <li v-if="clipboard.data.attributes.date_time_original">
                 <span>{{ $t('file_detail_meta.time_data') }}</span>
-                <b>{{ clipboard.date_time_original }}</b>
+                <b>{{ clipboard.data.attributes.date_time_original }}</b>
             </li>
 
-            <li v-if="clipboard.artist">
+            <li v-if="clipboard.data.attributes.artist">
                 <span>{{ $t('file_detail_meta.author') }}</span>
-                <b>{{ clipboard.artist }}</b>
+                <b>{{ clipboard.data.attributes.artist }}</b>
             </li>
 
-            <li v-if="clipboard.width && clipboard.height">
+            <li v-if="clipboard.data.attributes.width && clipboard.data.attributes.height">
                 <span>{{ $t('file_detail_meta.dimension') }}</span>
-                <b>{{ clipboard.width }}x{{ clipboard.height }}</b>
+                <b>{{ clipboard.data.attributes.width }}x{{ clipboard.data.attributes.height }}</b>
             </li>
 
-            <li v-if="clipboard.x_resolution && clipboard.y_resolution">
+            <li v-if="clipboard.data.attributes.x_resolution && clipboard.data.attributes.y_resolution">
                 <span>{{ $t('file_detail_meta.resolution') }}</span>
-                <b>{{ clipboard.x_resolution }}x{{ clipboard.y_resolution }}</b>
+                <b>{{ clipboard.data.attributes.x_resolution }}x{{ clipboard.data.attributes.y_resolution }}</b>
             </li>
 
-            <li v-if="clipboard.color_space">
+            <li v-if="clipboard.data.attributes.color_space">
                 <span> {{ $t('file_detail_meta.color_space') }}</span>
-                <b>{{ clipboard.color_space }}</b>
+                <b>{{ clipboard.data.attributes.color_space }}</b>
             </li>
 
 			<!--TODO: Colour profile:sRGB IEC61966-2.1-->
 
-            <li v-if="clipboard.make">
+            <li v-if="clipboard.data.attributes.make">
                 <span>{{ $t('file_detail_meta.make') }}</span>
-                <b>{{ clipboard.make }}</b>
+                <b>{{ clipboard.data.attributes.make }}</b>
             </li>
 
-            <li v-if="clipboard.model">
+            <li v-if="clipboard.data.attributes.model">
                 <span>{{ $t('file_detail_meta.model') }}</span>
-                <b>{{ clipboard.model }}</b>
+                <b>{{ clipboard.data.attributes.model }}</b>
             </li>
 
-            <li v-if="clipboard.aperture_value">
+            <li v-if="clipboard.data.attributes.aperture_value">
                 <span>{{ $t('file_detail_meta.aperture_value') }}</span>
-                <b> {{ clipboard.aperture_value }} </b>
+                <b> {{ clipboard.data.attributes.aperture_value }} </b>
             </li>
 
-            <li v-if="clipboard.exposure_time">
+            <li v-if="clipboard.data.attributes.exposure_time">
                 <span>{{ $t('file_detail_meta.exposure') }}</span>
-                <b>{{ clipboard.exposure_time }}</b>
+                <b>{{ clipboard.data.attributes.exposure_time }}</b>
             </li>
 
-            <li v-if="clipboard.focal_length">
+            <li v-if="clipboard.data.attributes.focal_length">
                 <span>{{ $t('file_detail_meta.focal') }}</span>
-                <b>{{ clipboard.focal_length }}</b>
+                <b>{{ clipboard.data.attributes.focal_length }}</b>
             </li>
 
-            <li v-if="clipboard.iso">
+            <li v-if="clipboard.data.attributes.iso">
                 <span>{{ $t('file_detail_meta.iso') }}</span>
-                <b>{{ clipboard.iso }}</b>
+                <b>{{ clipboard.data.attributes.iso }}</b>
             </li>
 
-            <li v-if="clipboard.aperture_f_number">
+            <li v-if="clipboard.data.attributes.aperture_f_number">
                 <span>{{ $t('file_detail_meta.aperature') }}</span>
-                <b>{{ clipboard.aperture_f_number }}</b>
+                <b>{{ clipboard.data.attributes.aperture_f_number }}</b>
             </li>
 
-            <li v-if="clipboard.ccd_width">
+            <li v-if="clipboard.data.attributes.ccd_width">
                 <span>{{ $t('file_detail_meta.camera_lens') }}</span>
-                <b>{{ clipboard.ccd_width }}</b>
+                <b>{{ clipboard.data.attributes.ccd_width }}</b>
             </li>
 
-		  	<li v-if="clipboard.longitude">
+		  	<li v-if="clipboard.data.attributes.longitude">
                 <span>{{ $t('file_detail_meta.longitude') }}</span>
-                <b>{{ clipboard.longitude }}</b>
+                <b>{{ clipboard.data.attributes.longitude }}</b>
             </li>
 
-			<li v-if="clipboard.latitude">
+			<li v-if="clipboard.data.attributes.latitude">
 				<span>{{ $t('file_detail_meta.latitude') }}</span>
-				<b>{{ clipboard.latitude }}</b>
+				<b>{{ clipboard.data.attributes.latitude }}</b>
 			</li>
         </ul>
     </div>
@@ -87,7 +87,7 @@ export default {
 	name: 'ImageMetaData',
 	computed: {
 		clipboard() {
-			return this.$store.getters.clipboard[0].data.relationships.metadata
+			return this.$store.getters.clipboard[0].data.relationships.exif
 		},
 	},
 }
