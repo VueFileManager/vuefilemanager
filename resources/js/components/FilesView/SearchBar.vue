@@ -22,15 +22,15 @@
 <script>
 import { SearchIcon } from 'vue-feather-icons'
 
-export default {
-    name: 'SearchBar',
-    components: {
-        SearchIcon,
-    },
-    computed: {
-        metaKeyIcon() {
-            return this.$isApple() ? '⌘' : '⊞'
+    export default {
+        name: 'SearchBar',
+        components: {
+            SearchIcon,
         },
-    },
-}
+		computed: {
+			metaKeyIcon() {
+				return this.$isApple() ? '⌘' : 'Ctrl'
+			},
+		},
+    }
 </script>

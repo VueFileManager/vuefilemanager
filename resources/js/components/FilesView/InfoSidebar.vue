@@ -113,44 +113,46 @@ import ListInfoItem from '../Others/ListInfoItem'
 import MemberAvatar from './MemberAvatar'
 import { mapGetters } from 'vuex'
 
-export default {
-    name: 'InfoSidebar',
-    components: {
-        TeamMembersPreview,
-        FilePreviewDetail,
-        ImageMetaData,
-        CopyShareLink,
-        MemberAvatar,
-        TitlePreview,
-        ListInfoItem,
-        UnlockIcon,
-        EyeOffIcon,
-        Edit2Icon,
-        LockIcon,
-    },
-    computed: {
-        ...mapGetters(['permissionOptions', 'clipboard', 'user']),
-        isEmpty() {
-            return this.clipboard.length === 0
-        },
-        isSingleFile() {
-            return this.clipboard.length === 1
-        },
-        singleFile() {
-            return this.clipboard[0]
-        },
-        canShowMetaData() {
-            return (
-                this.clipboard[0].data.attributes.metadata && this.clipboard[0].data.attributes.metadata.ExifImageWidth
-            )
-        },
-        isLocked() {
-            return this.clipboard[0].data.relationships.shared.protected
-        },
-        sharedInfo() {
-            let title = this.permissionOptions.find((option) => {
-                return option.value === this.clipboard[0].data.relationships.shared.permission
-            })
+	export default {
+		name: 'InfoSidebar',
+		components: {
+			TeamMembersPreview,
+			FilePreviewDetail,
+			ImageMetaData,
+			CopyShareLink,
+			MemberAvatar,
+			TitlePreview,
+			ListInfoItem,
+			UnlockIcon,
+			EyeOffIcon,
+			Edit2Icon,
+			LockIcon,
+		},
+		computed: {
+			...mapGetters([
+				'permissionOptions',
+				'clipboard',
+				'user',
+			]),
+			isEmpty() {
+				return this.clipboard.length === 0
+			},
+			isSingleFile() {
+				return this.clipboard.length === 1
+			},
+			singleFile() {
+				return this.clipboard[0]
+			},
+			canShowMetaData() {
+				return this.clipboard[0].data.relationships.exif
+			},
+			isLocked() {
+				return this.clipboard[0].data.relationships.shared.protected
+			},
+			sharedInfo() {
+				let title = this.permissionOptions.find(option => {
+					return option.value === this.clipboard[0].data.relationships.shared.permission
+				})
 
             return title ? this.$t(title.label) : this.$t('shared.can_download')
         },

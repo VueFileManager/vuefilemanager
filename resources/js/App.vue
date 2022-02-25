@@ -54,9 +54,10 @@ export default {
     },
     methods: {
         spotlightListener(e) {
-            if (e.key === 'k' && e.metaKey) {
-                events.$emit('spotlight:show')
-            }
+			if (e.key === 'k' && e.metaKey || e.key === 'k' && e.ctrlKey) {
+				e.preventDefault()
+				events.$emit('spotlight:show');
+			}
         },
         handleDarkMode() {
             const app = document.getElementsByTagName('html')[0]

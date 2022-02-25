@@ -1082,4 +1082,21 @@ if (! function_exists('replace_occurrence')) {
                 });
         }
     }
+
+    if(! function_exists('format_gps_coordinates')) {
+        /**
+        * Format GPS coordinates
+        */
+        function format_gps_coordinates($coordinates, $ref)
+        {
+            if($coordinates && $ref) {
+     
+                return
+                    explode('/',$coordinates[0])[0] . '°' .
+                    explode('/', $coordinates[1])[0] . "'" .
+                    substr(explode(',', $coordinates[2])[0], 0, 5) / 1000 . '"' .
+                    $ref;
+            }
+        };
+    }
 }

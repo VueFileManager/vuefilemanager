@@ -27,8 +27,8 @@ class CreateUserSettingsTable extends Migration
             $table->text('country')->nullable();
             $table->text('phone_number')->nullable();
             $table->decimal('timezone', 10, 1)->nullable();
-            $table->text('emoji_type')->default('twemoji');
-            $table->text('theme_mode')->default('system');
+            $table->text('emoji_type');
+            $table->text('theme_mode');
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });
