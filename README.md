@@ -208,9 +208,9 @@ VueFileManager support these storages for your files:
 
 In case of installation process, you will be able to set storage driver and credentials. After this, you can change your credentials later in `/.env` file.
 
-To set or change your storage driver, you have to edit `FILESYSTEM_DRIVER` in your `/.env` file. Supported drivers are `s3`, `spaces`, `wasabi`,`backblaze` or `local`:
+To set or change your storage driver, you have to edit `FILESYSTEM_DISK` in your `/.env` file. Supported drivers are `s3`, `spaces`, `wasabi`,`backblaze` or `local`:
 ```
-FILESYSTEM_DRIVER=local
+FILESYSTEM_DISK=local
 ```
 Then you can find corresponding credentials options for your storage driver like key, secret, region in `/.env` file.
 

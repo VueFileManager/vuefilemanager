@@ -1,6 +1,9 @@
 <?php
 namespace App\Providers;
 
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -27,97 +30,60 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function map()
+    public function boot()
     {
-        $this->mapApiRoutes();
-        $this->mapShareRoutes();
-        $this->mapUploadRequestRoutes();
-        $this->mapAdminApiRoutes();
-        $this->mapSetupWizardApiRoutes();
-        $this->mapUserApiRoutes();
-        $this->mapMaintenanceRoutes();
-        $this->mapFileRoutes();
-        $this->mapTeamsRoutes();
-        $this->mapWebRoutes();
+        $this->configureRateLimiting();
+
+        $this->routes(function () {
+            Route::prefix('api')
+                ->middleware('api')
+                ->group(base_path('routes/api.php'));
+
+            Route::prefix('api')
+                ->middleware('api')
+                ->group(base_path('routes/share.php'));
+
+            Route::prefix('api/upload-request')
+                ->middleware('api')
+                ->group(base_path('routes/upload-request.php'));
+
+            Route::prefix('api/admin')
+                ->middleware(['api', 'auth:sanctum'])
+                ->group(base_path('routes/admin.php'));
+
+            Route::middleware(['setup-wizard'])
+                ->group(base_path('routes/setup.php'));
+
+            Route::prefix('api/user')
+                ->middleware('api')
+                ->group(base_path('routes/user.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/maintenance.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/file.php'));
+
+            Route::prefix('api/teams')
+                ->middleware(['api'])
+                ->group(base_path('routes/teams.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/web.php'));
+        });
     }
 
     /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
+     * Configure the rate limiters for the application.
      *
      * @return void
      */
-    protected function mapWebRoutes()
+    protected function configureRateLimiting()
     {
-        Route::middleware('web')
-            ->group(base_path('routes/web.php'));
-    }
-
-    protected function mapMaintenanceRoutes()
-    {
-        Route::middleware('web')
-            ->group(base_path('routes/maintenance.php'));
-    }
-
-    protected function mapFileRoutes()
-    {
-        Route::middleware('web')
-            ->group(base_path('routes/file.php'));
-    }
-
-    /**
-     * Define the "api" routes for the application.
-     *
-     * These routes are typically stateless.
-     *
-     * @return void
-     */
-    protected function mapApiRoutes()
-    {
-        Route::prefix('api')
-            ->middleware('api')
-            ->group(base_path('routes/api.php'));
-    }
-
-    protected function mapShareRoutes()
-    {
-        Route::prefix('api')
-            ->middleware('api')
-            ->group(base_path('routes/share.php'));
-    }
-
-    protected function mapUploadRequestRoutes()
-    {
-        Route::prefix('api/upload-request')
-            ->middleware('api')
-            ->group(base_path('routes/upload-request.php'));
-    }
-
-    protected function mapAdminApiRoutes()
-    {
-        Route::prefix('api/admin')
-            ->middleware(['api', 'auth:sanctum'])
-            ->group(base_path('routes/admin.php'));
-    }
-
-    protected function mapUserApiRoutes()
-    {
-        Route::prefix('api/user')
-            ->middleware('api')
-            ->group(base_path('routes/user.php'));
-    }
-
-    protected function mapTeamsRoutes()
-    {
-        Route::prefix('api/teams')
-            ->middleware(['api'])
-            ->group(base_path('routes/teams.php'));
-    }
-
-    protected function mapSetupWizardApiRoutes()
-    {
-        Route::middleware(['setup-wizard'])
-            ->group(base_path('routes/setup.php'));
+        RateLimiter::for('api', function (Request $request) {
+            return $request->user()
+                ? Limit::perMinute(1000)->by($request->user()->id)
+                : Limit::perMinute(100)->by($request->ip());
+        });
     }
 }

@@ -17,10 +17,10 @@ class StoreEnvironmentSettingsController extends Controller
         if (! app()->runningUnitTests()) {
             $drivers = [
                 'local' => [
-                    'FILESYSTEM_DRIVER' => 'local',
+                    'FILESYSTEM_DISK' => 'local',
                 ],
                 's3'    => [
-                    'FILESYSTEM_DRIVER'    => 's3',
+                    'FILESYSTEM_DISK'    => 's3',
                     'S3_ACCESS_KEY_ID'     => $request->input('storage.key') ?? null,
                     'S3_SECRET_ACCESS_KEY' => $request->input('storage.secret') ?? null,
                     'S3_DEFAULT_REGION'    => $request->input('storage.region') ?? null,
