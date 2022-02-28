@@ -95,7 +95,7 @@
                         <SwitchInput v-model="isEmailSharing" class="switch" :state="isEmailSharing" />
                     </AppInputSwitch>
 
-                    <!--Set expiration-->
+                    <!--Emails-->
                     <ValidationProvider
                         v-if="isEmailSharing"
                         tag="div"
@@ -103,14 +103,16 @@
                         name="Email"
                         rules="required"
                         v-slot="{ errors }"
-                        class="-mt-2"
+                        class="-mt-2 mb-1"
                     >
-                        <MultiEmailInput
-                            rules="required"
-                            v-model="shareOptions.emails"
-                            :label="$t('shared_form.recipients_label')"
-                            :isError="errors[0]"
-                        />
+						<AppInputText :error="errors[0]" class="-mt-2" :is-last="true">
+							<MultiEmailInput
+								rules="required"
+								v-model="shareOptions.emails"
+								:label="$t('shared_form.recipients_label')"
+								:is-error="errors[0]"
+							/>
+						</AppInputText>
                     </ValidationProvider>
                 </div>
             </ValidationObserver>

@@ -142,7 +142,7 @@ class UserStorageResource extends JsonResource
         $upload = $mappedTrafficRecords->map(fn($record) => [
             'created_at' => $record->created_at,
             'amount'     => Metric::bytes($record->upload)->format(),
-            'percentage' => $uploadMax !== 0
+            'percentage' => intval($uploadMax) !== 0
                 ? round(($record->upload / $uploadMax) * 100, 2)
                 : 0,
         ]);
@@ -150,7 +150,7 @@ class UserStorageResource extends JsonResource
         $download = $mappedTrafficRecords->map(fn($record) => [
             'created_at' => $record->created_at,
             'amount'     => Metric::bytes($record->download)->format(),
-            'percentage' => $downloadMax !== 0
+            'percentage' => intval($downloadMax) !== 0
                 ? round(($record->download / $downloadMax) * 100, 2)
                 : 0,
         ]);

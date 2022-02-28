@@ -20,8 +20,8 @@
         <CreatePersonalTokenPopup />
 
         <!--Payments Popup-->
-        <SelectPlanSubscriptionPopup />
-        <SelectSingleChargeMethodPopup />
+        <SelectPlanSubscriptionPopup v-if="config.subscriptionType === 'fixed'" />
+        <SelectSingleChargeMethodPopup v-if="config.subscriptionType === 'metered'" />
 
         <SidebarNavigation />
 
@@ -124,12 +124,6 @@ export default {
         subscriptionColor() {
             return this.user.data.relationships.subscription ? 'green' : 'purple'
         },
-        canShowUpgradeWarning() {
-            return this.config.storageLimit && this.user.data.attributes.storage.used > 95
-        },
-        canShowIncompletePayment() {
-            return this.user.data.attributes.incomplete_payment
-        },
         pages() {
             let list = [
                 {
@@ -147,7 +141,7 @@ export default {
             ]
 
             // Push billing item if subscription is set
-            if (['fixed', 'metered'].includes(this.config.subscriptionType)) {
+            if (this.config.subscriptionType !== 'none') {
                 list.push({
                     title: this.$t('Billing'),
                     route: 'Billing',

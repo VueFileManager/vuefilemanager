@@ -191,10 +191,10 @@ export default {
 	},
 	created() {
 		events.$on('popup:open', (args) => {
-			if (args.name === 'create-file-request')
+			if (args.name === 'create-file-request') {
 				this.pickedItem = args.item
-
-			this.form.folder_id = args.item?.data.id
+				this.form.folder_id = args.item?.data.id
+			}
 		})
 
 		// Close popup

@@ -9,7 +9,7 @@
         <slot />
 
         <!--Input Description-->
-        <span v-if="error" class="pt-2 text-xs text-red-800">
+        <span v-if="error" class="pt-2 text-xs text-rose-600">
             {{ error }}
         </span>
 

@@ -35,6 +35,7 @@
                                 rules="required"
                                 v-model="emails"
                                 :label="$t('shared_form.label_send_to_recipients')"
+								:is-error="errors[0]"
                             />
                         </AppInputText>
                     </ValidationProvider>

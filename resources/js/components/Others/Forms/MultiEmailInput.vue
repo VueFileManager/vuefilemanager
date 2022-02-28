@@ -1,35 +1,33 @@
 <template>
-    <div class="wrapper">
-        <!--<label class="input-label">{{ label }}:</label>-->
-        <div
-            class="input-wrapper focus-within-border-theme"
-            :class="{ 'is-error': isError }"
-            @click="$refs.input.focus()"
-        >
-            <div class="email-list">
-                <div
-                    class="email-tag bg-theme-100"
-                    :class="{ 'mb-offset': getCharactersLength > 45 }"
-                    v-for="(email, i) in emails"
-                    :key="i"
-                >
-                    <span class="text-theme">{{ email }}</span>
-                    <x-icon @click="removeEmail(email)" class="icon" size="14" />
-                </div>
-                <input
-                    @keydown.delete="removeLastEmail($event)"
-                    @keyup="handleEmail()"
-                    v-model="email"
-                    :size="inputSize"
-                    class="email-input"
-                    :placeholder="placeHolder"
-                    autocomplete="new-password"
-                    ref="input"
-                />
-            </div>
-        </div>
-        <span class="error-message" v-if="isError">{{ isError }}</span>
-    </div>
+    <div
+		class="focus-border-theme input-dark focus-within-border-theme"
+		:class="{'!border-rose-600':isError, '!py-3.5': !emails.length, '!px-2 !pt-[10px] !pb-0.5': emails.length}"
+	>
+		<div @click="$refs.input.focus()" class="flex flex-wrap cursor-text items-center" style="grid-template-columns: auto minmax(0,1fr);">
+			<div
+				class="whitespace-nowrap flex items-center rounded-lg bg-theme-100 mr-2 mb-2 py-1 px-2 cursor-pointer w-fit"
+				@click="removeEmail(email)"
+				v-for="(email, i) in emails"
+				:key="i"
+			>
+				<small class="text-sm text-theme mr-1">
+					{{ email }}
+				</small>
+				<x-icon class="vue-feather text-theme" size="14" />
+			</div>
+			<input
+				@keydown.delete="removeLastEmail($event)"
+				@keyup="handleEmail()"
+				v-model="email"
+				:size="inputSize"
+				class="w-auto font-bold text-sm bg-transparent"
+				:class="{'mb-2': emails.length}"
+				:placeholder="placeHolder"
+				autocomplete="new-password"
+				ref="input"
+			/>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -41,9 +39,6 @@ export default {
     components: { XIcon },
     props: ['isError', 'label'],
     computed: {
-        getCharactersLength() {
-            return this.emails.join('').length
-        },
         placeHolder() {
             return !this.emails.length ? this.$t('shared_form.email_placeholder') : ''
         },
@@ -61,7 +56,7 @@ export default {
         removeEmail(email) {
             this.emails = this.emails.filter((item) => item !== email)
 
-            // After romove email send new emails list to parent
+            // After remove email send new emails list to parent
             events.$emit('emailsInputValues', this.emails)
         },
         removeLastEmail(event) {
@@ -69,29 +64,30 @@ export default {
             if (event.code === 'Backspace' && this.email === '') this.emails.pop()
         },
         handleEmail() {
-            if (this.email.length > 0) {
-                // Get index of @ and last dot
-                let lastDot = this.email.lastIndexOf('.')
-                let at = this.email.indexOf('@')
+            if (! this.email.length)
+				return;
 
-                // Check if is after @ some dot, if email have @ anf if dont have more like one
-                if (lastDot < at || at === -1 || this.email.match(/@/g).length > 1) return
+			// Get index of @ and last dot
+			let lastDot = this.email.lastIndexOf('.')
+			let at = this.email.indexOf('@')
 
-                // First email dont need to be separated by comma or space to be sended
-                if (this.emails.length === 0) events.$emit('emailsInputValues', [this.email])
+			// Check if is after @ some dot, if email have @ anf if dont have more like one
+			if (lastDot < at || at === -1 || this.email.match(/@/g).length > 1) return
 
-                // After come or backspace push the single email to array or emails
-                if (this.email.includes(',') || this.email.includes(' ')) {
-                    let email = this.email.replace(/[","," "]/, '')
+			// First email dont need to be separated by comma or space to be sended
+			if (this.emails.length === 0) events.$emit('emailsInputValues', [this.email])
 
-                    this.email = ''
+			// After come or backspace push the single email to array or emails
+			if (this.email.includes(',') || this.email.includes(' ')) {
+				let email = this.email.replace(/[","," "]/, '')
 
-                    // Push single email to aray of emails
-                    this.emails.push(email)
+				this.email = ''
 
-                    events.$emit('emailsInputValues', this.emails)
-                }
-            }
+				// Push single email to aray of emails
+				this.emails.push(email)
+
+				events.$emit('emailsInputValues', this.emails)
+			}
         },
     },
     created() {
@@ -101,100 +97,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import '../../../../sass/vuefilemanager/inapp-forms';
-@import '../../../../sass/vuefilemanager/forms';
-
-.input-label {
-    @include font-size(14);
-    font-weight: 700;
-    margin-bottom: 8px;
-}
-
-.input-wrapper {
-    margin-bottom: 0;
-    background: white;
-    max-width: 100%;
-    display: flex;
-    min-height: 50px;
-    border-radius: 8px;
-    padding: 6px 10px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12);
-    cursor: text;
-    border: 1px solid transparent;
-    @include transition(150ms);
-
-    &.is-error {
-        border: 1px solid $danger;
-        box-shadow: 0 0 7px rgba($danger, 0.3);
-    }
-
-    &:focus-within {
-        //border: 1px solid $theme;
-        //box-shadow: 0 1px 5px rgba($theme, 0.3);
-    }
-
-    .email-list {
-        display: flex;
-        flex-wrap: wrap;
-
-        .email-input {
-            font-size: 14px;
-        }
-    }
-
-    .email-tag {
-        white-space: nowrap;
-        display: flex;
-        padding: 5px 10px;
-        border-radius: 8px;
-        margin-right: 5px;
-        align-items: center;
-
-        &.mb-offset {
-            margin-top: 3px;
-            margin-bottom: 3px;
-        }
-
-        span {
-            font-weight: 700;
-            @include font-size(14);
-        }
-
-        .icon {
-            cursor: pointer;
-            margin-left: 4px;
-        }
-    }
-
-    .email-input {
-        width: auto;
-        border: none;
-        font-weight: 700;
-        @include font-size(16);
-        padding-left: 11px;
-
-        &::placeholder {
-            color: rgba($text-muted, 0.5);
-        }
-    }
-}
-
-.dark {
-    .input-wrapper {
-        background: lighten($dark_mode_foreground, 3%);
-
-        .email-list {
-            .email-input {
-                background: lighten($dark_mode_foreground, 3%);
-                color: $dark_mode_text_primary;
-
-                &::placeholder {
-                    color: $dark_mode_text_secondary;
-                }
-            }
-        }
-    }
-}
-</style>
