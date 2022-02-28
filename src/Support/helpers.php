@@ -648,6 +648,33 @@ if (! function_exists('getThumbnailFileList')) {
     }
 }
 
+if (! function_exists('mapTrafficRecords')) {
+    /**
+     * Map missing dates
+     */
+    function mapTrafficRecords(Collection $trafficRecords): Collection
+    {
+        $records = collect();
+
+        foreach (range(44, 0) as $day) {
+            $day = now()->subDays($day)->translatedFormat('d. M. Y');
+
+            if (optional($trafficRecords)[$day]) {
+                $records->push($trafficRecords[$day]);
+            } else {
+                $record = new Collection();
+
+                $record->upload = 0;
+                $record->download = 0;
+                $record->created_at = $day;
+
+                $records->add($record);
+            }
+        }
+        return $records;
+    }
+}
+
 if (! function_exists('map_language_translations')) {
     /**
      * It map language translations as language key and language value

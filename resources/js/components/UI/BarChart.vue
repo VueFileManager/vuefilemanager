@@ -4,16 +4,6 @@
     >
         <!--Data bar-->
         <Bar v-for="(item, i) in data" :key="i" :bar="item" />
-
-        <!--Ghost bar-->
-        <span
-            v-if="ghostLength > 0"
-            class="relative block cursor-pointer bg-gray-100 dark:bg-gray-800 lg:mr-2 lg:w-2 2xl:w-3"
-            v-for="(ghost, i) in ghostLength"
-            :style="{ height: '7%' }"
-            :key="i"
-        >
-        </span>
     </div>
 </template>
 <script>
@@ -24,11 +14,6 @@ export default {
     props: ['color', 'data'],
     components: {
         Bar,
-    },
-    computed: {
-        ghostLength() {
-            return 45 - this.data.length
-        },
     },
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
     <div
         class="relative block cursor-pointer lg:mr-2 lg:w-2 2xl:w-3"
-        :style="{ height: bar.percentage + '%' }"
+        :style="{ height: bar.percentage > 0 ? bar.percentage + '%' : '10px' }"
         @mouseover="isVisible = true"
         @mouseleave="isVisible = false"
     >
@@ -22,7 +22,10 @@
                 <div class="h-3 w-3 origin-top-left -rotate-45 transform bg-gray-800 dark:bg-white"></div>
             </div>
         </div>
-        <span class="bg-theme block h-full w-full rounded-lg"></span>
+        <span
+			class="block h-full w-full rounded-lg"
+			:class="{'bg-theme': bar.percentage > 0, 'bg-gray-200': bar.percentage === 0}"
+		></span>
     </div>
 </template>
 <script>
