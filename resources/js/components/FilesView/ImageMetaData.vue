@@ -1,82 +1,80 @@
 <template>
     <div>
-        <ul class="meta-data-list">
-            <li v-if="clipboard.data.attributes.date_time_original">
-                <span>{{ $t('file_detail_meta.time_data') }}</span>
-                <b>{{ clipboard.data.attributes.date_time_original }}</b>
-            </li>
+		<div class="flex items-center justify-between pt-0.5 pb-2" v-if="clipboard.data.attributes.date_time_original">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.time_data') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.date_time_original }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.artist">
-                <span>{{ $t('file_detail_meta.author') }}</span>
-                <b>{{ clipboard.data.attributes.artist }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.artist">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.author') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.artist }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.width && clipboard.data.attributes.height">
-                <span>{{ $t('file_detail_meta.dimension') }}</span>
-                <b>{{ clipboard.data.attributes.width }}x{{ clipboard.data.attributes.height }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.width && clipboard.data.attributes.height">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.dimension') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.width }}x{{ clipboard.data.attributes.height }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.x_resolution && clipboard.data.attributes.y_resolution">
-                <span>{{ $t('file_detail_meta.resolution') }}</span>
-                <b>{{ clipboard.data.attributes.x_resolution }}x{{ clipboard.data.attributes.y_resolution }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.x_resolution && clipboard.data.attributes.y_resolution">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.resolution') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.x_resolution }}x{{ clipboard.data.attributes.y_resolution }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.color_space">
-                <span> {{ $t('file_detail_meta.color_space') }}</span>
-                <b>{{ clipboard.data.attributes.color_space }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.color_space">
+			<b class="font-bold text-sm"> {{ $t('file_detail_meta.color_space') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.color_space }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.make">
-                <span>{{ $t('file_detail_meta.make') }}</span>
-                <b>{{ clipboard.data.attributes.make }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.make">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.make') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.make }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.model">
-                <span>{{ $t('file_detail_meta.model') }}</span>
-                <b>{{ clipboard.data.attributes.model }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.model">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.model') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.model }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.aperture_value">
-                <span>{{ $t('file_detail_meta.aperture_value') }}</span>
-                <b> {{ clipboard.data.attributes.aperture_value }} </b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.aperture_value">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.aperture_value') }}</b>
+			<b class="font-bold text-sm"> {{ clipboard.data.attributes.aperture_value }} </b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.exposure_time">
-                <span>{{ $t('file_detail_meta.exposure') }}</span>
-                <b>{{ clipboard.data.attributes.exposure_time }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.exposure_time">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.exposure') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.exposure_time }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.focal_length">
-                <span>{{ $t('file_detail_meta.focal') }}</span>
-                <b>{{ clipboard.data.attributes.focal_length }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.focal_length">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.focal') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.focal_length }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.iso">
-                <span>{{ $t('file_detail_meta.iso') }}</span>
-                <b>{{ clipboard.data.attributes.iso }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.iso">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.iso') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.iso }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.aperture_f_number">
-                <span>{{ $t('file_detail_meta.aperature') }}</span>
-                <b>{{ clipboard.data.attributes.aperture_f_number }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.aperture_f_number">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.aperature') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.aperture_f_number }}</b>
+		</div>
 
-            <li v-if="clipboard.data.attributes.ccd_width">
-                <span>{{ $t('file_detail_meta.camera_lens') }}</span>
-                <b>{{ clipboard.data.attributes.ccd_width }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.ccd_width">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.camera_lens') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.ccd_width }}</b>
+		</div>
 
-		  	<li v-if="clipboard.data.attributes.longitude">
-                <span>{{ $t('file_detail_meta.longitude') }}</span>
-                <b>{{ clipboard.data.attributes.longitude }}</b>
-            </li>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.longitude">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.longitude') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.longitude }}</b>
+		</div>
 
-			<li v-if="clipboard.data.attributes.latitude">
-				<span>{{ $t('file_detail_meta.latitude') }}</span>
-				<b>{{ clipboard.data.attributes.latitude }}</b>
-			</li>
-        </ul>
-    </div>
+		<div class="flex items-center justify-between py-2" v-if="clipboard.data.attributes.latitude">
+			<b class="font-bold text-sm">{{ $t('file_detail_meta.latitude') }}</b>
+			<b class="font-bold text-sm">{{ clipboard.data.attributes.latitude }}</b>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -90,39 +88,3 @@ export default {
 	},
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../../../sass/vuefilemanager/variables';
-@import '../../../sass/vuefilemanager/mixins';
-
-.meta-data-list {
-	list-style: none;
-	padding: 0px;
-	margin: 0px;
-
-	li {
-		display: flex;
-		justify-content: space-between;
-		padding: 9px 0;
-		border-bottom: 1px solid $light_mode_border;
-
-		b, span {
-			@include font-size(14);
-			color: $text;
-		}
-	}
-}
-
-.dark {
-
-	.meta-data-list {
-		li {
-			border-color: $dark_mode_border_color;
-
-			b, span {
-				color: $dark_mode_text_primary !important;
-			}
-		}
-	}
-}
-</style>
