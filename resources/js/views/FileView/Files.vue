@@ -3,7 +3,7 @@
         <MobileContextMenu>
             <OptionGroup v-if="item && isFolder">
                 <Option
-                    @click.native="addToFavourites"
+                    @click.native="$toggleFavourites(item)"
                     :title="
                         isInFavourites
                             ? $t('context_menu.remove_from_favourites')
@@ -39,7 +39,6 @@
         <MobileCreateMenu>
             <OptionGroup :title="$t('Upload')">
                 <OptionUpload
-                    :class="{ 'is-inactive': !hasCapacity }"
                     :title="$t('actions.upload')"
                     type="file"
                     :is-hover-disabled="true"
@@ -54,7 +53,7 @@
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.stop.native="createFolder"
+                    @click.stop.native="$createFolderByPopup"
                     :title="$t('actions.create_folder')"
                     icon="folder-plus"
                     :is-hover-disabled="true"
@@ -103,7 +102,7 @@
             <template v-slot:single-select v-if="item">
                 <OptionGroup v-if="isFolder">
                     <Option
-                        @click.native="addToFavourites"
+                        @click.native="$toggleFavourites(item)"
                         :title="
                             isInFavourites
                                 ? $t('context_menu.remove_from_favourites')
@@ -155,7 +154,7 @@
             <template v-slot:multiple-select v-if="item">
                 <OptionGroup v-if="!hasFile">
                     <Option
-                        @click.native="addToFavourites"
+                        @click.native="$toggleFavourites(item)"
                         :title="
                             isInFavourites
                                 ? $t('context_menu.remove_from_favourites')
@@ -250,51 +249,20 @@ export default {
     },
     computed: {
         ...mapGetters(['fastPreview', 'clipboard', 'config', 'user']),
-        hasCapacity() {
-            // Check if storage limitation is set
-            if (!this.config.storageLimit) return true
-
-            // Check if user has storage
-            return this.user && this.user.data.attributes.storage.used <= 100
-        },
         isFolder() {
             return this.item && this.item.data.type === 'folder'
         },
         isInFavourites() {
-            return this.favourites.find((el) => el.id === this.item.data.id)
+            return this.user.data.relationships.favourites.data.find((el) => el.data.id === this.item.data.id)
         },
         hasFile() {
             return this.clipboard.find((item) => item.data.type !== 'folder')
-        },
-        favourites() {
-            return this.user.data.relationships.favourites.data
         },
     },
     data() {
         return {
             item: undefined,
         }
-    },
-    methods: {
-        addToFavourites() {
-            // Check if folder is in favourites and then add/remove from favourites
-            if (this.favourites && !this.favourites.find((el) => el.id === this.item.data.id)) {
-                // Add to favourite folder that is not selected
-                if (!this.clipboard.includes(this.item)) {
-                    this.$store.dispatch('addToFavourites', this.item)
-                }
-
-                // Add to favourites all selected folders
-                if (this.clipboard.includes(this.item)) {
-                    this.$store.dispatch('addToFavourites', null)
-                }
-            } else {
-                this.$store.dispatch('removeFromFavourites', this.item)
-            }
-        },
-        createFolder() {
-            events.$emit('popup:open', { name: 'create-folder' })
-        },
     },
     created() {
         this.$store.dispatch('getFolder', this.$route.params.id)

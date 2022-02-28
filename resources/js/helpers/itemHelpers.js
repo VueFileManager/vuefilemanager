@@ -15,12 +15,42 @@ const itemHelpers = {
             store.dispatch('shareCancel')
         }
 
+        Vue.prototype.$toggleFavourites = function (entry) {
+            let favourites = store.getters.user.data.relationships.favourites.data
+
+            // Check if folder is in favourites and then add/remove from favourites
+            if (favourites && !favourites.find((el) => el.data.id === entry.data.id)) {
+                // Add to favourite folder that is not selected
+                if (!store.getters.clipboard.includes(entry)) {
+                    this.$store.dispatch('addToFavourites', entry)
+                }
+
+                // Add to favourites all selected folders
+                if (store.getters.clipboard.includes(entry)) {
+                    this.$store.dispatch('addToFavourites', null)
+                }
+            } else {
+                this.$store.dispatch('removeFromFavourites', entry)
+            }
+        }
+
         Vue.prototype.$renameFileOrFolder = function (entry) {
             events.$emit('popup:open', { name: 'rename-item', item: entry })
         }
 
         Vue.prototype.$moveFileOrFolder = function (entry) {
             events.$emit('popup:open', { name: 'move', item: [entry] })
+        }
+
+        Vue.prototype.$createFolderByPopup = function () {
+            // Show alert message when create folder is disabled
+            if (store.getters.user && !store.getters.user.data.meta.restrictions.canCreateFolder) {
+                Vue.prototype.$temporarilyDisabledFolderCreate()
+
+                return
+            }
+
+            events.$emit('popup:open', { name: 'create-folder' })
         }
 
         Vue.prototype.$createFolder = function () {

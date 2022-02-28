@@ -1,12 +1,11 @@
 <template>
     <div
         :class="{
-            'pointer-events-none opacity-50': (disabledById && disabledById.data.id === nodes.id) || !disableId,
+            'pointer-events-none opacity-50': (disabledById && disabledById.data.id === nodes.id) || !disableId || (isRootDepth && !nodes.folders.length),
             'mb-2.5': isRootDepth,
         }"
     >
         <div
-            :class="{ 'is-disabled-item': false }"
             :style="indent"
             class="relative relative flex cursor-pointer select-none items-center whitespace-nowrap py-2 px-1.5 transition-all duration-150"
         >
@@ -53,7 +52,7 @@
             <b
                 @click="getFolder"
                 class="ml-3 inline-block overflow-x-hidden text-ellipsis whitespace-nowrap text-xs font-bold transition-all duration-150"
-                :class="{ 'text-theme': isSelectedItem }"
+                :class="{'text-theme': isSelectedItem }"
             >
                 {{ nodes.name }}
             </b>

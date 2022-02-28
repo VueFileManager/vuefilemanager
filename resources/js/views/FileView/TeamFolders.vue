@@ -3,7 +3,7 @@
         <MobileContextMenu>
             <OptionGroup v-if="item && isFolder">
                 <Option
-                    @click.native="addToFavourites"
+                    @click.native="$toggleFavourites(item)"
                     :title="
                         isInFavourites
                             ? $t('context_menu.remove_from_favourites')
@@ -50,7 +50,7 @@
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.stop.native="createFolder"
+                    @click.stop.native="$createFolderByPopup"
                     :title="$t('actions.create_folder')"
                     icon="folder-plus"
                     :is-hover-disabled="true"
@@ -107,7 +107,7 @@
             <template v-slot:single-select v-if="item">
                 <OptionGroup v-if="isFolder">
                     <Option
-                        @click.native="addToFavourites"
+                        @click.native="$toggleFavourites(item)"
                         :title="
                             isInFavourites
                                 ? $t('context_menu.remove_from_favourites')
@@ -153,7 +153,7 @@
             <template v-slot:multiple-select v-if="item">
                 <OptionGroup v-if="!hasFile">
                     <Option
-                        @click.native="addToFavourites"
+                        @click.native="$toggleFavourites(item)"
                         :title="
                             isInFavourites
                                 ? $t('context_menu.remove_from_favourites')
@@ -276,40 +276,16 @@ export default {
             return this.item && this.item.data.type === 'folder'
         },
         isInFavourites() {
-            return this.favourites.find((el) => el.id === this.item.id)
+            return this.user.data.relationships.favourites.data.find((el) => el.id === this.item.id)
         },
         hasFile() {
             return this.clipboard.find((item) => item.type !== 'folder')
-        },
-        favourites() {
-            return this.user.data.relationships.favourites.data
         },
     },
     data() {
         return {
             item: undefined,
         }
-    },
-    methods: {
-        addToFavourites() {
-            // Check if folder is in favourites and then add/remove from favourites
-            if (this.favourites && !this.favourites.find((el) => el.id === this.item.data.id)) {
-                // Add to favourite folder that is not selected
-                if (!this.clipboard.includes(this.item)) {
-                    this.$store.dispatch('addToFavourites', this.item)
-                }
-
-                // Add to favourites all selected folders
-                if (this.clipboard.includes(this.item)) {
-                    this.$store.dispatch('addToFavourites', null)
-                }
-            } else {
-                this.$store.dispatch('removeFromFavourites', this.item)
-            }
-        },
-        createFolder() {
-            events.$emit('popup:open', { name: 'create-folder' })
-        },
     },
     mounted() {
         this.$store.dispatch('getTeamFolder', this.$route.params.id)
