@@ -211,7 +211,6 @@ return [
         'bandwidth'                                           => 'Bandwidth',
         'storage'                                             => 'Storage',
         'flatFee'                                             => 'Flat Fee',
-        'member'                                              => 'Members',
         'feature_usage_desc_flatFee'                          => 'Price for the service.',
         'feature_usage_desc_bandwidth'                        => 'Data amount you transferred to/from your account.',
         'feature_usage_desc_storage'                          => 'Total storage amount you are using.',
@@ -751,5 +750,18 @@ return [
         'sharelink.copy_embed'                               => 'Copy Web Insert Code',
         'popup.move_into_team_disclaimer'                    => 'Your folder <b class="text-theme dark-text-theme">will be moved</b> into Team Folders section.',
         'actions.upload_folder'                              => 'Upload Folder',
+
+        // v2
+        'member'                                              => 'Members',
+
+        'request_for_upload'                     => '{name} is Asking You For Files',
+        'request_for_upload_success'             => 'Upload Request for {name} was Fulfilled Successfully',
+        'request_for_upload_expired'             => 'Upload Request Expired',
+        'automatically_uploads_for_file_request' => 'Your files will be uploaded automatically and after that, you can organize your files in folders.',
+        'request_for_upload_unavailable'         => 'This upload request is no longer available for uploading files.',
+        'closing_request_for_upload'             => 'Are you sure you uploaded all files you want for {name}?',
+        'closing_request_for_upload_warn'        => "You won't be able to upload any files here once again.",
+        'user_leave_message'                     => '{name} leave you a message',
+        'tell_you_are_done'                      => 'Tell {name} you are done!',
     ],
 ];

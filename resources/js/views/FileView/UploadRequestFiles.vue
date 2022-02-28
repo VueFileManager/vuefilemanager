@@ -89,7 +89,7 @@
 					:size="26"
 				/>
 				<b class="text-theme ml-2 text-sm">
-					{{ $t('Tell {name} you are done!', {name: userName}) }}
+					{{ $t('tell_you_are_done', {name: userName}) }}
 				</b>
 			</button>
 
@@ -143,7 +143,7 @@
 				</p>
 
 				<InfoBox v-if="uploadRequest.data.attributes.notes && uploadRequest.data.attributes.status === 'active'" class="max-w-[420px] mx-auto">
-					<b>{{ $t('{name} leave you a message', {name: userName}) }}: </b>
+					<b>{{ $t('user_leave_message', {name: userName}) }}: </b>
 					<p>{{ uploadRequest.data.attributes.notes }}</p>
 				</InfoBox>
 
@@ -206,18 +206,17 @@ export default {
 			return this.uploadRequest.data.relationships.user.data.attributes.name
 		},
 		emptyPageTitle() {
-			// Todo: add name into translation
 			return {
-				active: this.$t('{name} Request You for File Upload', {name: this.userName}),
-				filled: this.$t('Upload Request for {name} was Fulfilled Successfully', {name: this.userName}),
-				expired: this.$t('Upload Request Expired'),
+				active: this.$t('request_for_upload', {name: this.userName}),
+				filled: this.$t('request_for_upload_success', {name: this.userName}),
+				expired: this.$t('request_for_upload_expired'),
 			}[this.uploadRequest.data.attributes.status]
 		},
 		emptyPageDescription() {
 			return {
-				active: this.$t('Your files will be uploaded automatically and after that, you can organize your files in folders.'),
-				filled: this.$t('This upload request is no longer available for uploading files.'),
-				expired: this.$t('This upload request is no longer available for uploading files.'),
+				active: this.$t('automatically_uploads_for_file_request'),
+				filled: this.$t('request_for_upload_unavailable'),
+				expired: this.$t('request_for_upload_unavailable'),
 			}[this.uploadRequest.data.attributes.status]
 		}
 	},
@@ -229,8 +228,8 @@ export default {
 	methods: {
 		uploadingDone() {
 			events.$emit('confirm:open', {
-				title: this.$t('Are you sure you uploaded all files you want for {name}?', {name: this.userName}),
-				message: this.$t("You won't be able to upload any files here once again."),
+				title: this.$t('closing_request_for_upload', {name: this.userName}),
+				message: this.$t('closing_request_for_upload_warn'),
 				action: {
 					id: this.$router.currentRoute.params.token,
 					operation: 'close-upload-request',

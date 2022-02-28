@@ -8,7 +8,7 @@
 				<!--I am Done-->
                 <div @click="uploadingDone" class="bg-theme-200 mr-6 flex cursor-pointer items-center rounded-lg py-1 pr-1 pl-4">
                     <b class="text-theme mr-3 text-sm leading-3">
-                        {{ $t('Tell {name} you are done!', {name: uploadRequest.data.relationships.user.data.attributes.name}) }}
+                        {{ $t('tell_you_are_done', {name: uploadRequest.data.relationships.user.data.attributes.name}) }}
                     </b>
 					<MemberAvatar
 						:member="uploadRequest.data.relationships.user"
@@ -122,8 +122,8 @@ export default {
     methods: {
         uploadingDone() {
 			events.$emit('confirm:open', {
-				title: this.$t('Are you sure you uploaded all files you want for {name}?', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
-				message: this.$t("You won't be able to upload any files here once again."),
+				title: this.$t('closing_request_for_upload', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
+				message: this.$t('closing_request_for_upload_warn'),
 				action: {
 					id: this.$router.currentRoute.params.token,
 					operation: 'close-upload-request',
