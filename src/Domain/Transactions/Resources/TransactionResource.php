@@ -30,8 +30,8 @@ class TransactionResource extends JsonResource
                     'metadata'   => $this->metadata
                         ? resolve(FormatUsageEstimatesAction::class)($this->currency, $this->metadata)
                         : null,
-                    'created_at' => $this->created_at->formatLocalized('d. M. Y'),
-                    'updated_at' => $this->updated_at,
+                    'created_at' => format_date($this->created_at, 'd. M. Y'),
+                    'updated_at' => format_date($this->updated_at, 'd. M. Y'),
                 ],
                 'relationships' => [
                     $this->mergeWhen($this->user && $this->user->settings, fn () => [
