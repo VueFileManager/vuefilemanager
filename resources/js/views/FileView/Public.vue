@@ -37,11 +37,11 @@
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup>
+            <OptionGroup :title="$t('Upload')">
                 <OptionUpload :title="$t('actions.upload')" type="file" :is-hover-disabled="true" />
                 <OptionUpload :title="$t('actions.upload_folder')" type="folder" :is-hover-disabled="true" />
             </OptionGroup>
-            <OptionGroup>
+            <OptionGroup :title="$t('Create')">
                 <Option
                     @click.stop.native="createFolder"
                     :title="$t('actions.create_folder')"
@@ -136,7 +136,7 @@
                     {{ $t('Spotlight') }}
                 </MobileActionButton>
                 <MobileActionButton @click.native="$showMobileMenu('create-list')" icon="cloud-plus">
-                    {{ $t('mobile.create') }}
+                    {{ $t('Upload / Create') }}
                 </MobileActionButton>
                 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
                     {{ $t('context_menu.select') }}

@@ -7,7 +7,7 @@
     >
         <div
             :style="indent"
-            class="relative relative flex cursor-pointer select-none items-center whitespace-nowrap py-2 px-1.5 transition-all duration-150"
+            class="relative relative flex cursor-pointer select-none items-center whitespace-nowrap lg:py-2 py-3.5 px-1.5 transition-all duration-150"
         >
             <!--Arrow icon-->
             <span @click.stop="showTree" class="-m-2 p-2">

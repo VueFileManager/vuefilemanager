@@ -62,7 +62,7 @@
 
             <!--Show tips-->
             <div
-                v-if="isEmptyQuery && !activeFilter && !$isThisRoute($route, ['Public'])"
+                v-if="isEmptyQuery && !activeFilter && !$isThisRoute($route, ['Public']) && isAdmin"
                 class="relative z-50 px-4 pb-4"
             >
                 <CategoryName>
@@ -590,7 +590,7 @@ export default {
             }
 
             // Return commands for logged admin
-            if (this.user.data.attributes.role === 'admin') {
+            if (this.isAdmin) {
                 // Available only for fixed subscription
                 if (this.config.subscriptionType === 'fixed') {
                     adminLocations.push({

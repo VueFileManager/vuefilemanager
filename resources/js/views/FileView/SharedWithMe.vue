@@ -115,7 +115,7 @@
                 {{ $getCurrentSectionName() }}
             </MobileActionButton>
             <MobileActionButton v-if="canEdit" @click.native="$showMobileMenu('create-list')" icon="cloud-plus">
-                {{ $t('mobile.create') }}
+                {{ $t('Upload / Create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
                 {{ $t('context_menu.select') }}

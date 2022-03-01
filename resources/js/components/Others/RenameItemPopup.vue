@@ -23,11 +23,11 @@
                                 :class="{ 'border-red': errors[0] }"
                                 ref="input"
                                 type="text"
-                                class="focus-border-theme input-dark"
+                                class="!pr-10 focus-border-theme input-dark"
                                 :placeholder="$t('popup_rename.placeholder')"
                             />
-                            <div @click="pickedItem.data.attributes.name = ''" class="absolute right-4">
-                                <x-icon class="close-icon hover-text-theme" size="14" />
+                            <div @click="pickedItem.data.attributes.name = ''" class="absolute right-0 p-4 cursor-pointer">
+                                <x-icon class="hover-text-theme" size="14" />
                             </div>
                         </div>
                     </AppInputText>
@@ -173,59 +173,3 @@ export default {
     },
 }
 </script>
-
-<style scoped lang="scss">
-@import '../../../sass/vuefilemanager/inapp-forms';
-@import '../../../sass/vuefilemanager/forms';
-
-.input {
-    position: relative;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-
-    .close-icon-wrapper {
-        width: 22px;
-        height: 22px;
-        position: absolute;
-        cursor: pointer;
-        right: 15px;
-        border-radius: 6px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        &:hover {
-            .close-icon {
-                line {
-                    color: inherit;
-                }
-            }
-        }
-
-        .close-icon {
-            line {
-                color: rgba($text-muted, 0.3);
-            }
-        }
-    }
-}
-
-.dark {
-    .close-icon-wrapper {
-        &:hover {
-            .close-icon {
-                line {
-                    color: inherit !important;
-                }
-            }
-        }
-
-        .close-icon {
-            line {
-                color: rgba($dark_mode_text_primary, 0.3) !important;
-            }
-        }
-    }
-}
-</style>

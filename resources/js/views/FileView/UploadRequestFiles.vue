@@ -98,7 +98,7 @@
 				v-if="$checkPermission(['master', 'editor'])"
 				icon="cloud-plus"
 			>
-                {{ $t('mobile.create') }}
+                {{ $t('Upload / Create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
                 {{ $t('context_menu.select') }}

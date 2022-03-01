@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\UploadRequest\Controllers;
 
 use DB;
@@ -13,8 +14,7 @@ class UploadFilesForUploadRequestController
 {
     public function __construct(
         private UploadFileAction $uploadFile,
-    ) {
-    }
+    ) {}
 
     /**
      * @throws FileNotFoundException
@@ -64,10 +64,12 @@ class UploadFilesForUploadRequestController
 
         // Create folder
         DB::table('folders')->insert([
-            'id'        => $uploadRequest->id,
-            'parent_id' => $uploadRequest->folder_id ?? null,
-            'user_id'   => $uploadRequest->user_id,
-            'name'      => $uploadRequest->name ?? "Upload Request from $timestampName",
+            'id'         => $uploadRequest->id,
+            'parent_id'  => $uploadRequest->folder_id ?? null,
+            'user_id'    => $uploadRequest->user_id,
+            'name'       => $uploadRequest->name ?? "Upload Request from $timestampName",
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         // Update upload request status

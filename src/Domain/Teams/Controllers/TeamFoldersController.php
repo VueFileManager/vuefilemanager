@@ -33,14 +33,21 @@ class TeamFoldersController extends Controller
     {
         $id = Str::isUuid($id) ? $id : null;
 
-        $folders = Folder::where('parent_id', $id)
-            ->where('team_folder', true)
-            ->where('user_id', Auth::id())
-            ->sortable()
-            ->get();
-
         if ($id) {
+            $folders = Folder::where('parent_id', $id)
+                ->where('team_folder', true)
+                ->sortable()
+                ->get();
+
             $files = File::where('parent_id', $id)
+                ->sortable()
+                ->get();
+        }
+
+        if (!$id) {
+            $folders = Folder::where('parent_id', null)
+                ->where('team_folder', true)
+                ->where('user_id', Auth::id())
                 ->sortable()
                 ->get();
         }
@@ -48,7 +55,7 @@ class TeamFoldersController extends Controller
         // Collect folders and files to single array
         return [
             'folders'    => new FolderCollection($folders),
-            'files'      => isset($files) ? new FilesCollection($files) : new FilesCollection([]),
+            'files'      => isset($files) ? new FilesCollection($files) : [],
             'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
             'teamFolder' => $id ? new FolderResource(Folder::findOrFail($id)->getLatestParent()) : null,
         ];

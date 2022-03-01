@@ -160,7 +160,7 @@ class File extends Model
 
         // Set shared public url
         if ($this->sharedAccess) {
-            return "$route/$this->sharedAccess";
+            return "$route/shared/$this->sharedAccess";
         }
 
         // Set upload request public url
