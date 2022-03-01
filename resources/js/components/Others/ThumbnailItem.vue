@@ -24,7 +24,7 @@
             <!--File Icon-->
             <FileIconThumbnail
                 v-if="isFile || isVideo || isAudio || (isImage && !item.data.attributes.thumbnail)"
-                :item="item"
+                :entry="item"
                 class="pr-2"
             />
 

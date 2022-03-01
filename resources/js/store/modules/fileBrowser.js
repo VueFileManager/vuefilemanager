@@ -152,7 +152,10 @@ const mutations = {
     UPDATE_SHARED_ITEM(state, data) {
         state.entries.find((item) => {
             if (item.data.id === data.data.attributes.item_id) {
-                item.data.relationships.shared = data
+                item.data.relationships = {
+                    ...item.data.relationships,
+                    ...{shared: data}
+                }
             }
         })
     },

@@ -55,7 +55,7 @@ class TeamFoldersController extends Controller
         // Collect folders and files to single array
         return [
             'folders'    => new FolderCollection($folders),
-            'files'      => isset($files) ? new FilesCollection($files) : [],
+            'files'      => isset($files) ? new FilesCollection($files) : new FilesCollection([]),
             'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
             'teamFolder' => $id ? new FolderResource(Folder::findOrFail($id)->getLatestParent()) : null,
         ];
