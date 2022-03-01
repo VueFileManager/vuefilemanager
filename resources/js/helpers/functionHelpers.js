@@ -64,7 +64,7 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$scrollTop = function () {
-            var container = document.getElementById('vuefilemanager')
+            const container = document.getElementsByTagName('html')[0]
 
             if (container) {
                 container.scrollTop = 0

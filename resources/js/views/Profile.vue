@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-light-background dark:bg-dark-background md:h-screen md:overflow-hidden lg:flex">
+    <div class="md:h-screen md:overflow-hidden lg:flex">
         <!--On Top of App Components-->
         <FilePreview />
         <Spotlight />

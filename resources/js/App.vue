@@ -51,6 +51,16 @@ export default {
         'config.defaultThemeMode': function () {
             this.handleDarkMode()
         },
+		'$route' () {
+			let section = this.$router.currentRoute.fullPath.split('/')[1]
+			const app = document.getElementsByTagName('body')[0]
+
+			if (['admin', 'user'].includes(section)) {
+				app.classList.add('dark:bg-dark-background', 'bg-light-background')
+			} else {
+				app.classList.remove('dark:bg-dark-background', 'bg-light-background')
+			}
+		}
     },
     methods: {
         spotlightListener(e) {

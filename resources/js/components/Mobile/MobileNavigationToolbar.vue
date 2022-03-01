@@ -1,5 +1,5 @@
 <template>
-    <div class="z-20 block flex w-full items-center justify-between py-5 px-5 text-center lg:hidden">
+    <div class="z-20 relative block flex w-full items-center justify-between py-5 px-5 text-center lg:hidden">
         <!--Location Title-->
         <div
             class="inline-block overflow-hidden text-ellipsis whitespace-nowrap align-middle text-sm font-bold transition-all duration-200 dark:text-gray-100"

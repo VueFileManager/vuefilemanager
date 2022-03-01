@@ -2,15 +2,15 @@
     <PageTab v-if="!isLoading">
         <!--Cron check-->
         <div class="card shadow-card">
-            <FormLabel icon="info"> Cron </FormLabel>
+            <FormLabel icon="info">Cron</FormLabel>
 
-            <div class="flex items-center justify-between">
+            <div class="lg:flex lg:space-y-0 space-y-3 items-center justify-between">
                 <div class="text-left">
                     <b class="block text-sm font-bold">Cron Jobs</b>
-                    <small v-if="!cron.running" class="text-xs text-gray-600">
+                    <small v-if="!cron.running" class="text-xs text-gray-600 pt-1 block leading-normal">
                         We detect, your cron jobs probably doesn't work correctly, please check it.
                     </small>
-                    <small v-if="cron.running" class="text-xs text-gray-600">
+                    <small v-if="cron.running" class="text-xs text-gray-600 pt-1 block leading-normal">
                         Latest Update: {{ cron.lastUpdate }}
                     </small>
                 </div>
@@ -44,7 +44,7 @@
                 v-if="backups.length"
                 v-for="(filename, i) in backups"
                 :key="i"
-                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                class="md:flex md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
             >
                 <div class="text-left">
                     <b class="block text-sm font-bold">{{ filename }}</b>
@@ -66,7 +66,7 @@
             >
                 <div class="text-left">
                     <b class="block text-sm font-bold">PHP Version</b>
-                    <small v-if="!phpVersion.acceptable" class="text-xs text-gray-600">
+                    <small v-if="!phpVersion.acceptable" class="text-xs text-gray-600 pt-1 block leading-normal">
                         You need PHP version at least {{ phpVersion.minimal }}.
                     </small>
                 </div>
@@ -102,7 +102,7 @@
             >
                 <div class="text-left">
                     <b class="block text-sm font-bold">{{ setting }}</b>
-                    <small v-if="!values.status" class="text-xs text-gray-600">
+                    <small v-if="!values.status" class="text-xs text-gray-600 pt-1 block leading-normal">
                         We recommend set this value at least {{ values.minimal }}.
                     </small>
                 </div>

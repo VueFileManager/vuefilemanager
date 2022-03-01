@@ -29,7 +29,7 @@
                 >
                     <div class="text-left">
                         <b class="block text-sm font-bold">PHP Version</b>
-                        <small v-if="!phpVersion.acceptable" class="text-xs text-gray-600">
+                        <small v-if="!phpVersion.acceptable" class="text-xs text-gray-600 pt-1 block leading-normal">
                             You need PHP version at least {{ phpVersion.minimal }}.
                         </small>
                     </div>
@@ -53,7 +53,7 @@
                 >
                     <div class="text-left">
                         <b class="block text-sm font-bold">{{ setting }}</b>
-                        <small v-if="!values.status" class="text-xs text-gray-600">
+                        <small v-if="!values.status" class="text-xs text-gray-600 pt-1 block leading-normal">
                             We recommend set this value at least {{ values.minimal }}.
                         </small>
                     </div>
@@ -110,7 +110,7 @@
                 <div class="flex items-center justify-between pt-3">
                     <div class="text-left">
                         <b class="block text-sm font-bold">API</b>
-                        <small v-if="isCheckedAPI && !apiRunning" class="text-xs text-gray-600">
+                        <small v-if="isCheckedAPI && !apiRunning" class="text-xs text-gray-600 pt-1 block leading-normal">
                             We detect, your domain root is not set correctly, please check it.
                         </small>
                     </div>

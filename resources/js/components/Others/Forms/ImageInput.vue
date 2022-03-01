@@ -7,7 +7,7 @@
         <div
             v-if="imagePreview"
             @click="resetImage"
-            class="absolute right-0 top-0 z-10 flex h-7 w-7 -translate-y-3 translate-x-3 cursor-pointer items-center justify-center rounded-md rounded-full bg-white shadow-lg"
+            class="absolute right-0 top-0 z-[9] flex h-7 w-7 -translate-y-3 translate-x-3 cursor-pointer items-center justify-center rounded-md rounded-full bg-white shadow-lg"
         >
             <x-icon size="14" class="vue-feather" />
         </div>

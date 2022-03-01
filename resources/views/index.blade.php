@@ -28,13 +28,13 @@
 @endphp
 
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html style="min-height: 100%" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta name="theme-color" content="{{ $settings->app_color ?? '#00BC7E' }}">
+<!--    <meta name="theme-color" content="{{ $settings->app_color ?? '#00BC7E' }}">-->
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
     <meta name="description" content="{{ $settings->app_description ?? __t('app_description') }}">
 
     <title>
@@ -66,7 +66,7 @@
 
     @include('vuefilemanager.others.color-template')
 </head>
-<body class="{{ $installation === 'installation-needed' ? 'bg-light-background' : '' }} {{ is_dev() ? 'debug-screens' : '' }}">
+<body style="min-height: 100%" class="{{ $installation === 'installation-needed' ? 'bg-light-background' : '' }} {{ is_dev() ? 'debug-screens' : '' }}">
 
     <div id="app"></div>
 

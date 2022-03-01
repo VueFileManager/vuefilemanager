@@ -70,7 +70,7 @@
             <MobileActionButton @click.native="$openSpotlight()" icon="search">
                 {{ $t('Spotlight') }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$showMobileMenu('file-filter')" :icon="$getCurrentSectionIcon()">
+            <MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
                 {{ $getCurrentSectionName() }}
             </MobileActionButton>
             <MobileActionButton @click.native="$emptyTrash" icon="trash">

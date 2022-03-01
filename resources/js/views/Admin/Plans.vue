@@ -161,7 +161,7 @@
         </div>
 
         <!--Empty State-->
-        <div v-if="config.isEmptyPlans" class="flex h-full items-center justify-center">
+        <div v-if="config.isEmptyPlans" class="flex items-center justify-center fixed top-0 bottom-0 left-0 right-0">
             <div class="text-center">
                 <img
                     class="mb-6 inline-block w-28"
