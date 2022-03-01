@@ -23,7 +23,7 @@
                         </OptionGroup>
                         <OptionGroup :title="$t('Create')">
                             <Option
-                                @click.stop.native="$createFolder"
+                                @click.native="$createFolder"
                                 :class="{
                                     'is-inactive': canCreateFolder || isTeamFolderHomepage || isSharedWithMeHomepage,
                                 }"

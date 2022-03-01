@@ -37,7 +37,7 @@ class UserSetting extends Model
     /**
      * Format avatar to full url
      */
-    public function getAvatarAttribute(): array|string
+    public function getAvatarAttribute(): array|null
     {
         $link = [];
 
@@ -61,12 +61,7 @@ class UserSetting extends Model
             return $link;
         }
 
-        // Return default avatar
-        foreach (config('vuefilemanager.avatar_sizes') as $item) {
-            $link[$item['name']] = url('/assets/images/default-avatar.png');
-        }
-
-        return $link;
+        return null;
     }
 
     public function getNameAttribute(): string

@@ -1110,20 +1110,21 @@ if (! function_exists('replace_occurrence')) {
         }
     }
 
-    if(! function_exists('format_gps_coordinates')) {
+    if (!function_exists('formatGPSCoordinates')) {
         /**
-        * Format GPS coordinates
-        */
-        function format_gps_coordinates($coordinates, $ref)
+         * Format GPS coordinates
+         */
+        function formatGPSCoordinates($coordinates, $ref): string|null
         {
-            if($coordinates && $ref) {
-     
-                return
-                    explode('/',$coordinates[0])[0] . '°' .
-                    explode('/', $coordinates[1])[0] . "'" .
-                    substr(explode(',', $coordinates[2])[0], 0, 5) / 1000 . '"' .
-                    $ref;
+            if (!$coordinates && !$ref) {
+                return null;
             }
-        };
+
+            $degrees = explode('/', $coordinates[0])[0];
+            $minutes = explode('/', $coordinates[1])[0];
+            $seconds = intval(substr(explode(',', $coordinates[2])[0], 0, 5)) / 100;
+
+            return "{$degrees}°$minutes'$seconds\"$ref";
+        }
     }
 }

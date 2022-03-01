@@ -1,22 +1,24 @@
 <template>
     <div
-        class="sticky top-14 z-[19] flex items-center overflow-x-auto whitespace-nowrap bg-white px-4 pb-3 dark:bg-dark-background lg:hidden"
+        class="sticky top-14 z-[19] overflow-x-auto whitespace-nowrap bg-white px-4 pb-3 dark:bg-dark-background lg:hidden"
     >
-        <!--Show Buttons-->
-        <slot v-if="!isMultiSelectMode" />
+		<div class="flex items-center">
+			<!--Show Buttons-->
+			<slot v-if="!isMultiSelectMode" />
 
-        <!-- Multi select mode -->
-        <div v-if="isMultiSelectMode">
-            <MobileActionButton @click.native="selectAll" icon="check-square">
-                {{ $t('mobile_selecting.select_all') }}
-            </MobileActionButton>
-            <MobileActionButton @click.native="deselectAll" icon="x-square">
-                {{ $t('mobile_selecting.deselect_all') }}
-            </MobileActionButton>
-            <MobileActionButton @click.native="disableMultiSelectMode" icon="check">
-                {{ $t('mobile_selecting.done') }}
-            </MobileActionButton>
-        </div>
+			<!-- Multi select mode -->
+			<div v-if="isMultiSelectMode">
+				<MobileActionButton @click.native="selectAll" icon="check-square">
+					{{ $t('mobile_selecting.select_all') }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="deselectAll" icon="x-square">
+					{{ $t('mobile_selecting.deselect_all') }}
+				</MobileActionButton>
+				<MobileActionButton @click.native="disableMultiSelectMode" icon="check">
+					{{ $t('mobile_selecting.done') }}
+				</MobileActionButton>
+			</div>
+		</div>
 
         <!--Upload Progressbar-->
         <UploadProgress class="pt-3" />

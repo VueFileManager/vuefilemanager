@@ -94,7 +94,7 @@
                     <OptionUpload :title="$t('actions.upload')" type="file" />
                     <OptionUpload :title="$t('actions.upload_folder')" type="folder" />
                     <Option
-                        @click.stop.native="$createFolder"
+                        @click.native="$createFolder"
                         :title="$t('actions.create_folder')"
                         icon="folder-plus"
                     />

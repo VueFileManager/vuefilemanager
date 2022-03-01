@@ -69,7 +69,7 @@
                 </OptionGroup>
                 <OptionGroup v-if="!isTeamFolderHomepage">
                     <Option
-                        @click.stop.native="$createFolder"
+                        @click.native="$createFolder"
                         :title="$t('actions.create_folder')"
                         icon="folder-plus"
                     />

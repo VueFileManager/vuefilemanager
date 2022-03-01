@@ -1,7 +1,7 @@
 <template>
     <div
         class="relative block cursor-pointer lg:mr-2 lg:w-2 2xl:w-3"
-        :style="{ height: bar.percentage > 0 ? bar.percentage + '%' : '10px' }"
+        :style="{ height: bar.percentage > 0 ? bar.percentage + '%' : '8px' }"
         @mouseover="isVisible = true"
         @mouseleave="isVisible = false"
     >

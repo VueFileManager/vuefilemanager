@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Users\Resources;
 
 use Domain\Folders\Resources\FolderCollection;
@@ -31,6 +32,7 @@ class UserResource extends JsonResource
                 'id'            => $this->id,
                 'type'          => 'user',
                 'attributes'    => [
+                    'color'                     => $this->settings->color,
                     'avatar'                    => $this->settings->avatar,
                     'email'                     => is_demo() ? obfuscate_email($this->email) : $this->email,
                     'role'                      => $this->role,
@@ -44,16 +46,16 @@ class UserResource extends JsonResource
                     'settings'    => new SettingsResource($this->settings),
                     'favourites'  => new FolderCollection($this->favouriteFolders),
                     'creditCards' => new CreditCardCollection($this->creditCards),
-                    $this->mergeWhen($this->hasSubscription(), fn () => [
+                    $this->mergeWhen($this->hasSubscription(), fn() => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn() => [
                         'balance' => new BalanceResource($this->balance),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn() => [
                         'alert' => new BillingAlertResource($this->billingAlert),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn() => [
                         'failedPayments' => new FailedPaymentsCollection($this->failedPayments),
                     ]),
                 ],
@@ -65,13 +67,13 @@ class UserResource extends JsonResource
                         'canCreateTeamFolder'  => $this->canCreateTeamFolder(),
                         'canInviteTeamMembers' => $this->canInviteTeamMembers(),
                     ],
-                    $this->mergeWhen($isFixedSubscription, fn () => [
+                    $this->mergeWhen($isFixedSubscription, fn() => [
                         'limitations' => $this->limitations->summary(),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn() => [
                         'usages' => $this->getUsageEstimates(),
                     ]),
-                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn () => [
+                    $this->mergeWhen($isMeteredSubscription && $this->hasSubscription(), fn() => [
                         'totalDebt' => [
                             'formatted' => format_currency($this->failedPayments->sum('amount'), $this->subscription->plan->currency),
                             'amount'    => $this->failedPayments->sum('amount'),

@@ -6,7 +6,7 @@
                 v-if="invitation"
                 :title="$t('Invitation To Join Team Folder')"
                 :description="
-                    $t('{name} invite you to join with his team into shared team folder', {
+                    $t('user_invite_you_into_team_folder', {
                         name: invitation.data.relationships.inviter.data.attributes.name,
                     })
                 "
@@ -26,7 +26,7 @@
                 v-if="invitation && !invitation.data.attributes.isExistedUser"
                 class="mx-auto mb-4 max-w-md text-sm text-gray-500"
                 v-html="
-                    $t('Register account with your email peterpapp@makingcg.com and get access to this Team Folder.', {
+                    $t('register_with_email_and_get_folder', {
                         email: invitation.data.attributes.email,
                     })
                 "

@@ -84,8 +84,8 @@ class FileResource extends JsonResource
                                     'iso'                => $this->exif->iso,
                                     'aperture_f_number'  => $this->exif->aperture_f_number,
                                     'ccd_width'          => $this->exif->ccd_width,
-                                    'longitude'          => format_gps_coordinates($this->exif->longitude, $this->exif->longitude_ref),
-                                    'latitude'           => format_gps_coordinates($this->exif->latitude, $this->exif->latitude_ref),
+                                    'longitude'          => formatGPSCoordinates($this->exif->longitude, $this->exif->longitude_ref),
+                                    'latitude'           => formatGPSCoordinates($this->exif->latitude, $this->exif->latitude_ref),
                                 ],
                             ],
                         ]

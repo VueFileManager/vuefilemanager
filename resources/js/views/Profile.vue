@@ -41,7 +41,7 @@
                         <!--Image input for replace avatar-->
                         <AvatarInput
                             v-model="avatar"
-                            :avatar="user.data.relationships.settings.data.attributes.avatar.md"
+                            :avatar="user.data.relationships.settings.data.attributes.avatar ? user.data.relationships.settings.data.attributes.avatar.md : undefined"
                         />
 
                         <!--User name & email-->

@@ -754,6 +754,7 @@ return [
         // v2
         'member'                                              => 'Members',
 
+        // file request
         'request_for_upload'                     => '{name} is Asking You For Files',
         'request_for_upload_success'             => 'Upload Request for {name} was Fulfilled Successfully',
         'request_for_upload_expired'             => 'Upload Request Expired',
@@ -763,5 +764,11 @@ return [
         'closing_request_for_upload_warn'        => "You won't be able to upload any files here once again.",
         'user_leave_message'                     => '{name} leave you a message',
         'tell_you_are_done'                      => 'Tell {name} you are done!',
+
+        // teams
+        'user_invite_you_into_team_folder' => '{name} invite you to join with his team into shared team folder',
+        'register_with_email_and_get_folder' => 'Register account with your email {email} and get access to this Team Folder.',
+        '' => '',
+        '' => '',
     ],
 ];

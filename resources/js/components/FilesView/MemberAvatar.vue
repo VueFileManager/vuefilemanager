@@ -10,7 +10,7 @@
                     'border-3 border-white dark:border-dark-background': isBorder,
                 },
             ]"
-            class=""
+            class="object-cover"
         />
         <div
             v-else

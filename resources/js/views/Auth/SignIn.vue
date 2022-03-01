@@ -56,6 +56,7 @@
                 :description="$t('page_sign_in.subtitle')"
             >
                 <img
+					v-if="checkedAccount.avatar"
                     class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl"
                     :src="checkedAccount.avatar.md"
                     :alt="checkedAccount.name"
@@ -112,6 +113,7 @@
                 :description="$t('page_not_verified.subtitle')"
             >
                 <img
+					v-if="checkedAccount.avatar"
                     class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl"
                     :src="checkedAccount.avatar.md"
                     :alt="checkedAccount.name"
@@ -134,6 +136,7 @@
                 :description="$t('page_sign_in_2fa_subtitle')"
             >
                 <img
+					v-if="checkedAccount.avatar"
                     class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl"
                     :src="checkedAccount.avatar.md"
                     :alt="checkedAccount.name"
@@ -183,6 +186,7 @@
                 :description="$t('page_sign_in.2fa_recovery_subtitle')"
             >
                 <img
+					v-if="checkedAccount.avatar"
                     class="user-avatar mx-auto mb-6 w-28 rounded-xl shadow-xl"
                     :src="checkedAccount.avatar.md"
                     :alt="checkedAccount.name"

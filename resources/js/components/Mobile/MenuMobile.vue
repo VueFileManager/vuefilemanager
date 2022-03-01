@@ -13,7 +13,7 @@
             <div
                 v-if="isVisible"
                 @click="closeMenu"
-                class="fixed left-0 right-0 top-0 bottom-0 z-20 bg-dark-background bg-opacity-[0.35] dark:bg-opacity-[0.45]"
+                class="fixed left-0 right-0 top-0 bottom-0 z-[49] bg-dark-background bg-opacity-[0.35] dark:bg-opacity-[0.45]"
             ></div>
         </transition>
     </div>
