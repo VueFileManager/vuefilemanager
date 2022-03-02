@@ -51,9 +51,9 @@
                     </span>
                 </td>
                 <td class="pl-3 md:pl-1">
-                    <div class="w-32 text-right md:w-full">
+                    <div class="w-28">
                         <img
-                            class="w-32 md:inline-block"
+                            class="inline-block max-h-5"
                             :src="$getPaymentLogo(row.data.attributes.driver)"
                             :alt="row.data.attributes.driver"
                         />

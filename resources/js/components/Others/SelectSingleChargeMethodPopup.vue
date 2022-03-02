@@ -47,7 +47,7 @@
                     :email="user.data.attributes.email"
                     :paystackkey="config.paystack_public_key"
                     :reference="$generatePaystackReference()"
-                    :callback="paystackPaymentSuccessful"
+                    :callback="paymentSuccessful"
                     :close="paystackClosed"
                 >
                     <span class="text-theme cursor-pointer text-sm font-bold">
@@ -132,8 +132,9 @@ export default {
 
             this.paypal.isMethodsLoaded = true
             this.paypal.isMethodLoading = false
+			const app = this
 
-            // Initialize paypal buttons for single charge
+			// Initialize paypal buttons for single charge
             await paypal
                 .Buttons({
                     createOrder: function (data, actions) {
@@ -148,10 +149,13 @@ export default {
                             ],
                         })
                     },
+					onApprove: function () {
+						app.paymentSuccessful()
+					},
                 })
                 .render('#paypal-button-container')
         },
-        paystackPaymentSuccessful() {
+        paymentSuccessful() {
             this.$closePopup()
 
             events.$emit('toaster', {

@@ -127,7 +127,7 @@
             <ValidationProvider tag="div" mode="passive" name="Max Team Members" rules="required" v-slot="{ errors }">
                 <AppInputText
                     :title="$t('Team Members')"
-                    :description="$t('To set unlimited team members, type -1 into form')"
+                    :description="$t('Type -1 to set unlimited team members.')"
                     :is-last="true"
                 >
                     <input
@@ -147,7 +147,7 @@
             <p>{{ errorMessage }}</p>
         </InfoBox>
 
-        <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
+        <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full sm:w-auto">
             {{ $t('admin_page_plans.create_plan_button') }}
         </ButtonBase>
     </ValidationObserver>

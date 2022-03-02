@@ -40,7 +40,7 @@ const defaultState = {
             sortable: true,
         },
         {
-            label: i18n.t('user'),
+            label: i18n.t('User'),
             field: 'user_id',
             sortable: true,
         },

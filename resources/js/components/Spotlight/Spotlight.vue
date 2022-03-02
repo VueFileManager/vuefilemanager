@@ -227,7 +227,9 @@
 
                         <!--Keyboard shortcut hint-->
                         <div v-if="!$isMobile()" class="absolute right-4 top-1/2 -translate-y-1/2 transform">
-                            <span class="text-xs text-gray-400">{{ i === 0 ? '↵' : metaKeyIcon + i }}</span>
+                            <span class="text-xs text-gray-400">
+								{{ i === 0 ? '↵' : metaKeyIcon + i }}
+							</span>
                         </div>
                     </div>
                 </div>

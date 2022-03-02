@@ -16,7 +16,7 @@ class UserMinimalResource extends JsonResource
         return [
             'data' => [
                 'id'         => $this->id,
-                'type'       => 'users',
+                'type'       => 'user',
                 'attributes' => [
                     'avatar' => $this->settings->avatar,
                     'name'   => $this->settings->name,

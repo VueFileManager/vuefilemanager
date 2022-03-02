@@ -198,7 +198,7 @@
             </div>
         </div>
 
-        <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit">
+        <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full sm:w-auto">
             {{ $t('admin_page_plans.create_plan_button') }}
         </ButtonBase>
     </ValidationObserver>

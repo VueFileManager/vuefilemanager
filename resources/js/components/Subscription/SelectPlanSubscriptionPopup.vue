@@ -92,7 +92,7 @@
                 </InfoBox>
 
                 <!--Toggle yearly billing-->
-                <div v-if="hasYearlyPlans.length > 0" class="mb-2 px-5 text-right">
+                <div v-if="hasYearlyPlans.length > 0" class="mb-2 text-right">
                     <label
                         :class="{ 'text-gray-400': !isSelectedYearlyPlans }"
                         class="cursor-pointer text-xs font-bold"
@@ -130,7 +130,7 @@
                 </ButtonBase>
                 <ButtonBase
                     class="w-full"
-                    v-if="plans.data.length !== 0"
+                    v-if="plans && plans.data.length !== 0"
                     :button-style="buttonStyle"
                     @click.native="isPaymentOptionPage = true"
                     >{{ $t('Upgrade Account') }}
@@ -254,7 +254,7 @@ export default {
                             custom_id: userId,
                         })
                     },
-                    onApprove: function (data, actions) {
+                    onApprove: function () {
                         app.paymentSuccessful()
                     },
                 })

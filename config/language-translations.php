@@ -201,13 +201,13 @@ return [
         'col_date'                                            => 'Date',
         'col_amount'                                          => 'Amount',
         'total'                                               => 'Total',
+
+        // v2
         'max_team_members'                                    => 'Up to {value} Team Members',
-        'max_team_members.unlimited'                          => 'Up to {value} Team Members',
+        'max_team_members.unlimited'                          => 'Unlimited Team Members',
         'max_storage_amount'                                  => '{value} GB Storage Size',
         'interval.month'                                      => 'Monthly',
         'interval.year'                                       => 'Yearly',
-
-        // v2
         'bandwidth'                                           => 'Bandwidth',
         'storage'                                             => 'Storage',
         'flatFee'                                             => 'Flat Fee',
