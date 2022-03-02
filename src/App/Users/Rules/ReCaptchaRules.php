@@ -20,7 +20,7 @@ class ReCaptchaRules implements Rule
             'https://www.google.com/recaptcha/api/siteverify',
             [
                 'form_params' => [
-                    'secret'   => env('RECAPTCHA_CLIENT_SECRET', false),
+                    'secret'   => config('services.recaptcha.client_secret'),
                     'remoteip' => request()->getClientIp(),
                     'response' => $value,
                 ],

@@ -142,6 +142,7 @@ export default {
                 })
 
                 // TODO: L9 - load credit card after was stored in database
+				setTimeout(() => document.location.reload(), 500)
             }
 
             this.stripe.storingStripePaymentMethod = false
@@ -195,6 +196,6 @@ export default {
             this.isCreditCardForm = !this.isCreditCardForm
             this.stripeInit()
         },
-    },
+    }
 }
 </script>

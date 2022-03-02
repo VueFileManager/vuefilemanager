@@ -5,6 +5,10 @@ return [
 
     'is_demo' => env('APP_DEMO', false),
 
+    'is_setup_wizard_demo' => env('IS_SETUP_WIZARD_DEMO', false),
+    'is_setup_wizard_debug' => env('IS_SETUP_WIZARD_DEBUG', false),
+    'is_admin_vuefilemanager_bar' => env('IS_ADMIN_VUEFILEMANAGER_BAR', true),
+
     // Define size of chunk uploaded by MB.
     // E.g. integer 128 means chunk size will be 128 MB.
     'chunk_size' => env('CHUNK_SIZE', '128'),

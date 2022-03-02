@@ -104,6 +104,6 @@ export default {
     },
     computed: {
         ...mapGetters(['config']),
-    },
+    }
 }
 </script>

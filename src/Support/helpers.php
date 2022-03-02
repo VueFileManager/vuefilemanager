@@ -245,7 +245,7 @@ if (! function_exists('get_storage')) {
      */
     function get_storage()
     {
-        return env('FILESYSTEM_DISK');
+        return config('filesystems.default');
     }
 }
 

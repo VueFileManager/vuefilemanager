@@ -162,6 +162,9 @@ export default {
                 type: 'success',
                 message: this.$t('Your payment was successfully received.'),
             })
+
+			// todo: temporary reload function
+			setTimeout(() => document.location.reload(), 500)
         },
         paystackClosed() {
             // ...

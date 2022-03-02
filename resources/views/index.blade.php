@@ -27,7 +27,7 @@
     }
 @endphp
 
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html style="min-height: 100%" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -73,88 +73,88 @@
     <script>
         // todo: refactoring
 
-        let config = {
-            host: '{{ url('/') }}',
-            api: '{{ url('/api') }}',
-            locale: '{{ app()->getLocale() }}',
+		let config = {
+			host: '{{ url('/') }}',
+			api: '{{ url('/api') }}',
+			locale: '{{ app()->getLocale() }}',
 
-            app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
-            app_logo: '{{ $settings->app_logo ?? null }}',
-            app_footer: '{!! $settings->footer_content ?? null !!}',
-            app_name: '{{ $settings->app_title ?? 'VueFileManager' }}',
-            app_logo_horizontal: '{{ $settings->app_logo_horizontal ?? null }}',
-            app_description: '{{ $settings->app_description ?? __t('app_description') }}',
+			app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
+			app_logo: '{{ $settings->app_logo ?? null }}',
+			app_footer: '{!! $settings->footer_content ?? null !!}',
+			app_name: '{{ $settings->app_title ?? 'VueFileManager' }}',
+			app_logo_horizontal: '{{ $settings->app_logo_horizontal ?? null }}',
+			app_description: '{{ $settings->app_description ?? __t('app_description') }}',
 
-            allowHomepage: {{ $settings->allow_homepage ?? 1 }},
-            storageLimit: {{ $settings->storage_limitation ?? 1 }},
-            storageDefaultSpace: {{ $settings->default_max_storage_amount ?? 5 }},
-            storageDefaultSpaceFormatted: '{{ isset($settings->default_max_storage_amount) ? format_gigabytes($settings->default_max_storage_amount) : format_gigabytes(5) }}',
-            mimetypesBlacklist: '{{ isset($settings->mimetypes_blacklist) ? $settings->mimetypes_blacklist: null}}',
-            uploadLimit: {{ isset($settings->upload_limit) ? format_bytes($settings->upload_limit) : 'undefined' }},
-            uploadLimitFormatted: '{{ isset($settings->upload_limit) ? format_megabytes($settings->upload_limit) : null }}',
-            chunkSize: {{ format_bytes(config('vuefilemanager.chunk_size')) }},
+			allowHomepage: {{ $settings->allow_homepage ?? 1 }},
+			storageLimit: {{ $settings->storage_limitation ?? 1 }},
+			storageDefaultSpace: {{ $settings->default_max_storage_amount ?? 5 }},
+			storageDefaultSpaceFormatted: '{{ isset($settings->default_max_storage_amount) ? format_gigabytes($settings->default_max_storage_amount) : format_gigabytes(5) }}',
+			mimetypesBlacklist: '{{ isset($settings->mimetypes_blacklist) ? $settings->mimetypes_blacklist: null}}',
+			uploadLimit: {{ isset($settings->upload_limit) ? format_bytes($settings->upload_limit) : 'undefined' }},
+			uploadLimitFormatted: '{{ isset($settings->upload_limit) ? format_megabytes($settings->upload_limit) : null }}',
+			chunkSize: {{ format_bytes(config('vuefilemanager.chunk_size')) }},
 
-            isAuthenticated: {{ $isUser ? 1 : 0 }},
-            isSaaS: {{ $settings && optional($settings)->license === 'Extended' ? 1 : 0 }},
+			isAuthenticated: {{ $isUser ? 1 : 0 }},
+			isSaaS: {{ $settings && optional($settings)->license === 'Extended' ? 1 : 0 }},
 
-            isDev: {{ is_dev() ? 1 : 0 }},
-            isDemo: {{ config('vuefilemanager.is_demo') ? 1 : 0 }},
+			isDev: {{ is_dev() ? 1 : 0 }},
+			isDemo: {{ config('vuefilemanager.is_demo') ? 1 : 0 }},
 
-            legal: {!! $legal ?? 'undefined' !!},
+			legal: {!! $legal ?? 'undefined' !!},
 
-            installation: '{{ $installation ?? 'initial' }}',
-            statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
-			isSetupWizardDemo: {{ env('IS_SETUP_WIZARD_DEMO') ? 1 : 0 }},
-			isSetupWizardDebug: {{ env('IS_SETUP_WIZARD_DEBUG') ? 1 : 0 }},
+			installation: '{{ $installation ?? 'initial' }}',
+			statusCheck: {!! json_encode($status_check) ?? 'undefined' !!},
+			isSetupWizardDemo: {{ config('vuefilemanager.is_setup_wizard_demo') ? 1 : 0 }},
+			isSetupWizardDebug: {{ config('vuefilemanager.is_setup_wizard_debug') ? 1 : 0 }},
 
-            // States
+			// States
 			isEmptyPlans: {{ $isEmptyPlans ? 1 : 0 }},
 			isEmptyTransactions: {{ $isEmptyTransactions ? 1 : 0 }},
 			isEmptySubscriptions: {{ $isEmptySubscriptions ? 1 : 0 }},
 
-            // Hidden set ups
-            isAdminVueFileManagerBar: {{ env('IS_ADMIN_VUEFILEMANAGER_BAR', 1) ? 1 : 0 }},
+			// Hidden set ups
+			isAdminVueFileManagerBar: {{ config('vuefilemanager.is_admin_vuefilemanager_bar', 1) ? 1 : 0 }},
 
-            // Metered
+			// Metered
 			allowed_registration_bonus: {{ $settings->allowed_registration_bonus ?? 0 }},
 			registration_bonus_amount: {{ $settings->registration_bonus_amount ?? 0 }},
 			isCreatedMeteredPlan: {{ $plan && $plan->exists() ? 1 : 0 }},
 			meteredPlanId: '{{ $plan && $plan->exists() ? $plan->first()->id : null }}',
 
-            // Payments
-            allowed_payments: {{ $settings->allowed_payments ?? 0 }},
+			// Payments
+			allowed_payments: {{ $settings->allowed_payments ?? 0 }},
 			subscriptionType: '{{ $settings->subscription_type ?? 'none' }}',
 
-            // PayPal
-            isPayPal: {{ $settings->allowed_paypal ?? 0 }},
-            isPayPalLive: {{ env('PAYPAL_IS_LIVE') ? 1 : 0 }},
-            paypal_client_id: '{{ env('PAYPAL_CLIENT_ID') }}',
+			// PayPal
+			isPayPal: {{ $settings->allowed_paypal ?? 0 }},
+			isPayPalLive: {{ config('subscription.credentials.paypal.is_live') ? 1 : 0 }},
+			paypal_client_id: '{{ config('subscription.credentials.paypal.id') }}',
 			paypal_payment_description: '{{ $settings->paypal_payment_description ?? '' }}',
 
-            // Paystack
-            isPaystack: {{ $settings->allowed_paystack ?? 0 }},
-            paystack_public_key: '{{ env('PAYSTACK_PUBLIC_KEY') }}',
+			// Paystack
+			isPaystack: {{ $settings->allowed_paystack ?? 0 }},
+			paystack_public_key: '{{ config('subscription.credentials.paystack.public_key') }}',
 			paystack_payment_description: '{{ $settings->paystack_payment_description ?? '' }}',
 
-            // Stripe
-            isStripe: {{ $settings->allowed_stripe ?? 0 }},
-            stripe_public_key: '{{ env('STRIPE_PUBLIC_KEY') }}',
+			// Stripe
+			isStripe: {{ $settings->allowed_stripe ?? 0 }},
+			stripe_public_key: '{{ config('subscription.credentials.stripe.public_key') }}',
 			stripe_payment_description: '{{ $settings->stripe_payment_description ?? '' }}',
 
-            // ReCaptcha
-            recaptcha_client_id: '{{ env('RECAPTCHA_CLIENT_ID') }}',
-            allowedRecaptcha: {{ $settings->allowed_recaptcha ?? 0 }},
-            isRecaptchaConfigured: {{ env('RECAPTCHA_CLIENT_ID') ? 1 : 0 }},
+			// ReCaptcha
+			recaptcha_client_id: '{{ config('services.recaptcha.client_id') }}',
+			allowedRecaptcha: {{ $settings->allowed_recaptcha ?? 0 }},
+			isRecaptchaConfigured: {{ config('services.recaptcha.client_id') ? 1 : 0 }},
 
-            // Social logins
-            allowedFacebookLogin: {{ $settings->allowed_facebook_login ?? 0 }},
-            isFacebookLoginConfigured: {{ env('FACEBOOK_CLIENT_ID') ? 1 : 0 }},
+			// Social logins
+			allowedFacebookLogin: {{ $settings->allowed_facebook_login ?? 0 }},
+			isFacebookLoginConfigured: {{ config('services.facebook.client_id') ? 1 : 0 }},
 
 			allowedGoogleLogin: {{ $settings->allowed_google_login ?? 0 }},
-            isGoogleLoginConfigured: {{ env('GOOGLE_CLIENT_ID') ? 1 : 0 }},
+			isGoogleLoginConfigured: {{ config('services.google.client_id') ? 1 : 0 }},
 
 			allowedGithubLogin: {{ $settings->allowed_github_login ?? 0 }},
-			isGithubLoginConfigured: {{ env('GITHUB_CLIENT_ID') ? 1 : 0 }},
+			isGithubLoginConfigured: {{ config('services.github.client_id') ? 1 : 0 }},
 
             // Adsense
             allowedAdsense: {{ $settings?->allowed_adsense ?? 0 }},
@@ -173,7 +173,7 @@
         }
     </script>
 
-    @if(env('APP_ENV') !== 'local')
+    @if(config('app.env') !== 'local')
 
         {{--Application production script--}}
         <script src="{{ asset('js/main.js') }}?v={{ get_version() }}"></script>
