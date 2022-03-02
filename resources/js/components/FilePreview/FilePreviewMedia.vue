@@ -54,7 +54,6 @@
 import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons'
 import ToolbarButton from '../FilesView/ToolbarButton'
 import ImageFile from './Media/ImageFile'
-import PdfFile from './Media/PdfFile'
 import Audio from './Media/Audio'
 import Video from './Media/Video'
 import Spinner from '../FilesView/Spinner'
@@ -64,11 +63,11 @@ import { events } from '../../bus'
 export default {
     name: 'FilePreviewMedia',
     components: {
+		PdfFile: () => import('./Media/PdfFile'),
         ChevronRightIcon,
         ChevronLeftIcon,
         ToolbarButton,
         ImageFile,
-        PdfFile,
         Spinner,
         Audio,
         Video,
