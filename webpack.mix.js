@@ -20,15 +20,6 @@ mix
     .postCss("resources/css/tailwind.css", "public/css/tailwind.css", [
         require("tailwindcss"),
     ])
-    /*.webpackConfig({
-        output: {
-            chunkFilename: '[name].js?id=[chunkhash]',
-        },
-        //devtool: 'inline-source-map',
-        devServer: {
-            clientLogLevel: 'none'
-        }
-    })*/
     .options({
         hmrOptions: {
             host: '192.168.1.112',
