@@ -90,9 +90,7 @@ export default {
                     .post('/api/subscriptions/cancel')
                     .then(() => {
                         // Update user data
-                        this.$store.dispatch('getAppData').then(() => {
-                            this.fetchSubscriptionDetail()
-                        })
+                        this.$store.dispatch('getAppData')
 
                         events.$emit('toaster', {
                             type: 'success',

@@ -37,13 +37,26 @@ const actions = {
             })
         }, 300)
 
-        axios.post('/logout').then(() => {
-            clearTimeout(popup)
-            commit('DESTROY_DATA')
-            commit('SET_AUTHORIZED', false)
+        axios
+            .post('/logout')
+            .then(() => {
+                clearTimeout(popup)
 
-            router.push({ name: 'Homepage' })
-        })
+                commit('DESTROY_DATA')
+                commit('SET_AUTHORIZED', false)
+
+                router.push({name: 'Homepage'})
+            })
+            .catch((error) => {
+                if (error.response.status === 419) {
+                    clearTimeout(popup)
+
+                    commit('DESTROY_DATA')
+                    commit('SET_AUTHORIZED', false)
+
+                    router.push({name: 'Homepage'})
+                }
+            })
     },
     socialiteRedirect: ({ commit }, provider) => {
         axios

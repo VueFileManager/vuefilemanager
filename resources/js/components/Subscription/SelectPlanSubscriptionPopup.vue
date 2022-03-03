@@ -114,9 +114,8 @@
                         v-for="(plan, i) in plans.data"
                         :plan="plan"
                         :key="plan.data.id"
-                        v-if="
-                            plan.data.attributes.interval === intervalPlanType && userSubscribedPlanId !== plan.data.id
-                        "
+                        v-if="plan.data.attributes.interval === intervalPlanType"
+                        :class="{'opacity-50 pointer-events-none': userSubscribedPlanId === plan.data.id}"
                         :is-selected="selectedPlan && selectedPlan.data.id === plan.data.id"
                         @click.native="selectPlan(plan)"
                     />
@@ -281,6 +280,9 @@ export default {
                 type: 'success',
                 message: this.$t('Your payment was successfully received.'),
             })
+
+			// todo: temporary reload function
+			setTimeout(() => document.location.reload(), 1000)
         },
         paystackClosed() {
             // ...

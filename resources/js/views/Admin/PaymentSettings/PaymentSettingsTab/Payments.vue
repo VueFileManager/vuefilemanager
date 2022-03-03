@@ -650,7 +650,7 @@ export default {
             })
         },
         getWebhookEndpoint(service) {
-            return `${this.config.host}/api/subscriptions/${service}/webhook`
+            return `${this.config.host}/api/subscriptions/${service}/webhooks`
         },
     },
     created() {

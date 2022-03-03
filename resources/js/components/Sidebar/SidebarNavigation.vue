@@ -5,12 +5,12 @@
     >
         <!--Navigation-->
         <div v-if="user" class="mb-auto text-center">
-            <MemberAvatar class="mx-auto inline-block" :size="44" :is-border="false" :member="user" />
+            <MemberAvatar class="mx-auto" :size="44" :is-border="false" :member="user" />
 
             <!--Usage-->
             <div
                 v-if="config.subscriptionType === 'metered' && user.data.meta.usages"
-                class="mt-1 text-center leading-3"
+                class="mt-2.5 text-center leading-3"
             >
                 <b class="text-theme block text-xs font-bold leading-3">
                     {{ user.data.meta.usages.costEstimate }}
