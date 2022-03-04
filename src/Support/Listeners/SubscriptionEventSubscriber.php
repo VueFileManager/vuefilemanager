@@ -26,6 +26,7 @@ class SubscriptionEventSubscriber
 
     public function handleSubscriptionWasExpired($event)
     {
+        // TODO: set default team members
         $event->subscription->user->limitations()->update([
             'max_storage_amount' => get_settings('default_max_storage_amount') ?? 5,
             'max_team_members'   => 5,

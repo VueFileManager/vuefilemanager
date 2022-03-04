@@ -130,11 +130,9 @@ export default {
 		},
 		payByStripe() {
 			axios
-				.post('/api/stripe/checkout', {
-					planCode: this.selectedPlan.data.meta.driver_plan_id.stripe,
-				})
+				.post(`/api/subscriptions/swap/${this.selectedPlan.data.id}`)
 				.then((response) => {
-					window.location = response.data.url
+					console.log(response);
 				})
 		},
 		payByPaystack() {
