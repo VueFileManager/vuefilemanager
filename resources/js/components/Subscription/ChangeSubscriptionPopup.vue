@@ -28,7 +28,7 @@
 		<!--Actions-->
 		<PopupActions>
 			<ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
-				>{{ $t('popup_move_item.cancel') }}
+				>{{ $t('cancel') }}
 			</ButtonBase>
 
 			<ButtonBase
@@ -104,14 +104,6 @@ export default {
     },
     data() {
         return {
-            stripe: {
-                isGettingCheckoutLink: false,
-            },
-            paypal: {
-                isMethodsLoaded: false,
-                isMethodLoading: false,
-            },
-            isPaymentOptionPage: false,
             isSelectedYearlyPlans: false,
             isLoading: false,
             selectedPlan: undefined,
@@ -138,8 +130,7 @@ export default {
 		payByPayPal() {
 			axios.post(`/api/subscriptions/swap/${this.selectedPlan.data.id}`)
 				.then((response) => {
-					console.log(response.data.links[0].href);
-					//window.location = response.data.links[0].href
+					window.location = response.data.links[0].href
 				})
 		},
 		payByStripe() {
@@ -157,8 +148,7 @@ export default {
 					planCode: this.selectedPlan.data.meta.driver_plan_id.paystack,
 				})
 				.then((response) => {
-					console.log(response.data.data.authorization_url);
-					//window.location = response.data.data.authorization_url
+					window.location = response.data.data.authorization_url
 				})
 		},
         selectPlan(plan) {
@@ -174,9 +164,7 @@ export default {
         // Reset states on popup close
         events.$on('popup:close', () => {
             this.isSelectedYearlyPlans = false
-            this.isPaymentOptionPage = false
             this.selectedPlan = undefined
-            this.paypal.isMethodsLoaded = false
         })
     },
 }

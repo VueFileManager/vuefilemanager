@@ -21,7 +21,7 @@
 
         <PopupActions>
             <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
-                {{ $t('global.cancel') }}
+                {{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"

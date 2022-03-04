@@ -219,6 +219,7 @@ return [
         'credit_to_auto_withdraw'                             => 'You own {credit} in credits that will be automatically withdrawn on your next payment.',
     ],
     'regular'  => [
+        'cancel'                                             => 'Cancel',
         'actions.close'                                      => 'Close',
         'actions.create_folder'                              => 'Create folder',
         'actions.delete'                                     => 'Delete item',
@@ -387,7 +388,6 @@ return [
         'folder.item_counts'                                 => '{count} Item | {count} Items',
         'global.active'                                      => 'Active',
         'global.admin'                                       => 'Admin',
-        'global.cancel'                                      => 'Cancel',
         'global.canceled'                                    => 'Canceled',
         'global.confirm_action'                              => "Yes, I'm sure",
         'global.default'                                     => 'Default',
@@ -516,7 +516,6 @@ return [
         'popup_exceed_limit.title'                           => 'You exceed storage limit',
         'popup_mimetypes_blacklist.message'                  => 'File of this type ({mimetype}) is not allowed to upload.',
         'popup_mimetypes_blacklist.title'                    => 'You are trying to upload unsupported file type',
-        'popup_move_item.cancel'                             => 'Cancel',
         'popup_move_item.submit'                             => 'Move Item',
         'popup_move_item.title'                              => 'Move Item',
         'popup_pass_changed.message'                         => 'So now, you have awesome new password.',
@@ -752,23 +751,23 @@ return [
         'actions.upload_folder'                              => 'Upload Folder',
 
         // v2
-        'member'                                              => 'Members',
+        'member'                                             => 'Members',
 
         // file request
-        'request_for_upload'                     => '{name} is Asking You For Files',
-        'request_for_upload_success'             => 'Upload Request for {name} was Fulfilled Successfully',
-        'request_for_upload_expired'             => 'Upload Request Expired',
-        'automatically_uploads_for_file_request' => 'Your files will be uploaded automatically and after that, you can organize your files in folders.',
-        'request_for_upload_unavailable'         => 'This upload request is no longer available for uploading files.',
-        'closing_request_for_upload'             => 'Are you sure you uploaded all files you want for {name}?',
-        'closing_request_for_upload_warn'        => "You won't be able to upload any files here once again.",
-        'user_leave_message'                     => '{name} leave you a message',
-        'tell_you_are_done'                      => 'Tell {name} you are done!',
+        'request_for_upload'                                 => '{name} is Asking You For Files',
+        'request_for_upload_success'                         => 'Upload Request for {name} was Fulfilled Successfully',
+        'request_for_upload_expired'                         => 'Upload Request Expired',
+        'automatically_uploads_for_file_request'             => 'Your files will be uploaded automatically and after that, you can organize your files in folders.',
+        'request_for_upload_unavailable'                     => 'This upload request is no longer available for uploading files.',
+        'closing_request_for_upload'                         => 'Are you sure you uploaded all files you want for {name}?',
+        'closing_request_for_upload_warn'                    => "You won't be able to upload any files here once again.",
+        'user_leave_message'                                 => '{name} leave you a message',
+        'tell_you_are_done'                                  => 'Tell {name} you are done!',
 
         // teams
-        'user_invite_you_into_team_folder' => '{name} invite you to join with his team into shared team folder',
-        'register_with_email_and_get_folder' => 'Register account with your email {email} and get access to this Team Folder.',
-        '' => '',
-        '' => '',
+        'user_invite_you_into_team_folder'                   => '{name} invite you to join with his team into shared team folder',
+        'register_with_email_and_get_folder'                 => 'Register account with your email {email} and get access to this Team Folder.',
+        ''                                                   => '',
+        ''                                                   => '',
     ],
 ];
