@@ -44,15 +44,12 @@
 </template>
 
 <script>
-import PaymentMethod from '../Others/PaymentMethod'
-import {loadScript} from '@paypal/paypal-js'
 import PopupWrapper from '../Others/Popup/PopupWrapper'
 import PopupActions from '../Others/Popup/PopupActions'
 import PopupContent from '../Others/Popup/PopupContent'
 import PopupHeader from '../Others/Popup/PopupHeader'
 import ButtonBase from '../FilesView/ButtonBase'
 import PlanDetail from './PlanDetail'
-import paystack from 'vue-paystack'
 import {mapGetters} from 'vuex'
 import {events} from '../../bus'
 import axios from 'axios'
@@ -66,8 +63,6 @@ export default {
 		PlanPeriodSwitcher,
         InfoBox,
         Spinner,
-        PaymentMethod,
-        paystack,
         PlanDetail,
         PopupWrapper,
         PopupActions,

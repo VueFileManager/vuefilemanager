@@ -11,7 +11,7 @@
                 }"
             >
                 <PaymentMethod
-                    @click.native="pickedPaymentMethod('paypal')"
+                    @click.native="payByPayPal"
                     driver="paypal"
                     :description="config.paypal_payment_description"
                 >
@@ -31,30 +31,23 @@
                 <div id="paypal-button-container"></div>
             </div>
 
-            <!--Paystack implementation-->
-            <PaymentMethod
-                v-if="config.isPaystack"
-                driver="paystack"
-                :description="config.paystack_payment_description"
-            >
-                <paystack
-                    @click.native="pickedPaymentMethod('paystack')"
-                    v-if="user && config"
-                    :channels="['card', 'bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer']"
-                    class="font-bold"
-                    currency="ZAR"
-                    :amount="singleChargeAmount * 100"
-                    :email="user.data.attributes.email"
-                    :paystackkey="config.paystack_public_key"
-                    :reference="$generatePaystackReference()"
-                    :callback="paymentSuccessful"
-                    :close="paystackClosed"
-                >
-                    <span class="text-theme cursor-pointer text-sm font-bold">
-                        {{ $t('Select') }}
-                    </span>
-                </paystack>
-            </PaymentMethod>
+			<!--Paystack implementation-->
+			<PaymentMethod
+				v-if="config.isPaystack"
+				driver="paystack"
+				:description="$t('Available Bank Account, USSD, Mobile Money, Apple Pay')"
+			>
+				<div v-if="paystack.isGettingCheckoutLink" class="translate-y-3 scale-50 transform">
+					<Spinner />
+				</div>
+				<span
+					@click="payByPaystack()"
+					:class="{ 'opacity-0': paystack.isGettingCheckoutLink }"
+					class="text-theme cursor-pointer text-sm font-bold"
+				>
+					{{ $t('Select') }}
+				</span>
+			</PaymentMethod>
         </PopupContent>
 
         <PopupActions>
@@ -75,8 +68,8 @@ import { loadScript } from '@paypal/paypal-js'
 import PaymentMethod from './PaymentMethod'
 import Spinner from '../FilesView/Spinner'
 import { events } from '../../bus'
-import paystack from 'vue-paystack'
 import { mapGetters } from 'vuex'
+import axios from "axios";
 
 export default {
     name: 'ChargePaymentPopup',
@@ -87,7 +80,6 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        paystack,
         Spinner,
     },
     data() {
@@ -96,21 +88,31 @@ export default {
                 isMethodsLoaded: false,
                 isMethodLoading: false,
             },
+			paystack: {
+				isGettingCheckoutLink: false,
+			},
         }
     },
     computed: {
         ...mapGetters(['singleChargeAmount', 'config', 'user']),
     },
     methods: {
-        pickedPaymentMethod(driver) {
-            if (driver === 'paystack') {
-                this.$closePopup()
-            }
-            if (driver === 'paypal' && !this.paypal.isMethodsLoaded) {
-                this.PayPalInitialization()
-            }
-        },
-        async PayPalInitialization() {
+		payByPaystack() {
+			this.paystack.isGettingCheckoutLink = true
+
+			axios
+				.post('/api/paystack/checkout', {
+					amount: this.singleChargeAmount * 100,
+				})
+				.then((response) => {
+					window.location = response.data.data.authorization_url
+				})
+		},
+        async payByPayPal() {
+			if (this.paypal.isMethodLoading) {
+				return
+			}
+
             this.paypal.isMethodLoading = true
 
             let paypal
@@ -165,9 +167,6 @@ export default {
 
 			// todo: temporary reload function
 			setTimeout(() => document.location.reload(), 500)
-        },
-        paystackClosed() {
-            // ...
         },
     },
     created() {

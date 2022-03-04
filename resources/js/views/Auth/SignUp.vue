@@ -262,6 +262,16 @@ export default {
     },
     created() {
         this.$scrollTop()
+
+		if (this.config.isDemo || this.config.isDev) {
+			this.register = {
+				name: 'John Doe',
+				email: 'demo-' + Math.floor(Math.random() * 100000) + '@doe.com',
+				password: 'vuefilemanager',
+				password_confirmation: 'vuefilemanager',
+				reCaptcha: null,
+			}
+		}
     },
 }
 </script>

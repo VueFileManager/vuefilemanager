@@ -31,7 +31,7 @@
                     }"
                 >
                     <PaymentMethod
-                        @click.native="pickedPaymentMethod('paypal')"
+                        @click.native="payByPayPal"
                         driver="paypal"
                         :description="$t('Available PayPal Credit, Debit or Credit Card.')"
                     >
@@ -57,23 +57,16 @@
                     driver="paystack"
                     :description="$t('Available Bank Account, USSD, Mobile Money, Apple Pay')"
                 >
-                    <paystack
-                        v-if="user && config"
-                        :channels="['bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer']"
-                        class="font-bold"
-                        :currency="config.isDev ? 'ZAR' : selectedPlan.data.attributes.currency"
-                        :plan="selectedPlan.data.meta.driver_plan_id.paystack"
-                        :amount="selectedPlan.data.attributes.amount * 100"
-                        :email="user.data.attributes.email"
-                        :paystackkey="config.paystack_public_key"
-                        :reference="$generatePaystackReference()"
-                        :callback="paymentSuccessful"
-                        :close="paystackClosed"
+                    <div v-if="paystack.isGettingCheckoutLink" class="translate-y-3 scale-50 transform">
+                        <Spinner />
+                    </div>
+                    <span
+                        @click="payByPaystack()"
+                        :class="{ 'opacity-0': paystack.isGettingCheckoutLink }"
+                        class="text-theme cursor-pointer text-sm font-bold"
                     >
-                        <span class="text-theme cursor-pointer text-sm font-bold">
-                            {{ $t('Select') }}
-                        </span>
-                    </paystack>
+                        {{ $t('Select') }}
+                    </span>
                 </PaymentMethod>
             </PopupContent>
 
@@ -100,7 +93,7 @@
                         :plan="plan"
                         :key="plan.data.id"
                         v-if="plan.data.attributes.interval === intervalPlanType"
-                        :class="{'opacity-50 pointer-events-none': userSubscribedPlanId === plan.data.id}"
+                        :class="{ 'pointer-events-none opacity-50': userSubscribedPlanId === plan.data.id }"
                         :is-selected="selectedPlan && selectedPlan.data.id === plan.data.id"
                         @click.native="selectPlan(plan)"
                     />
@@ -134,22 +127,20 @@ import PopupContent from '../Others/Popup/PopupContent'
 import PopupHeader from '../Others/Popup/PopupHeader'
 import ButtonBase from '../FilesView/ButtonBase'
 import PlanDetail from './PlanDetail'
-import paystack from 'vue-paystack'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
 import Spinner from '../FilesView/Spinner'
 import InfoBox from '../Others/Forms/InfoBox'
-import PlanPeriodSwitcher from "./PlanPeriodSwitcher"
+import PlanPeriodSwitcher from './PlanPeriodSwitcher'
 
 export default {
     name: 'SubscribeAccountPopup',
     components: {
-		PlanPeriodSwitcher,
+        PlanPeriodSwitcher,
         InfoBox,
         Spinner,
         PaymentMethod,
-        paystack,
         PlanDetail,
         SwitchInput,
         PopupWrapper,
@@ -184,6 +175,9 @@ export default {
     },
     data() {
         return {
+            paystack: {
+                isGettingCheckoutLink: false,
+            },
             stripe: {
                 isGettingCheckoutLink: false,
             },
@@ -199,15 +193,22 @@ export default {
         }
     },
     methods: {
-        pickedPaymentMethod(driver) {
-            if (driver === 'paystack') {
-                this.$closePopup()
-            }
-            if (driver === 'paypal' && !this.paypal.isMethodsLoaded) {
-                this.PayPalInitialization()
-            }
+        payByPaystack() {
+            this.paystack.isGettingCheckoutLink = true
+
+            axios
+                .post('/api/paystack/checkout', {
+                    planCode: this.selectedPlan.data.meta.driver_plan_id.paystack,
+                })
+                .then((response) => {
+                    window.location = response.data.data.authorization_url
+                })
         },
-        async PayPalInitialization() {
+        async payByPayPal() {
+			if (this.paypal.isMethodLoading) {
+				return
+			}
+
             this.paypal.isMethodLoading = true
 
             let paypal
@@ -268,11 +269,8 @@ export default {
                 message: this.$t('Your payment was successfully received.'),
             })
 
-			// todo: temporary reload function
-			setTimeout(() => document.location.reload(), 1000)
-        },
-        paystackClosed() {
-            // ...
+            // todo: temporary reload function
+            setTimeout(() => document.location.reload(), 1000)
         },
     },
     created() {
