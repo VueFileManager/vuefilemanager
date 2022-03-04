@@ -154,7 +154,7 @@ export default {
 		payByPaystack() {
 			axios
 				.post('/api/paystack/checkout', {
-					planCode: this.selectedPlan.data.meta.driver_plan_id.stripe,
+					planCode: this.selectedPlan.data.meta.driver_plan_id.paystack,
 				})
 				.then((response) => {
 					console.log(response.data.data.authorization_url);
