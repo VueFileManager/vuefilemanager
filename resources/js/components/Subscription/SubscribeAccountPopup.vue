@@ -61,7 +61,7 @@
                         v-if="user && config"
                         :channels="['bank', 'ussd', 'qr', 'mobile_money', 'bank_transfer']"
                         class="font-bold"
-                        currency="ZAR"
+                        :currency="config.isDev ? 'ZAR' : selectedPlan.data.attributes.currency"
                         :plan="selectedPlan.data.meta.driver_plan_id.paystack"
                         :amount="selectedPlan.data.attributes.amount * 100"
                         :email="user.data.attributes.email"
@@ -91,22 +91,7 @@
                     <p>There isn't any plan yet.</p>
                 </InfoBox>
 
-                <!--Toggle yearly billing-->
-                <div v-if="hasYearlyPlans.length > 0" class="mb-2 text-right">
-                    <label
-                        :class="{ 'text-gray-400': !isSelectedYearlyPlans }"
-                        class="cursor-pointer text-xs font-bold"
-                    >
-                        {{ $t('Billed Annually') }}
-                    </label>
-                    <div class="relative inline-block w-12 select-none align-middle">
-                        <SwitchInput
-                            class="scale-75 transform"
-                            v-model="isSelectedYearlyPlans"
-                            :state="isSelectedYearlyPlans"
-                        />
-                    </div>
-                </div>
+                <PlanPeriodSwitcher v-if="yearlyPlans.length > 0" v-model="isSelectedYearlyPlans" />
 
                 <!--List available plans-->
                 <div>
@@ -155,10 +140,12 @@ import { events } from '../../bus'
 import axios from 'axios'
 import Spinner from '../FilesView/Spinner'
 import InfoBox from '../Others/Forms/InfoBox'
+import PlanPeriodSwitcher from "./PlanPeriodSwitcher"
 
 export default {
-    name: 'SelectPlanSubscriptionPopup',
+    name: 'SubscribeAccountPopup',
     components: {
+		PlanPeriodSwitcher,
         InfoBox,
         Spinner,
         PaymentMethod,
@@ -191,7 +178,7 @@ export default {
                 this.user.data.relationships.subscription.data.relationships.plan.data.id
             )
         },
-        hasYearlyPlans() {
+        yearlyPlans() {
             return this.plans.data.filter((plan) => plan.data.attributes.interval === 'year')
         },
     },

@@ -768,7 +768,7 @@ if (! function_exists('is_dev')) {
      */
     function is_dev()
     {
-        return env('APP_ENV') === 'local';
+        return config('app.env') === 'local';
     }
 }
 

@@ -20,8 +20,9 @@
         <CreatePersonalTokenPopup />
 
         <!--Payments Popup-->
-        <SelectPlanSubscriptionPopup v-if="config.subscriptionType === 'fixed'" />
-        <SelectSingleChargeMethodPopup v-if="config.subscriptionType === 'metered'" />
+        <SubscribeAccountPopup v-if="config.subscriptionType === 'fixed'" />
+		<ChangeSubscriptionPopup v-if="config.subscriptionType === 'fixed'" />
+        <ChargePaymentPopup v-if="config.subscriptionType === 'metered'" />
 
         <SidebarNavigation />
 
@@ -75,8 +76,8 @@
 
 <script>
 import MobileNavigation from '../components/Others/MobileNavigation'
-import SelectSingleChargeMethodPopup from '../components/Others/SelectSingleChargeMethodPopup'
-import SelectPlanSubscriptionPopup from '../components/Subscription/SelectPlanSubscriptionPopup'
+import ChargePaymentPopup from '../components/Others/ChargePaymentPopup'
+import SubscribeAccountPopup from '../components/Subscription/SubscribeAccountPopup'
 import ConfirmPopup from '../components/Others/Popup/ConfirmPopup'
 import FilePreview from '../components/FilePreview/FilePreview'
 import Spotlight from '../components/Spotlight/Spotlight'
@@ -93,17 +94,19 @@ import ConfirmPassword from '../components/Others/ConfirmPassword'
 import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar'
 import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
 import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
+import ChangeSubscriptionPopup from "../components/Subscription/ChangeSubscriptionPopup";
 
 export default {
     name: 'Settings',
     components: {
+		ChangeSubscriptionPopup,
 		CreateTeamFolderPopup,
 		CreateUploadRequestPopup,
         MobileNavigationToolbar,
         MobileNavigation,
         ConfirmPassword,
-        SelectSingleChargeMethodPopup,
-        SelectPlanSubscriptionPopup,
+        ChargePaymentPopup,
+        SubscribeAccountPopup,
         ConfirmPopup,
         CardNavigation,
         FilePreview,

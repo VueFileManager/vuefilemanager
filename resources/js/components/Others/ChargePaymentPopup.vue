@@ -79,7 +79,7 @@ import paystack from 'vue-paystack'
 import { mapGetters } from 'vuex'
 
 export default {
-    name: 'SelectSingleChargeMethodPopup',
+    name: 'ChargePaymentPopup',
     components: {
         PaymentMethod,
         PopupWrapper,
@@ -175,15 +175,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../../../sass/vuefilemanager/variables';
-@import '../../../sass/vuefilemanager/mixins';
-
-.mobile-actions {
-    white-space: nowrap;
-    overflow-x: auto;
-    margin: 0 -20px;
-    padding: 10px 0 10px 20px;
-}
-</style>

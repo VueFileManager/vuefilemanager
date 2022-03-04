@@ -14,7 +14,7 @@
         />
         <div
             v-else
-            class="flex items-center justify-center"
+            class="flex items-center justify-center mx-auto"
             :class="[
                 borderRadius,
                 {

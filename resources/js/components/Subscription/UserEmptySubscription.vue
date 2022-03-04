@@ -14,7 +14,7 @@
 
         <ButtonBase
             v-if="$store.getters.config.allowed_payments"
-            @click.native="$openUpgradeOptions"
+            @click.native="$openSubscribeOptions"
             type="submit"
             button-style="theme"
             class="mt-4 w-full"

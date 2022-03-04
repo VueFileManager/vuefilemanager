@@ -28,7 +28,7 @@
             :description="$t('You can upgrade your plan at any time you want.')"
             :is-last="true"
         >
-            <ButtonBase @click.native="$openUpgradeOptions" class="w-full sm:w-auto" button-style="secondary">
+            <ButtonBase @click.native="$changeSubscriptionOptions" class="w-full sm:w-auto" button-style="secondary">
                 {{ $t('Change Plan') }}
             </ButtonBase>
         </AppInputButton>
