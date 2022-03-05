@@ -29,3 +29,7 @@
 .grid-view-sidebar {
     @apply grid grid-cols-3 content-start md:grid-cols-2 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4 xl:gap-4 2xl:grid-cols-5;
 }
+
+.page-link {
+    @apply block flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-sm font-bold transition duration-200 hover:bg-light-background;
+}

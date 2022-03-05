@@ -295,9 +295,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-.page-link {
-    @apply block flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-sm font-bold transition duration-200 hover:bg-light-background;
-}
-</style>

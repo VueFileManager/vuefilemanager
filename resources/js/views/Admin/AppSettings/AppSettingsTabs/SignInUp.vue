@@ -49,6 +49,14 @@
                 />
             </AppInputSwitch>
 
+            <AppInputText
+				v-if="facebook.allowedService"
+                :title="$t('Your Callback URL')"
+                :description="$t('Please copy your url and paste it to the service callback URL.')"
+            >
+                <CopyInput size="small" :str="getCallbackEndpoint('facebook')" />
+            </AppInputText>
+
             <div
                 v-if="config.isFacebookLoginConfigured && facebook.allowedService"
                 @click="facebook.isVisibleCredentialsForm = !facebook.isVisibleCredentialsForm"
@@ -127,6 +135,14 @@
                 />
             </AppInputSwitch>
 
+			<AppInputText
+				v-if="google.allowedService"
+				:title="$t('Your Callback URL')"
+				:description="$t('Please copy your url and paste it to the service callback URL.')"
+			>
+                <CopyInput size="small" :str="getCallbackEndpoint('google')" />
+            </AppInputText>
+
             <div
                 v-if="config.isGoogleLoginConfigured && google.allowedService"
                 @click="google.isVisibleCredentialsForm = !google.isVisibleCredentialsForm"
@@ -203,6 +219,14 @@
                 />
             </AppInputSwitch>
 
+			<AppInputText
+				v-if="github.allowedService"
+				:title="$t('Your Callback URL')"
+				:description="$t('Please copy your url and paste it to the service callback URL.')"
+			>
+                <CopyInput size="small" :str="getCallbackEndpoint('github')" />
+            </AppInputText>
+
             <div
                 v-if="config.isGithubLoginConfigured && github.allowedService"
                 @click="github.isVisibleCredentialsForm = !github.isVisibleCredentialsForm"
@@ -269,6 +293,7 @@ import { Edit2Icon } from 'vue-feather-icons'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
 import SwitchInput from '../../../../components/Others/Forms/SwitchInput'
 import AppInputSwitch from '../../../../components/Admin/AppInputSwitch'
+import CopyInput from '../../../../components/Others/Forms/CopyInput'
 import FormLabel from '../../../../components/Others/Forms/FormLabel'
 import ButtonBase from '../../../../components/FilesView/ButtonBase'
 import AppInputText from '../../../../components/Admin/AppInputText'
@@ -281,6 +306,7 @@ import axios from 'axios'
 export default {
     name: 'SignInUp',
     components: {
+        CopyInput,
         ValidationObserver,
         ValidationProvider,
         AppInputSwitch,
@@ -330,6 +356,9 @@ export default {
         }
     },
     methods: {
+        getCallbackEndpoint(service) {
+            return `${this.config.host}/socialite/${service}/callback`
+        },
         async storeCredentials(service) {
             // Validate fields
             const isValid = await this.$refs.credentialsForm.validate()

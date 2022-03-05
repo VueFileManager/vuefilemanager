@@ -56,10 +56,10 @@ class SocialiteCallbackController extends Controller
         ]);
 
         // Create User
-        $user = ($this->createNewUser)($data);
+        $newUser = ($this->createNewUser)($data);
 
         // Login user
-        $this->guard->login($user->first());
+        $this->guard->login($newUser);
 
         return redirect()->to('/platform/files');
     }
