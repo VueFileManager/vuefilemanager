@@ -24,7 +24,7 @@
         </div>
         <span
 			class="block h-full w-full rounded-lg"
-			:class="{'bg-theme': bar.percentage > 0, 'bg-gray-200': bar.percentage === 0}"
+			:class="{'bg-theme': bar.percentage > 0, 'dark:bg-gray-700 bg-gray-200': bar.percentage === 0}"
 		></span>
     </div>
 </template>

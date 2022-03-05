@@ -95,6 +95,9 @@ export default {
         },
 		subscriptionDriver() {
 			return this.user.data.relationships.subscription.data.attributes.driver
+		},
+		subscription() {
+			return this.user.data.relationships.subscription
 		}
     },
     data() {
@@ -129,11 +132,30 @@ export default {
 				})
 		},
 		payByStripe() {
-			axios
-				.post(`/api/subscriptions/swap/${this.selectedPlan.data.id}`)
-				.then((response) => {
-					console.log(response);
-				})
+			// Subscribe to the new plan
+			if (['inactive', 'cancelled', 'completed'].includes(this.subscription.data.attributes.status)) {
+				axios
+					.post('/api/stripe/checkout', {
+						planCode: this.selectedPlan.data.meta.driver_plan_id.stripe,
+					})
+					.then((response) => {
+						window.location = response.data.url
+					})
+			}
+
+			// Change active subscription
+			if (this.subscription.data.attributes.status === 'active') {
+				axios
+					.post(`/api/subscriptions/swap/${this.selectedPlan.data.id}`)
+					.then(() => {
+						this.$closePopup()
+
+						events.$emit('toaster', {
+							type: 'success',
+							message: this.$t('Your subscription was successfully changed.'),
+						})
+					})
+			}
 		},
 		payByPaystack() {
 			axios
