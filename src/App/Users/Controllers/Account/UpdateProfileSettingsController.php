@@ -13,11 +13,11 @@ class UpdateProfileSettingsController extends Controller
      */
     public function __invoke(UpdateUserProfileSettingsRequest $request): Response
     {
-        // Get user
-        $user = Auth::user();
-
         // Check if is demo
         abort_if(is_demo_account(), 204, 'Done.');
+
+        // Get user
+        $user = Auth::user();
 
         // Update avatar
         if ($request->hasFile('avatar')) {

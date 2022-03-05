@@ -17,7 +17,9 @@ class SetUploadRequestAsFilledController
         ]);
 
         // Send user notification
-        $uploadRequest->user->notify(new UploadRequestFulfilledNotification($uploadRequest));
+        if (!is_demo_account()) {
+            $uploadRequest->user->notify(new UploadRequestFulfilledNotification($uploadRequest));
+        }
 
         return response(new UploadRequestResource($uploadRequest), 201);
     }

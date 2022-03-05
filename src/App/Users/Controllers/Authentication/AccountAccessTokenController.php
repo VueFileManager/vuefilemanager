@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Users\Controllers\Authentication;
 
 use Illuminate\Support\Str;
@@ -26,15 +27,9 @@ class AccountAccessTokenController extends Controller
      */
     public function store(UserCreateAccessTokenRequest $request): Response
     {
-        abort_if(is_demo_account(), 201, [
-            'name'           => 'token',
-            'token'          => Str::random(40),
-            'abilities'      => '["*"]',
-            'tokenable_id'   => Str::uuid(),
-            'updated_at'     => now(),
-            'created_at'     => now(),
-            'id'             => Str::random(40),
-        ]);
+        if (is_demo_account()) {
+            return response(['plainTextToken' => Str::random(40)], 201);
+        }
 
         $token = Auth::user()
             ->createToken(

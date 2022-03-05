@@ -12,7 +12,7 @@ class ChangeUserRoleController extends Controller
         ChangeRoleRequest $request,
         User $user,
     ): UserResource {
-        if (is_demo_account($user->email)) {
+        if (is_demo_account()) {
             return new UserResource($user);
         }
 

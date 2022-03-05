@@ -15,6 +15,11 @@ class ChangeUserStorageCapacityController extends Controller
         ChangeStorageCapacityRequest $request,
         User $user,
     ): UserStorageResource {
+        // Abort in demo mode
+        if (is_demo_account()) {
+            return new UserStorageResource($user);
+        }
+
         $user
             ->limitations()
             ->update(

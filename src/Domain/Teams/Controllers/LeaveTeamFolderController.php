@@ -19,6 +19,11 @@ class LeaveTeamFolderController extends Controller
 
     public function __invoke(Folder $folder): Response|Application|ResponseFactory
     {
+        // Abort in demo mode
+        if (is_demo_account()) {
+            return response('Done.', 204);
+        }
+
         // Authorize action
         if (! Gate::any(['can-edit', 'can-view'], [$folder, null])) {
             abort(403, 'Access Denied');

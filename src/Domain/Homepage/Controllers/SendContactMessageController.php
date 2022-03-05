@@ -15,6 +15,9 @@ class SendContactMessageController extends Controller
     public function __invoke(
         SendContactMessageRequest $request
     ): Response {
+        // Abort in demo mode
+        abort_if(is_demo(), 201, 'Done');
+
         $contactEmail = get_settings('contact_email');
 
         if ($contactEmail) {

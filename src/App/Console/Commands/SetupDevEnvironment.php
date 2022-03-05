@@ -116,6 +116,10 @@ class SetupDevEnvironment extends Command
                 'timezone'     => $this->faker->randomElement(['+1.0', '+2.0', '+3.0']),
             ]);
 
+        // Create personal tokens
+        $user->createToken('Workplace App');
+        $user->createToken('Web App');
+
         // Show user credentials
         $this->info('Default admin account created. Email: howdy@hi5ve.digital and Password: vuefilemanager');
     }

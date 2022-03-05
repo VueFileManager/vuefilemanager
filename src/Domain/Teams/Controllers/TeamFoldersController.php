@@ -64,6 +64,9 @@ class TeamFoldersController extends Controller
     public function store(
         CreateTeamFolderRequest $request,
     ): ResponseFactory | Response {
+        // Abort in demo mode
+        abort_if(is_demo_account(), 201, 'Done.');
+
         $data = CreateTeamFolderData::fromRequest($request);
 
         // Check if user can create team folder
@@ -108,6 +111,12 @@ class TeamFoldersController extends Controller
         UpdateInvitationsAction $updateInvitations,
         UpdateMembersAction $updateMembers,
     ): ResponseFactory | Response {
+        // Abort in demo mode
+        if (is_demo_account()) {
+            return response(new FolderResource($folder), 201);
+        }
+
+        // Authorize request
         $this->authorize('owner', $folder);
 
         // Check if user didn't exceed max team members limit
@@ -133,6 +142,11 @@ class TeamFoldersController extends Controller
 
     public function destroy(Folder $folder): ResponseFactory | Response
     {
+        // Abort in demo mode
+        if (is_demo_account()) {
+            return response('Done.', 201);
+        }
+
         $this->authorize('owner', $folder);
 
         // Delete existing invitations

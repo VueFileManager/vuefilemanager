@@ -7,9 +7,6 @@ use Domain\Settings\Models\Setting;
 
 class GetSettingsValueController
 {
-    /**
-     * List of allowed settings to get from public request
-     */
     private array $blacklist = [
         'purchase_code',
         'license',

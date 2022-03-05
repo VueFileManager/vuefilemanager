@@ -14,7 +14,7 @@ class RestoreTrashContentController extends Controller
     public function __invoke(
         Request $request
     ): Response {
-        abort_if(is_demo_account('howdy@hi5ve.digital'), 204, 'Done.');
+        abort_if(is_demo_account(), 204, 'Done.');
 
         // TODO: zrefaktorovat validator do requestu
         $validator = Validator::make($request->input('items'), [

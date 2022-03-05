@@ -17,7 +17,7 @@ class FavouriteController extends Controller
         $user = Auth::user();
 
         foreach ($request->input('folders') as $id) {
-            if (is_demo_account($user->email)) {
+            if (is_demo_account()) {
                 return $user->favouriteFolders->makeHidden(['pivot']);
             }
 
@@ -38,7 +38,7 @@ class FavouriteController extends Controller
     {
         $user = Auth::user();
 
-        if (is_demo_account($user->email)) {
+        if (is_demo_account()) {
             return $user->favouriteFolders->makeHidden(['pivot']);
         }
 

@@ -10,7 +10,7 @@
                 v-slot="{ invalid }"
                 tag="form"
             >
-                <ValidationProvider tag="div" mode="passive" name="Token Name" rules="required" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Token Name" rules="required|min:3" v-slot="{ errors }">
                     <AppInputText :title="$t('popup_personal_token.label')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="name"
@@ -49,7 +49,7 @@
         </PopupActions>
 
         <PopupActions v-if="token">
-            <ButtonBase class="w-full" @click.native="closePopup" button-style="theme">
+            <ButtonBase class="w-full" @click.native="$closePopup" button-style="theme">
                 {{ $t('shared_form.button_done') }}
             </ButtonBase>
         </PopupActions>
@@ -115,11 +115,10 @@ export default {
                     this.name = undefined
                 })
         },
-        closePopup() {
-            this.$closePopup()
-            this.token = undefined
-        },
     },
+	created() {
+		events.$on('popup:close', () => this.token = undefined)
+	}
 }
 </script>
 

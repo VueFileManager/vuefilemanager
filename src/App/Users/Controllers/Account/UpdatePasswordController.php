@@ -11,10 +11,10 @@ class UpdatePasswordController extends Controller
     public function __invoke(
         UpdateUserPasswordRequest $request
     ): Response {
-        $user = Auth::user();
-
         // Check if is demo
         abort_if(is_demo_account(), 204, 'Changed!');
+
+        $user = Auth::user();
 
         // Store new password
         $user->update([

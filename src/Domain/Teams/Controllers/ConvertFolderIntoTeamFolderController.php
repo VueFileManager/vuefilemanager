@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Teams\Controllers;
 
+use Domain\Folders\Resources\FolderResource;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
@@ -22,6 +23,11 @@ class ConvertFolderIntoTeamFolderController extends Controller
         ConvertIntoTeamFolderRequest $request,
         Folder $folder
     ): ResponseFactory|Response {
+        // Abort in demo mode
+        if (is_demo_account()) {
+            return response($folder, 201);
+        }
+
         // Check if user didn't exceed max team members limit
         if (! $folder->owner->canInviteTeamMembers($request->input('invitations'))) {
             return response([
