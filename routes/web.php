@@ -3,8 +3,11 @@
 use Domain\Homepage\Controllers\IndexController;
 use Domain\Invoices\Controllers\GetInvoiceController;
 use Domain\Sharing\Controllers\SharePublicIndexController;
+use App\Socialite\Controllers\SocialiteCallbackController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
+
+Route::get('/socialite/{provider}/callback', SocialiteCallbackController::class);
 
 // Translations
 Route::get('/translations/{lang}', CurrentLocalizationController::class);

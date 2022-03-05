@@ -14,7 +14,6 @@ use Domain\Browsing\Controllers\BrowseFolderController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
 use Domain\Folders\Controllers\NavigationTreeController;
 use Domain\Items\Controllers\MoveFileOrFolderController;
-use App\Socialite\Controllers\SocialiteCallbackController;
 use App\Socialite\Controllers\SocialiteRedirectController;
 use Domain\Browsing\Controllers\SpotlightSearchController;
 use Domain\Items\Controllers\DeleteFileOrFolderController;
@@ -41,11 +40,8 @@ Route::get('/settings', GetSettingsValueController::class);
 // Register user
 Route::post('/register', RegisterUserController::class);
 
-// Login via socialite
-Route::group(['prefix' => 'socialite'], function () {
-    Route::get('/{provider}/redirect', SocialiteRedirectController::class);
-    Route::get('/{provider}/callback', SocialiteCallbackController::class);
-});
+// Socialite
+Route::get('/socialite/{provider}/redirect', SocialiteRedirectController::class);
 
 // Password reset
 Route::group(['prefix' => 'password'], function () {

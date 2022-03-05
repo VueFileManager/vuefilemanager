@@ -36,7 +36,7 @@ class SocialiteCallbackController extends Controller
                 $user->first()
             );
 
-            return response('User logged in', 201);
+            return redirect()->to('/platform/files');
         }
 
         // Check if account registration is enabled
@@ -56,8 +56,11 @@ class SocialiteCallbackController extends Controller
         ]);
 
         // Create User
-        ($this->createNewUser)($data);
+        $user = ($this->createNewUser)($data);
 
-        return response('User registered', 201);
+        // Login user
+        $this->guard->login($user->first());
+
+        return redirect()->to('/platform/files');
     }
 }
