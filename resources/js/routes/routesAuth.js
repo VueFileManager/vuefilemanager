@@ -1,17 +1,9 @@
 const routesAuth = [
     {
-        name: 'SocialiteCallback',
-        path: '/socialite/:provider/callback',
-        component: () => import(/* webpackChunkName: "chunks/email-verified" */ '../views/Auth/SocialiteCallback'),
-        meta: {
-            requiresAuth: false,
-        },
-    },
-    {
         name: 'SuccessfullyVerified',
         path: '/successfully-verified',
         component: () =>
-            import(/* webpackChunkName: "chunks/email-verified" */ '../views/Auth/SuccessfullyEmailVerified'),
+            import(/* webpackChunkName: "chunks/successfully-email-verified" */ '../views/Auth/SuccessfullyEmailVerified'),
         meta: {
             requiresAuth: false,
         },
@@ -19,7 +11,7 @@ const routesAuth = [
     {
         name: 'SuccessfullySend',
         path: '/successfully-send',
-        component: () => import(/* webpackChunkName: "chunks/email-verified" */ '../views/Auth/SuccessfullySendEmail'),
+        component: () => import(/* webpackChunkName: "chunks/successfully-email-send" */ '../views/Auth/SuccessfullySendEmail'),
         meta: {
             requiresAuth: false,
         },
