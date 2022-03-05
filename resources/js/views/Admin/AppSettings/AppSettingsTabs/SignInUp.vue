@@ -64,7 +64,7 @@
                 v-if="
                     (!config.isFacebookLoginConfigured || facebook.isVisibleCredentialsForm) && facebook.allowedService
                 "
-                @submit.prevent="storeCredentials('facebook_login')"
+                @submit.prevent="storeCredentials('facebook')"
                 ref="credentialsForm"
                 v-slot="{ invalid }"
                 tag="form"
@@ -140,7 +140,7 @@
             <!--Set up Google credentials-->
             <ValidationObserver
                 v-if="(!config.isGoogleLoginConfigured || google.isVisibleCredentialsForm) && google.allowedService"
-                @submit.prevent="storeCredentials('google_login')"
+                @submit.prevent="storeCredentials('google')"
                 ref="credentialsForm"
                 v-slot="{ invalid }"
                 tag="form"
@@ -216,7 +216,7 @@
             <!--Set up github credentials-->
             <ValidationObserver
                 v-if="(!config.isGithubLoginConfigured || github.isVisibleCredentialsForm) && github.allowedService"
-                @submit.prevent="storeCredentials('github_login')"
+                @submit.prevent="storeCredentials('github')"
                 ref="credentialsForm"
                 v-slot="{ invalid }"
                 tag="form"
