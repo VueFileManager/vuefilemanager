@@ -3,23 +3,23 @@
 @tailwind utilities;
 
 .card {
-    @apply dark:bg-dark-foreground bg-white sm:p-6 p-4 rounded-xl lg:mb-6 mb-5
+    @apply mb-5 rounded-xl bg-white p-4 dark:bg-dark-foreground sm:p-6 lg:mb-6;
 }
 
 .widget-card {
-    @apply dark:bg-dark-foreground bg-white lg:p-5 p-4 rounded-xl
+    @apply rounded-xl bg-white p-4 dark:bg-dark-foreground lg:p-5;
 }
 
 .input-dark {
-    @apply w-full dark:bg-2x-dark-foreground bg-light-background py-3 sm:px-5 px-4 rounded-lg appearance-none border-transparent sm:text-base text-sm font-bold border
+    @apply w-full appearance-none rounded-lg border border-transparent bg-light-background py-3 px-4 text-sm font-bold dark:bg-2x-dark-foreground dark:placeholder:text-gray-600 sm:px-5 sm:text-base dark:disabled:text-gray-400;
 }
 
 .text-limit {
-    @apply whitespace-nowrap text-ellipsis overflow-x-hidden block
+    @apply block overflow-x-hidden text-ellipsis whitespace-nowrap;
 }
 
 .is-inactive {
-    @apply pointer-events-none opacity-40
+    @apply pointer-events-none opacity-40;
 }
 
 .grid-view {

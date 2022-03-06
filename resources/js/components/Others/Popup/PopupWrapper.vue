@@ -6,7 +6,7 @@
             class="popup fixed top-0 left-0 right-0 bottom-0 z-50 grid h-full overflow-y-auto p-10 lg:absolute"
         >
             <div
-                class="fixed top-0 bottom-0 left-0 right-0 z-10 m-auto w-full bg-white shadow-xl dark:bg-2x-dark-foreground md:relative md:w-[490px] md:rounded-xl"
+                class="fixed top-0 bottom-0 left-0 right-0 z-10 m-auto w-full bg-white shadow-xl dark:bg-dark-foreground md:relative md:w-[490px] md:rounded-xl"
             >
                 <slot />
             </div>

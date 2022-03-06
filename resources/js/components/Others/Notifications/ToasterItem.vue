@@ -12,8 +12,8 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center">
                     <div>
-                        <check-icon v-if="isSuccess" size="22" class="vue-feather text-green-600" />
-                        <x-icon v-if="isDanger" size="22" class="vue-feather text-red-600" />
+                        <check-icon v-if="isSuccess" size="22" class="vue-feather dark:text-green-600 text-green-600" />
+                        <x-icon v-if="isDanger" size="22" class="vue-feather dark:text-red-600 text-red-600" />
                     </div>
 
                     <p

@@ -8,7 +8,7 @@
             {{ user.data.meta.usages.costEstimate }}
         </b>
 
-        <b class="mb-3 mb-5 block text-sm text-gray-400">
+        <b class="mb-3 mb-5 block text-sm dark:text-gray-500 text-gray-400">
             {{ user.data.relationships.subscription.data.attributes.updated_at }}
             {{ $t('till now') }}
         </b>
@@ -22,7 +22,7 @@
                 <b class="text-sm font-bold leading-none">
                     {{ $t(usage.feature) }}
                 </b>
-                <small class="hidden pt-2 text-xs leading-none text-gray-500 sm:block">
+                <small class="hidden pt-2 text-xs leading-none dark:text-gray-500 text-gray-500 sm:block">
                     {{ $t(`feature_usage_desc_${usage.feature}`) }}
                 </small>
             </div>

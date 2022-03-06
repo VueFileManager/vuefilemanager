@@ -21,7 +21,7 @@
                 />
             </b>
 
-            <b class="block text-sm text-gray-400">
+            <b class="block text-sm dark:text-gray-500 text-gray-400">
                 {{ $t('Alert will be triggered after you reach the value above.') }}
             </b>
         </div>

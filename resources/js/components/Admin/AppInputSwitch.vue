@@ -5,7 +5,7 @@
             <label class="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-200"> {{ title }}: </label>
 
             <!--Input Description-->
-            <span v-if="description" class="block text-xs leading-4 text-gray-500" v-html="description"></span>
+            <span v-if="description" class="block text-xs leading-4 dark:text-gray-500 text-gray-500" v-html="description"></span>
 
             <!--Input Description-->
             <span v-if="error" class="error-message">

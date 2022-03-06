@@ -48,7 +48,7 @@
                         <b class="text-sm font-bold leading-none">
                             {{ token.name }}
                         </b>
-                        <time class="block pt-2 text-xs leading-none text-gray-500">
+                        <time class="block pt-2 text-xs leading-none dark:text-gray-500 text-gray-500">
                             {{ $t('last_used') }}:
                             {{ token.last_used_at ? formatDate(token.last_used_at) : $t('never') }}
                         </time>

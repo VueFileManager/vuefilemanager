@@ -19,15 +19,16 @@
                 borderRadius,
                 {
                     'border-3 border-white dark:border-dark-background': isBorder,
+                    'dark:bg-4x-dark-foreground bg-light-background': !member.data.attributes.color,
                 },
             ]"
             :style="{
                 width: size + 'px',
                 height: size + 'px',
-                background: member.data.attributes.color ? member.data.attributes.color : '#f4f5f6',
+                background: member.data.attributes.color ? member.data.attributes.color : '',
             }"
         >
-            <span :class="fontSize" class="font-extrabold uppercase text-gray-900">
+            <span :class="fontSize" class="font-extrabold uppercase dark:text-gray-400 text-gray-900">
                 {{ letter }}
             </span>
         </div>

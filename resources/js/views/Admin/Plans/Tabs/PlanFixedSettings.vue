@@ -91,7 +91,7 @@
             </AppInputText>
 
             <!--Team Members-->
-            <AppInputText :title="$t('Max Team Members')" is-last="true">
+            <AppInputText :title="$t('Max Team Members')" :description="$t('Type -1 to set unlimited team members.')" is-last="true">
                 <input
                     @input="
                         $updateInput(

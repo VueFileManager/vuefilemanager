@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between border-b border-dashed border-light py-4 dark:border-opacity-5">
         <div>
             <img :src="$getPaymentLogo(driver)" :alt="driver" class="h-6" />
-            <small class="block pt-2 text-xs leading-4 text-gray-500">
+            <small class="block pt-2 text-xs leading-4 dark:text-gray-500 text-gray-500">
                 {{ description }}
             </small>
         </div>

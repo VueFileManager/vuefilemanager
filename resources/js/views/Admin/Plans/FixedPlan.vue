@@ -5,7 +5,7 @@
                 <h1 class="text-lg font-bold sm:text-xl">
                     {{ plan.attributes.name }}
                 </h1>
-                <small class="text-xs font-bold text-gray-500 sm:text-sm">
+                <small class="text-xs font-bold dark:text-gray-500 text-gray-500 sm:text-sm">
                     {{ plan.attributes.price }} /
                     {{ $t(`interval.${plan.attributes.interval}`) }}
                 </small>

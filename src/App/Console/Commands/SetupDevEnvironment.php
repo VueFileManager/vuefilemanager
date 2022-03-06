@@ -359,7 +359,7 @@ class SetupDevEnvironment extends Command
             ->create([
                 'user_id'    => $user->id,
                 'author'     => 'user',
-                'name'       => 'Videohive by MakingCG',
+                'name'       => 'Videohive',
                 'created_at' => now()->subMinutes(5),
             ]);
 

@@ -14,7 +14,7 @@
                 v-if="
                     config.subscriptionType === 'fixed' || (config.subscriptionType === 'none' && config.storageLimit)
                 "
-                class="mt-0.5 block text-sm text-gray-400"
+                class="mt-0.5 block text-sm dark:text-gray-500 text-gray-400"
             >
                 {{ $t('Total of') }} {{ storage.data.attributes.capacity }}
                 {{ $t('Used') }}
@@ -33,7 +33,7 @@
                 {{ storage.data.meta.traffic.upload }}
             </b>
 
-            <b class="mb-3 mb-5 block text-sm text-gray-400">
+            <b class="mb-3 mb-5 block text-sm dark:text-gray-500 text-gray-400">
                 {{ $t('In last 45 days') }}
             </b>
 
@@ -50,7 +50,7 @@
                 {{ storage.data.meta.traffic.download }}
             </b>
 
-            <b class="mb-3 mb-5 block text-sm text-gray-400">
+            <b class="mb-3 mb-5 block text-sm dark:text-gray-500 text-gray-400">
                 {{ $t('In last 45 days') }}
             </b>
 

@@ -239,13 +239,15 @@ class GenerateDemoSubscriptionContentCommand extends Command
                     ->make();
 
                 // 6. Store credit card
-                $user->creditCards()->create([
-                    'brand'      => $creditCard->brand,
-                    'last4'      => $creditCard->last4,
-                    'service'    => $creditCard->service,
-                    'reference'  => $creditCard->reference,
-                    'expiration' => $creditCard->expiration,
-                ]);
+                if (! $isHowdy) {
+                    $user->creditCards()->create([
+                        'brand'      => $creditCard->brand,
+                        'last4'      => $creditCard->last4,
+                        'service'    => $creditCard->service,
+                        'reference'  => $creditCard->reference,
+                        'expiration' => $creditCard->expiration,
+                    ]);
+                }
 
                 // 7. Add default user balance
                 $user->balance()->create([

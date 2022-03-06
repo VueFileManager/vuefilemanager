@@ -45,24 +45,15 @@
                     </AppInputText>
                 </ValidationProvider>
 
-				<!--Custom Folder Name-->
-                <AppInputSwitch
-					:title="$t('Custom Folder Name')"
-					:description="$t('Created folder with files will be named with your own name.')"
-				>
-                    <SwitchInput v-model="customFolderName" :state="customFolderName" />
-                </AppInputSwitch>
-
 				<!--Set email-->
                 <ValidationProvider
-					v-if="customFolderName"
 					tag="div"
 					mode="passive"
 					name="Name"
 					rules="required"
 					v-slot="{ errors }"
 				>
-                    <AppInputText :error="errors[0]" class="-mt-2">
+                    <AppInputText :title="this.$t('Folder Name (optional)')" :description="$t('Created folder with files will be named with your own name.')" :error="errors[0]" class="-mt-2">
                         <input
 							v-model="form.name"
 							:class="{ 'border-red': errors[0] }"
@@ -158,7 +149,6 @@ export default {
 			},
 			generatedUploadRequest: undefined,
 			shareViaEmail: false,
-			customFolderName: false,
 			pickedItem: undefined,
 			isLoading: false,
 		}
@@ -206,7 +196,6 @@ export default {
 				this.pickedItem = undefined
 
 				this.shareViaEmail = false
-				this.customFolderName = false
 
 				this.form = {
 					name: undefined,

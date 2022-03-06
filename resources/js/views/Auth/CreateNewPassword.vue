@@ -27,7 +27,7 @@
                             v-model="recoverPassword.email"
                             :placeholder="$t('page_login.placeholder_email')"
                             type="email"
-                            class="focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
+                            class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
                             :class="{ 'border-red': errors[0] }"
                         />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -50,7 +50,7 @@
                             v-model="recoverPassword.newPassword"
                             :placeholder="$t('page_create_password.label_new_pass')"
                             type="password"
-                            class="focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
+                            class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
                             :class="{ 'border-red': errors[0] }"
                         />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
@@ -73,7 +73,7 @@
                             v-model="recoverPassword.newPasswordConfirm"
                             :placeholder="$t('page_create_password.label_confirm_pass')"
                             type="password"
-                            class="focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
+                            class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
                             :class="{ 'border-red': errors[0] }"
                         />
                         <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>

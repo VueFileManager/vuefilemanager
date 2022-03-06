@@ -14,7 +14,7 @@
         </span>
 
         <!--Input Description-->
-        <small v-if="description" class="block pt-2 text-xs leading-4 text-gray-500" v-html="description"></small>
+        <small v-if="description" class="block pt-2 text-xs leading-4 dark:text-gray-500 text-gray-500" v-html="description"></small>
     </div>
 </template>
 

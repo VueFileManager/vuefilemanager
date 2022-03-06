@@ -73,7 +73,7 @@
                         <b class="text-sm font-bold leading-none">
                             {{ $t(usage.feature) }}
                         </b>
-                        <small class="block pt-2 text-xs leading-none text-gray-500">
+                        <small class="block pt-2 text-xs leading-none dark:text-gray-500 text-gray-500">
                             {{ $t(`feature_usage_desc_${usage.feature}`) }}
                         </small>
                     </div>

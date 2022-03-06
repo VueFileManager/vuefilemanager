@@ -22,7 +22,7 @@
             <!-- Card -->
             <PaymentCard v-for="card in user.data.relationships.creditCards.data" :key="card.data.id" :card="card" />
 
-            <small class="hidden pt-3 text-xs leading-none text-gray-500 sm:block">
+            <small class="hidden pt-3 text-xs leading-none dark:text-gray-500 text-gray-500 sm:block">
                 {{ $t('We are settling your payment automatically via your saved credit card.') }}
             </small>
         </div>
@@ -46,6 +46,10 @@
                 <div v-if="stripe.isInitialization" class="relative mb-6 h-10">
                     <Spinner />
                 </div>
+				<InfoBox v-if="config.isDemo && !stripe.isInitialization">
+					<p>For adding test credit card please use <b class="text-theme">4242 4242 4242 4242</b> as a card number, <b class="text-theme">11/22</b>
+						as the expiration date and <b class="text-theme">123</b> as CVC number and ZIP <b class="text-theme">12345</b> if required.</p>
+				</InfoBox>
                 <div id="payment-element">
                     <!-- Elements will create form elements here -->
                 </div>
@@ -57,7 +61,7 @@
                 >
                     {{ $t('Store My Credit Card') }}
                 </ButtonBase>
-                <div id="error-message">
+                <div id="error-message" class="pt-2 text-xs text-rose-600">
                     <!-- Display error message to your customers here -->
                 </div>
             </form>
@@ -73,6 +77,7 @@ import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios'
+import InfoBox from "../Others/Forms/InfoBox";
 
 // Define stripe variables
 let stripe,
@@ -81,6 +86,7 @@ let stripe,
 export default {
     name: 'UserStoredPaymentMethods',
     components: {
+		InfoBox,
         ButtonBase,
         FormLabel,
         PaymentCard,
@@ -115,6 +121,15 @@ export default {
     },
     methods: {
         async storeStripePaymentMethod() {
+			if (this.config.isDemo && this.user.data.attributes.email === 'ho**@hi5ve.digital') {
+				events.$emit('toaster', {
+					type: 'success',
+					message: this.$t('Your credit card was stored successfully'),
+				})
+
+				return
+			}
+
             this.stripe.storingStripePaymentMethod = true
 
             const { error } = await stripe.confirmSetup({

@@ -20,7 +20,7 @@
                     v-slot="{ errors }"
                 >
                     <input
-                        class="focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
+                        class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
                         :class="{ 'border-red': errors[0] }"
                         v-model="loginEmail"
                         :placeholder="$t('page_login.placeholder_email')"
@@ -82,7 +82,7 @@
                         v-model="loginPassword"
                         :placeholder="$t('page_sign_in.placeholder_password')"
                         type="password"
-                        class="focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
+                        class="dark:placeholder:text-gray-600 focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
                         :class="{ 'border-red': errors[0] }"
                     />
                     <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -159,7 +159,7 @@
                         @input="twoFactorChallenge(false)"
                         type="text"
                         maxlength="6"
-                        class="focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 text-center font-bold dark:bg-2x-dark-foreground md:w-80"
+                        class="dark:placeholder:text-gray-600 focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 text-center font-bold dark:bg-2x-dark-foreground md:w-80"
                         :class="{ 'border-red': errors[0] }"
                     />
                     <span class="mt-2 block text-center text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -208,7 +208,7 @@
                         @input="twoFactorChallenge(true)"
                         type="text"
                         maxlength="21"
-                        class="focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 text-center font-bold dark:bg-2x-dark-foreground md:w-80"
+                        class="dark:placeholder:text-gray-600 focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 text-center font-bold dark:bg-2x-dark-foreground md:w-80"
                         :class="{ 'border-red': errors[0] }"
                     />
                     <span class="mt-2 block text-center text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>

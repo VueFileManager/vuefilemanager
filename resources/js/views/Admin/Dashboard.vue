@@ -143,7 +143,7 @@
                     {{ data.disk.upload.total }}
                 </b>
 
-                <b class="mb-3 mb-2 block text-sm text-gray-400">
+                <b class="mb-3 mb-2 block text-sm dark:text-gray-500 text-gray-400">
                     {{ $t('In last 45 days') }}
                 </b>
 
@@ -160,7 +160,7 @@
                     {{ data.disk.download.total }}
                 </b>
 
-                <b class="mb-3 mb-5 block text-sm text-gray-400">
+                <b class="mb-3 mb-5 block text-sm dark:text-gray-500 text-gray-400">
                     {{ $t('In last 45 days') }}
                 </b>
 

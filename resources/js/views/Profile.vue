@@ -55,7 +55,7 @@
                                     {{ subscriptionStatus }}
                                 </ColorLabel>
                             </b>
-                            <small class="block text-xs text-gray-600 sm:text-sm">
+                            <small class="block text-xs dark:text-gray-500 text-gray-600 sm:text-sm">
                                 {{ user.data.attributes.email }}
                             </small>
                         </div>
