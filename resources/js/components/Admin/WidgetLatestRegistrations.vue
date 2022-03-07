@@ -20,7 +20,7 @@
                         }"
                     >
                         <div class="flex items-center">
-                            <MemberAvatar :is-border="false" :size="44" :member="row.data.relationships.settings" />
+                            <MemberAvatar :is-border="false" :size="44" :member="row" />
                             <div class="ml-3 pr-10">
                                 <b
                                     class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
@@ -94,7 +94,7 @@
                         }"
                     >
                         <div class="flex items-center">
-                            <MemberAvatar :is-border="false" :size="44" :member="row.data.relationships.settings" />
+                            <MemberAvatar :is-border="false" :size="44" :member="row" />
                             <div class="ml-3 pr-10">
                                 <b
                                     class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
@@ -173,7 +173,7 @@
                         }"
                     >
                         <div class="flex items-center">
-                            <MemberAvatar :is-border="false" :size="44" :member="row.data.relationships.settings" />
+                            <MemberAvatar :is-border="false" :size="44" :member="row" />
                             <div class="ml-3 pr-10">
                                 <b
                                     class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"

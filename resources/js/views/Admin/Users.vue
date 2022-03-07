@@ -38,7 +38,7 @@
                                     <MemberAvatar
                                         :is-border="false"
                                         :size="44"
-                                        :member="row.data.relationships.settings"
+                                        :member="row"
                                     />
                                     <div class="ml-3 pr-10">
                                         <b
@@ -116,7 +116,7 @@
                                     <MemberAvatar
                                         :is-border="false"
                                         :size="44"
-                                        :member="row.data.relationships.settings"
+                                        :member="row"
                                     />
                                     <div class="ml-3 pr-10">
                                         <b
@@ -199,7 +199,7 @@
                                     <MemberAvatar
                                         :is-border="false"
                                         :size="44"
-                                        :member="row.data.relationships.settings"
+                                        :member="row"
                                     />
                                     <div class="ml-3 pr-10">
                                         <b

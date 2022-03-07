@@ -6,11 +6,7 @@
                 <!--User thumbnail-->
                 <div class="mb-3 flex items-center">
                     <!--Image input for replace avatar-->
-                    <img
-                        :src="user.data.relationships.settings.data.attributes.avatar.sm"
-                        :alt="user.data.relationships.settings.data.attributes.name"
-                        class="relative z-0 h-14 w-14 rounded-xl object-cover shadow-lg md:h-16 md:w-16"
-                    />
+					<MemberAvatar class="shadow-lg rounded-xl" :size="64" :is-border="false" :member="user" />
 
                     <!--User name & email-->
                     <div class="ml-4">
@@ -51,10 +47,12 @@ import Spinner from '../../../components/FilesView/Spinner'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
+import MemberAvatar from "../../../components/FilesView/MemberAvatar";
 
 export default {
     name: 'Profile',
     components: {
+		MemberAvatar,
         CardNavigation,
         CreditCardIcon,
         HardDriveIcon,

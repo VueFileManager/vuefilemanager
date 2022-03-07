@@ -5,6 +5,7 @@
                 v-if="config.app_logo_horizontal"
                 :src="$getImage(config.app_logo_horizontal)"
                 :alt="config.app_name"
+				class="mx-auto"
             />
             <b v-if="!config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
