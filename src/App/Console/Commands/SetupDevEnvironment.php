@@ -458,7 +458,6 @@ class SetupDevEnvironment extends Command
                 ]);
             });
 
-        // Get documents to shared folder
         collect([
             [
                 'name'     => 'Home plan',
@@ -719,6 +718,15 @@ class SetupDevEnvironment extends Command
         $user = User::whereEmail('howdy@hi5ve.digital')
             ->first();
 
+        $alice = User::whereEmail('alice@hi5ve.digital')
+            ->first();
+
+        $johan = User::whereEmail('johan@hi5ve.digital')
+            ->first();
+
+        $users = [$user, $alice, $johan];
+
+        // 1. Company project
         $companyProjectFolder = Folder::factory()
             ->create([
                 'user_id'     => $user->id,
@@ -726,7 +734,7 @@ class SetupDevEnvironment extends Command
                 'name'        => 'Company Project',
             ]);
 
-        Folder::factory()
+        $presentationMaterial = Folder::factory()
             ->create([
                 'user_id'     => $user->id,
                 'parent_id'   => $companyProjectFolder->id,
@@ -734,7 +742,7 @@ class SetupDevEnvironment extends Command
                 'team_folder' => true,
             ]);
 
-        Folder::factory()
+        $teamGallery = Folder::factory()
             ->create([
                 'user_id'     => $user->id,
                 'parent_id'   => $companyProjectFolder->id,
@@ -742,6 +750,54 @@ class SetupDevEnvironment extends Command
                 'team_folder' => true,
             ]);
 
+        collect([
+            'demo/images/team-gallery/photo-1.jpeg',
+            'demo/images/team-gallery/photo-2.jpeg',
+            'demo/images/team-gallery/photo-3.jpeg',
+        ])
+            ->each(function ($file) use ($users, $teamGallery) {
+                $user = $users[rand(0, 2)];
+
+                $thumbnail = $this->generate_thumbnails($file, $user);
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $teamGallery->id,
+                    'user_id'    => $user->id,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        collect([
+            'demo/images/presentation/photo-1.jpeg',
+            'demo/images/presentation/photo-2.jpeg',
+        ])
+            ->each(function ($file) use ($users, $presentationMaterial) {
+                $user = $users[rand(0, 2)];
+
+                $thumbnail = $this->generate_thumbnails($file, $user);
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $presentationMaterial->id,
+                    'user_id'    => $user->id,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        // 2. Finance Documents
         $financeDocumentsFolder = Folder::factory()
             ->create([
                 'user_id'     => $user->id,
@@ -749,7 +805,203 @@ class SetupDevEnvironment extends Command
                 'name'        => 'Finance Documents',
             ]);
 
-        collect([$companyProjectFolder, $financeDocumentsFolder])
+        $reserves = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'parent_id'   => $financeDocumentsFolder->id,
+                'name'        => 'Reserves',
+                'team_folder' => true,
+            ]);
+
+        $otherDocuments = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'parent_id'   => $financeDocumentsFolder->id,
+                'name'        => 'Other Documents',
+                'team_folder' => true,
+            ]);
+
+        collect([
+            'demo/images/finance-documents/photo-1.jpeg',
+            'demo/images/finance-documents/photo-2.jpeg',
+            'demo/images/finance-documents/photo-3.jpeg',
+        ])
+            ->each(function ($file) use ($users, $financeDocumentsFolder) {
+                $user = $users[rand(0, 2)];
+
+                $thumbnail = $this->generate_thumbnails($file, $user);
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $financeDocumentsFolder->id,
+                    'user_id'    => $user->id,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        collect([
+            'demo/images/finance-documents/photo-4.jpeg',
+            'demo/images/finance-documents/photo-5.jpeg',
+        ])
+            ->each(function ($file) use ($users, $reserves) {
+                $user = $users[rand(0, 2)];
+
+                $thumbnail = $this->generate_thumbnails($file, $user);
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $reserves->id,
+                    'user_id'    => $user->id,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        // Get documents to root directory
+        collect([
+            [
+                'name'     => 'Next Year Projection',
+                'basename' => 'Licence.pdf',
+                'mimetype' => 'pdf',
+            ],
+            [
+                'name'     => 'Budget.pdf',
+                'basename' => 'Project Notes.pdf',
+                'mimetype' => 'pdf',
+            ],
+            [
+                'name'     => '2022 Yearly Report.pages',
+                'basename' => 'School Report.pages',
+                'mimetype' => 'pages',
+            ],
+            [
+                'name'     => 'Company Project Notes.pages',
+                'basename' => 'Stories of the Night Skies.pages',
+                'mimetype' => 'pages',
+            ],
+            [
+                'name'     => 'Finance Stories.pages',
+                'basename' => 'Stories of the Night Skies.pages',
+                'mimetype' => 'pages',
+            ],
+        ])
+            ->each(function ($file) use ($users, $financeDocumentsFolder, $otherDocuments) {
+                $user = $users[rand(0, 2)];
+                $folder = [$financeDocumentsFolder, $otherDocuments][rand(0,1)];
+
+                $basename = Str::random(12) . '-' . $file['basename'];
+
+                // Copy file into app storage
+                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $user->id,
+                    'name'       => $file['name'],
+                    'basename'   => $basename,
+                    'type'       => 'file',
+                    'author'     => 'user',
+                    'mimetype'   => $file['mimetype'],
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        // 3. Holiday 2022
+        $holiday2022Folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => true,
+                'name'        => 'Holiday 2022',
+            ]);
+
+        $destinationGallery = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'parent_id'   => $holiday2022Folder->id,
+                'name'        => 'Destination Gallery',
+                'team_folder' => true,
+            ]);
+
+        collect([
+            'demo/images/destination-gallery/photo-1.jpeg',
+            'demo/images/destination-gallery/photo-2.jpeg',
+            'demo/images/destination-gallery/photo-3.jpeg',
+            'demo/images/destination-gallery/photo-4.jpeg',
+            'demo/images/destination-gallery/photo-5.jpeg',
+        ])
+            ->each(function ($file) use ($users, $destinationGallery) {
+                $user = $users[rand(0, 2)];
+
+                $thumbnail = $this->generate_thumbnails($file, $user);
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $destinationGallery->id,
+                    'user_id'    => $user->id,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        // Get documents to root directory
+        collect([
+            [
+                'name'     => 'Finance.pages',
+                'basename' => 'Licence.pdf',
+                'mimetype' => 'pdf',
+            ],
+            [
+                'name'     => 'Fly tickets.pdf',
+                'basename' => 'Project Notes.pdf',
+                'mimetype' => 'pdf',
+            ],
+            [
+                'name'     => 'Documentation.pdf',
+                'basename' => 'School Report.pages',
+                'mimetype' => 'pages',
+            ],
+        ])
+            ->each(function ($file) use ($users, $holiday2022Folder) {
+                $user = $users[rand(0, 2)];
+
+                $basename = Str::random(12) . '-' . $file['basename'];
+
+                // Copy file into app storage
+                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $holiday2022Folder->id,
+                    'user_id'    => $user->id,
+                    'name'       => $file['name'],
+                    'basename'   => $basename,
+                    'type'       => 'file',
+                    'author'     => 'user',
+                    'mimetype'   => $file['mimetype'],
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        collect([$companyProjectFolder, $financeDocumentsFolder, $holiday2022Folder])
             ->each(function ($folder) use ($user) {
                 DB::table('team_folder_members')
                     ->insert([
@@ -763,7 +1015,7 @@ class SetupDevEnvironment extends Command
         $members = User::whereNotIn('email', ['howdy@hi5ve.digital'])
             ->get();
 
-        collect([$members[0]->id, $members[1]->id])
+        collect([$members[0]->id, $members[1]->id, $members[5]->id])
             ->each(
                 fn ($id) => DB::table('team_folder_members')
                     ->insert([
@@ -773,11 +1025,21 @@ class SetupDevEnvironment extends Command
                     ])
             );
 
-        collect([$members[2]->id, $members[3]->id])
+        collect([$members[3]->id, $members[2]->id])
             ->each(
                 fn ($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $financeDocumentsFolder->id,
+                        'user_id'    => $id,
+                        'permission' => 'can-edit',
+                    ])
+            );
+
+        collect([$members[2]->id, $members[3]->id, $members[5]->id, $members[0]->id])
+            ->each(
+                fn ($id) => DB::table('team_folder_members')
+                    ->insert([
+                        'parent_id'  => $holiday2022Folder->id,
                         'user_id'    => $id,
                         'permission' => 'can-edit',
                     ])
@@ -808,6 +1070,8 @@ class SetupDevEnvironment extends Command
         $johan = User::whereEmail('johan@hi5ve.digital')
             ->first();
 
+        $users = [$member, $johan];
+
         $folder = Folder::factory()
             ->create([
                 'user_id'     => $owner->id,
@@ -815,11 +1079,11 @@ class SetupDevEnvironment extends Command
                 'name'        => "Alice's Project Files",
             ]);
 
-        Folder::factory()
+        $videos = Folder::factory()
             ->create([
                 'user_id'     => $owner->id,
                 'parent_id'   => $folder->id,
-                'name'        => '9 Gag',
+                'name'        => 'Videos',
                 'team_folder' => true,
             ]);
 
@@ -849,6 +1113,62 @@ class SetupDevEnvironment extends Command
                     'permission' => 'owner',
                 ],
             ]);
+
+        // Get videos
+        collect([
+            'Apple Watch App Video Promotion.mp4',
+            'Smart Watch 3D Device Pack for Element 3D.mp4',
+        ])
+            ->each(function ($file) use ($users, $videos) {
+                $user = $users[rand(0,1)];
+
+                $basename = Str::random(12) . '-' . $file;
+
+                // Copy file into app storage
+                Storage::putFileAs("files/$user->id", storage_path("demo/video/$file"), $basename, 'private');
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $videos->id,
+                    'user_id'    => $user->id,
+                    'name'       => $file,
+                    'basename'   => $basename,
+                    'type'       => 'video',
+                    'author'     => 'user',
+                    'mimetype'   => 'mp4',
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
+
+        collect([
+            [
+                'name'     => 'Notes',
+                'basename' => 'Licence.pdf',
+                'mimetype' => 'pdf',
+            ],
+        ])
+            ->each(function ($file) use ($users, $folder) {
+                $basename = Str::random(12) . '-' . $file['basename'];
+
+                $user = $users[rand(0,1)];
+
+                // Copy file into app storage
+                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $folder->id,
+                    'user_id'    => $user->id,
+                    'name'       => $file['name'],
+                    'basename'   => $basename,
+                    'type'       => 'file',
+                    'author'     => 'user',
+                    'mimetype'   => $file['mimetype'],
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
 
         // Get meme gallery
         collect([
