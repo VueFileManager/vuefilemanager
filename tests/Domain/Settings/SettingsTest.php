@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Settings;
 
 use Storage;
@@ -196,6 +197,28 @@ class SettingsTest extends TestCase
                 'smtp.username'   => 'john@doe.com',
                 'smtp.password'   => 'secret',
                 'smtp.encryption' => 'tls',
+            ])->assertStatus(204);
+    }
+
+    /**
+     * @test
+     */
+    public function it_set_storage()
+    {
+        $admin = User::factory()
+            ->create(['role' => 'admin']);
+
+        $this
+            ->actingAs($admin)
+            ->postJson('/api/admin/settings/storage', [
+                'storage' => [
+                    'driver'   => 's3',
+                    'key'      => '123456',
+                    'secret'   => '123456',
+                    'region'   => 'frankfurt',
+                    'bucket'   => 'cloud',
+                    'endpoint' => 'https://cloud.frankfurt.storage.com',
+                ],
             ])->assertStatus(204);
     }
 }

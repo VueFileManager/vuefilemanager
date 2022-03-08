@@ -42,8 +42,8 @@ export default {
                     route: 'AppIndex',
                 },
                 {
-                    title: this.$t('admin_settings.tabs.email'),
-                    route: 'AppEmail',
+                    title: this.$t('Environment'),
+                    route: 'AppEnvironment',
                 },
                 {
                     title: this.$t('Server'),
@@ -53,7 +53,9 @@ export default {
         }
     },
     mounted() {
-        this.$router.push({ name: 'AppOthers' })
+		if (this.$route.path === '/admin/settings') {
+        	this.$router.push({ name: 'AppOthers' })
+		}
     },
 }
 </script>

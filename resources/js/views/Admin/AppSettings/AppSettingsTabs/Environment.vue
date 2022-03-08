@@ -1,5 +1,122 @@
 <template>
     <PageTab :is-loading="isLoading">
+		<ValidationObserver
+			@submit.prevent="storageSetupSubmit"
+			ref="storageSetup"
+			v-slot="{ invalid }"
+			tag="form"
+			class="card shadow-card"
+		>
+			<FormLabel icon="hard-drive">
+				{{ $t('Storage Driver') }}
+			</FormLabel>
+
+			<ValidationProvider
+				tag="div"
+				mode="passive"
+				name="Storage Service"
+				rules="required"
+				v-slot="{ errors }"
+			>
+				<AppInputText title="Storage Service" :error="errors[0]">
+					<SelectInput
+						v-model="storage.driver"
+						:options="storageServiceList"
+						placeholder="Select your storage service"
+						:isError="errors[0]"
+					/>
+				</AppInputText>
+			</ValidationProvider>
+
+			<div v-if="storage.driver !== 'local' && storage.driver">
+				<ValidationProvider tag="div" mode="passive" name="Key" rules="required" v-slot="{ errors }">
+					<AppInputText title="Key" :error="errors[0]">
+						<input
+							class="focus-border-theme input-dark"
+							v-model="storage.key"
+							placeholder="Paste your key"
+							type="text"
+							:class="{ 'border-red': errors[0] }"
+						/>
+					</AppInputText>
+				</ValidationProvider>
+
+				<ValidationProvider tag="div" mode="passive" name="Secret" rules="required" v-slot="{ errors }">
+					<AppInputText title="Secret" :error="errors[0]">
+						<input
+							class="focus-border-theme input-dark"
+							v-model="storage.secret"
+							placeholder="Paste your secret"
+							type="text"
+							:class="{ 'border-red': errors[0] }"
+						/>
+					</AppInputText>
+				</ValidationProvider>
+
+				<ValidationProvider tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
+					<AppInputText
+						title="Region"
+						description="Select your region where is your bucket/space created."
+						:error="errors[0]"
+					>
+						<SelectInput
+							v-model="storage.region"
+							:options="regionList"
+							:default="storage.region"
+							placeholder="Select your region"
+							:isError="errors[0]"
+						/>
+					</AppInputText>
+				</ValidationProvider>
+
+				<ValidationProvider
+					v-if="storage.driver !== 's3'"
+					tag="div"
+					mode="passive"
+					name="Endpoint"
+					rules="required"
+					v-slot="{ errors }"
+				>
+					<AppInputText title="Endpoint URL" :error="errors[0]">
+						<input
+							class="focus-border-theme input-dark"
+							v-model="storage.endpoint"
+							placeholder="Type your endpoint"
+							type="text"
+							:class="{ 'border-red': errors[0] }"
+							readonly
+						/>
+					</AppInputText>
+				</ValidationProvider>
+
+				<ValidationProvider tag="div" mode="passive" name="Bucket" rules="required" v-slot="{ errors }">
+					<AppInputText
+						title="Bucket"
+						description="Provide your created unique bucket name"
+						:error="errors[0]"
+					>
+						<input
+							class="focus-border-theme input-dark"
+							v-model="storage.bucket"
+							placeholder="Type your bucket name"
+							type="text"
+							:class="{ 'border-red': errors[0] }"
+						/>
+					</AppInputText>
+				</ValidationProvider>
+			</div>
+
+			<ButtonBase
+				:loading="isSendingStorageForm"
+				:disabled="isSendingStorageForm"
+				type="submit"
+				button-style="theme"
+				class="w-full sm:w-auto"
+			>
+                {{ $t('Save Storage Settings') }}
+            </ButtonBase>
+		</ValidationObserver>
+
         <ValidationObserver
             @submit.prevent="EmailSetupSubmit"
             ref="EmailSetup"
@@ -7,7 +124,7 @@
             tag="form"
             class="card shadow-card"
         >
-            <FormLabel>{{ $t('admin_settings.email.section_email') }}</FormLabel>
+            <FormLabel icon="mail">{{ $t('Mail Driver') }}</FormLabel>
 
             <ValidationProvider tag="div" mode="passive" name="Mail Driver" rules="required" v-slot="{ errors }">
                 <AppInputText title="Mail Driver" :error="errors[0]">
@@ -198,8 +315,8 @@
             </div>
 
             <ButtonBase
-                :loading="isSendingRequest"
-                :disabled="isSendingRequest"
+                :loading="isSendingEmailForm"
+                :disabled="isSendingEmailForm"
                 type="submit"
                 button-style="theme"
                 class="w-full sm:w-auto"
@@ -227,7 +344,7 @@ import axios from 'axios'
 import { mapGetters } from 'vuex'
 
 export default {
-    name: 'AppAppearance',
+    name: 'AppEnvironment',
     components: {
         AppInputText,
         ValidationObserver,
@@ -242,14 +359,277 @@ export default {
         PageTab,
         InfoBox,
     },
+	watch: {
+		'storage.driver': function () {
+			this.storage.region = undefined
+		},
+		'storage.region': function (val) {
+			this.storage.endpoint = {
+				storj: 'https://gateway.' + val + '.storjshare.io',
+				spaces: 'https://' + val + '.digitaloceanspaces.com',
+				wasabi: 'https://s3.' + val + '.wasabisys.com',
+				backblaze: 'https://s3.' + val + '.backblazeb2.com',
+				oss: 'https://' + val + '.aliyuncs.com',
+			}[this.storage.driver]
+		},
+	},
     computed: {
         ...mapGetters(['mailEncryptionList', 'mailDriverList']),
+		regionList() {
+			return {
+				storj: this.storjRegions,
+				s3: this.s3Regions,
+				spaces: this.digitalOceanRegions,
+				wasabi: this.wasabiRegions,
+				backblaze: this.backblazeRegions,
+				oss: this.ossRegions,
+			}[this.storage.driver]
+		},
     },
     data() {
         return {
             isLoading: false,
-            isSendingRequest: false,
+            isSendingEmailForm: false,
+            isSendingStorageForm: false,
             mailDriver: undefined,
+			ossRegions: [
+				{
+					label: 'China (Hangzhou)',
+					value: 'oss-cn-hangzhou',
+				},
+				{
+					label: 'China (Shanghai)',
+					value: 'oss-cn-shanghai',
+				},
+				{
+					label: 'China (Qingdao)',
+					value: 'oss-cn-qingdao',
+				},
+				{
+					label: 'China (Beijing)',
+					value: 'oss-cn-beijing',
+				},
+				{
+					label: 'China (Zhangjiakou)',
+					value: 'oss-cn-zhangjiakou',
+				},
+				{
+					label: 'China (Hohhot)',
+					value: 'oss-cn-huhehaote',
+				},
+				{
+					label: 'China (Ulanqab)',
+					value: 'oss-cn-wulanchabu',
+				},
+				{
+					label: 'China (Shenzhen)',
+					value: 'oss-cn-shenzhen',
+				},
+				{
+					label: 'China (Heyuan)',
+					value: 'oss-cn-heyuan',
+				},
+				{
+					label: 'China (Guangzhou)',
+					value: 'oss-cn-guangzhou',
+				},
+				{
+					label: 'China (Chengdu)',
+					value: 'oss-cn-chengdu',
+				},
+				{
+					label: 'China (Hong Kong)',
+					value: 'oss-cn-hongkong',
+				},
+			],
+			wasabiRegions: [
+				{
+					label: 'US East 1 (N. Virginia)',
+					value: 'us-east-1',
+				},
+				{
+					label: 'US East 2 (N. Virginia)',
+					value: 'us-east-2',
+				},
+				{
+					label: 'US West 1 (Oregon)',
+					value: 'us-west-1',
+				},
+				{
+					label: 'EU Central 1 (Amsterdam)',
+					value: 'eu-central-1',
+				},
+			],
+			storjRegions: [
+				{
+					label: 'EU Central 1',
+					value: 'eu1',
+				},
+				{
+					label: 'US Central 1',
+					value: 'us1',
+				},
+				{
+					label: 'AP Central 1',
+					value: 'ap1',
+				},
+			],
+			backblazeRegions: [
+				{
+					label: 'us-west-001',
+					value: 'us-west-001',
+				},
+				{
+					label: 'us-west-002',
+					value: 'us-west-002',
+				},
+				{
+					label: 'eu-central-003',
+					value: 'eu-central-003',
+				},
+			],
+			digitalOceanRegions: [
+				{
+					label: 'New York',
+					value: 'nyc3',
+				},
+				{
+					label: 'San Francisco',
+					value: 'sfo2',
+				},
+				{
+					label: 'Amsterdam',
+					value: 'ams3',
+				},
+				{
+					label: 'Singapore',
+					value: 'sgp1',
+				},
+				{
+					label: 'Frankfurt',
+					value: 'fra1',
+				},
+			],
+			s3Regions: [
+				{
+					label: 'us-east-1',
+					value: 'us-east-1',
+				},
+				{
+					label: 'us-east-2',
+					value: 'us-east-2',
+				},
+				{
+					label: 'us-west-1',
+					value: 'us-west-1',
+				},
+				{
+					label: 'us-west-2',
+					value: 'us-west-2',
+				},
+				{
+					label: 'af-south-1',
+					value: 'af-south-1',
+				},
+				{
+					label: 'ap-east-1',
+					value: 'ap-east-1',
+				},
+				{
+					label: 'ap-south-1',
+					value: 'ap-south-1',
+				},
+				{
+					label: 'ap-northeast-2',
+					value: 'ap-northeast-2',
+				},
+				{
+					label: 'ap-southeast-1',
+					value: 'ap-southeast-1',
+				},
+				{
+					label: 'ap-southeast-2',
+					value: 'ap-southeast-2',
+				},
+				{
+					label: 'ap-northeast-1',
+					value: 'ap-northeast-1',
+				},
+				{
+					label: 'ca-central-1',
+					value: 'ca-central-1',
+				},
+				{
+					label: 'eu-central-1',
+					value: 'eu-central-1',
+				},
+				{
+					label: 'eu-west-1',
+					value: 'eu-west-1',
+				},
+				{
+					label: 'eu-west-2',
+					value: 'eu-west-2',
+				},
+				{
+					label: 'eu-south-1',
+					value: 'eu-south-1',
+				},
+				{
+					label: 'eu-west-3',
+					value: 'eu-west-3',
+				},
+				{
+					label: 'eu-north-1',
+					value: 'eu-north-1',
+				},
+				{
+					label: 'me-south-1',
+					value: 'me-south-1',
+				},
+				{
+					label: 'sa-east-1',
+					value: 'sa-east-1',
+				},
+			],
+			storageServiceList: [
+				{
+					label: 'Local Driver',
+					value: 'local',
+				},
+				{
+					label: 'Amazon Web Services S3',
+					value: 's3',
+				},
+				{
+					label: 'Storj',
+					value: 'storj',
+				},
+				{
+					label: 'Digital Ocean Spaces',
+					value: 'spaces',
+				},
+				{
+					label: 'Object Cloud Storage by Wasabi',
+					value: 'wasabi',
+				},
+				{
+					label: 'Backblaze B2 Cloud Storage',
+					value: 'backblaze',
+				},
+				{
+					label: 'Alibaba Cloud OSS',
+					value: 'oss',
+				},
+			],
+			storage: {
+				driver: undefined,
+				key: undefined,
+				secret: undefined,
+				endpoint: undefined,
+				region: undefined,
+				bucket: undefined,
+			},
             ses: {
                 access_key: undefined,
                 secret_access_key: undefined,
@@ -274,6 +654,44 @@ export default {
         }
     },
     methods: {
+		async storageSetupSubmit() {
+			// Validate fields
+			const isValid = await this.$refs.storageSetup.validate()
+
+			if (!isValid) return
+
+			// Start loading
+			this.isSendingStorageForm = true
+
+			axios
+				.post('/api/admin/settings/storage', {
+					storage: this.storage
+				})
+				.then(() => {
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('Your storage driver was updated.'),
+					})
+				})
+				.catch(() => {
+					events.$emit('toaster', {
+						type: 'danger',
+						message: this.$t('popup_error.title'),
+					})
+				})
+				.finally(() => {
+					this.isSendingStorageForm = false
+
+					this.storage = {
+						driver: undefined,
+						key: undefined,
+						secret: undefined,
+						endpoint: undefined,
+						region: undefined,
+						bucket: undefined,
+					}
+				})
+		},
         async EmailSetupSubmit() {
             // Validate fields
             const isValid = await this.$refs.EmailSetup.validate()
@@ -281,9 +699,8 @@ export default {
             if (!isValid) return
 
             // Start loading
-            this.isSendingRequest = true
+            this.isSendingEmailForm = true
 
-            // Send request to get verify account
             axios
                 .post('/api/admin/settings/email', {
                     environment: this.environment,
@@ -307,7 +724,7 @@ export default {
                     })
                 })
                 .finally(() => {
-                    this.isSendingRequest = false
+                    this.isSendingEmailForm = false
                 })
         },
     },

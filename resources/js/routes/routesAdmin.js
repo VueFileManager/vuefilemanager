@@ -335,11 +335,11 @@ const routesAdmin = [
                         },
                     },
                     {
-                        name: 'AppEmail',
-                        path: '/admin/settings/email',
+                        name: 'AppEnvironment',
+                        path: '/admin/settings/environment',
                         component: () =>
                             import(
-                                /* webpackChunkName: "chunks/app-email" */ '../views/Admin/AppSettings/AppSettingsTabs/Email'
+                                /* webpackChunkName: "chunks/app-environment" */ '../views/Admin/AppSettings/AppSettingsTabs/Environment'
                             ),
                         meta: {
                             requiresAuth: true,

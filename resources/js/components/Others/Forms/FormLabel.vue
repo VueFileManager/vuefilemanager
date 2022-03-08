@@ -10,6 +10,7 @@
         <bar-chart-icon v-if="icon === 'bar-chart'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <settings-icon v-if="icon === 'settings'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <hard-drive-icon v-if="icon === 'hard-drive'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
+        <mail-icon v-if="icon === 'mail'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <smartphone-icon v-if="icon === 'smartphone'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <shield-icon v-if="icon === 'shield'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <bell-icon v-if="icon === 'bell'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
@@ -23,6 +24,7 @@
 
 <script>
 import {
+	MailIcon,
     InfoIcon,
     DatabaseIcon,
     UsersIcon,
@@ -44,6 +46,7 @@ export default {
     name: 'FormLabel',
     props: ['icon'],
     components: {
+		MailIcon,
         InfoIcon,
         DatabaseIcon,
         UsersIcon,
