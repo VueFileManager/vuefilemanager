@@ -20,6 +20,11 @@ mix
     .postCss("resources/css/tailwind.css", "public/css/tailwind.css", [
         require("tailwindcss"),
     ])
+    .webpackConfig({
+        output: {
+            chunkFilename: '[name].js?id=[chunkhash]',
+        }
+    })
     .options({
         hmrOptions: {
             host: '192.168.1.112',
