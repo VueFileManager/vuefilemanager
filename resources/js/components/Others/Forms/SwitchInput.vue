@@ -18,7 +18,7 @@
 <script>
 export default {
     name: 'SwitchInput',
-    props: ['label', 'name', 'state', 'info', 'input'],
+    props: ['label', 'name', 'state', 'info', 'input', 'isDisabled'],
     data() {
         return {
             isSwitched: undefined,
@@ -26,6 +26,8 @@ export default {
     },
     methods: {
         changeState() {
+			if (this.isDisabled) return
+
             this.isSwitched = !this.isSwitched
             this.$emit('input', this.isSwitched)
         },

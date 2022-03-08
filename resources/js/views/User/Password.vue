@@ -11,6 +11,8 @@
                 :is-last="!user.data.attributes.two_factor_authentication"
             >
                 <SwitchInput
+					@click.native="toggle2Fa"
+					:is-disabled="true"
                     v-model="user.data.attributes.two_factor_authentication"
                     class="switch"
                     :state="user.data.attributes.two_factor_authentication"
@@ -169,11 +171,6 @@ export default {
     computed: {
         ...mapGetters(['user']),
     },
-    watch: {
-        'user.data.attributes.two_factor_authentication': function (val) {
-            val ? this.enable2faPopup() : this.disable2faPopup()
-        },
-    },
     data() {
         return {
             passwordForm: {
@@ -186,6 +183,9 @@ export default {
         }
     },
     methods: {
+		toggle2Fa() {
+			this.user.data.attributes.two_factor_authentication ? this.disable2faPopup() : this.enable2faPopup()
+		},
         async resetPassword() {
             // Validate fields
             const isValid = await this.$refs.password.validate()
