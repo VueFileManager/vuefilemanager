@@ -29,6 +29,12 @@
                     :title="$t('Convert as Team Folder')"
                     icon="users"
                 />
+				<Option
+					@click.native="$createFileRequest(item)"
+					v-if="isFolder"
+					:title="$t('File Request')"
+					icon="upload-cloud"
+				/>
             </OptionGroup>
 
             <OptionGroup v-if="item">

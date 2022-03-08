@@ -45,15 +45,14 @@
                     </AppInputText>
                 </ValidationProvider>
 
-				<!--Set email-->
+				<!--Set name-->
                 <ValidationProvider
 					tag="div"
 					mode="passive"
 					name="Name"
-					rules="required"
 					v-slot="{ errors }"
 				>
-                    <AppInputText :title="this.$t('Folder Name (optional)')" :description="$t('Created folder with files will be named with your own name.')" :error="errors[0]" class="-mt-2">
+                    <AppInputText :title="$t('Folder Name (optional)')" :description="$t('Created folder with files will be named with your own name.')" :error="errors[0]" class="-mt-2">
                         <input
 							v-model="form.name"
 							:class="{ 'border-red': errors[0] }"
