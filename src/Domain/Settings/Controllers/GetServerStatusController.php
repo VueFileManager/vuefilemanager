@@ -16,6 +16,9 @@ class GetServerStatusController
         // Get server data
         $status = ($this->getServerSetupStatus)();
 
+        // Get latest logs
+        $status['logs'] = getListOfLatestLogs();
+
         // Add latest database backups
         $status['backups'] = collect(Storage::allFiles('app-backup'))
             ->map(fn ($path) => str_replace('app-backup/', '', $path))

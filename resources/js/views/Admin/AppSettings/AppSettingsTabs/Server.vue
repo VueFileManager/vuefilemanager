@@ -28,6 +28,31 @@
             </div>
         </div>
 
+        <!--Logs-->
+        <div class="card shadow-card">
+            <FormLabel icon="list">Latest Server Logs</FormLabel>
+
+            <InfoBox v-if="!logs.length" class="!mb-0">
+                <p v-html="$t('There is not any server log.')"></p>
+            </InfoBox>
+
+            <div
+                v-if="logs.length"
+                v-for="(log, i) in logs"
+                :key="i"
+                class="md:flex md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+            >
+                <div class="text-left">
+                    <b class="block text-sm font-bold">
+						{{ log }}
+					</b>
+                </div>
+				<div @click="downloadLog(log)" class="flex h-8 w-8 items-center justify-center rounded-md bg-light-background transition-colors hover:bg-green-100 dark:bg-2x-dark-foreground cursor-pointer">
+					<DownloadCloudIcon size="15" class="opacity-75" />
+				</div>
+            </div>
+        </div>
+
         <!--Database Backups check-->
         <div class="card shadow-card">
             <FormLabel icon="database"> Latest Database Backups </FormLabel>
@@ -150,10 +175,10 @@
 </template>
 
 <script>
-import InfoBox from '../../../../components/Others/Forms/InfoBox'
+import { CheckIcon, XIcon, DownloadCloudIcon } from 'vue-feather-icons'
 import FormLabel from '../../../../components/Others/Forms/FormLabel'
 import PageTab from '../../../../components/Others/Layout/PageTab'
-import { CheckIcon, XIcon } from 'vue-feather-icons'
+import InfoBox from '../../../../components/Others/Forms/InfoBox'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 
@@ -163,6 +188,7 @@ export default {
         FormLabel,
         InfoBox,
         PageTab,
+		DownloadCloudIcon,
         CheckIcon,
         XIcon,
     },
@@ -181,8 +207,22 @@ export default {
             phpVersion: undefined,
             apiRunning: undefined,
             backups: undefined,
+            logs: undefined,
         }
     },
+	methods: {
+		downloadLog(log) {
+
+			let anchor = document.createElement('a')
+
+			anchor.href = `/admin/log/${log}`
+			anchor.download = log
+
+			document.body.appendChild(anchor)
+
+			anchor.click()
+		}
+	},
     created() {
         // Get status
         axios.get('/api/admin/status').then((response) => {
@@ -192,6 +232,7 @@ export default {
             this.modules = response.data.modules
             this.phpVersion = response.data.php_version
             this.backups = response.data.backups
+            this.logs = response.data.logs
         })
 
         // Ping API

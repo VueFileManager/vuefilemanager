@@ -48,7 +48,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/upload-request.php'));
 
             Route::prefix('api/admin')
-                ->middleware(['api', 'auth:sanctum'])
+                ->middleware(['api', 'auth:sanctum', 'admin'])
                 ->group(base_path('routes/admin.php'));
 
             Route::middleware(['setup-wizard'])

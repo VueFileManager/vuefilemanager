@@ -18,6 +18,22 @@ use Domain\Localization\Models\Language;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+if (! function_exists('getListOfLatestLogs')) {
+    /**
+     * Check if cron is running
+     */
+    function getListOfLatestLogs(): array
+    {
+        return array_slice(
+            array_reverse(
+                array_filter(
+                    scandir(storage_path() . '/logs'), fn($fn) => !str_starts_with($fn, '.')
+                )
+            ), 0, 5, true
+        );
+    }
+}
+
 if (! function_exists('isRunningCron')) {
     /**
      * Check if cron is running

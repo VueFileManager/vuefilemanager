@@ -1,7 +1,9 @@
 <?php
+
 namespace App\Http;
 
 use Fruitcake\Cors\HandleCors;
+use Support\Middleware\AdminCheck;
 use Support\Middleware\TrimStrings;
 use Support\Middleware\TrustProxies;
 use Support\Middleware\EncryptCookies;
@@ -75,6 +77,7 @@ class Kernel extends HttpKernel
         'signed'           => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'admin'            => AdminCheck::class,
         'setup-wizard'     => ProtectSetupWizardRoutes::class,
         'upload-request'   => ProtectUploadRequestRoutes::class,
     ];
