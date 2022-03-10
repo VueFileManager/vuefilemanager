@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\UploadRequest\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -18,8 +19,7 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
      */
     public function __construct(
         public UploadRequest $uploadRequest
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -29,7 +29,7 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -51,13 +51,16 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
 
     /**
      * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return array
      */
-    public function toArray($notifiable)
+    public function toArray(mixed $notifiable): array
     {
         return [
+            'type'        => 'file-request',
+            'title'       => 'File Request Filled',
+            'description' => "Your file request for '{$this->uploadRequest->parent->name}' folder was filled successfully.",
+            'action'      => [
+                'id' => $this->uploadRequest->id,
+            ],
         ];
     }
 }
