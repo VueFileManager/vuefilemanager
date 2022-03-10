@@ -33,7 +33,7 @@
 
         <div
             v-if="user"
-            class="relative mx-auto w-full overflow-x-hidden px-2.5 pb-12 md:max-w-4xl md:px-6 lg:pt-6 lg:pb-0 xl:max-w-screen-lg"
+            class="relative mx-auto w-full overflow-x-hidden px-2.5 pb-12 md:max-w-4xl md:px-6 lg:pt-6 lg:pb-0 xl:max-w-screen-lg z-[5]"
         >
             <div v-if="!isLoading" id="page-content">
                 <div class="card sticky top-0 z-10 shadow-card" style="padding-bottom: 0">

@@ -1,7 +1,7 @@
 <template>
     <div class="flex items-center justify-center">
         <span
-            class="text-theme absolute z-10 mx-auto mt-1 inline-block w-7 overflow-hidden text-ellipsis text-center text-[9px] font-semibold"
+            class="text-theme absolute z-[5] mx-auto mt-1 inline-block w-7 overflow-hidden text-ellipsis text-center text-[9px] font-semibold"
         >
             {{ entry.data.attributes.mimetype }}
         </span>

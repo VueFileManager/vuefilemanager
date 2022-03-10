@@ -21,7 +21,20 @@
             </div>
 
             <!--Navigation-->
-            <div class="mt-7">
+            <div class="mt-2 relative">
+                <div @click="toggleNotificationCenter" class="relative button-icon inline-block cursor-pointer rounded-xl p-3 hover:bg-light-300 dark:hover:bg-4x-dark-foreground">
+                    <bell-icon size="18" class="transition" :class="{'rotate-[30deg]': notificationCount}" />
+					<span v-if="notificationCount" class="absolute z-[9] right-1.5 bottom-1.5 flex items-center justify-center w-4 h-4 bg-theme text-white rounded-full text-xs font-bold">
+						{{ notificationCount }}
+					</span>
+					<span v-if="notificationCount" class="animate-ping absolute z-[8] right-1.5 bottom-1.5 flex items-center justify-center w-4 h-4 bg-theme text-white rounded-full text-xs font-bold"></span>
+                </div>
+            </div>
+
+			<NotificationCenter v-show="isNotificationCenter" />
+
+            <!--Navigation-->
+            <div class="mt-6">
                 <router-link
                     v-for="(item, i) in navigation"
                     :to="{ name: item.route }"
@@ -66,27 +79,19 @@
 
 <script>
 import MemberAvatar from '../FilesView/MemberAvatar'
-import { mapGetters } from 'vuex'
-import {
-    MoonIcon,
-    SunIcon,
-    HardDriveIcon,
-    SettingsIcon,
-    Trash2Icon,
-    UserIcon,
-    PowerIcon,
-    ShareIcon,
-} from 'vue-feather-icons'
+import {mapGetters} from 'vuex'
+import {BellIcon, HardDriveIcon, MoonIcon, PowerIcon, SettingsIcon, SunIcon, UserIcon,} from 'vue-feather-icons'
+import NotificationCenter from "../Notifications/NotificationCenter"
 
 export default {
     name: 'SidebarNavigation',
     components: {
-        HardDriveIcon,
+		NotificationCenter,
+		HardDriveIcon,
         SettingsIcon,
         MemberAvatar,
-        Trash2Icon,
         PowerIcon,
-        ShareIcon,
+        BellIcon,
         UserIcon,
         MoonIcon,
         SunIcon,
@@ -133,7 +138,17 @@ export default {
             ]
         },
     },
+	data() {
+		return {
+			notificationCount: 2,
+			isNotificationCenter: false,
+		}
+	},
     methods: {
+		toggleNotificationCenter() {
+			this.notificationCount = 0
+			this.isNotificationCenter = ! this.isNotificationCenter
+		},
         isSection(section) {
             return this.$route.matched[0].name === section
         },
