@@ -10,7 +10,7 @@ const defaultState = {
 }
 
 const actions = {
-    getAppData: ({ commit, getters }) => {
+    getAppData: ({ commit, getters, dispatch }) => {
         return new Promise((resolve, reject) => {
             axios
                 .get(getters.api + '/user' + getters.sorting.URI)
@@ -18,6 +18,10 @@ const actions = {
                     resolve(response)
 
                     commit('RETRIEVE_USER', response.data)
+
+                    if (! getters.isRunningConnection) {
+                        dispatch('runConnection')
+                    }
                 })
                 .catch((error) => {
                     reject(error)

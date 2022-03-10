@@ -3,6 +3,7 @@ import Vue from 'vue'
 
 import uploadRequest from './modules/uploadRequest'
 import fileFunctions from './modules/fileFunctions'
+import broadcasting from './modules/broadcasting'
 import fileBrowser from './modules/fileBrowser'
 import payments from './modules/payments'
 import userAuth from './modules/userAuth'
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     modules: {
         uploadRequest,
         fileFunctions,
+        broadcasting,
         fileBrowser,
         payments,
         userAuth,
