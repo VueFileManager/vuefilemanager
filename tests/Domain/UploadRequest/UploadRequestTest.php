@@ -1,8 +1,6 @@
 <?php
-
 namespace Tests\Domain\UploadRequest;
 
-use Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification;
 use Storage;
 use Notification;
 use Tests\TestCase;
@@ -12,6 +10,7 @@ use Illuminate\Http\UploadedFile;
 use Domain\UploadRequest\Models\UploadRequest;
 use Support\Scheduler\Actions\ExpireUnfilledUploadRequestAction;
 use Domain\UploadRequest\Notifications\UploadRequestNotification;
+use Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification;
 
 class UploadRequestTest extends TestCase
 {

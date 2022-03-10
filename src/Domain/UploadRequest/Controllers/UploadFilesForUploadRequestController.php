@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\UploadRequest\Controllers;
 
 use DB;
@@ -14,7 +13,8 @@ class UploadFilesForUploadRequestController
 {
     public function __construct(
         private UploadFileAction $uploadFile,
-    ) {}
+    ) {
+    }
 
     /**
      * @throws FileNotFoundException

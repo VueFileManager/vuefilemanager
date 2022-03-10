@@ -27,9 +27,13 @@ if (! function_exists('getListOfLatestLogs')) {
         return array_slice(
             array_reverse(
                 array_filter(
-                    scandir(storage_path() . '/logs'), fn($fn) => !str_starts_with($fn, '.')
+                    scandir(storage_path() . '/logs'),
+                    fn ($fn) => ! str_starts_with($fn, '.')
                 )
-            ), 0, 5, true
+            ),
+            0,
+            5,
+            true
         );
     }
 }
@@ -687,6 +691,7 @@ if (! function_exists('mapTrafficRecords')) {
                 $records->add($record);
             }
         }
+
         return $records;
     }
 }
@@ -1126,13 +1131,13 @@ if (! function_exists('replace_occurrence')) {
         }
     }
 
-    if (!function_exists('formatGPSCoordinates')) {
+    if (! function_exists('formatGPSCoordinates')) {
         /**
          * Format GPS coordinates
          */
         function formatGPSCoordinates($coordinates, $ref): string|null
         {
-            if (!$coordinates && !$ref) {
+            if (! $coordinates && ! $ref) {
                 return null;
             }
 

@@ -3,8 +3,8 @@
 use Domain\Homepage\Controllers\IndexController;
 use Domain\Invoices\Controllers\GetInvoiceController;
 use Domain\Settings\Controllers\DownloadLogController;
-use Domain\Sharing\Controllers\SharePublicIndexController;
 use App\Socialite\Controllers\SocialiteCallbackController;
+use Domain\Sharing\Controllers\SharePublicIndexController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
 
@@ -19,7 +19,6 @@ Route::get('/invoices/{invoice}', GetInvoiceController::class)
 
 Route::get('/admin/log/{log}', DownloadLogController::class)
     ->middleware(['auth:sanctum', 'admin']);
-
 
 // Get og site for web crawlers
 if (Crawler::isCrawler()) {

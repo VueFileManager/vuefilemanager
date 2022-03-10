@@ -226,10 +226,10 @@ class File extends Model
             $file->id = (string) Str::uuid();
         });
 
-        static::deleting(function($file) {
-            if($file->isForceDeleting()) {
+        static::deleting(function ($file) {
+            if ($file->isForceDeleting()) {
                 $file->exif()->forceDelete();
-            };
+            }
         });
     }
 }

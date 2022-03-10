@@ -8,6 +8,7 @@ use Domain\Teams\Models\TeamFolderMember;
 use Domain\Teams\Models\TeamFolderInvitation;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Resources\TeamInvitationResource;
+use Domain\Teams\Actions\ClearActionInInvitationNotificationAction;
 
 class InvitationsController extends Controller
 {
@@ -21,22 +22,31 @@ class InvitationsController extends Controller
     }
 
     public function update(
-        TeamFolderInvitation $invitation
-    ): ResponseFactory | Response {
-        $user = User::where('email', $invitation->email);
+        TeamFolderInvitation $invitation,
+        ClearActionInInvitationNotificationAction $clearActionInInvitationNotification,
+    ): ResponseFactory|Response {
+        $user = User::where('email', $invitation->email)
+            ->first();
 
-        if ($user->exists()) {
+        if ($user) {
+            if (is_demo_account()) {
+                return response('Done', 204);
+            }
+
             $invitation->accept();
 
             // Store team member
             TeamFolderMember::create([
-                'user_id'    => $user->first()->id,
+                'user_id'    => $user->id,
                 'parent_id'  => $invitation->parent_id,
                 'permission' => $invitation->permission,
             ]);
+
+            // Clear action in existing notification
+            $clearActionInInvitationNotification($user, $invitation);
         }
 
-        if ($user->doesntExist()) {
+        if (! $user) {
             $invitation->update([
                 'status' => 'waiting-for-registration',
             ]);
@@ -46,9 +56,23 @@ class InvitationsController extends Controller
     }
 
     public function destroy(
-        TeamFolderInvitation $invitation
-    ): ResponseFactory | Response {
+        TeamFolderInvitation $invitation,
+        ClearActionInInvitationNotificationAction $clearActionInInvitationNotification,
+    ): ResponseFactory|Response {
         $invitation->reject();
+
+        // Get user from invitation
+        $user = User::where('email', $invitation->email)
+            ->first();
+
+        // Clear action in existing notification
+        if ($user) {
+            if (is_demo_account()) {
+                return response('Done', 204);
+            }
+
+            $clearActionInInvitationNotification($user, $invitation);
+        }
 
         return response('Done', 204);
     }

@@ -1,11 +1,10 @@
 <?php
-
 namespace Domain\Notifications\Controllers;
 
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Http\Response;
 
 class MarkUserNotificationsAsReadController extends Controller
 {

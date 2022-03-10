@@ -2,8 +2,8 @@
 namespace Domain\Notifications\Events;
 
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class TestUpdate implements ShouldBroadcast
 {

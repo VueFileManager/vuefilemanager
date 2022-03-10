@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Notifications\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;

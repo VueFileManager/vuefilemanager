@@ -2,9 +2,8 @@
 namespace Domain\Settings\Controllers;
 
 use Artisan;
-use Domain\Settings\Requests\StoreStorageCredentialsRequest;
 use Illuminate\Http\Response;
-use Domain\Settings\Requests\StoreEmailCredentialsRequest;
+use Domain\Settings\Requests\StoreStorageCredentialsRequest;
 
 class StoreStorageCredentialsController
 {
@@ -22,7 +21,7 @@ class StoreStorageCredentialsController
                     'FILESYSTEM_DISK' => 'local',
                 ],
                 's3'    => [
-                    'FILESYSTEM_DISK'    => 's3',
+                    'FILESYSTEM_DISK'      => 's3',
                     'S3_ACCESS_KEY_ID'     => $request->input('storage.key') ?? null,
                     'S3_SECRET_ACCESS_KEY' => $request->input('storage.secret') ?? null,
                     'S3_DEFAULT_REGION'    => $request->input('storage.region') ?? null,

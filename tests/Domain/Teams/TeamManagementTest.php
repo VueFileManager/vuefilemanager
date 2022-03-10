@@ -62,10 +62,40 @@ class TeamManagementTest extends TestCase
                 'permission' => 'can-view',
             ]);
 
+        DB::table('notifications')
+            ->insert([
+                'id'              => Str::uuid(),
+                'type'            => 'Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification',
+                'notifiable_type' => 'App\Users\Models\User',
+                'notifiable_id'   => $member->id,
+                'data'            => json_encode([
+                    'type'        => 'team-invitation',
+                    'title'       => 'New Team Invitation',
+                    'description' => 'Jane Doe invite you to join into Team Folder..',
+                    'action'      => [
+                        'type'   => 'invitation',
+                        'params' => [
+                            'type'   => 'invitation',
+                            'params' => [
+                                'id' => $invitation->id,
+                            ],
+                        ],
+                    ],
+                ]),
+                'created_at'      => now(),
+                'updated_at'      => now(),
+            ]);
+
         $this
             ->actingAs($member)
             ->putJson("/api/teams/invitations/{$invitation->id}")
             ->assertNoContent();
+
+        // Get notification
+        $notification = json_decode(DB::table('notifications')->first()->data);
+
+        // Check if action is null
+        $this->assertEquals(null, $notification->action);
 
         $this
             ->assertDatabaseHas('team_folder_invitations', [
@@ -174,10 +204,40 @@ class TeamManagementTest extends TestCase
                 'permission' => 'can-edit',
             ]);
 
+        DB::table('notifications')
+            ->insert([
+                'id'              => Str::uuid(),
+                'type'            => 'Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification',
+                'notifiable_type' => 'App\Users\Models\User',
+                'notifiable_id'   => $member->id,
+                'data'            => json_encode([
+                    'type'        => 'team-invitation',
+                    'title'       => 'New Team Invitation',
+                    'description' => 'Jane Doe invite you to join into Team Folder..',
+                    'action'      => [
+                        'type'   => 'invitation',
+                        'params' => [
+                            'type'   => 'invitation',
+                            'params' => [
+                                'id' => $invitation->id,
+                            ],
+                        ],
+                    ],
+                ]),
+                'created_at'      => now(),
+                'updated_at'      => now(),
+            ]);
+
         $this
             ->actingAs($member)
             ->deleteJson("/api/teams/invitations/{$invitation->id}")
             ->assertNoContent();
+
+        // Get notification
+        $notification = json_decode(DB::table('notifications')->first()->data);
+
+        // Check if action is null
+        $this->assertEquals(null, $notification->action);
 
         $this
             ->assertDatabaseHas('team_folder_invitations', [

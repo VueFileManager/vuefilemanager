@@ -1,12 +1,10 @@
 <?php
-
-namespace  Domain\Files\Models;
+namespace Domain\Files\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Exif extends Model
 {
@@ -22,7 +20,7 @@ class Exif extends Model
 
     protected $casts = [
         'longitude' => 'array',
-        'latitude' => 'array',
+        'latitude'  => 'array',
     ];
 
     /**

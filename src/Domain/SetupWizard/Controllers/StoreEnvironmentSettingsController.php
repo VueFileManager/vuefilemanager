@@ -20,7 +20,7 @@ class StoreEnvironmentSettingsController extends Controller
                     'FILESYSTEM_DISK' => 'local',
                 ],
                 's3'    => [
-                    'FILESYSTEM_DISK'    => 's3',
+                    'FILESYSTEM_DISK'      => 's3',
                     'S3_ACCESS_KEY_ID'     => $request->input('storage.key') ?? null,
                     'S3_SECRET_ACCESS_KEY' => $request->input('storage.secret') ?? null,
                     'S3_DEFAULT_REGION'    => $request->input('storage.region') ?? null,

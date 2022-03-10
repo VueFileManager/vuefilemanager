@@ -1,12 +1,12 @@
 <?php
 namespace Domain\UploadRequest\Controllers;
 
-use Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification;
 use Illuminate\Http\Response;
 use Domain\UploadRequest\Models\UploadRequest;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\UploadRequest\Resources\UploadRequestResource;
+use Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification;
 
 class SetUploadRequestAsFilledController
 {
@@ -17,7 +17,7 @@ class SetUploadRequestAsFilledController
         ]);
 
         // Send user notification
-        if (!is_demo_account()) {
+        if (! is_demo_account()) {
             $uploadRequest->user->notify(new UploadRequestFulfilledNotification($uploadRequest));
         }
 

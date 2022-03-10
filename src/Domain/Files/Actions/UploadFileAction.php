@@ -11,7 +11,6 @@ use Domain\Files\Models\File as UserFile;
 use Domain\Traffic\Actions\RecordUploadAction;
 use App\Users\Exceptions\InvalidUserActionException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Domain\Files\Actions\StoreFileExifMetadataAction;
 
 class UploadFileAction
 {

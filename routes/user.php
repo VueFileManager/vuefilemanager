@@ -4,14 +4,14 @@ use App\Users\Controllers\Account\AccountDetailsController;
 use App\Users\Controllers\Account\UpdatePasswordController;
 use App\Users\Controllers\Account\StorageCapacityController;
 use App\Users\Controllers\Verification\VerifyEmailController;
-use Domain\Notifications\Controllers\FlushUserNotificationsController;
-use Domain\Notifications\Controllers\GetUserNotificationsController;
-use Domain\Notifications\Controllers\MarkUserNotificationsAsReadController;
 use Domain\Transactions\Controllers\GetTransactionsController;
 use App\Users\Controllers\Verification\ResendVerificationEmail;
 use App\Users\Controllers\Authentication\CheckAccountController;
 use App\Users\Controllers\Account\UpdateProfileSettingsController;
+use Domain\Notifications\Controllers\GetUserNotificationsController;
 use App\Users\Controllers\Authentication\AccountAccessTokenController;
+use Domain\Notifications\Controllers\FlushUserNotificationsController;
+use Domain\Notifications\Controllers\MarkUserNotificationsAsReadController;
 
 Route::post('/check', CheckAccountController::class);
 

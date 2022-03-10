@@ -63,7 +63,7 @@ class FileResource extends JsonResource
                             ],
                         ],
                     ]),
-                    $this->mergeWhen($this->exif, fn() => [
+                    $this->mergeWhen($this->exif, fn () => [
                         'exif' => [
                             'data' => [
                                 'type'       => 'exif',
@@ -88,8 +88,8 @@ class FileResource extends JsonResource
                                     'latitude'           => formatGPSCoordinates($this->exif->latitude, $this->exif->latitude_ref),
                                 ],
                             ],
-                        ]
-                    ])
+                        ],
+                    ]),
                 ],
             ],
         ];

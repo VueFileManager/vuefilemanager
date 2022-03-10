@@ -65,7 +65,7 @@ class GetDashboardDataController extends Controller
             )
             ->groupBy('created_at')
             ->get(['upload', 'download', 'created_at'])
-            ->each(fn($record) => $record->created_at = format_date($record->created_at, 'd. M. Y'))
+            ->each(fn ($record) => $record->created_at = format_date($record->created_at, 'd. M. Y'))
             ->keyBy('created_at');
 
         $mappedTrafficRecords = mapTrafficRecords($trafficRecords);

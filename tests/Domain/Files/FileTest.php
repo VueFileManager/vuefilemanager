@@ -386,12 +386,11 @@ class FileTest extends TestCase
             });
     }
 
-     /**
-     * @test
-     */
+    /**
+    * @test
+    */
     public function it_store_file_exif_data_after_file_upload()
     {
-        
         $file = UploadedFile::fake()
             ->image('fake-image.jpg', 2000, 2000);
 
@@ -417,5 +416,4 @@ class FileTest extends TestCase
             'width'   => 2000,
         ]);
     }
-
 }

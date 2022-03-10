@@ -72,47 +72,6 @@ export default {
 			return this.user.data.relationships.unreadNotifications.data
 		}
 	},
-	data() {
-		return {
-			laterNotifications: [
-				{
-					id: 1,
-					seen: 1,
-					type: 'remote-upload-done',
-					title: 'Remote Upload Finished',
-					description: 'Your remote uploads has been done.',
-					time: '09. Mar. 2022, 08:27',
-					action: {
-						id: '12-abc'
-					}
-				},
-			],
-			todayNotifications: [
-				{
-					id: 2,
-					seen: 0,
-					type: 'team-invitation',
-					title: 'New Team Invitation',
-					description: 'Jane Doe invite you to join into “Work Documents” Team Folder.',
-					time: '09. Mar. 2022, 08:27',
-					action: {
-						id: '12-abc'
-					}
-				},
-				{
-					id: 3,
-					seen: 0,
-					type: 'file-request',
-					title: 'File Request Filled',
-					description: 'Your file request for “Videohive” folder was filled successfully.',
-					time: '09. Mar. 2022, 07:12',
-					action: {
-						id: '12-abc'
-					}
-				},
-			]
-		}
-	},
 	methods: {
 		deleteAllNotifications() {
 			axios.delete('/api/user/notifications')

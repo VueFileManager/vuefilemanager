@@ -1,11 +1,10 @@
 <?php
-
 namespace Tests\Domain\Notifications;
 
-use App\Users\Models\User;
-use Tests\TestCase;
-use Str;
 use DB;
+use Str;
+use Tests\TestCase;
+use App\Users\Models\User;
 
 class NotificationsTest extends TestCase
 {

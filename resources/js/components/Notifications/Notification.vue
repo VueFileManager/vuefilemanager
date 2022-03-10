@@ -23,7 +23,7 @@
                 {{ notification.data.attributes.description }}
             </p>
 
-            <div class="mb-4 flex items-center">
+            <div class="flex items-center">
                 <!--<MemberAvatar class="mr-2" :size="22" :is-border="false" :member="user" />-->
                 <time class="block text-xs text-gray-400 dark:text-gray-400">
                     {{ notification.data.attributes.created_at }}
@@ -31,8 +31,9 @@
             </div>
 
             <!--Accept or decline team invitation-->
-            <div v-if="notification.data.attributes.type === 'team-invitation'" class="flex items-center space-x-3">
+            <div v-if="action && action.type === 'invitation'" class="flex items-center space-x-3 mt-4">
                 <div
+					@click="acceptAction"
                     class="flex cursor-pointer items-center rounded-xl py-1.5 px-2 transition-colors hover:bg-green-100 dark:hover:bg-green-900"
                 >
                     <check-icon size="16" class="vue-feather mr-2 text-green-600 dark:text-green-600" />
@@ -42,6 +43,7 @@
                 </div>
 
                 <div
+					@click="declineAction"
                     class="flex cursor-pointer items-center rounded-xl py-1.5 px-2 transition-colors hover:bg-rose-100 dark:hover:bg-rose-900"
                 >
                     <x-icon size="16" class="vue-feather mr-2 text-rose-600 dark:text-rose-600" />
@@ -69,6 +71,7 @@
 <script>
 import { CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon } from 'vue-feather-icons'
 import MemberAvatar from '../FilesView/MemberAvatar'
+import {events} from "../../bus";
 
 export default {
     name: 'Notification',
@@ -93,6 +96,28 @@ export default {
 		}
 	},
     methods: {
+		acceptAction() {
+			axios.put(`/api/teams/invitations/${this.notification.data.attributes.action.params.id}`)
+				.then(() => {
+					this.$store.commit('CLEAR_NOTIFICATION_ACTION_DATA', this.notification.data.id)
+
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('You successfully accepted invitation'),
+					})
+				})
+		},
+		declineAction() {
+			axios.delete(`/api/teams/invitations/${this.notification.data.attributes.action.params.id}`)
+				.then(() => {
+					this.$store.commit('CLEAR_NOTIFICATION_ACTION_DATA', this.notification.data.id)
+
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('You successfully decline invitation'),
+					})
+				})
+		},
         closeCenter() {
             this.$store.commit('TOGGLE_NOTIFICATION_CENTER')
         },

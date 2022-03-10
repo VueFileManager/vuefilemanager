@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\UploadRequest\Controllers;
 
 use Auth;

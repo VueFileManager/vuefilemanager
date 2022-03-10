@@ -5,10 +5,11 @@ use App\Users\Models\User;
 use Illuminate\Bus\Queueable;
 use Domain\Folders\Models\Folder;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Domain\Teams\Models\TeamFolderInvitation;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class InvitationIntoTeamFolder extends Notification
+class InvitationIntoTeamFolder extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -23,7 +24,7 @@ class InvitationIntoTeamFolder extends Notification
      */
     public function via(): array
     {
-        return ['mail'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -50,5 +51,23 @@ class InvitationIntoTeamFolder extends Notification
             ->line('You are invited to collaboration with team folder. But at first, you have to create an account to proceed into team folder.')
             ->action('Join & Create an Account', url('/team-folder-invitation', ['id' => $this->invitation->id]))
             ->salutation("Regards, $appTitle");
+    }
+
+    /**
+     * Get the array representation of the notification.
+     */
+    public function toArray(mixed $notifiable): array
+    {
+        return [
+            'type'        => 'team-invitation',
+            'title'       => 'New Team Invitation',
+            'description' => "{$this->invitation->inviter->settings->name} invite you to join into Team Folder.",
+            'action'      => [
+                'type'   => 'invitation',
+                'params' => [
+                    'id' => $this->invitation->id,
+                ],
+            ],
+        ];
     }
 }

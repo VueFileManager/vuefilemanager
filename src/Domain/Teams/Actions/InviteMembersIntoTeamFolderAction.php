@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Teams\Actions;
 
+use App\Users\Models\User;
 use Domain\Folders\Models\Folder;
 use Spatie\QueueableAction\QueueableAction;
 use Illuminate\Support\Facades\Notification;
@@ -25,9 +26,19 @@ class InviteMembersIntoTeamFolderAction
                     'inviter_id' => $folder->user_id,
                 ]);
 
-                // Invite user
-                Notification::route('mail', $member['email'])
-                    ->notify(new InvitationIntoTeamFolder($folder, $invitation));
+                // Get user
+                $user = User::where('email', $member['email'])->first();
+
+                // Invite native user
+                if ($user) {
+                    $user->notify(new InvitationIntoTeamFolder($folder, $invitation));
+                }
+
+                // Invite guest
+                if (! $user) {
+                    Notification::route('mail', $member['email'])
+                        ->notify(new InvitationIntoTeamFolder($folder, $invitation));
+                }
             });
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\UploadRequest\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -19,7 +18,8 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
      */
     public function __construct(
         public UploadRequest $uploadRequest
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.
@@ -38,7 +38,7 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
         return (new MailMessage)
             ->subject("Your file request was fulfilled in your '{$this->uploadRequest->parent->name}' folder")
             ->greeting('Hello')
-            ->line("We are emailing you because your file request was fulfilled. Please click on the link below to show uploaded files.")
+            ->line('We are emailing you because your file request was fulfilled. Please click on the link below to show uploaded files.')
             ->action('Show Files', url("/platform/files/{$this->uploadRequest->id}"))
             ->line('Thank you for using our application!');
     }

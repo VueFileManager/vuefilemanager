@@ -28,9 +28,9 @@ class UploadRequestResource extends JsonResource
                             'id'         => $this->user->id,
                             'type'       => 'user',
                             'attributes' => [
-                                'name'   => $this->user->settings->first_name,
+                                'name'    => $this->user->settings->first_name,
                                 'color'   => $this->user->settings->color,
-                                'avatar' => $this->user->settings->avatar,
+                                'avatar'  => $this->user->settings->avatar,
                             ],
                         ],
                     ],

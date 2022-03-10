@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Notifications\Controllers;
 
 use App\Http\Controllers\Controller;

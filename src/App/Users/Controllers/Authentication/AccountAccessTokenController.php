@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Users\Controllers\Authentication;
 
 use Illuminate\Support\Str;

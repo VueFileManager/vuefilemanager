@@ -180,6 +180,23 @@ const mutations = {
         state.user.data.relationships.readNotifications.data = []
         state.user.data.relationships.unreadNotifications.data = []
     },
+    CLEAR_NOTIFICATION_ACTION_DATA(state, notificationId) {
+        if (state.user.data.relationships.readNotifications.data.length) {
+            state.user.data.relationships.readNotifications.data.map(notification => {
+                if (notification.data.id === notificationId) {
+                    notification.data.attributes.action = undefined
+                }
+            })
+        }
+
+        if (state.user.data.relationships.unreadNotifications.data.length) {
+            state.user.data.relationships.unreadNotifications.data.map(notification => {
+                if (notification.data.id === notificationId) {
+                    notification.data.attributes.action = undefined
+                }
+            })
+        }
+    },
 }
 
 const getters = {

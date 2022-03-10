@@ -898,7 +898,7 @@ class SetupDevEnvironment extends Command
         ])
             ->each(function ($file) use ($users, $financeDocumentsFolder, $otherDocuments) {
                 $user = $users[rand(0, 2)];
-                $folder = [$financeDocumentsFolder, $otherDocuments][rand(0,1)];
+                $folder = [$financeDocumentsFolder, $otherDocuments][rand(0, 1)];
 
                 $basename = Str::random(12) . '-' . $file['basename'];
 
@@ -1120,7 +1120,7 @@ class SetupDevEnvironment extends Command
             'Smart Watch 3D Device Pack for Element 3D.mp4',
         ])
             ->each(function ($file) use ($users, $videos) {
-                $user = $users[rand(0,1)];
+                $user = $users[rand(0, 1)];
 
                 $basename = Str::random(12) . '-' . $file;
 
@@ -1151,7 +1151,7 @@ class SetupDevEnvironment extends Command
             ->each(function ($file) use ($users, $folder) {
                 $basename = Str::random(12) . '-' . $file['basename'];
 
-                $user = $users[rand(0,1)];
+                $user = $users[rand(0, 1)];
 
                 // Copy file into app storage
                 Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');

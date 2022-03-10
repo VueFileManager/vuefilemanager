@@ -44,7 +44,7 @@ class TeamFoldersController extends Controller
                 ->get();
         }
 
-        if (!$id) {
+        if (! $id) {
             $folders = Folder::where('parent_id', null)
                 ->where('team_folder', true)
                 ->where('user_id', Auth::id())
