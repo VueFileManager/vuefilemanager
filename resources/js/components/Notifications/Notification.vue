@@ -1,69 +1,106 @@
 <template>
-	<article class="z-20 relative flex items-start p-2.5 mb-1.5 space-x-4 rounded-xl dark:hover:bg-4x-dark-foreground hover:bg-light-background bg-opacity-80">
+    <article
+        class="delay-[3000ms] duration-700 transition-all relative z-20 mb-1.5 flex items-start space-x-4 rounded-xl p-2.5 dark:hover:bg-4x-dark-foreground"
+		:class="{'bg-light-background/80': isUnread}"
+    >
+        <user-plus-icon
+            v-if="notification.data.attributes.type === 'team-invitation'"
+            size="20"
+            class="vue-feather text-theme shrink-0"
+        />
+        <upload-cloud-icon
+            v-if="['file-request', 'remote-upload-done'].includes(notification.data.attributes.type)"
+            size="20"
+            class="vue-feather text-theme shrink-0"
+        />
 
-		<user-plus-icon v-if="notification.type === 'team-invitation'" size="20" class="vue-feather text-theme shrink-0" />
-		<upload-cloud-icon v-if="['file-request', 'remote-upload-done'].includes(notification.type)" size="20" class="vue-feather text-theme shrink-0" />
+        <div>
+            <b class="mb-1.5 block text-sm font-extrabold">
+                {{ notification.data.attributes.title }}
+            </b>
 
-		<div>
-			<b class="font-extrabold text-sm mb-1.5 block">
-				{{ notification.title }}
-			</b>
+            <p class="mb-1.5 text-sm dark:text-gray-500">
+                {{ notification.data.attributes.description }}
+            </p>
 
-			<p class="text-sm mb-1.5 dark:text-gray-500">
-				{{ notification.description }}
-			</p>
+            <div class="mb-4 flex items-center">
+                <!--<MemberAvatar class="mr-2" :size="22" :is-border="false" :member="user" />-->
+                <time class="block text-xs text-gray-400 dark:text-gray-400">
+                    {{ notification.data.attributes.created_at }}
+                </time>
+            </div>
 
-			<div class="flex items-center mb-4">
-				<!--<MemberAvatar class="mr-2" :size="22" :is-border="false" :member="user" />-->
-				<time class=" block text-xs dark:text-gray-400 text-gray-400">
-					09. Mar. 2022, 08:27
-				</time>
-			</div>
+            <!--Accept or decline team invitation-->
+            <div v-if="notification.data.attributes.type === 'team-invitation'" class="flex items-center space-x-3">
+                <div
+                    class="flex cursor-pointer items-center rounded-xl py-1.5 px-2 transition-colors hover:bg-green-100 dark:hover:bg-green-900"
+                >
+                    <check-icon size="16" class="vue-feather mr-2 text-green-600 dark:text-green-600" />
+                    <span class="text-sm font-bold text-green-600 dark:text-green-600">
+                        {{ $t('Accept') }}
+                    </span>
+                </div>
 
-			<!--Accept or decline team invitation-->
-			<div v-if="notification.type === 'team-invitation'" class="flex items-center space-x-3">
-				<div class="flex items-center cursor-pointer py-1.5 px-2 rounded-xl transition-colors dark:hover:bg-green-900 hover:bg-green-100">
-					<check-icon size="16" class="vue-feather dark:text-green-600 text-green-600 mr-2" />
-					<span class="text-sm font-bold dark:text-green-600 text-green-600">
-						{{ $t('Accept') }}
-					</span>
-				</div>
+                <div
+                    class="flex cursor-pointer items-center rounded-xl py-1.5 px-2 transition-colors hover:bg-rose-100 dark:hover:bg-rose-900"
+                >
+                    <x-icon size="16" class="vue-feather mr-2 text-rose-600 dark:text-rose-600" />
+                    <span class="text-sm font-bold text-rose-600 dark:text-rose-600">
+                        {{ $t('Decline') }}
+                    </span>
+                </div>
+            </div>
 
-				<div class="flex items-center cursor-pointer py-1.5 px-2 rounded-xl transition-colors dark:hover:bg-rose-900 hover:bg-rose-100">
-					<x-icon size="16" class="vue-feather dark:text-rose-600 text-rose-600 mr-2" />
-					<span class="text-sm font-bold dark:text-rose-600 text-rose-600">
-						{{ $t('Decline') }}
-					</span>
-				</div>
-			</div>
-
-			<!--Go to route-->
-			<router-link v-if="['file-request', 'remote-upload-done'].includes(notification.type)" :to="{ name: 'Users' }" class="mt-4 flex items-center">
-				<span class="mr-2 whitespace-nowrap text-xs font-bold">
-					{{ $t('Show Files') }}
-				</span>
-				<chevron-right-icon size="16" class="text-theme vue-feather" />
-			</router-link>
-		</div>
-	</article>
+            <!--Go to route-->
+            <router-link
+                @click.native="closeCenter"
+                v-if="action && action.type === 'route'"
+                :to="{ name: action.params.route, params: { id: action.params.id } }"
+                class="mt-4 flex items-center"
+            >
+                <span class="mr-2 whitespace-nowrap text-xs font-bold">
+                    {{ action.params.button }}
+                </span>
+                <chevron-right-icon size="16" class="text-theme vue-feather" />
+            </router-link>
+        </div>
+    </article>
 </template>
 <script>
-import {CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon} from 'vue-feather-icons'
+import { CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon } from 'vue-feather-icons'
 import MemberAvatar from '../FilesView/MemberAvatar'
 
 export default {
-	name: 'Notification',
-	props: [
-		'notification',
-	],
-	components: {
-		MemberAvatar,
-		ChevronRightIcon,
-		UploadCloudIcon,
-		UserPlusIcon,
-		CheckIcon,
-		MailIcon,
-		XIcon,
+    name: 'Notification',
+    props: ['notification'],
+    components: {
+        MemberAvatar,
+        ChevronRightIcon,
+        UploadCloudIcon,
+        UserPlusIcon,
+        CheckIcon,
+        MailIcon,
+        XIcon,
+    },
+    computed: {
+        action() {
+            return this.notification.data.attributes.action
+        },
+    },
+	data() {
+		return {
+			isUnread: false
+		}
+	},
+    methods: {
+        closeCenter() {
+            this.$store.commit('TOGGLE_NOTIFICATION_CENTER')
+        },
+    },
+	created() {
+		this.isUnread = this.notification.data.attributes.read_at === null
+
+		setTimeout(() => this.isUnread = false, 1000)
 	}
 }
 </script>

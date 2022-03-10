@@ -3,7 +3,7 @@
 		<div class="fixed popup z-20 top-[27px] bottom-[27px] left-20 w-[360px]">
 
 			<!--Triangle-->
-			<div class="z-20 absolute left-0 top-[102px] w-4 translate-x-[-15px] overflow-hidden inline-block">
+			<div class="z-20 absolute left-0 top-[64px] w-4 translate-x-[-15px] overflow-hidden inline-block" :class="{'!top-[102px]': config.subscriptionType === 'metered'}">
 				<div class="h-12 -rotate-45 transform origin-top-right dark:bg-2x-dark-foreground bg-white bg-opacity-80 backdrop-blur-2xl"></div>
 			</div>
 
@@ -15,22 +15,26 @@
 				</b>
 
 				<div class="px-2.5">
-					<MobileActionButton icon="check-square" class="mb-2 dark:!bg-4x-dark-foreground">
+					<MobileActionButton v-if="readNotifications.length || unreadNotifications.length" @click.native="deleteAllNotifications" icon="check-square" class="mb-2 dark:!bg-4x-dark-foreground">
 						{{ $t('Clear all') }}
 					</MobileActionButton>
+
+					<p v-if="!readNotifications.length && !unreadNotifications.length" class="text-sm mt-8">
+						{{ $t("There aren't any notifications.") }}
+					</p>
 				</div>
 
-				<b class="dark-text-theme mt-1.5 block px-2.5 mb-2.5 text-xs text-gray-400">
-					Today
+				<b v-if="unreadNotifications.length" class="dark-text-theme mt-1.5 block px-2.5 mb-2.5 text-xs text-gray-400">
+					{{ $t('Unread') }}
 				</b>
 
-				<Notification :notification="notification" v-for="notification in todayNotifications" :key="notification.id" />
+				<Notification :notification="notification" v-for="notification in unreadNotifications" :key="notification.id" />
 
-				<b class="dark-text-theme mt-2.5 block px-2.5 mb-2.5 text-xs text-gray-400">
-					Later
+				<b v-if="readNotifications.length" class="dark-text-theme mt-2.5 block px-2.5 mb-2.5 text-xs text-gray-400">
+					{{ $t('Read') }}
 				</b>
 
-				<Notification :notification="notification" v-for="notification in laterNotifications" :key="notification.id" />
+				<Notification :notification="notification" v-for="notification in readNotifications" :key="notification.id" />
 			</div>
 		</div>
 	</transition>
@@ -39,12 +43,34 @@
 <script>
 import Notification from "./Notification";
 import MobileActionButton from "../FilesView/MobileActionButton";
+import {mapGetters} from "vuex";
 
 export default {
 	name: 'NotificationCenter',
 	components: {
 		MobileActionButton,
 		Notification
+	},
+	watch: {
+		isVisibleNotificationCenter: function (visibility) {
+			if (visibility) {
+				axios.post('/api/user/notifications/read')
+					.then(() => {
+						this.$store.commit('UPDATE_NOTIFICATION_COUNT', 0)
+					})
+			}
+		}
+	},
+	computed: {
+		...mapGetters([
+			'user', 'config', 'isVisibleNotificationCenter',
+		]),
+		readNotifications() {
+			return this.user.data.relationships.readNotifications.data
+		},
+		unreadNotifications() {
+			return this.user.data.relationships.unreadNotifications.data
+		}
 	},
 	data() {
 		return {
@@ -85,6 +111,14 @@ export default {
 					}
 				},
 			]
+		}
+	},
+	methods: {
+		deleteAllNotifications() {
+			axios.delete('/api/user/notifications')
+				.then(() => {
+					this.$store.commit('FLUSH_NOTIFICATIONS')
+				})
 		}
 	}
 }

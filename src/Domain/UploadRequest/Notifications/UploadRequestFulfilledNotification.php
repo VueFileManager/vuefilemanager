@@ -23,22 +23,16 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
 
     /**
      * Get the notification's delivery channels.
-     *
-     * @param mixed $notifiable
-     * @return array
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable): MailMessage
     {
         // TODO: add to language strings
         return (new MailMessage)
@@ -59,7 +53,12 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
             'title'       => 'File Request Filled',
             'description' => "Your file request for '{$this->uploadRequest->parent->name}' folder was filled successfully.",
             'action'      => [
-                'id' => $this->uploadRequest->id,
+                'type'   => 'route',
+                'params' => [
+                    'route'  => 'Files',
+                    'button' => 'Show Files',
+                    'id'     => $this->uploadRequest->id,
+                ],
             ],
         ];
     }

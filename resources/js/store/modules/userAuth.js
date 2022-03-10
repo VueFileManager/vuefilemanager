@@ -18,6 +18,7 @@ const actions = {
                     resolve(response)
 
                     commit('RETRIEVE_USER', response.data)
+                    commit('UPDATE_NOTIFICATION_COUNT', response.data.data.relationships.unreadNotifications.data.length)
 
                     if (! getters.isRunningConnection) {
                         dispatch('runConnection')
@@ -171,6 +172,13 @@ const mutations = {
                 folder.name = data.name
             }
         })
+    },
+    PUSH_NEW_NOTIFICATION(state, notification) {
+        state.user.data.relationships.unreadNotifications.data.push(notification)
+    },
+    FLUSH_NOTIFICATIONS(state) {
+        state.user.data.relationships.readNotifications.data = []
+        state.user.data.relationships.unreadNotifications.data = []
     },
 }
 

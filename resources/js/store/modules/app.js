@@ -5,6 +5,8 @@ import router from '../../router'
 
 const defaultState = {
     isVisibleNavigationBars: localStorage.getItem('is_navigation_bars') !== 'false',
+    isVisibleNotificationCenter: false,
+    notificationCount: 0,
     isDarkMode: false,
     isVisibleSidebar: localStorage.getItem('file_info_visibility') === 'true' || false,
     itemViewType: localStorage.getItem('preview_type') || 'list',
@@ -167,10 +169,18 @@ const mutations = {
     UPDATE_DARK_MODE_STATUS(state, val) {
         state.isDarkMode = val
     },
+    UPDATE_NOTIFICATION_COUNT(state, val) {
+        state.notificationCount = val
+    },
+    TOGGLE_NOTIFICATION_CENTER(state) {
+        state.isVisibleNotificationCenter = !state.isVisibleNotificationCenter
+    },
 }
 
 const getters = {
+    isVisibleNotificationCenter: (state) => state.isVisibleNotificationCenter,
     isVisibleNavigationBars: (state) => state.isVisibleNavigationBars,
+    notificationCount: (state) => state.notificationCount,
     isVisibleSidebar: (state) => state.isVisibleSidebar,
     itemViewType: (state) => state.itemViewType,
     requestedPlan: (state) => state.requestedPlan,

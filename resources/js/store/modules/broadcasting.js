@@ -3,14 +3,15 @@ const defaultState = {
 }
 
 const actions = {
-    runConnection: ({ commit, getters }) => {
+    runConnection: ({ commit, getters, dispatch }) => {
 
         commit('SET_RUNNING_COMMUNICATION')
 
-        Echo.private(`test.${getters.user.data.id}`)
-            .listen('.Domain\\Notifications\\Events\\TestUpdate', (e) => {
-                console.log(e);
-            });
+		Echo.private(`App.Users.Models.User.${getters.user.data.id}`)
+			.notification(() => {
+				// TODO: call sound
+				dispatch('getAppData')
+			});
     },
 }
 

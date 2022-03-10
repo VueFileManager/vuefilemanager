@@ -2,6 +2,7 @@
 
 namespace App\Users\Resources;
 
+use Domain\Notifications\Resources\NotificationCollection;
 use Domain\Folders\Resources\FolderCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Users\Actions\FormatUsageEstimatesAction;
@@ -43,9 +44,11 @@ class UserResource extends JsonResource
                     'updated_at'                => format_date($this->updated_at, 'd. M. Y'),
                 ],
                 'relationships' => [
-                    'settings'    => new SettingsResource($this->settings),
-                    'favourites'  => new FolderCollection($this->favouriteFolders),
-                    'creditCards' => new CreditCardCollection($this->creditCards),
+                    'readNotifications'   => new NotificationCollection($this->readNotifications),
+                    'unreadNotifications' => new NotificationCollection($this->unreadNotifications),
+                    'settings'            => new SettingsResource($this->settings),
+                    'favourites'          => new FolderCollection($this->favouriteFolders),
+                    'creditCards'         => new CreditCardCollection($this->creditCards),
                     $this->mergeWhen($this->hasSubscription(), fn() => [
                         'subscription' => new SubscriptionResource($this->subscription),
                     ]),

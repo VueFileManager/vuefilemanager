@@ -22,7 +22,7 @@
 
             <!--Navigation-->
             <div class="mt-2 relative">
-                <div @click="toggleNotificationCenter" class="relative button-icon inline-block cursor-pointer rounded-xl p-3 hover:bg-light-300 dark:hover:bg-4x-dark-foreground">
+                <div @click="$store.commit('TOGGLE_NOTIFICATION_CENTER')" class="relative button-icon inline-block cursor-pointer rounded-xl p-3 hover:bg-light-300 dark:hover:bg-4x-dark-foreground">
                     <bell-icon size="18" class="transition" :class="{'rotate-[30deg]': notificationCount}" />
 					<span v-if="notificationCount" class="absolute z-[9] right-1.5 bottom-1.5 flex items-center justify-center w-4 h-4 bg-theme text-white rounded-full text-xs font-bold">
 						{{ notificationCount }}
@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-			<NotificationCenter v-show="isNotificationCenter" />
+			<NotificationCenter v-show="isVisibleNotificationCenter" />
 
             <!--Navigation-->
             <div class="mt-6">
@@ -97,7 +97,7 @@ export default {
         SunIcon,
     },
     computed: {
-        ...mapGetters(['isVisibleNavigationBars', 'isDarkMode', 'config', 'user']),
+        ...mapGetters(['isVisibleNavigationBars', 'isDarkMode', 'config', 'user', 'isVisibleNotificationCenter', 'notificationCount']),
         navigation() {
             if (this.user.data.attributes.role === 'admin') {
                 return [
@@ -140,15 +140,10 @@ export default {
     },
 	data() {
 		return {
-			notificationCount: 2,
 			isNotificationCenter: false,
 		}
 	},
     methods: {
-		toggleNotificationCenter() {
-			this.notificationCount = 0
-			this.isNotificationCenter = ! this.isNotificationCenter
-		},
         isSection(section) {
             return this.$route.matched[0].name === section
         },

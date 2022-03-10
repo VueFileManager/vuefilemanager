@@ -15,7 +15,7 @@
         "cross-env": "^5.1",
         "laravel-echo": "^1.11.3",
         "laravel-mix": "^6.0.43",
-        "postcss": "^8.4.7",
+        "postcss": "^8.4.8",
         "prettier": "^2.5.1",
         "prettier-plugin-import-sort": "0.0.7",
         "prettier-plugin-tailwindcss": "^0.1.8",
