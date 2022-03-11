@@ -1,7 +1,7 @@
 <template>
     <article
-        class="delay-[3000ms] duration-700 transition-all relative z-20 mb-1.5 flex items-start space-x-4 rounded-xl p-2.5 dark:hover:bg-4x-dark-foreground"
-		:class="{'bg-light-background/80': isUnread}"
+        class="delay-[3000ms] duration-700 transition-all relative z-20 mb-1.5 flex items-start space-x-4 rounded-xl p-2.5"
+		:class="{'dark:bg-4x-dark-foreground bg-light-background/80': isUnread}"
     >
         <user-plus-icon
             v-if="notification.data.attributes.type === 'team-invitation'"

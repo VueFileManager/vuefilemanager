@@ -74,6 +74,7 @@
         // todo: refactoring
 
 		let config = {
+			ip: '{{ request()->ip() }}',
 			host: '{{ url('/') }}',
 			api: '{{ url('/api') }}',
 			locale: '{{ app()->getLocale() }}',

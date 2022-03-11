@@ -20,11 +20,10 @@ import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
 
-// TODO: set wshost
 window.Echo = new Echo({
 	broadcaster: 'pusher',
 	key: 'local',
-	wsHost: '192.168.1.112',
+	wsHost: config.ip,
 	wsPort: 6001,
 	forceTLS: false
 });
