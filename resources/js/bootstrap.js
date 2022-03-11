@@ -23,7 +23,7 @@ window.Pusher = require('pusher-js');
 window.Echo = new Echo({
 	broadcaster: 'pusher',
 	key: 'local',
-	wsHost: config.ip,
+	wsHost: window.location.hostname,
 	wsPort: 6001,
-	forceTLS: false
+	forceTLS: ! config.isDev
 });

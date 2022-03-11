@@ -38,7 +38,7 @@ return [
                 'encrypted' => true,
                 'host'      => env('PUSHER_APP_HOST'),
                 'port'      => 6001,
-                'scheme'    => 'http',
+                'scheme'    => env('APP_ENV') === 'local' ? 'http' : 'https',
             ],
         ],
 
