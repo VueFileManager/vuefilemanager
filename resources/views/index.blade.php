@@ -74,7 +74,7 @@
         // todo: refactoring
 
 		let config = {
-			ip: '{{ request()->ip() }}',
+			ip: '{{ config('broadcasting.connections.pusher.options.host') }}',
 			host: '{{ url('/') }}',
 			api: '{{ url('/api') }}',
 			locale: '{{ app()->getLocale() }}',
