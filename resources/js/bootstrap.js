@@ -26,5 +26,6 @@ window.Echo = new Echo({
 	wsHost: window.location.hostname,
 	wsPort: 6001,
 	wssPort: 6001,
-	forceTLS: ! config.isDev
+	forceTLS: ! config.isDev,
+	enabledTransports: ['ws'],
 });
