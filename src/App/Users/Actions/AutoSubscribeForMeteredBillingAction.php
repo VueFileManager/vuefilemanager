@@ -2,6 +2,7 @@
 namespace App\Users\Actions;
 
 use App\Users\Models\User;
+use App\Users\Notifications\RegistrationBonusAddedNotification;
 use VueFileManager\Subscription\Domain\Plans\Models\Plan;
 
 class AutoSubscribeForMeteredBillingAction
@@ -36,6 +37,11 @@ class AutoSubscribeForMeteredBillingAction
                 'currency' => $plan->currency,
                 'amount'   => $settings['registration_bonus_amount'],
             ]);
+
+            // Send user bonus notification
+            $bonus = format_currency($settings['registration_bonus_amount'], $plan->currency);
+
+            $user->notify(new RegistrationBonusAddedNotification($bonus));
         } else {
             // Create balance with 0 amount
             $user->balance()->create([

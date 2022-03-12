@@ -3,6 +3,11 @@
         class="delay-[3000ms] duration-700 transition-all relative z-[11] mb-1.5 flex items-start space-x-4 rounded-xl p-2.5"
 		:class="{'dark:bg-4x-dark-foreground bg-light-background/80': isUnread}"
     >
+        <gift-icon
+            v-if="notification.data.attributes.category === 'gift'"
+            size="22"
+            class="vue-feather text-theme shrink-0"
+        />
         <user-plus-icon
             v-if="notification.data.attributes.category === 'team-invitation'"
             size="22"
@@ -69,7 +74,7 @@
     </article>
 </template>
 <script>
-import { CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon } from 'vue-feather-icons'
+import { GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon } from 'vue-feather-icons'
 import MemberAvatar from '../FilesView/MemberAvatar'
 import {events} from "../../bus";
 
@@ -82,6 +87,7 @@ export default {
         UploadCloudIcon,
         UserPlusIcon,
         CheckIcon,
+		GiftIcon,
         MailIcon,
         XIcon,
     },

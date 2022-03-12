@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Users;
 
+use App\Users\Notifications\RegistrationBonusAddedNotification;
 use Storage;
 use Notification;
 use Tests\TestCase;
@@ -195,6 +196,8 @@ class SignFlowTest extends TestCase
                 'first_name' => 'John',
                 'last_name'  => 'Doe',
             ]);
+
+        Notification::assertSentTo($user, RegistrationBonusAddedNotification::class);
     }
 
     /**
