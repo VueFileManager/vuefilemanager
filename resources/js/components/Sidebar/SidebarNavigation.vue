@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-			<NotificationCenter v-show="isVisibleNotificationCenter" />
+			<NotificationCenter v-if="isVisibleNotificationCenter" />
 
             <!--Navigation-->
             <div class="mt-6">

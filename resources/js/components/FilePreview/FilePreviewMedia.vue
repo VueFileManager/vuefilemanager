@@ -1,7 +1,7 @@
 <template>
     <div v-if="currentFile" class="absolute top-[56px] left-0 right-0 bottom-0 select-none lg:top-[66px]">
         <!--Arrow navigation-->
-        <div v-if="!$isMobile() && files.length > 1" class="">
+        <div v-if="!$isMobile() && files.length > 1">
             <div @click.prevent="prev" class="fixed top-1/2 left-0 z-20 cursor-pointer p-3">
                 <chevron-left-icon size="20" />
             </div>

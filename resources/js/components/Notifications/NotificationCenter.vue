@@ -7,7 +7,7 @@
 				<div class="h-12 -rotate-45 transform origin-top-right dark:bg-2x-dark-foreground bg-white bg-opacity-80 backdrop-blur-2xl"></div>
 			</div>
 
-			<div class="dark:bg-2x-dark-foreground bg-white dark:bg-opacity-80 dark:backdrop-blur-2xl bg-opacity-80 backdrop-blur-2xl shadow-xl rounded-xl text-left p-3 overflow-y-auto max-h-full">
+			<div v-click-outside="clickOutside" class="dark:bg-2x-dark-foreground bg-white dark:bg-opacity-80 dark:backdrop-blur-2xl bg-opacity-80 backdrop-blur-2xl shadow-xl rounded-xl text-left p-3 overflow-y-auto max-h-full">
 
 				<!--Title-->
 				<b class="dark:text-gray-200 text-xl font-extrabold px-2.5 mb-2.5 block">
@@ -41,8 +41,9 @@
 </template>
 
 <script>
-import Notification from "./Notification";
-import MobileActionButton from "../FilesView/MobileActionButton";
+import MobileActionButton from "../FilesView/MobileActionButton"
+import Notification from "./Notification"
+import vClickOutside from 'v-click-outside'
 import {mapGetters} from "vuex";
 
 export default {
@@ -51,15 +52,8 @@ export default {
 		MobileActionButton,
 		Notification
 	},
-	watch: {
-		isVisibleNotificationCenter: function (visibility) {
-			if (visibility) {
-				axios.post('/api/user/notifications/read')
-					.then(() => {
-						this.$store.commit('UPDATE_NOTIFICATION_COUNT', 0)
-					})
-			}
-		}
+	directives: {
+		clickOutside: vClickOutside.directive
 	},
 	computed: {
 		...mapGetters([
@@ -73,12 +67,22 @@ export default {
 		}
 	},
 	methods: {
+		clickOutside() {
+			if (this.isVisibleNotificationCenter)
+				this.$store.commit('CLOSE_NOTIFICATION_CENTER')
+		},
 		deleteAllNotifications() {
 			axios.delete('/api/user/notifications')
 				.then(() => {
 					this.$store.commit('FLUSH_NOTIFICATIONS')
 				})
 		}
+	},
+	created() {
+		axios.post('/api/user/notifications/read')
+			.then(() => {
+				this.$store.commit('UPDATE_NOTIFICATION_COUNT', 0)
+			})
 	}
 }
 </script>
