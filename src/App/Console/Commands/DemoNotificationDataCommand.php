@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -26,7 +25,6 @@ class DemoNotificationDataCommand extends Command
      * The console command description.
      */
     protected $description = 'Set up demo notifications data';
-
 
     /**
      * Execute the console command.
@@ -74,7 +72,7 @@ class DemoNotificationDataCommand extends Command
                 'data'            => json_encode([
                     'type'        => 'team-invitation',
                     'title'       => 'New Team Invitation',
-                    'description' => "Jane Doe invite you to join into Team Folder.",
+                    'description' => 'Jane Doe invite you to join into Team Folder.',
                     'action'      => [
                         'type'   => 'invitation',
                         'params' => [
@@ -119,7 +117,7 @@ class DemoNotificationDataCommand extends Command
                         'params' => [
                             'route'  => 'Files',
                             'button' => 'Show Files',
-                            'id' => $fileRequestFolder->id,
+                            'id'     => $fileRequestFolder->id,
                         ],
                     ],
                 ]),
@@ -206,7 +204,7 @@ class DemoNotificationDataCommand extends Command
                 // Create thumbnail only if image is larger than predefined image sizes
                 if ($intervention->getWidth() > $size['size']) {
                     // Generate thumbnail
-                    $intervention->resize($size['size'], null, fn($constraint) => $constraint->aspectRatio())->stream();
+                    $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
 
                     // Store thumbnail to disk
                     Storage::put("files/$user->id/{$size['name']}-{$file_name}", $intervention);

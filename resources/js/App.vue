@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ToasterWrapper from './components/Others/Notifications/ToasterWrapper'
+import ToasterWrapper from './components/Others/Notifications/ToasterNotifications'
 import CookieDisclaimer from './components/Others/CookieDisclaimer'
 import Spinner from './components/FilesView/Spinner'
 import Vignette from './components/Others/Vignette'

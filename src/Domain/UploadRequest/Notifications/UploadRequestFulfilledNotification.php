@@ -49,7 +49,7 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
     public function toArray(mixed $notifiable): array
     {
         return [
-            'type'        => 'file-request',
+            'category'    => 'file-request',
             'title'       => 'File Request Filled',
             'description' => "Your file request for '{$this->uploadRequest->parent->name}' folder was filled successfully.",
             'action'      => [

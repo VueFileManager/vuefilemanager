@@ -1,21 +1,21 @@
 <template>
     <article
-        class="delay-[3000ms] duration-700 transition-all relative z-20 mb-1.5 flex items-start space-x-4 rounded-xl p-2.5"
+        class="delay-[3000ms] duration-700 transition-all relative z-[11] mb-1.5 flex items-start space-x-4 rounded-xl p-2.5"
 		:class="{'dark:bg-4x-dark-foreground bg-light-background/80': isUnread}"
     >
         <user-plus-icon
-            v-if="notification.data.attributes.type === 'team-invitation'"
-            size="20"
+            v-if="notification.data.attributes.category === 'team-invitation'"
+            size="22"
             class="vue-feather text-theme shrink-0"
         />
         <upload-cloud-icon
-            v-if="['file-request', 'remote-upload-done'].includes(notification.data.attributes.type)"
-            size="20"
+            v-if="['file-request', 'remote-upload-done'].includes(notification.data.attributes.category)"
+            size="22"
             class="vue-feather text-theme shrink-0"
         />
 
         <div>
-            <b class="mb-1.5 block text-sm font-extrabold">
+            <b class="mb-1.5 block font-extrabold">
                 {{ notification.data.attributes.title }}
             </b>
 
@@ -119,7 +119,7 @@ export default {
 				})
 		},
         closeCenter() {
-            this.$store.commit('TOGGLE_NOTIFICATION_CENTER')
+            this.$store.commit('CLOSE_NOTIFICATION_CENTER')
         },
     },
 	created() {

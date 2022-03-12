@@ -1,11 +1,11 @@
 <?php
 namespace App\Console;
 
-use App\Console\Commands\DemoNotificationDataCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
 use Support\Scheduler\Actions\ReportUsageAction;
+use App\Console\Commands\DemoNotificationDataCommand;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;

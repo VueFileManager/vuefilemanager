@@ -1,3 +1,5 @@
+import {events} from "../../bus";
+
 const defaultState = {
     isRunningConnection: false,
 }
@@ -8,8 +10,26 @@ const actions = {
         commit('SET_RUNNING_COMMUNICATION')
 
 		Echo.private(`App.Users.Models.User.${getters.user.data.id}`)
-			.notification(() => {
-				// TODO: call sound
+			.notification((notification) => {
+
+				// Play audio
+				new Audio('/audio/blop.wav').play();
+
+				// Call toaster notification
+				events.$emit('notification', {
+					data: {
+						type: notification.category,
+						id: notification.id,
+						attributes: {
+							action: notification.action,
+							description: notification.description,
+							title: notification.title,
+							category: notification.category,
+						},
+					},
+				})
+
+				// Reload user data to update notifications
 				dispatch('getAppData')
 			});
     },

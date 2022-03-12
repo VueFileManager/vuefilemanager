@@ -175,6 +175,9 @@ const mutations = {
     TOGGLE_NOTIFICATION_CENTER(state) {
         state.isVisibleNotificationCenter = !state.isVisibleNotificationCenter
     },
+    CLOSE_NOTIFICATION_CENTER(state) {
+        state.isVisibleNotificationCenter = false
+    },
 }
 
 const getters = {

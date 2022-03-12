@@ -59,7 +59,7 @@ class InvitationIntoTeamFolder extends Notification implements ShouldQueue
     public function toArray(mixed $notifiable): array
     {
         return [
-            'type'        => 'team-invitation',
+            'category'    => 'team-invitation',
             'title'       => 'New Team Invitation',
             'description' => "{$this->invitation->inviter->settings->name} invite you to join into Team Folder.",
             'action'      => [
