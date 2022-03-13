@@ -48,7 +48,7 @@
                                     v-model="storage.key"
                                     placeholder="Paste your key"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -60,7 +60,7 @@
                                     v-model="storage.secret"
                                     placeholder="Paste your secret"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -94,7 +94,7 @@
                                     v-model="storage.endpoint"
                                     placeholder="Type your endpoint"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                     readonly
                                 />
                             </AppInputText>
@@ -112,7 +112,7 @@
                                     v-model="storage.bucket"
                                     placeholder="Type your bucket name"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -158,7 +158,7 @@
                                     v-model="smtp.host"
                                     placeholder="Type your mail host"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -176,7 +176,7 @@
                                     v-model="smtp.port"
                                     placeholder="Type your mail port"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -194,7 +194,7 @@
                                     v-model="smtp.username"
                                     placeholder="Type your mail username"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -212,7 +212,7 @@
                                     v-model="smtp.password"
                                     placeholder="Type your mail password"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -244,7 +244,7 @@
                                     v-model="mailgun.domain"
                                     placeholder="Type your domain"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -256,7 +256,7 @@
                                     v-model="mailgun.secret"
                                     placeholder="Type your secret"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -274,7 +274,7 @@
                                     v-model="mailgun.endpoint"
                                     placeholder="Type your endpoint"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -288,7 +288,7 @@
                                     v-model="postmark.token"
                                     placeholder="Type your token"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -308,7 +308,7 @@
                                     v-model="ses.access_key"
                                     placeholder="Type your access key"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -326,7 +326,7 @@
                                     v-model="ses.secret_access_key"
                                     placeholder="Type your secret access key"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -344,7 +344,7 @@
                                     v-model="ses.default_region"
                                     placeholder="Type your default region"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -356,7 +356,7 @@
                                     v-model="ses.session_token"
                                     placeholder="Type your session token"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 />
                             </AppInputText>
                         </ValidationProvider>

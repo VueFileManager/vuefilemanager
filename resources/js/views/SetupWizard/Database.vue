@@ -60,7 +60,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your database host"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{'!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -72,7 +72,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your database port"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -84,7 +84,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Select your database name"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -102,7 +102,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Select your database name"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -120,7 +120,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Select your database password"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>

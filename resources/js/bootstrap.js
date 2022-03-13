@@ -20,12 +20,14 @@ import Echo from 'laravel-echo';
 
 window.Pusher = require('pusher-js');
 
-window.Echo = new Echo({
-	broadcaster: 'pusher',
-	key: 'local',
-	wsHost: window.location.hostname,
-	wsPort: 8002,
-	wssPort: 8002,
-	forceTLS: false,
-	enabledTransports: ['ws', 'wss'],
-});
+if (config.broadcasting) {
+	window.Echo = new Echo({
+		broadcaster: 'pusher',
+		key: 'local',
+		wsHost: window.location.hostname,
+		wsPort: 8002,
+		wssPort: 8002,
+		forceTLS: false,
+		enabledTransports: ['ws', 'wss'],
+	});
+}

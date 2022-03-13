@@ -151,11 +151,8 @@ class UserAccountTest extends TestCase
                     'id'            => (string) $user->id,
                     'type'          => 'user',
                     'attributes'    => [
-                        'avatar'                    => [
-                            'md' => 'http://localhost/assets/images/default-avatar.png',
-                            'sm' => 'http://localhost/assets/images/default-avatar.png',
-                            'xs' => 'http://localhost/assets/images/default-avatar.png',
-                        ],
+                        'avatar'                    => null,
+                        'color'                    => $user->settings->color,
                         'email'                     => $user->email,
                         'role'                      => $user->role,
                         'socialite_account'         => false,
@@ -202,6 +199,12 @@ class UserAccountTest extends TestCase
                             ],
                         ],
                         'favourites'  => [
+                            'data' => [],
+                        ],
+                        'readNotifications'  => [
+                            'data' => [],
+                        ],
+                        'unreadNotifications'  => [
                             'data' => [],
                         ],
                     ],

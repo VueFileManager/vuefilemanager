@@ -79,6 +79,8 @@
 			api: '{{ url('/api') }}',
 			locale: '{{ app()->getLocale() }}',
 
+            broadcasting: '{{ config('broadcasting.default') }}',
+
 			app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
 			app_logo: '{{ $settings->app_logo ?? null }}',
 			app_footer: '{!! $settings->footer_content ?? null !!}',

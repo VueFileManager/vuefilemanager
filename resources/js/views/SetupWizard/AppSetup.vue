@@ -24,7 +24,7 @@
                                 v-model="app.title"
                                 placeholder="Type your app title"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                             />
                         </AppInputText>
                     </ValidationProvider>
@@ -42,7 +42,7 @@
                                 v-model="app.description"
                                 placeholder="Type your app description"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                             ></textarea>
                         </AppInputText>
                     </ValidationProvider>
@@ -100,20 +100,14 @@
                 <div class="card text-left shadow-card">
                     <FormLabel>Application</FormLabel>
 
-                    <ValidationProvider
-                        tag="div"
-                        mode="passive"
-                        name="Contact Email"
-                        rules="required"
-                        v-slot="{ errors }"
-                    >
+                    <ValidationProvider tag="div" mode="passive" name="Contact Email" rules="required" v-slot="{ errors }">
                         <AppInputText title="Contact Email" :error="errors[0]">
                             <input
                                 class="focus-border-theme input-dark"
                                 v-model="app.contactMail"
                                 placeholder="Type your contact email"
                                 type="email"
-                                :class="{ 'border-red': errors[0] }"
+								:class="{ '!border-rose-600': errors[0] }"
                             />
                         </AppInputText>
                     </ValidationProvider>
@@ -125,7 +119,7 @@
                                 v-model="app.googleAnalytics"
                                 placeholder="Paste your Google Analytics Code"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                             />
                         </AppInputText>
                     </ValidationProvider>
@@ -156,7 +150,7 @@
                                 max="999999999"
                                 placeholder="Set default storage space in GB"
                                 type="number"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                             />
                         </AppInputText>
                     </ValidationProvider>
@@ -183,19 +177,21 @@
                     <ValidationProvider
                         tag="div"
                         mode="passive"
-                        name="Contact Email"
+                        name="Subscription Type"
                         rules="required"
                         v-slot="{ errors }"
                     >
                         <AppInputText
                             :title="$t('Subscription Type')"
                             description="Choose your preferred subscription system in advance. After installation and any other user registration, you can't change this setting later."
+							:error="errors[0]"
                         >
                             <SelectInput
                                 v-model="app.subscriptionType"
                                 :default="app.subscriptionType"
                                 :options="$store.getters.subscriptionTypes"
                                 :placeholder="$t('Select your subscription type')"
+								:is-error="errors[0]"
                             />
                         </AppInputText>
                     </ValidationProvider>
@@ -260,15 +256,15 @@ export default {
             app: {
                 color: '#00BC7E',
                 subscriptionType: undefined,
-                title: '',
-                description: '',
+                title: undefined,
+                description: undefined,
                 logo: undefined,
                 logo_horizontal: undefined,
                 favicon: undefined,
                 og_image: undefined,
                 touch_icon: undefined,
-                contactMail: '',
-                googleAnalytics: '',
+                contactMail: undefined,
+                googleAnalytics: undefined,
                 defaultStorage: '5',
                 userRegistration: 1,
                 storageLimitation: 1,
@@ -324,15 +320,12 @@ export default {
                         'Content-Type': 'multipart/form-data',
                     },
                 })
-                .then((response) => {
-                    // End loading
-                    this.isLoading = false
+                .then(() => {
 
                     // Redirect to next step
                     this.$router.push({ name: 'AdminAccount' })
                 })
-                .catch((error) => {
-                    // End loading
+                .finally((error) => {
                     this.isLoading = false
                 })
         },

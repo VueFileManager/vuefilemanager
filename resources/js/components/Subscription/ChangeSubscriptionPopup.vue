@@ -5,7 +5,7 @@
         <!--Select Payment Plans-->
 		<PopupContent v-if="plans">
 			<InfoBox v-if="plans.data.length === 0" class="!mb-0">
-				<p>There isn't any plan yet.</p>
+				<p>{{ $t("There isn't any plan yet.") }}</p>
 			</InfoBox>
 
 			<!--Toggle yearly billing-->

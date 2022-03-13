@@ -35,7 +35,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your full name"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -47,7 +47,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your email"
                             type="email"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -65,7 +65,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your password"
                             type="password"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -83,7 +83,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Confirm your password"
                             type="password"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>

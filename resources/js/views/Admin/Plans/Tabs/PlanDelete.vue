@@ -26,7 +26,7 @@
                             v-model="planName"
                             :placeholder="$t('admin_page_plans.form.name_delete_plac')"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                         <ButtonBase

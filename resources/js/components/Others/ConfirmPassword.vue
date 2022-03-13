@@ -8,7 +8,7 @@
                     <AppInputText :title="$t('popup_2fa.input_label')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="password"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             type="password"
                             ref="input"
                             class="focus-border-theme input-dark"

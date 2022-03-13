@@ -13,7 +13,7 @@
                 <AuthButton class="button" icon="chevron-right" :text="$t('page_index.menu.log_in')" />
             </router-link>
 
-            <div class="features" v-if="config.isSaaS">
+            <div class="features" v-if="config.subscriptionType === 'fixed'">
                 <div class="feature">
                     <credit-card-icon size="19" class="feature-icon"></credit-card-icon>
                     <b class="feature-title">{{ $t('page_index.sign_feature_1') }}</b>

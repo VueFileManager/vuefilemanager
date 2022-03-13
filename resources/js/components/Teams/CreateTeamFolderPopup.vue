@@ -22,7 +22,7 @@
                     <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
                         <input
                             v-model="name"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             type="text"
                             ref="name"
                             class="focus-border-theme input-dark"
@@ -46,7 +46,7 @@
                                 @keypress.enter.stop.prevent="addMember"
                                 ref="email"
                                 v-model="email"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 type="email"
                                 class="focus-border-theme input-dark"
                                 :placeholder="$t('Type member email...')"

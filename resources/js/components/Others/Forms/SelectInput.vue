@@ -3,7 +3,7 @@
         <!--Area-->
         <div
             class="input-area rounded-lg bg-light-background dark:bg-2x-dark-foreground"
-            :class="{ 'is-active': isOpen, 'is-error': isError }"
+            :class="{ 'is-active': isOpen, '!border-rose-600': isError }"
             @click="openMenu"
         >
             <!--If is selected-->
@@ -33,7 +33,7 @@
                         v-model="query"
                         ref="search"
                         type="text"
-                        :placeholder="$t('select_search_placeholder')"
+                        :placeholder="$te('select_search_placeholder') ? $t('select_search_placeholder') : 'Search in list...'"
                         class="search-input focus-border-theme rounded-lg"
                     />
                 </div>

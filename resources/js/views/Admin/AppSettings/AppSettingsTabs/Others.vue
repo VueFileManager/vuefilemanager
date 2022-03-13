@@ -154,7 +154,7 @@
                             v-model="recaptcha.credentials.client_id"
                             :placeholder="$t('Paste your Site Key here')"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -166,7 +166,7 @@
                             v-model="recaptcha.credentials.client_secret"
                             :placeholder="$t('Paste your Secret key here')"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>

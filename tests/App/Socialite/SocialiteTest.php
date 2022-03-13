@@ -63,8 +63,8 @@ class SocialiteTest extends TestCase
         // Replace Socialite Instance with mock
         $this->app->instance(Socialite::class, $stub);
 
-        $this->getJson('/api/socialite/facebook/callback')
-            ->assertCreated();
+        $this->getJson('/socialite/facebook/callback')
+            ->assertRedirect();
 
         $this
             ->assertDatabaseHas('users', [

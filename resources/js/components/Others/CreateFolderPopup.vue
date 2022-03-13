@@ -12,7 +12,7 @@
                     <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
                         <input
                             v-model="name"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             type="text"
                             ref="input"
                             class="focus-border-theme input-dark"

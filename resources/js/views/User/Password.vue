@@ -95,7 +95,7 @@
                         :placeholder="$t('Current password')"
                         type="password"
                         class="focus-border-theme input-dark"
-                        :class="{ 'border-red': errors[0] }"
+                        :class="{ '!border-rose-600': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>
@@ -107,7 +107,7 @@
                         :placeholder="$t('page_create_password.label_new_pass')"
                         type="password"
                         class="focus-border-theme input-dark"
-                        :class="{ 'border-red': errors[0] }"
+                        :class="{ '!border-rose-600': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>
@@ -125,7 +125,7 @@
                         :placeholder="$t('page_create_password.label_confirm_pass')"
                         type="password"
                         class="focus-border-theme input-dark"
-                        :class="{ 'border-red': errors[0] }"
+                        :class="{ '!border-rose-600': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>

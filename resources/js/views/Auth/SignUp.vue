@@ -28,7 +28,7 @@
                             :placeholder="$t('page_registration.placeholder_email')"
                             type="email"
                             class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -51,7 +51,7 @@
                             :placeholder="$t('page_registration.placeholder_name')"
                             type="text"
                             class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -74,7 +74,7 @@
                             :placeholder="$t('page_registration.placeholder_pass')"
                             type="password"
                             class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -97,7 +97,7 @@
                             :placeholder="$t('page_registration.placeholder_confirm_pass')"
                             class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
                             type="password"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>

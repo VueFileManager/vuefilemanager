@@ -88,7 +88,7 @@
                             v-model="facebook.credentials.client_id"
                             :placeholder="$t('Paste your Client ID here')"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -100,7 +100,7 @@
                             v-model="facebook.credentials.client_secret"
                             :placeholder="$t('Paste your Client Secret here')"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -172,7 +172,7 @@
                             v-model="google.credentials.client_id"
                             :placeholder="$t('Paste your Client ID here')"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -184,7 +184,7 @@
                             v-model="google.credentials.client_secret"
                             :placeholder="$t('Paste your Client Secret here')"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -256,7 +256,7 @@
                             v-model="github.credentials.client_id"
                             :placeholder="$t('Paste your Client ID here')"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -268,7 +268,7 @@
                             v-model="github.credentials.client_secret"
                             :placeholder="$t('Paste your Client Secret here')"
                             type="text"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>

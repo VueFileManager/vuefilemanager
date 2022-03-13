@@ -3,6 +3,10 @@
         <PopupHeader :title="$t('Select Payment Method')" icon="credit-card" />
 
         <PopupContent style="padding: 0 20px">
+			<InfoBox v-if="!config.isPayPal && !config.isPaystack" class="!mb-0">
+				<p>{{ $t("There isn't any payment method yet.") }}</p>
+			</InfoBox>
+
             <!--PayPal implementation-->
             <div
                 v-if="config.isPayPal"
@@ -67,6 +71,7 @@ import ButtonBase from '../FilesView/ButtonBase'
 import { loadScript } from '@paypal/paypal-js'
 import PaymentMethod from './PaymentMethod'
 import Spinner from '../FilesView/Spinner'
+import InfoBox from "./Forms/InfoBox"
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 import axios from "axios";
@@ -81,6 +86,7 @@ export default {
         PopupHeader,
         ButtonBase,
         Spinner,
+		InfoBox,
     },
     data() {
         return {

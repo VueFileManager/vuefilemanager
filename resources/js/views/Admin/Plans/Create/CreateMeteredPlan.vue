@@ -12,7 +12,7 @@
                         v-model="plan.name"
                         :placeholder="$t('admin_page_plans.form.name_plac')"
                         type="text"
-                        :class="{ 'border-red': errors[0] }"
+                        :class="{ '!border-rose-600': errors[0] }"
                         class="focus-border-theme input-dark"
                     />
                 </AppInputText>
@@ -24,7 +24,7 @@
                     <textarea
                         v-model="plan.description"
                         :placeholder="$t('admin_page_plans.form.description_plac')"
-                        :class="{ 'border-red': errors[0] }"
+                        :class="{ '!border-rose-600': errors[0] }"
                         class="focus-border-theme input-dark"
                     ></textarea>
                 </AppInputText>
@@ -78,7 +78,7 @@
                             step="0.01"
                             min="0.01"
                             max="999999999999"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -116,7 +116,7 @@
                         step="0.01"
                         min="0.01"
                         max="999999999999"
-                        :class="{ 'border-red': errors[0] }"
+                        :class="{ '!border-rose-600': errors[0] }"
                         class="focus-border-theme input-dark"
                     />
                 </AppInputText>
@@ -153,7 +153,7 @@
                         step="0.01"
                         min="0.01"
                         max="999999999999"
-                        :class="{ 'border-red': errors[0] }"
+                        :class="{ '!border-rose-600': errors[0] }"
                         class="focus-border-theme input-dark"
                     />
                 </AppInputText>
@@ -190,7 +190,7 @@
                             step="0.01"
                             min="0.01"
                             max="999999999999"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>

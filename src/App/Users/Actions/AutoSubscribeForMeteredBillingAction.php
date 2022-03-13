@@ -46,7 +46,7 @@ class AutoSubscribeForMeteredBillingAction
             // Create balance with 0 amount
             $user->balance()->create([
                 'amount'   => 0,
-                'currency' => $plan->currency,
+                'currency' => $plan->currency, // todo: issue where plan is not created yet
             ]);
         }
 

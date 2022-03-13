@@ -20,7 +20,7 @@
                         <div class="relative flex items-center">
                             <input
                                 v-model="pickedItem.data.attributes.name"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 ref="input"
                                 type="text"
                                 class="!pr-10 focus-border-theme input-dark"

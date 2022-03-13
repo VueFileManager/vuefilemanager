@@ -24,7 +24,7 @@ class NotificationsTest extends TestCase
                 'notifiable_type' => 'App\Users\Models\User',
                 'notifiable_id'   => $user->id,
                 'data'            => json_encode([
-                    'type'        => 'file-request',
+                    'category'        => 'file-request',
                     'title'       => 'File Request Filled',
                     'description' => "Your file request for 'Documents' folder was filled successfully.",
                     'action'      => [
@@ -44,7 +44,7 @@ class NotificationsTest extends TestCase
             ->actingAs($user)
             ->getJson('/api/user/notifications')
             ->assertJsonFragment([
-                'type' => 'file-request',
+                'category' => 'file-request',
             ])
             ->assertStatus(200);
     }

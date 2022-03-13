@@ -168,7 +168,7 @@
                                 v-model="stripe.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -179,7 +179,7 @@
                                 v-model="stripe.credentials.secret"
                                 :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -196,7 +196,7 @@
                                 v-model="stripe.credentials.webhook"
                                 :placeholder="$t('Paste your webhook secret')"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -301,7 +301,7 @@
                                 v-model="paystack.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -312,7 +312,7 @@
                                 v-model="paystack.credentials.secret"
                                 :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -423,7 +423,7 @@
                                 v-model="paypal.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -434,7 +434,7 @@
                                 v-model="paypal.credentials.secret"
                                 :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -445,7 +445,7 @@
                                 v-model="paypal.credentials.webhook"
                                 :placeholder="$t('Paste your webhook id')"
                                 type="text"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>

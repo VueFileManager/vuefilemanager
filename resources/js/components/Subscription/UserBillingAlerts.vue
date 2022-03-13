@@ -52,7 +52,7 @@
                             min="1"
                             max="999999999"
                             class="focus-border-theme input-dark"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                         <ButtonBase
                             :loadint="isSendingBillingAlert"
@@ -94,7 +94,7 @@
                             min="1"
                             max="999999999"
                             class="focus-border-theme input-dark"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                         <ButtonBase
                             :loadint="isSendingBillingAlert"

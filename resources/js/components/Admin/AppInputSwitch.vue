@@ -8,7 +8,7 @@
             <span v-if="description" class="block text-xs leading-4 dark:text-gray-500 text-gray-500" v-html="description"></span>
 
             <!--Input Description-->
-            <span v-if="error" class="error-message">
+            <span v-if="error" class="pt-2 text-xs dark:text-rose-600 text-rose-600">
                 {{ error }}
             </span>
         </div>

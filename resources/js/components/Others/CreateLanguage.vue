@@ -27,7 +27,7 @@
                     <AppInputText :title="$t('locale_name')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="form.name"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                             type="text"
                             ref="input"
                             class="focus-border-theme input-dark"

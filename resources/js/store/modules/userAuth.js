@@ -20,7 +20,7 @@ const actions = {
                     commit('RETRIEVE_USER', response.data)
                     commit('UPDATE_NOTIFICATION_COUNT', response.data.data.relationships.unreadNotifications.data.length)
 
-                    if (! getters.isRunningConnection) {
+                    if (! getters.isRunningConnection && getters.config.broadcasting === 'pusher') {
                         dispatch('runConnection')
                     }
                 })
@@ -35,6 +35,7 @@ const actions = {
         })
     },
     logOut: ({ commit }) => {
+
         let popup = setTimeout(() => {
             commit('PROCESSING_POPUP', {
                 title: 'Logging Out',
@@ -44,23 +45,14 @@ const actions = {
 
         axios
             .post('/logout')
-            .then(() => {
+            .catch(() => this.$isSomethingWrong())
+            .finally(() => {
                 clearTimeout(popup)
 
                 commit('DESTROY_DATA')
                 commit('SET_AUTHORIZED', false)
 
                 router.push({name: 'Homepage'})
-            })
-            .catch((error) => {
-                if (error.response.status === 419) {
-                    clearTimeout(popup)
-
-                    commit('DESTROY_DATA')
-                    commit('SET_AUTHORIZED', false)
-
-                    router.push({name: 'Homepage'})
-                }
             })
     },
     socialiteRedirect: ({ commit }, provider) => {
@@ -141,7 +133,11 @@ const mutations = {
         state.permission = role
     },
     DESTROY_DATA(state) {
+        state.currentFolder = undefined
+        state.user = undefined
         state.app = undefined
+
+        state.clipboard = []
     },
     ADD_TO_FAVOURITES(state, folder) {
         folder.forEach((item) => {

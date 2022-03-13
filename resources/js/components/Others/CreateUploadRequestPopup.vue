@@ -36,7 +36,7 @@
                     <AppInputText :error="errors[0]" class="-mt-2">
                         <input
 							v-model="form.email"
-							:class="{ 'border-red': errors[0] }"
+							:class="{ '!border-rose-600': errors[0] }"
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"
@@ -55,7 +55,7 @@
                     <AppInputText :title="$t('Folder Name (optional)')" :description="$t('Created folder with files will be named with your own name.')" :error="errors[0]" class="-mt-2">
                         <input
 							v-model="form.name"
-							:class="{ 'border-red': errors[0] }"
+							:class="{ '!border-rose-600': errors[0] }"
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"
@@ -70,7 +70,7 @@
                         <textarea
 							v-model="form.notes"
 							rows="2"
-							:class="{ 'border-red': errors[0] }"
+							:class="{ '!border-rose-600': errors[0] }"
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"

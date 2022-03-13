@@ -27,7 +27,7 @@
                                 @keypress.enter.stop.prevent="addMember"
                                 ref="email"
                                 v-model="email"
-                                :class="{ 'border-red': errors[0] }"
+                                :class="{ '!border-rose-600': errors[0] }"
                                 type="email"
                                 class="focus-border-theme input-dark !pr-20"
                                 :placeholder="$t('Type member email...')"

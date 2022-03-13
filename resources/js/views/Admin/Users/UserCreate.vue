@@ -30,7 +30,7 @@
                         :placeholder="$t('admin_page_user.create_user.label_email')"
                         type="email"
                         class="focus-border-theme input-dark"
-                        :class="{ 'border-red': errors[0] }"
+                        :class="{ '!border-rose-600': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>
@@ -43,7 +43,7 @@
                         :placeholder="$t('admin_page_user.create_user.label_name')"
                         type="text"
                         class="focus-border-theme input-dark"
-                        :class="{ 'border-red': errors[0] }"
+                        :class="{ '!border-rose-600': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>
@@ -64,7 +64,7 @@
                             :placeholder="$t('page_registration.placeholder_pass')"
                             type="password"
                             class="focus-border-theme input-dark"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -86,7 +86,7 @@
                             :placeholder="$t('admin_page_user.create_user.label_conf_pass')"
                             type="password"
                             class="focus-border-theme input-dark"
-                            :class="{ 'border-red': errors[0] }"
+                            :class="{ '!border-rose-600': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>

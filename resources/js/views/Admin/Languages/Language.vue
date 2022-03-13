@@ -109,7 +109,7 @@
                                     v-model="selectedLanguage.data.attributes.name"
                                     :placeholder="$t('admin_settings.appearance.description_plac')"
                                     type="text"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
                             </AppInputText>
@@ -172,7 +172,7 @@
                                     "
                                     :rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
                                     class="focus-border-theme input-dark"
-                                    :class="{ 'border-red': errors[0] }"
+                                    :class="{ '!border-rose-600': errors[0] }"
                                 ></textarea>
                             </AppInputText>
                         </ValidationProvider>

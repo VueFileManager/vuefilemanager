@@ -29,17 +29,17 @@
                 >
                     <div class="text-left">
                         <b class="block text-sm font-bold">PHP Version</b>
-                        <small v-if="!phpVersion.acceptable" class="text-xs text-gray-600 pt-1 block leading-normal">
+                        <small v-if="!phpVersion.acceptable" class="dark:text-gray-500 text-xs text-gray-600 pt-1 block leading-normal">
                             You need PHP version at least {{ phpVersion.minimal }}.
                         </small>
                     </div>
                     <div class="flex items-center">
-                        <check-icon v-if="phpVersion.acceptable" size="16" class="vue-feather text-theme" />
-                        <x-icon v-if="!phpVersion.acceptable" size="16" class="vue-feather text-red-600" />
+                        <check-icon v-if="phpVersion.acceptable" size="16" class="vue-feather dark:text-theme text-theme" />
+                        <x-icon v-if="!phpVersion.acceptable" size="16" class="vue-feather dark:text-red-600 text-red-600" />
 
                         <span
                             class="ml-3 text-sm font-bold"
-                            :class="phpVersion.acceptable ? 'text-green-600' : 'text-red-600'"
+                            :class="phpVersion.acceptable ? 'dark:text-green-600 text-green-600' : 'dark:text-red-600 text-red-600'"
                         >
                             {{ phpVersion.current }}
                         </span>
@@ -53,15 +53,15 @@
                 >
                     <div class="text-left">
                         <b class="block text-sm font-bold">{{ setting }}</b>
-                        <small v-if="!values.status" class="text-xs text-gray-600 pt-1 block leading-normal">
+                        <small v-if="!values.status" class="dark:text-gray-500 text-xs text-gray-600 pt-1 block leading-normal">
                             We recommend set this value at least {{ values.minimal }}.
                         </small>
                     </div>
                     <div class="flex items-center">
-                        <check-icon v-if="values.status" size="16" class="vue-feather text-theme" />
-                        <x-icon v-if="!values.status" size="16" class="vue-feather text-red-600" />
+                        <check-icon v-if="values.status" size="16" class="vue-feather dark:text-theme text-theme" />
+                        <x-icon v-if="!values.status" size="16" class="vue-feather dark:text-red-600 text-red-600" />
 
-                        <span class="ml-3 text-sm font-bold" :class="values.status ? 'text-green-600' : 'text-red-600'">
+                        <span class="ml-3 text-sm font-bold" :class="values.status ? 'dark:text-green-600 text-green-600' : 'dark:text-red-600 text-red-600'">
                             {{ values.current }}{{ setting !== 'max_execution_time' ? 'M' : '' }}
                         </span>
                     </div>
@@ -89,10 +89,10 @@
                         {{ module }}
                     </b>
                     <div class="flex items-center">
-                        <check-icon v-if="value" size="16" class="vue-feather text-theme" />
-                        <x-icon v-if="!value" size="16" class="vue-feather text-red-600" />
+                        <check-icon v-if="value" size="16" class="vue-feather dark:text-theme text-theme" />
+                        <x-icon v-if="!value" size="16" class="vue-feather dark:text-red-600 text-red-600" />
 
-                        <span class="ml-3 text-sm font-bold" :class="value ? 'text-green-600' : 'text-red-600'">
+                        <span class="ml-3 text-sm font-bold" :class="value ? 'dark:text-green-600 text-green-600' : 'dark:text-red-600 text-red-600'">
                             {{ value ? 'Module Installed' : 'Missing Module' }}
                         </span>
                     </div>
@@ -110,28 +110,29 @@
                 <div class="flex items-center justify-between pt-3">
                     <div class="text-left">
                         <b class="block text-sm font-bold">API</b>
-                        <small v-if="isCheckedAPI && !apiRunning" class="text-xs text-gray-600 pt-1 block leading-normal">
+                        <small v-if="isCheckedAPI && !apiRunning" class="dark:text-gray-500 text-xs text-gray-600 pt-1 block leading-normal">
                             We detect, your domain root is not set correctly, please check it.
                         </small>
                     </div>
                     <div v-if="isCheckedAPI" class="flex items-center">
-                        <check-icon v-if="apiRunning" size="16" class="vue-feather text-theme" />
-                        <x-icon v-if="!apiRunning" size="16" class="vue-feather text-red-600" />
+                        <check-icon v-if="apiRunning" size="16" class="vue-feather dark:text-theme text-theme" />
+                        <x-icon v-if="!apiRunning" size="16" class="vue-feather dark:text-red-600 text-red-600" />
 
-                        <span class="ml-3 text-sm font-bold" :class="apiRunning ? 'text-green-600' : 'text-red-600'">
+                        <span class="ml-3 text-sm font-bold" :class="apiRunning ? 'dark:text-green-600 text-green-600' : 'dark:text-red-600 text-red-600'">
                             {{ apiRunning ? 'Working correctly' : "Doesn't work" }}
                         </span>
                     </div>
                     <span v-if="!isCheckedAPI" class="ml-3 text-sm font-bold text-gray-600">Checking your API...</span>
                 </div>
 
-                <InfoBox v-if="isError" type="error" class="!mb-2">
-                    <p>
-                        We can't proceed to the next step because there are unresolved issues. Please solve it at first
-                        and next continue.
-                    </p>
-                </InfoBox>
             </div>
+
+			<InfoBox v-if="isError" type="error">
+				<p>
+					We can't proceed to the next step because there are unresolved issues. Please solve it at first
+					and next continue.
+				</p>
+			</InfoBox>
 
             <AuthButton
                 @click.native="lastCheckBeforeNextPage"
