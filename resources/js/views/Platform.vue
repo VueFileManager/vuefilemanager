@@ -1,5 +1,5 @@
 <template>
-    <div class="lg:flex lg:h-screen lg:overflow-hidden">
+    <div class="lg:flex lg:h-screen lg:overflow-hidden w-full">
         <!--On Top of App Components-->
         <FilePreview />
         <Spotlight />
@@ -30,7 +30,6 @@
         <DragUI />
 
         <!--2 col Sidebars-->
-        <SidebarNavigation />
         <PanelNavigationFiles />
 
         <div

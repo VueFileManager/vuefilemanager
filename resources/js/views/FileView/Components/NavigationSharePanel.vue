@@ -6,7 +6,7 @@
         <!--Full screen button-->
         <div
             @click="$store.dispatch('toggleNavigationBars')"
-            class="absolute top-2.5 right-0 inline-block cursor-pointer p-3 opacity-0 transition-all duration-200 hover:opacity-70"
+            class="absolute top-2.5 right-0 inline-block cursor-pointer p-3 opacity-20 transition-all duration-200 hover:opacity-70"
         >
             <chevrons-left-icon size="18" />
         </div>

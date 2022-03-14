@@ -11,8 +11,10 @@
         <!--Show warning bar when user functionality is restricted-->
         <RestrictionWarningBar />
 
-        <!--App view-->
-        <router-view v-if="isLoaded" />
+		<div :class="{'lg:flex lg:h-screen lg:overflow-hidden w-full': isSidebarNavigation}">
+			<SidebarNavigation v-if="isSidebarNavigation" />
+			<router-view v-if="isLoaded" />
+		</div>
 
         <!--Background under popups-->
         <Vignette />
@@ -21,17 +23,19 @@
 
 <script>
 import ToasterWrapper from './components/Others/Notifications/ToasterNotifications'
+import RestrictionWarningBar from './components/Subscription/RestrictionWarningBar'
+import SidebarNavigation from "./components/Sidebar/SidebarNavigation"
 import CookieDisclaimer from './components/Others/CookieDisclaimer'
 import Spinner from './components/FilesView/Spinner'
 import Vignette from './components/Others/Vignette'
 import Alert from './components/FilesView/Alert'
-import RestrictionWarningBar from './components/Subscription/RestrictionWarningBar'
 import { mapGetters } from 'vuex'
 import { events } from './bus'
 
 export default {
     name: 'App',
     components: {
+		SidebarNavigation,
         RestrictionWarningBar,
         CookieDisclaimer,
         ToasterWrapper,
@@ -42,6 +46,7 @@ export default {
     data() {
         return {
             isLoaded: false,
+			isSidebarNavigation: undefined,
         }
     },
     computed: {
@@ -55,11 +60,15 @@ export default {
 			let section = this.$router.currentRoute.fullPath.split('/')[1]
 			const app = document.getElementsByTagName('body')[0]
 
+			// Set background color via theme setup
 			if (['admin', 'user'].includes(section)) {
 				app.classList.add('dark:bg-dark-background', 'bg-light-background')
 			} else {
 				app.classList.remove('dark:bg-dark-background', 'bg-light-background')
 			}
+
+			// Set sidebar navigation visibility
+			this.isSidebarNavigation = ['admin', 'user', 'platform'].includes(section)
 		}
     },
     methods: {

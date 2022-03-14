@@ -1,5 +1,5 @@
 <template>
-    <div class="md:h-screen md:overflow-hidden lg:flex">
+    <div class="md:h-screen md:overflow-hidden lg:flex w-full">
         <!--On Top of App Components-->
         <FilePreview />
         <Spotlight />
@@ -23,8 +23,6 @@
         <SubscribeAccountPopup v-if="config.subscriptionType === 'fixed'" />
 		<ChangeSubscriptionPopup v-if="config.subscriptionType === 'fixed'" />
         <ChargePaymentPopup v-if="config.subscriptionType === 'metered'" />
-
-        <SidebarNavigation />
 
         <!--Navigations-->
         <MobileNavigation />
@@ -85,7 +83,6 @@ import TwoFactorRecoveryCodesPopup from '../components/Others/TwoFactorRecoveryC
 import CreatePersonalTokenPopup from '../components/Others/CreatePersonalTokenPopup'
 import TwoFactorQrSetupPopup from '../components/Others/TwoFactorQrSetupPopup'
 import AvatarInput from '../components/Others/Forms/AvatarInput'
-import SidebarNavigation from '../components/Sidebar/SidebarNavigation'
 import ColorLabel from '../components/Others/ColorLabel'
 import Spinner from '../components/FilesView/Spinner'
 import { mapGetters } from 'vuex'
@@ -114,7 +111,6 @@ export default {
         TwoFactorRecoveryCodesPopup,
         CreatePersonalTokenPopup,
         TwoFactorQrSetupPopup,
-        SidebarNavigation,
         AvatarInput,
         ColorLabel,
         Spinner,

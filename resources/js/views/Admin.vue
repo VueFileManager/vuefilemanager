@@ -1,5 +1,5 @@
 <template>
-    <div class="md:h-screen md:overflow-hidden lg:flex">
+    <div class="md:h-screen md:overflow-hidden lg:flex w-full">
         <!--On Top of App Components-->
         <FilePreview />
         <Spotlight />
@@ -16,9 +16,6 @@
 
         <!-- Create language popup -->
         <CreateLanguage />
-
-        <!--Navigation Sidebar-->
-        <SidebarNavigation />
 
         <MobileNavigationToolbar />
 
@@ -69,7 +66,6 @@ import MobileNavigation from '../components/Others/MobileNavigation'
 import ConfirmPopup from '../components/Others/Popup/ConfirmPopup'
 import ContentGroup from '../components/Sidebar/ContentGroup'
 import ContentSidebar from '../components/Sidebar/ContentSidebar'
-import SidebarNavigation from '../components/Sidebar/SidebarNavigation'
 import Spotlight from '../components/Spotlight/Spotlight'
 import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar'
 import {
@@ -197,7 +193,6 @@ export default {
         MobileNavigationToolbar,
         FilePreview,
         Spotlight,
-        SidebarNavigation,
         MobileNavigation,
         CreateLanguage,
         ContentSidebar,

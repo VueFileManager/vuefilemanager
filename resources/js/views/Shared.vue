@@ -1,5 +1,5 @@
 <template>
-    <div class="lg:flex lg:h-screen lg:overflow-hidden">
+    <div class="lg:flex lg:h-screen lg:overflow-hidden w-full">
         <!--File preview window-->
         <FilePreview />
         <Spotlight />
