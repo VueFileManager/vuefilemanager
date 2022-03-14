@@ -99,6 +99,29 @@
                 </div>
             </div>
 
+			<!--Writable directories-->
+			<div class="card shadow-card">
+				<FormLabel icon="database">Writable Permission</FormLabel>
+
+				<div
+					v-for="(isWritable, file, i) in writable"
+					:key="i"
+					class="md:flex md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+				>
+					<div class="text-left">
+						<b class="block text-sm font-bold">/{{ file }}</b>
+					</div>
+					<div class="flex items-center">
+						<check-icon v-if="isWritable" size="16" class="vue-feather text-green-600 dark:text-green-600" />
+						<x-icon v-if="!isWritable" size="16" class="vue-feather text-red-600 dark:text-red-600" />
+
+						<span :class="{'text-green-600 dark:text-green-600': isWritable, 'text-red-600 dark:text-red-600': !isWritable}" class="ml-3 text-sm font-bold ">
+							{{ isWritable ? 'Writable' : 'Unwritable'}}
+						</span>
+					</div>
+				</div>
+			</div>
+
             <!--API check-->
             <div class="card shadow-card">
                 <FormLabel> API </FormLabel>
@@ -187,6 +210,9 @@ export default {
         phpVersion() {
             return this.$root.$data.config.statusCheck.php_version
         },
+        writable() {
+            return this.$root.$data.config.statusCheck.writable
+        },
         isCheckedAPI() {
             return typeof this.apiRunning !== 'undefined'
         },
@@ -208,7 +234,11 @@ export default {
                 (setting) => setting.status === true
             )
 
-            if (modulesCheck && iniCheck && this.apiRunning && this.phpVersion.acceptable) {
+            let writeCheck = Object.values(this.$root.$data.config.statusCheck.writable).every(
+                (directory) => directory === true
+            )
+
+            if (writeCheck && modulesCheck && iniCheck && this.apiRunning && this.phpVersion.acceptable) {
                 this.$router.push({ name: 'PurchaseCode' })
             } else {
                 this.isError = true

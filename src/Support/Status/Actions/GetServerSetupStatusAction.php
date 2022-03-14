@@ -12,7 +12,17 @@ class GetServerSetupStatusAction
         $max_execution_time = 600;
         $php_version = '8.0';
 
+        // Writable
+        $storageDirectory = dirname(storage_path('/storage'));
+        $bootstrapDirectory = dirname(storage_path('/bootstrap'));
+        $envFile = dirname(storage_path('/.env'));
+
         return [
+            'writable' => [
+                'bootstrap' => is_writable($bootstrapDirectory),
+                'storage'   => is_writable($storageDirectory),
+                'env'       => is_writable($envFile),
+            ],
             'modules'     => [
                 'tokenizer' => extension_loaded('tokenizer'),
                 'fileinfo'  => extension_loaded('fileinfo'),

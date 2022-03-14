@@ -82,6 +82,29 @@
             </div>
         </div>
 
+        <!--Writable directories-->
+        <div class="card shadow-card">
+            <FormLabel icon="database">Writable Permission</FormLabel>
+
+            <div
+                v-for="(isWritable, file, i) in writable"
+                :key="i"
+                class="md:flex md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+            >
+                <div class="text-left">
+                    <b class="block text-sm font-bold">/{{ file }}</b>
+                </div>
+                <div class="flex items-center">
+                    <check-icon v-if="isWritable" size="16" class="vue-feather text-green-600 dark:text-green-600" />
+                    <x-icon v-if="!isWritable" size="16" class="vue-feather text-red-600 dark:text-red-600" />
+
+                    <span :class="{'text-green-600 dark:text-green-600': isWritable, 'text-red-600 dark:text-red-600': !isWritable}" class="ml-3 text-sm font-bold ">
+						{{ isWritable ? 'Writable' : 'Unwritable'}}
+					</span>
+                </div>
+            </div>
+        </div>
+
         <!--PHP version and ini check-->
         <div class="card shadow-card">
             <FormLabel icon="info"> PHP Settings </FormLabel>
@@ -208,6 +231,7 @@ export default {
             apiRunning: undefined,
             backups: undefined,
             logs: undefined,
+			writable: undefined,
         }
     },
 	methods: {
@@ -233,6 +257,7 @@ export default {
             this.phpVersion = response.data.php_version
             this.backups = response.data.backups
             this.logs = response.data.logs
+            this.writable = response.data.writable
         })
 
         // Ping API
