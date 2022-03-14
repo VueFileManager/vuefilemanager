@@ -28,7 +28,7 @@
 @endphp
 
         <!DOCTYPE html>
-<html style="min-height: 100%" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="{{ $installation === 'installation-needed' ? 'dark:bg-dark-background bg-light-background' : '' }}" style="min-height: 100%" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
 <!--    <meta name="theme-color" content="{{ $settings->app_color ?? '#00BC7E' }}">-->
@@ -66,7 +66,7 @@
 
     @include('vuefilemanager.others.color-template')
 </head>
-<body style="min-height: 100%" class="{{ $installation === 'installation-needed' ? 'bg-light-background' : '' }} {{ is_dev() ? 'debug-screens' : '' }}">
+<body style="min-height: 100%">
 
     <div id="app"></div>
 

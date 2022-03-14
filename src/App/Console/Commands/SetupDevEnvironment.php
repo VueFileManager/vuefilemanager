@@ -1412,7 +1412,7 @@ class SetupDevEnvironment extends Command
             ],
             [
                 'name'  => 'subscription_type',
-                'value' => 'fixed',
+                'value' => 'none',
             ],
             [
                 'name'  => 'allowed_recaptcha',

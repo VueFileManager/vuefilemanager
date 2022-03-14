@@ -56,12 +56,12 @@
             <!--Create metered plan alert-->
             <div
                 v-if="config.subscriptionType === 'metered' && config.isEmptyPlans"
-                class="mb-6 flex items-center rounded-xl bg-rose-200 p-5 shadow-card"
+                class="mb-6 flex items-center rounded-xl dark:bg-rose-700/30 bg-rose-200 p-5 shadow-card"
             >
-                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 text-rose-700" />
-                <p class="text-sm text-rose-700">
+                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 dark:text-rose-500 text-rose-700" />
+                <p class="text-sm dark:text-rose-500 text-rose-700">
                     As you installed app with metered subscription type, you have to
-                    <router-link :to="{ name: 'CreateMeteredPlan' }" class="text-sm font-bold underline"
+                    <router-link :to="{ name: 'CreateMeteredPlan' }" class="dark:text-rose-500 text-sm font-bold underline"
                         >create your plan</router-link
                     >
                     as soon as possible to prevent new user registration without automatically assigned subscription
@@ -72,10 +72,10 @@
             <!--Cron Alert-->
             <div
                 v-if="!data.app.isRunningCron && !config.isDev"
-                class="mb-6 flex items-center rounded-xl bg-rose-200 p-5 shadow-card"
+                class="mb-6 flex items-center rounded-xl dark:bg-rose-700/30 bg-rose-200 p-5 shadow-card"
             >
-                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 text-rose-700" />
-                <p class="text-sm text-rose-700">
+                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 dark:text-rose-500 text-rose-700" />
+                <p class="text-sm dark:text-rose-500 text-rose-700">
                     We detect your cron jobs probably doesn't work correctly, please check it, you need it for running
                     app correctly. If you set your cron job, please get back one minute later.
                 </p>

@@ -117,8 +117,6 @@ export default {
                     // End loading
                     this.isLoading = false
 
-                    console.log(response)
-
                     if (response.data === 'b6896a44017217c36f4a6fdc56699728') {
                         this.isExtended = true
                         localStorage.setItem('license', 'Extended')

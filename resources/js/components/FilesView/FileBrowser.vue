@@ -109,7 +109,6 @@ export default {
                     })
                 }
             } else {
-                console.log(data.data.type)
                 // Get id from current folder
                 const id = data.data.type !== 'folder' ? this.currentFolder?.data.id : data.data.id
 

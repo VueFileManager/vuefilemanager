@@ -339,7 +339,6 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    console.log(error)
                     events.$emit('toaster', {
                         type: 'danger',
                         message: this.$t('popup_error.title'),
