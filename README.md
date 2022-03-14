@@ -1,37 +1,24 @@
 
 ![logo](https://vuefilemanager.com/assets/images/vuefilemanager-horizontal-logo.svg)
-# Private Cloud Storage Build on Laravel & Vue.js
+# Private Cloud Storage Build by Laravel & Vue.js
 
 ## Contents
 
 - [Installation](#installation)
-    - [Server Requirements](#server-requirements)
-    - [Installation](#installation)
-    - [PHP Configuration](#php-configuration)
-    - [Chunk Upload](#chunk-upload)
-    - [Nginx Configuration](#nginx-configuration)
-    - [Apache Configuration](#apache-configuration)
-    - [Upgrade Guide](#upgrade-guide)
-- [Payments](#payments)
-    - [Get your active plans](#get-your-active-plans)
-    - [Manage Failed Payments](#manage-failed-payments)
-    - [Tax Rates](#tax-rates)
-- [Developers](#developers)
-    - [Running development environment on your localhost](#running-development-environment-on-your-localhost)
-    - [Supported Storages](#supported-storages)
+  - [Server Requirements](#server-requirements)
+  - [Installation](#installation)
+  - [Nginx Configuration](#nginx-configuration)
+  - [Apache Configuration](#apache-configuration)
 - [Others](#others)
-    - [Changelog](#changelog)
-    - [Support](#support)
-    - [Security Vulnerabilities](#security-vulnerabilities)
-
+  - [Support](#support)
+  - [Security Vulnerabilities](#security-vulnerabilities)
 
 # Installation
 ## Server Requirements
 
+**For running app make sure you have:**
 
-**For running app make sure you have installed:**
-
-- PHP >= 8.0.2 version
+- PHP >= 8.0.2 version (8.1+ recommended)
 - MySQL 5.6+
 - Nginx or Apache
 
@@ -41,7 +28,7 @@
 - GD
 - BCMath
 - PDO
-- SQLite
+- SQLite3
 - Ctype
 - Fileinfo
 - JSON
@@ -54,59 +41,37 @@
 ## Installation
 
 #### 1. Upload files on your server
-Upload project files to web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
+Upload project files to the web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
-#### 2. Configure your web root folder
-Configure your web server's document root to point to the public directory of the files you previously uploaded. For example, if you've uploaded the files in `html` folder, your domain root directory should be changed to `html/project_files/public` folder or anything else where domain root is in project `/public` directory. 
+#### 2. Configure your domain host root folder
+Configure your web server's document root to point to the public directory of the files you previously uploaded. For example, if you've uploaded the files in `html` folder, your domain root directory should be changed to `html/project_files/public` folder or anything else where domain root is in project `/public` directory.
 
-Please don't try go to `yourdomain.com/public` URL address, you will have issue to verify your purchase code, this is not correct domain root setup, you must do this in your webhosting settings panel.
+#### 3. Set write permissions
+Set `755` permission (CHMOD) to these files and folders directory within all children subdirectories:
 
-![Domain Root](https://vuefilemanager.com/assets/images/domain-root.jpg)
-
-#### 3. Check your .env file
-Make sure `.env` file was uploaded. This type of file can be hidden in default.
-
-#### 4. Set write permissions
-Set `755` permission (CHMOD) to these file and folders directory within all children subdirectories:
-
-- /bootstrap/cache
+- /bootstrap
 - /storage
 - /.env
 
-#### 5. Open your application in your web browser
-Then open your application in web browser. If everything works fine, you will be redirect to setup wizard installation process. 
+#### 4. Open your application in your web browser
+Then open your application in web browser. If everything works fine, you will be redirected to the setup wizard installation process. 
 
-At first step you have to verify your purchase code. **Subscription service with stripe payments is available only for Extended License.** If you can't verify your purchase code, check, if you did previously steps correctly.
+#### 5. Server Check
+On the first page you will see server check. Make sure all items are green. If not, then correct your server setup by recommended values and refresh your setup wizard page.
 
 #### 6. Follow setup wizard steps
 
-That was the hardest part of installation proces. Please follow instructions in every step of Setup Wizard to successfully install VueFileManager.
+That was the hardest part of installation process. Please follow instructions in every step of Setup Wizard to successfully install VueFileManager.
 
 #### 7. Set up Cron
 
 Add the following Cron entry to your server. Just update your php path (if it's different) and project path:
 ```
-* * * * *  /usr/local/bin/php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+* * * * *  /usr/local/bin/php /www/html/your-project/artisan schedule:run >> /dev/null 2>&1
 ```
-
-## PHP Configuration
-There are several PHP settings good to know to setup before you try upload any file. Please set these values in your php.ini, we provide minimal setup for you. When you set `-1` then you set infinity limits.
-
-```
-memory_limit = 512M
-upload_max_filesize = 128M
-post_max_size = 128M
-max_file_uploads = 50
-max_execution_time = 3600
-```
-
-## Chunk & Multipart Upload
-VueFileManager in default supporting chunk upload. Default chunk upload size is `128MB`. If you wish change this default value, go to your `.env` and change `CHUNK_SIZE` attribute.
-
-When you use external storage, and upload large files, to prevent failing upload process make sure you have enough space in your application space and set higher `max_execution_time` in your php.ini to move your files to external storage. 
 
 ## Nginx Configuration
-If you running VueFileManager undex Nginx, don't forget set this value in your `nginx.conf` file:
+If you running VueFileManager under Nginx, don't forget set this value in your `nginx.conf` file:
 ```
 http {
     client_max_body_size 1024M;
@@ -166,18 +131,20 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
 </VirtualHost>
 ```
 
-## Upgrade Guide
-### Common Instructions
-`Don't forget create backup of your database before make any changes in your production application. If you serve your files in local storage driver pay attention and don't delete your /storage folder!`
-
-These instructions is applicable for all updates. Please follow this step:
-
-- Just rewrite all project files with new excluded `/.env` file and `/storage` folder. These items must be preserved!
-
 # Developers
 ## Running development environment on your localhost
 
-To start server on your localhost, run command below. Then go to your generated localhost URL by terminal, and follow Setup Wizard steps to configure VueFileManager.
+At first, please update your database credentials in .env file
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+To start server on your localhost, run command below.
 ```
 php artisan serve
 ```
@@ -197,30 +164,15 @@ To compiles for production build, run this command
 npm run prod
 ```
 
-## Supported Storages
-VueFileManager support these storages for your files:
-
-- [Amazon Web Services S3](https://aws.amazon.com/s3/)
-- [Digital Ocean Spaces](https://www.digitalocean.com/products/spaces/)
-- [Object Cloud Storage by Wasabi](https://wasabi.com/)
-- [Backblaze B2 Cloud Storage](https://www.backblaze.com/b2/cloud-storage.html)
-- Your local disk
-
-In case of installation process, you will be able to set storage driver and credentials. After this, you can change your credentials later in `/.env` file.
-
-To set or change your storage driver, you have to edit `FILESYSTEM_DISK` in your `/.env` file. Supported drivers are `s3`, `spaces`, `wasabi`,`backblaze` or `local`:
+If you would like to generate demo content, run this command below. It wil reinstall application and generate demo data. Demo account will be created with credentials 'howdy@hi5ve.digital' and password 'vuefilemanager'.
 ```
-FILESYSTEM_DISK=local
+php artisan setup:dev
 ```
-Then you can find corresponding credentials options for your storage driver like key, secret, region in `/.env` file.
-
-# Others
-## Changelog
-
-Refer to the [Changelog](https://vuefilemanager.com/changelog) for a full history of the project.
-
-## GitHub Repository
-[Join our GitHub repository](https://vuefilemanager.com/github-access) to submit your issues or suggestions, track VueFileManager progress and get new updates as fast as possible.
+If you would like to install VueFileManager expressively without demo data, run this command below. It wil reinstall application from scratch. New account will be created with credentials 'howdy@hi5ve.digital' and password 'vuefilemanager'.
+```
+php artisan setup:prod
+```
+After that, please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.
 
 ## Support
 
@@ -229,9 +181,8 @@ The following support channels are available at your fingertips:
 - [CodeCanyon support message](https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986/support)
 
 ## Supporting VueFileManager
-Hi, we are trying make the best experience with VueFileManager. There is a lot things to do, and a lot of features we can make. 
-
-But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help with it. There is couple way you can support us, and then, we support you with all great new features which can be. Thanks you for participating on this awesome software!
+We are trying to make the best for VueFileManager. There are a lot of things to do, and a lot of features we can make. 
+But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help us. There is couple way you can support us, and then, we support you with all great new features we can make. Thank you for participating on this awesome application!
 
 - [Buy me a Coffe](https://www.buymeacoffee.com/pepe)
 - [Become a Patreon](https://www.patreon.com/vuefilemanager)
