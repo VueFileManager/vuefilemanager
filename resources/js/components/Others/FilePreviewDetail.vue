@@ -1,12 +1,7 @@
 <template>
     <div v-if="canBePreview" class="mb-4 block w-full">
         <!--Image-->
-        <img
-            v-if="singleFile.data.type === 'image' && singleFile.data.attributes.thumbnail"
-            :src="singleFile.data.attributes.thumbnail.md"
-            :alt="singleFile.data.attributes.name"
-            class="w-full overflow-hidden rounded-lg object-cover shadow-lg"
-        />
+		<ImageFile v-if="singleFile.data.type === 'image'" :file="singleFile" class="w-full overflow-hidden rounded-lg object-cover shadow-lg" />
 
         <!--Audio-->
         <audio
@@ -35,10 +30,14 @@
 <script>
 import { mapGetters } from 'vuex'
 import { includes } from 'lodash'
+import ImageFile from "../FilePreview/Media/ImageFile";
 
 export default {
     name: 'FilePreview',
-    computed: {
+	components: {
+		ImageFile
+	},
+	computed: {
         ...mapGetters(['clipboard']),
         singleFile() {
             return this.clipboard[0]

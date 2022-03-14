@@ -9,7 +9,7 @@ class StoreFileExifMetadataAction
         $exif_data = get_image_meta_data($file);
 
         if ($exif_data) {
-            // Conver array to collection
+            // Convert array to collection
             $data = json_decode(json_encode($exif_data));
 
             $item->exif()->create([

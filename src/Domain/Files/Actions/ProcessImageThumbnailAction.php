@@ -31,15 +31,15 @@ class ProcessImageThumbnailAction
             // Make copy of file for the thumbnail generation
             Storage::disk('local')->copy("files/$userId/{$fileName}", "temp/$userId/{$fileName}");
 
-            // Create thumbnail instantly
+            // Create thumbnails instantly
             ($this->generateImageThumbnail)(
                 fileName: $fileName,
                 userId: $userId,
                 execution: 'immediately'
             );
 
-            // Create thumbnail later
-            ($this->generateImageThumbnail)->onQueue()->execute(
+            // Create thumbnails later
+            ($this->generateImageThumbnail)->onQueue('high')->execute(
                 fileName: $fileName,
                 userId: $userId,
                 execution: 'later'

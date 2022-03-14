@@ -51,10 +51,6 @@ return [
 
         'later' => [
             [
-                'size' => 480,
-                'name' => 'md',
-            ],
-            [
                 'size' => 960,
                 'name' => 'lg',
             ],

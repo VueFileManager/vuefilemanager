@@ -60,7 +60,7 @@ class Kernel extends ConsoleKernel
         )->daily()->at('00:10');
 
         // Run queue jobs every minute
-        $schedule->command('queue:work --stop-when-empty')
+        $schedule->command('queue:work --queue=high,default --stop-when-empty')
             ->everyMinute()
             ->withoutOverlapping();
 

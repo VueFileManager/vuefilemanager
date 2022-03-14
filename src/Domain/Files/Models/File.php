@@ -95,7 +95,9 @@ class File extends Model
     public function getThumbnailAttribute(): array | null
     {
         $links = [];
-        $thumbnail_sizes = collect(config('vuefilemanager.image_sizes'))->collapse()->all();
+        $thumbnail_sizes = collect(config('vuefilemanager.image_sizes'))
+            ->collapse()
+            ->all();
 
         // Generate thumbnail link for external storage service
         if ($this->type === 'image' && ! is_storage_driver('local')) {
