@@ -74,6 +74,9 @@ class SetupDevEnvironment extends Command
         $this->create_share_records();
         $this->generate_traffic();
 
+        $this->generateTeamInvitationNotification();
+        $this->generateFileRequestFilledNotification();
+
         $this->info('Clearing application cache...');
         $this->clear_cache();
 
@@ -85,6 +88,114 @@ class SetupDevEnvironment extends Command
         $this->warn('Please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.');
 
         $this->info('Everything is done, congratulations! 🥳🥳🥳');
+    }
+
+    private function generateTeamInvitationNotification()
+    {
+        $alice = User::whereEmail('alice@hi5ve.digital')
+            ->first();
+
+        $howdy = User::whereEmail('howdy@hi5ve.digital')
+            ->first();
+
+        $newV2Wallpaper = Folder::factory()
+            ->create([
+                'user_id'     => $alice->id,
+                'team_folder' => true,
+                'name'        => 'New v2 Wallpaper',
+            ]);
+
+        $invitation = TeamFolderInvitation::factory()
+            ->create([
+                'email'      => 'howdy@hi5ve.digital',
+                'parent_id'  => $newV2Wallpaper->id,
+                'inviter_id' => $newV2Wallpaper->user_id,
+                'status'     => 'pending',
+                'permission' => 'can-edit',
+            ]);
+
+        DB::table('notifications')
+            ->insert([
+                'id'              => Str::uuid(),
+                'type'            => 'Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification',
+                'notifiable_type' => 'App\Users\Models\User',
+                'notifiable_id'   => $howdy->id,
+                'data'            => json_encode([
+                    'type'        => 'team-invitation',
+                    'title'       => 'New Team Invitation',
+                    'description' => 'Jane Doe invite you to join into Team Folder.',
+                    'action'      => [
+                        'type'   => 'invitation',
+                        'params' => [
+                            'id' => $invitation->id,
+                        ],
+                    ],
+                ]),
+                'read_at'         => now(),
+                'created_at'      => now(),
+                'updated_at'      => now(),
+            ]);
+    }
+
+    private function generateFileRequestFilledNotification()
+    {
+        $howdy = User::whereEmail('howdy@hi5ve.digital')
+            ->first();
+
+        $sharedFolder = Folder::where('name', 'Shared Folder')
+            ->first();
+
+        $fileRequestFolder = Folder::factory()
+            ->create([
+                'parent_id'   => $sharedFolder->id,
+                'user_id'     => $howdy->id,
+                'team_folder' => false,
+                'name'        => 'Upload Request from 10. Mar. 2022',
+            ]);
+
+        DB::table('notifications')
+            ->insert([
+                'id'              => Str::uuid(),
+                'type'            => 'Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification',
+                'notifiable_type' => 'App\Users\Models\User',
+                'notifiable_id'   => $howdy->id,
+                'data'            => json_encode([
+                    'type'        => 'file-request',
+                    'title'       => 'File Request Filled',
+                    'description' => "Your file request for 'Shared Folder' folder was filled successfully.",
+                    'action'      => [
+                        'type'   => 'route',
+                        'params' => [
+                            'route'  => 'Files',
+                            'button' => 'Show Files',
+                            'id'     => $fileRequestFolder->id,
+                        ],
+                    ],
+                ]),
+                'created_at'      => now(),
+                'updated_at'      => now(),
+            ]);
+
+        // Get meme gallery
+        collect([
+            'demo/request/v2-wallpaper.jpg',
+        ])
+            ->each(function ($file) use ($howdy, $fileRequestFolder) {
+                $thumbnail = $this->generate_thumbnails($file, $howdy);
+
+                // Create file record
+                File::create([
+                    'parent_id'  => $fileRequestFolder->id,
+                    'user_id'    => $howdy->id,
+                    'name'       => $thumbnail['name'],
+                    'basename'   => $thumbnail['basename'],
+                    'type'       => 'image',
+                    'author'     => 'user',
+                    'mimetype'   => 'jpg',
+                    'filesize'   => rand(1000000, 4000000),
+                    'created_at' => now()->subMinutes(rand(1, 5)),
+                ]);
+            });
     }
 
     /**

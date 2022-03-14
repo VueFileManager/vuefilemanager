@@ -21,9 +21,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        // V2 demo updates
-        DemoNotificationDataCommand::class,
-
         // Basic demo content generator
         SetupDevEnvironment::class,
         SetupProdEnvironment::class,

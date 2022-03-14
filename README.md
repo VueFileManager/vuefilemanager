@@ -134,7 +134,7 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
 # Developers
 ## Running development environment on your localhost
 
-At first, please update your database credentials in .env file
+If you would like to express set up, please update your database credentials in .env file
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -143,6 +143,17 @@ DB_DATABASE=laravel
 DB_USERNAME=root
 DB_PASSWORD=
 ```
+
+If you would like to generate demo content, run this command below. Demo account will be created with credentials `howdy@hi5ve.digital` and password `vuefilemanager`.
+```
+php artisan setup:dev
+```
+If you would like express installation without demo data, run this command below. Demo account will be created with credentials `howdy@hi5ve.digital` and password `vuefilemanager`.
+```
+php artisan setup:prod
+```
+After that, please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.
+
 
 To start server on your localhost, run command below.
 ```
@@ -163,16 +174,6 @@ To compiles for production build, run this command
 ```
 npm run prod
 ```
-
-If you would like to generate demo content, run this command below. It wil reinstall application and generate demo data. Demo account will be created with credentials 'howdy@hi5ve.digital' and password 'vuefilemanager'.
-```
-php artisan setup:dev
-```
-If you would like to install VueFileManager expressively without demo data, run this command below. It wil reinstall application from scratch. New account will be created with credentials 'howdy@hi5ve.digital' and password 'vuefilemanager'.
-```
-php artisan setup:prod
-```
-After that, please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.
 
 ## Support
 
