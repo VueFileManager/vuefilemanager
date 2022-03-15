@@ -168,7 +168,7 @@ export default {
             axios
                 .post(route, payload)
                 .then((response) => {
-                    let isTeamFoldersLocation = this.$isThisRoute(['TeamFolders'])
+                    let isTeamFoldersLocation = this.$isThisRoute(this.$route, ['TeamFolders'])
 
                     // Redirect into newly created team folder
                     if (isTeamFoldersLocation && this.$route.params.id) {

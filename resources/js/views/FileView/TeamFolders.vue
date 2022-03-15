@@ -269,7 +269,7 @@ export default {
             return this.currentTeamFolder ? this.currentTeamFolder : this.clipboard[0]
         },
         isTeamFolderHomepage() {
-            return this.$isThisRoute(['TeamFolders']) && !this.$route.params.id
+            return this.$isThisRoute(this.$route, ['TeamFolders']) && !this.$route.params.id
         },
         isFolder() {
             return this.item && this.item.data.type === 'folder'

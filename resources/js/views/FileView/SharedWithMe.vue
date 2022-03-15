@@ -214,7 +214,7 @@ export default {
             return false
         },
         isTeamFolderHomepage() {
-            return this.$isThisRoute(['SharedWithMe']) && !this.$route.params.id
+            return this.$isThisRoute(this.$route, ['SharedWithMe']) && !this.$route.params.id
         },
         isFolder() {
             return this.item && this.item.data.type === 'folder'

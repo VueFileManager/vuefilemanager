@@ -33,7 +33,7 @@ const actions = {
         })
 
         // Update user settings
-        if (!Vue.prototype.$isThisRoute(['Public'])) {
+        if (!Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) {
             Vue.prototype.$updateText('/user/settings', 'theme_mode', mode)
         }
     },

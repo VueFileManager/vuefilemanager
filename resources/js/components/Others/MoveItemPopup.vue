@@ -126,7 +126,7 @@ export default {
             this.isLoadingTree = true
 
             // Get folder tree and hide spinner
-            if (this.$isThisRoute(['SharedWithMe'])) {
+            if (this.$isThisRoute(this.$route, ['SharedWithMe'])) {
                 this.$store.dispatch('getTeamFolderTree').then(() => {
                     this.isLoadingTree = false
                 })

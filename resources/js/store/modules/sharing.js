@@ -90,7 +90,7 @@ const actions = {
                         // Remove item from file browser
                         if (
                             getters.currentFolder &&
-                            Vue.prototype.$isThisRoute(['MySharedItems'])
+                            Vue.prototype.$isThisRoute(router.currentRoute, ['MySharedItems'])
                         ) {
                             commit('REMOVE_ITEM', item.data.id)
                         }

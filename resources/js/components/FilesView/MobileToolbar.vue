@@ -6,7 +6,7 @@
 
         <div class="relative flex items-center">
             <TeamMembersButton
-                v-if="$isThisRoute(['TeamFolders', 'SharedWithMe'])"
+                v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])"
                 size="28"
                 @click.stop.native="$showMobileMenu('team-menu')"
                 class="absolute right-9"
