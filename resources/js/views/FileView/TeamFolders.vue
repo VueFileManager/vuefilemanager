@@ -1,18 +1,6 @@
 <template>
     <div>
         <MobileContextMenu>
-            <OptionGroup v-if="item && isFolder">
-                <Option
-                    @click.native="$toggleFavourites(item)"
-                    :title="
-                        isInFavourites
-                            ? $t('context_menu.remove_from_favourites')
-                            : $t('context_menu.add_to_favourites')
-                    "
-                    icon="favourites"
-                />
-            </OptionGroup>
-
             <OptionGroup v-if="item">
                 <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
                 <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
@@ -26,10 +14,16 @@
                 />
                 <Option
                     @click.native="$updateTeamFolder(item)"
-                    v-if="isFolder"
+                    v-if="isFolder && (isTeamFolderHomepage || currentTeamFolder.data.id === item.data.id)"
                     :title="$t('Edit Team Members')"
                     icon="users"
                 />
+				<Option
+					@click.native="$createFileRequest(item)"
+					v-if="isFolder"
+					:title="$t('File Request')"
+					icon="upload-cloud"
+				/>
             </OptionGroup>
 
             <OptionGroup v-if="item">
@@ -38,21 +32,21 @@
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup :title="$t('Upload')">
-                <OptionUpload :title="$t('actions.upload')" type="file" :is-hover-disabled="true" />
-                <OptionUpload :title="$t('actions.upload_folder')" type="folder" :is-hover-disabled="true" />
-            </OptionGroup>
-            <OptionGroup :title="$t('Create')">
-                <Option
-                    @click.stop.native="$createTeamFolder"
-                    :title="$t('Create Team Folder')"
-                    icon="users"
-                    :is-hover-disabled="true"
-                />
+            <OptionGroup :title="$t('Frequently Used')">
+                <OptionUpload :title="$t('actions.upload')" type="file" :is-hover-disabled="true" :class="{'is-inactive': isTeamFolderHomepage}" />
                 <Option
                     @click.stop.native="$createFolderByPopup"
                     :title="$t('actions.create_folder')"
                     icon="folder-plus"
+                    :is-hover-disabled="true"
+					:class="{'is-inactive': isTeamFolderHomepage}"
+                />
+            </OptionGroup>
+            <OptionGroup :title="$t('Others')">
+                <Option
+                    @click.stop.native="$createTeamFolder"
+                    :title="$t('Create Team Folder')"
+                    icon="users"
                     :is-hover-disabled="true"
                 />
             </OptionGroup>
@@ -139,6 +133,12 @@
                         :title="$t('Edit Team Members')"
                         icon="users"
                     />
+					<Option
+						@click.native="$createFileRequest(item)"
+						v-if="isFolder"
+						:title="$t('File Request')"
+						icon="upload-cloud"
+					/>
                 </OptionGroup>
                 <OptionGroup>
                     <Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />

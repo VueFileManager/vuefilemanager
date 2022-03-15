@@ -13,29 +13,43 @@
                     />
                     <PopoverItem name="desktop-create" side="left">
                         <OptionGroup
-                            :title="$t('Upload')"
-                            :class="{
-                                'is-inactive': canUploadInView || isTeamFolderHomepage || isSharedWithMeHomepage,
-                            }"
+                            :title="$t('Frequently Used')"
                         >
-                            <OptionUpload :title="$t('actions.upload')" type="file" />
-                            <OptionUpload :title="$t('actions.upload_folder')" type="folder" />
-                        </OptionGroup>
-                        <OptionGroup :title="$t('Create')">
+                            <OptionUpload
+								:title="$t('actions.upload')"
+								type="file"
+								:class="{
+                                    'is-inactive': (isSharedWithMe && !canEdit) || canUploadInView || isTeamFolderHomepage || isSharedWithMeHomepage,
+                                }"
+							/>
                             <Option
                                 @click.native="$createFolder"
                                 :class="{
-                                    'is-inactive': canCreateFolder || isTeamFolderHomepage || isSharedWithMeHomepage,
+                                    'is-inactive': (isSharedWithMe && !canEdit) || canCreateFolder || isTeamFolderHomepage || isSharedWithMeHomepage,
                                 }"
                                 :title="$t('actions.create_folder')"
                                 icon="folder-plus"
                             />
+                        </OptionGroup>
+                        <OptionGroup :title="$t('Others')">
+                            <OptionUpload
+								:class="{
+                                    'is-inactive': (isSharedWithMe && !canEdit) || canUploadFolderInView || isTeamFolderHomepage || isSharedWithMeHomepage,
+                                }"
+								:title="$t('actions.upload_folder')"
+								type="folder"
+							/>
                             <Option
                                 @click.stop.native="$createTeamFolder"
-                                :class="{ 'is-inactive': canCreateTeamFolder || isSharedWithMeHomepage }"
+                                :class="{ 'is-inactive': canCreateTeamFolder }"
                                 :title="$t('Create Team Folder')"
                                 icon="users"
                             />
+							<Option
+								@click.native="$createFileRequest"
+								:title="$t('Create File Request')"
+								icon="upload-cloud"
+							/>
                         </OptionGroup>
                     </PopoverItem>
                 </PopoverWrapper>
@@ -185,7 +199,7 @@ export default {
             'user',
         ]),
         canEdit() {
-            if (this.currentTeamFolder && this.user && this.clipboard[0]) {
+            if (this.currentTeamFolder && this.user) {
                 let member = this.currentTeamFolder.data.relationships.members.data.find(
                     (member) => member.data.id === this.user.data.id
                 )
@@ -201,6 +215,9 @@ export default {
         isTeamFolderHomepage() {
             return this.$isThisRoute(this.$route, ['TeamFolders']) && !this.$route.params.id
         },
+        isSharedWithMe() {
+            return this.$isThisRoute(this.$route, ['SharedWithMe'])
+        },
         isSharedWithMeHomepage() {
             return this.$isThisRoute(this.$route, ['SharedWithMe']) && !this.$route.params.id
         },
@@ -211,6 +228,9 @@ export default {
             return this.$isThisRoute(this.$route, ['Files', 'MySharedItems'])
         },
         canUploadInView() {
+            return !this.$isThisRoute(this.$route, ['Files', 'RecentUploads', 'Public', 'TeamFolders', 'SharedWithMe'])
+        },
+        canUploadFolderInView() {
             return !this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders', 'SharedWithMe'])
         },
         canDeleteInView() {

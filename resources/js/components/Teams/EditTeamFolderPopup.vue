@@ -135,6 +135,7 @@ export default {
                 })
                 .then((response) => {
                     this.$store.commit('UPDATE_ITEM', response.data)
+                    this.$store.commit('SET_CURRENT_TEAM_FOLDER', response.data)
 
                     events.$emit('toaster', {
                         type: 'success',

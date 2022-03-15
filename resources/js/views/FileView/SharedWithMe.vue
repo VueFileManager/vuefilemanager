@@ -12,11 +12,8 @@
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup :title="$t('Upload')">
+            <OptionGroup :title="$t('Frequently Used')">
                 <OptionUpload :title="$t('actions.upload')" type="file" :is-hover-disabled="true" />
-                <OptionUpload :title="$t('actions.upload_folder')" type="folder" :is-hover-disabled="true" />
-            </OptionGroup>
-            <OptionGroup :title="$t('Create')">
                 <Option
                     @click.stop.native="createFolder"
                     :title="$t('actions.create_folder')"

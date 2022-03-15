@@ -1221,7 +1221,7 @@ class SetupDevEnvironment extends Command
                 [
                     'parent_id'  => $folder->id,
                     'user_id'    => $johan->id,
-                    'permission' => 'owner',
+                    'permission' => 'can-edit',
                 ],
             ]);
 

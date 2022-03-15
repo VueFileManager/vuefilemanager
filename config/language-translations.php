@@ -341,7 +341,7 @@ return [
         'context_menu.detail'                                => 'Detail',
         'context_menu.download'                              => 'Download',
         'context_menu.copy'                                  => 'Copy',
-        'context_menu.empty_trash'                           => 'Empty Trash',
+        'context_menu.empty_trash'                           => 'Flush',
         'context_menu.log_out'                               => 'Log Out',
         'context_menu.move'                                  => 'Move',
         'context_menu.no_options'                            => 'No Options Available',

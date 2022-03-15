@@ -1,6 +1,7 @@
 <template>
     <label
-        class="group flex cursor-pointer items-center py-4 px-5 hover:bg-light-background dark:hover:bg-4x-dark-foreground"
+        class="flex items-center lg:py-3.5 py-4 px-5"
+		:class="{'group cursor-pointer hover:bg-light-background dark:hover:bg-4x-dark-foreground': !isHoverDisabled }"
     >
         <div class="mr-4">
             <upload-cloud-icon v-if="type === 'file'" size="17" class="vue-feather group-hover-text-theme" />
@@ -38,7 +39,7 @@ import { UploadCloudIcon } from 'vue-feather-icons'
 
 export default {
     name: 'Option',
-    props: ['title', 'type'],
+    props: ['title', 'type', 'isHoverDisabled'],
     components: {
         FolderUploadIcon,
         UploadCloudIcon,

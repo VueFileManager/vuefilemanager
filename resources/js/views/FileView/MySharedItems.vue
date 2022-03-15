@@ -63,17 +63,6 @@
         </ContextMenu>
 
         <MobileContextMenu>
-            <OptionGroup v-if="isFolder">
-                <Option
-                    @click.native="$toggleFavourites(item)"
-                    :title="
-                        isInFavourites
-                            ? $t('context_menu.remove_from_favourites')
-                            : $t('context_menu.add_to_favourites')
-                    "
-                    icon="favourites"
-                />
-            </OptionGroup>
             <OptionGroup>
                 <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
                 <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />

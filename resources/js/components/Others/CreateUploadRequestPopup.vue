@@ -16,35 +16,6 @@
 				v-slot="{ invalid }"
 				tag="form"
 			>
-				<!--Send Request by Email-->
-                <AppInputSwitch
-					:title="$t('Send Request by Email')"
-					:description="$t('Send your file request on recipients email')"
-				>
-                    <SwitchInput v-model="shareViaEmail" :state="shareViaEmail" />
-                </AppInputSwitch>
-
-				<!--Set email-->
-                <ValidationProvider
-					v-if="shareViaEmail"
-					tag="div"
-					mode="passive"
-					name="Email"
-					rules="required"
-					v-slot="{ errors }"
-				>
-                    <AppInputText :error="errors[0]" class="-mt-2">
-                        <input
-							v-model="form.email"
-							:class="{ '!border-rose-600': errors[0] }"
-							type="text"
-							ref="input"
-							class="focus-border-theme input-dark"
-							:placeholder="$t('Type email...')"
-						/>
-                    </AppInputText>
-                </ValidationProvider>
-
 				<!--Set name-->
                 <ValidationProvider
 					tag="div"
@@ -52,7 +23,7 @@
 					name="Name"
 					v-slot="{ errors }"
 				>
-                    <AppInputText :title="$t('Folder Name (optional)')" :description="$t('Created folder with files will be named with your own name.')" :error="errors[0]" class="-mt-2">
+                    <AppInputText :title="$t('Folder Name (optional)')" :description="$t('Created folder with files will be named with your own name.')" :error="errors[0]">
                         <input
 							v-model="form.name"
 							:class="{ '!border-rose-600': errors[0] }"
@@ -66,7 +37,7 @@
 
 				<!--Set note-->
                 <ValidationProvider tag="div" mode="passive" name="Note" v-slot="{ errors }">
-                    <AppInputText :title="$t('Message (optional)')" :description="$t('This message will be showed for your email recipient or in the upload page.')" :error="errors[0]" :is-last="true">
+                    <AppInputText :title="$t('Message (optional)')" :description="$t('This message will be showed for your email recipient or in the upload page.')" :error="errors[0]">
                         <textarea
 							v-model="form.notes"
 							rows="2"
@@ -76,6 +47,36 @@
 							class="focus-border-theme input-dark"
 							:placeholder="$t('Type message for recipient...')"
 						></textarea>
+                    </AppInputText>
+                </ValidationProvider>
+
+				<!--Send Request by Email-->
+                <AppInputSwitch
+					:title="$t('Send Request by Email')"
+					:description="$t('Send your file request on recipients email')"
+					:is-last="! shareViaEmail"
+				>
+                    <SwitchInput v-model="shareViaEmail" :state="shareViaEmail" />
+                </AppInputSwitch>
+
+				<!--Set email-->
+                <ValidationProvider
+					v-if="shareViaEmail"
+					tag="div"
+					mode="passive"
+					name="Email"
+					rules="required"
+					v-slot="{ errors }"
+				>
+                    <AppInputText :error="errors[0]" class="-mt-2" :is-last="true">
+                        <input
+							v-model="form.email"
+							:class="{ '!border-rose-600': errors[0] }"
+							type="text"
+							ref="input"
+							class="focus-border-theme input-dark"
+							:placeholder="$t('Type email...')"
+						/>
                     </AppInputText>
                 </ValidationProvider>
             </ValidationObserver>
