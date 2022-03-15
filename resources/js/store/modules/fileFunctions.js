@@ -311,17 +311,14 @@ const actions = {
 
             // Remove file
             commit('REMOVE_ITEM', data.data.id)
+            commit('REMOVE_ITEM_FROM_CLIPBOARD', data.data.id)
+            events.$emit('file:deleted', data.data.id)
 
             // Remove item from sidebar
             if (! ['Public', 'RequestUpload'].includes(router.currentRoute.name)) {
                 if (data.data.type === 'folder') commit('REMOVE_ITEM_FROM_FAVOURITES', data)
             }
         })
-
-        // Remove file preview
-        if (!noSelectedItem) {
-            commit('CLIPBOARD_CLEAR')
-        }
 
         // Get route
         let route = {

@@ -124,7 +124,7 @@ export default {
                 if ((e.ctrlKey || e.metaKey) && !e.shiftKey) {
                     // Click + Ctrl
                     if (this.clipboard.some((item) => item.data.id === this.item.data.id)) {
-                        this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
+                        this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item.data.id)
                     } else {
                         this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                     }
@@ -171,7 +171,7 @@ export default {
 
             if (this.isMultiSelectMode && this.$isMobile()) {
                 if (this.clipboard.some((item) => item.data.id === this.item.data.id)) {
-                    this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item)
+                    this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.item.data.id)
                 } else {
                     this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.item)
                 }

@@ -97,29 +97,9 @@ export default {
         }
     },
     watch: {
-        files() {
-            if (this.files.length === 0) events.$emit('file-preview-wrapper:hide')
-        },
-        currentFile() {
-            if (this.clipboard[0]) {
-                this.$store.commit('CLIPBOARD_CLEAR')
-                this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.currentFile)
-            }
-        },
-        clipboard() {
-            if (!this.clipboard[0]) {
-                this.currentIndex -= 1
-
-                this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.currentFile)
-
-                this.files = []
-            }
-        },
-        data(newValue, oldValue) {
-            if (newValue !== oldValue) {
-                this.files = []
-            }
-        },
+		currentIndex() {
+			this.$store.commit('CLIPBOARD_REPLACE', this.currentFile)
+		},
     },
     methods: {
         checkGroupInView: _.debounce(function () {
@@ -186,11 +166,24 @@ export default {
             }
         },
     },
-    created() {
+    mounted() {
         events.$on('file-preview:next', () => this.next())
         events.$on('file-preview:prev', () => this.prev())
 
         this.getFilesForView()
+
+		events.$on('file:deleted', id => {
+			this.files = this.files.filter(item => item.data.id !== id)
+
+			if (this.files.length === 0) {
+				events.$emit('file-preview:hide')
+			} else {
+				this.$store.commit('CLIPBOARD_REPLACE', this.currentFile)
+			}
+		})
     },
+	destroyed() {
+		events.$off('file:deleted')
+	}
 }
 </script>

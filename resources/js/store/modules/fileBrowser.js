@@ -178,11 +178,14 @@ const mutations = {
             if (el.data.id && el.data.id === id) el.data.attributes.items++
         })
     },
-    REMOVE_ITEM_FROM_CLIPBOARD(state, item) {
-        state.clipboard = state.clipboard.filter((element) => element.data.id !== item.data.id)
+    REMOVE_ITEM_FROM_CLIPBOARD(state, id) {
+        state.clipboard = state.clipboard.filter((element) => element.data.id !== id)
     },
     ADD_ALL_ITEMS_TO_CLIPBOARD(state) {
         state.clipboard = state.entries
+    },
+    CLIPBOARD_REPLACE(state, item) {
+        state.clipboard = [item]
     },
     ADD_ITEM_TO_CLIPBOARD(state, item) {
         let selectedItem = state.entries.find((el) => el.data.id === item.data.id)

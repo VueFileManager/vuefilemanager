@@ -121,7 +121,7 @@ class SetupDevEnvironment extends Command
                 'notifiable_type' => 'App\Users\Models\User',
                 'notifiable_id'   => $howdy->id,
                 'data'            => json_encode([
-                    'type'        => 'team-invitation',
+                    'category'        => 'team-invitation',
                     'title'       => 'New Team Invitation',
                     'description' => 'Jane Doe invite you to join into Team Folder.',
                     'action'      => [
@@ -160,7 +160,7 @@ class SetupDevEnvironment extends Command
                 'notifiable_type' => 'App\Users\Models\User',
                 'notifiable_id'   => $howdy->id,
                 'data'            => json_encode([
-                    'type'        => 'file-request',
+                    'category'        => 'file-request',
                     'title'       => 'File Request Filled',
                     'description' => "Your file request for 'Shared Folder' folder was filled successfully.",
                     'action'      => [
