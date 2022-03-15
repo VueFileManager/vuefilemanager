@@ -36,6 +36,7 @@ export default {
                 this.isVisible = !this.isVisible
             }
         })
+        events.$on('popover:close', () => this.isVisible = false)
     },
 }
 </script>

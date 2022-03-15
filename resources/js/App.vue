@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div @keydown.esc="closeOverlays" tabindex="-1">
         <!--UI components-->
         <Alert />
         <ToasterWrapper />
@@ -72,6 +72,12 @@ export default {
 		}
     },
     methods: {
+		closeOverlays() {
+			events.$emit('popup:close')
+			events.$emit('popover:close')
+
+			this.$store.commit('CLOSE_NOTIFICATION_CENTER')
+		},
         spotlightListener(e) {
 			if (e.key === 'k' && e.metaKey || e.key === 'k' && e.ctrlKey) {
 				e.preventDefault()
