@@ -107,11 +107,11 @@
         <MobileMultiSelectToolbar>
             <ToolbarButton
                 @click.native="$downloadSelection(item)"
-                class="action-btn"
                 source="download"
                 :action="$t('actions.download')"
+				class="mr-4"
             />
-            <ToolbarButton @click.native="$shareCancel" class="action-btn" source="shared-off" />
+            <ToolbarButton @click.native="$shareCancel" source="shared-off" />
         </MobileMultiSelectToolbar>
     </div>
 </template>

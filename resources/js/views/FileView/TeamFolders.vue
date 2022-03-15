@@ -62,21 +62,20 @@
         <MobileMultiSelectToolbar>
             <ToolbarButton
                 @click.native="$moveFileOrFolder(clipboard)"
-                class="action-btn"
+                class="mr-4"
                 source="move"
                 :action="$t('actions.move')"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
             />
             <ToolbarButton
                 @click.native="$deleteFileOrFolder(clipboard)"
-                class="action-btn"
+                class="mr-4"
                 source="trash"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
                 :action="$t('actions.delete')"
             />
             <ToolbarButton
                 @click.native="$downloadSelection(item)"
-                class="action-btn"
                 source="download"
                 :action="$t('actions.download')"
             />
