@@ -189,7 +189,7 @@ export default {
         canEditName() {
             return (
                 !this.$isMobile() &&
-                !this.$isThisRoute(this.$route, ['Trash', 'SharedSingleFile']) &&
+                !this.$isThisRoute(['Trash', 'SharedSingleFile']) &&
                 !this.$checkPermission('visitor')
             )
         },
@@ -200,13 +200,13 @@ export default {
         },
         canShowAuthor() {
             return (
-                this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders']) &&
+                this.$isThisRoute(['SharedWithMe', 'TeamFolders']) &&
                 !this.isFolder &&
                 this.user.data.id !== this.entry.data.relationships.owner.data.id
             )
         },
         canShowLinkIcon() {
-            return this.entry.data.relationships.shared && !this.$isThisRoute(this.$route, ['SharedSingleFile'])
+            return this.entry.data.relationships.shared && !this.$isThisRoute(['SharedSingleFile'])
         },
         canDrag() {
             return !this.isDeleted && this.$checkPermission(['master', 'editor'])

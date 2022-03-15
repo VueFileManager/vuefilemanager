@@ -60,7 +60,7 @@
                 <!--File Controls-->
                 <div class="ml-5 flex items-center xl:ml-8">
                     <!--Team Heads-->
-                    <PopoverWrapper v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])">
+                    <PopoverWrapper v-if="$isThisRoute(['TeamFolders', 'SharedWithMe'])">
                         <TeamMembersButton
                             @click.stop.native="showTeamFolderMenu"
                             size="32"
@@ -70,7 +70,7 @@
                         <PopoverItem name="team-folder" side="left">
                             <TeamFolderPreview />
 
-                            <OptionGroup v-if="$isThisRoute($route, ['TeamFolders'])" :title="$t('Options')">
+                            <OptionGroup v-if="$isThisRoute(['TeamFolders'])" :title="$t('Options')">
                                 <Option
                                     @click.native="$updateTeamFolder(teamFolder)"
                                     :title="$t('Edit Members')"
@@ -83,7 +83,7 @@
                                 />
                             </OptionGroup>
 
-                            <OptionGroup v-if="$isThisRoute($route, ['SharedWithMe'])" :title="$t('Options')">
+                            <OptionGroup v-if="$isThisRoute(['SharedWithMe'])" :title="$t('Options')">
                                 <Option
                                     @click.native="$detachMeFromTeamFolder(teamFolder)"
                                     :title="$t('Leave the Team Folder')"
@@ -105,7 +105,7 @@
                             :action="$t('actions.convert_into_team_folder')"
                         />
                         <ToolbarButton
-                            v-if="!$isThisRoute($route, ['SharedWithMe', 'Public'])"
+                            v-if="!$isThisRoute(['SharedWithMe', 'Public'])"
                             @click.native="$shareFileOrFolder(clipboard[0])"
                             :class="{
                                 'is-inactive': canShareInView,
@@ -213,41 +213,41 @@ export default {
             return this.currentTeamFolder ? this.currentTeamFolder : this.clipboard[0]
         },
         isTeamFolderHomepage() {
-            return this.$isThisRoute(this.$route, ['TeamFolders']) && !this.$route.params.id
+            return this.$isThisRoute(['TeamFolders']) && !this.$route.params.id
         },
         isSharedWithMe() {
-            return this.$isThisRoute(this.$route, ['SharedWithMe'])
+            return this.$isThisRoute(['SharedWithMe'])
         },
         isSharedWithMeHomepage() {
-            return this.$isThisRoute(this.$route, ['SharedWithMe']) && !this.$route.params.id
+            return this.$isThisRoute(['SharedWithMe']) && !this.$route.params.id
         },
         canCreateFolder() {
-            return !this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders', 'SharedWithMe'])
+            return !this.$isThisRoute(['Files', 'Public', 'TeamFolders', 'SharedWithMe'])
         },
         canShowConvertToTeamFolder() {
-            return this.$isThisRoute(this.$route, ['Files', 'MySharedItems'])
+            return this.$isThisRoute(['Files', 'MySharedItems'])
         },
         canUploadInView() {
-            return !this.$isThisRoute(this.$route, ['Files', 'RecentUploads', 'Public', 'TeamFolders', 'SharedWithMe'])
+            return !this.$isThisRoute(['Files', 'RecentUploads', 'Public', 'TeamFolders', 'SharedWithMe'])
         },
         canUploadFolderInView() {
-            return !this.$isThisRoute(this.$route, ['Files', 'Public', 'TeamFolders', 'SharedWithMe'])
+            return !this.$isThisRoute(['Files', 'Public', 'TeamFolders', 'SharedWithMe'])
         },
         canDeleteInView() {
             let routes = ['TeamFolders', 'SharedWithMe', 'RecentUploads', 'MySharedItems', 'Trash', 'Public', 'Files']
-            return !this.$isThisRoute(this.$route, routes) || this.clipboard.length === 0
+            return !this.$isThisRoute(routes) || this.clipboard.length === 0
         },
         canMoveInView() {
             let routes = ['SharedWithMe', 'RecentUploads', 'MySharedItems', 'Public', 'Files', 'TeamFolders']
-            return !this.$isThisRoute(this.$route, routes) || this.clipboard.length === 0
+            return !this.$isThisRoute(routes) || this.clipboard.length === 0
         },
         canShareInView() {
             let routes = ['TeamFolders', 'RecentUploads', 'MySharedItems', 'Public', 'Files']
-            return !this.$isThisRoute(this.$route, routes) || this.clipboard.length > 1 || this.clipboard.length === 0
+            return !this.$isThisRoute(routes) || this.clipboard.length > 1 || this.clipboard.length === 0
         },
         canCreateTeamFolder() {
             return (
-                this.$isThisRoute(this.$route, ['MySharedItems', 'Files']) &&
+                this.$isThisRoute(['MySharedItems', 'Files']) &&
                 this.clipboard.length === 1 &&
                 this.clipboard[0].data.type === 'folder'
             )

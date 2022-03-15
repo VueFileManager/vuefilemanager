@@ -119,7 +119,7 @@ export default {
         canEditName() {
             return (
                 !this.$isMobile() &&
-                !this.$isThisRoute(this.$route, ['Trash']) &&
+                !this.$isThisRoute(['Trash']) &&
                 !this.$checkPermission('visitor') &&
                 !(this.sharedDetail && this.sharedDetail.attributes.type === 'file')
             )

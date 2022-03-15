@@ -54,7 +54,7 @@ export default {
     computed: {
         ...mapGetters(['isVisibleNavigationBars', 'currentFolder', 'sharedDetail']),
         isNotHomepage() {
-            if (this.$isThisRoute(this.$route, ['Public'])) {
+            if (this.$isThisRoute(['Public'])) {
                 return this.sharedDetail && this.sharedDetail.data.attributes.item_id !== this.$route.params.id
             }
 

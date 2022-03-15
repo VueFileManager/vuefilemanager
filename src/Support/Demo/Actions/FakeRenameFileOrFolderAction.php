@@ -13,7 +13,7 @@ class FakeRenameFileOrFolderAction
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): array {
+    ): array|File {
         // Get item
         if ($request->input('type') === 'folder') {
             $item = Folder::where('id', $id)

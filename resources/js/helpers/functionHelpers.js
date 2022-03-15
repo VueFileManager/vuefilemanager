@@ -437,8 +437,8 @@ const FunctionHelpers = {
             this.$router.push(locations[this.$router.currentRoute.name])
         }
 
-        Vue.prototype.$isThisRoute = function (route, locations) {
-            return locations.includes(route.name)
+        Vue.prototype.$isThisRoute = function (locations) {
+            return locations.includes(router.currentRoute.name)
         }
 
         // TODO: not working correctly in share page

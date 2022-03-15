@@ -62,7 +62,7 @@
 
             <!--Show tips-->
             <div
-                v-if="isEmptyQuery && !activeFilter && !$isThisRoute($route, ['Public']) && isAdmin"
+                v-if="isEmptyQuery && !activeFilter && !$isThisRoute(['Public']) && isAdmin"
                 class="relative z-50 px-4 pb-4"
             >
                 <CategoryName>
@@ -587,7 +587,7 @@ export default {
             }
 
             // Return commands for public page
-            if (this.$isThisRoute(this.$route, ['Public'])) {
+            if (this.$isThisRoute(['Public'])) {
                 return [].concat.apply([], [functionList])
             }
 
@@ -779,7 +779,7 @@ export default {
         openItem(file) {
             // Show folder
             if (file.data.type === 'folder') {
-                if (this.$isThisRoute(this.$route, ['Public'])) {
+                if (this.$isThisRoute(['Public'])) {
                     this.$router.push({
                         name: 'Public',
                         params: {

@@ -60,7 +60,7 @@ export default {
             events.$emit('emailsInputValues', this.emails)
         },
         removeLastEmail(event) {
-            // If is input empty and presse backspace remove last email from array
+            // If is input empty and press backspace remove last email from array
             if (event.code === 'Backspace' && this.email === '') this.emails.pop()
         },
         handleEmail() {

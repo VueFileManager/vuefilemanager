@@ -158,7 +158,7 @@ import { mapGetters } from 'vuex'
         },
         canShowAuthor() {
             return (
-                this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders']) &&
+                this.$isThisRoute(['SharedWithMe', 'TeamFolders']) &&
                 this.clipboard[0].data.type !== 'folder' &&
                 this.user.data.id !== this.clipboard[0].data.relationships.owner.data.id
             )

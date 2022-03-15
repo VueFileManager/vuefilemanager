@@ -6,28 +6,28 @@
                     @click.native="goToFiles"
                     :title="$t('sidebar.home')"
                     icon="hard-drive"
-                    :is-active="$isThisRoute($route, 'Files')"
+                    :is-active="$isThisRoute('Files')"
                     :is-hover-disabled="true"
                 />
                 <Option
                     @click.native="goToLatest"
                     :title="$t('menu.latest')"
                     icon="upload-cloud"
-                    :is-active="$isThisRoute($route, 'RecentUploads')"
+                    :is-active="$isThisRoute('RecentUploads')"
                     :is-hover-disabled="true"
                 />
                 <Option
                     @click.native="goToShared"
                     :title="$t('sidebar.my_shared')"
                     icon="share"
-                    :is-active="$isThisRoute($route, 'MySharedItems')"
+                    :is-active="$isThisRoute('MySharedItems')"
                     :is-hover-disabled="true"
                 />
                 <Option
                     @click.native="goToTrash"
                     :title="$t('menu.trash')"
                     icon="trash"
-                    :is-active="$isThisRoute($route, 'Trash')"
+                    :is-active="$isThisRoute('Trash')"
                     :is-hover-disabled="true"
                 />
             </OptionGroup>
@@ -36,14 +36,14 @@
                     @click.native="goToTeamFolders"
                     :title="$t('Team Folders')"
                     icon="users"
-                    :is-active="$isThisRoute($route, 'TeamFolders')"
+                    :is-active="$isThisRoute('TeamFolders')"
                     :is-hover-disabled="true"
                 />
                 <Option
                     @click.native="goToSharedWithMe"
                     :title="$t('Shared with Me')"
                     icon="user-check"
-                    :is-active="$isThisRoute($route, 'SharedWithMe')"
+                    :is-active="$isThisRoute('SharedWithMe')"
                     :is-hover-disabled="true"
                 />
             </OptionGroup>

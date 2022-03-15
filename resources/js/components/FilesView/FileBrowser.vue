@@ -38,7 +38,7 @@ export default {
         ItemHandler,
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'currentFolder', 'itemViewType', 'clipboard', 'entries', 'config']),
+        ...mapGetters(['isVisibleSidebar', 'currentFolder', 'itemViewType', 'clipboard', 'entries', 'config', 'currentTeamFolder', 'user']),
         draggedItems() {
             // Set opacity for dragged items
             if (!this.clipboard.includes(this.draggingId)) {
@@ -58,10 +58,27 @@ export default {
     },
     methods: {
         deleteItems() {
+			// Prevent delete in SharedWithMe and TeamFolders homepage
+			if ((this.$isThisRoute(['SharedWithMe', 'TeamFolders']) && !this.$route.params.id)) return
+
+			// Prevent delete in SharedWithMe with visit privileges
+			if ((this.$isThisRoute(['SharedWithMe']) && ! this.canEdit())) return
+
             if ((this.clipboard.length > 0 && this.$checkPermission('master')) || this.$checkPermission('editor')) {
                 this.$store.dispatch('deleteItem')
             }
         },
+		canEdit() {
+			if (this.currentTeamFolder && this.user) {
+				let member = this.currentTeamFolder.data.relationships.members.data.find(
+					(member) => member.data.id === this.user.data.id
+				)
+
+				return member.data.attributes.permission === 'can-edit'
+			}
+
+			return false
+		},
         uploadDroppedItems(event) {
             this.$uploadDraggedFiles(event, this.currentFolder.data.id)
 

@@ -80,7 +80,7 @@ const actions = {
 
                     if (item.type === 'folder') dispatch('getAppData')
 
-                    if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) dispatch('getFolderTree')
+                    if (Vue.prototype.$isThisRoute(['Public'])) dispatch('getFolderTree')
                 })
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
@@ -272,7 +272,7 @@ const actions = {
     restoreItem: ({ commit, getters }, item) => {
         let itemToRestore = []
         let items = [item]
-        let restoreToHome = Vue.prototype.$isThisRoute(router.currentRoute, ['Trash'])
+        let restoreToHome = Vue.prototype.$isThisRoute(['Trash'])
 
         // If coming no selected item dont get items to restore from clipboard
         if (!item) items = getters.clipboard
