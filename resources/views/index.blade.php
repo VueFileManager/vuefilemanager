@@ -27,11 +27,11 @@
     }
 @endphp
 
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html class="{{ $installation === 'installation-needed' ? 'dark:bg-dark-background bg-light-background' : '' }}" style="min-height: 100%" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-<!--    <meta name="theme-color" content="{{ $settings->app_color ?? '#00BC7E' }}">-->
+    <meta name="theme-color" content="{{ $settings->app_color ?? '#00BC7E' }}">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
@@ -81,11 +81,14 @@
 
             broadcasting: '{{ config('broadcasting.default') }}',
 
-			app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
 			app_logo: '{{ $settings->app_logo ?? null }}',
+			app_logo_dark: '{{ $settings->app_logo_dark ?? null }}',
+			app_logo_horizontal: '{{ $settings->app_logo_horizontal ?? null }}',
+			app_logo_horizontal_dark: '{{ $settings->app_logo_horizontal_dark ?? null }}',
+
+            app_color: '{{ $settings->app_color ?? '#00BC7E' }}',
 			app_footer: '{!! $settings->footer_content ?? null !!}',
 			app_name: '{{ $settings->app_title ?? 'VueFileManager' }}',
-			app_logo_horizontal: '{{ $settings->app_logo_horizontal ?? null }}',
 			app_description: '{{ $settings->app_description ?? __t('app_description') }}',
 
 			allowHomepage: {{ $settings->allow_homepage ?? 1 }},

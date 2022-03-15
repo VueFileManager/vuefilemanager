@@ -1410,8 +1410,16 @@ class SetupDevEnvironment extends Command
                 'value' => 'system/logo.svg',
             ],
             [
+                'name'  => 'app_logo_dark',
+                'value' => 'system/logo-dark.svg',
+            ],
+            [
                 'name'  => 'app_logo_horizontal',
                 'value' => 'system/logo-horizontal.svg',
+            ],
+            [
+                'name'  => 'app_logo_horizontal_dark',
+                'value' => 'system/logo-horizontal-dark.svg',
             ],
             [
                 'name'  => 'app_favicon',
@@ -1538,7 +1546,7 @@ class SetupDevEnvironment extends Command
         });
 
         // Get system images
-        collect(['logo.svg', 'logo-horizontal.svg', 'favicon.png', 'og-image.jpg', 'touch-icon.png'])
+        collect(['logo.svg', 'logo-dark.svg', 'logo-horizontal-dark.svg', 'favicon.png', 'og-image.jpg', 'touch-icon.png'])
             ->each(function ($file) {
                 Storage::putFileAs('system', storage_path("demo/app/$file"), $file, 'private');
             });

@@ -98,7 +98,15 @@ class SetupProdEnvironment extends Command
                 'value' => null,
             ],
             [
+                'name'  => 'app_logo_dark',
+                'value' => null,
+            ],
+            [
                 'name'  => 'app_logo_horizontal',
+                'value' => null,
+            ],
+            [
+                'name'  => 'app_logo_horizontal_dark',
                 'value' => null,
             ],
             [

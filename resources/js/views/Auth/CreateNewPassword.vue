@@ -101,11 +101,7 @@
 
         <!--Password reset successfully-->
         <AuthContent name="password-reset-successfully" :visible="false">
-            <img v-if="config.app_logo" class="logo mx-auto" :src="$getImage(config.app_logo)" :alt="config.app_name" />
-            <b v-if="!config.app_logo" class="auth-logo-text">{{ config.app_name }}</b>
-
-            <h1>{{ $t('page_forgotten_password.pass_reseted_title') }}</h1>
-            <h2>{{ $t('page_forgotten_password.pass_reseted_subtitle') }}</h2>
+			<Headline :title="$t('page_forgotten_password.pass_reseted_title')" :description="$t('page_forgotten_password.pass_reseted_subtitle')" />
 
             <router-link :to="{ name: 'SignIn' }">
                 <AuthButton icon="chevron-right" :text="$t('page_forgotten_password.pass_reseted_signin')" />

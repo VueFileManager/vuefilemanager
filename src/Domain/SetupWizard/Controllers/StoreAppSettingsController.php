@@ -41,8 +41,16 @@ class StoreAppSettingsController extends Controller
                 'value' => store_system_image($request, 'logo'),
             ],
             [
+                'name'  => 'app_logo_dark',
+                'value' => store_system_image($request, 'logo_dark'),
+            ],
+            [
                 'name'  => 'app_logo_horizontal',
                 'value' => store_system_image($request, 'logo_horizontal'),
+            ],
+            [
+                'name'  => 'app_logo_horizontal_dark',
+                'value' => store_system_image($request, 'logo_horizontal_dark'),
             ],
             [
                 'name'  => 'app_favicon',

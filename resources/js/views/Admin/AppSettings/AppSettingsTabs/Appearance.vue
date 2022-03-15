@@ -47,11 +47,27 @@
                 />
             </AppInputText>
 
+            <AppInputText :title="$t('App Logo Dark Mode (optional)')">
+                <ImageInput
+                    @input="$updateImage('/admin/settings', 'app_logo_dark', app.logo_dark)"
+                    :image="$getImage(app.logo_dark)"
+                    v-model="app.logo_dark"
+                />
+            </AppInputText>
+
             <AppInputText :title="$t('admin_settings.appearance.logo_horizontal')">
                 <ImageInput
                     @input="$updateImage('/admin/settings', 'app_logo_horizontal', app.logo_horizontal)"
                     :image="$getImage(app.logo_horizontal)"
                     v-model="app.logo_horizontal"
+                />
+            </AppInputText>
+
+            <AppInputText :title="$t('App Logo Horizontal Dark Mode (optional)')">
+                <ImageInput
+                    @input="$updateImage('/admin/settings', 'app_logo_horizontal_dark', app.logo_horizontal_dark)"
+                    :image="$getImage(app.logo_horizontal_dark)"
+                    v-model="app.logo_horizontal_dark"
                 />
             </AppInputText>
 
@@ -124,17 +140,19 @@ export default {
         axios
             .get('/api/admin/settings', {
                 params: {
-                    column: 'app_title|app_description|app_logo|app_favicon|app_logo_horizontal|app_color|app_og_image|app_touch_icon',
+                    column: 'app_title|app_description|app_logo|app_logo_dark|app_favicon|app_logo_horizontal|app_logo_horizontal_dark|app_color|app_og_image|app_touch_icon',
                 },
             })
             .then((response) => {
                 this.app = {
                     logo_horizontal: response.data.app_logo_horizontal,
+                    logo_horizontal_dark: response.data.app_logo_horizontal_dark,
                     description: response.data.app_description,
                     favicon: response.data.app_favicon,
                     title: response.data.app_title,
                     color: response.data.app_color,
                     logo: response.data.app_logo,
+                    logo_dark: response.data.app_logo_dark,
                     og_image: response.data.app_og_image,
                     touch_icon: response.data.app_touch_icon,
                 }

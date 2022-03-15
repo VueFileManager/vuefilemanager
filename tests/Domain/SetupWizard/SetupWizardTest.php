@@ -110,7 +110,7 @@ class SetupWizardTest extends TestCase
                 'value' => '10',
             ]);
 
-        collect(['app_logo', 'app_logo_horizontal', 'app_favicon'])
+        collect(['app_logo', 'app_logo_dark', 'app_logo_horizontal', 'app_logo_horizontal_dark', 'app_favicon'])
             ->each(function ($file) {
                 $path = get_settings($file);
 

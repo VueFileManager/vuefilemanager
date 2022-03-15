@@ -2,11 +2,11 @@
     <div id="single-page">
         <div id="page-content" v-if="!isLoading && data">
             <!--Headline-->
-            <div v-if="config.isAdminVueFileManagerBar" class="mb-4 hidden justify-between md:mb-6 md:block md:flex">
+            <div v-if="config.isAdminVueFileManagerBar" class="mb-4 hidden justify-between items-center md:mb-6 md:block md:flex">
                 <!--VueFileManager logo-->
                 <a href="https://vuefilemanager.com" target="_blank">
                     <img
-                        src="/assets/images/vuefilemanager-horizontal-logo.svg"
+                        :src="isDarkMode ? '/assets/images/vuefilemanager-horizontal-logo-dark.svg' : '/assets/images/vuefilemanager-horizontal-logo.svg'"
                         alt="VueFileManager"
                         class="light-mode"
                     />
@@ -223,7 +223,7 @@ export default {
         Spinner,
     },
     computed: {
-        ...mapGetters(['config']),
+        ...mapGetters(['config', 'isDarkMode']),
     },
     data() {
         return {

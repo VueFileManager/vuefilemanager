@@ -8,8 +8,8 @@
             <!--Image logo-->
             <img
                 v-if="config.app_logo"
-                class="mx-auto mb-6 w-28 md:w-32"
-                :src="$getImage(config.app_logo)"
+                class="mx-auto mb-6 h-16 md:h-20 mb-10"
+                :src="$getImage(logoSrc)"
                 :alt="config.app_name"
             />
 
@@ -35,7 +35,10 @@ export default {
     name: 'Headline',
     props: ['description', 'title'],
     computed: {
-        ...mapGetters(['config']),
+        ...mapGetters(['config', 'isDarkMode']),
+		logoSrc() {
+			return this.isDarkMode && this.config.app_logo ? this.config.app_logo_dark : this.config.app_logo
+		}
     },
 }
 </script>

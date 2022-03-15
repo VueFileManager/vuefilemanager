@@ -7,7 +7,7 @@
                 <img
                     v-if="config.app_logo_horizontal"
                     class="mx-auto w-44"
-                    :src="$getImage(config.app_logo_horizontal)"
+                    :src="$getImage(logoSrc)"
                     :alt="config.app_name"
                 />
 
@@ -26,7 +26,7 @@
                 <img
                     v-if="config.app_logo_horizontal"
                     class="mx-auto w-44"
-                    :src="$getImage(config.app_logo_horizontal)"
+                    :src="$getImage(logoSrc)"
                     :alt="config.app_name"
                 />
 
@@ -93,7 +93,10 @@ export default {
         Video,
     },
     computed: {
-        ...mapGetters(['config']),
+        ...mapGetters(['config', 'isDarkMode']),
+		logoSrc() {
+			return this.isDarkMode && this.config.app_logo_horizontal ? this.config.app_logo_horizontal_dark : this.config.app_logo_horizontal
+		},
         isVideo() {
             return this.file.data.type === 'video'
         },

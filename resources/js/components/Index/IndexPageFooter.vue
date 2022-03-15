@@ -3,9 +3,9 @@
         <router-link :to="{ name: 'Homepage' }" tag="div" class="logo">
             <img
                 v-if="config.app_logo_horizontal"
-                :src="$getImage(config.app_logo_horizontal)"
+                :src="$getImage(logoSrc)"
                 :alt="config.app_name"
-				class="mx-auto"
+				class="mx-auto max-h-6"
             />
             <b v-if="!config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
         </router-link>
@@ -38,7 +38,10 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'IndexPageFooter',
     computed: {
-        ...mapGetters(['config']),
+        ...mapGetters(['config', 'isDarkMode']),
+		logoSrc() {
+			return this.isDarkMode && this.config.app_logo_horizontal ? this.config.app_logo_horizontal_dark : this.config.app_logo_horizontal
+		},
     },
 }
 </script>

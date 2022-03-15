@@ -2,8 +2,9 @@
     <nav class="main-navigation">
         <router-link :to="{ name: 'Homepage' }" tag="div" class="logo">
             <img
+				class="max-h-6"
                 v-if="config.app_logo_horizontal"
-                :src="$getImage(config.app_logo_horizontal)"
+                :src="$getImage(logoSrc)"
                 :alt="config.app_name"
             />
             <b v-if="!config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
@@ -53,7 +54,10 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'IndexNavigation',
     computed: {
-        ...mapGetters(['config', 'index']),
+        ...mapGetters(['config', 'index', 'isDarkMode']),
+		logoSrc() {
+			return this.isDarkMode && this.config.app_logo_horizontal ? this.config.app_logo_horizontal_dark : this.config.app_logo_horizontal
+		}
     },
 }
 </script>

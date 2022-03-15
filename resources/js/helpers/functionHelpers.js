@@ -349,7 +349,9 @@ const FunctionHelpers = {
                         ? '/assets/payments/paystack-dark.svg'
                         : '/assets/payments/paystack.svg',
                     stripe: '/assets/payments/stripe.svg',
-                    system: this.$getImage(store.getters.config.app_logo_horizontal),
+                    system: store.getters.isDarkMode
+                        ? this.$getImage(store.getters.config.app_logo_horizontal_dark)
+                        : this.$getImage(store.getters.config.app_logo_horizontal),
                 }[driver] || this.$getImage(store.getters.config.app_logo_horizontal)
             )
         }
