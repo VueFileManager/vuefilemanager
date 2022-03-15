@@ -102,6 +102,13 @@
 
             <!--Stripe credentials are set up-->
             <div v-if="stripe.allowedService">
+				<AppInputText
+					:title="$t('Your Webhook URL')"
+					:description="$t('Please copy your url and paste it to the service webhook setup.')"
+				>
+					<CopyInput size="small" :str="getWebhookEndpoint('stripe')" />
+				</AppInputText>
+
                 <div v-if="stripe.isConfigured">
                     <AppInputText
                         @input="$updateText('/admin/settings', 'stripe_payment_description', stripe.paymentDescription)"
@@ -127,13 +134,6 @@
                         />
                     </AppInputText>
 
-                    <AppInputText
-                        :title="$t('Your Webhook URL')"
-                        :description="$t('Please copy your url and paste it to the service webhook setup.')"
-                    >
-                        <CopyInput size="small" :str="getWebhookEndpoint('stripe')" />
-                    </AppInputText>
-
                     <div
                         @click="stripe.isVisibleCredentialsForm = !stripe.isVisibleCredentialsForm"
                         class="flex cursor-pointer items-center"
@@ -148,7 +148,7 @@
                 <ValidationObserver
                     v-if="!stripe.isConfigured || stripe.isVisibleCredentialsForm"
                     @submit.prevent="storeCredentials('stripe')"
-                    ref="credentialsForm"
+                    ref="stripe"
                     v-slot="{ invalid }"
                     tag="form"
                     class="rounded-xl p-5 shadow-lg"
@@ -233,6 +233,13 @@
 
             <!--Paystack credentials are set up-->
             <div v-if="paystack.allowedService">
+				<AppInputText
+					:title="$t('Your Webhook URL')"
+					:description="$t('Please copy your url and paste it to the service webhook setup.')"
+				>
+					<CopyInput size="small" :str="getWebhookEndpoint('paystack')" />
+				</AppInputText>
+
                 <div v-if="paystack.isConfigured">
                     <AppInputText
                         @input="
@@ -260,13 +267,6 @@
                         />
                     </AppInputText>
 
-                    <AppInputText
-                        :title="$t('Your Webhook URL')"
-                        :description="$t('Please copy your url and paste it to the service webhook setup.')"
-                    >
-                        <CopyInput size="small" :str="getWebhookEndpoint('paystack')" />
-                    </AppInputText>
-
                     <div
                         @click="paystack.isVisibleCredentialsForm = !paystack.isVisibleCredentialsForm"
                         class="flex cursor-pointer items-center"
@@ -281,7 +281,7 @@
                 <ValidationObserver
                     v-if="!paystack.isConfigured || paystack.isVisibleCredentialsForm"
                     @submit.prevent="storeCredentials('paystack')"
-                    ref="credentialsForm"
+                    ref="paystack"
                     v-slot="{ invalid }"
                     tag="form"
                     class="rounded-xl p-5 shadow-lg"
@@ -349,6 +349,13 @@
 
             <!--Stripe credentials are set up-->
             <div v-if="paypal.allowedService">
+				<AppInputText
+					:title="$t('Your Webhook URL')"
+					:description="$t('Please copy your url and paste it to the service webhook setup.')"
+				>
+					<CopyInput size="small" :str="getWebhookEndpoint('paypal')" />
+				</AppInputText>
+
                 <div v-if="paypal.isConfigured">
                     <AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle amid live and sandbox mode')">
                         <SwitchInput
@@ -382,13 +389,6 @@
                         />
                     </AppInputText>
 
-                    <AppInputText
-                        :title="$t('Your Webhook URL')"
-                        :description="$t('Please copy your url and paste it to the service webhook setup.')"
-                    >
-                        <CopyInput size="small" :str="getWebhookEndpoint('paypal')" />
-                    </AppInputText>
-
                     <div
                         @click="paypal.isVisibleCredentialsForm = !paypal.isVisibleCredentialsForm"
                         class="flex cursor-pointer items-center"
@@ -403,7 +403,7 @@
                 <ValidationObserver
                     v-if="!paypal.isConfigured || paypal.isVisibleCredentialsForm"
                     @submit.prevent="storeCredentials('paypal')"
-                    ref="credentialsForm"
+                    ref="paypal"
                     v-slot="{ invalid }"
                     tag="form"
                     class="rounded-xl p-5 shadow-lg"
@@ -591,7 +591,7 @@ export default {
     methods: {
         async storeCredentials(service) {
             // Validate fields
-            const isValid = await this.$refs.credentialsForm.validate()
+            const isValid = await this.$refs[service].validate()
 
             if (!isValid) return
 

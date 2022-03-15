@@ -484,6 +484,10 @@ export default {
 					value: 'us-west-002',
 				},
 				{
+					label: 'us-west-004',
+					value: 'us-west-004',
+				},
+				{
 					label: 'eu-central-003',
 					value: 'eu-central-003',
 				},

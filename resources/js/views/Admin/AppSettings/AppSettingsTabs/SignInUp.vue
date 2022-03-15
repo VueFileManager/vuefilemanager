@@ -73,7 +73,7 @@
                     (!config.isFacebookLoginConfigured || facebook.isVisibleCredentialsForm) && facebook.allowedService
                 "
                 @submit.prevent="storeCredentials('facebook')"
-                ref="credentialsForm"
+                ref="facebook"
                 v-slot="{ invalid }"
                 tag="form"
                 class="rounded-xl p-5 shadow-lg"
@@ -157,7 +157,7 @@
             <ValidationObserver
                 v-if="(!config.isGoogleLoginConfigured || google.isVisibleCredentialsForm) && google.allowedService"
                 @submit.prevent="storeCredentials('google')"
-                ref="credentialsForm"
+                ref="google"
                 v-slot="{ invalid }"
                 tag="form"
                 class="rounded-xl p-5 shadow-lg"
@@ -241,7 +241,7 @@
             <ValidationObserver
                 v-if="(!config.isGithubLoginConfigured || github.isVisibleCredentialsForm) && github.allowedService"
                 @submit.prevent="storeCredentials('github')"
-                ref="credentialsForm"
+                ref="github"
                 v-slot="{ invalid }"
                 tag="form"
                 class="rounded-xl p-5 shadow-lg"
@@ -361,7 +361,7 @@ export default {
         },
         async storeCredentials(service) {
             // Validate fields
-            const isValid = await this.$refs.credentialsForm.validate()
+            const isValid = await this.$refs[service].validate()
 
             if (!isValid) return
 
