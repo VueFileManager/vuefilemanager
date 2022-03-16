@@ -2,8 +2,8 @@
 namespace App\Users\Actions;
 
 use App\Users\Models\User;
-use App\Users\Notifications\RegistrationBonusAddedNotification;
 use VueFileManager\Subscription\Domain\Plans\Models\Plan;
+use App\Users\Notifications\RegistrationBonusAddedNotification;
 
 class AutoSubscribeForMeteredBillingAction
 {

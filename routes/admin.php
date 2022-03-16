@@ -9,7 +9,6 @@ use Domain\Settings\Controllers\GetServerStatusController;
 use Domain\Settings\Controllers\GetSettingsValueController;
 use Domain\Admin\Controllers\Dashboard\GetNewbiesController;
 use Domain\Admin\Controllers\Users\ChangeUserRoleController;
-use Domain\Settings\Controllers\StoreBroadcastServiceCredentialsController;
 use Domain\Settings\Controllers\UpdateSettingValueController;
 use Domain\Admin\Controllers\Users\ResetUserPasswordController;
 use Domain\Settings\Controllers\StoreEmailCredentialsController;
@@ -23,6 +22,7 @@ use Domain\Admin\Controllers\Dashboard\GetLatestTransactionsController;
 use Domain\Admin\Controllers\Users\ChangeUserStorageCapacityController;
 use Domain\Settings\Controllers\StoreSocialServiceCredentialsController;
 use Domain\Settings\Controllers\StorePaymentServiceCredentialsController;
+use Domain\Settings\Controllers\StoreBroadcastServiceCredentialsController;
 
 // Dashboard
 Route::group(['prefix' => 'dashboard'], function () {

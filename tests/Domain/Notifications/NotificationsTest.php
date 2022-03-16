@@ -25,9 +25,9 @@ class NotificationsTest extends TestCase
                 'notifiable_id'   => $user->id,
                 'data'            => json_encode([
                     'category'        => 'file-request',
-                    'title'       => 'File Request Filled',
-                    'description' => "Your file request for 'Documents' folder was filled successfully.",
-                    'action'      => [
+                    'title'           => 'File Request Filled',
+                    'description'     => "Your file request for 'Documents' folder was filled successfully.",
+                    'action'          => [
                         'type'   => 'route',
                         'params' => [
                             'route'  => 'Files',

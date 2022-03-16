@@ -152,7 +152,7 @@ class UserAccountTest extends TestCase
                     'type'          => 'user',
                     'attributes'    => [
                         'avatar'                    => null,
-                        'color'                    => $user->settings->color,
+                        'color'                     => $user->settings->color,
                         'email'                     => $user->email,
                         'role'                      => $user->role,
                         'socialite_account'         => false,

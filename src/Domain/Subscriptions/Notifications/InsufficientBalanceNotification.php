@@ -6,7 +6,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class BillingAlertTriggeredNotification extends Notification implements ShouldQueue
+class InsufficientBalanceNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -18,18 +18,18 @@ class BillingAlertTriggeredNotification extends Notification implements ShouldQu
     public function toMail(): MailMessage
     {
         return (new MailMessage)
-            ->subject(__('Your billing alert has been reached!'))
+            ->subject(__('Uh-oh! Your credit withdrawal for your pre-paid subscription failed'))
             ->greeting(__('Hi there'))
-            ->line(__('The billing alert you set previously has been reached. Please go to your user account and revise your spending'))
-            ->action(__('Show Billing'), url('/user/settings/billing'));
+            ->line(__("It looks like your subscription credit withdrawal for your account didn't go through. Please make sure you have sufficient funds on your account and we'll give it another try!"))
+            ->action(__('Fund Your Account'), url('/user/settings/billing'));
     }
 
     public function toArray(): array
     {
         return [
-            'category'    => 'billing-alert',
-            'title'       => 'billing Alert Reached!',
-            'description' => 'The billing alert you set previously has been reached. Please revise your spending.',
+            'category'    => 'insufficient-balance',
+            'title'       => 'Withdrawal failed',
+            'description' => "Your credit withdrawal for your account didn't go through. Please make sure you have sufficient funds on your account.",
             'action'      => [
                 'type'   => 'route',
                 'params' => [

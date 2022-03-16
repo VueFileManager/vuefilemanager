@@ -1,17 +1,21 @@
 <?php
-
 namespace Support\Listeners;
 
-use Domain\Subscriptions\Notifications\BillingAlertTriggeredNotification;
-use Domain\Subscriptions\Notifications\SubscriptionWasCreatedNotification;
 use Illuminate\Events\Dispatcher;
-use VueFileManager\Subscription\Support\Events\BillingAlertTriggeredEvent;
+use Domain\Subscriptions\Notifications\AdminBonusAddedNotification;
+use VueFileManager\Subscription\Support\Events\AdminBonusAddedEvent;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasCreated;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasExpired;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasUpdated;
+use Domain\Subscriptions\Notifications\InsufficientBalanceNotification;
+use VueFileManager\Subscription\Support\Events\InsufficientBalanceEvent;
+use Domain\Subscriptions\Notifications\BillingAlertTriggeredNotification;
+use Domain\Subscriptions\Notifications\SubscriptionWasCreatedNotification;
+use VueFileManager\Subscription\Support\Events\BillingAlertTriggeredEvent;
 
 class SubscriptionEventSubscriber
 {
+    // TODO: unit test for notification
     public function handleSubscriptionWasCreated($event)
     {
         $event->subscription->user->limitations()->update([
@@ -39,9 +43,22 @@ class SubscriptionEventSubscriber
         ]);
     }
 
+    // TODO: unit test
     public function handleBillingAlertTriggeredEvent($event)
     {
         $event->alert->user->notify(new BillingAlertTriggeredNotification());
+    }
+
+    // TODO: unit test
+    public function handleAdminBonusAddedEvent($event)
+    {
+        $event->user->notify(new AdminBonusAddedNotification($event->bonus));
+    }
+
+    // TODO: unit test
+    public function handleInsufficientBalanceEvent($event)
+    {
+        $event->user->notify(new InsufficientBalanceNotification());
     }
 
     /**
@@ -54,6 +71,8 @@ class SubscriptionEventSubscriber
             SubscriptionWasExpired::class     => 'handleSubscriptionWasExpired',
             SubscriptionWasUpdated::class     => 'handleSubscriptionWasUpdated',
             BillingAlertTriggeredEvent::class => 'handleBillingAlertTriggeredEvent',
+            AdminBonusAddedEvent::class       => 'handleAdminBonusAddedEvent',
+            InsufficientBalanceEvent::class   => 'handleInsufficientBalanceEvent',
         ];
     }
 }

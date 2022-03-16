@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\SetupWizard\Controllers;
 
 use Artisan;
@@ -14,9 +13,8 @@ class StoreEnvironmentSettingsController extends Controller
      */
     public function __invoke(
         StoreEnvironmentSetupRequest $request,
-    ): Response
-    {
-        if (!app()->runningUnitTests()) {
+    ): Response {
+        if (! app()->runningUnitTests()) {
             $setup = [
                 'broadcasting' => [
                     'pusher' => [

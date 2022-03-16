@@ -1,7 +1,6 @@
 <?php
 namespace Tests\App\Users;
 
-use App\Users\Notifications\RegistrationBonusAddedNotification;
 use Storage;
 use Notification;
 use Tests\TestCase;
@@ -12,6 +11,7 @@ use Illuminate\Support\Facades\Password;
 use App\Users\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use VueFileManager\Subscription\Domain\Plans\Models\Plan;
+use App\Users\Notifications\RegistrationBonusAddedNotification;
 
 class SignFlowTest extends TestCase
 {

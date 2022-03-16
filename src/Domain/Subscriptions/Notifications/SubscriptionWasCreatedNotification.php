@@ -13,7 +13,8 @@ class SubscriptionWasCreatedNotification extends Notification implements ShouldQ
 
     public function __construct(
         public Subscription $subscription,
-    ) {}
+    ) {
+    }
 
     public function via(): array
     {

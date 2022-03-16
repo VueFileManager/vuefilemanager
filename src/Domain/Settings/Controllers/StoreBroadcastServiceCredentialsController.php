@@ -1,10 +1,9 @@
 <?php
-
 namespace Domain\Settings\Controllers;
 
 use Artisan;
-use Domain\Settings\Requests\StoreBroadcastServiceCredentialsRequest;
 use Illuminate\Http\Response;
+use Domain\Settings\Requests\StoreBroadcastServiceCredentialsRequest;
 
 class StoreBroadcastServiceCredentialsController
 {
@@ -17,7 +16,7 @@ class StoreBroadcastServiceCredentialsController
         abort_if(is_demo(), 204, 'Done.');
 
         // Get and store credentials
-        if (!app()->runningUnitTests()) {
+        if (! app()->runningUnitTests()) {
             $credentials = [
                 'pusher' => [
                     'BROADCAST_DRIVER'   => 'pusher',
@@ -46,7 +45,7 @@ class StoreBroadcastServiceCredentialsController
             setEnvironmentValue($credentials[$request->input('driver')]);
 
             // Clear cache
-            if (!is_dev()) {
+            if (! is_dev()) {
                 Artisan::call('cache:clear');
                 Artisan::call('config:clear');
                 Artisan::call('config:cache');
