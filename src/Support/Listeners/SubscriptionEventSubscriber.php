@@ -3,6 +3,7 @@
 namespace Support\Listeners;
 
 use Domain\Subscriptions\Notifications\BillingAlertTriggeredNotification;
+use Domain\Subscriptions\Notifications\SubscriptionWasCreatedNotification;
 use Illuminate\Events\Dispatcher;
 use VueFileManager\Subscription\Support\Events\BillingAlertTriggeredEvent;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasCreated;
@@ -17,6 +18,8 @@ class SubscriptionEventSubscriber
             'max_storage_amount' => $event->subscription->fixedFeature('max_storage_amount'),
             'max_team_members'   => $event->subscription->fixedFeature('max_team_members'),
         ]);
+
+        $event->subscription->user->notify(new SubscriptionWasCreatedNotification($event->subscription));
     }
 
     public function handleSubscriptionWasUpdated($event)

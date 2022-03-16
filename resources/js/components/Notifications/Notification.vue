@@ -13,6 +13,11 @@
             size="22"
             class="vue-feather text-theme shrink-0"
         />
+        <trending-up-icon
+            v-if="notification.data.attributes.category === 'subscription-created'"
+            size="22"
+            class="vue-feather text-theme shrink-0"
+        />
         <alert-triangle-icon
             v-if="notification.data.attributes.category === 'billing-alert'"
             size="22"
@@ -79,7 +84,7 @@
     </article>
 </template>
 <script>
-import { GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from 'vue-feather-icons'
+import { TrendingUpIcon, GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from 'vue-feather-icons'
 import MemberAvatar from '../FilesView/MemberAvatar'
 import {events} from "../../bus";
 
@@ -91,6 +96,7 @@ export default {
 		AlertTriangleIcon,
         ChevronRightIcon,
         UploadCloudIcon,
+		TrendingUpIcon,
         UserPlusIcon,
         CheckIcon,
 		GiftIcon,
