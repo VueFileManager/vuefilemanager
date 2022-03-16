@@ -55,8 +55,8 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/VueFileManager/subscription.git"
+            "type": "path",
+            "url": "../../PhpstormProjects/subscription"
         },
         {
             "type": "vcs",

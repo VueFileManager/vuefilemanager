@@ -4,7 +4,7 @@
         <PopupHeader :title="$t('popup_move_item.title')" icon="move" />
 
         <!--Content-->
-        <PopupContent v-if="pickedItem" class="h-full pb-6 sm:max-h-96 sm:overflow-y-auto md:pb-0">
+        <PopupContent v-if="pickedItem" class="h-full pb-6 lg:max-h-96 sm:overflow-y-auto md:pb-0">
             <!--Show Spinner when loading folders-->
             <Spinner v-if="isLoadingTree" />
 

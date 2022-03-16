@@ -5,7 +5,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AdminBonusAddedNotification extends Notification implements ShouldQueue
+class BonusCreditAddedNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 

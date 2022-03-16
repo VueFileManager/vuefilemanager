@@ -18,7 +18,7 @@ class SubscriptionWasCreatedNotification extends Notification implements ShouldQ
 
     public function via(): array
     {
-        return ['mail', 'database', 'broadcast'];
+        return ['database', 'broadcast'];
     }
 
     public function toMail(): MailMessage
