@@ -17,6 +17,7 @@
         <bell-icon v-if="icon === 'bell'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <key-icon v-if="icon === 'key'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <users-icon v-if="icon === 'users'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
+        <wifi-icon v-if="icon === 'wifi'" size="22" class="vue-feather text-theme dark-text-theme mr-3" />
         <b class="text-md font-bold dark:text-gray-200 sm:text-lg">
             <slot></slot>
         </b>
@@ -25,6 +26,7 @@
 
 <script>
 import {
+	WifiIcon,
 	ListIcon,
 	MailIcon,
     InfoIcon,
@@ -48,6 +50,7 @@ export default {
     name: 'FormLabel',
     props: ['icon'],
     components: {
+		WifiIcon,
 		ListIcon,
 		MailIcon,
         InfoIcon,

@@ -7,7 +7,7 @@ return [
      * Set a custom dashboard configuration
      */
     'dashboard' => [
-        'port' => env('LARAVEL_WEBSOCKETS_PORT', 6001),
+        'port' => env('PUSHER_APP_PORT', 6001),
     ],
 
     /*
@@ -29,7 +29,7 @@ return [
             'path'                   => env('PUSHER_APP_PATH'),
             'capacity'               => null,
             'enable_client_messages' => false,
-            'enable_statistics'      => true,
+            'enable_statistics'      => false,
         ],
     ],
 
@@ -57,7 +57,7 @@ return [
     /*
      * This path will be used to register the necessary routes for the package.
      */
-    'path' => 'laravel-websockets',
+    'path' => 'websockets',
 
     /*
      * Dashboard Routes Middleware

@@ -9,6 +9,7 @@ use Domain\Settings\Controllers\GetServerStatusController;
 use Domain\Settings\Controllers\GetSettingsValueController;
 use Domain\Admin\Controllers\Dashboard\GetNewbiesController;
 use Domain\Admin\Controllers\Users\ChangeUserRoleController;
+use Domain\Settings\Controllers\StoreBroadcastServiceCredentialsController;
 use Domain\Settings\Controllers\UpdateSettingValueController;
 use Domain\Admin\Controllers\Users\ResetUserPasswordController;
 use Domain\Settings\Controllers\StoreEmailCredentialsController;
@@ -55,6 +56,7 @@ Route::group(['prefix' => 'settings'], function () {
 
     Route::post('/payment-service', StorePaymentServiceCredentialsController::class);
     Route::post('/social-service', StoreSocialServiceCredentialsController::class);
+    Route::post('/broadcast', StoreBroadcastServiceCredentialsController::class);
 });
 
 // Language

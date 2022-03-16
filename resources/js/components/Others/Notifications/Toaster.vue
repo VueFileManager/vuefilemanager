@@ -10,10 +10,8 @@
             <!--Content-->
             <div class="flex items-center justify-between">
                 <div class="flex items-start">
-                    <div>
-                        <check-icon v-if="item.type === 'success'" size="22" class="vue-feather dark:text-green-600 text-green-600" />
-                        <x-icon v-if="item.type === 'danger'" size="22" class="vue-feather dark:text-red-600 text-red-600" />
-                    </div>
+					<check-icon v-if="item.type === 'success'" size="22" class="vue-feather dark:text-green-600 text-green-600" />
+					<x-icon v-if="item.type === 'danger'" size="22" class="vue-feather dark:text-red-600 text-red-600" />
 
                     <p
                         class="px-4 font-bold"
@@ -31,12 +29,13 @@
 </template>
 
 <script>
-import { CheckIcon } from 'vue-feather-icons'
+import { CheckIcon, XIcon } from 'vue-feather-icons'
 
 export default {
 	name: 'Toaster',
     components: {
         CheckIcon,
+		XIcon,
     },
     props: [
 		'barColor',

@@ -74,12 +74,15 @@
         // todo: refactoring
 
 		let config = {
-			ip: '{{ config('broadcasting.connections.pusher.options.host') }}',
 			host: '{{ url('/') }}',
 			api: '{{ url('/api') }}',
 			locale: '{{ app()->getLocale() }}',
 
             broadcasting: '{{ config('broadcasting.default') }}',
+            broadcastingKey: '{{ config('broadcasting.connections.pusher.key') }}',
+            broadcastingHost: '{{ config('broadcasting.connections.pusher.options.host') }}',
+            broadcastingPort: '{{ config('broadcasting.connections.pusher.options.port') }}',
+            broadcastingCluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
 
 			app_logo: '{{ $settings->app_logo ?? null }}',
 			app_logo_dark: '{{ $settings->app_logo_dark ?? null }}',

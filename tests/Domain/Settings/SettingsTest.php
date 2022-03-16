@@ -220,4 +220,25 @@ class SettingsTest extends TestCase
                 ],
             ])->assertStatus(204);
     }
+
+    /**
+     * @test
+     */
+    public function it_set_broadcast()
+    {
+        $admin = User::factory()
+            ->create(['role' => 'admin']);
+
+        $this
+            ->actingAs($admin)
+            ->postJson('/api/admin/settings/broadcast', [
+                'driver'  => 'pusher',
+                'id'      => '123',
+                'key'     => '123456',
+                'secret'  => 'mOoiofnssddf',
+                'cluster' => 'eu',
+                'port'    => null,
+                'host'    => null,
+            ])->assertStatus(204);
+    }
 }

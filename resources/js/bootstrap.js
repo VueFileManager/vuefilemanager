@@ -23,10 +23,11 @@ window.Pusher = require('pusher-js');
 if (config.broadcasting) {
 	window.Echo = new Echo({
 		broadcaster: 'pusher',
-		key: 'local',
-		wsHost: window.location.hostname,
-		wsPort: 8002,
-		wssPort: 8002,
+		cluster: config.broadcastingCluster,
+		key: config.broadcastingKey,
+		wsHost: config.broadcastingHost,
+		wsPort: config.broadcastingPort,
+		wssPort: config.broadcastingPort,
 		forceTLS: false,
 		enabledTransports: ['ws', 'wss'],
 	});
