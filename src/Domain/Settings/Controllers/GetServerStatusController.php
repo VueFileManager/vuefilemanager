@@ -29,7 +29,7 @@ class GetServerStatusController
         // Add cron info
         $status['cron'] = [
             'running'    => isRunningCron(),
-            'lastUpdate' => isRunningCron() ? format_date(cache()->get('latest_cron_update')) : '',
+            'lastUpdate' => isRunningCron() ? format_date(cache()->get('latest_cron_update')) : null,
         ];
 
         return $status;

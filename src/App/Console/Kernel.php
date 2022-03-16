@@ -70,8 +70,8 @@ class Kernel extends ConsoleKernel
             ->daily()
             ->at('00:20');
 
-        // Store latest cron timestamp
-        cache()->set('latest_cron_update', now()->toString());
+        $schedule->call(fn () => cache()->set('latest_cron_update', now()->toString()))
+            ->everyMinute();
     }
 
     /**

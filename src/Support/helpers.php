@@ -44,7 +44,7 @@ if (! function_exists('isRunningCron')) {
      */
     function isRunningCron(): bool
     {
-        return cache()->has('latest_cron_update') && Carbon::parse(cache()->get('latest_cron_update'))->diffInMinutes(now()) < 2;
+        return cache()->has('latest_cron_update') && Carbon::parse(cache()->get('latest_cron_update'))->diffInMinutes(now()) <= 1;
     }
 }
 
