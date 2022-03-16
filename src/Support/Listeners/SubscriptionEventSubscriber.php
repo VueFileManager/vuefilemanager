@@ -1,7 +1,10 @@
 <?php
+
 namespace Support\Listeners;
 
+use Domain\Subscriptions\Notifications\BillingAlertTriggeredNotification;
 use Illuminate\Events\Dispatcher;
+use VueFileManager\Subscription\Support\Events\BillingAlertTriggeredEvent;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasCreated;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasExpired;
 use VueFileManager\Subscription\Support\Events\SubscriptionWasUpdated;
@@ -33,15 +36,21 @@ class SubscriptionEventSubscriber
         ]);
     }
 
+    public function handleBillingAlertTriggeredEvent($event)
+    {
+        $event->alert->user->notify(new BillingAlertTriggeredNotification());
+    }
+
     /**
      * Register the listeners for the subscriber.
      */
     public function subscribe(Dispatcher $events): array
     {
         return [
-            SubscriptionWasCreated::class => 'handleSubscriptionWasCreated',
-            SubscriptionWasExpired::class => 'handleSubscriptionWasExpired',
-            SubscriptionWasUpdated::class => 'handleSubscriptionWasUpdated',
+            SubscriptionWasCreated::class     => 'handleSubscriptionWasCreated',
+            SubscriptionWasExpired::class     => 'handleSubscriptionWasExpired',
+            SubscriptionWasUpdated::class     => 'handleSubscriptionWasUpdated',
+            BillingAlertTriggeredEvent::class => 'handleBillingAlertTriggeredEvent',
         ];
     }
 }

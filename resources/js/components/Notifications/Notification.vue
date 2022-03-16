@@ -13,6 +13,11 @@
             size="22"
             class="vue-feather text-theme shrink-0"
         />
+        <alert-triangle-icon
+            v-if="notification.data.attributes.category === 'billing-alert'"
+            size="22"
+            class="vue-feather text-theme shrink-0"
+        />
         <upload-cloud-icon
             v-if="['file-request', 'remote-upload-done'].includes(notification.data.attributes.category)"
             size="22"
@@ -74,7 +79,7 @@
     </article>
 </template>
 <script>
-import { GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon } from 'vue-feather-icons'
+import { GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from 'vue-feather-icons'
 import MemberAvatar from '../FilesView/MemberAvatar'
 import {events} from "../../bus";
 
@@ -83,6 +88,7 @@ export default {
     props: ['notification'],
     components: {
         MemberAvatar,
+		AlertTriangleIcon,
         ChevronRightIcon,
         UploadCloudIcon,
         UserPlusIcon,
