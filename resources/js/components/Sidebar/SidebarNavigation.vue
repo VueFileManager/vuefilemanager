@@ -22,13 +22,7 @@
 
             <!--Navigation-->
             <div class="mt-2 relative">
-                <div @click="$store.commit('TOGGLE_NOTIFICATION_CENTER')" class="relative button-icon inline-block cursor-pointer rounded-xl p-3 hover:bg-light-300 dark:hover:bg-4x-dark-foreground">
-                    <bell-icon size="18" class="transition" :class="{'rotate-[30deg]': notificationCount}" />
-					<span v-if="notificationCount" class="absolute z-[9] right-1.5 bottom-1.5 flex items-center justify-center w-4 h-4 bg-theme text-white rounded-full text-xs font-bold">
-						{{ notificationCount }}
-					</span>
-					<span v-if="notificationCount" class="animate-ping absolute z-[8] right-1.5 bottom-1.5 flex items-center justify-center w-4 h-4 bg-theme text-white rounded-full text-xs font-bold"></span>
-                </div>
+                <NotificationBell @click.native="$store.commit('TOGGLE_NOTIFICATION_CENTER')" class="hover:bg-light-300 dark:hover:bg-4x-dark-foreground" />
             </div>
 
 			<NotificationCenter v-if="isVisibleNotificationCenter" />
@@ -80,24 +74,25 @@
 <script>
 import MemberAvatar from '../FilesView/MemberAvatar'
 import {mapGetters} from 'vuex'
-import {BellIcon, HardDriveIcon, MoonIcon, PowerIcon, SettingsIcon, SunIcon, UserIcon,} from 'vue-feather-icons'
+import {HardDriveIcon, MoonIcon, PowerIcon, SettingsIcon, SunIcon, UserIcon,} from 'vue-feather-icons'
 import NotificationCenter from "../Notifications/NotificationCenter"
+import NotificationBell from "./NotificationBell";
 
 export default {
     name: 'SidebarNavigation',
     components: {
+		NotificationBell,
 		NotificationCenter,
 		HardDriveIcon,
         SettingsIcon,
         MemberAvatar,
         PowerIcon,
-        BellIcon,
         UserIcon,
         MoonIcon,
         SunIcon,
     },
     computed: {
-        ...mapGetters(['isVisibleNavigationBars', 'isDarkMode', 'config', 'user', 'isVisibleNotificationCenter', 'notificationCount']),
+        ...mapGetters(['isVisibleNavigationBars', 'isDarkMode', 'config', 'user', 'isVisibleNotificationCenter']),
         navigation() {
             if (this.user.data.attributes.role === 'admin') {
                 return [

@@ -9,18 +9,15 @@
                 v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])"
                 size="28"
                 @click.stop.native="$showMobileMenu('team-menu')"
-                class="absolute right-9"
+                class="absolute right-10"
             />
 
             <!--More Actions-->
-            <div class="relative">
-                <div
-                    v-if="$checkPermission('master')"
-                    @click="showMobileNavigation"
-                    class="absolute right-0 -mr-2 -translate-y-2/4 transform p-4"
-                >
-                    <menu-icon size="17" />
-                </div>
+            <div class="flex items-center relative mr-[4px]">
+
+				<div @click="showMobileNavigation" class="cursor-pointer pr-1.5">
+					<menu-icon size="17" class="vue-feather dark:text-gray-100" />
+				</div>
             </div>
         </div>
     </div>

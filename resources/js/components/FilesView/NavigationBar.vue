@@ -21,7 +21,7 @@
         <!--Folder Title-->
         <b
             :class="{ '-translate-x-4': !isLoadedFolder || !isNotHomepage }"
-            class="inline-block max-w-[200px] transform overflow-hidden text-ellipsis whitespace-nowrap align-middle text-sm font-bold transition-all duration-200"
+            class="inline-block lg:max-w-[210px] max-w-[190px] transform overflow-hidden text-ellipsis whitespace-nowrap align-middle text-sm font-bold transition-all duration-200 dark:text-gray-100"
         >
             {{ $getCurrentLocationName() }}
         </b>
