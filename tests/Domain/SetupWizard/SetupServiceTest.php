@@ -13,7 +13,7 @@ class SetupServiceTest extends TestCase
     public function it_create_system_folders()
     {
         // folders are created in TestCase
-        collect(['avatars', 'chunks', 'system', 'files', 'temp', 'zip'])
+        collect(['avatars', 'chunks', 'system', 'files', 'temp'])
             ->each(function ($directory) {
                 Storage::disk('local')->assertExists($directory);
             });

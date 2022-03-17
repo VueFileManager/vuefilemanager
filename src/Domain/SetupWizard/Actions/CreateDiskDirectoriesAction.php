@@ -10,7 +10,7 @@ class CreateDiskDirectoriesAction
      */
     public function __invoke(): void
     {
-        collect(['avatars', 'chunks', 'system', 'files', 'temp', 'zip'])
+        collect(['avatars', 'chunks', 'system', 'files', 'temp'])
             ->each(function ($directory) {
                 // Create directory for local driver
                 Storage::disk('local')

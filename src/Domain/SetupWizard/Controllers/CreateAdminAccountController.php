@@ -3,6 +3,7 @@ namespace Domain\SetupWizard\Controllers;
 
 use Artisan;
 use App\Users\Models\User;
+use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
@@ -21,6 +22,7 @@ class CreateAdminAccountController extends Controller
         protected StatefulGuard $guard,
         public SeedDefaultPagesAction $seedDefaultPages,
         public SeedDefaultLanguageAction $seedDefaultLanguage,
+        public CreateDiskDirectoriesAction $createDiskDirectories,
         public SeedDefaultSettingsAction $seedDefaultSettingsAction,
     ) {
     }
@@ -28,6 +30,9 @@ class CreateAdminAccountController extends Controller
     public function __invoke(
         StoreAdminAccountRequest $request
     ): Response {
+        // Create default directories
+        ($this->createDiskDirectories)();
+
         // Create user
         $admin = User::forceCreate([
             'role'              => 'admin',

@@ -16,7 +16,7 @@ class AdminCheck
     {
         // Check if user have access to administration settings
         if ($request->user()->role !== 'admin') {
-            abort(403, 'You don\'t have access for this operation!');
+            return response("You don't have access for this operation!", 403);
         }
 
         return $next($request);
