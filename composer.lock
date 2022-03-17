@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5a05626f6c1d36ecd8df3f115b5dc3f4",
+    "content-hash": "95a932587a302766cf33683bb871aa1a",
     "packages": [
         {
             "name": "amphp/amp",
@@ -4472,10 +4472,16 @@
         {
             "name": "makingcg/subscription",
             "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:VueFileManager/subscription.git",
+                "reference": "c7d4c48eaacd9a60c0ecf0e161db7d6725623732"
+            },
             "dist": {
-                "type": "path",
-                "url": "../../PhpstormProjects/subscription",
-                "reference": "5bed67cb6893be3e64f4b867428a4412724a2eff"
+                "type": "zip",
+                "url": "https://api.github.com/repos/VueFileManager/subscription/zipball/c7d4c48eaacd9a60c0ecf0e161db7d6725623732",
+                "reference": "c7d4c48eaacd9a60c0ecf0e161db7d6725623732",
+                "shasum": ""
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^3.6.0",
@@ -4497,6 +4503,7 @@
                 "phpunit/phpunit": "^9.5.16",
                 "spatie/laravel-ray": "^1.29.4"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -4559,9 +4566,17 @@
                 "laravel",
                 "subscription"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/VueFileManager/subscription/tree/main",
+                "issues": "https://github.com/VueFileManager/subscription/issues"
+            },
+            "funding": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/VueFileManager"
+                }
+            ],
+            "time": "2022-03-17T11:28:34+00:00"
         },
         {
             "name": "monolog/monolog",
