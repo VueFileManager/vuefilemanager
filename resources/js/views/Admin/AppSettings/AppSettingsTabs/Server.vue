@@ -40,7 +40,7 @@
                 v-if="logs.length"
                 v-for="(log, i) in logs"
                 :key="i"
-                class="flex md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
             >
                 <div class="text-left">
                     <b class="block text-sm font-bold">
