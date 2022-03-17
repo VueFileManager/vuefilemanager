@@ -12,22 +12,16 @@ class FormatUsageEstimatesAction
             ->mapWithKeys(function ($estimate) use ($currency) {
                 // Format usage
                 $usage = match ($estimate['feature']) {
-                    'bandwidth', 'storage' => Metric::megabytes($estimate['usage'])->format(),
+                    'bandwidth', 'storage' => Metric::megabytes($estimate['usage'] * 1000)->format(),
                     'flatFee' => intval($estimate['usage']) . ' ' . __('Pcs.'),
                     'member'  => intval($estimate['usage']) . ' ' . __('Mem.'),
-                };
-
-                // Normalize units
-                $amount = match ($estimate['feature']) {
-                    'bandwidth', 'storage' => $estimate['amount'] / 1000,
-                    'flatFee', 'member' => $estimate['amount'],
                 };
 
                 return [
                     $estimate['feature'] => [
                         'feature' => $estimate['feature'],
-                        'amount'  => $amount,
-                        'cost'    => format_currency($amount, $currency),
+                        'amount'  => $estimate['amount'],
+                        'cost'    => format_currency($estimate['amount'], $currency),
                         'usage'   => $usage,
                     ],
                 ];

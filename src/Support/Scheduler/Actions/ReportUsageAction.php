@@ -38,8 +38,8 @@ class ReportUsageAction
             ->where('user_id', $subscription->user->id)
             ->sum('filesize');
 
-        // We count storage size in GB, e.g. 0.15 is 150mb
-        $amount = $filesize / 1000000;
+        // We count storage size in GB, e.g. 0.150 is 150mb
+        $amount = $filesize / 1_000_000_000;
 
         // Record storage capacity usage
         $subscription->recordUsage('storage', $amount);
@@ -54,7 +54,7 @@ class ReportUsageAction
             ->whereDate('created_at', today()->subDay())
             ->first();
 
-        $amount = (($record->download ?? 0) + ($record->upload ?? 0)) / 1000000;
+        $amount = (($record->download ?? 0) + ($record->upload ?? 0)) / 1_000_000_000;
 
         // Record storage capacity usage
         $subscription->recordUsage('bandwidth', $amount);

@@ -96,7 +96,7 @@ class GenerateDemoSubscriptionContentCommand extends Command
 
                     $subscription->usages()->create([
                         'metered_feature_id' => $bandwidthFeature->id,
-                        'quantity'           => random_int(111, 999),
+                        'quantity'           => random_int(111, 999) / 1000,
                         'created_at'         => now()->subDays($item),
                     ]);
 
@@ -109,7 +109,7 @@ class GenerateDemoSubscriptionContentCommand extends Command
 
                     $subscription->usages()->create([
                         'metered_feature_id' => $storageFeature->id,
-                        'quantity'           => random_int(1111, 3999),
+                        'quantity'           => random_int(1111, 3999) / 1000,
                         'created_at'         => now()->subDays($item),
                     ]);
                 }
@@ -193,8 +193,8 @@ class GenerateDemoSubscriptionContentCommand extends Command
                     ],
                 ])->each(
                     function ($transaction) use ($user, $plan) {
-                        $bandwidthUsage = random_int(1000, 12000);
-                        $storageUsage = random_int(300, 4900);
+                        $bandwidthUsage = random_int(1000, 12000) / 1000;
+                        $storageUsage = random_int(300, 4900) / 1000;
                         $memberUsage = random_int(3, 20);
 
                         $user->transactions()->create([
