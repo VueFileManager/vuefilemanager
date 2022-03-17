@@ -9,7 +9,7 @@
             <AppInputSwitch
                 :title="$t('Allow Subscription Payments')"
                 :description="$t('User can subscribe to fixed or metered plan')"
-                :is-last="!allowedPayments"
+                :is-last="true"
             >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'allowed_payments', allowedPayments)"
@@ -17,15 +17,6 @@
                     :state="allowedPayments"
                 />
             </AppInputSwitch>
-
-            <AppInputText v-if="allowedPayments" :title="$t('Subscription Type')" :is-last="true">
-                <SelectInput
-                    @change="subscriptionTypeChange"
-                    :default="config.subscriptionType"
-                    :options="subscriptionTypes"
-                    :placeholder="$t('Select your subscription type')"
-                />
-            </AppInputText>
         </div>
 
         <!--Metered settings-->
@@ -512,7 +503,7 @@ export default {
         InfoBox,
     },
     computed: {
-        ...mapGetters(['subscriptionTypes', 'config']),
+        ...mapGetters(['config']),
         submitButtonText() {
             return this.isLoading
                 ? this.$t('admin_settings.payments.button_testing')
@@ -637,28 +628,11 @@ export default {
                 })
                 .finally(() => (this.isLoading = false))
         },
-        subscriptionTypeChange(type) {
-            events.$emit('confirm:open', {
-                title: this.$t('Are you sure you want to change subscription type?'),
-                message: this.$t(
-                    'We strongly do not recommend change this value if there is any subscribed user to prevent any failures. You can operate only with one type of subscription and you can not change it on the fly!'
-                ),
-                action: {
-                    type: type,
-                    operation: 'change-subscription-type',
-                },
-            })
-        },
         getWebhookEndpoint(service) {
             return `${this.config.host}/api/subscriptions/${service}/webhooks`
         },
     },
     created() {
-        events.$on('action:confirmed', (data) => {
-            if (data.operation === 'change-subscription-type')
-                this.$updateText('/admin/settings', 'subscription_type', data.type)
-        })
-
         // Set payment description
         this.stripe.paymentDescription = this.config.stripe_payment_description
         this.paystack.paymentDescription = this.config.paystack_payment_description

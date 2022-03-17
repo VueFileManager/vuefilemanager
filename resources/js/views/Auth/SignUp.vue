@@ -233,15 +233,14 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    if (error.response.status == 500) {
-                        events.$emit('alert:open', {
-                            emoji: '🤔',
-                            title: this.$t('popup_signup_error.title'),
-                            message: this.$t('popup_signup_error.message'),
-                        })
+                    if (error.response.status === 500) {
+						events.$emit('alert:open', {
+							title: this.$t('popup_error.title'),
+							message: this.$t('popup_error.message'),
+						})
                     }
 
-                    if (error.response.status == 422) {
+                    if (error.response.status === 422) {
                         if (error.response.data.errors['email']) {
                             this.$refs.sign_up.setErrors({
                                 'E-Mail': error.response.data.errors['email'],

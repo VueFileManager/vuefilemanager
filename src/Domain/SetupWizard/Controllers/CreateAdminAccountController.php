@@ -58,7 +58,7 @@ class CreateAdminAccountController extends Controller
             ],
             [
                 'name'  => 'license',
-                'value' => $request->input('license'),
+                'value' => strtolower($request->input('license')),
             ],
             [
                 'name'  => 'purchase_code',

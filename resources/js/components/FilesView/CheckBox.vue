@@ -4,7 +4,7 @@
             class="flex h-5 w-5 items-center justify-center rounded-md"
             :class="{
                 'bg-theme': isClicked,
-                'bg-light-background dark:bg-dark-foreground': !isClicked,
+                'bg-light-background dark:bg-4x-dark-foreground': !isClicked,
             }"
             @click="changeState"
         >

@@ -1546,7 +1546,7 @@ class SetupDevEnvironment extends Command
         });
 
         // Get system images
-        collect(['logo.svg', 'logo-dark.svg', 'logo-horizontal-dark.svg', 'favicon.png', 'og-image.jpg', 'touch-icon.png'])
+        collect(['logo.svg', 'logo-dark.svg', 'logo-horizontal.svg', 'logo-horizontal-dark.svg', 'favicon.png', 'og-image.jpg', 'touch-icon.png'])
             ->each(function ($file) {
                 Storage::putFileAs('system', storage_path("demo/app/$file"), $file, 'private');
             });

@@ -64,48 +64,6 @@
             </AppInputText>
         </div>
 
-        <!--Other Settings-->
-        <div v-if="app" class="card shadow-card">
-            <FormLabel>
-                {{ $t('Application') }}
-            </FormLabel>
-
-            <AppInputButton
-                :title="$t('Cache')"
-                :description="$t('Did you change anything in your .env file? Then clear your cache.')"
-            >
-                <ButtonBase
-                    @click.native="flushCache"
-                    :loading="isFlushingCache"
-                    :disabled="isFlushingCache"
-                    class="w-full sm:w-auto"
-                    button-style="theme"
-                >
-                    {{ $t('admin_settings.others.cache_clear') }}
-                </ButtonBase>
-            </AppInputButton>
-
-            <AppInputText :title="$t('admin_settings.others.contact_email')">
-                <input
-                    class="focus-border-theme input-dark"
-                    @input="$updateText('/admin/settings', 'contact_email', app.contactMail)"
-                    v-model="app.contactMail"
-                    :placeholder="$t('admin_settings.others.contact_email_plac')"
-                    type="email"
-                />
-            </AppInputText>
-
-            <AppInputText :title="$t('admin_settings.others.google_analytics')" :is-last="true">
-                <input
-                    @input="$updateText('/admin/settings', 'google_analytics', app.googleAnalytics, true)"
-                    v-model="app.googleAnalytics"
-                    :placeholder="$t('admin_settings.others.google_analytics_plac')"
-                    type="text"
-                    class="focus-border-theme input-dark"
-                />
-            </AppInputText>
-        </div>
-
         <!-- ReCaptcha -->
         <div v-if="app" class="card shadow-card">
             <FormLabel icon="shield">
@@ -183,6 +141,64 @@
                 </ButtonBase>
             </ValidationObserver>
         </div>
+
+		<!--Other Settings-->
+        <div v-if="app" class="card shadow-card">
+            <FormLabel>
+                {{ $t('Application') }}
+            </FormLabel>
+
+            <AppInputButton
+				:title="$t('Cache')"
+				:description="$t('Did you change anything in your .env file? Then clear your cache.')"
+			>
+                <ButtonBase
+					@click.native="flushCache"
+					:loading="isFlushingCache"
+					:disabled="isFlushingCache"
+					class="w-full sm:w-auto"
+					button-style="theme"
+				>
+                    {{ $t('admin_settings.others.cache_clear') }}
+                </ButtonBase>
+            </AppInputButton>
+
+            <AppInputText :title="$t('admin_settings.others.contact_email')">
+                <input
+					class="focus-border-theme input-dark"
+					@input="$updateText('/admin/settings', 'contact_email', app.contactMail)"
+					v-model="app.contactMail"
+					:placeholder="$t('admin_settings.others.contact_email_plac')"
+					type="email"
+				/>
+            </AppInputText>
+
+            <AppInputText :title="$t('admin_settings.others.google_analytics')" :is-last="true">
+                <input
+					@input="$updateText('/admin/settings', 'google_analytics', app.googleAnalytics, true)"
+					v-model="app.googleAnalytics"
+					:placeholder="$t('admin_settings.others.google_analytics_plac')"
+					type="text"
+					class="focus-border-theme input-dark"
+				/>
+            </AppInputText>
+        </div>
+
+        <!-- Subscription -->
+        <div v-if="app" class="card shadow-card">
+            <FormLabel icon="credit-card">
+                {{ $t('Subscription') }}
+            </FormLabel>
+
+            <AppInputText :title="$t('Subscription Type')" :description="$t('Please do not change in production environment.')" :is-last="true">
+                <SelectInput
+					@change="subscriptionTypeChange"
+					:default="app.subscriptionType"
+					:options="subscriptionTypes"
+					:placeholder="$t('Select your subscription type')"
+				/>
+            </AppInputText>
+        </div>
     </PageTab>
 </template>
 
@@ -200,10 +216,12 @@ import { required } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
+import SelectInput from "../../../../components/Others/Forms/SelectInput";
 
 export default {
     name: 'AppOthers',
     components: {
+		SelectInput,
         AppInputButton,
         ValidationObserver,
         ValidationProvider,
@@ -217,7 +235,7 @@ export default {
         PageTab,
     },
     computed: {
-        ...mapGetters(['config']),
+        ...mapGetters(['subscriptionTypes', 'config']),
     },
     data() {
         return {
@@ -235,6 +253,18 @@ export default {
         }
     },
     methods: {
+		subscriptionTypeChange(type) {
+			events.$emit('confirm:open', {
+				title: this.$t('Are you sure you want to change subscription type?'),
+				message: this.$t(
+					'We strongly do not recommend change this value if there is any subscribed user to prevent any failures. You can operate only with one type of subscription and you can not change it on the fly!'
+				),
+				action: {
+					type: type,
+					operation: 'change-subscription-type',
+				},
+			})
+		},
         async storeCredentials(service) {
             // Validate fields
             const isValid = await this.$refs.credentialsForm.validate()
@@ -296,7 +326,7 @@ export default {
         axios
             .get('/api/admin/settings', {
                 params: {
-                    column: 'contact_email|google_analytics|default_max_storage_amount|storage_limitation|mimetypes_blacklist|upload_limit',
+                    column: 'contact_email|google_analytics|default_max_storage_amount|storage_limitation|mimetypes_blacklist|upload_limit|subscriptionType',
                 },
             })
             .then((response) => {
@@ -309,8 +339,27 @@ export default {
                     storageLimitation: parseInt(response.data.storage_limitation),
                     mimetypesBlacklist: response.data.mimetypes_blacklist,
                     uploadLimit: response.data.upload_limit,
+					subscriptionType: response.data.subscriptionType,
                 }
             })
     },
+	created() {
+		events.$on('action:confirmed', (data) => {
+			if (data.operation === 'change-subscription-type') {
+
+				// Update database
+				this.$updateText('/admin/settings', 'subscription_type', data.type)
+
+				// Update config
+				this.$store.commit('REPLACE_CONFIG_VALUE', {
+					key: 'subscriptionType',
+					value: data.type,
+				})
+			}
+		})
+	},
+	destroyed() {
+		events.$off('action:confirmed')
+	},
 }
 </script>
