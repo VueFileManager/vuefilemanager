@@ -13,7 +13,7 @@ class FakeRenameFileOrFolderAction
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): array {
+    ): array|File|Folder {
         // Get item
         if ($request->input('type') === 'folder') {
             $item = Folder::where('id', $id)
@@ -25,8 +25,10 @@ class FakeRenameFileOrFolderAction
 
         if ($item) {
             $item->name = $request->input('name');
-            $item->emoji = $request->input('icon.emoji') ?? null;
-            $item->color = $request->input('icon.color') ?? null;
+
+            if ($request->has('emoji')) {
+                $item->emoji = $request->input('emoji');
+            }
 
             return $item;
         }

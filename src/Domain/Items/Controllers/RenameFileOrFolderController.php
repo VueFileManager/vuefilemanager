@@ -2,7 +2,9 @@
 namespace Domain\Items\Controllers;
 
 use App\Http\Controllers\Controller;
+use Domain\Files\Models\File;
 use Domain\Files\Resources\FileResource;
+use Domain\Folders\Models\Folder;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
@@ -27,9 +29,15 @@ class RenameFileOrFolderController extends Controller
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): FileResource | FolderResource | array {
+    ): FileResource | FolderResource | File | Folder | array {
         if (is_demo_account()) {
-            return ($this->fakeRenameFileOrFolder)($request, $id);
+            $item = ($this->fakeRenameFileOrFolder)($request, $id);
+
+            if ($request->input('type') === 'folder') {
+                return new FolderResource($item);
+            }
+
+            return new FileResource($item);
         }
 
         // If request contain icon or color, then change it
