@@ -72,7 +72,9 @@ class SetupWizardTest extends TestCase
             'storageLimitation' => 1,
             'defaultStorage'    => 10,
             'logo'              => UploadedFile::fake()->image('fake-logo.jpg'),
+            'logo_dark'              => UploadedFile::fake()->image('fake-logo-dark.jpg'),
             'logo_horizontal'   => UploadedFile::fake()->image('fake-logo-horizontal.jpg'),
+            'logo_horizontal_dark'   => UploadedFile::fake()->image('fake-logo-horizontal-dark.jpg'),
             'favicon'           => UploadedFile::fake()->image('fake-favicon.jpg'),
         ])->assertStatus(204);
 
@@ -168,7 +170,7 @@ class SetupWizardTest extends TestCase
 
         $this->assertDatabaseHas('settings', [
             'name'  => 'license',
-            'value' => 'Regular',
+            'value' => 'regular',
         ]);
 
         $this->assertDatabaseHas('settings', [

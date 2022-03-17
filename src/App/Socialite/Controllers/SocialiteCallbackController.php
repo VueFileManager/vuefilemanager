@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Socialite\Controllers;
 
 use App\Users\Models\User;
@@ -7,15 +8,19 @@ use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use App\Users\Actions\CreateNewUserAction;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use VueFileManager\Subscription\Domain\Plans\Exceptions\MeteredBillingPlanDoesntExist;
+use VueFileManager\Subscription\Domain\Plans\Models\Plan;
 
 class SocialiteCallbackController extends Controller
 {
     public function __construct(
-        protected StatefulGuard $guard,
+        protected StatefulGuard    $guard,
         public CreateNewUserAction $createNewUser,
-    ) {
-    }
-    
+    ) {}
+
+    /**
+     * @throws MeteredBillingPlanDoesntExist
+     */
     public function __invoke($provider)
     {
         $isAllowedRegistration = intval(get_settings('registration'));
@@ -39,8 +44,23 @@ class SocialiteCallbackController extends Controller
             return redirect()->to('/platform/files');
         }
 
+        // Check for metered billing plan
+        if (get_settings('subscription_type') === 'metered') {
+            // Get metered plan
+            $plan = Plan::where('status', 'active')
+                ->where('type', 'metered');
+
+            // TODO: redirect to the error page
+            if ($plan->doesntExist()) {
+                return response([
+                    'type'    => 'error',
+                    'message' => 'User registrations are temporarily disabled',
+                ], 409);
+            }
+        }
+
         // Check if account registration is enabled
-        if (! $isAllowedRegistration) {
+        if (!$isAllowedRegistration) {
             return response([
                 'type'    => 'error',
                 'message' => 'User registration is not allowed',
@@ -49,6 +69,7 @@ class SocialiteCallbackController extends Controller
 
         // Create data user data object
         $data = CreateUserData::fromArray([
+            'role'           => 'user',
             'name'           => $socialite->getName(),
             'email'          => $socialite->getEmail(),
             'avatar'         => store_socialite_avatar($socialite->getAvatar()),

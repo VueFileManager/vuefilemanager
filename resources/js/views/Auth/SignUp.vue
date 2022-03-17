@@ -218,9 +218,6 @@ export default {
             axios
                 .post('/api/register', this.register)
                 .then(() => {
-                    // End loading
-                    this.isLoading = false
-
                     if (!this.config.userVerification) {
                         // Set login state
                         this.$store.commit('SET_AUTHORIZED', true)
@@ -240,6 +237,13 @@ export default {
 						})
                     }
 
+					if (error.response.status === 409) {
+
+						events.$emit('alert:open', {
+							title: error.response.data.message,
+						})
+					}
+
                     if (error.response.status === 422) {
                         if (error.response.data.errors['email']) {
                             this.$refs.sign_up.setErrors({
@@ -253,10 +257,11 @@ export default {
                             })
                         }
                     }
-
+                })
+				.finally(() => {
                     // End loading
                     this.isLoading = false
-                })
+				})
         },
     },
     created() {

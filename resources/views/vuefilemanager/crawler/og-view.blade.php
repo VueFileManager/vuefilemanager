@@ -23,7 +23,7 @@
     @if(! $metadata['is_protected'])
 
         @if($metadata['thumbnail'])
-            <meta property="og:image" content="{{ $metadata['thumbnail']['md'] }}">
+            <meta property="og:image" content="{{ $metadata['thumbnail']['lg'] }}">
         @endif
 
         <meta property="og:title" content="{{ $metadata['name'] }} ({{ $metadata['size'] }}) | {{ $settings->app_title ?? 'VueFileManager' }}">

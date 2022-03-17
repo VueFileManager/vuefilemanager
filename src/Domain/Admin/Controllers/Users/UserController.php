@@ -9,6 +9,7 @@ use App\Users\Resources\UserResource;
 use App\Users\Resources\UsersCollection;
 use App\Users\Actions\CreateNewUserAction;
 use Domain\Admin\Requests\CreateUserByAdmin;
+use VueFileManager\Subscription\Domain\Plans\Exceptions\MeteredBillingPlanDoesntExist;
 
 class UserController extends Controller
 {
@@ -43,6 +44,7 @@ class UserController extends Controller
     {
         // Map user data
         $data = CreateUserData::fromArray([
+            'role'     => $request->input('role'),
             'name'     => $request->input('name'),
             'email'    => $request->input('email'),
             'password' => $request->input('password'),
@@ -50,11 +52,17 @@ class UserController extends Controller
         ]);
 
         // Register user
-        $user = ($this->createNewUser)($data);
+        try {
+            $user = ($this->createNewUser)($data);
+        } catch (MeteredBillingPlanDoesntExist $e) {
+            return response([
+                'type'    => 'error',
+                'message' => 'User registrations are temporarily disabled',
+            ], 409);
+        }
 
         // Update user data
         $user->email_verified_at = now();
-        $user->role = $request->input('role');
 
         $user->save();
 

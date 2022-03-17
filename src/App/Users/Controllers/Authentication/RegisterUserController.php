@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Users\Actions\CreateNewUserAction;
 use App\Users\Requests\RegisterUserRequest;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use VueFileManager\Subscription\Domain\Plans\Exceptions\MeteredBillingPlanDoesntExist;
 
 class RegisterUserController extends Controller
 {
@@ -26,10 +27,21 @@ class RegisterUserController extends Controller
         }
 
         // Map registration data
-        $data = CreateUserData::fromRequest($request);
+        $data = CreateUserData::fromArray([
+            'name'     => $request->input('name'),
+            'email'    => $request->input('email'),
+            'password' => $request->input('password'),
+        ]);
 
         // Register user
-        $user = ($this->createNewUser)($data);
+        try {
+            $user = ($this->createNewUser)($data);
+        } catch (MeteredBillingPlanDoesntExist $e) {
+            return response([
+                'type'    => 'error',
+                'message' => 'User registrations are temporarily disabled',
+            ], 409);
+        }
 
         // Log in if verification is disabled
         if (! $user->password || ! intval(get_settings('user_verification'))) {

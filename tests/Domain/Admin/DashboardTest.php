@@ -23,28 +23,18 @@ class DashboardTest extends TestCase
             ->actingAs($user)
             ->getJson('/api/admin/dashboard')
             ->assertStatus(200)
-            ->assertExactJson([
+            ->assertJsonFragment([
                 'app' => [
                     'earnings'      => '$0.00',
                     'isRunningCron' => false,
                     'license'       => 'extended',
                     'version'       => config('vuefilemanager.version'),
                 ],
-                'disk' => [
-                    'download' => [
-                        'records' => [],
-                        'total'   => '0B',
-                    ],
-                    'upload' => [
-                        'records' => [],
-                        'total'   => '0B',
-                    ],
-                    'used' => '2.00MB',
-                ],
                 'users' => [
                     'total'             => 1,
                     'usersPremiumTotal' => 0,
                 ],
+                'used' => '2.00MB',
             ]);
     }
 

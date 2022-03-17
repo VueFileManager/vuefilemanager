@@ -1,19 +1,28 @@
 <template>
     <transition name="popup">
-        <div @click.self="closePopup" class="popup" v-if="isVisibleWrapper">
-            <div class="popup-wrapper">
-                <div class="popup-image">
-                    <span class="emoji">{{ emoji }}</span>
-                </div>
-                <div class="popup-content">
-                    <h1 v-if="title" class="title">{{ title }}</h1>
-                    <p v-if="message" class="message">{{ message }}</p>
-                </div>
-                <div class="popup-actions">
-                    <ButtonBase @click.native="closePopup" :button-style="buttonStyle" class="action-confirm"
-                        >{{ button }}
+		<div
+			v-if="isVisibleWrapper"
+			@click.self="closePopup"
+			class="fixed top-0 left-0 right-0 bottom-0 z-50 grid h-full overflow-y-auto p-10"
+		>
+            <div class="fixed top-0 bottom-0 left-0 right-0 z-10 m-auto w-full bg-white shadow-xl dark:bg-dark-foreground md:relative md:w-[490px] md:rounded-xl">
+				<div class="flex h-full -translate-y-7 transform items-center justify-center px-8 text-center md:translate-y-0">
+					<div>
+						<img src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f627.svg" alt="" class="mx-auto mb-4 w-20 md:mt-6 min-h-[80px]" />
+
+						<h1 v-if="title" class="mb-2 text-2xl font-bold">
+							{{ title }}
+						</h1>
+						<p v-if="message" class="mb-4 text-sm">
+							{{ message }}
+						</p>
+					</div>
+				</div>
+				<PopupActions>
+					<ButtonBase @click.native="closePopup" :button-style="buttonStyle" class="w-full">
+						{{ button }}
                     </ButtonBase>
-                </div>
+				</PopupActions>
             </div>
         </div>
     </transition>
@@ -22,10 +31,12 @@
 <script>
 import ButtonBase from './ButtonBase'
 import { events } from '../../bus'
+import PopupActions from "../Others/Popup/PopupActions";
 
 export default {
     name: 'AlertPopup',
     components: {
+		PopupActions,
         ButtonBase,
     },
     data() {
@@ -48,12 +59,12 @@ export default {
         events.$on('alert:open', (args) => {
             this.isVisibleWrapper = true
 
-            this.title = args.title
-            this.message = args.message
+            this.title = args.title || undefined
+            this.message = args.message || undefined
 
             this.button = this.$t('alerts.error_confirm')
             this.emoji = '😢😢😢'
-            this.buttonStyle = 'danger-solid'
+            this.buttonStyle = 'danger'
 
             if (args.emoji) {
                 this.emoji = args.emoji
@@ -93,90 +104,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import '../../../sass/vuefilemanager/variables';
-@import '../../../sass/vuefilemanager/mixins';
-
-.popup {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 45;
-    overflow: auto;
-    height: 100%;
-}
-
-.popup-wrapper {
-    z-index: 12;
-    position: absolute;
-    left: 0;
-    right: 0;
-    max-width: 480px;
-    top: 50%;
-    transform: translateY(-50%) scale(1);
-    margin: 0 auto;
-    padding: 20px;
-    box-shadow: $light_mode_popup_shadow;
-    border-radius: 8px;
-    text-align: center;
-    background: white;
-}
-
-.popup-image {
-    margin-bottom: 30px;
-
-    .emoji {
-        @include font-size(56);
-        line-height: 1;
-    }
-}
-
-.popup-content {
-    .title {
-        @include font-size(22);
-        text-transform: uppercase;
-        font-weight: 800;
-        color: $text;
-    }
-
-    .message {
-        @include font-size(16);
-        color: #333;
-        margin-top: 5px;
-    }
-}
-
-.popup-actions {
-    margin-top: 30px;
-
-    .action-confirm {
-        width: 100%;
-    }
-}
-
-@media only screen and (max-width: 690px) {
-    .popup-wrapper {
-        padding: 40px 20px 20px;
-        left: 15px;
-        right: 15px;
-    }
-}
-
-.dark {
-    .popup-wrapper {
-        background: $dark_mode_foreground;
-    }
-    .popup-content {
-        .title {
-            color: $dark_mode_text_primary;
-        }
-
-        .message {
-            color: $dark_mode_text_secondary;
-        }
-    }
-}
 
 // Animations
 .popup-enter-active {

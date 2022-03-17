@@ -103,7 +103,7 @@ class HomepageTest extends TestCase
             ->get("/api/og-site/$share->token")
             ->assertStatus(200)
             ->assertSee('Fake Image')
-            ->assertSee('md-fake-image.jpg');
+            ->assertSee('lg-fake-image.jpg');
     }
 
     /**

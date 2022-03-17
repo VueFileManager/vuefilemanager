@@ -11,16 +11,19 @@ class GenerateImageThumbnailAction
 
     public function __invoke($fileName, $userId, $execution): void
     {
-        $localDisk = Storage::disk('local');
-
         // Get image width
-        $imageWidth = getimagesize($localDisk->path("temp/$userId/$fileName"))[0];
+        $imageWidth = getimagesize(
+            Storage::disk('local')->path("temp/$userId/$fileName")
+        )[0];
 
         collect(config("vuefilemanager.image_sizes.$execution"))
             ->each(function ($size) use ($userId, $fileName, $imageWidth) {
                 if ($imageWidth > $size['size']) {
+
                     // Create intervention image
-                    $intervention = Image::make(config('filesystems.disks.local.root') . "/temp/$userId/$fileName")
+                    $intervention = Image::make(
+                        Storage::disk('local')->path("temp/$userId/$fileName")
+                    )
                         ->orientate();
 
                     // Generate thumbnail

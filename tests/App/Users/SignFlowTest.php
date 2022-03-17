@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\App\Users;
 
 use Storage;
@@ -38,6 +39,7 @@ class SignFlowTest extends TestCase
         });
 
         $this->postJson('api/register', [
+            'role'                  => 'admin',
             'email'                 => 'john@doe.com',
             'password'              => 'SecretPassword',
             'password_confirmation' => 'SecretPassword',
@@ -48,6 +50,7 @@ class SignFlowTest extends TestCase
             ->assertDatabaseHas('users', [
                 'email'             => 'john@doe.com',
                 'email_verified_at' => null,
+                'role'              => 'user',
             ])
             ->assertDatabaseHas('user_settings', [
                 'first_name' => 'John',
@@ -99,6 +102,7 @@ class SignFlowTest extends TestCase
             ]);
 
         $this->postJson('api/register', [
+            'role'                  => 'admin',
             'email'                 => 'john@doe.com',
             'password'              => 'SecretPassword',
             'password_confirmation' => 'SecretPassword',
@@ -108,6 +112,7 @@ class SignFlowTest extends TestCase
         $this
             ->assertDatabaseCount('transactions', 0)
             ->assertDatabaseHas('users', [
+                'role'  => 'user',
                 'email' => 'john@doe.com',
             ])
             ->assertDatabaseHas('subscriptions', [
@@ -162,6 +167,7 @@ class SignFlowTest extends TestCase
             ]);
 
         $this->postJson('api/register', [
+            'role'                  => 'admin',
             'email'                 => 'john@doe.com',
             'password'              => 'SecretPassword',
             'password_confirmation' => 'SecretPassword',
@@ -172,6 +178,7 @@ class SignFlowTest extends TestCase
 
         $this
             ->assertDatabaseHas('users', [
+                'role'  => 'user',
                 'email' => 'john@doe.com',
             ])
             ->assertDatabaseHas('subscriptions', [
@@ -206,7 +213,7 @@ class SignFlowTest extends TestCase
     public function it_try_register_when_registration_is_disabled()
     {
         Setting::updateOrCreate([
-            'name'  => 'registration',
+            'name' => 'registration',
         ], [
             'value' => 0,
         ]);
@@ -333,6 +340,7 @@ class SignFlowTest extends TestCase
             'email' => $user->email,
         ]);
     }
+
     /**
      * @test
      */
@@ -358,7 +366,7 @@ class SignFlowTest extends TestCase
 
         $this
             ->assertDatabaseHas('users', [
-                'email'             => 'john@doe.com',
+                'email' => 'john@doe.com',
             ]);
     }
 }

@@ -121,46 +121,10 @@ class AdminTest extends TestCase
             ->actingAs($admin)
             ->getJson("/api/admin/users/$user->id/storage")
             ->assertStatus(200)
-            ->assertExactJson([
-                'data' => [
-                    'id'         => $user->id,
-                    'type'       => 'storage',
-                    'attributes' => [
-                        'used'       => '5.00MB',
-                        'capacity'   => '1GB',
-                        'percentage' => 0.5,
-                    ],
-                    'meta'       => [
-                        'images'    => [
-                            'used'       => '1.00MB',
-                            'percentage' => 0.1,
-                        ],
-                        'audios'    => [
-                            'used'       => '1.00MB',
-                            'percentage' => 0.1,
-                        ],
-                        'videos'    => [
-                            'used'       => '1.00MB',
-                            'percentage' => 0.1,
-                        ],
-                        'documents' => [
-                            'used'       => '1.00MB',
-                            'percentage' => 0.1,
-                        ],
-                        'others'    => [
-                            'used'       => '1.00MB',
-                            'percentage' => 0.1,
-                        ],
-                        'traffic' => [
-                            'chart' => [
-                                'download' => [],
-                                'upload'   => [],
-                            ],
-                            'download' => '0B',
-                            'upload'   => '0B',
-                        ],
-                    ],
-                ],
+            ->assertJsonFragment([
+                'used'       => '5.00MB',
+                'capacity'   => '1GB',
+                'percentage' => 0.5,
             ]);
     }
 

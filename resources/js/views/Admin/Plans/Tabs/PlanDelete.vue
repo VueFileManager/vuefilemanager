@@ -88,6 +88,14 @@ export default {
                     _method: 'delete',
                 })
                 .then(() => {
+					// If metered subscription, then set isEmptyPlans to true
+					if (this.$store.getters.config.subscriptionType === 'metered') {
+						this.$store.commit('REPLACE_CONFIG_VALUE', {
+							key: 'isEmptyPlans',
+							value: true,
+						})
+					}
+
                     events.$emit('toaster', {
                         type: 'success',
                         message: this.$t('popup_deleted_plan.title'),

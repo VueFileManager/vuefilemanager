@@ -201,7 +201,13 @@ export default {
                 })
                 .catch((error) => {
                     // Validation errors
-                    if (error.response.status == 422) {
+					if (error.response.status === 409) {
+
+						events.$emit('alert:open', {
+							title: error.response.data.message,
+						})
+
+					} else if (error.response.status === 422) {
                         // Email validation error
                         if (error.response.data.errors['email']) {
                             this.$refs.createUser.setErrors({
