@@ -2,6 +2,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,9 +22,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Schema::defaultStringLength(191);
+
         try {
             $app_locale = get_settings('language') ?? 'en';
-        } catch (\PDOException $exception) {
+        } catch (\PDOException $e) {
             $app_locale = 'en';
         }
 

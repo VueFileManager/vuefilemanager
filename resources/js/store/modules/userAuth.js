@@ -116,9 +116,20 @@ const actions = {
             .post(getters.api + '/folders/favourites/' + folder.data.id, {
                 _method: 'delete',
             })
-            .catch(() => {
-                Vue.prototype.$isSomethingWrong()
+            .catch(() => Vue.prototype.$isSomethingWrong())
+    },
+    readAllNotifications: ({ commit }) => {
+        axios.post('/api/user/notifications/read')
+            .then(() => {
+                commit('UPDATE_NOTIFICATION_COUNT', 0)
             })
+    },
+    deleteAllNotifications: ({ commit }) => {
+        axios.delete('/api/user/notifications')
+            .then(() => {
+                commit('FLUSH_NOTIFICATIONS')
+            })
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
 }
 

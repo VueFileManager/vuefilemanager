@@ -138,6 +138,7 @@ export default {
 		},
         closeCenter() {
             this.$store.commit('CLOSE_NOTIFICATION_CENTER')
+			this.$closePopup()
         },
     },
 	created() {

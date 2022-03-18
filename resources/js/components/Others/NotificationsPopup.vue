@@ -1,0 +1,94 @@
+<template>
+    <PopupWrapper name="notifications-mobile">
+        <!--Title-->
+        <PopupHeader :title="$t('Notifications')" icon="bell" />
+
+        <!--Content-->
+        <PopupContent>
+			<MobileActionButton
+				v-if="readNotifications.length || unreadNotifications.length"
+				@click.native="$store.dispatch('deleteAllNotifications')"
+				icon="check-square"
+				class="mb-2 dark:!bg-4x-dark-foreground"
+			>
+				{{ $t('Clear all') }}
+			</MobileActionButton>
+
+			<p v-if="!readNotifications.length && !unreadNotifications.length" class="text-sm text-gray-500">
+				{{ $t("There aren't any notifications.") }}
+			</p>
+
+            <b
+                v-if="unreadNotifications.length"
+                class="dark-text-theme mt-1.5 mb-2.5 block px-2.5 text-xs text-gray-400"
+            >
+                {{ $t('Unread') }}
+            </b>
+
+            <Notification
+                :notification="notification"
+                v-for="notification in unreadNotifications"
+                :key="notification.id"
+            />
+
+            <b v-if="readNotifications.length" class="dark-text-theme mt-2.5 mb-2.5 block px-2.5 text-xs text-gray-400">
+                {{ $t('Read') }}
+            </b>
+
+            <Notification
+                :notification="notification"
+                v-for="notification in readNotifications"
+                :key="notification.id"
+            />
+        </PopupContent>
+
+        <!--Actions-->
+        <PopupActions>
+            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+                {{ $t('Close') }}
+            </ButtonBase>
+        </PopupActions>
+    </PopupWrapper>
+</template>
+
+<script>
+import MobileActionButton from '../FilesView/MobileActionButton'
+import Notification from '../Notifications/Notification'
+import ButtonBase from '../FilesView/ButtonBase'
+import PopupWrapper from './Popup/PopupWrapper'
+import PopupActions from './Popup/PopupActions'
+import PopupContent from './Popup/PopupContent'
+import PopupHeader from './Popup/PopupHeader'
+import vClickOutside from 'v-click-outside'
+import { mapGetters } from 'vuex'
+
+export default {
+    name: 'NotificationsPopup',
+    components: {
+        MobileActionButton,
+        Notification,
+        PopupWrapper,
+        PopupActions,
+        PopupContent,
+        PopupHeader,
+        ButtonBase,
+    },
+    directives: {
+        clickOutside: vClickOutside.directive,
+    },
+    computed: {
+        ...mapGetters(['user', 'config']),
+        readNotifications() {
+            return this.user?.data.relationships.readNotifications.data
+        },
+        unreadNotifications() {
+            return this.user?.data.relationships.unreadNotifications.data
+        },
+    },
+    methods: {
+        clickOutside() {
+            if (this.isVisibleNotificationCenter) this.$store.commit('CLOSE_NOTIFICATION_CENTER')
+        },
+    },
+}
+</script>

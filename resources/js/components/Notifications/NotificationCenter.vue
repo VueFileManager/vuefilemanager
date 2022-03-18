@@ -15,7 +15,7 @@
 				</b>
 
 				<div class="px-2.5">
-					<MobileActionButton v-if="readNotifications.length || unreadNotifications.length" @click.native="deleteAllNotifications" icon="check-square" class="mb-2 dark:!bg-4x-dark-foreground">
+					<MobileActionButton v-if="readNotifications.length || unreadNotifications.length" @click.native="$store.dispatch('deleteAllNotifications')" icon="check-square" class="mb-2 dark:!bg-4x-dark-foreground">
 						{{ $t('Clear all') }}
 					</MobileActionButton>
 
@@ -71,18 +71,9 @@ export default {
 			if (this.isVisibleNotificationCenter)
 				this.$store.commit('CLOSE_NOTIFICATION_CENTER')
 		},
-		deleteAllNotifications() {
-			axios.delete('/api/user/notifications')
-				.then(() => {
-					this.$store.commit('FLUSH_NOTIFICATIONS')
-				})
-		}
 	},
 	created() {
-		axios.post('/api/user/notifications/read')
-			.then(() => {
-				this.$store.commit('UPDATE_NOTIFICATION_COUNT', 0)
-			})
+		this.$store.dispatch('readAllNotifications')
 	}
 }
 </script>

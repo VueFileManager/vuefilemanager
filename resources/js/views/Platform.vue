@@ -15,6 +15,7 @@
         <ShareEditPopup />
 
         <CreateUploadRequestPopup />
+		<NotificationsPopup />
         <CreateFolderPopup />
         <RenameItemPopup />
         <MoveItemPopup />
@@ -77,10 +78,12 @@ import InfoSidebar from '../components/FilesView/InfoSidebar'
 import { events } from '../bus'
 import { mapGetters } from 'vuex'
 import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
+import NotificationsPopup from "../components/Others/NotificationsPopup";
 
 export default {
     name: 'Platform',
     components: {
+		NotificationsPopup,
 		CreateUploadRequestPopup,
         CreateTeamFolderPopup,
         PanelNavigationFiles,

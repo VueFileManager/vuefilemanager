@@ -15,7 +15,7 @@
             <!--More Actions-->
             <div class="flex items-center relative mr-[4px]">
 
-				<div @click="showMobileNavigation" class="cursor-pointer pr-1.5">
+				<div @click="showMobileNavigation" class="cursor-pointer p-1.5 -m-1.5">
 					<menu-icon size="17" class="vue-feather dark:text-gray-100" />
 				</div>
             </div>

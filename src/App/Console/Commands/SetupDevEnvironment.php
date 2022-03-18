@@ -74,6 +74,7 @@ class SetupDevEnvironment extends Command
         $this->create_share_records();
         $this->generate_traffic();
 
+        $this->generateCommonNotification();
         $this->generateTeamInvitationNotification();
         $this->generateFileRequestFilledNotification();
 
@@ -88,6 +89,28 @@ class SetupDevEnvironment extends Command
         $this->warn('Please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.');
 
         $this->info('Everything is done, congratulations! 🥳🥳🥳');
+    }
+
+    private function generateCommonNotification()
+    {
+        $howdy = User::whereEmail('howdy@hi5ve.digital')
+            ->first();
+
+        DB::table('notifications')
+            ->insert([
+                'id'              => Str::uuid(),
+                'type'            => 'App\Users\Notifications\RegistrationBonusAddedNotification',
+                'notifiable_type' => 'App\Users\Models\User',
+                'notifiable_id'   => $howdy->id,
+                'data'            => json_encode([
+                    'category'        => 'gift',
+                    'title'           => 'You Received $10.00',
+                    'description'     => 'You received credit bonus $10.00 for your registration. Happy spending!',
+                ]),
+                'read_at'         => now()->subMinutes(5),
+                'created_at'      => now()->subMinutes(5),
+                'updated_at'      => now()->subMinutes(5),
+            ]);
     }
 
     private function generateTeamInvitationNotification()

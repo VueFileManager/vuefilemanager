@@ -10,6 +10,7 @@
                 <users-icon v-if="icon === 'users'" size="18" class="vue-feather text-theme" />
                 <user-plus-icon v-if="icon === 'user-plus'" size="18" class="vue-feather text-theme" />
                 <credit-card-icon v-if="icon === 'credit-card'" size="18" class="vue-feather text-theme" />
+                <bell-icon v-if="icon === 'bell'" size="18" class="vue-feather text-theme" />
             </div>
 
             <b class="text-base font-bold">
@@ -24,6 +25,7 @@
 
 <script>
 import {
+	BellIcon,
 	UploadCloudIcon,
     CreditCardIcon,
     KeyIcon,
@@ -41,6 +43,7 @@ export default {
     name: 'PopupHeader',
     props: ['title', 'icon'],
     components: {
+		BellIcon,
 		UploadCloudIcon,
         CornerDownRightIcon,
         CreditCardIcon,
