@@ -6,7 +6,7 @@
             <div v-if="!config.isCreatedMeteredPlan || config.subscriptionType === 'fixed'" class="mb-6">
                 <router-link :to="{ name: createPlanRoute }">
                     <MobileActionButton icon="plus">
-                        {{ $t('admin_page_plans.create_plan_button') }}
+                        {{ $t('create_plan') }}
                     </MobileActionButton>
                 </router-link>
             </div>
@@ -239,7 +239,7 @@ export default {
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_plans.table.subscribers'),
+                        label: this.$t('subscribers'),
                         sortable: false,
                     },
                     {
@@ -269,7 +269,7 @@ export default {
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_plans.table.subscribers'),
+                        label: this.$t('subscribers'),
                         sortable: false,
                     },
                     {

@@ -98,7 +98,7 @@ export default {
                         icon: 'card',
                     },
                     {
-                        title: this.$t('admin_menu.plans'),
+                        title: this.$t('plans'),
                         route: 'Plans',
                         icon: 'database',
                         linkActivation: ['plans', 'plan'],
@@ -121,7 +121,7 @@ export default {
                         icon: 'dollar',
                     },
                     {
-                        title: this.$t('admin_menu.plans'),
+                        title: this.$t('plans'),
                         route: 'Plans',
                         icon: 'database',
                         linkActivation: ['plans', 'plan'],

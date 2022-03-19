@@ -6,20 +6,20 @@
             </FormLabel>
 
             <!--Name-->
-            <AppInputText :title="$t('admin_page_plans.form.name')">
+            <AppInputText :title="$t('name')">
                 <input
                     @input="
                         $updateInput('/subscriptions/admin/plans/' + $route.params.id, 'name', plan.attributes.name)
                     "
                     v-model="plan.attributes.name"
-                    :placeholder="$t('admin_page_plans.form.name_plac')"
+                    :placeholder="$t('plan_name')"
                     type="text"
                     class="focus-border-theme input-dark"
                 />
             </AppInputText>
 
             <!--Description-->
-            <AppInputText :title="$t('admin_page_plans.form.description')" :is-last="true">
+            <AppInputText :title="$t('description_optional')" :is-last="true">
                 <textarea
                     @input="
                         $updateInput(
@@ -29,7 +29,7 @@
                         )
                     "
                     v-model="plan.attributes.description"
-                    :placeholder="$t('admin_page_plans.form.description_plac')"
+                    :placeholder="$t('plan_description')"
                     class="focus-border-theme input-dark"
                 ></textarea>
             </AppInputText>

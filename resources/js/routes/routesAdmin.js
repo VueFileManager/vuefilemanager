@@ -89,7 +89,7 @@ const routesAdmin = [
                     ),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.plan_create',
+                    title: 'create_plan',
                 },
             },
             {
@@ -101,7 +101,7 @@ const routesAdmin = [
                     ),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.plan_create',
+                    title: 'create_plan',
                 },
             },
             {
@@ -180,7 +180,7 @@ const routesAdmin = [
                 component: () => import(/* webpackChunkName: "chunks/plan" */ '../views/Admin/Plans/FixedPlan'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.plan',
+                    title: 'plan',
                 },
                 children: [
                     {
@@ -214,7 +214,7 @@ const routesAdmin = [
                             import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.plan_delete',
+                            title: 'plan_delete',
                         },
                     },
                 ],
@@ -225,7 +225,7 @@ const routesAdmin = [
                 component: () => import(/* webpackChunkName: "chunks/plan" */ '../views/Admin/Plans/MeteredPlan'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.plan',
+                    title: 'plan',
                 },
                 children: [
                     {
@@ -259,7 +259,7 @@ const routesAdmin = [
                             import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.plan_delete',
+                            title: 'plan_delete',
                         },
                     },
                 ],
@@ -283,7 +283,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.billings',
+                            title: 'billings',
                         },
                     },
                     {
@@ -295,7 +295,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.payments',
+                            title: 'payments',
                         },
                     },
                 ],

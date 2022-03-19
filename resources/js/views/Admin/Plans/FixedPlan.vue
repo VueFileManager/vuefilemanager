@@ -39,15 +39,15 @@ export default {
             plan: undefined,
             pages: [
                 {
-                    title: this.$t('admin_page_plans.tabs.settings'),
+                    title: this.$t('settings'),
                     route: 'PlanFixedSettings',
                 },
                 {
-                    title: this.$t('admin_page_plans.tabs.subscribers'),
+                    title: this.$t('subscribers'),
                     route: 'PlanFixedSubscribers',
                 },
                 {
-                    title: this.$t('admin_page_plans.tabs.delete'),
+                    title: this.$t('delete_plan'),
                     route: 'PlanFixedDelete',
                 },
             ],

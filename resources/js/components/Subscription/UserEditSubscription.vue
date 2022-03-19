@@ -71,7 +71,7 @@ export default {
             events.$emit('confirm:open', {
                 title: this.$t('Are you sure you want to cancel subscription?'),
                 message: this.$t(
-                    "You'll continue to have access to the features you've paid for until the end of your billing cycle."
+                    "popup_subscription_cancel.message"
                 ),
                 action: {
                     operation: 'cancel-subscription',

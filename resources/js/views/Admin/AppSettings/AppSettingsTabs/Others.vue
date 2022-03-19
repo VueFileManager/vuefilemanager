@@ -159,7 +159,7 @@
 					class="w-full sm:w-auto"
 					button-style="theme"
 				>
-                    {{ $t('admin_settings.others.cache_clear') }}
+                    {{ $t('clear_cache') }}
                 </ButtonBase>
             </AppInputButton>
 

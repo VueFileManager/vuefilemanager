@@ -7,10 +7,10 @@
 
             <!--Name-->
             <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('admin_page_plans.form.name')">
+                <AppInputText :title="$t('name')">
                     <input
                         v-model="plan.name"
-                        :placeholder="$t('admin_page_plans.form.name_plac')"
+                        :placeholder="$t('plan_name')"
                         type="text"
                         :class="{ '!border-rose-600': errors[0] }"
                         class="focus-border-theme input-dark"
@@ -20,10 +20,10 @@
 
             <!--Description-->
             <ValidationProvider tag="div" mode="passive" name="Description" v-slot="{ errors }">
-                <AppInputText :title="$t('admin_page_plans.form.description')" :is-last="true">
+                <AppInputText :title="$t('description_optional')" :is-last="true">
                     <textarea
                         v-model="plan.description"
-                        :placeholder="$t('admin_page_plans.form.description_plac')"
+                        :placeholder="$t('plan_description')"
                         :class="{ '!border-rose-600': errors[0] }"
                         class="focus-border-theme input-dark"
                         maxlength="120"
@@ -148,7 +148,7 @@
         </InfoBox>
 
         <ButtonBase :disabled="isLoading" :loading="isLoading" button-style="theme" type="submit" class="w-full sm:w-auto">
-            {{ $t('admin_page_plans.create_plan_button') }}
+            {{ $t('create_plan') }}
         </ButtonBase>
     </ValidationObserver>
 </template>

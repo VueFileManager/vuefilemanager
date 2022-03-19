@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
     <title>
-        {{ __t('invoice_title') }}
+        {{ __t('invoice') }}
     </title>
 
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;800;900&display=swap" rel="stylesheet">
@@ -65,7 +65,7 @@
 
             <div class="print:text-right lg:text-right lg:mt-0 print:mt-0 mt-6">
                 <h1 class="text-2xl font-bold">
-                    {{ __t('invoice_title') }}
+                    {{ __t('invoice') }}
                 </h1>
                 <b class="text-gray-800 text-sm">
                     Number: {{ $invoice->id }}

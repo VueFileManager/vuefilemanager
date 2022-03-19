@@ -57,7 +57,7 @@
                     @click.native="$downloadSelection()"
                     class="mr-4"
                     source="download"
-                    :action="$t('actions.download')"
+                    :action="$t('download_item')"
                 />
             </template>
             <template v-slot:editor>
@@ -78,7 +78,7 @@
                 <ToolbarButton
                     @click.native="$downloadSelection()"
                     source="download"
-                    :action="$t('actions.download')"
+                    :action="$t('download_item')"
                 />
             </template>
         </MobileMultiSelectToolbar>

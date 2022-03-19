@@ -30,7 +30,7 @@ export default {
                     route: 'AppSignInUp',
                 },
                 {
-                    title: this.$t('admin_settings.tabs.appearance'),
+                    title: this.$t('appearance'),
                     route: 'AppAppearance',
                 },
                 {

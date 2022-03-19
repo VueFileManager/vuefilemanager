@@ -108,7 +108,7 @@
             <ToolbarButton
                 @click.native="$downloadSelection(item)"
                 source="download"
-                :action="$t('actions.download')"
+                :action="$t('download_item')"
 				class="mr-4"
             />
             <ToolbarButton @click.native="$shareCancel" source="shared-off" />

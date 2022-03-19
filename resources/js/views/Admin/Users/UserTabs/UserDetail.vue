@@ -73,7 +73,7 @@
         </div>
         <div class="card shadow-card">
             <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
-            <AppInputText :title="$t('user_settings.name')">
+            <AppInputText :title="$t('name')">
                 <input
                     :value="user.data.relationships.settings.data.attributes.name"
                     type="text"

@@ -26,7 +26,7 @@ export default {
                     route: 'AppPayments',
                 },
                 {
-                    title: this.$t('admin_settings.tabs.billings'),
+                    title: this.$t('billings'),
                     route: 'AppBillings',
                 },
             ],

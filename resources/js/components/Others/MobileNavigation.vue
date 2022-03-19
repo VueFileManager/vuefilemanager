@@ -140,7 +140,7 @@
                 />
                 <Option
                     @click.native="goToRoute('Plans')"
-                    :title="$t('admin_menu.plans')"
+                    :title="$t('plans')"
                     icon="database"
                     :is-hover-disabled="true"
                 />

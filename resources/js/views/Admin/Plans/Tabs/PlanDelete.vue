@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow-card">
         <FormLabel>
-            {{ $t('admin_page_plans.form.title_delete') }}
+            {{ $t('delete_plan') }}
         </FormLabel>
         <ValidationObserver ref="deletePlan" @submit.prevent="deletePlan" v-slot="{ invalid }" tag="form">
             <ValidationProvider
@@ -24,7 +24,7 @@
                     <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
                         <input
                             v-model="planName"
-                            :placeholder="$t('admin_page_plans.form.name_delete_plac')"
+                            :placeholder="$t('type_plan_name')"
                             type="text"
                             :class="{ '!border-rose-600': errors[0] }"
                             class="focus-border-theme input-dark"
@@ -36,7 +36,7 @@
                             button-style="danger"
                             class="w-full sm:w-auto"
                         >
-                            {{ $t('admin_page_plans.delete_plan_button') }}
+                            {{ $t('delete_plan') }}
                         </ButtonBase>
                     </div>
                 </AppInputText>

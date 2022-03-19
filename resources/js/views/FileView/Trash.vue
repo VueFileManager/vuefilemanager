@@ -101,7 +101,7 @@
             <ToolbarButton
                 @click.native="$downloadSelection(item)"
                 source="download"
-                :action="$t('actions.download')"
+                :action="$t('download_item')"
             />
         </MobileMultiSelectToolbar>
     </div>

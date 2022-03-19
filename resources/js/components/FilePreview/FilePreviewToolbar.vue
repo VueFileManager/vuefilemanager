@@ -82,7 +82,7 @@
                     v-if="!$isThisRoute($route, ['RequestUpload'])"
                     @click.native="downloadItem"
                     source="download"
-                    :action="$t('actions.download')"
+                    :action="$t('download_item')"
                 />
                 <ToolbarButton
                     v-if="canShareItem"

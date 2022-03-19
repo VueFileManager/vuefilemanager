@@ -114,7 +114,7 @@ export default {
                     sortable: true,
                 },
                 {
-                    label: this.$t('admin_page_invoices.table.total'),
+                    label: this.$t('total'),
                     field: 'amount',
                     sortable: true,
                 },

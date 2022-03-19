@@ -504,11 +504,6 @@ export default {
     },
     computed: {
         ...mapGetters(['config']),
-        submitButtonText() {
-            return this.isLoading
-                ? this.$t('admin_settings.payments.button_testing')
-                : this.$t('admin_settings.payments.button_submit')
-        },
     },
     data() {
         return {
@@ -569,7 +564,7 @@ export default {
                     sortable: true,
                 },
                 {
-                    label: this.$t('admin_page_plans.table.subscribers'),
+                    label: this.$t('subscribers'),
                     sortable: false,
                 },
                 {
