@@ -5,7 +5,7 @@
             <span class="additional-link"
                 >{{ $t('page_registration.have_an_account') }}
                 <router-link :to="{ name: 'SignIn' }" class="text-theme font-bold">
-                    {{ $t('page_forgotten_password.password_remember_button') }}
+                    {{ $t('log_in') }}
                 </router-link>
             </span>
         </AuthContent>

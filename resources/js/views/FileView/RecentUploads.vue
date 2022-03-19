@@ -5,26 +5,26 @@
                 <OptionGroup>
                     <Option
                         @click.native="$renameFileOrFolder(item)"
-                        :title="$t('context_menu.rename')"
+                        :title="$t('rename')"
                         icon="rename"
                     />
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option
                         @click.native="$shareFileOrFolder(item)"
                         :title="
-                            item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')
+                            item.data.relationships.shared ? $t('edit_sharing') : $t('share')
                         "
                         icon="share"
                     />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
+                    <Option @click.native="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
                     <Option
                         @click.native="$downloadSelection(item)"
-                        :title="$t('context_menu.download')"
+                        :title="$t('download')"
                         icon="download"
                     />
                 </OptionGroup>
@@ -32,32 +32,32 @@
 
             <template v-slot:multiple-select v-if="item">
                 <OptionGroup>
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$downloadSelection()" :title="$t('context_menu.download')" icon="download" />
+                    <Option @click.native="$downloadSelection()" :title="$t('download')" icon="download" />
                 </OptionGroup>
             </template>
         </ContextMenu>
 
         <MobileContextMenu>
             <OptionGroup>
-                <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
-                <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
+                <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 <Option
                     @click.native="$shareFileOrFolder(item)"
                     :title="
                         item && item.data.relationships.shared
-                            ? $t('context_menu.share_edit')
-                            : $t('context_menu.share')
+                            ? $t('edit_sharing')
+                            : $t('share')
                     "
                     icon="share"
                 />
             </OptionGroup>
             <OptionGroup>
-                <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="$downloadSelection(item)" :title="$t('download')" icon="download" />
             </OptionGroup>
         </MobileContextMenu>
 
@@ -69,10 +69,10 @@
                 {{ $getCurrentSectionName() }}
             </MobileActionButton>
             <MobileActionButtonUpload>
-                {{ $t('context_menu.upload') }}
+                {{ $t('upload') }}
             </MobileActionButtonUpload>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-                {{ $t('context_menu.select') }}
+                {{ $t('select') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
                 {{ $t('preview_sorting.preview_sorting_button') }}

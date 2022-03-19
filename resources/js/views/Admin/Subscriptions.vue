@@ -119,7 +119,7 @@ export default {
             isLoading: true,
             columns: [
                 {
-                    label: this.$t('admin_page_user.table.name'),
+                    label: this.$t('user'),
                     field: 'user_id',
                     sortable: true,
                 },

@@ -101,8 +101,8 @@ export default {
     computed: {
         itemTypeTitle() {
             return this.pickedItem && this.pickedItem.data.type === 'folder'
-                ? this.$t('types.folder')
-                : this.$t('types.file')
+                ? this.$t('folder')
+                : this.$t('file')
         },
     },
     watch: {

@@ -17,7 +17,7 @@
                 </section>
                 <footer class="plan-footer">
                     <b class="price text-theme">
-                        {{ plan.data.attributes.price }}/{{ $t('global.monthly_ac') }}
+                        {{ plan.data.attributes.price }}/{{ $t('mo.') }}
                         <small v-if="plan.data.attributes.tax_rates.length > 0" class="vat-disclaimer">{{
                             $t('page_pricing_tables.vat_excluded')
                         }}</small>

@@ -8,7 +8,7 @@
             <!--Headline-->
             <PageTitle
                 class="headline"
-                :title="$t('page_contact_us.title')"
+                :title="$t('contact_us')"
                 :description="$t('page_contact_us.description')"
             ></PageTitle>
 
@@ -21,7 +21,7 @@
                 class="form block-form"
             >
                 <div class="block-wrapper">
-                    <label>{{ $t('page_contact_us.form.email') }}:</label>
+                    <label>{{ $t('email') }}:</label>
                     <ValidationProvider tag="div" mode="passive" name="E-Mail" rules="required" v-slot="{ errors }">
                         <input
                             v-model="contact.email"
@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="block-wrapper">
-                    <label>{{ $t('page_contact_us.form.message') }}:</label>
+                    <label>{{ $t('message') }}:</label>
                     <ValidationProvider tag="div" mode="passive" name="Message" rules="required" v-slot="{ errors }">
                         <textarea
                             v-model="contact.message"
@@ -56,7 +56,7 @@
                     <AuthButton
                         class="submit-button"
                         icon="chevron-right"
-                        :text="$t('page_contact_us.form.submit_button')"
+                        :text="$t('send_message')"
                         :loading="isLoading"
                         :disabled="isLoading"
                     />

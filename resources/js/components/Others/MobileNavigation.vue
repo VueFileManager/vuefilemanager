@@ -38,7 +38,7 @@
                 />
                 <Option
                     @click.native.stop="showSubmenu('settings')"
-                    :title="$t('menu.settings')"
+                    :title="$t('settings')"
                     icon="user"
                     arrow="right"
                     :is-hover-disabled="true"
@@ -46,7 +46,7 @@
                 <Option
                     v-if="isAdmin"
                     @click.native.stop="showSubmenu('admin')"
-                    :title="$t('menu.admin')"
+                    :title="$t('administration')"
                     icon="settings"
                     arrow="right"
                     :is-hover-disabled="true"
@@ -72,7 +72,7 @@
                 />
                 <Option
                     @click.native="goToRoute('Storage')"
-                    :title="$t('menu.storage')"
+                    :title="$t('storage')"
                     icon="hard-drive"
                     :is-hover-disabled="true"
                 />
@@ -89,19 +89,19 @@
             <OptionGroup v-if="clickedSubmenu === 'admin'">
                 <Option
                     @click.native="goToRoute('Dashboard')"
-                    :title="$t('admin_menu.dashboard')"
+                    :title="$t('dashboard')"
                     icon="box"
                     :is-hover-disabled="true"
                 />
                 <Option
                     @click.native="goToRoute('Users')"
-                    :title="$t('admin_menu.users')"
+                    :title="$t('users')"
                     icon="users"
                     :is-hover-disabled="true"
                 />
                 <Option
                     @click.native="goToRoute('AppOthers')"
-                    :title="$t('admin_menu.settings')"
+                    :title="$t('settings')"
                     icon="settings"
                     :is-hover-disabled="true"
                 />
@@ -111,7 +111,7 @@
             <OptionGroup v-if="clickedSubmenu === 'admin'">
                 <Option
                     @click.native="goToRoute('Pages')"
-                    :title="$t('admin_menu.pages')"
+                    :title="$t('pages')"
                     icon="monitor"
                     :is-hover-disabled="true"
                 />
@@ -181,8 +181,8 @@ export default {
         },
         backTitle() {
             let location = {
-                settings: this.$t('menu.settings'),
-                admin: this.$t('menu.admin'),
+                settings: this.$t('settings'),
+                admin: this.$t('administration'),
             }
 
             return 'Go back from ' + location[this.clickedSubmenu]

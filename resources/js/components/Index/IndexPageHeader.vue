@@ -10,7 +10,7 @@
 
             <!--User login button-->
             <router-link v-if="!config.userRegistration" class="sign-up-button" :to="{ name: 'SignIn' }">
-                <AuthButton class="button" icon="chevron-right" :text="$t('page_index.menu.log_in')" />
+                <AuthButton class="button" icon="chevron-right" :text="$t('log_in')" />
             </router-link>
 
             <div class="features" v-if="config.subscriptionType === 'fixed'">

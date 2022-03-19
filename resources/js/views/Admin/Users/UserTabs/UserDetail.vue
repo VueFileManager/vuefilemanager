@@ -61,7 +61,7 @@
                 </AppInputText>
             </div>
 
-            <AppInputText :title="$t('page_registration.label_name')" :is-last="true">
+            <AppInputText :title="$t('full_name')" :is-last="true">
                 <input
                     :value="user.data.relationships.settings.data.attributes.name"
                     :placeholder="$t('page_registration.placeholder_name')"
@@ -72,7 +72,7 @@
             </AppInputText>
         </div>
         <div class="card shadow-card">
-            <FormLabel>{{ $t('user_settings.title_billing') }}</FormLabel>
+            <FormLabel>{{ $t('billing_information') }}</FormLabel>
             <AppInputText :title="$t('name')">
                 <input
                     :value="user.data.relationships.settings.data.attributes.name"
@@ -81,7 +81,7 @@
                     disabled
                 />
             </AppInputText>
-            <AppInputText :title="$t('user_settings.address')">
+            <AppInputText :title="$t('address')">
                 <input
                     :value="user.data.relationships.settings.data.attributes.address"
                     type="text"
@@ -89,7 +89,7 @@
                     class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
                 />
             </AppInputText>
-            <AppInputText :title="$t('user_settings.country')">
+            <AppInputText :title="$t('country')">
                 <input
                     :value="user.data.relationships.settings.data.attributes.country"
                     type="text"
@@ -98,7 +98,7 @@
                 />
             </AppInputText>
             <div class="flex space-x-4">
-                <AppInputText :title="$t('user_settings.city')" class="w-full">
+                <AppInputText :title="$t('city')" class="w-full">
                     <input
                         :value="user.data.relationships.settings.data.attributes.city"
                         type="text"
@@ -106,7 +106,7 @@
                         class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
                     />
                 </AppInputText>
-                <AppInputText :title="$t('user_settings.postal_code')" class="w-full">
+                <AppInputText :title="$t('postal_co')" class="w-full">
                     <input
                         :value="user.data.relationships.settings.data.attributes.postal_code"
                         type="text"
@@ -115,7 +115,7 @@
                     />
                 </AppInputText>
             </div>
-            <AppInputText :title="$t('user_settings.state')">
+            <AppInputText :title="$t('state')">
                 <input
                     :value="user.data.relationships.settings.data.attributes.state"
                     type="text"
@@ -123,7 +123,7 @@
                     class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
                 />
             </AppInputText>
-            <AppInputText :title="$t('user_settings.phone_number')" :is-last="true">
+            <AppInputText :title="$t('phone_number')" :is-last="true">
                 <input
                     :value="user.data.relationships.settings.data.attributes.phone_number"
                     type="text"

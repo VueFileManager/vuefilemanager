@@ -25,7 +25,7 @@
                     rules="required"
                     v-slot="{ errors }"
                 >
-                    <AppInputText :title="$t('shared_form.label_permission')" :error="errors[0]">
+                    <AppInputText :title="$t('permission')" :error="errors[0]">
                         <SelectInput
                             v-model="shareOptions.permission"
                             :options="$translateSelectOptions(permissionOptions)"
@@ -38,7 +38,7 @@
                 <!--Password Switch-->
                 <div>
                     <AppInputSwitch
-                        :title="$t('shared_form.label_password_protection')"
+                        :title="$t('password_protected')"
                         :description="$t('popup.share.password_description')"
                     >
                         <SwitchInput
@@ -109,7 +109,7 @@
 							<MultiEmailInput
 								rules="required"
 								v-model="shareOptions.emails"
-								:label="$t('shared_form.recipients_label')"
+								:label="$t('recipients')"
 								:is-error="errors[0]"
 							/>
 						</AppInputText>
@@ -118,7 +118,7 @@
             </ValidationObserver>
 
             <!--Copy generated link-->
-            <AppInputText v-if="isGeneratedShared" :title="$t('shared_form.label_share_vie_email')" :is-last="true">
+            <AppInputText v-if="isGeneratedShared" :title="$t('get_your_link')" :is-last="true">
                 <CopyShareLink :item="pickedItem" />
             </AppInputText>
         </PopupContent>
@@ -192,14 +192,14 @@ export default {
         ...mapGetters(['permissionOptions', 'expirationList']),
         itemTypeTitle() {
             return this.pickedItem && this.pickedItem.data.type === 'folder'
-                ? this.$t('types.folder')
-                : this.$t('types.file')
+                ? this.$t('folder')
+                : this.$t('file')
         },
         isFolder() {
             return this.pickedItem && this.pickedItem.data.type === 'folder'
         },
         submitButtonText() {
-            return this.isGeneratedShared ? this.$t('shared_form.button_done') : this.$t('shared_form.button_generate')
+            return this.isGeneratedShared ? this.$t('awesome_iam_done') : this.$t('generate_link')
         },
     },
     watch: {

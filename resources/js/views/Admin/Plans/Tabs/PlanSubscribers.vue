@@ -155,7 +155,7 @@ export default {
             return {
                 metered: [
                     {
-                        label: this.$t('admin_page_user.table.name'),
+                        label: this.$t('user'),
                         field: 'user_id',
                         sortable: true,
                     },
@@ -172,7 +172,7 @@ export default {
                 ],
                 fixed: [
                     {
-                        label: this.$t('admin_page_user.table.name'),
+                        label: this.$t('user'),
                         field: 'user_id',
                         sortable: true,
                     },

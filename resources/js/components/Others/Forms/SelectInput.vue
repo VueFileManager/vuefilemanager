@@ -33,7 +33,7 @@
                         v-model="query"
                         ref="search"
                         type="text"
-                        :placeholder="$te('select_search_placeholder') ? $t('select_search_placeholder') : 'Search in list...'"
+                        :placeholder="$te('search_in_list') ? $t('search_in_list') : 'Search in list...'"
                         class="search-input focus-border-theme rounded-lg"
                     />
                 </div>

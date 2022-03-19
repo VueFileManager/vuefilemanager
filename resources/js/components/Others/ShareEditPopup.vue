@@ -17,7 +17,7 @@
                     {{ $t('Show Details') }}
                 </ButtonBase>
                 <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme">
-                    {{ $t('shared_form.button_done') }}
+                    {{ $t('awesome_iam_done') }}
                 </ButtonBase>
             </PopupActions>
         </div>
@@ -65,7 +65,7 @@
                 <ThumbnailItem class="mb-5" :item="pickedItem" />
 
                 <!--Get share link-->
-                <AppInputText :title="$t('shared_form.label_share_vie_email')">
+                <AppInputText :title="$t('get_your_link')">
                     <CopyShareLink :item="pickedItem" />
                 </AppInputText>
 
@@ -79,7 +79,7 @@
                         rules="required"
                         v-slot="{ errors }"
                     >
-                        <AppInputText :title="$t('shared_form.label_permission')" :error="errors[0]">
+                        <AppInputText :title="$t('permission')" :error="errors[0]">
                             <SelectInput
                                 v-model="shareOptions.permission"
                                 :options="$translateSelectOptions(permissionOptions)"
@@ -93,7 +93,7 @@
                     <!--Password Switch-->
                     <div>
                         <AppInputSwitch
-                            :title="$t('shared_form.label_password_protection')"
+                            :title="$t('password_protected')"
                             :description="$t('popup.share.password_description')"
                         >
                             <SwitchInput

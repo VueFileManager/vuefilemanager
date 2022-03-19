@@ -45,9 +45,9 @@ class ResetPassword extends Notification
 
         return (new MailMessage)
             ->subject(__t('reset_password_subject') .  $app_name)
-            ->greeting(__t('reset_password_greeting'))
+            ->greeting(__t('hello'))
             ->line(__t('reset_password_line_1'))
-            ->action(__t('reset_password_action'), $reset_url)
+            ->action(__t('reset_password'), $reset_url)
             ->line(__t('reset_password_line_2'))
             ->salutation(__t('salutation') . ', ' .  $app_name);
     }

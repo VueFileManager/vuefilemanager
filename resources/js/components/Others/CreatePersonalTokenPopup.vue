@@ -1,6 +1,6 @@
 <template>
     <PopupWrapper name="create-personal-token">
-        <PopupHeader :title="$t('popup_personal_token.title')" icon="key" />
+        <PopupHeader :title="$t('create_personal_token')" icon="key" />
 
         <PopupContent>
             <ValidationObserver
@@ -11,7 +11,7 @@
                 tag="form"
             >
                 <ValidationProvider tag="div" mode="passive" name="Token Name" rules="required|min:3" v-slot="{ errors }">
-                    <AppInputText :title="$t('popup_personal_token.label')" :error="errors[0]" :is-last="true">
+                    <AppInputText :title="$t('token_name')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="name"
                             :class="{ '!border-rose-600': errors[0] }"
@@ -44,13 +44,13 @@
                 :loading="isLoading"
                 :disabled="isLoading"
             >
-                {{ $t('personal_token.create_token') }}
+                {{ $t('create_token') }}
             </ButtonBase>
         </PopupActions>
 
         <PopupActions v-if="token">
             <ButtonBase class="w-full" @click.native="$closePopup" button-style="theme">
-                {{ $t('shared_form.button_done') }}
+                {{ $t('awesome_iam_done') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>

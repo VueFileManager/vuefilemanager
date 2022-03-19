@@ -5,12 +5,12 @@
                 {{ page.data.attributes.title }}
             </FormLabel>
             <AppInputSwitch
-                :title="$t('admin_pages.form.visibility')"
+                :title="$t('visibility')"
                 :description="$t('admin_pages.form.visibility_help')"
             >
                 <SwitchInput @input="changeStatus" class="switch" :state="page.data.attributes.visibility" />
             </AppInputSwitch>
-            <AppInputText :title="$t('admin_pages.form.title')">
+            <AppInputText :title="$t('title')">
                 <input
                     @input="$updateText('/admin/pages/' + $route.params.slug, 'title', page.data.attributes.title)"
                     v-model="page.data.attributes.title"
@@ -19,10 +19,10 @@
                     class="focus-border-theme input-dark"
                 />
             </AppInputText>
-            <AppInputText :title="$t('admin_pages.form.slug')">
+            <AppInputText :title="$t('slug')">
                 <input v-model="page.data.attributes.slug" type="text" class="focus-border-theme input-dark" disabled />
             </AppInputText>
-            <AppInputText :title="$t('admin_pages.form.content')" :is-last="true">
+            <AppInputText :title="$t('content')" :is-last="true">
                 <textarea
                     @input="$updateText('/admin/pages/' + $route.params.slug, 'content', page.data.attributes.content)"
                     v-model="page.data.attributes.content"

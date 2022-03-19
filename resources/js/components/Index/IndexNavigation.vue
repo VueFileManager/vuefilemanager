@@ -13,19 +13,19 @@
             <ul class="navigation-links">
                 <!--<li v-if="config.stripe_public_key">
                     <a href="/#pricing">
-                        {{ $t('page_index.menu.pricing') }}
+                        {{ $t('pricing') }}
                     </a>
                 </li>-->
                 <li>
                     <router-link :to="{ name: 'ContactUs' }" class="hover-text-theme">
-                        {{ $t('page_index.menu.contact_us') }}
+                        {{ $t('contact_us') }}
                     </router-link>
                 </li>
             </ul>
             <ul v-if="!config.isAuthenticated" class="navigation-links">
                 <li>
                     <router-link :to="{ name: 'SignIn' }" class="hover-text-theme">
-                        {{ $t('page_index.menu.log_in') }}
+                        {{ $t('log_in') }}
                     </router-link>
                 </li>
                 <li v-if="config.userRegistration">
@@ -43,7 +43,7 @@
             </ul>
         </div>
         <router-link class="cta-button log-in text-theme bg-theme-100" :to="{ name: 'SignIn' }">
-            {{ $t('page_index.menu.log_in') }}
+            {{ $t('log_in') }}
         </router-link>
     </nav>
 </template>

@@ -7,7 +7,7 @@
             />
 
             <router-link :to="{ name: 'SignIn' }">
-                <AuthButton icon="chevron-right" :text="$t('page_sign_in.button_log_in')" />
+                <AuthButton icon="chevron-right" :text="$t('log_in')" />
             </router-link>
         </AuthContent>
     </AuthContentWrapper>

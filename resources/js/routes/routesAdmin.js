@@ -14,7 +14,7 @@ const routesAdmin = [
                 component: () => import(/* webpackChunkName: "chunks/dashboard" */ '../views/Admin/Dashboard'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.dashboard',
+                    title: 'dashboard',
                 },
             },
             {
@@ -41,7 +41,7 @@ const routesAdmin = [
                 component: () => import(/* webpackChunkName: "chunks/pages" */ '../views/Admin/Pages'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.pages',
+                    title: 'pages',
                 },
             },
             {
@@ -50,7 +50,7 @@ const routesAdmin = [
                 component: () => import(/* webpackChunkName: "chunks/page-edit" */ '../views/Admin/Pages/PageEdit'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.page_edit',
+                    title: 'edit_page',
                 },
             },
             {
@@ -59,7 +59,7 @@ const routesAdmin = [
                 component: () => import(/* webpackChunkName: "chunks/plans" */ '../views/Admin/Plans'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.pricing_plans',
+                    title: 'pricing_plans',
                 },
             },
             {
@@ -77,7 +77,7 @@ const routesAdmin = [
                 component: () => import(/* webpackChunkName: "chunks/user-create" */ '../views/Admin/Users/UserCreate'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.user_create',
+                    title: 'create_user',
                 },
             },
             {
@@ -121,7 +121,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.users_detail',
+                            title: 'detail',
                         },
                     },
                     {
@@ -145,7 +145,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.subscription',
+                            title: 'subscription',
                         },
                     },
                     {
@@ -169,7 +169,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.users_delete',
+                            title: 'delete_user',
                         },
                     },
                 ],
@@ -192,7 +192,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.subscribers',
+                            title: 'subscribers',
                         },
                     },
                     {
@@ -204,7 +204,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.plan_settings',
+                            title: 'plan_settings',
                         },
                     },
                     {
@@ -237,7 +237,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.subscribers',
+                            title: 'subscribers',
                         },
                     },
                     {
@@ -249,7 +249,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.plan_settings',
+                            title: 'plan_settings',
                         },
                     },
                     {
@@ -307,7 +307,7 @@ const routesAdmin = [
                     import(/* webpackChunkName: "chunks/app-settings" */ '../views/Admin/AppSettings/AppSettings'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.settings',
+                    title: 'settings',
                 },
                 children: [
                     {
@@ -319,7 +319,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.appearance',
+                            title: 'appearance',
                         },
                     },
                     {
@@ -343,7 +343,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.email',
+                            title: 'email',
                         },
                     },
                     {
@@ -355,7 +355,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'routes_title.others',
+                            title: 'others',
                         },
                     },
                     {

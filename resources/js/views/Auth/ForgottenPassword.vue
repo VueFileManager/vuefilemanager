@@ -35,7 +35,7 @@
                 <AuthButton
                     class="w-full justify-center md:w-min"
                     icon="chevron-right"
-                    :text="$t('page_forgotten_password.button_get_link')"
+                    :text="$t('get_link')"
                     :loading="isLoading"
                     :disabled="isLoading"
                 />
@@ -44,7 +44,7 @@
             <span class="block">
                 {{ $t('page_forgotten_password.password_remember_text') }}
                 <router-link :to="{ name: 'SignIn' }" class="text-theme font-bold">
-                    {{ $t('page_forgotten_password.password_remember_button') }}
+                    {{ $t('log_in') }}
                 </router-link>
             </span>
         </AuthContent>
@@ -59,7 +59,7 @@
             <span class="block">
                 {{ $t('page_forgotten_password.password_remember_text') }}
                 <router-link :to="{ name: 'SignIn' }" class="text-theme font-bold">
-                    {{ $t('page_forgotten_password.password_remember_button') }}
+                    {{ $t('log_in') }}
                 </router-link>
             </span>
         </AuthContent>

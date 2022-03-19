@@ -18,7 +18,7 @@
                 >{{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase @click.native="confirm" :button-style="buttonColor" class="w-full"
-                >{{ $t('global.confirm_action') }}
+                >{{ $t('yes_iam_sure') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>

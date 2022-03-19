@@ -1,19 +1,19 @@
 <template>
     <PopupWrapper name="two-factor-recovery-codes">
-        <PopupHeader :title="$t('popup_2fa.popup_codes_title')" icon="key" />
+        <PopupHeader :title="$t('your_security_codes')" icon="key" />
 
         <PopupContent style="padding: 0 20px">
             <div class="mobile-actions">
                 <MobileActionButton @click.native="copyCodes" icon="copy">
-                    {{ $t('context_menu.copy') }}
+                    {{ $t('copy') }}
                 </MobileActionButton>
 
                 <MobileActionButton @click.native="downloadCodes" icon="download">
-                    {{ $t('context_menu.download') }}
+                    {{ $t('download') }}
                 </MobileActionButton>
 
                 <MobileActionButton @click.native="regenerateCodes" icon="refresh">
-                    {{ $t('context_menu.codes_regenerate') }}
+                    {{ $t('regenerate_codes') }}
                 </MobileActionButton>
             </div>
 
@@ -34,7 +34,7 @@
 
         <PopupActions>
             <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme">
-                {{ $t('shared_form.button_done') }}
+                {{ $t('awesome_iam_done') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>

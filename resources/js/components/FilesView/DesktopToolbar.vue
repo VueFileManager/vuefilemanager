@@ -9,14 +9,14 @@
                     <ToolbarButton
                         @click.stop.native="showCreateMenu"
                         source="cloud-plus"
-                        :action="$t('actions.create')"
+                        :action="$t('create_something')"
                     />
                     <PopoverItem name="desktop-create" side="left">
                         <OptionGroup
                             :title="$t('Frequently Used')"
                         >
                             <OptionUpload
-								:title="$t('actions.upload')"
+								:title="$t('upload_files')"
 								type="file"
 								:class="{
                                     'is-inactive': (isSharedWithMe && !canEdit) || canUploadInView || isTeamFolderHomepage || isSharedWithMeHomepage,
@@ -27,7 +27,7 @@
                                 :class="{
                                     'is-inactive': (isSharedWithMe && !canEdit) || canCreateFolder || isTeamFolderHomepage || isSharedWithMeHomepage,
                                 }"
-                                :title="$t('actions.create_folder')"
+                                :title="$t('create_folder')"
                                 icon="folder-plus"
                             />
                         </OptionGroup>
@@ -36,7 +36,7 @@
 								:class="{
                                     'is-inactive': (isSharedWithMe && !canEdit) || canUploadFolderInView || isTeamFolderHomepage || isSharedWithMeHomepage,
                                 }"
-								:title="$t('actions.upload_folder')"
+								:title="$t('upload_folder')"
 								type="folder"
 							/>
                             <Option
@@ -111,7 +111,7 @@
                                 'is-inactive': canShareInView,
                             }"
                             source="share"
-                            :action="$t('actions.share')"
+                            :action="$t('share_item')"
                         />
                         <ToolbarButton
                             @click.native="$moveFileOrFolder(clipboard[0])"
@@ -119,7 +119,7 @@
                                 'is-inactive': canMoveInView && !canEdit,
                             }"
                             source="move"
-                            :action="$t('actions.move')"
+                            :action="$t('move')"
                         />
                         <ToolbarButton
                             @click.native="$deleteFileOrFolder(clipboard[0])"
@@ -138,7 +138,7 @@
                         <ToolbarButton
                             @click.stop.native="showSortingMenu"
                             source="preview-sorting"
-                            :action="$t('actions.sorting_view')"
+                            :action="$t('sorting_view')"
                         />
                         <PopoverItem name="desktop-sorting" side="left">
                             <FileSortingOptions />
@@ -146,7 +146,7 @@
                     </PopoverWrapper>
                     <ToolbarButton
                         @click.native="$store.dispatch('fileInfoToggle')"
-                        :action="$t('actions.info_panel')"
+                        :action="$t('info_panel')"
                         source="info"
                     />
                 </div>

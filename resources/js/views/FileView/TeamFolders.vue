@@ -2,14 +2,14 @@
     <div>
         <MobileContextMenu>
             <OptionGroup v-if="item">
-                <Option @click.native="$renameFileOrFolder(item)" :title="$t('context_menu.rename')" icon="rename" />
-                <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
-                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
+                <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
             </OptionGroup>
             <OptionGroup v-if="item">
                 <Option
                     @click.native="$shareFileOrFolder(item)"
-                    :title="item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')"
+                    :title="item.data.relationships.shared ? $t('edit_sharing') : $t('share')"
                     icon="share"
                 />
                 <Option
@@ -27,16 +27,16 @@
             </OptionGroup>
 
             <OptionGroup v-if="item">
-                <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="$downloadSelection(item)" :title="$t('download')" icon="download" />
             </OptionGroup>
         </MobileContextMenu>
 
         <MobileCreateMenu>
             <OptionGroup :title="$t('Frequently Used')">
-                <OptionUpload :title="$t('actions.upload')" type="file" :is-hover-disabled="true" :class="{'is-inactive': isTeamFolderHomepage}" />
+                <OptionUpload :title="$t('upload_files')" type="file" :is-hover-disabled="true" :class="{'is-inactive': isTeamFolderHomepage}" />
                 <Option
                     @click.stop.native="$createFolderByPopup"
-                    :title="$t('actions.create_folder')"
+                    :title="$t('create_folder')"
                     icon="folder-plus"
                     :is-hover-disabled="true"
 					:class="{'is-inactive': isTeamFolderHomepage}"
@@ -64,7 +64,7 @@
                 @click.native="$moveFileOrFolder(clipboard)"
                 class="mr-4"
                 source="move"
-                :action="$t('actions.move')"
+                :action="$t('move')"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
             />
             <ToolbarButton
@@ -84,11 +84,11 @@
         <ContextMenu>
             <template v-slot:empty-select>
                 <OptionGroup v-if="!isTeamFolderHomepage">
-                    <OptionUpload :title="$t('actions.upload')" type="file" />
-                    <OptionUpload :title="$t('actions.upload_folder')" type="folder" />
+                    <OptionUpload :title="$t('upload_files')" type="file" />
+                    <OptionUpload :title="$t('upload_folder')" type="folder" />
                     <Option
                         @click.native="$createFolder"
-                        :title="$t('actions.create_folder')"
+                        :title="$t('create_folder')"
                         icon="folder-plus"
                     />
                 </OptionGroup>
@@ -103,8 +103,8 @@
                         @click.native="$toggleFavourites(item)"
                         :title="
                             isInFavourites
-                                ? $t('context_menu.remove_from_favourites')
-                                : $t('context_menu.add_to_favourites')
+                                ? $t('remove_favourite')
+                                : $t('add_to_favourites')
                         "
                         icon="favourites"
                     />
@@ -112,17 +112,17 @@
                 <OptionGroup>
                     <Option
                         @click.native="$renameFileOrFolder(item)"
-                        :title="$t('context_menu.rename')"
+                        :title="$t('rename')"
                         icon="rename"
                     />
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option
                         @click.native="$shareFileOrFolder(item)"
                         :title="
-                            item.data.relationships.shared ? $t('context_menu.share_edit') : $t('context_menu.share')
+                            item.data.relationships.shared ? $t('edit_sharing') : $t('share')
                         "
                         icon="share"
                     />
@@ -140,10 +140,10 @@
 					/>
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
+                    <Option @click.native="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
                     <Option
                         @click.native="$downloadSelection(item)"
-                        :title="$t('context_menu.download')"
+                        :title="$t('download')"
                         icon="download"
                     />
                 </OptionGroup>
@@ -155,18 +155,18 @@
                         @click.native="$toggleFavourites(item)"
                         :title="
                             isInFavourites
-                                ? $t('context_menu.remove_from_favourites')
-                                : $t('context_menu.add_to_favourites')
+                                ? $t('remove_favourite')
+                                : $t('add_to_favourites')
                         "
                         icon="favourites"
                     />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('context_menu.move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$downloadSelection()" :title="$t('context_menu.download')" icon="download" />
+                    <Option @click.native="$downloadSelection()" :title="$t('download')" icon="download" />
                 </OptionGroup>
             </template>
         </ContextMenu>
@@ -186,7 +186,7 @@
                 {{ $t('Upload / Create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-                {{ $t('context_menu.select') }}
+                {{ $t('select') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
                 {{ $t('preview_sorting.preview_sorting_button') }}

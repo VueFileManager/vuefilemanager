@@ -2,7 +2,7 @@
     <AuthContentWrapper ref="auth" class="h-screen">
         <!--Log In by Email-->
         <AuthContent name="log-in" :visible="true">
-            <Headline :title="$t('page_login.title')" :description="$t('page_login.subtitle')" />
+            <Headline :title="$t('welcome_back')" :description="$t('page_login.subtitle')" />
 
             <ValidationObserver
                 @submit.prevent="logIn"
@@ -32,7 +32,7 @@
                 <AuthButton
                     class="w-full justify-center md:w-min"
                     icon="chevron-right"
-                    :text="$t('page_login.button_next')"
+                    :text="$t('next_step')"
                     :loading="isLoading"
                     :disabled="isLoading"
                 />
@@ -92,7 +92,7 @@
                 <AuthButton
                     class="w-full justify-center md:w-min"
                     icon="chevron-right"
-                    :text="$t('page_sign_in.button_log_in')"
+                    :text="$t('log_in')"
                     :loading="isLoading"
                     :disabled="isLoading"
                 />

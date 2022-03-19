@@ -19,7 +19,7 @@
                         target="_blank"
                         class="mr-4 inline-block"
                     >
-                        <span class="text-sm font-bold"> {{ $t('admin_page_dashboard.version') }}: </span>
+                        <span class="text-sm font-bold"> {{ $t('version') }}: </span>
                         <ColorLabel color="purple">
                             {{ data.app.version }}
                         </ColorLabel>
@@ -29,7 +29,7 @@
                         target="_blank"
                         class="mr-4 inline-block"
                     >
-                        <span class="text-sm font-bold"> {{ $t('admin_page_dashboard.license') }}: </span>
+                        <span class="text-sm font-bold"> {{ $t('license') }}: </span>
                         <ColorLabel color="purple">
                             {{ data.app.license }}
                         </ColorLabel>
@@ -94,7 +94,7 @@
 
                     <router-link :to="{ name: 'Users' }" class="mt-6 flex items-center">
                         <span class="mr-2 whitespace-nowrap text-xs font-bold">
-                            {{ $t('admin_page_dashboard.w_total_space.link') }}
+                            {{ $t('show_all_users') }}
                         </span>
                         <chevron-right-icon size="16" class="text-theme vue-feather" />
                     </router-link>
@@ -110,7 +110,7 @@
 
                     <router-link :to="{ name: 'Users' }" class="mt-6 flex items-center">
                         <span class="mr-2 whitespace-nowrap text-xs font-bold">
-                            {{ $t('admin_page_dashboard.w_total_space.link') }}
+                            {{ $t('show_all_users') }}
                         </span>
                         <chevron-right-icon size="16" class="text-theme vue-feather" />
                     </router-link>

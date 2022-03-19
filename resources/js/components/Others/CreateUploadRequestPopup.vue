@@ -100,7 +100,7 @@
 		<!--Actions-->
         <PopupActions v-if="generatedUploadRequest">
             <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme"
-			>{{ $t('shared_form.button_done') }}
+			>{{ $t('awesome_iam_done') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>

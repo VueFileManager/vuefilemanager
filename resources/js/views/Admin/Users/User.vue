@@ -80,7 +80,7 @@ export default {
             if (this.config.subscriptionType === 'none') {
                 return [
                     {
-                        title: this.$t('admin_page_user.tabs.detail'),
+                        title: this.$t('detail'),
                         route: 'UserDetail',
                     },
                     {
@@ -88,7 +88,7 @@ export default {
                         route: 'UserStorage',
                     },
                     {
-                        title: this.$t('admin_page_user.tabs.password'),
+                        title: this.$t('password'),
                         route: 'UserPassword',
                     },
                     {
@@ -100,7 +100,7 @@ export default {
 
             return [
                 {
-                    title: this.$t('admin_page_user.tabs.detail'),
+                    title: this.$t('detail'),
                     route: 'UserDetail',
                 },
                 {
@@ -112,7 +112,7 @@ export default {
                     route: 'UserSubscription',
                 },
                 {
-                    title: this.$t('admin_page_user.tabs.password'),
+                    title: this.$t('password'),
                     route: 'UserPassword',
                 },
                 {

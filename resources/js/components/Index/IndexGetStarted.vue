@@ -12,7 +12,7 @@
             class="get-started-button bg-theme-800 hover-bg-theme shadow-theme"
             :to="{ name: 'SignUp' }"
         >
-            <span class="content">{{ $t('page_index.get_started_button') }}</span>
+            <span class="content">{{ $t('sign_up_now') }}</span>
             <chevron-right-icon size="22"></chevron-right-icon>
         </router-link>
 

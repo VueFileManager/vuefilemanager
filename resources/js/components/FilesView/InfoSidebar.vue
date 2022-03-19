@@ -17,8 +17,8 @@
             v-if="!isSingleFile && !isEmpty"
             class="mb-6"
             icon="check-square"
-            :title="$t('file_detail.selected_multiple')"
-            :subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
+            :title="$t('selected_multiple')"
+            :subtitle="this.clipboard.length + ' ' + $tc('items', this.clipboard.length)"
         />
 
         <!--Single file preview-->
@@ -35,15 +35,15 @@
             <!--Filesize-->
             <ListInfoItem
                 v-if="singleFile.data.attributes.filesize"
-                :title="$t('file_detail.size')"
+                :title="$t('size')"
                 :content="singleFile.data.attributes.filesize"
             />
 
             <!--Created At-->
-            <ListInfoItem :title="$t('file_detail.created_at')" :content="singleFile.data.attributes.created_at" />
+            <ListInfoItem :title="$t('created_at')" :content="singleFile.data.attributes.created_at" />
 
             <!--Location-->
-            <ListInfoItem v-if="$checkPermission(['master'])" :title="$t('file_detail.where')">
+            <ListInfoItem v-if="$checkPermission(['master'])" :title="$t('where')">
                 <div @click="$moveFileOrFolder(singleFile)" class="flex cursor-pointer items-center">
                     <b class="inline-block text-sm font-bold">
                         {{
@@ -59,7 +59,7 @@
             <!--Shared-->
             <ListInfoItem
                 v-if="$checkPermission('master') && singleFile.data.relationships.shared"
-                :title="$t('file_detail.shared')"
+                :title="$t('shared')"
             >
                 <div @click="$shareFileOrFolder(singleFile)" class="mb-2 flex cursor-pointer items-center">
                     <span class="inline-block text-sm font-bold">
@@ -95,7 +95,7 @@
             </ListInfoItem>
 
             <!--Metadata-->
-            <ListInfoItem v-if="canShowMetaData" :title="$t('file_detail_meta.meta_data')">
+            <ListInfoItem v-if="canShowMetaData" :title="$t('meta_data')">
                 <ImageMetaData />
             </ListInfoItem>
         </div>

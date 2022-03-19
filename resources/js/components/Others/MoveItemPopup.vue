@@ -15,8 +15,8 @@
                 <TitlePreview
                     class="mb-4"
                     icon="check-square"
-                    :title="$t('file_detail.selected_multiple')"
-                    :subtitle="this.clipboard.length + ' ' + $tc('file_detail.items', this.clipboard.length)"
+                    :title="$t('selected_multiple')"
+                    :subtitle="this.clipboard.length + ' ' + $tc('items', this.clipboard.length)"
                     v-if="clipboard.length > 1 && !isSelectedItem"
                 />
 

@@ -100,22 +100,22 @@ export default {
             isLoading: true,
             columns: [
                 {
-                    label: this.$t('admin_pages.table.page'),
+                    label: this.$t('page'),
                     field: 'title',
                     sortable: true,
                 },
                 {
-                    label: this.$t('admin_pages.table.slug'),
+                    label: this.$t('slug'),
                     field: 'slug',
                     sortable: true,
                 },
                 {
-                    label: this.$t('admin_pages.table.status'),
+                    label: this.$t('status'),
                     field: 'visibility',
                     sortable: true,
                 },
                 {
-                    label: this.$t('admin_page_user.table.action'),
+                    label: this.$t('action'),
                     sortable: false,
                 },
             ],

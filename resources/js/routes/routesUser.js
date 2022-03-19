@@ -13,7 +13,7 @@ const routesUser = [
                 component: () => import(/* webpackChunkName: "chunks/profile" */ '../views/User/Settings'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.profile',
+                    title: 'my_profile',
                 },
             },
             {
@@ -22,7 +22,7 @@ const routesUser = [
                 component: () => import(/* webpackChunkName: "chunks/settings-password" */ '../views/User/Password'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.settings_password',
+                    title: 'change_password',
                 },
             },
             {
@@ -31,7 +31,7 @@ const routesUser = [
                 component: () => import(/* webpackChunkName: "chunks/settings-storage" */ '../views/User/Storage'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.settings_storage',
+                    title: 'storage',
                 },
             },
             {
@@ -40,7 +40,7 @@ const routesUser = [
                 component: () => import(/* webpackChunkName: "chunks/billing" */ '../views/User/Billing'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.subscription',
+                    title: 'subscription',
                 },
             },
         ],

@@ -9,13 +9,13 @@
 			<!-- Multi select mode -->
 			<div v-if="isMultiSelectMode">
 				<MobileActionButton @click.native="selectAll" icon="check-square">
-					{{ $t('mobile_selecting.select_all') }}
+					{{ $t('select_all') }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="deselectAll" icon="x-square">
-					{{ $t('mobile_selecting.deselect_all') }}
+					{{ $t('deselect_all') }}
 				</MobileActionButton>
 				<MobileActionButton @click.native="disableMultiSelectMode" icon="check">
-					{{ $t('mobile_selecting.done') }}
+					{{ $t('done') }}
 				</MobileActionButton>
 			</div>
 		</div>

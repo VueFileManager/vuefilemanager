@@ -1,6 +1,6 @@
 <template>
     <PopupWrapper name="two-factor-qr-setup">
-        <PopupHeader :title="$t('popup_2fa.title')" icon="edit" />
+        <PopupHeader :title="$t('confirm_your_password')" icon="edit" />
 
         <PopupContent>
             <div v-if="qrCode" class="flex justify-center">
@@ -51,7 +51,7 @@ export default {
     computed: {
         ...mapGetters(['user']),
         closeQrButtonText() {
-            return this.isConfirmedClose ? this.$t('popup_2fa.disappear_qr') : this.$t('shared_form.button_done')
+            return this.isConfirmedClose ? this.$t('popup_2fa.disappear_qr') : this.$t('awesome_iam_done')
         },
         closeQrButtonStyle() {
             return this.isConfirmedClose ? 'danger' : 'theme'

@@ -13,7 +13,7 @@
             >
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
                     <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
-                        {{ $t('page_registration.label_email') }}:
+                        {{ $t('email') }}:
                     </label>
                     <ValidationProvider
                         tag="div"
@@ -36,7 +36,7 @@
 
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
                     <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
-                        {{ $t('page_registration.label_name') }}:
+                        {{ $t('full_name') }}:
                     </label>
                     <ValidationProvider
                         tag="div"
@@ -71,7 +71,7 @@
                     >
                         <input
                             v-model="register.password"
-                            :placeholder="$t('page_registration.placeholder_pass')"
+                            :placeholder="$t('new_password')"
                             type="password"
                             class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
                             :class="{ '!border-rose-600': errors[0] }"
@@ -82,7 +82,7 @@
 
                 <div class="mx-auto mb-5 md:flex md:max-w-lg md:items-center">
                     <label class="mb-1.5 block font-bold md:mb-0 md:w-72 md:pr-4 md:text-right">
-                        {{ $t('page_registration.label_confirm_pass') }}:
+                        {{ $t('confirm_password') }}:
                     </label>
                     <ValidationProvider
                         tag="div"
@@ -129,7 +129,7 @@
                     <AuthButton
                         class="w-full justify-center md:w-min"
                         icon="chevron-right"
-                        :text="$t('page_registration.button_create_account')"
+                        :text="$t('create_account')"
                         :loading="isLoading"
                         :disabled="isLoading"
                     />
@@ -141,7 +141,7 @@
             <span class="block"
                 >{{ $t('page_registration.have_an_account') }}
                 <router-link :to="{ name: 'SignIn' }" class="text-theme font-bold">
-                    {{ $t('page_forgotten_password.password_remember_button') }}
+                    {{ $t('log_in') }}
                 </router-link>
             </span>
         </AuthContent>

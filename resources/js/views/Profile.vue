@@ -118,7 +118,7 @@ export default {
     computed: {
         ...mapGetters(['config', 'user']),
         subscriptionStatus() {
-            return this.user.data.relationships.subscription ? this.$t('global.premium') : this.$t('global.free')
+            return this.user.data.relationships.subscription ? this.$t('premium') : this.$t('free')
         },
         subscriptionColor() {
             return this.user.data.relationships.subscription ? 'green' : 'purple'
@@ -134,7 +134,7 @@ export default {
                     route: 'Password',
                 },
                 {
-                    title: this.$t('menu.storage'),
+                    title: this.$t('storage'),
                     route: 'Storage',
                 },
             ]

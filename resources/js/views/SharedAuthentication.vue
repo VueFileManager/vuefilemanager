@@ -29,7 +29,7 @@
                 <AuthButton
                     class="w-full justify-center md:w-min"
                     icon="chevron-right"
-                    :text="$t('page_shared.submit')"
+                    :text="$t('submit')"
                     :loading="isLoading"
                     :disabled="isLoading"
                 />

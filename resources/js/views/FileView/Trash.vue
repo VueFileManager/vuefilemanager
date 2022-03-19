@@ -3,7 +3,7 @@
         <ContextMenu>
             <template v-slot:empty-select>
                 <OptionGroup>
-                    <Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
+                    <Option @click.native="$emptyTrash" :title="$t('empty_trash')" icon="empty-trash" />
                 </OptionGroup>
             </template>
 
@@ -12,22 +12,22 @@
                     <Option
                         @click.native="$restoreFileOrFolder(item)"
                         v-if="item"
-                        :title="$t('context_menu.restore')"
+                        :title="$t('restore')"
                         icon="restore"
                     />
                     <Option
                         @click.native="$deleteFileOrFolder(item)"
                         v-if="item"
-                        :title="$t('context_menu.delete')"
+                        :title="$t('delete')"
                         icon="trash"
                     />
-                    <Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
+                    <Option @click.native="$emptyTrash" :title="$t('empty_trash')" icon="empty-trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$openInDetailPanel(item)" :title="$t('context_menu.detail')" icon="detail" />
+                    <Option @click.native="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
                     <Option
                         @click.native="$downloadSelection(item)"
-                        :title="$t('context_menu.download')"
+                        :title="$t('download')"
                         icon="download"
                     />
                 </OptionGroup>
@@ -38,14 +38,14 @@
                     <Option
                         @click.native="$restoreFileOrFolder(item)"
                         v-if="item"
-                        :title="$t('context_menu.restore')"
+                        :title="$t('restore')"
                         icon="restore"
                     />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
-                    <Option @click.native="$emptyTrash" :title="$t('context_menu.empty_trash')" icon="empty-trash" />
+                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click.native="$emptyTrash" :title="$t('empty_trash')" icon="empty-trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$downloadSelection()" :title="$t('context_menu.download')" icon="download" />
+                    <Option @click.native="$downloadSelection()" :title="$t('download')" icon="download" />
                 </OptionGroup>
             </template>
         </ContextMenu>
@@ -55,14 +55,14 @@
                 <Option
                     @click.native="$restoreFileOrFolder(item)"
                     v-if="item"
-                    :title="$t('context_menu.restore')"
+                    :title="$t('restore')"
                     icon="restore"
                 />
-                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('context_menu.delete')" icon="trash" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
             </OptionGroup>
 
             <OptionGroup>
-                <Option @click.native="$downloadSelection(item)" :title="$t('context_menu.download')" icon="download" />
+                <Option @click.native="$downloadSelection(item)" :title="$t('download')" icon="download" />
             </OptionGroup>
         </MobileContextMenu>
 
@@ -74,10 +74,10 @@
                 {{ $getCurrentSectionName() }}
             </MobileActionButton>
             <MobileActionButton @click.native="$emptyTrash" icon="trash">
-                {{ $t('context_menu.empty_trash') }}
+                {{ $t('empty_trash') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
-                {{ $t('context_menu.select') }}
+                {{ $t('select') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
                 {{ $t('preview_sorting.preview_sorting_button') }}

@@ -12,12 +12,12 @@
         <ul class="navigation-links">
             <!--            <li>
                 <a href="/#pricing">
-                    {{ $t('page_index.menu.pricing') }}
+                    {{ $t('pricing') }}
                 </a>
             </li>-->
             <li>
                 <router-link :to="{ name: 'ContactUs' }" class="hover-text-theme">
-                    {{ $t('page_index.menu.contact_us') }}
+                    {{ $t('contact_us') }}
                 </router-link>
             </li>
         </ul>

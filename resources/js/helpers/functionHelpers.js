@@ -290,7 +290,7 @@ const FunctionHelpers = {
                 return {
                     RequestUpload: this.$t('Home'),
                     RecentUploads: this.$t('Recent Uploads'),
-                    MySharedItems: this.$t('sidebar.my_shared'),
+                    MySharedItems: this.$t('publicly_shared'),
                     Trash: this.$t('Trash'),
                     Public: this.$t('Files'),
                     Files: this.$t('sidebar.home'),
@@ -303,7 +303,7 @@ const FunctionHelpers = {
         Vue.prototype.$getCurrentSectionName = function () {
             return {
                 RecentUploads: this.$t('Recent Uploads'),
-                MySharedItems: this.$t('sidebar.my_shared'),
+                MySharedItems: this.$t('publicly_shared'),
                 Trash: this.$t('Trash'),
                 Public: this.$t('Files'),
                 Files: this.$t('sidebar.home'),

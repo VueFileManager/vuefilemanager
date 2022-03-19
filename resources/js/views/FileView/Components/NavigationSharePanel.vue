@@ -27,7 +27,7 @@
             </ContentGroup>
 
             <!--Navigator-->
-            <ContentGroup :title="$t('sidebar.navigator_title')" can-collapse="true">
+            <ContentGroup :title="$t('navigator')" can-collapse="true">
                 <TreeMenuNavigator
                     class="folder-tree"
                     :depth="0"

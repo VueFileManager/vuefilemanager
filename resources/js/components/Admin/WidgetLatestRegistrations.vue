@@ -116,7 +116,7 @@
                 </td>
                 <td class="px-3 md:px-1" v-if="config.isSaaS">
                     <span class="text-sm font-bold">
-                        {{ row.data.relationships.subscription ? $t('global.premium') : $t('global.free') }}
+                        {{ row.data.relationships.subscription ? $t('premium') : $t('free') }}
                     </span>
                 </td>
                 <td class="px-3 md:px-1">
@@ -260,17 +260,17 @@ export default {
             return {
                 metered: [
                     {
-                        label: this.$t('admin_page_user.table.name'),
+                        label: this.$t('user'),
                         field: 'email',
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.role'),
+                        label: this.$t('role'),
                         field: 'role',
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.storage_used'),
+                        label: this.$t('storage_used'),
                         sortable: false,
                     },
                     {
@@ -283,23 +283,23 @@ export default {
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.action'),
+                        label: this.$t('action'),
                         sortable: false,
                     },
                 ],
                 fixed: [
                     {
-                        label: this.$t('admin_page_user.table.name'),
+                        label: this.$t('user'),
                         field: 'email',
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.role'),
+                        label: this.$t('role'),
                         field: 'role',
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.storage_used'),
+                        label: this.$t('storage_used'),
                         sortable: false,
                     },
                     {
@@ -313,23 +313,23 @@ export default {
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.action'),
+                        label: this.$t('action'),
                         sortable: false,
                     },
                 ],
                 none: [
                     {
-                        label: this.$t('admin_page_user.table.name'),
+                        label: this.$t('user'),
                         field: 'email',
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.role'),
+                        label: this.$t('role'),
                         field: 'role',
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.storage_used'),
+                        label: this.$t('storage_used'),
                         sortable: false,
                     },
                     {
@@ -343,7 +343,7 @@ export default {
                         sortable: true,
                     },
                     {
-                        label: this.$t('admin_page_user.table.action'),
+                        label: this.$t('action'),
                         sortable: false,
                     },
                 ],

@@ -137,21 +137,21 @@ export default {
             let sections = [
                 {
                     groupCollapsable: false,
-                    groupTitle: this.$t('global.admin'),
+                    groupTitle: this.$t('admin'),
                     groupLinks: [
                         {
-                            title: this.$t('admin_menu.dashboard'),
+                            title: this.$t('dashboard'),
                             route: 'Dashboard',
                             icon: 'box',
                         },
                         {
-                            title: this.$t('admin_menu.users'),
+                            title: this.$t('users'),
                             route: 'Users',
                             icon: 'users',
                             linkActivation: ['users', 'user'],
                         },
                         {
-                            title: this.$t('admin_menu.settings'),
+                            title: this.$t('settings'),
                             route: 'AppSettings',
                             icon: 'settings',
                         },
@@ -162,12 +162,12 @@ export default {
                     groupTitle: this.$t('Content'),
                     groupLinks: [
                         {
-                            title: this.$t('admin_menu.pages'),
+                            title: this.$t('pages'),
                             route: 'Pages',
                             icon: 'monitor',
                         },
                         {
-                            title: this.$t('admin_menu.languages'),
+                            title: this.$t('languages'),
                             route: 'Language',
                             icon: 'globe',
                         },

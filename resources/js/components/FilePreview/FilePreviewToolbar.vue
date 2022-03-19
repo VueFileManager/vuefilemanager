@@ -36,12 +36,12 @@
                         <OptionGroup>
                             <Option
                                 @click.native="$renameFileOrFolder(currentFile)"
-                                :title="$t('context_menu.rename')"
+                                :title="$t('rename')"
                                 icon="rename"
                             />
                             <Option
                                 @click.native="$moveFileOrFolder(currentFile)"
-                                :title="$t('context_menu.move')"
+                                :title="$t('move')"
                                 icon="move-item"
                             />
                             <Option
@@ -52,13 +52,13 @@
                             />
                             <Option
                                 @click.native="$deleteFileOrFolder(currentFile)"
-                                :title="$t('context_menu.delete')"
+                                :title="$t('delete')"
                                 icon="trash"
                                 class="menu-option"
                             />
                         </OptionGroup>
                         <OptionGroup v-if="!$isThisRoute($route, ['RequestUpload'])">
-                            <Option @click.native="downloadItem" :title="$t('context_menu.download')" icon="download" />
+                            <Option @click.native="downloadItem" :title="$t('download')" icon="download" />
                         </OptionGroup>
                     </PopoverItem>
                 </PopoverWrapper>
@@ -89,13 +89,13 @@
                     @click.native="$shareFileOrFolder(currentFile)"
                     :class="{ 'is-inactive': !canShareItem }"
                     source="share"
-                    :action="$t('actions.share')"
+                    :action="$t('share_item')"
                 />
                 <ToolbarButton
                     v-if="isImage"
                     @click.native="printMethod()"
                     source="print"
-                    :action="$t('actions.print')"
+                    :action="$t('print')"
                 />
             </div>
         </div>
@@ -131,8 +131,8 @@ export default {
         },
         sharingTitle() {
             return this.currentFile.data.relationships.shared
-                ? this.$t('context_menu.share_edit')
-                : this.$t('context_menu.share')
+                ? this.$t('edit_sharing')
+                : this.$t('share')
         },
         isImage() {
             return this.currentFile.data.type === 'image'

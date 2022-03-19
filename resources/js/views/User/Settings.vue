@@ -38,16 +38,16 @@
                     v-model="user.data.relationships.settings.data.attributes.timezone"
                     :default="user.data.relationships.settings.data.attributes.timezone"
                     :options="timezones"
-                    :placeholder="$t('user_settings.timezone_plac')"
+                    :placeholder="$t('select_your_timezone')"
                 />
             </AppInputText>
         </div>
 
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('user_settings.title_billing') }}
+                {{ $t('billing_information') }}
             </FormLabel>
-            <AppInputText :title="$t('user_settings.address')">
+            <AppInputText :title="$t('address')">
                 <input
                     @keyup="
                         $updateText(
@@ -63,7 +63,7 @@
                 />
             </AppInputText>
             <div class="flex space-x-4">
-                <AppInputText :title="$t('user_settings.city')" class="w-full">
+                <AppInputText :title="$t('city')" class="w-full">
                     <input
                         @keyup="
                             $updateText('/user/settings', 'city', user.data.relationships.settings.data.attributes.city)
@@ -74,7 +74,7 @@
                         class="focus-border-theme input-dark"
                     />
                 </AppInputText>
-                <AppInputText :title="$t('user_settings.postal_code')" class="w-full">
+                <AppInputText :title="$t('postal_code')" class="w-full">
                     <input
                         @keyup="
                             $updateText(
@@ -84,13 +84,13 @@
                             )
                         "
                         v-model="user.data.relationships.settings.data.attributes.postal_code"
-                        :placeholder="$t('user_settings.postal_code_plac')"
+                        :placeholder="$t('postal_code_plac')"
                         type="text"
                         class="focus-border-theme input-dark"
                     />
                 </AppInputText>
             </div>
-            <AppInputText :title="$t('user_settings.country')">
+            <AppInputText :title="$t('country')">
                 <SelectInput
                     @input="
                         $updateText(
@@ -105,7 +105,7 @@
                     :placeholder="$t('user_settings.country_plac')"
                 />
             </AppInputText>
-            <AppInputText :title="$t('user_settings.state')" :description="$t('State, county, province, or region.')">
+            <AppInputText :title="$t('state')" :description="$t('State, county, province, or region.')">
                 <input
                     @keyup="
                         $updateText('/user/settings', 'state', user.data.relationships.settings.data.attributes.state)
@@ -116,7 +116,7 @@
                     class="focus-border-theme input-dark"
                 />
             </AppInputText>
-            <AppInputText :title="$t('user_settings.phone_number')" :is-last="true">
+            <AppInputText :title="$t('phone_number')" :is-last="true">
                 <input
                     @keyup="
                         $updateText(

@@ -20,12 +20,12 @@
             </AppInputSwitch>
             <AppInputButton
                 v-if="user && user.data.attributes.two_factor_authentication"
-                :title="$t('popup_2fa.codes_title')"
+                :title="$t('show_recovery_codes')"
                 :description="$t('popup_2fa.codes_info')"
                 :is-last="true"
             >
                 <ButtonBase class="w-full" button-style="secondary" @click.native="showRecoveryCodes">
-                    {{ $t('popup_2fa.codes_button') }}
+                    {{ $t('show_codes') }}
                 </ButtonBase>
             </AppInputButton>
         </div>
@@ -33,7 +33,7 @@
         <!--Get personal api keys-->
         <div class="card shadow-card">
             <FormLabel icon="key">
-                {{ $t('personal_token.section_title') }}
+                {{ $t('personal_access_token') }}
             </FormLabel>
             <InfoBox v-if="tokens.length === 0">
                 <p>{{ $t('personal_token.section_description') }}</p>
@@ -72,7 +72,7 @@
                 button-style="theme"
                 class="w-full sm:w-auto"
             >
-                {{ $t('personal_token.create_token') }}
+                {{ $t('create_token') }}
             </ButtonBase>
         </div>
 
@@ -101,10 +101,10 @@
             </ValidationProvider>
 
             <ValidationProvider tag="div" mode="passive" name="New Password" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('page_create_password.label_new_pass')" :error="errors[0]">
+                <AppInputText :title="$t('new_password')" :error="errors[0]">
                     <input
                         v-model="passwordForm.password"
-                        :placeholder="$t('page_create_password.label_new_pass')"
+                        :placeholder="$t('new_password')"
                         type="password"
                         class="focus-border-theme input-dark"
                         :class="{ '!border-rose-600': errors[0] }"
@@ -119,10 +119,10 @@
                 rules="required"
                 v-slot="{ errors }"
             >
-                <AppInputText :title="$t('page_create_password.label_confirm_pass')" :error="errors[0]">
+                <AppInputText :title="$t('confirm_password')" :error="errors[0]">
                     <input
                         v-model="passwordForm.password_confirmation"
-                        :placeholder="$t('page_create_password.label_confirm_pass')"
+                        :placeholder="$t('confirm_password')"
                         type="password"
                         class="focus-border-theme input-dark"
                         :class="{ '!border-rose-600': errors[0] }"

@@ -5,7 +5,7 @@
         <PopupContent>
             <ValidationObserver @submit.prevent="confirmPassword" ref="passwordForm" v-slot="{ invalid }" tag="form">
                 <ValidationProvider tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
-                    <AppInputText :title="$t('popup_2fa.input_label')" :error="errors[0]" :is-last="true">
+                    <AppInputText :title="$t('password')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="password"
                             :class="{ '!border-rose-600': errors[0] }"
@@ -30,7 +30,7 @@
                 :loading="isLoading"
                 :disabled="isLoading"
             >
-                {{ $t('popup_2fa.confirm_button') }}
+                {{ $t('confirm') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>

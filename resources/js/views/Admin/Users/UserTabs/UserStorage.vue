@@ -95,7 +95,7 @@
                                 button-style="theme"
                                 class="w-full sm:w-auto"
                             >
-                                {{ $t('admin_page_user.change_capacity') }}
+                                {{ $t('change_capacity') }}
                             </ButtonBase>
                         </div>
                     </AppInputText>

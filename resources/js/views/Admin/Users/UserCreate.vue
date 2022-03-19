@@ -1,11 +1,11 @@
 <template>
     <ValidationObserver @submit.prevent="createUser" ref="createUser" v-slot="{ invalid }" tag="form">
         <div class="card shadow-card">
-            <FormLabel>{{ $t('admin_page_user.create_user.group_details') }}</FormLabel>
+            <FormLabel>{{ $t('account_details') }}</FormLabel>
 
             <!--Avatar-->
             <ValidationProvider tag="div" mode="passive" name="avatar" v-slot="{ errors }">
-                <AppInputText :title="$t('admin_page_user.create_user.avatar')" :error="errors[0]">
+                <AppInputText :title="$t('avatar')" :error="errors[0]">
                     <ImageInput v-model="user.avatar" :error="errors[0]" />
                 </AppInputText>
             </ValidationProvider>
@@ -24,7 +24,7 @@
 
             <!--Email-->
             <ValidationProvider tag="div" mode="passive" name="email" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('page_registration.label_email')" :error="errors[0]">
+                <AppInputText :title="$t('email')" :error="errors[0]">
                     <input
                         v-model="user.email"
                         :placeholder="$t('admin_page_user.create_user.label_email')"
@@ -37,7 +37,7 @@
 
             <!--Name-->
             <ValidationProvider tag="div" mode="passive" name="user name" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('page_registration.label_name')" :error="errors[0]">
+                <AppInputText :title="$t('full_name')" :error="errors[0]">
                     <input
                         v-model="user.name"
                         :placeholder="$t('admin_page_user.create_user.label_name')"
@@ -61,7 +61,7 @@
                     <AppInputText :title="$t('page_registration.label_pass')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="user.password"
-                            :placeholder="$t('page_registration.placeholder_pass')"
+                            :placeholder="$t('new_password')"
                             type="password"
                             class="focus-border-theme input-dark"
                             :class="{ '!border-rose-600': errors[0] }"
@@ -77,7 +77,7 @@
                     class="w-full"
                 >
                     <AppInputText
-                        :title="$t('page_registration.label_confirm_pass')"
+                        :title="$t('confirm_password')"
                         :error="errors[0]"
                         :is-last="true"
                     >

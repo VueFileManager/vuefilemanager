@@ -7,7 +7,7 @@
 
             <!--Visible-->
             <AppInputSwitch
-                :title="$t('admin_page_plans.form.status')"
+                :title="$t('status')"
                 :description="$t('admin_page_plans.form.status_help')"
             >
                 <SwitchInput

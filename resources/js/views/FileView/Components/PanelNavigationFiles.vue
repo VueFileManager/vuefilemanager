@@ -41,7 +41,7 @@
         </ContentGroup>
 
         <!--Navigator-->
-        <ContentGroup v-if="navigation" :title="$t('sidebar.navigator_title')" slug="navigator" :can-collapse="true">
+        <ContentGroup v-if="navigation" :title="$t('navigator')" slug="navigator" :can-collapse="true">
             <small v-if="tree.length === 0" class="text-xs text-gray-500 dark:text-gray-500">
                 {{ $t("There isn't any folder.") }}
             </small>
@@ -49,7 +49,7 @@
         </ContentGroup>
 
         <!--Favourites-->
-        <ContentGroup v-if="user" :title="$t('sidebar.favourites')" slug="favourites" :can-collapse="true">
+        <ContentGroup v-if="user" :title="$t('favourites')" slug="favourites" :can-collapse="true">
             <div
                 @dragover.prevent="dragEnter"
                 @dragleave="dragLeave"
@@ -171,7 +171,7 @@ export default {
                         {
                             icon: 'link',
                             route: 'MySharedItems',
-                            title: this.$t('sidebar.my_shared'),
+                            title: this.$t('publicly_shared'),
                         },
                         {
                             icon: 'trash',

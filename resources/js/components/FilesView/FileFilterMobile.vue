@@ -18,14 +18,14 @@
                 />
                 <Option
                     @click.native="goToShared"
-                    :title="$t('sidebar.my_shared')"
+                    :title="$t('publicly_shared')"
                     icon="share"
                     :is-active="$isThisRoute($route, 'MySharedItems')"
                     :is-hover-disabled="true"
                 />
                 <Option
                     @click.native="goToTrash"
-                    :title="$t('menu.trash')"
+                    :title="$t('trash')"
                     icon="trash"
                     :is-active="$isThisRoute($route, 'Trash')"
                     :is-hover-disabled="true"

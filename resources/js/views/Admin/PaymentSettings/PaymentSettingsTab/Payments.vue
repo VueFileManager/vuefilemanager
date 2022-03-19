@@ -568,7 +568,7 @@ export default {
                     sortable: false,
                 },
                 {
-                    label: this.$t('admin_page_user.table.action'),
+                    label: this.$t('action'),
                     sortable: false,
                 },
             ],

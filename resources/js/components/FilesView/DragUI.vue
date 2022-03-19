@@ -26,7 +26,7 @@ export default {
 
             // Title for multiple selected items
             if (filesLength > 1 && hasDraggedItem) {
-                return this.$t('file_detail.selected_multiple')
+                return this.$t('selected_multiple')
             }
 
             // Title for single item
@@ -40,7 +40,7 @@ export default {
 
             // Subtitle for multiple selected items
             if (filesLength > 1 && hasDraggedItem) {
-                return filesLength + ' ' + this.$tc('file_detail.items', filesLength)
+                return filesLength + ' ' + this.$tc('items', filesLength)
             }
 
             if ((filesLength < 2 || !hasDraggedItem) && this.draggedItem) {
