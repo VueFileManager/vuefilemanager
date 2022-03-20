@@ -4,7 +4,7 @@
         <PopupHeader :title="$t('create_language')" icon="edit" />
 
         <!--Content-->
-        <PopupContent>
+        <PopupContent class="!overflow-initial">
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="createLanguage" ref="createForm" v-slot="{ invalid }" tag="form">
                 <ValidationProvider

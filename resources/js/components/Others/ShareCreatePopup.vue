@@ -4,7 +4,7 @@
         <PopupHeader :title="$t('popup_share_create.title', { item: itemTypeTitle })" icon="share" />
 
         <!--Content-->
-        <PopupContent>
+        <PopupContent class="!overflow-initial">
             <!--Item Thumbnail-->
             <ThumbnailItem class="mb-5" :item="pickedItem" />
 

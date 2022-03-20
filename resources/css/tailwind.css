@@ -33,3 +33,9 @@
 .page-link {
     @apply block flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-sm font-bold transition duration-200 hover:bg-light-background;
 }
+
+@layer utilities {
+    .overflow-initial {
+        overflow: initial;
+    }
+}

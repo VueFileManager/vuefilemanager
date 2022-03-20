@@ -10,14 +10,14 @@
 
             <!--Folder tree-->
             <div v-if="!isLoadingTree && navigation">
-                <ThumbnailItem v-if="clipboard.length < 2 || isSelectedItem" class="mb-5" :item="pickedItem" />
+                <ThumbnailItem v-if="clipboard.length === 1 || isSelectedItem" class="mb-5" :item="pickedItem" />
 
                 <TitlePreview
                     class="mb-4"
                     icon="check-square"
                     :title="$t('selected_multiple')"
-                    :subtitle="this.clipboard.length + ' ' + $tc('items', this.clipboard.length)"
-                    v-if="clipboard.length > 1 && !isSelectedItem"
+                    :subtitle="clipboard.length + ' ' + $tc('items', clipboard.length)"
+                    v-if="clipboard.length > 1 || !isSelectedItem"
                 />
 
                 <TreeMenu

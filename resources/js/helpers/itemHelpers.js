@@ -1,6 +1,7 @@
 import i18n from '../i18n'
 import store from '../store/index'
 import { events } from '../bus'
+import {isArray} from "lodash";
 
 const itemHelpers = {
     install(Vue) {
@@ -39,7 +40,10 @@ const itemHelpers = {
         }
 
         Vue.prototype.$moveFileOrFolder = function (entry) {
-            events.$emit('popup:open', { name: 'move', item: [entry] })
+
+            let item = isArray(entry) ? [...entry] : [entry]
+
+            events.$emit('popup:open', { name: 'move', item: item })
         }
 
         Vue.prototype.$createFolderByPopup = function () {

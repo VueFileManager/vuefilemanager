@@ -9,7 +9,7 @@
         spellcheck="false"
     >
         <!--MultiSelecting for the mobile version-->
-        <CheckBox v-if="isMultiSelectMode" v-model="isClicked" :is-clicked="isClicked" class="mr-5" />
+        <CheckBox v-if="isMultiSelectMode" v-model="isChecked" :is-clicked="isClicked" class="mr-5" />
 
         <!--Item thumbnail-->
         <div class="relative w-16 shrink-0">
@@ -125,11 +125,21 @@ export default {
         Emoji,
     },
     props: ['mobileHandler', 'highlight', 'entry'],
+	watch: {
+		isChecked: function (val) {
+			if (val) {
+				this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.entry)
+			} else {
+				this.$store.commit('REMOVE_ITEM_FROM_CLIPBOARD', this.entry.data.id)
+			}
+		}
+	},
     data() {
         return {
             mobileMultiSelect: false,
             itemName: undefined,
             isSelected: false,
+			isChecked: false,
         }
     },
     computed: {
