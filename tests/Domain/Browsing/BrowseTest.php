@@ -121,7 +121,7 @@ class BrowseTest extends TestCase
                 ],
                 [
                     'location'  => 'shared-with-me',
-                    'name'      => 'Shared With Me',
+                    'name'      => 'Shared with Me',
                     'folders'   => [],
                     'isMovable' => false,
                     'isOpen'    => false,

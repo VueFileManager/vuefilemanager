@@ -110,12 +110,12 @@ class UserSubscriptionTest extends TestCase
         $usages = collect([
             [
                 'feature' => 'bandwidth',
-                'amount'  => 7546.96,
-                'usage'   => 26024,
+                'amount'  => 7.54696,
+                'usage'   => 2.6024,
             ], [
                 'feature' => 'storage',
-                'amount'  => 476.28,
-                'usage'   => 3969,
+                'amount'  => 0.47628,
+                'usage'   => 3.969,
             ], [
                 'feature' => 'flatFee',
                 'amount'  => 2.49,
@@ -136,7 +136,7 @@ class UserSubscriptionTest extends TestCase
                 'feature' => 'bandwidth',
                 'amount'  => 7.54696,
                 'cost'    => '$7.55',
-                'usage'   => '26.02GB',
+                'usage'   => '2.60GB',
             ],
             'storage' => [
                 'feature' => 'storage',

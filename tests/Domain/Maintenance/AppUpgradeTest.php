@@ -28,12 +28,12 @@ class AppUpgradeTest extends TestCase
                 DB::table('language_translations')
                     ->insert([
                         [
-                            'key'   => 'activation.stripe.button',
-                            'value' => 'Set up your Stripe account',
+                            'key'   => 'type',
+                            'value' => 'Type',
                             'lang'  => $locale,
                         ], [
-                            'key'   => 'activation.stripe.description',
-                            'value' => 'This is original test description',
+                            'key'   => 'cancel',
+                            'value' => 'Cancel',
                             'lang'  => $locale,
                         ],
                     ]);
@@ -47,20 +47,14 @@ class AppUpgradeTest extends TestCase
         collect(['en', 'sk'])
             ->map(function ($locale) {
                 $this->assertDatabaseHas('language_translations', [
-                    'key'   => 'activation.stripe.title',
-                    'value' => 'Your Stripe account is not set',
+                    'key'   => 'close',
+                    'value' => 'Close',
                     'lang'  => $locale,
                 ]);
 
                 $this->assertDatabaseHas('language_translations', [
-                    'key'   => 'activation.stripe.description',
-                    'value' => 'This is original test description',
-                    'lang'  => $locale,
-                ]);
-
-                $this->assertDatabaseMissing('language_translations', [
-                    'key'   => 'activation.stripe.description',
-                    'value' => 'To charge your users, please set up your Stripe account credentials.',
+                    'key'   => 'create_folder',
+                    'value' => 'Create folder',
                     'lang'  => $locale,
                 ]);
             });

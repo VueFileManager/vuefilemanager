@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\UploadRequest\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -18,8 +19,7 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
      */
     public function __construct(
         public UploadRequest $uploadRequest
-    ) {
-    }
+    ) {}
 
     /**
      * Get the notification's delivery channels.
@@ -34,13 +34,12 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
      */
     public function toMail(mixed $notifiable): MailMessage
     {
-        // TODO: add to language strings
         return (new MailMessage)
-            ->subject("Your file request was fulfilled in your '{$this->uploadRequest->parent->name}' folder")
-            ->greeting('Hello')
-            ->line('We are emailing you because your file request was fulfilled. Please click on the link below to show uploaded files.')
-            ->action('Show Files', url("/platform/files/{$this->uploadRequest->id}"))
-            ->line('Thank you for using our application!');
+            ->subject(__t('file_request_filled_mail', ['name' => $this->uploadRequest->parent->name]))
+            ->greeting(__t('hello'))
+            ->line(__t('file_request_filled_mail_note'))
+            ->action(__t('show_files'), url("/platform/files/{$this->uploadRequest->id}"))
+            ->salutation(__t('thanks_salutation'));
     }
 
     /**
@@ -50,13 +49,13 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
     {
         return [
             'category'    => 'file-request',
-            'title'       => 'File Request Filled',
-            'description' => "Your file request for '{$this->uploadRequest->parent->name}' folder was filled successfully.",
+            'title'       => __t('file_request_filled'),
+            'description' => __t('file_request_filled_desc', ['name' => $this->uploadRequest->parent->name,]),
             'action'      => [
                 'type'   => 'route',
                 'params' => [
                     'route'  => 'Files',
-                    'button' => 'Show Files',
+                    'button' => __t('show_files'),
                     'id'     => $this->uploadRequest->id,
                 ],
             ],

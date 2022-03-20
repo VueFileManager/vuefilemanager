@@ -33,7 +33,7 @@ class AutoSubscribeForMeteredBillingAction
                 'status'   => 'completed',
                 'type'     => 'credit',
                 'driver'   => 'system',
-                'note'     => __('Registration Bonus'),
+                'note'     => __t('registration_bonus'),
                 'currency' => $plan->currency,
                 'amount'   => $settings['registration_bonus_amount'],
             ]);

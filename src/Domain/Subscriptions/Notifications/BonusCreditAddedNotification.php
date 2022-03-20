@@ -34,8 +34,8 @@ class BonusCreditAddedNotification extends Notification implements ShouldQueue
     {
         return [
             'category'    => 'gift',
-            'title'       => "You Received {$this->bonus}",
-            'description' => "You received credit bonus $this->bonus from us. Happy spending!",
+            'title'       => __t('you_received_bonus', ['bonus' => $this->bonus]),
+            'description' => __t('you_received_bonus_note', ['bonus' => $this->bonus]),
         ];
     }
 }

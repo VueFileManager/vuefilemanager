@@ -34,8 +34,8 @@ class RegistrationBonusAddedNotification extends Notification implements ShouldQ
     {
         return [
             'category'    => 'gift',
-            'title'       => "You Received {$this->bonus}",
-            'description' => "You received credit bonus $this->bonus for your registration. Happy spending!",
+            'title'       => __t('you_received_bonus', ['bonus' => $this->bonus]),
+            'description' => __t('you_received_registration_bonus_note', ['bonus' => $this->bonus]),
         ];
     }
 }

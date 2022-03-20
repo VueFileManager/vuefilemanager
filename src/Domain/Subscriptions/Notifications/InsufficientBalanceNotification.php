@@ -18,23 +18,23 @@ class InsufficientBalanceNotification extends Notification implements ShouldQueu
     public function toMail(): MailMessage
     {
         return (new MailMessage)
-            ->subject(__('Uh-oh! Your credit withdrawal for your pre-paid subscription failed'))
-            ->greeting(__('Hi there'))
-            ->line(__("It looks like your subscription credit withdrawal for your account didn't go through. Please make sure you have sufficient funds on your account and we'll give it another try!"))
-            ->action(__('Fund Your Account'), url('/user/settings/billing'));
+            ->subject(__t('withdrawal_failed_long'))
+            ->greeting(__t('hello'))
+            ->line(__t('withdrawal_failed_long_note'))
+            ->action(__t('fund_your_account'), url('/user/settings/billing'));
     }
 
     public function toArray(): array
     {
         return [
             'category'    => 'insufficient-balance',
-            'title'       => 'Withdrawal failed',
-            'description' => "Your credit withdrawal for your account didn't go through. Please make sure you have sufficient funds on your account.",
+            'title'       => __t('withdrawal_failed_short'),
+            'description' => __t('withdrawal_failed_short_note'),
             'action'      => [
                 'type'   => 'route',
                 'params' => [
-                    'route'  => 'Billing',
-                    'button' => 'Show Billing',
+                    'route'  => __t('billing'),
+                    'button' => __t('show_billing'),
                 ],
             ],
         ];

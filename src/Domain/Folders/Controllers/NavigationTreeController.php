@@ -39,21 +39,21 @@ class NavigationTreeController
         return [
             [
                 'location'  => 'files',
-                'name'      => 'Files',
+                'name'      => __t('menu.files'),
                 'folders'   => $folders,
                 'isMovable' => true,
                 'isOpen'    => true,
             ],
             [
                 'location'  => 'team-folders',
-                'name'      => 'Team Folders',
+                'name'      => __t('team_folders'),
                 'folders'   => $teamFolders,
                 'isMovable' => false,
                 'isOpen'    => false,
             ],
             [
                 'location'  => 'shared-with-me',
-                'name'      => 'Shared With Me',
+                'name'      => __t('shared_with_me'),
                 'folders'   => $sharedWithMeFolders,
                 'isMovable' => false,
                 'isOpen'    => false,

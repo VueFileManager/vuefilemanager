@@ -23,11 +23,11 @@ return [
     ],
 
     'notifications' => [
-        'ChargeFromCreditCardFailedAgainNotification' => \VueFileManager\Subscription\Domain\FailedPayments\Notifications\ChargeFromCreditCardFailedAgainNotification::class,
-        'ChargeFromCreditCardFailedNotification'      => \VueFileManager\Subscription\Domain\FailedPayments\Notifications\ChargeFromCreditCardFailedNotification::class,
-        'ConfirmStripePaymentNotification'            => \VueFileManager\Subscription\Support\Miscellaneous\Stripe\Notifications\ConfirmStripePaymentNotification::class,
+        'ChargeFromCreditCardFailedAgainNotification' => \Domain\Subscriptions\Notifications\ChargeFromCreditCardFailedAgainNotification::class,
+        'ChargeFromCreditCardFailedNotification'      => \Domain\Subscriptions\Notifications\ChargeFromCreditCardFailedNotification::class,
         'SubscriptionWasCreatedNotification'          => \Domain\Subscriptions\Notifications\SubscriptionWasCreatedNotification::class,
         'BillingAlertTriggeredNotification'           => \Domain\Subscriptions\Notifications\BillingAlertTriggeredNotification::class,
+        'ConfirmStripePaymentNotification'            => \Domain\Subscriptions\Notifications\ConfirmStripePaymentNotification::class,
         'InsufficientBalanceNotification'             => \Domain\Subscriptions\Notifications\InsufficientBalanceNotification::class,
         'BonusCreditAddedNotification'                => \Domain\Subscriptions\Notifications\BonusCreditAddedNotification::class,
     ],

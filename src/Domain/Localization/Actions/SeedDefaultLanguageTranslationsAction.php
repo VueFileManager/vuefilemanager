@@ -24,7 +24,7 @@ class SeedDefaultLanguageTranslationsAction
         $translations = $translations[strtolower($license)]
             ->map(fn ($value, $key) => [
                 'lang'  => $locale,
-                'value' => $value,
+                'value' => '____',
                 'key'   => $key,
             ])->toArray();
 

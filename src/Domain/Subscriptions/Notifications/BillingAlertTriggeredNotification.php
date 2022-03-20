@@ -18,23 +18,23 @@ class BillingAlertTriggeredNotification extends Notification implements ShouldQu
     public function toMail(): MailMessage
     {
         return (new MailMessage)
-            ->subject(__('Your billing alert has been reached!'))
-            ->greeting(__('Hi there'))
-            ->line(__('The billing alert you set previously has been reached. Please go to your user account and revise your spending'))
-            ->action(__('Show Billing'), url('/user/settings/billing'));
+            ->subject(__t('billing_alert_reached_long'))
+            ->greeting(__t('hello'))
+            ->line(__t('billing_alert_reached_long_note'))
+            ->action(__t('show_billing'), url('/user/settings/billing'));
     }
 
     public function toArray(): array
     {
         return [
             'category'    => 'billing-alert',
-            'title'       => 'billing Alert Reached!',
-            'description' => 'The billing alert you set previously has been reached. Please revise your spending.',
+            'title'       => __t('billing_alert_reached_short'),
+            'description' => __t('billing_alert_reached_short_note'),
             'action'      => [
                 'type'   => 'route',
                 'params' => [
-                    'route'  => 'Billing',
-                    'button' => 'Show Billing',
+                    'route'  => __t('billing'),
+                    'button' => __t('show_billing'),
                 ],
             ],
         ];

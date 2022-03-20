@@ -72,12 +72,12 @@ class SchedulerTest extends TestCase
             ->assertDatabaseHas('usages', [
                 'metered_feature_id' => $plan->meteredFeatures()->get()[0]->id,
                 'subscription_id'    => $subscription->id,
-                'quantity'           => 125,
+                'quantity'           => 0.125,
             ])
             ->assertDatabaseHas('usages', [
                 'metered_feature_id' => $plan->meteredFeatures()->get()[1]->id,
                 'subscription_id'    => $subscription->id,
-                'quantity'           => 410,
+                'quantity'           => 0.410,
             ]);
     }
 

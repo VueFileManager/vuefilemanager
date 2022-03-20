@@ -21,7 +21,7 @@ class GetFolderTreeForUploadRequestController extends Controller
 
         return [
             [
-                'name'      => 'Upload Request', // Todo: translate
+                'name'      => __t('upload_request'),
                 'location'  => 'upload-request',
                 'folders'   => $folders,
                 'isMovable' => true,

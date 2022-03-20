@@ -38,19 +38,19 @@ class InvitationIntoTeamFolder extends Notification implements ShouldQueue
 
         if ($user) {
             return (new MailMessage)
-                ->subject("You are invited to collaboration with team folder in $appTitle")
-                ->greeting('Hello!')
-                ->line('You are invited to collaboration with team folder')
-                ->action('Join into Team Folder', url('/team-folder-invitation', ['id' => $this->invitation->id]))
-                ->salutation("Regards, $appTitle");
+                ->subject(__t('team_invitation_notify_title', ['app' => $appTitle]))
+                ->greeting(__t('hello'))
+                ->line(__t('team_invitation_notify_desc'))
+                ->action(__t('join_into_team_folder'), url('/team-folder-invitation', ['id' => $this->invitation->id]))
+                ->salutation(__t('salutation') . ', ' .  $appTitle);
         }
 
         return (new MailMessage)
-            ->subject("You are invited to collaboration with team folder in $appTitle")
-            ->greeting('Hello!')
-            ->line('You are invited to collaboration with team folder. But at first, you have to create an account to proceed into team folder.')
-            ->action('Join & Create an Account', url('/team-folder-invitation', ['id' => $this->invitation->id]))
-            ->salutation("Regards, $appTitle");
+            ->subject(__t('team_invitation_notify_title', ['app' => $appTitle]))
+            ->greeting(__t('hello'))
+            ->line(__t('team_invitation_notify_desc_without_account'))
+            ->action(__t('join_and_create_account'), url('/team-folder-invitation', ['id' => $this->invitation->id]))
+            ->salutation(__t('salutation') . ', ' .  $appTitle);
     }
 
     /**
@@ -60,8 +60,8 @@ class InvitationIntoTeamFolder extends Notification implements ShouldQueue
     {
         return [
             'category'    => 'team-invitation',
-            'title'       => 'New Team Invitation',
-            'description' => "{$this->invitation->inviter->settings->name} invite you to join into Team Folder.",
+            'title'       => __t('new_team_invitation'),
+            'description' => __t('x_invite_to_join_team', ['name' => $this->invitation->inviter->settings->name,]),
             'action'      => [
                 'type'   => 'invitation',
                 'params' => [

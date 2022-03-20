@@ -24,23 +24,23 @@ class SubscriptionWasCreatedNotification extends Notification implements ShouldQ
     public function toMail(): MailMessage
     {
         return (new MailMessage)
-            ->subject(__("Your subscription {$this->subscription->plan->name} has been successfully created"))
-            ->greeting(__('Hi there'))
-            ->line(__("You have been successfully subscribed to your {$this->subscription->plan->name} subscription. Now you can take full advantage of our platform."))
-            ->action(__('Go to Subscription'), url('/user/settings/billing'));
+            ->subject(__t('subscription_created_long', ['plan' => $this->subscription->plan->name]))
+            ->greeting(__t('hello'))
+            ->line(__t('subscription_created_long_note', ['plan' => $this->subscription->plan->name]))
+            ->action(__t('go_to_subscription'), url('/user/settings/billing'));
     }
 
     public function toArray(): array
     {
         return [
             'category'    => 'subscription-created',
-            'title'       => 'Subscription Has Been Created',
-            'description' => "Your subscription {$this->subscription->plan->name} has been successfully created",
+            'title'       => __t('subscription_created_short'),
+            'description' => __t('subscription_created_short_note', ['plan' => $this->subscription->plan->name]),
             'action'      => [
                 'type'   => 'route',
                 'params' => [
-                    'route'  => 'Billing',
-                    'button' => 'Show Billing',
+                    'route'  => __t('billing'),
+                    'button' => __t('show_billing'),
                 ],
             ],
         ];
