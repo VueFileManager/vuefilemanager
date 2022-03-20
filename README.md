@@ -72,7 +72,7 @@ Add the following Cron entry to your server. Just update your php path (if it's 
 
 #### 8. Broadcasting
 
-coming soon...
+Coming soon...
 
 ## Nginx Configuration
 If you running VueFileManager under Nginx, don't forget set this value in your `nginx.conf` file:
