@@ -28,8 +28,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4.2",
         "league/flysystem-aws-s3-v3": "^3.0.9",
-        "makingcg/laravel-scout-tntsearch-driver": "dev-master",
-        "makingcg/subscription": "dev-main",
+        "makingcg/subscription": "^1.0.0",
         "pusher/pusher-php-server": "^7.0",
         "spatie/data-transfer-object": "^3.7.3",
         "spatie/laravel-backup": "^8.0.8",
@@ -40,6 +39,7 @@
         "symfony/http-client": "^6.0",
         "symfony/mailgun-mailer": "^6.0",
         "symfony/postmark-mailer": "^6.0",
+        "teamtnt/laravel-scout-tntsearch-driver": "^11.6",
         "vimeo/psalm": "^4.19.0"
     },
     "require-dev": {
@@ -57,10 +57,6 @@
         {
             "type": "vcs",
             "url": "https://github.com/VueFileManager/subscription.git"
-        },
-        {
-            "type": "vcs",
-            "url": "https://github.com/MakingCG/laravel-scout-tntsearch-driver.git"
         }
     ],
     "config": {
