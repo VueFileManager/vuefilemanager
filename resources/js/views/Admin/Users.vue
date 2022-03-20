@@ -9,7 +9,7 @@
                 </router-link>
 
                 <MobileActionButton @click.native="$openSpotlight('users')" icon="search">
-                    {{ $t('Search') }}
+                    {{ $t('search') }}
                 </MobileActionButton>
             </div>
 
@@ -56,7 +56,7 @@
                         </td>
                         <td class="px-3 md:px-1">
                             <ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
-                                {{ row.data.attributes.role }}
+                                {{ $t(row.data.attributes.role) }}
                             </ColorLabel>
                         </td>
                         <td class="px-3 md:px-1">
@@ -134,7 +134,7 @@
                         </td>
                         <td class="px-3 md:px-1">
                             <ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
-                                {{ row.data.attributes.role }}
+                                {{ $t(row.data.attributes.role) }}
                             </ColorLabel>
                         </td>
                         <td class="px-3 md:px-1">
@@ -217,7 +217,7 @@
                         </td>
                         <td class="px-3 md:px-1">
                             <ColorLabel :color="$getUserRoleColor(row.data.attributes.role)">
-                                {{ row.data.attributes.role }}
+                                {{ $t(row.data.attributes.role) }}
                             </ColorLabel>
                         </td>
                         <td class="px-3 md:px-1">
@@ -318,11 +318,11 @@ export default {
                         sortable: false,
                     },
                     {
-                        label: this.$t('Billing Est.'),
+                        label: this.$t('billing_est.'),
                         sortable: false,
                     },
                     {
-                        label: this.$t('admin_page_user.table.created_at'),
+                        label: this.$t('created_at'),
                         field: 'created_at',
                         sortable: true,
                     },
@@ -343,7 +343,7 @@ export default {
                         sortable: true,
                     },
                     {
-                        label: this.$t('Account'),
+                        label: this.$t('account'),
                         sortable: false,
                     },
                     {
@@ -351,12 +351,12 @@ export default {
                         sortable: false,
                     },
                     {
-                        label: this.$t('Max Storage'),
+                        label: this.$t('max_storage'),
                         sortable: false,
                         hidden: !this.config.storageLimit,
                     },
                     {
-                        label: this.$t('admin_page_user.table.created_at'),
+                        label: this.$t('created_at'),
                         field: 'created_at',
                         sortable: true,
                     },
@@ -381,12 +381,12 @@ export default {
                         sortable: false,
                     },
                     {
-                        label: this.$t('Max Storage'),
+                        label: this.$t('max_storage'),
                         sortable: false,
                         hidden: !this.config.storageLimit,
                     },
                     {
-                        label: this.$t('admin_page_user.table.created_at'),
+                        label: this.$t('created_at'),
                         field: 'created_at',
                         sortable: true,
                     },

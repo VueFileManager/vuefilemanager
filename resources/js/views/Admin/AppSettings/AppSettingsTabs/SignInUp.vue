@@ -19,8 +19,8 @@
             </AppInputSwitch>
 
             <AppInputSwitch
-                :title="$t('Require Email Verification')"
-                :description="$t('admin_settings.others.allow_user_verification_help')"
+                :title="$t('require_email_verification')"
+				:description="$t('require_email_verification_note')"
                 :is-last="true"
             >
                 <SwitchInput
@@ -64,7 +64,7 @@
                 :class="{ 'mb-4': facebook.isVisibleCredentialsForm }"
             >
                 <edit2-icon size="12" class="vue-feather text-theme mr-2" />
-                <b class="text-xs">{{ $t('Update Your Credentials') }}</b>
+                <b class="text-xs">{{ $t('update_your_credentials') }}</b>
             </div>
 
             <!--Set up facebook credentials-->
@@ -113,7 +113,7 @@
                     type="submit"
                     class="w-full"
                 >
-                    {{ $t('Store Credentials') }}
+                    {{ $t('store_credentials') }}
                 </ButtonBase>
             </ValidationObserver>
         </div>
@@ -150,7 +150,7 @@
                 :class="{ 'mb-4': google.isVisibleCredentialsForm }"
             >
                 <edit2-icon size="12" class="vue-feather text-theme mr-2" />
-                <b class="text-xs">{{ $t('Update Your Credentials') }}</b>
+                <b class="text-xs">{{ $t('update_your_credentials') }}</b>
             </div>
 
             <!--Set up Google credentials-->
@@ -197,7 +197,7 @@
                     type="submit"
                     class="w-full"
                 >
-                    {{ $t('Store Credentials') }}
+                    {{ $t('store_credentials') }}
                 </ButtonBase>
             </ValidationObserver>
         </div>
@@ -234,7 +234,7 @@
                 :class="{ 'mb-4': github.isVisibleCredentialsForm }"
             >
                 <edit2-icon size="12" class="vue-feather text-theme mr-2" />
-                <b class="text-xs">{{ $t('Update Your Credentials') }}</b>
+                <b class="text-xs">{{ $t('update_your_credentials') }}</b>
             </div>
 
             <!--Set up github credentials-->
@@ -281,7 +281,7 @@
                     type="submit"
                     class="w-full"
                 >
-                    {{ $t('Store Credentials') }}
+                    {{ $t('store_credentials') }}
                 </ButtonBase>
             </ValidationObserver>
         </div>

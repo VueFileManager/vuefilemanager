@@ -37,11 +37,11 @@
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup :title="$t('Upload')">
+            <OptionGroup :title="$t('upload')">
                 <OptionUpload :title="$t('upload_files')" type="file" :is-hover-disabled="true" />
                 <OptionUpload :title="$t('upload_folder')" type="folder" :is-hover-disabled="true" />
             </OptionGroup>
-            <OptionGroup :title="$t('Create')">
+            <OptionGroup :title="$t('create')">
                 <Option
                     @click.stop.native="createFolder"
                     :title="$t('create_folder')"
@@ -73,7 +73,7 @@
                     class="mr-4"
                     source="trash"
                     :class="{ 'is-inactive': clipboard.length < 1 }"
-                    :action="$t('actions.delete')"
+                    :action="$t('delete')"
                 />
                 <ToolbarButton
                     @click.native="$downloadSelection()"
@@ -132,10 +132,10 @@
         <FileActionsMobile>
             <template v-if="$checkPermission('editor')">
                 <MobileActionButton @click.native="$openSpotlight()" icon="search">
-                    {{ $t('Spotlight') }}
+                    {{ $t('spotlight') }}
                 </MobileActionButton>
                 <MobileActionButton @click.native="$showMobileMenu('create-list')" icon="cloud-plus">
-                    {{ $t('Upload / Create') }}
+                    {{ $t('upload_or_create') }}
                 </MobileActionButton>
                 <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
                     {{ $t('select') }}
@@ -146,7 +146,7 @@
             </template>
             <template v-if="$checkPermission('visitor')">
                 <MobileActionButton @click.native="$openSpotlight()" icon="search">
-                    {{ $t('Spotlight') }}
+                    {{ $t('spotlight') }}
                 </MobileActionButton>
                 <MobileActionButton @click.native="$enableMultiSelectMode()" icon="check-square">
                     {{ $t('select') }}
@@ -171,7 +171,7 @@
             </template>
             <template v-if="$checkPermission('visitor')">
                 <h1 class="title">
-                    {{ $t('There is nothing.') }}
+                    {{ $t('there_is_nothing') }}
                 </h1>
             </template>
         </EmptyFilePage>

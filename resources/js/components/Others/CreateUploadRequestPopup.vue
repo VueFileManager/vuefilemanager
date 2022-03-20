@@ -1,7 +1,7 @@
 <template>
     <PopupWrapper name="create-file-request">
         <!--Title-->
-        <PopupHeader :title="$t('Create File Request')" icon="upload" />
+        <PopupHeader :title="$t('create_file_request')" icon="upload" />
 
 		<!--Content-->
         <PopupContent>
@@ -23,21 +23,21 @@
 					name="Name"
 					v-slot="{ errors }"
 				>
-                    <AppInputText :title="$t('Folder Name (optional)')" :description="$t('Created folder with files will be named with your own name.')" :error="errors[0]">
+                    <AppInputText :title="$t('folder_name_optional')" :description="$t('folder_name_optional_description')" :error="errors[0]">
                         <input
 							v-model="form.name"
 							:class="{ '!border-rose-600': errors[0] }"
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"
-							:placeholder="$t('Type name...')"
+							:placeholder="$t('type_name_')"
 						/>
                     </AppInputText>
                 </ValidationProvider>
 
 				<!--Set note-->
                 <ValidationProvider tag="div" mode="passive" name="Note" v-slot="{ errors }">
-                    <AppInputText :title="$t('Message (optional)')" :description="$t('This message will be showed for your email recipient or in the upload page.')" :error="errors[0]">
+                    <AppInputText :title="$t('message_optional')" :description="$t('message_optional_description')" :error="errors[0]">
                         <textarea
 							v-model="form.notes"
 							rows="2"
@@ -45,15 +45,15 @@
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"
-							:placeholder="$t('Type message for recipient...')"
+							:placeholder="$t('message_for_recipient')"
 						></textarea>
                     </AppInputText>
                 </ValidationProvider>
 
 				<!--Send Request by Email-->
                 <AppInputSwitch
-					:title="$t('Send Request by Email')"
-					:description="$t('Send your file request on recipients email')"
+					:title="$t('send_request_by_email')"
+					:description="$t('send_request_by_email_description')"
 					:is-last="! shareViaEmail"
 				>
                     <SwitchInput v-model="shareViaEmail" :state="shareViaEmail" />
@@ -75,14 +75,14 @@
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"
-							:placeholder="$t('Type email...')"
+							:placeholder="$t('type_email_')"
 						/>
                     </AppInputText>
                 </ValidationProvider>
             </ValidationObserver>
 
 			<!--Copy generated link-->
-            <AppInputText v-if="generatedUploadRequest" :title="$t('Copy your upload request link')" :is-last="true">
+            <AppInputText v-if="generatedUploadRequest" :title="$t('copy_upload_request_link')" :is-last="true">
                 <CopyInput :str="generatedUploadRequest.data.attributes.url" />
             </AppInputText>
         </PopupContent>
@@ -93,7 +93,7 @@
 			>{{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase class="w-full" @click.native="createUploadRequest" :loading="isLoading" button-style="theme"
-			>{{ $t('Create Request') }}
+			>{{ $t('create_request') }}
             </ButtonBase>
         </PopupActions>
 

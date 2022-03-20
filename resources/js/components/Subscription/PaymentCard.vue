@@ -9,7 +9,7 @@
                 {{ card.data.attributes.last4 }}
             </b>
         </div>
-        <b class="text-sm font-bold leading-none"> {{ $t('Expires') }} {{ card.data.attributes.expiration }} </b>
+        <b class="text-sm font-bold leading-none"> {{ $t('expires') }} {{ card.data.attributes.expiration }} </b>
         <Trash2Icon @click="deleteCreditCard(card.data.id)" size="15" class="cursor-pointer" />
     </div>
 </template>
@@ -27,10 +27,8 @@ export default {
     methods: {
         deleteCreditCard(id) {
             events.$emit('confirm:open', {
-                title: this.$t('Are you sure you want to delete your credit card?'),
-                message: this.$t(
-                    'We will no longer settle your payments automatically and you will have to fund your account for the next payments.'
-                ),
+                title: this.$t('want_to_delete_card_title'),
+                message: this.$t('want_to_delete_card_description'),
                 action: {
                     id: id,
                     operation: 'delete-credit-card',
@@ -48,7 +46,7 @@ export default {
 
                         events.$emit('toaster', {
                             type: 'success',
-                            message: this.$t('Your credit card was deleted.'),
+                            message: this.$t('credit_card_deleted'),
                         })
                     })
                     .catch(() => this.$isSomethingWrong())

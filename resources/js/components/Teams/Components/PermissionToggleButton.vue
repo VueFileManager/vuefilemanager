@@ -1,6 +1,6 @@
 <template>
     <div @click="togglePermission" class="permission-toggle">
-        <b class="privilege">{{ teamPermissions[permission] }}</b>
+        <b class="privilege">{{ $t(teamPermissions[permission]) }}</b>
         <refresh-cw-icon size="14" />
     </div>
 </template>

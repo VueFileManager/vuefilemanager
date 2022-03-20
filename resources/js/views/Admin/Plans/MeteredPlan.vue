@@ -6,7 +6,7 @@
                     {{ plan.attributes.name }}
                 </h1>
                 <small class="text-xs font-bold dark:text-gray-500 text-gray-500 sm:text-sm">
-                    {{ $t('30 Days intervals') }}
+                    {{ $t('x_days_intervals') }}
                 </small>
             </div>
 

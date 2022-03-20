@@ -38,7 +38,7 @@
                         {{ entry.email }}
                     </b>
                     <span v-if="entry.id" class="block text-xs text-gray-600 dark:text-gray-500">
-                        {{ $t('Waiting for accept invitation...') }}
+                        {{ $t('waiting_for_accept_invitation') }}
                     </span>
                 </div>
             </div>

@@ -10,7 +10,7 @@
 			class="card shadow-card"
 		>
             <FormLabel icon="wifi">
-				{{ $t('Broadcasting') }}
+				{{ $t('broadcasting') }}
 			</FormLabel>
 
             <ValidationProvider tag="div" mode="passive" name="Broadcast Driver" rules="required" v-slot="{ errors }">
@@ -106,7 +106,7 @@
 				button-style="theme"
 				class="w-full sm:w-auto"
 			>
-                {{ $t('Save Broadcast Settings') }}
+                {{ $t('save_broadcast_settings') }}
             </ButtonBase>
         </ValidationObserver>
 
@@ -119,7 +119,7 @@
 			class="card shadow-card"
 		>
 			<FormLabel icon="hard-drive">
-				{{ $t('Storage Driver') }}
+				{{ $t('storage_driver') }}
 			</FormLabel>
 
 			<ValidationProvider
@@ -224,7 +224,7 @@
 				button-style="theme"
 				class="w-full sm:w-auto"
 			>
-                {{ $t('Save Storage Settings') }}
+                {{ $t('save_storage_settings') }}
             </ButtonBase>
 		</ValidationObserver>
 
@@ -236,7 +236,7 @@
             tag="form"
             class="card shadow-card"
         >
-            <FormLabel icon="mail">{{ $t('Mail Driver') }}</FormLabel>
+            <FormLabel icon="mail">{{ $t('mail_driver') }}</FormLabel>
 
             <ValidationProvider tag="div" mode="passive" name="Mail Driver" rules="required" v-slot="{ errors }">
                 <AppInputText title="Mail Driver" :error="errors[0]">
@@ -244,7 +244,7 @@
                         v-model="mailDriver"
                         :default="mailDriver"
                         :options="mailDriverList"
-                        placeholder="Select your mail driver"
+                        :placeholder="$t('select_mail_driver')"
                         :isError="errors[0]"
                     />
                 </AppInputText>
@@ -846,7 +846,7 @@ export default {
 				.then(() => {
 					events.$emit('toaster', {
 						type: 'success',
-						message: this.$t('Your broadcast driver was updated.'),
+						message: this.$t('broadcast_driver_updated'),
 					})
 				})
 				.catch(() => {
@@ -885,7 +885,7 @@ export default {
 				.then(() => {
 					events.$emit('toaster', {
 						type: 'success',
-						message: this.$t('Your storage driver was updated.'),
+						message: this.$t('storage_driver_updated'),
 					})
 				})
 				.catch(() => {

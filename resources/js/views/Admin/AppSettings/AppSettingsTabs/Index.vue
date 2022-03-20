@@ -4,12 +4,12 @@
             <div class="form block-form">
                 <div class="card shadow-card">
                     <FormLabel>
-                        {{ $t('Homepage') }}
+                        {{ $t('homepage') }}
                     </FormLabel>
 
                     <AppInputSwitch
-                        :title="$t('Allow Homepage')"
-                        :description="$t('When this is turned on, your visitors can visit your default homepage.')"
+                        :title="$t('allow_homepage')"
+                        :description="$t('allow_homepage_note')"
                         :is-last="true"
                     >
                         <SwitchInput

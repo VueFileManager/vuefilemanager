@@ -3,7 +3,7 @@
         <!--Store & Upload-->
         <div v-if="app" class="card shadow-card">
             <FormLabel>
-                {{ $t('Storage & Upload') }}
+                {{ $t('storage_upload') }}
             </FormLabel>
 
             <!--Available only when is not metered billing-->
@@ -71,8 +71,8 @@
             </FormLabel>
 
             <AppInputSwitch
-                :title="$t('Allow ReCaptcha')"
-                :description="$t('ReCaptcha will be allowed on Registration and Contact Us forms.')"
+                :title="$t('allow_recaptcha')"
+                :description="$t('allow_recaptcha_note')"
                 :is-last="!recaptcha.allowedService"
             >
                 <SwitchInput
@@ -90,7 +90,7 @@
                 :class="{ 'mb-4': recaptcha.isVisibleCredentialsForm }"
             >
                 <edit2-icon size="12" class="vue-feather text-theme mr-2" />
-                <b class="text-xs">{{ $t('Update Your Credentials') }}</b>
+                <b class="text-xs">{{ $t('update_your_credentials') }}</b>
             </div>
 
             <!--Set up recaptcha credentials-->
@@ -103,7 +103,7 @@
                 class="rounded-xl p-5 shadow-lg"
             >
                 <FormLabel v-if="!config.isRecaptchaConfigured" icon="shield">
-                    {{ $t('Configure Credentials') }}
+                    {{ $t('configure_your_credentials') }}
                 </FormLabel>
 
                 <ValidationProvider tag="div" mode="passive" name="Site Key" rules="required" v-slot="{ errors }">
@@ -137,7 +137,7 @@
                     type="submit"
                     class="w-full"
                 >
-                    {{ $t('Store Credentials') }}
+                    {{ $t('store_credentials') }}
                 </ButtonBase>
             </ValidationObserver>
         </div>
@@ -145,12 +145,12 @@
 		<!--Other Settings-->
         <div v-if="app" class="card shadow-card">
             <FormLabel>
-                {{ $t('Application') }}
+                {{ $t('application') }}
             </FormLabel>
 
             <AppInputButton
-				:title="$t('Cache')"
-				:description="$t('Did you change anything in your .env file? Then clear your cache.')"
+				:title="$t('cache')"
+				:description="$t('cache_note')"
 			>
                 <ButtonBase
 					@click.native="flushCache"
@@ -187,15 +187,15 @@
         <!-- Subscription -->
         <div v-if="app" class="card shadow-card">
             <FormLabel icon="credit-card">
-                {{ $t('Subscription') }}
+                {{ $t('subscription') }}
             </FormLabel>
 
-            <AppInputText :title="$t('Subscription Type')" :description="$t('Please do not change in production environment.')" :is-last="true">
+            <AppInputText :title="$t('subscription_type')" :description="$t('subscription_type_note')" :is-last="true">
                 <SelectInput
 					@change="subscriptionTypeChange"
 					:default="app.subscriptionType"
 					:options="subscriptionTypes"
-					:placeholder="$t('Select your subscription type')"
+					:placeholder="$t('select_subscription_type')"
 				/>
             </AppInputText>
         </div>
@@ -255,9 +255,9 @@ export default {
     methods: {
 		subscriptionTypeChange(type) {
 			events.$emit('confirm:open', {
-				title: this.$t('Are you sure you want to change subscription type?'),
+				title: this.$t(''),
 				message: this.$t(
-					'We strongly do not recommend change this value if there is any subscribed user to prevent any failures. You can operate only with one type of subscription and you can not change it on the fly!'
+					'subscription_type_change_warn_description'
 				),
 				action: {
 					type: type,

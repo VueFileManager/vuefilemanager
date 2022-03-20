@@ -1,7 +1,7 @@
 <template>
     <div v-if="canShowForMeteredBilling || canShowForFixedBilling" class="card shadow-card">
         <FormLabel icon="credit-card">
-            {{ $t('Payment Method') }}
+            {{ $t('payment_method') }}
         </FormLabel>
 
         <!-- User has registered payment method -->
@@ -23,7 +23,7 @@
             <PaymentCard v-for="card in user.data.relationships.creditCards.data" :key="card.data.id" :card="card" />
 
             <small class="hidden pt-3 text-xs leading-none dark:text-gray-500 text-gray-500 sm:block">
-                {{ $t('We are settling your payment automatically via your saved credit card.') }}
+                {{ $t('auto_settled_credit_card') }}
             </small>
         </div>
 
@@ -38,7 +38,7 @@
                 button-style="theme"
                 class="mt-4 w-full"
             >
-                {{ $t('Add Payment Method') }}
+                {{ $t('add_payment_method') }}
             </ButtonBase>
 
             <!-- Store credit card form -->
@@ -59,7 +59,7 @@
                     button-style="theme"
                     class="mt-4 w-full"
                 >
-                    {{ $t('Store My Credit Card') }}
+                    {{ $t('store_my_credit_card') }}
                 </ButtonBase>
                 <div id="error-message" class="pt-2 text-xs text-rose-600">
                     <!-- Display error message to your customers here -->
@@ -124,7 +124,7 @@ export default {
 			if (this.config.isDemo && this.user.data.attributes.email === 'ho**@hi5ve.digital') {
 				events.$emit('toaster', {
 					type: 'success',
-					message: this.$t('Your credit card was stored successfully'),
+					message: this.$t('credit_card_stored'),
 				})
 
 				return
@@ -153,7 +153,7 @@ export default {
                 // site first to authorize the payment, then redirected to the `return_url`.
                 events.$emit('toaster', {
                     type: 'success',
-                    message: this.$t('Your credit card was stored successfully'),
+                    message: this.$t('credit_card_stored'),
                 })
 
                 // TODO: L9 - load credit card after was stored in database

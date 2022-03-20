@@ -6,7 +6,7 @@
             <ArrowDownIcon size="12" class="vue-feather text-gray-400" />
 
             <span class="ml-1.5 text-xs text-gray-400">
-                {{ $t('Navigate') }}
+                {{ $t('navigate') }}
             </span>
         </div>
 
@@ -15,7 +15,7 @@
             <CornerDownLeftIcon size="12" class="vue-feather text-gray-400" />
 
             <span class="ml-1.5 text-xs text-gray-400">
-                {{ $t('Go') }}
+                {{ $t('go') }}
             </span>
         </div>
     </div>

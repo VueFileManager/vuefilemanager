@@ -7,7 +7,7 @@
             <div class="text-center">
                 <eye-off-icon size="22" class="vue-feather mb-3 inline-block text-gray-500" />
                 <small class="block text-xs text-gray-500">
-                    {{ $t('messages.nothing_to_preview') }}
+                    {{ $t('nothing_to_preview') }}
                 </small>
             </div>
         </div>

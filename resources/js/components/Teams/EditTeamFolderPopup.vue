@@ -1,7 +1,7 @@
 <template>
     <PopupWrapper name="update-team-folder">
         <!--Title-->
-        <PopupHeader :title="$t('Edit Team Folder')" icon="user-plus" />
+        <PopupHeader :title="$t('edit_team_folder')" icon="user-plus" />
 
         <!--Content-->
         <PopupContent>
@@ -12,14 +12,14 @@
             <ValidationObserver @submit.prevent="updateTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">
                 <!--Add Member-->
                 <ValidationProvider tag="div" mode="passive" name="Email" v-slot="{ errors }">
-                    <AppInputText :title="$t('Add Member')" :error="errors[0]">
+                    <AppInputText :title="$t('add_member')" :error="errors[0]">
                         <div class="relative">
                             <span
                                 v-if="email"
                                 @click="addMember"
                                 class="button-base theme absolute right-2 top-1/2 -translate-y-1/2 transform cursor-pointer rounded-lg px-3 py-2 text-sm font-bold"
                             >
-                                Add
+                                {{ $t('add') }}
                             </span>
 
                             <!--TODO: Fix !pr-20 after JIT official release-->
@@ -30,7 +30,7 @@
                                 :class="{ '!border-rose-600': errors[0] }"
                                 type="email"
                                 class="focus-border-theme input-dark !pr-20"
-                                :placeholder="$t('Type member email...')"
+                                :placeholder="$t('type_member_email_')"
                             />
                         </div>
                     </AppInputText>
@@ -38,9 +38,9 @@
 
                 <!--Member list-->
                 <ValidationProvider tag="div" mode="passive" name="Members" v-slot="{ errors }">
-                    <label class="input-label">{{ $t('Your Members') }}:</label>
+                    <label class="input-label">{{ $t('your_members') }}:</label>
                     <span v-if="errors[0]" class="error-message" style="margin-top: -5px">{{
-                        $t('Please add at least one member.')
+                        $t('add_at_least_one_member')
                     }}</span>
                     <TeamList v-model="members" />
                     <TeamList v-model="invitations" />
@@ -49,7 +49,7 @@
                         v-if="Object.values(members).length === 0 && Object.values(invitations).length === 0"
                         class="text-xs dark:text-gray-500"
                     >
-                        {{ $t('Please add at least one member into your Team Folder.') }}
+                        {{ $t('add_at_least_one_member_into_team_folder') }}
                     </p>
                 </ValidationProvider>
             </ValidationObserver>
@@ -66,7 +66,7 @@
                 :button-style="isDisabledSubmit ? 'secondary' : 'theme'"
                 :loading="isLoading"
                 :disabled="isLoading || isDisabledSubmit"
-                >{{ $t('Update Team Folder') }}
+                >{{ $t('update_team_folder') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
@@ -139,7 +139,7 @@ export default {
 
                     events.$emit('toaster', {
                         type: 'success',
-                        message: this.$t('Your team folder was updated'),
+                        message: this.$t('team_folder_updated'),
                     })
                 })
                 .catch(() => {
@@ -160,14 +160,14 @@ export default {
         addMember() {
             if (this.$isInvalidEmail(this.email)) {
                 this.$refs.teamFolderForm.setErrors({
-                    Email: this.$t('You have to type valid email'),
+                    Email: this.$t('type_valid_email'),
                 })
                 return
             }
 
             if (this.$cantInviteMember(this.email, this.invitations)) {
                 this.$refs.teamFolderForm.setErrors({
-                    Email: this.$t('You have to upgrade your account to add this new member.'),
+                    Email: this.$t('upgrade_to_invite_members'),
                 })
                 return
             }

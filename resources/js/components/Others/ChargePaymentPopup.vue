@@ -1,10 +1,10 @@
 <template>
     <PopupWrapper name="select-payment-method">
-        <PopupHeader :title="$t('Select Payment Method')" icon="credit-card" />
+        <PopupHeader :title="$t('select_payment_method')" icon="credit-card" />
 
         <PopupContent style="padding: 0 20px">
 			<InfoBox v-if="!config.isPayPal && !config.isPaystack" class="!mb-0">
-				<p>{{ $t("There isn't any payment method yet.") }}</p>
+				<p>{{ $t("not_any_payment_method") }}</p>
 			</InfoBox>
 
             <!--PayPal implementation-->
@@ -27,7 +27,7 @@
                         :class="{ 'opacity-0': paypal.isMethodLoading }"
                         class="text-theme cursor-pointer text-sm font-bold"
                     >
-                        {{ $t('Select') }}
+                        {{ $t('select') }}
                     </span>
                 </PaymentMethod>
 
@@ -39,7 +39,7 @@
 			<PaymentMethod
 				v-if="config.isPaystack"
 				driver="paystack"
-				:description="$t('Available Bank Account, USSD, Mobile Money, Apple Pay')"
+				:description="$t(config.paystack_payment_description)"
 			>
 				<div v-if="paystack.isGettingCheckoutLink" class="translate-y-3 scale-50 transform">
 					<Spinner />
@@ -49,14 +49,14 @@
 					:class="{ 'opacity-0': paystack.isGettingCheckoutLink }"
 					class="text-theme cursor-pointer text-sm font-bold"
 				>
-					{{ $t('Select') }}
+					{{ $t('select') }}
 				</span>
 			</PaymentMethod>
         </PopupContent>
 
         <PopupActions>
             <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
-                {{ $t('Cancel Payment') }}
+                {{ $t('cancel_payment') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
@@ -131,7 +131,7 @@ export default {
             } catch (error) {
                 events.$emit('toaster', {
                     type: 'danger',
-                    message: this.$t('Failed to load the PayPal service'),
+                    message: this.$t('failed_to_load_paypal'),
                 })
             }
 
@@ -168,7 +168,7 @@ export default {
 
             events.$emit('toaster', {
                 type: 'success',
-                message: this.$t('Your payment was successfully received.'),
+                message: this.$t('payment_was_successfully_received'),
             })
 
 			// todo: temporary reload function

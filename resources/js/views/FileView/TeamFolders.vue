@@ -15,13 +15,13 @@
                 <Option
                     @click.native="$updateTeamFolder(item)"
                     v-if="isFolder && (isTeamFolderHomepage || currentTeamFolder.data.id === item.data.id)"
-                    :title="$t('Edit Team Members')"
+                    :title="$t('edit_team_members')"
                     icon="users"
                 />
 				<Option
 					@click.native="$createFileRequest(item)"
 					v-if="isFolder"
-					:title="$t('File Request')"
+					:title="$t('file_request')"
 					icon="upload-cloud"
 				/>
             </OptionGroup>
@@ -32,7 +32,7 @@
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup :title="$t('Frequently Used')">
+            <OptionGroup :title="$t('frequently_used')">
                 <OptionUpload :title="$t('upload_files')" type="file" :is-hover-disabled="true" :class="{'is-inactive': isTeamFolderHomepage}" />
                 <Option
                     @click.stop.native="$createFolderByPopup"
@@ -42,10 +42,10 @@
 					:class="{'is-inactive': isTeamFolderHomepage}"
                 />
             </OptionGroup>
-            <OptionGroup :title="$t('Others')">
+            <OptionGroup :title="$t('others')">
                 <Option
                     @click.stop.native="$createTeamFolder"
-                    :title="$t('Create Team Folder')"
+                    :title="$t('create_team_folder')"
                     icon="users"
                     :is-hover-disabled="true"
                 />
@@ -54,8 +54,8 @@
 
         <MobileTeamContextMenu>
             <OptionGroup>
-                <Option @click.native="$updateTeamFolder(teamFolder)" :title="$t('Edit Members')" icon="rename" />
-                <Option @click.native="$dissolveTeamFolder(teamFolder)" :title="$t('Dissolve Team')" icon="trash" />
+                <Option @click.native="$updateTeamFolder(teamFolder)" :title="$t('edit_members')" icon="rename" />
+                <Option @click.native="$dissolveTeamFolder(teamFolder)" :title="$t('dissolve_team')" icon="trash" />
             </OptionGroup>
         </MobileTeamContextMenu>
 
@@ -72,7 +72,7 @@
                 class="mr-4"
                 source="trash"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
-                :action="$t('actions.delete')"
+                :action="$t('delete')"
             />
             <ToolbarButton
                 @click.native="$downloadSelection(item)"
@@ -93,7 +93,7 @@
                     />
                 </OptionGroup>
                 <OptionGroup v-if="isTeamFolderHomepage">
-                    <Option @click.native="$createTeamFolder" :title="$t('Create Team Folder')" icon="users" />
+                    <Option @click.native="$createTeamFolder" :title="$t('create_team_folder')" icon="users" />
                 </OptionGroup>
             </template>
 
@@ -129,13 +129,13 @@
                     <Option
                         @click.native="$updateTeamFolder(item)"
                         v-if="isFolder"
-                        :title="$t('Edit Team Members')"
+                        :title="$t('edit_team_members')"
                         icon="users"
                     />
 					<Option
 						@click.native="$createFileRequest(item)"
 						v-if="isFolder"
-						:title="$t('File Request')"
+						:title="$t('file_request')"
 						icon="upload-cloud"
 					/>
                 </OptionGroup>
@@ -173,7 +173,7 @@
 
         <FileActionsMobile>
             <MobileActionButton @click.native="$openSpotlight()" icon="search">
-                {{ $t('Spotlight') }}
+                {{ $t('spotlight') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
                 {{ $getCurrentSectionName() }}
@@ -183,7 +183,7 @@
                 v-if="$checkPermission(['master', 'editor'])"
                 icon="cloud-plus"
             >
-                {{ $t('Upload / Create') }}
+                {{ $t('upload_or_create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
                 {{ $t('select') }}
@@ -196,13 +196,13 @@
         <EmptyFilePage>
             <template v-if="isTeamFolderHomepage">
                 <h1 class="title">
-                    {{ $t('Create your Team Folder') }}
+                    {{ $t('create_team_folder') }}
                 </h1>
                 <p class="description">
-                    {{ $t('Collaborate on your files with your team easily by creating new team folder.') }}
+                    {{ $t('create_team_folder_description') }}
                 </p>
                 <ButtonBase @click.native="$createTeamFolder" button-style="theme" class="m-center">
-                    {{ $t('Create Team Folder') }}
+                    {{ $t('create_team_folder') }}
                 </ButtonBase>
             </template>
 

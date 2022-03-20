@@ -1,12 +1,12 @@
 <template>
     <div v-if="canShowForSubscription" class="card shadow-card">
         <FormLabel>
-            {{ $t('Update Payments') }}
+            {{ $t('update_payments') }}
         </FormLabel>
 
         <AppInputButton
-            :title="$t('Update your Payment Method')"
-            :description="$t('You will be redirected to your payment provider to edit your payment method.')"
+            :title="$t('update_payment_method')"
+            :description="$t('payment_method_update_redirect_description')"
             :is-last="true"
         >
             <ButtonBase
@@ -15,7 +15,7 @@
                 class="w-full sm:w-auto"
                 button-style="theme"
             >
-                {{ $t('Update Payments') }}
+                {{ $t('update_payments') }}
             </ButtonBase>
         </AppInputButton>
     </div>

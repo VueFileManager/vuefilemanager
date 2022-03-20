@@ -13,7 +13,7 @@
 
         <div class="mb-auto">
             <!--Locations-->
-            <ContentGroup :title="$t('Base')">
+            <ContentGroup :title="$t('base')">
                 <b
                     @click="goHome"
                     class="flex cursor-pointer items-center py-2.5"
@@ -21,7 +21,7 @@
                 >
                     <home-icon size="17" class="vue-feather icon-active mr-2.5" />
                     <small class="text-active text-xs font-bold">
-                        {{ $t('Home') }}
+                        {{ $t('home') }}
                     </small>
                 </b>
             </ContentGroup>

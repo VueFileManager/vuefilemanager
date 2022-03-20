@@ -15,7 +15,7 @@
                         v-if="!column.hidden"
                     >
                         <span class="text-xs text-gray-400 dark:text-gray-500">
-                            {{ column.label }}
+                            {{ $t(column.label) }}
                         </span>
 
                         <chevron-up-icon
@@ -192,7 +192,7 @@
             </ul>
 
             <span class="text-xs text-gray-600 dark:text-gray-500">
-                Showing {{ data.meta.from }} - {{ data.meta.to }} from {{ data.meta.total }} records
+				{{ $t('paginator', {from: data.meta.from, to: data.meta.to, total: data.meta.total}) }}
             </span>
         </div>
     </div>

@@ -70,6 +70,10 @@ Add the following Cron entry to your server. Just update your php path (if it's 
 * * * * *  /usr/local/bin/php /www/html/your-project/artisan schedule:run >> /dev/null 2>&1
 ```
 
+#### 8. Broadcasting
+
+coming soon...
+
 ## Nginx Configuration
 If you running VueFileManager under Nginx, don't forget set this value in your `nginx.conf` file:
 ```
@@ -133,6 +137,11 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
 
 # Developers
 ## Running development environment on your localhost
+
+**For running development environment make sure you have:**
+
+- Node >= 14
+- NPM >= 6
 
 If you would like to express set up, please update your database credentials in .env file
 ```

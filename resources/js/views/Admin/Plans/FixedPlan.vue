@@ -17,7 +17,7 @@
         <router-view v-if="!isLoading" :plan="plan" />
 
         <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
+            <Spinner />
         </div>
     </div>
 </template>

@@ -3,7 +3,7 @@
         <!--Storage Usage-->
         <div v-if="distribution" class="card shadow-card">
             <FormLabel icon="hard-drive">
-                {{ $t('Storage Usage') }}
+                {{ $t('storage_usage') }}
             </FormLabel>
 
             <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl">
@@ -16,8 +16,8 @@
                 "
                 class="mt-0.5 block text-sm dark:text-gray-500 text-gray-400"
             >
-                {{ $t('Total of') }} {{ storage.data.attributes.capacity }}
-                {{ $t('Used') }}
+                {{ $t('total_of', {capacity: storage.data.attributes.capacity}) }}
+                {{ $t('used') }}
             </b>
 
             <ProgressLine v-if="storage.data.attributes.used !== '0B'" :data="distribution" class="mt-5" />
@@ -26,7 +26,7 @@
         <!--Upload-->
         <div v-if="distribution" class="card shadow-card">
             <FormLabel icon="hard-drive">
-                {{ $t('Upload') }}
+                {{ $t('upload') }}
             </FormLabel>
 
             <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl">
@@ -34,7 +34,7 @@
             </b>
 
             <b class="mb-3 mb-5 block text-sm dark:text-gray-500 text-gray-400">
-                {{ $t('In last 45 days') }}
+                {{ $t('in_last_x_days') }}
             </b>
 
             <BarChart :data="storage.data.meta.traffic.chart.upload" color="#FFBD2D" />
@@ -43,7 +43,7 @@
         <!--Download-->
         <div v-if="distribution" class="card shadow-card">
             <FormLabel icon="hard-drive">
-                {{ $t('Download') }}
+                {{ $t('download') }}
             </FormLabel>
 
             <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl">
@@ -51,7 +51,7 @@
             </b>
 
             <b class="mb-3 mb-5 block text-sm dark:text-gray-500 text-gray-400">
-                {{ $t('In last 45 days') }}
+                {{ $t('in_last_x_days') }}
             </b>
 
             <BarChart :data="storage.data.meta.traffic.chart.download" color="#9d66fe" />

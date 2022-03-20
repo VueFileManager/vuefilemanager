@@ -47,7 +47,7 @@ export default {
                 // Subtitle for single folder
                 if (this.draggedItem.data.type === 'folder') {
                     return this.draggedItem.items == 0
-                        ? this.$t('folder.empty')
+                        ? this.$t('empty')
                         : this.$tc('folder.item_counts', this.draggedItem.items)
                 }
 

@@ -14,7 +14,7 @@
 
             <PopupActions>
                 <ButtonBase class="w-full" @click.native="showSection(undefined)" button-style="secondary">
-                    {{ $t('Show Details') }}
+                    {{ $t('show_details') }}
                 </ButtonBase>
                 <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme">
                     {{ $t('awesome_iam_done') }}
@@ -44,7 +44,7 @@
 
             <PopupActions>
                 <ButtonBase class="w-full" @click.native="showSection(undefined)" button-style="secondary">
-                    {{ $t('Show Details') }}
+                    {{ $t('show_details') }}
                 </ButtonBase>
                 <ButtonBase
                     class="w-full"
@@ -53,7 +53,7 @@
                     :loading="isLoading"
                     :disabled="isLoading"
                 >
-                    {{ $t('Send') }}
+                    {{ $t('send') }}
                 </ButtonBase>
             </PopupActions>
         </div>
@@ -180,7 +180,7 @@
                     :loading="isLoading"
                     :disabled="isLoading"
                 >
-                    {{ $t('Store Changes') }}
+                    {{ $t('store_changes') }}
                 </ButtonBase>
             </PopupActions>
         </div>
@@ -236,8 +236,8 @@ export default {
         popupTitle() {
             return (
                 {
-                    'qr-code': this.$t('Get your QR code'),
-                    'email-sharing': this.$t('Share on multiple emails'),
+                    'qr-code': this.$t('get_qr_code'),
+                    'email-sharing': this.$t('share_with_multiple_emails'),
                 }[this.activeSection] || this.$t('popup_share_edit.title')
             )
         },

@@ -12,11 +12,11 @@
                         :action="$t('create_something')"
                     />
                     <PopoverItem name="desktop-create" side="left">
-                        <OptionGroup :title="$t('Upload')">
+                        <OptionGroup :title="$t('upload')">
                             <OptionUpload :title="$t('upload_files')" type="file" />
                             <OptionUpload :title="$t('upload_folder')" type="folder" />
                         </OptionGroup>
-                        <OptionGroup :title="$t('Create')">
+                        <OptionGroup :title="$t('create')">
                             <Option
                                 @click.native="$createFolder"
                                 :title="$t('create_folder')"
@@ -47,7 +47,7 @@
                                 'is-inactive': !canManipulate,
                             }"
                             source="trash"
-                            :action="$t('actions.delete')"
+                            :action="$t('delete')"
                         />
                     </div>
                 </div>

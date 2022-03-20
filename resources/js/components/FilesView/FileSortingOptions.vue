@@ -1,6 +1,6 @@
 <template>
     <div>
-        <OptionGroup :title="$t('View')">
+        <OptionGroup :title="$t('view')">
             <Option
                 v-if="isList"
                 @click.native="changePreview('grid')"
@@ -14,7 +14,7 @@
                 icon="list"
             />
         </OptionGroup>
-        <OptionGroup :title="$t('Sorting')">
+        <OptionGroup :title="$t('sorting')">
             <Option
                 @click.native.stop="sort('created_at')"
                 :arrow="arrowForCreatedAtField"

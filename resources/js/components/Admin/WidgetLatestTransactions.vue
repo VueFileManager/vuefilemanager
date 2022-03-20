@@ -23,7 +23,7 @@
                         </div>
                     </div>
                     <span v-if="!row.data.relationships.user" class="text-xs font-bold text-gray-500">
-                        {{ $t('User was deleted') }}
+                        {{ $t('user_was_deleted') }}
                     </span>
                 </td>
                 <td class="px-3 md:px-1">
@@ -31,13 +31,13 @@
                         v-if="config.subscriptionType === 'fixed'"
                         :color="$getTransactionStatusColor(row.data.attributes.status)"
                     >
-                        {{ row.data.attributes.status }}
+                        {{ $t(row.data.attributes.status) }}
                     </ColorLabel>
                     <ColorLabel
                         v-if="config.subscriptionType === 'metered'"
                         :color="$getTransactionTypeColor(row.data.attributes.type)"
                     >
-                        {{ row.data.attributes.type }}
+                        {{ $t(row.data.attributes.type) }}
                     </ColorLabel>
                 </td>
                 <td class="px-3 md:px-1">
@@ -65,7 +65,7 @@
         <!--Empty page-->
         <template v-slot:empty-page>
             <InfoBox style="margin-bottom: 0">
-                <p>{{ $t("There aren't any transactions.") }}</p>
+                <p>{{ $t("not_any_transactions") }}</p>
             </InfoBox>
         </template>
     </DatatableWrapper>
@@ -99,17 +99,17 @@ export default {
         return {
             columns: [
                 {
-                    label: this.$t('Note'),
+                    label: this.$t('note'),
                     field: 'note',
                     sortable: true,
                 },
                 {
-                    label: this.$t('User'),
+                    label: this.$t('user'),
                     field: 'user_id',
                     sortable: true,
                 },
                 {
-                    label: this.$t('Status'),
+                    label: this.$t('status'),
                     field: 'status',
                     sortable: true,
                 },
@@ -119,12 +119,12 @@ export default {
                     sortable: true,
                 },
                 {
-                    label: this.$t('Payed At'),
+                    label: this.$t('payed_at'),
                     field: 'created_at',
                     sortable: true,
                 },
                 {
-                    label: this.$t('Service'),
+                    label: this.$t('service'),
                     field: 'driver',
                     sortable: true,
                 },

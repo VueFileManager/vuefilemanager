@@ -1,15 +1,15 @@
 <template>
     <div v-if="hasSubscription" class="card shadow-card">
         <FormLabel>
-            {{ $t('Edit your Subscription') }}
+            {{ $t('edit_your_subscription') }}
         </FormLabel>
 
         <AppInputButton
             v-if="subscription.attributes.status !== 'cancelled'"
-            :title="$t('Cancel Subscription')"
+            :title="$t('cancel_subscription')"
             :description="
                 $t(
-                    'You can cancel your subscription now. You\'ll continue to have access to the features you\'ve paid for until the end of your billing cycle.'
+                    'cancel_subscription_description'
                 )
             "
         >
@@ -19,17 +19,17 @@
                 class="w-full sm:w-auto"
                 button-style="secondary"
             >
-                {{ $t('Cancel Now') }}
+                {{ $t('cancel_now') }}
             </ButtonBase>
         </AppInputButton>
 
         <AppInputButton
-            :title="$t('Upgrade or Downgrade Plan')"
-            :description="$t('You can upgrade your plan at any time you want.')"
+            :title="$t('upgrade_downgrade_plan')"
+            :description="$t('upgrade_downgrade_plan_description')"
             :is-last="true"
         >
             <ButtonBase @click.native="$changeSubscriptionOptions" class="w-full sm:w-auto" button-style="secondary">
-                {{ $t('Change Plan') }}
+                {{ $t('change_plan') }}
             </ButtonBase>
         </AppInputButton>
     </div>
@@ -69,7 +69,7 @@ export default {
     methods: {
         cancelSubscriptionConfirmation() {
             events.$emit('confirm:open', {
-                title: this.$t('Are you sure you want to cancel subscription?'),
+                title: this.$t('want_cancel_subscription'),
                 message: this.$t(
                     "popup_subscription_cancel.message"
                 ),

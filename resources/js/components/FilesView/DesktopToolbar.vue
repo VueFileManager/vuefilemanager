@@ -13,7 +13,7 @@
                     />
                     <PopoverItem name="desktop-create" side="left">
                         <OptionGroup
-                            :title="$t('Frequently Used')"
+                            :title="$t('frequently_used')"
                         >
                             <OptionUpload
 								:title="$t('upload_files')"
@@ -31,7 +31,7 @@
                                 icon="folder-plus"
                             />
                         </OptionGroup>
-                        <OptionGroup :title="$t('Others')">
+                        <OptionGroup :title="$t('others')">
                             <OptionUpload
 								:class="{
                                     'is-inactive': (isSharedWithMe && !canEdit) || canUploadFolderInView || isTeamFolderHomepage || isSharedWithMeHomepage,
@@ -42,12 +42,12 @@
                             <Option
                                 @click.stop.native="$createTeamFolder"
                                 :class="{ 'is-inactive': canCreateTeamFolder }"
-                                :title="$t('Create Team Folder')"
+                                :title="$t('create_team_folder')"
                                 icon="users"
                             />
 							<Option
 								@click.native="$createFileRequest"
-								:title="$t('Create File Request')"
+								:title="$t('create_file_request')"
 								icon="upload-cloud"
 							/>
                         </OptionGroup>
@@ -70,23 +70,23 @@
                         <PopoverItem name="team-folder" side="left">
                             <TeamFolderPreview />
 
-                            <OptionGroup v-if="$isThisRoute($route, ['TeamFolders'])" :title="$t('Options')">
+                            <OptionGroup v-if="$isThisRoute($route, ['TeamFolders'])" :title="$t('options')">
                                 <Option
                                     @click.native="$updateTeamFolder(teamFolder)"
-                                    :title="$t('Edit Members')"
+                                    :title="$t('edit_members')"
                                     icon="rename"
                                 />
                                 <Option
                                     @click.native="$dissolveTeamFolder(teamFolder)"
-                                    :title="$t('Dissolve Team')"
+                                    :title="$t('dissolve_team')"
                                     icon="trash"
                                 />
                             </OptionGroup>
 
-                            <OptionGroup v-if="$isThisRoute($route, ['SharedWithMe'])" :title="$t('Options')">
+                            <OptionGroup v-if="$isThisRoute($route, ['SharedWithMe'])" :title="$t('options')">
                                 <Option
                                     @click.native="$detachMeFromTeamFolder(teamFolder)"
-                                    :title="$t('Leave the Team Folder')"
+                                    :title="$t('leave_team_folder')"
                                     icon="user-minus"
                                 />
                             </OptionGroup>
@@ -102,7 +102,7 @@
                                 'is-inactive': !canCreateTeamFolder,
                             }"
                             source="user-plus"
-                            :action="$t('actions.convert_into_team_folder')"
+                            :action="$t('convert_into_team_folder')"
                         />
                         <ToolbarButton
                             v-if="!$isThisRoute($route, ['SharedWithMe', 'Public'])"
@@ -127,7 +127,7 @@
                                 'is-inactive': canDeleteInView && !canEdit,
                             }"
                             source="trash"
-                            :action="$t('actions.delete')"
+                            :action="$t('delete')"
                         />
                     </div>
                 </div>

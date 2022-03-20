@@ -22,7 +22,7 @@ export default {
         return {
             pages: [
                 {
-                    title: this.$t('admin_settings.tabs.payments'),
+                    title: this.$t('payments'),
                     route: 'AppPayments',
                 },
                 {

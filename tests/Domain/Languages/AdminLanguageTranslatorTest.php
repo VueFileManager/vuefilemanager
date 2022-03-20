@@ -34,7 +34,7 @@ class AdminLanguageTranslatorTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('language_translations', [
-            'key'   => 'actions.close',
+            'key'   => 'close',
             'value' => 'Close',
             'lang'  => 'sk',
         ]);
@@ -93,7 +93,7 @@ class AdminLanguageTranslatorTest extends TestCase
         ]);
 
         $this->assertDatabaseMissing('language_translations', [
-            'key'   => 'actions.close',
+            'key'   => 'close',
             'value' => 'Close',
             'lang'  => 'sk',
         ]);
@@ -133,7 +133,7 @@ class AdminLanguageTranslatorTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment([
                 'locale'        => 'en',
-                'actions.close' => 'Close',
+                'close' => 'Close',
             ]);
     }
 
@@ -152,12 +152,12 @@ class AdminLanguageTranslatorTest extends TestCase
         $this
             ->actingAs($admin)
             ->patchJson("/api/admin/languages/$language->id/strings", [
-                'name'  => 'actions.close',
+                'name'  => 'close',
                 'value' => 'Close It, now!',
             ]);
 
         $this->assertDatabaseHas('language_translations', [
-            'key'   => 'actions.close',
+            'key'   => 'close',
             'value' => 'Close It, now!',
             'lang'  => 'en',
         ]);
@@ -180,7 +180,7 @@ class AdminLanguageTranslatorTest extends TestCase
             ->getJson("/api/admin/languages/$language->id")
             ->assertStatus(200)
             ->assertJsonFragment([
-                'actions.close' => 'Close',
+                'close' => 'Close',
                 'locale'        => 'en',
             ]);
     }

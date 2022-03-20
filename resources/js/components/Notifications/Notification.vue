@@ -53,7 +53,7 @@
                 >
                     <check-icon size="16" class="vue-feather mr-2 text-green-600 dark:text-green-600" />
                     <span class="text-sm font-bold text-green-600 dark:text-green-600">
-                        {{ $t('Accept') }}
+                        {{ $t('accept') }}
                     </span>
                 </div>
 
@@ -63,7 +63,7 @@
                 >
                     <x-icon size="16" class="vue-feather mr-2 text-rose-600 dark:text-rose-600" />
                     <span class="text-sm font-bold text-rose-600 dark:text-rose-600">
-                        {{ $t('Decline') }}
+                        {{ $t('decline') }}
                     </span>
                 </div>
             </div>
@@ -121,7 +121,7 @@ export default {
 
 					events.$emit('toaster', {
 						type: 'success',
-						message: this.$t('You successfully accepted invitation'),
+						message: this.$t('you_accepted_invitation'),
 					})
 				})
 		},
@@ -132,7 +132,7 @@ export default {
 
 					events.$emit('toaster', {
 						type: 'success',
-						message: this.$t('You successfully decline invitation'),
+						message: this.$t('you_decline_invitation'),
 					})
 				})
 		},

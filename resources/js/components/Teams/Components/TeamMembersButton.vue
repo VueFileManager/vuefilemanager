@@ -2,7 +2,7 @@
     <div class="w-28">
         <div v-if="!teamFolder" class="text-right md:text-center">
             <span class="mr-3 align-middle text-tiny text-gray-600 dark:text-gray-500 md:mr-0.5">
-                {{ $t('Not selected') }}
+                {{ $t('not_selected') }}
             </span>
         </div>
         <TeamMembersPreview

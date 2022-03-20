@@ -33,7 +33,7 @@
             <FormLabel icon="list">Latest Server Logs</FormLabel>
 
             <InfoBox v-if="!logs.length" class="!mb-0">
-                <p v-html="$t('There is not any server log.')"></p>
+                <p v-html="$t('there_is_not_log')"></p>
             </InfoBox>
 
             <div
@@ -58,11 +58,11 @@
             <FormLabel icon="database"> Latest Database Backups </FormLabel>
 
             <InfoBox v-if="!backups.length" class="!mb-0">
-                <p v-html="$t('There is not any database backup stored.')"></p>
+                <p v-html="$t('there_is_not_database_backup')"></p>
             </InfoBox>
 
             <InfoBox v-if="backups.length" class="!mb-3">
-                <p v-html="$t('You can find your backups in <b>/storage/app/app-backups</b>.')"></p>
+                <p v-html="$t('backup_path')"></p>
             </InfoBox>
 
             <div

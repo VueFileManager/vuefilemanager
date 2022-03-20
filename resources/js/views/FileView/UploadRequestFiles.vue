@@ -9,11 +9,11 @@
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup :title="$t('Upload')">
+            <OptionGroup :title="$t('upload')">
                 <OptionUpload :title="$t('upload_files')" type="file" :is-hover-disabled="true" />
                 <OptionUpload :title="$t('upload_folder')" type="folder" />
             </OptionGroup>
-            <OptionGroup :title="$t('Create')">
+            <OptionGroup :title="$t('create')">
                 <Option
 					@click.stop.native="createFolder"
 					:title="$t('create_folder')"
@@ -35,7 +35,7 @@
 				@click.native="$deleteFileOrFolder(clipboard)"
 				source="trash"
 				:class="{ 'is-inactive': clipboard.length < 1 }"
-				:action="$t('actions.delete')"
+				:action="$t('delete')"
 			/>
         </MobileMultiSelectToolbar>
 
@@ -97,7 +97,7 @@
 				v-if="$checkPermission(['master', 'editor'])"
 				icon="cloud-plus"
 			>
-                {{ $t('Upload / Create') }}
+                {{ $t('upload_or_create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
                 {{ $t('select') }}

@@ -35,42 +35,42 @@ const defaultState = {
     ],
     transactionColumns: [
         {
-            label: i18n.t('Note'),
+            label: 'note',
             field: 'note',
             sortable: true,
         },
         {
-            label: i18n.t('User'),
+            label: 'user',
             field: 'user_id',
             sortable: true,
         },
         {
-            label: i18n.t('Status'),
+            label: 'status',
             field: 'status',
             sortable: true,
         },
         {
-            label: i18n.t('Type'),
+            label: 'type',
             field: 'type',
             sortable: true,
         },
         {
-            label: i18n.t('Total'),
+            label: 'total',
             field: 'amount',
             sortable: true,
         },
         {
-            label: i18n.t('Payed At'),
+            label: 'payed_at',
             field: 'created_at',
             sortable: true,
         },
         {
-            label: i18n.t('Service'),
+            label: 'service',
             field: 'driver',
             sortable: true,
         },
         {
-            label: i18n.t('Actions'),
+            label: 'actions',
             field: 'actions',
             sortable: false,
         },
@@ -100,8 +100,8 @@ const defaultState = {
         },
     ],
     teamPermissions: {
-        'can-edit': 'Can Edit',
-        'can-view': 'Can View',
+        'can-edit': 'can_edit',
+        'can-view': 'can_view',
     },
     countries: [
         { label: 'Czech Republic', value: 'CZ' },
@@ -380,11 +380,11 @@ const defaultState = {
     ],
     intervalList: [
         {
-            label: 'Monthly',
+            label: 'monthly',
             value: 'month',
         },
         {
-            label: 'Annually',
+            label: 'yearly',
             value: 'year',
         },
     ],

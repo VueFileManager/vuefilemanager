@@ -9,7 +9,7 @@
                 @click.native="closeSelecting"
                 class="action-btn close-icon"
                 source="close"
-                :action="$t('actions.close')"
+                :action="$t('close')"
             />
         </div>
     </transition>

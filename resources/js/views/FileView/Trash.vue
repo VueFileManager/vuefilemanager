@@ -68,7 +68,7 @@
 
         <FileActionsMobile>
             <MobileActionButton @click.native="$openSpotlight()" icon="search">
-                {{ $t('Spotlight') }}
+                {{ $t('spotlight') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
                 {{ $getCurrentSectionName() }}
@@ -85,7 +85,7 @@
         </FileActionsMobile>
 
         <EmptyFilePage>
-            <h1 class="title">{{ $t('Your Trash is Empty') }}</h1>
+            <h1 class="title">{{ $t('your_trash_is_empty') }}</h1>
         </EmptyFilePage>
 
         <FileBrowser />
@@ -96,7 +96,7 @@
                 class="mr-4"
                 source="trash"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
-                :action="$t('actions.delete')"
+                :action="$t('delete')"
             />
             <ToolbarButton
                 @click.native="$downloadSelection(item)"

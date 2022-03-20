@@ -11,27 +11,27 @@
 
 				<!--Title-->
 				<b class="dark:text-gray-200 text-xl font-extrabold px-2.5 mb-2.5 block">
-					{{ $t('Notification Center') }}
+					{{ $t('notification_center') }}
 				</b>
 
 				<div class="px-2.5">
 					<MobileActionButton v-if="readNotifications.length || unreadNotifications.length" @click.native="$store.dispatch('deleteAllNotifications')" icon="check-square" class="mb-2 dark:!bg-4x-dark-foreground">
-						{{ $t('Clear all') }}
+						{{ $t('clear_all') }}
 					</MobileActionButton>
 
 					<p v-if="!readNotifications.length && !unreadNotifications.length" class="text-sm mt-8">
-						{{ $t("There aren't any notifications.") }}
+						{{ $t("not_any_notifications") }}
 					</p>
 				</div>
 
 				<b v-if="unreadNotifications.length" class="dark-text-theme mt-1.5 block px-2.5 mb-2.5 text-xs text-gray-400">
-					{{ $t('Unread') }}
+					{{ $t('unread') }}
 				</b>
 
 				<Notification :notification="notification" v-for="notification in unreadNotifications" :key="notification.id" />
 
 				<b v-if="readNotifications.length" class="dark-text-theme mt-2.5 block px-2.5 mb-2.5 text-xs text-gray-400">
-					{{ $t('Read') }}
+					{{ $t('read') }}
 				</b>
 
 				<Notification :notification="notification" v-for="notification in readNotifications" :key="notification.id" />

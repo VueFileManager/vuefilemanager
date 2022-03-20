@@ -22,8 +22,8 @@
                 </ValidationProvider>
 
                 <AppInputSwitch
-                    :title="$t('Emoji as an Icon')"
-                    :description="$t('Replace folder icon with an Emoji')"
+                    :title="$t('emoji_as_an_icon')"
+                    :description="$t('replace_icon_with_emoji')"
                     :is-last="!isEmoji"
                 >
                     <SwitchInput v-model="isEmoji" :state="isEmoji" />

@@ -3,12 +3,12 @@
         <!--Global payment settings-->
         <div class="card shadow-card">
             <FormLabel icon="dollar">
-                {{ $t('Subscription Payments') }}
+                {{ $t('subscription_payments') }}
             </FormLabel>
 
             <AppInputSwitch
-                :title="$t('Allow Subscription Payments')"
-                :description="$t('User can subscribe to fixed or metered plan')"
+                :title="$t('allow_subscription_payments')"
+                :description="$t('allow_subscription_payments_description')"
                 :is-last="true"
             >
                 <SwitchInput
@@ -22,12 +22,12 @@
         <!--Metered settings-->
         <div v-if="config.subscriptionType === 'metered' && allowedPayments" class="card shadow-card">
             <FormLabel icon="bar-chart">
-                {{ $t('Metered Billing Settings') }}
+                {{ $t('metered_billing_settings') }}
             </FormLabel>
 
             <AppInputSwitch
-                :title="$t('Allow Registration Bonus')"
-                :description="$t('Credit user automatically bonus to his balance after registration.')"
+                :title="$t('allow_registration_bonus')"
+                :description="$t('allow_registration_bonus_description')"
             >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'allowed_registration_bonus', allowedRegistrationBonus)"
@@ -38,21 +38,21 @@
 
             <AppInputText
                 v-if="allowedRegistrationBonus"
-                :title="$t('The Amount of Registration Bonus')"
-                :description="$t('This bonus will be automatically added when user successfully register his account.')"
+                :title="$t('registration_bonus_amount')"
+                :description="$t('registration_bonus_amount_description')"
             >
                 <input
                     @input="$updateText('/admin/settings', 'registration_bonus_amount', registrationBonusAmount)"
                     v-model="registrationBonusAmount"
-                    :placeholder="$t('Type registration bonus amount...')"
+                    :placeholder="$t('registration_bonus_amount_')"
                     type="number"
                     class="focus-border-theme input-dark"
                 />
             </AppInputText>
 
             <AppInputButton
-                :title="$t('Metered Plan')"
-                :description="$t('Your price set up for billing multiple features by user usage.')"
+                :title="$t('metered_plan')"
+                :description="$t('metered_plan_description')"
                 :is-last="true"
             >
                 <router-link
@@ -63,13 +63,13 @@
                     }"
                 >
                     <ButtonBase v-if="config.isCreatedMeteredPlan" class="w-full sm:w-auto" button-style="theme">
-                        {{ $t('Plan Details') }}
+                        {{ $t('plan_details') }}
                     </ButtonBase>
                 </router-link>
 
                 <router-link v-if="!config.isCreatedMeteredPlan" :to="{ name: 'CreateMeteredPlan' }">
                     <ButtonBase class="w-full sm:w-auto" button-style="theme-solid">
-                        {{ $t('Create Plan') }}
+                        {{ $t('create_plan') }}
                     </ButtonBase>
                 </router-link>
             </AppInputButton>
@@ -81,7 +81,7 @@
 
             <AppInputSwitch
                 :title="$t('Allow Stripe Service')"
-                :description="$t('Allow your users pay by their credit card')"
+                :description="$t('allow_pay_by_card')"
                 :is-last="!stripe.allowedService"
             >
                 <SwitchInput
@@ -94,8 +94,8 @@
             <!--Stripe credentials are set up-->
             <div v-if="stripe.allowedService">
 				<AppInputText
-					:title="$t('Your Webhook URL')"
-					:description="$t('Please copy your url and paste it to the service webhook setup.')"
+					:title="$t('webhook_url')"
+					:description="$t('copy_webhook_note')"
 				>
 					<CopyInput size="small" :str="getWebhookEndpoint('stripe')" />
 				</AppInputText>
@@ -103,8 +103,8 @@
                 <div v-if="stripe.isConfigured">
                     <AppInputText
                         @input="$updateText('/admin/settings', 'stripe_payment_description', stripe.paymentDescription)"
-                        :title="$t('Payment Description')"
-                        :description="$t('The description showed below user payment method selection.')"
+                        :title="$t('payment_description')"
+                        :description="$t('payment_description_note')"
                     >
                         <textarea
                             rows="2"
@@ -118,7 +118,7 @@
                             "
                             v-model="stripe.paymentDescription"
                             :placeholder="
-                                $t('Describe in short which methods user can pay with this payment method...')
+                                $t('additional_info_about_payment_method_')
                             "
                             type="text"
                             class="focus-border-theme input-dark"
@@ -131,7 +131,7 @@
                         :class="{ 'mb-4': stripe.isVisibleCredentialsForm }"
                     >
                         <edit2-icon size="14" class="vue-feather text-theme mr-2.5" />
-                        <b class="text-sm">{{ $t('Update Your Credentials') }}</b>
+                        <b class="text-sm">{{ $t('update_your_credentials') }}</b>
                     </div>
                 </div>
 
@@ -145,7 +145,7 @@
                     class="rounded-xl p-5 shadow-lg"
                 >
                     <FormLabel v-if="!stripe.isConfigured" icon="shield">
-                        {{ $t('Configure Your Credentials') }}
+                        {{ $t('configure_your_credentials') }}
                     </FormLabel>
                     <ValidationProvider
                         tag="div"
@@ -185,7 +185,7 @@
                         <AppInputText :title="$t('Webhook Secret')" :error="errors[0]">
                             <input
                                 v-model="stripe.credentials.webhook"
-                                :placeholder="$t('Paste your webhook secret')"
+                                :placeholder="$t('paste_webhook_secret')"
                                 type="text"
                                 :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
@@ -200,7 +200,7 @@
                         type="submit"
                         class="w-full"
                     >
-                        {{ $t('Store Credentials') }}
+                        {{ $t('store_credentials') }}
                     </ButtonBase>
                 </ValidationObserver>
             </div>
@@ -212,7 +212,7 @@
 
             <AppInputSwitch
                 :title="$t('Allow Paystack Service')"
-                :description="$t('Allow your users pay by their credit card')"
+                :description="$t('allow_pay_by_card')"
                 :is-last="!paystack.allowedService"
             >
                 <SwitchInput
@@ -225,8 +225,8 @@
             <!--Paystack credentials are set up-->
             <div v-if="paystack.allowedService">
 				<AppInputText
-					:title="$t('Your Webhook URL')"
-					:description="$t('Please copy your url and paste it to the service webhook setup.')"
+					:title="$t('webhook_url')"
+					:description="$t('copy_webhook_note')"
 				>
 					<CopyInput size="small" :str="getWebhookEndpoint('paystack')" />
 				</AppInputText>
@@ -236,8 +236,8 @@
                         @input="
                             $updateText('/admin/settings', 'paystack_payment_description', paystack.paymentDescription)
                         "
-                        :title="$t('Payment Description')"
-                        :description="$t('The description showed below user payment method selection.')"
+                        :title="$t('payment_description')"
+                        :description="$t('payment_description_note')"
                     >
                         <textarea
                             rows="2"
@@ -251,7 +251,7 @@
                             "
                             v-model="paystack.paymentDescription"
                             :placeholder="
-                                $t('Describe in short which methods user can pay with this payment method...')
+                                $t('additional_info_about_payment_method_')
                             "
                             type="text"
                             class="focus-border-theme input-dark"
@@ -264,7 +264,7 @@
                         :class="{ 'mb-4': paystack.isVisibleCredentialsForm }"
                     >
                         <edit2-icon size="14" class="vue-feather text-theme mr-2.5" />
-                        <b class="text-sm">{{ $t('Update Your Credentials') }}</b>
+                        <b class="text-sm">{{ $t('update_your_credentials') }}</b>
                     </div>
                 </div>
 
@@ -278,7 +278,7 @@
                     class="rounded-xl p-5 shadow-lg"
                 >
                     <FormLabel v-if="!paystack.isConfigured" icon="shield">
-                        {{ $t('Configure Your Credentials') }}
+                        {{ $t('configure_your_credentials') }}
                     </FormLabel>
                     <ValidationProvider
                         tag="div"
@@ -316,7 +316,7 @@
                         type="submit"
                         class="w-full"
                     >
-                        {{ $t('Store Credentials') }}
+                        {{ $t('store_credentials') }}
                     </ButtonBase>
                 </ValidationObserver>
             </div>
@@ -328,7 +328,7 @@
 
             <AppInputSwitch
                 :title="$t('Allow PayPal Service')"
-                :description="$t('Allow your users pay by their credit card')"
+                :description="$t('allow_pay_by_card')"
                 :is-last="!paypal.allowedService"
             >
                 <SwitchInput
@@ -341,8 +341,8 @@
             <!--Stripe credentials are set up-->
             <div v-if="paypal.allowedService">
 				<AppInputText
-					:title="$t('Your Webhook URL')"
-					:description="$t('Please copy your url and paste it to the service webhook setup.')"
+					:title="$t('webhook_url')"
+					:description="$t('copy_webhook_note')"
 				>
 					<CopyInput size="small" :str="getWebhookEndpoint('paypal')" />
 				</AppInputText>
@@ -358,8 +358,8 @@
 
                     <AppInputText
                         @input="$updateText('/admin/settings', 'paypal_payment_description', paypal.paymentDescription)"
-                        :title="$t('Payment Description')"
-                        :description="$t('The description showed below user payment method selection.')"
+                        :title="$t('payment_description')"
+                        :description="$t('payment_description_note')"
                     >
                         <textarea
                             rows="2"
@@ -373,7 +373,7 @@
                             "
                             v-model="paypal.paymentDescription"
                             :placeholder="
-                                $t('Describe in short which methods user can pay with this payment method...')
+                                $t('additional_info_about_payment_method_')
                             "
                             type="text"
                             class="focus-border-theme input-dark"
@@ -386,7 +386,7 @@
                         :class="{ 'mb-4': paypal.isVisibleCredentialsForm }"
                     >
                         <edit2-icon size="14" class="vue-feather text-theme mr-2.5" />
-                        <b class="text-sm">{{ $t('Update Your Credentials') }}</b>
+                        <b class="text-sm">{{ $t('update_your_credentials') }}</b>
                     </div>
                 </div>
 
@@ -400,7 +400,7 @@
                     class="rounded-xl p-5 shadow-lg"
                 >
                     <FormLabel v-if="!paypal.isConfigured" icon="shield">
-                        {{ $t('Configure Your Credentials') }}
+                        {{ $t('configure_your_credentials') }}
                     </FormLabel>
                     <ValidationProvider
                         tag="div"
@@ -449,7 +449,7 @@
                         type="submit"
                         class="w-full"
                     >
-                        {{ $t('Store Credentials') }}
+                        {{ $t('store_credentials') }}
                     </ButtonBase>
                 </ValidationObserver>
             </div>
@@ -549,17 +549,17 @@ export default {
             },
             columns: [
                 {
-                    label: this.$t('Name'),
+                    label: this.$t('name'),
                     field: 'name',
                     sortable: true,
                 },
                 {
-                    label: this.$t('Currency'),
+                    label: this.$t('currency'),
                     field: 'currency',
                     sortable: true,
                 },
                 {
-                    label: this.$t('Interval'),
+                    label: this.$t('interval'),
                     field: 'interval',
                     sortable: true,
                 },

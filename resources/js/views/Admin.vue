@@ -93,7 +93,7 @@ export default {
             let subscriptionLinks = {
                 metered: [
                     {
-                        title: this.$t('Payments'),
+                        title: this.$t('payments'),
                         route: 'PaymentSettings',
                         icon: 'card',
                     },
@@ -104,19 +104,19 @@ export default {
                         linkActivation: ['plans', 'plan'],
                     },
                     {
-                        title: this.$t('Transactions'),
+                        title: this.$t('transactions'),
                         route: 'Invoices',
                         icon: 'file-text',
                     },
                 ],
                 fixed: [
                     {
-                        title: this.$t('Payments'),
+                        title: this.$t('payments'),
                         route: 'PaymentSettings',
                         icon: 'card',
                     },
                     {
-                        title: this.$t('Subscriptions'),
+                        title: this.$t('subscriptions'),
                         route: 'Subscriptions',
                         icon: 'dollar',
                     },
@@ -127,7 +127,7 @@ export default {
                         linkActivation: ['plans', 'plan'],
                     },
                     {
-                        title: this.$t('Transactions'),
+                        title: this.$t('transactions'),
                         route: 'Invoices',
                         icon: 'file-text',
                     },
@@ -159,7 +159,7 @@ export default {
                 },
                 {
                     groupCollapsable: false,
-                    groupTitle: this.$t('Content'),
+                    groupTitle: this.$t('content'),
                     groupLinks: [
                         {
                             title: this.$t('pages'),
@@ -179,7 +179,7 @@ export default {
             if (this.config.subscriptionType !== 'none') {
                 sections.push({
                     groupCollapsable: false,
-                    groupTitle: this.$t('Subscription'),
+                    groupTitle: this.$t('subscription'),
                     groupLinks: subscriptionLinks,
                 })
             }

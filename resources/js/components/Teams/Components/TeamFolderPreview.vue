@@ -5,7 +5,7 @@
                 {{ teamFolder.data.attributes.name }}
             </b>
             <span class="subtitle mb-2 block text-tiny text-gray-600 dark:text-gray-500">
-                {{ $t('Created at') }} {{ teamFolder.data.attributes.created_at }}
+                {{ $t('created_at') }} {{ teamFolder.data.attributes.created_at }}
             </span>
             <TeamMembersPreview :folder="teamFolder" :avatar-size="32" class="members" />
         </div>

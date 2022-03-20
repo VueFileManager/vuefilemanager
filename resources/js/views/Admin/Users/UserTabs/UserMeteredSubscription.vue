@@ -3,7 +3,7 @@
         <!--Balance-->
         <div class="card shadow-card">
             <FormLabel icon="hard-drive">
-                {{ $t('Balance') }}
+                {{ $t('balance') }}
             </FormLabel>
 
             <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl">
@@ -19,14 +19,14 @@
             >
                 <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Balance Amount" rules="required">
                     <AppInputText
-                        :description="$t('User balance will be increased for the amount above.')"
+                        :description="$t('balance_will_be_increased')"
                         :error="errors[0]"
                         :is-last="true"
                     >
                         <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
                             <input
                                 v-model="balanceAmount"
-                                :placeholder="$t('Increase user balance for...')"
+                                :placeholder="$t('increase_for')"
                                 type="number"
                                 min="1"
                                 max="999999999"
@@ -40,7 +40,7 @@
                                 :loading="isUpdatingBalanceAmount"
                                 :disabled="isUpdatingBalanceAmount"
                             >
-                                {{ $t('Increase Balance') }}
+                                {{ $t('increase_balance') }}
                             </ButtonBase>
                         </div>
                     </AppInputText>
@@ -51,7 +51,7 @@
         <!--Usage Estimates-->
         <div class="card shadow-card">
             <FormLabel icon="hard-drive">
-                {{ $t('Usage Estimates') }}
+                {{ $t('usage_estimates') }}
             </FormLabel>
 
             <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl">
@@ -60,7 +60,7 @@
 
             <b class="mb-3 mb-5 block text-sm text-gray-400">
                 {{ user.data.relationships.subscription.data.attributes.updated_at }}
-                {{ $t('till now') }}
+                {{ $t('till_now') }}
             </b>
 
             <div>
@@ -142,7 +142,7 @@ export default {
 
                     events.$emit('toaster', {
                         type: 'success',
-                        message: this.$t('User balance was successfully increased'),
+                        message: this.$t('balance_was_increased'),
                     })
                 })
                 .catch(() => {

@@ -17,7 +17,7 @@ class TranslationsAccessTest extends TestCase
         $this->getJson('/translations/en')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'actions.close' => 'Close',
+                'close' => 'Close',
             ]);
     }
 
@@ -52,7 +52,7 @@ class TranslationsAccessTest extends TestCase
 
         $this->assertEquals(
             'Close',
-            __t('actions.close')
+            __t('close')
         );
 
         $this->assertEquals(
@@ -72,7 +72,7 @@ class TranslationsAccessTest extends TestCase
     public function it_get_translated_string_from_t_helper_without_database_connection()
     {
         $this->assertEquals(
-            __t('actions.close'),
+            __t('close'),
             'Close'
         );
     }

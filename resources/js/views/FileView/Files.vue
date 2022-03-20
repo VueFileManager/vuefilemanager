@@ -15,13 +15,13 @@
                 <Option
                     @click.native="$convertAsTeamFolder(item)"
                     v-if="isFolder"
-                    :title="$t('Convert as Team Folder')"
+                    :title="$t('convert_as_team_folder')"
                     icon="users"
                 />
 				<Option
 					@click.native="$createFileRequest(item)"
 					v-if="isFolder"
-					:title="$t('File Request')"
+					:title="$t('file_request')"
 					icon="upload-cloud"
 				/>
             </OptionGroup>
@@ -32,7 +32,7 @@
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup :title="$t('Frequently Used')">
+            <OptionGroup :title="$t('frequently_used')">
                 <OptionUpload
                     :title="$t('upload_files')"
                     type="file"
@@ -45,16 +45,16 @@
                     :is-hover-disabled="true"
                 />
             </OptionGroup>
-            <OptionGroup :title="$t('Others')">
+            <OptionGroup :title="$t('others')">
                 <Option
                     @click.stop.native="$createTeamFolder"
-                    :title="$t('Create Team Folder')"
+                    :title="$t('create_team_folder')"
                     icon="users"
                     :is-hover-disabled="true"
                 />
 				<Option
 					@click.native="$createFileRequest"
-					:title="$t('Create File Request')"
+					:title="$t('create_file_request')"
 					icon="upload-cloud"
 					:is-hover-disabled="true"
 				/>
@@ -74,7 +74,7 @@
                 class="mr-4"
                 source="trash"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
-                :action="$t('actions.delete')"
+                :action="$t('delete')"
             />
             <ToolbarButton
                 @click.native="$downloadSelection(item)"
@@ -130,13 +130,13 @@
                     <Option
                         @click.native="$convertAsTeamFolder(item)"
                         v-if="isFolder"
-                        :title="$t('Convert as Team Folder')"
+                        :title="$t('convert_as_team_folder')"
                         icon="user-plus"
                     />
                     <Option
                         @click.native="$createFileRequest(item)"
                         v-if="isFolder"
-                        :title="$t('File Request')"
+                        :title="$t('file_request')"
                         icon="upload-cloud"
                     />
                 </OptionGroup>
@@ -174,7 +174,7 @@
 
         <FileActionsMobile>
             <MobileActionButton @click.native="$openSpotlight()" icon="search">
-                {{ $t('Spotlight') }}
+                {{ $t('spotlight') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
                 {{ $getCurrentSectionName() }}
@@ -183,7 +183,7 @@
                 @click.native="$showMobileMenu('create-list')"
                 icon="cloud-plus"
             >
-                {{ $t('Upload / Create') }}
+                {{ $t('upload_or_create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
                 {{ $t('select') }}

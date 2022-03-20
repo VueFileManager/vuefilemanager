@@ -163,8 +163,8 @@
                     </AppInputSwitch>
 
                     <AppInputSwitch
-                        title="Require Email Verification"
-                        description="Turn on, if you want to allow user email verification."
+                        :title="$t('require_email_verification')"
+                        :description="$t('require_email_verification_note')"
                         :is-last="true"
                     >
                         <SwitchInput v-model="app.userVerification" class="switch" :state="app.userVerification" />

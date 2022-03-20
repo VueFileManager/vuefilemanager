@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow-card">
         <FormLabel icon="bell">
-            {{ $t('Billing Alert') }}
+            {{ $t('billing_alert') }}
         </FormLabel>
 
         <div v-if="user.data.relationships.alert">
@@ -22,7 +22,7 @@
             </b>
 
             <b class="block text-sm dark:text-gray-500 text-gray-400">
-                {{ $t('Alert will be triggered after you reach the value above.') }}
+                {{ $t('billing_alert_description') }}
             </b>
         </div>
 
@@ -38,7 +38,7 @@
                 <AppInputText
                     :description="
                         $t(
-                            'You will receive an email whenever your monthly balance reaches the specified amount above.'
+                            'billing_alert_notes'
                         )
                     "
                     :error="errors[0]"
@@ -47,7 +47,7 @@
                     <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
                         <input
                             v-model="billingAlertAmount"
-                            :placeholder="$t('Alert Amount...')"
+                            :placeholder="$t('alert_amount_')"
                             type="number"
                             min="1"
                             max="999999999"
@@ -61,7 +61,7 @@
                             button-style="theme"
                             class="w-full sm:w-auto"
                         >
-                            {{ $t('Update Alert') }}
+                            {{ $t('update_alert') }}
                         </ButtonBase>
                     </div>
                 </AppInputText>
@@ -80,7 +80,7 @@
                 <AppInputText
                     :description="
                         $t(
-                            'You will receive an email whenever your monthly balance reaches the specified amount above.'
+                            'billing_alert_notes'
                         )
                     "
                     :error="errors[0]"
@@ -89,7 +89,7 @@
                     <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
                         <input
                             v-model="billingAlertAmount"
-                            :placeholder="$t('Alert Amount...')"
+                            :placeholder="$t('alert_amount_')"
                             type="number"
                             min="1"
                             max="999999999"
@@ -103,7 +103,7 @@
                             button-style="theme"
                             class="w-full sm:w-auto"
                         >
-                            {{ $t('Set Alert') }}
+                            {{ $t('set_alert') }}
                         </ButtonBase>
                     </div>
                 </AppInputText>
@@ -162,7 +162,7 @@ export default {
 
                     events.$emit('toaster', {
                         type: 'success',
-                        message: this.$t('Your billing alert was updated successfully'),
+                        message: this.$t('alert_updated'),
                     })
                 })
                 .catch(() => {
@@ -192,7 +192,7 @@ export default {
 
                     events.$emit('toaster', {
                         type: 'success',
-                        message: this.$t('Your billing alert was set successfully'),
+                        message: this.$t('alert_set_successfully'),
                     })
                 })
                 .catch(() => {
@@ -207,9 +207,9 @@ export default {
         },
         deleteBillingAlert() {
             events.$emit('confirm:open', {
-                title: this.$t('Are you sure you want to delete your alert?'),
+                title: this.$t('want_to_delete_alert'),
                 message: this.$t(
-                    'You will no longer receive any notifications that your billing limit has been exceeded.'
+                    'want_to_delete_alert_description'
                 ),
                 action: {
                     id: this.user.data.relationships.alert.data.id,
@@ -231,7 +231,7 @@ export default {
 
                         events.$emit('toaster', {
                             type: 'success',
-                            message: this.$t('Your billing alert was deleted.'),
+                            message: this.$t('deleted_alert'),
                         })
                     })
                     .catch(() => this.$isSomethingWrong())

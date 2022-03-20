@@ -43,7 +43,7 @@
         <!--Navigator-->
         <ContentGroup v-if="navigation" :title="$t('navigator')" slug="navigator" :can-collapse="true">
             <small v-if="tree.length === 0" class="text-xs text-gray-500 dark:text-gray-500">
-                {{ $t("There isn't any folder.") }}
+                {{ $t("not_any_folder") }}
             </small>
             <TreeMenuNavigator :depth="0" :nodes="folder" v-for="folder in tree" :key="folder.id" />
         </ContentGroup>
@@ -182,17 +182,17 @@ export default {
                 },
                 {
                     groupCollapsable: true,
-                    groupTitle: this.$t('Collaboration'),
+                    groupTitle: this.$t('collaboration'),
                     groupLinks: [
                         {
                             icon: 'users',
                             route: 'TeamFolders',
-                            title: this.$t('Team Folders'),
+                            title: this.$t('team_folders'),
                         },
                         {
                             icon: 'user-check',
                             route: 'SharedWithMe',
-                            title: this.$t('Shared with Me'),
+                            title: this.$t('shared_with_me'),
                         },
                     ],
                 },

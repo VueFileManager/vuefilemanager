@@ -101,9 +101,9 @@ const itemHelpers = {
 
         Vue.prototype.$dissolveTeamFolder = function (folder) {
             events.$emit('confirm:open', {
-                title: i18n.t('Are you sure you want to dissolve this team?'),
+                title: i18n.t('really_dissolve_team'),
                 message: i18n.t(
-                    'All team members will lose access to your files and existing folder will be moved into your "Files" section.'
+                    'really_dissolve_team_desc'
                 ),
                 action: {
                     id: folder.data.id,
@@ -114,9 +114,9 @@ const itemHelpers = {
 
         Vue.prototype.$detachMeFromTeamFolder = function (folder) {
             events.$emit('confirm:open', {
-                title: i18n.t('Are you sure you want to leave this team folder?'),
+                title: i18n.t('really_leave_team'),
                 message: i18n.t(
-                    "You will don't have access to the files and all your previously uploaded content will be part of this Team Folder you are leaving."
+                    "really_leave_team_desc"
                 ),
                 action: {
                     id: folder.data.id,

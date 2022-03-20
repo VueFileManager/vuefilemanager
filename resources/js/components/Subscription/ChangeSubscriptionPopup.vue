@@ -1,11 +1,11 @@
 <template>
     <PopupWrapper name="change-plan-subscription">
-        <PopupHeader :title="$t('Change Your Plan')" icon="credit-card" />
+        <PopupHeader :title="$t('change_your_plan')" icon="credit-card" />
 
         <!--Select Payment Plans-->
 		<PopupContent v-if="plans">
 			<InfoBox v-if="plans.data.length === 0" class="!mb-0">
-				<p>{{ $t("There isn't any plan yet.") }}</p>
+				<p>{{ $t("not_any_plan") }}</p>
 			</InfoBox>
 
 			<!--Toggle yearly billing-->
@@ -37,7 +37,7 @@
 				:button-style="buttonStyle"
 				:loading="isLoading"
 				@click.native="proceedToPayment"
-				>{{ $t('Change Plan') }}
+				>{{ $t('change_plan') }}
 			</ButtonBase>
 		</PopupActions>
     </PopupWrapper>
@@ -152,7 +152,7 @@ export default {
 
 						events.$emit('toaster', {
 							type: 'success',
-							message: this.$t('Your subscription was successfully changed.'),
+							message: this.$t('subscription_changed'),
 						})
 					})
 			}

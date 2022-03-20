@@ -2,11 +2,11 @@
     <div>
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('Account Settings') }}
+                {{ $t('account_settings') }}
             </FormLabel>
 
             <div class="justify-items md:flex md:space-x-4">
-                <AppInputText :title="$t('First Name')" class="w-full">
+                <AppInputText :title="$t('first_name')" class="w-full">
                     <input
                         @keyup="updateFirstName"
                         v-model="user.data.relationships.settings.data.attributes.first_name"
@@ -15,7 +15,7 @@
                         class="focus-border-theme input-dark"
                     />
                 </AppInputText>
-                <AppInputText :title="$t('Last Name')" class="w-full">
+                <AppInputText :title="$t('last_name')" class="w-full">
                     <input
                         @keyup="updateLastName"
                         v-model="user.data.relationships.settings.data.attributes.last_name"
@@ -26,7 +26,7 @@
                 </AppInputText>
             </div>
 
-            <AppInputText :title="$t('GMT')" :is-last="true">
+            <AppInputText :title="$t('gmt')" :is-last="true">
                 <SelectInput
                     @input="
                         $updateText(
@@ -135,12 +135,12 @@
 
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('Appearance') }}
+                {{ $t('appearance') }}
             </FormLabel>
 
             <AppInputText
-                :title="$t('Theme Mode')"
-                :description="$t('Set your theme mode on dark, light or based on your system settings.')"
+                :title="$t('theme_mode')"
+                :description="$t('set_default_theme_disclaimer')"
                 :is-last="!$isApple()"
             >
                 <div class="items-center space-y-4 md:flex md:space-x-6 md:space-x-4 md:space-y-0">
@@ -162,11 +162,9 @@
 
             <AppInputText
                 v-if="$isApple()"
-                :title="$t('Default Emojis')"
+                :title="$t('default_emojis')"
                 :description="
-                    $t(
-                        'Set your default emojis for your folder custom icons. You can set Twemoji or default Apple emojis.'
-                    )
+                    $t('set_default_emoji_disclaimer')
                 "
                 :is-last="true"
             >
@@ -221,17 +219,17 @@ export default {
             isLoading: false,
             themeSetup: [
                 {
-                    title: this.$t('Light mode'),
+                    title: this.$t('light_mode'),
                     type: 'light',
                     image: '/assets/setup/light-mode.jpg',
                 },
                 {
-                    title: this.$t('Dark mode'),
+                    title: this.$t('dark_mode'),
                     type: 'dark',
                     image: '/assets/setup/dark-mode.jpg',
                 },
                 {
-                    title: this.$t('Based on system settings'),
+                    title: this.$t('based_on_system'),
                     type: 'system',
                     image: '/assets/setup/system-mode.jpg',
                 },

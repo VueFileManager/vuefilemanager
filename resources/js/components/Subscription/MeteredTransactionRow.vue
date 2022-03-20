@@ -21,12 +21,12 @@
                 </div>
             </div>
             <span v-if="!row.data.relationships.user" class="text-xs font-bold text-gray-500">
-                {{ $t('User was deleted') }}
+                {{ $t('user_was_deleted') }}
             </span>
         </td>
         <td class="px-3 md:px-1">
             <ColorLabel class="capitalize" :color="$getTransactionStatusColor(row.data.attributes.status)">
-                {{ row.data.attributes.status }}
+                {{ $t(row.data.attributes.status) }}
             </ColorLabel>
         </td>
         <td class="px-3 md:px-1">

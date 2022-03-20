@@ -15,7 +15,7 @@
         >
             <template slot="loading">
                 <b>
-                    {{ $t('loading content...') }}
+                    {{ $t('loading_content') }}
                 </b>
             </template>
         </pdf>

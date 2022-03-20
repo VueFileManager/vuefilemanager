@@ -15,7 +15,7 @@
                             {{ user.data.relationships.settings.data.attributes.last_name }}
 
                             <ColorLabel color="purple">
-                                {{ user.data.attributes.role }}
+                                {{ $t(user.data.attributes.role) }}
                             </ColorLabel>
                         </b>
                         <small class="block text-xs text-gray-600 sm:text-sm">
@@ -84,7 +84,7 @@ export default {
                         route: 'UserDetail',
                     },
                     {
-                        title: this.$t('Storage'),
+                        title: this.$t('storage'),
                         route: 'UserStorage',
                     },
                     {
@@ -92,7 +92,7 @@ export default {
                         route: 'UserPassword',
                     },
                     {
-                        title: this.$t('Delete Account'),
+                        title: this.$t('delete_account'),
                         route: 'UserDelete',
                     },
                 ]
@@ -104,11 +104,11 @@ export default {
                     route: 'UserDetail',
                 },
                 {
-                    title: this.$t('Storage'),
+                    title: this.$t('storage'),
                     route: 'UserStorage',
                 },
                 {
-                    title: this.$t('Billing'),
+                    title: this.$t('billing'),
                     route: 'UserSubscription',
                 },
                 {
@@ -116,7 +116,7 @@ export default {
                     route: 'UserPassword',
                 },
                 {
-                    title: this.$t('Delete Account'),
+                    title: this.$t('delete_account'),
                     route: 'UserDelete',
                 },
             ]

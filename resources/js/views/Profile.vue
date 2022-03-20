@@ -142,7 +142,7 @@ export default {
             // Push billing item if subscription is set
             if (this.config.subscriptionType !== 'none') {
                 list.push({
-                    title: this.$t('Billing'),
+                    title: this.$t('billing'),
                     route: 'Billing',
                 })
             }

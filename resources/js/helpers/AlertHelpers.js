@@ -7,16 +7,16 @@ const AlertHelpers = {
         Vue.prototype.$temporarilyDisabledUpload = function () {
             let messages = {
                 metered: {
-                    title: i18n.t('Upload is temporarily disabled'),
-                    message: i18n.t('Please review your billing settings.'),
+                    title: i18n.t('upload_temporarily_disabled'),
+                    message: i18n.t('upload_temporarily_disabled_note'),
                 },
                 fixed: {
-                    title: i18n.t('Upload is temporarily disabled'),
-                    message: i18n.t('Please review your billing settings.'),
+                    title: i18n.t('upload_temporarily_disabled'),
+                    message: i18n.t('upload_temporarily_disabled_note'),
                 },
                 none: {
-                    title: i18n.t('You exceeded your upload limit'),
-                    message: i18n.t('Unfortunately, you can not upload your file.'),
+                    title: i18n.t('exceed_upload_limit'),
+                    message: i18n.t('exceed_upload_limit_description'),
                 },
             }
 
@@ -28,15 +28,15 @@ const AlertHelpers = {
 
         Vue.prototype.$temporarilyDisabledFolderCreate = function () {
             events.$emit('alert:open', {
-                title: i18n.t('Folder creation is temporarily disabled'),
-                message: i18n.t('Please review your billing settings.'),
+                title: i18n.t('create_folder_temporarily_disabled'),
+                message: i18n.t('create_folder_temporarily_disabled_desc'),
             })
         }
 
         Vue.prototype.$temporarilyDisabledDownload = function () {
             events.$emit('alert:open', {
-                title: i18n.t('File download is temporarily disabled'),
-                message: i18n.t('Please review your billing settings.'),
+                title: i18n.t('download_temporarily_disabled'),
+                message: i18n.t('download_temporarily_disabled_desc'),
             })
         }
 

@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow-card">
         <FormLabel>
-            {{ $t('Subscription') }}
+            {{ $t('subscription') }}
         </FormLabel>
 
         <b class="-mt-3 mb-0.5 block text-xl font-extrabold sm:text-3xl">
@@ -36,14 +36,14 @@ export default {
     computed: {
         status() {
             return {
-                active: `Active until ${this.subscription.attributes.renews_at}`,
-                cancelled: `Active until ${this.subscription.attributes.ends_at}`,
+                active: this.$t('active_until', {date: this.subscription.attributes.renews_at}),
+                cancelled: this.$t('ends_at_date', {date: this.subscription.attributes.ends_at}),
             }[this.subscription.attributes.status]
         },
         price() {
             return {
-                month: `${this.subscription.relationships.plan.data.attributes.price} Per Month`,
-                year: `${this.subscription.relationships.plan.data.attributes.price} Per Year`,
+                month: this.$t('price_per_month', {price: this.subscription.relationships.plan.data.attributes.price}),
+                year: this.$t('price_per_year', {price: this.subscription.relationships.plan.data.attributes.price}),
             }[this.subscription.relationships.plan.data.attributes.interval]
         },
     },
@@ -60,12 +60,12 @@ export default {
                     max_team_members: 'purple',
                 },
                 message: {
-                    max_storage_amount: `Total ${item.use} of ${item.total} Used`,
-                    max_team_members: `Total ${item.use} of ${item.total} Members`,
+					max_storage_amount: this.$t('total_x_of_x_used', {use: item.use, total:item.total }),
+					max_team_members: this.$t('total_x_of_x_members', {use: item.use, total:item.total }),
                 },
                 title: {
-                    max_storage_amount: `Storage`,
-                    max_team_members: `Team Members`,
+					max_storage_amount: this.$t('storage'),
+					max_team_members: this.$t('team_members'),
                 },
             }
 

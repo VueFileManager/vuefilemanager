@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow-card">
         <FormLabel icon="file-text">
-            {{ $t('Transactions') }}
+            {{ $t('transactions') }}
         </FormLabel>
 
         <DatatableWrapper

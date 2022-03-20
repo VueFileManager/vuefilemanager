@@ -62,7 +62,7 @@
 
                 <!--Folder sub line-->
                 <small v-if="isFolder" class="block text-xs text-gray-500">
-                    {{ folderItems === 0 ? $t('folder.empty') : $tc('folder.item_counts', folderItems) }},
+                    {{ folderItems === 0 ? $t('empty') : $tc('folder.item_counts', folderItems) }},
                     {{ timeStamp }}
                 </small>
             </div>

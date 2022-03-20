@@ -12,7 +12,7 @@
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup :title="$t('Frequently Used')">
+            <OptionGroup :title="$t('frequently_used')">
                 <OptionUpload :title="$t('upload_files')" type="file" :is-hover-disabled="true" />
                 <Option
                     @click.stop.native="createFolder"
@@ -27,7 +27,7 @@
             <OptionGroup>
                 <Option
                     @click.native="$detachMeFromTeamFolder(teamFolder)"
-                    :title="$t('Leave the Team Folder')"
+                    :title="$t('leave_team_folder')"
                     icon="user-minus"
                 />
             </OptionGroup>
@@ -48,7 +48,7 @@
                 class="mr-4"
                 source="trash"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
-                :action="$t('actions.delete')"
+                :action="$t('delete')"
             />
             <ToolbarButton
                 @click.native="$downloadSelection(item)"
@@ -105,13 +105,13 @@
 
         <FileActionsMobile>
             <MobileActionButton @click.native="$openSpotlight()" icon="search">
-                {{ $t('Spotlight') }}
+                {{ $t('spotlight') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
                 {{ $getCurrentSectionName() }}
             </MobileActionButton>
             <MobileActionButton v-if="canEdit" @click.native="$showMobileMenu('create-list')" icon="cloud-plus">
-                {{ $t('Upload / Create') }}
+                {{ $t('upload_or_create') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
                 {{ $t('select') }}
@@ -125,10 +125,10 @@
             <!--Homepage-->
             <template v-if="isTeamFolderHomepage">
                 <h1 class="title">
-                    {{ $t('Nothing Shared With You') }}
+                    {{ $t('nothing_shared_with_you') }}
                 </h1>
                 <p class="description">
-                    {{ $t('All items that are shared with you will be visible here.') }}
+                    {{ $t('nothing_shared_with_you_description') }}
                 </p>
             </template>
 
@@ -148,7 +148,7 @@
             <!--Empty folder wit can-view privileges -->
             <template v-if="!canEdit && !isTeamFolderHomepage">
                 <h1 class="title">
-                    {{ $t('There is Nothing Yet') }}
+                    {{ $t('there_is_nothing') }}
                 </h1>
             </template>
         </EmptyFilePage>
@@ -254,7 +254,7 @@ export default {
 
                         events.$emit('toaster', {
                             type: 'success',
-                            message: this.$t('You have successfully left the team folder'),
+                            message: this.$t('you_left_team_folder'),
                         })
                     })
                     .catch(() => this.$isSomethingWrong())

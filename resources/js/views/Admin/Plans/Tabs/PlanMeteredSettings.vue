@@ -2,7 +2,7 @@
     <div>
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('Details') }}
+                {{ $t('details') }}
             </FormLabel>
 
             <!--Name-->
@@ -36,14 +36,14 @@
         </div>
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('Charged Features') }}
+                {{ $t('charged_features') }}
             </FormLabel>
 
             <!--Bandwidth-->
             <AppInputText
                 v-if="plan.attributes.features.bandwidth"
-                :title="$t('Bandwidth Price per 1GB')"
-                :description="$t('Charge your user by the amount of data he upload or download.')"
+                :title="$t('bandwidth_per_gb')"
+                :description="$t('bandwidth_per_gb_note')"
                 class="w-full"
             >
                 <input
@@ -59,8 +59,8 @@
             <!--Storage-->
             <AppInputText
                 v-if="plan.attributes.features.storage"
-                :title="$t('Storage Price per 1GB')"
-                :description="$t('Charge your user by the amount of data he has stored on the disk per 1GB.')"
+                :title="$t('storage_per_gb')"
+                :description="$t('storage_per_gb_note')"
                 class="w-full"
             >
                 <input
@@ -76,8 +76,8 @@
             <!--Member-->
             <AppInputText
                 v-if="plan.attributes.features.member"
-                :title="$t('Price per 1 Member')"
-                :description="$t('Charge your user by the total members he use in his Team Folders.')"
+                :title="$t('member_per_unit')"
+                :description="$t('member_per_unit_note')"
                 class="w-full"
             >
                 <input
@@ -91,8 +91,8 @@
             <!--Flat Fee-->
             <AppInputText
                 v-if="plan.attributes.features.flatFee"
-                :title="$t('Flat Fee per Cycle')"
-                :description="$t('Charge monthly flat fee.')"
+                :title="$t('flat_fee_unit_gb')"
+                :description="$t('flat_fee_unit_gb_note')"
                 class="w-full"
             >
                 <input
@@ -109,7 +109,7 @@
                 <p>
                     {{
                         $t(
-                            'Price change is not possible. If you would like to change your price or currency, please feel free to create a new plan.'
+                            'price_change_not_possible_create_new'
                         )
                     }}
                 </p>

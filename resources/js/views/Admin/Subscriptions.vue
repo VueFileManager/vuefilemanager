@@ -38,7 +38,7 @@
                     </td>
                     <td class="px-3 md:px-1">
                         <ColorLabel :color="$getSubscriptionStatusColor(row.data.attributes.status)">
-                            {{ row.data.attributes.status }}
+                            {{ $t(row.data.attributes.status) }}
                         </ColorLabel>
                     </td>
                     <td class="px-3 md:px-1">
@@ -87,11 +87,11 @@
                 />
 
                 <h1 class="mb-1 text-2xl font-bold">
-                    {{ $t('There is Nothing') }}
+                    {{ $t('there_is_nothing') }}
                 </h1>
 
                 <p class="text-sm text-gray-600">
-                    {{ $t('All your subscriptions will be visible here') }}
+                    {{ $t('all_visible_subscriptions_here') }}
                 </p>
             </div>
         </div>
@@ -124,27 +124,27 @@ export default {
                     sortable: true,
                 },
                 {
-                    label: this.$t('Status'),
+                    label: this.$t('status'),
                     field: 'status',
                     sortable: true,
                 },
                 {
-                    label: this.$t('Note'),
+                    label: this.$t('note'),
                     field: 'plan.name',
                     sortable: true,
                 },
                 {
-                    label: this.$t('Renews At'),
+                    label: this.$t('renews_at'),
                     field: 'created_at',
                     sortable: true,
                 },
                 {
-                    label: this.$t('Ends At'),
+                    label: this.$t('ends_at'),
                     field: 'created_at',
                     sortable: true,
                 },
                 {
-                    label: this.$t('Service'),
+                    label: this.$t('service'),
                     field: 'driver.driver',
                     sortable: true,
                 },

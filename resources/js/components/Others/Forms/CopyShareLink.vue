@@ -33,7 +33,7 @@
                     <camera-icon size="14" />
                 </div>
                 <span class="text-sm font-bold">
-                    {{ $t('Get QR Code') }}
+                    {{ $t('get_qr_code') }}
                 </span>
             </li>
             <li
@@ -126,7 +126,7 @@ export default {
 
             events.$emit('toaster', {
                 type: 'success',
-                message: this.$t('Your web insert code was copied'),
+                message: this.$t('web_code_copied'),
             })
 
             this.isOpenedMoreOptions = false

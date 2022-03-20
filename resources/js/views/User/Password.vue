@@ -89,10 +89,10 @@
             </FormLabel>
 
             <ValidationProvider tag="div" mode="passive" name="Current Password" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('Current Password')" :error="errors[0]">
+                <AppInputText :title="$t('current_password')" :error="errors[0]">
                     <input
                         v-model="passwordForm.current"
-                        :placeholder="$t('Current password')"
+                        :placeholder="$t('current_password')"
                         type="password"
                         class="focus-border-theme input-dark"
                         :class="{ '!border-rose-600': errors[0] }"

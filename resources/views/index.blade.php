@@ -96,6 +96,7 @@
 
 			allowHomepage: {{ $settings->allow_homepage ?? 1 }},
 			storageLimit: {{ $settings->storage_limitation ?? 1 }},
+			teamsDefaultMembers: {{ $settings->default_max_team_member ?? 5 }},
 			storageDefaultSpace: {{ $settings->default_max_storage_amount ?? 5 }},
 			storageDefaultSpaceFormatted: '{{ isset($settings->default_max_storage_amount) ? format_gigabytes($settings->default_max_storage_amount) : format_gigabytes(5) }}',
 			mimetypesBlacklist: '{{ isset($settings->mimetypes_blacklist) ? $settings->mimetypes_blacklist: null}}',

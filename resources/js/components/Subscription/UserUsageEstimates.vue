@@ -1,7 +1,7 @@
 <template>
     <div class="card shadow-card">
         <FormLabel icon="bar-chart">
-            {{ $t('Usage Estimates') }}
+            {{ $t('usage_estimates') }}
         </FormLabel>
 
         <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl">
@@ -10,7 +10,7 @@
 
         <b class="mb-3 mb-5 block text-sm dark:text-gray-500 text-gray-400">
             {{ user.data.relationships.subscription.data.attributes.updated_at }}
-            {{ $t('till now') }}
+            {{ $t('till_now') }}
         </b>
 
         <div
@@ -39,7 +39,7 @@
         </div>
 
         <small class="mt-6 block font-bold">
-            {{ $t('Records are updated on daily bases.') }}
+            {{ $t('records_updated_daily_bases') }}
         </small>
     </div>
 </template>

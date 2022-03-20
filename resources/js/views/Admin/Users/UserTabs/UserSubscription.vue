@@ -15,22 +15,22 @@
         <!--Free Plan-->
         <div v-if="!subscription && config.subscriptionType === 'fixed'" class="card shadow-card">
             <FormLabel>
-                {{ $t('Subscription') }}
+                {{ $t('subscription') }}
             </FormLabel>
 
             <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl">
-                {{ $t('Free Plan') }}
+                {{ $t('free_plan') }}
             </b>
 
             <b class="block text-sm text-gray-400">
-                {{ $t('1GB Free storage space with 5 Team members') }}
+                {{ $t('free_plan_parameters', {storage: config.storageDefaultSpaceFormatted, members: config.teamsDefaultMembers}) }}
             </b>
         </div>
 
         <!--Transactions-->
         <div class="card shadow-card">
             <FormLabel icon="file-text">
-                {{ $t('Transactions') }}
+                {{ $t('transactions') }}
             </FormLabel>
 
             <DatatableWrapper
@@ -60,7 +60,7 @@
                 <template v-slot:empty-page>
                     <InfoBox style="margin-bottom: 0">
                         <p>
-                            {{ $t("User doesn't have any transactions yet.") }}
+                            {{ $t("user_dont_have_transactions") }}
                         </p>
                     </InfoBox>
                 </template>

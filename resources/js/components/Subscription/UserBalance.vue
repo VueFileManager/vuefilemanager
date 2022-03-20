@@ -1,7 +1,7 @@
 <template>
     <div v-if="!hasPaymentMethod" class="card shadow-card">
         <FormLabel icon="dollar">
-            {{ $t('Balance') }}
+            {{ $t('balance') }}
         </FormLabel>
 
         <b class="-mt-3 mb-0.5 block text-2xl font-extrabold sm:text-3xl">
@@ -25,7 +25,7 @@
             >
                 <AppInputText
                     :description="
-                        $t('The amount will be increased as soon as we register your charge from payment gateway.')
+                        $t('amount_increase_description')
                     "
                     :error="errors[0]"
                     :is-last="true"
@@ -33,7 +33,7 @@
                     <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
                         <input
                             v-model="chargeAmount"
-                            :placeholder="$t('Fund Your Account Balance...')"
+                            :placeholder="$t('fund_account_balance')"
                             type="number"
                             min="1"
                             max="999999999"
@@ -41,7 +41,7 @@
                             :class="{ '!border-rose-600': errors[0] }"
                         />
                         <ButtonBase type="submit" button-style="theme" class="w-full sm:w-auto">
-                            {{ $t('Make a Payment') }}
+                            {{ $t('make_payment') }}
                         </ButtonBase>
                     </div>
                 </AppInputText>

@@ -1,7 +1,7 @@
 <template>
     <PopupWrapper name="notifications-mobile">
         <!--Title-->
-        <PopupHeader :title="$t('Notifications')" icon="bell" />
+        <PopupHeader :title="$t('notifications')" icon="bell" />
 
         <!--Content-->
         <PopupContent>
@@ -11,18 +11,18 @@
 				icon="check-square"
 				class="mb-2 dark:!bg-4x-dark-foreground"
 			>
-				{{ $t('Clear all') }}
+				{{ $t('clear_all') }}
 			</MobileActionButton>
 
 			<p v-if="!readNotifications.length && !unreadNotifications.length" class="text-sm text-gray-500">
-				{{ $t("There aren't any notifications.") }}
+				{{ $t("not_any_notifications") }}
 			</p>
 
             <b
                 v-if="unreadNotifications.length"
                 class="dark-text-theme mt-1.5 mb-2.5 block px-2.5 text-xs text-gray-400"
             >
-                {{ $t('Unread') }}
+                {{ $t('unread') }}
             </b>
 
             <Notification
@@ -32,7 +32,7 @@
             />
 
             <b v-if="readNotifications.length" class="dark-text-theme mt-2.5 mb-2.5 block px-2.5 text-xs text-gray-400">
-                {{ $t('Read') }}
+                {{ $t('read') }}
             </b>
 
             <Notification
@@ -45,7 +45,7 @@
         <!--Actions-->
         <PopupActions>
             <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
-                {{ $t('Close') }}
+                {{ $t('close') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>

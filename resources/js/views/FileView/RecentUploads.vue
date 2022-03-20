@@ -63,7 +63,7 @@
 
         <FileActionsMobile>
             <MobileActionButton @click.native="$openSpotlight()" icon="search">
-                {{ $t('Spotlight') }}
+                {{ $t('spotlight') }}
             </MobileActionButton>
             <MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
                 {{ $getCurrentSectionName() }}
@@ -99,7 +99,7 @@
                 class="mr-4"
                 source="trash"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
-                :action="$t('actions.delete')"
+                :action="$t('delete')"
             />
             <ToolbarButton
                 @click.native="$downloadSelection(item)"

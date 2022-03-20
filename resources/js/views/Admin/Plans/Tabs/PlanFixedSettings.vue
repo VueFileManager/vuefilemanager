@@ -2,7 +2,7 @@
     <div>
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('Details') }}
+                {{ $t('details') }}
             </FormLabel>
 
             <!--Visible-->
@@ -57,7 +57,7 @@
                 <p>
                     {{
                         $t(
-                            'Price change is not possible. If you would like to change your price or currency, please feel free to create a new plan.'
+                            'price_change_not_possible_create_new'
                         )
                     }}
                 </p>
@@ -65,7 +65,7 @@
         </div>
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('Features') }}
+                {{ $t('features') }}
             </FormLabel>
 
             <!--Storage Capacity-->
@@ -91,7 +91,7 @@
             </AppInputText>
 
             <!--Team Members-->
-            <AppInputText :title="$t('Max Team Members')" :description="$t('Type -1 to set unlimited team members.')" is-last="true">
+            <AppInputText :title="$t('max_team_members')" :description="$t('zero_for_unlimited_members')" is-last="true">
                 <input
                     @input="
                         $updateInput(
@@ -101,7 +101,7 @@
                         )
                     "
                     v-model="plan.attributes.features.max_team_members"
-                    :placeholder="$t('Add max team members in number')"
+                    :placeholder="$t('add_max_team_members')"
                     type="number"
                     min="1"
                     max="999999999"

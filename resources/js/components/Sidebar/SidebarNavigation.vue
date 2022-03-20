@@ -62,7 +62,7 @@
         <div class="mt-auto text-center">
             <div
                 @click="$store.dispatch('logOut')"
-                :title="$t('locations.logout')"
+                :title="$t('logout')"
                 class="button-icon inline-block cursor-pointer rounded-xl p-3 hover:bg-light-300 dark:hover:bg-4x-dark-foreground"
             >
                 <power-icon size="20" />

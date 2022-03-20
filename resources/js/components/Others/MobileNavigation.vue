@@ -10,7 +10,7 @@
         >
             <div class="rounded-lg bg-light-background px-3 py-1.5 dark:bg-4x-dark-foreground">
                 <span class="text-sm font-semibold">
-                    {{ $t('Your current estimated usage:') }}
+                    {{ $t('current_estimated_usage') }}
                 </span>
                 <span class="text-theme text-sm font-bold">
                     {{ user.data.meta.usages.costEstimate }}
@@ -53,7 +53,7 @@
                 />
             </OptionGroup>
             <OptionGroup v-if="!clickedSubmenu">
-                <Option @click.native="logOut" :title="$t('menu.logout')" icon="power" :is-hover-disabled="true" />
+                <Option @click.native="logOut" :title="$t('logout')" icon="power" :is-hover-disabled="true" />
             </OptionGroup>
 
             <!--Submenu: User settings-->
@@ -79,7 +79,7 @@
                 <Option
                     @click.native="goToRoute('Billing')"
                     v-if="config.subscriptionType !== 'none'"
-                    :title="$t('Billing')"
+                    :title="$t('billing')"
                     icon="cloud"
                     :is-hover-disabled="true"
                 />
@@ -127,14 +127,14 @@
             <OptionGroup v-if="clickedSubmenu === 'admin' && config.subscriptionType !== 'none'">
                 <Option
                     @click.native="goToRoute('AppPayments')"
-                    :title="$t('Payments')"
+                    :title="$t('payments')"
                     icon="credit-card"
                     :is-hover-disabled="true"
                 />
                 <Option
                     @click.native="goToRoute('Subscriptions')"
                     v-if="config.subscriptionType === 'fixed'"
-                    :title="$t('Subscriptions')"
+                    :title="$t('subscriptions')"
                     icon="credit-card"
                     :is-hover-disabled="true"
                 />
@@ -146,7 +146,7 @@
                 />
                 <Option
                     @click.native="goToRoute('Invoices')"
-                    :title="$t('Transactions')"
+                    :title="$t('transactions')"
                     icon="file-text"
                     :is-hover-disabled="true"
                 />
@@ -185,7 +185,7 @@ export default {
                 admin: this.$t('administration'),
             }
 
-            return 'Go back from ' + location[this.clickedSubmenu]
+            return this.$t('go_back_from_x', {location: location[this.clickedSubmenu]})
         },
     },
     data() {

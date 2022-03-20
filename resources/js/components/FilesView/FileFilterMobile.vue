@@ -1,7 +1,7 @@
 <template>
     <MenuMobile name="file-filter">
         <MenuMobileGroup>
-            <OptionGroup :title="$t('Base')">
+            <OptionGroup :title="$t('base')">
                 <Option
                     @click.native="goToFiles"
                     :title="$t('sidebar.home')"
@@ -31,17 +31,17 @@
                     :is-hover-disabled="true"
                 />
             </OptionGroup>
-            <OptionGroup :title="$t('Collaboration')">
+            <OptionGroup :title="$t('collaboration')">
                 <Option
                     @click.native="goToTeamFolders"
-                    :title="$t('Team Folders')"
+                    :title="$t('team_folders')"
                     icon="users"
                     :is-active="$isThisRoute($route, 'TeamFolders')"
                     :is-hover-disabled="true"
                 />
                 <Option
                     @click.native="goToSharedWithMe"
-                    :title="$t('Shared with Me')"
+                    :title="$t('shared_with_me')"
                     icon="user-check"
                     :is-active="$isThisRoute($route, 'SharedWithMe')"
                     :is-hover-disabled="true"

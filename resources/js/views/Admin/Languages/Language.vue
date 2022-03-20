@@ -119,7 +119,7 @@
                             :title="$t('set_as_default_language')"
                             :description="
                                 $t(
-                                    'If this language is set as default, app will appear in this language for all users.'
+                                    'default_language_disclaimer'
                                 )
                             "
                             :is-last="true"

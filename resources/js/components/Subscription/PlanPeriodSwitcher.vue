@@ -4,7 +4,7 @@
 			:class="{ 'text-gray-400': !isSelectedYearlyPlans }"
 			class="cursor-pointer text-xs font-bold"
 		>
-			{{ $t('Billed Annually') }}
+			{{ $t('billed_annually') }}
 		</label>
 		<div class="relative inline-block w-12 select-none align-middle">
 			<SwitchInput

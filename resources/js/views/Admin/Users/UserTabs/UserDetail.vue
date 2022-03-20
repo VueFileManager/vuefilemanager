@@ -41,7 +41,7 @@
 
             <!--Name-->
             <div class="justify-items md:flex md:space-x-4">
-                <AppInputText :title="$t('First Name')" class="w-full">
+                <AppInputText :title="$t('first_name')" class="w-full">
                     <input
                         disabled
                         :value="user.data.relationships.settings.data.attributes.first_name"
@@ -50,7 +50,7 @@
                         class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
                     />
                 </AppInputText>
-                <AppInputText :title="$t('Last Name')" class="w-full">
+                <AppInputText :title="$t('last_name')" class="w-full">
                     <input
                         disabled
                         :value="user.data.relationships.settings.data.attributes.last_name"

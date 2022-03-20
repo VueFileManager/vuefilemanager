@@ -39,7 +39,7 @@
                         </td>
                         <td class="px-3 md:px-1">
                             <ColorLabel :color="$getPlanStatusColor(row.data.attributes.status)">
-                                {{ row.data.attributes.status }}
+                                {{ $t(row.data.attributes.status) }}
                             </ColorLabel>
                         </td>
                         <td class="px-3 md:px-1">
@@ -49,7 +49,7 @@
                         </td>
                         <td class="px-3 md:px-1">
                             <span class="text-sm font-bold capitalize">
-                                {{ row.data.attributes.interval }}
+                                {{ $t(row.data.attributes.interval) }}
                             </span>
                         </td>
                         <td class="px-3 md:px-1">
@@ -119,7 +119,7 @@
                         </td>
                         <td class="px-3 md:px-1">
                             <span class="text-sm font-bold capitalize">
-                                {{ row.data.attributes.interval }}
+                                {{ $t(row.data.attributes.interval) }}
                             </span>
                         </td>
                         <td class="px-3 md:px-1">
@@ -170,16 +170,16 @@
                 />
 
                 <h1 class="mb-1 text-2xl font-bold">
-                    {{ $t('There is Nothing') }}
+                    {{ $t('there_is_nothing') }}
                 </h1>
 
                 <p class="text-sm text-gray-600">
-                    {{ $t('All your plans will be visible here') }}
+                    {{ $t('all_visible_plans_here') }}
                 </p>
 
                 <router-link :to="{ name: createPlanRoute }" class="mt-6 inline-block">
                     <ButtonBase class="action-confirm" button-style="theme">
-                        {{ $t('Create First Plan') }}
+                        {{ $t('create_first_plan') }}
                     </ButtonBase>
                 </router-link>
             </div>
@@ -219,22 +219,22 @@ export default {
             return {
                 metered: [
                     {
-                        label: this.$t('Name'),
+                        label: this.$t('name'),
                         field: 'name',
                         sortable: true,
                     },
                     {
-                        label: this.$t('Status'),
+                        label: this.$t('status'),
                         field: 'status',
                         sortable: true,
                     },
                     {
-                        label: this.$t('Currency'),
+                        label: this.$t('currency'),
                         field: 'currency',
                         sortable: true,
                     },
                     {
-                        label: this.$t('Interval'),
+                        label: this.$t('interval'),
                         field: 'interval',
                         sortable: true,
                     },
@@ -249,22 +249,22 @@ export default {
                 ],
                 fixed: [
                     {
-                        label: this.$t('Visibility'),
+                        label: this.$t('visibility'),
                         field: 'visible',
                         sortable: true,
                     },
                     {
-                        label: this.$t('Name'),
+                        label: this.$t('name'),
                         field: 'name',
                         sortable: true,
                     },
                     {
-                        label: this.$t('Price'),
+                        label: this.$t('price'),
                         field: 'amount',
                         sortable: true,
                     },
                     {
-                        label: this.$t('Interval'),
+                        label: this.$t('interval'),
                         field: 'interval',
                         sortable: true,
                     },
@@ -273,7 +273,7 @@ export default {
                         sortable: false,
                     },
                     {
-                        label: this.$t('Storage'),
+                        label: this.$t('storage'),
                         sortable: false,
                     },
                     {

@@ -4,7 +4,7 @@
         <AuthContent name="invitation" :visible="false">
             <Headline
                 v-if="invitation"
-                :title="$t('Invitation To Join Team Folder')"
+                :title="$t('invite_to_join_team_folder')"
                 :description="
                     $t('user_invite_you_into_team_folder', {
                         name: invitation.data.relationships.inviter.data.attributes.name,
@@ -41,27 +41,25 @@
                 :disabled="isLoading"
             />
 
-            <div class="block">
-                Or
+            <i18n path="or_decline_your_invitation" tag="div" class="block">
                 <b @click="declineInvitation" class="text-theme cursor-pointer font-bold">
                     {{ $t('decline') }}
                 </b>
-                your invitation.
-            </div>
+            </i18n>
         </AuthContent>
 
         <!--Accepted invitation screen-->
         <AuthContent v-if="invitation" name="accepted" :visible="false">
             <Headline
-                :title="$t('You are successfully joined')"
-                :description="$t('You can now proceed to your account and participate in team folder')"
+                :title="$t('you_are_successfully_joined')"
+                :description="$t('proceed_to_participate_with_team')"
             />
 
             <router-link replace v-if="!config.isAuthenticated" :to="{ name: 'SignIn' }">
                 <AuthButton
                     class="mb-12 w-full justify-center md:w-min"
                     icon="chevron-right"
-                    :text="$t('Proceed to your account')"
+                    :text="$t('proceed_to_your_account')"
                 />
             </router-link>
 
@@ -76,7 +74,7 @@
                 <AuthButton
                     class="mb-12 w-full justify-center md:w-min"
                     icon="chevron-right"
-                    :text="$t('Go to Team Folder')"
+                    :text="$t('go_to_team_folder')"
                 />
             </router-link>
         </AuthContent>
@@ -84,15 +82,15 @@
         <!--Denied invitation screen-->
         <AuthContent name="denied" :visible="false">
             <Headline
-                :title="$t('You are successfully denied invitation')"
-                :description="$t('You can now proceed to your account')"
+                :title="$t('you_denied_invitation')"
+                :description="$t('proceed_to_your_account')"
             />
 
             <router-link :to="{ name: 'SignIn' }">
                 <AuthButton
                     class="mb-12 w-full justify-center md:w-min"
                     icon="chevron-right"
-                    :text="$t('Proceed to your account')"
+                    :text="$t('proceed_to_your_account')"
                 />
             </router-link>
         </AuthContent>
@@ -100,19 +98,19 @@
         <!--Used or Expired invitation screen-->
         <AuthContent name="expired" :visible="false">
             <Headline
-                :title="$t('Your invitation has been used')"
-                :description="$t('We are sorry but this invitation was used previously')"
+                :title="$t('invitation_used')"
+                :description="$t('invitation_used_description')"
             />
 
             <router-link replace v-if="!config.isAuthenticated" :to="{ name: 'SignIn' }">
-                <AuthButton class="mb-12 w-full justify-center md:w-min" icon="chevron-right" :text="$t('Log In')" />
+                <AuthButton class="mb-12 w-full justify-center md:w-min" icon="chevron-right" :text="$t('log_in')" />
             </router-link>
 
             <router-link replace v-if="config.isAuthenticated" :to="{ name: 'SharedWithMe' }">
                 <AuthButton
                     class="mb-12 w-full justify-center md:w-min"
                     icon="chevron-right"
-                    :text="$t('Go to your shared folders')"
+                    :text="$t('go_to_your_shared_folders')"
                 />
             </router-link>
         </AuthContent>
@@ -148,8 +146,8 @@ export default {
         ...mapGetters(['config']),
         acceptButton() {
             return this.invitation && this.invitation.data.attributes.isExistedUser
-                ? this.$t('Accept Invitation')
-                : this.$t('Accept and Register Account')
+                ? this.$t('accept_invitation')
+                : this.$t('accept_and_register')
         },
     },
     data() {

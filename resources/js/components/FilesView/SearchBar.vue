@@ -7,7 +7,7 @@
             <div class="flex items-center">
                 <search-icon size="18" class="vue-feather text-gray-400 dark:text-gray-600" />
                 <span class="pl-2.5 text-xs font-bold text-gray-400 dark:text-gray-600">
-                    {{ $t('inputs.placeholder_search_files') }}
+                    {{ $t('search_anything') }}
                 </span>
             </div>
             <span

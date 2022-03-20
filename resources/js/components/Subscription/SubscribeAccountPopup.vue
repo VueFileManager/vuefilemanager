@@ -1,6 +1,6 @@
 <template>
     <PopupWrapper name="select-plan-subscription">
-        <PopupHeader :title="$t('Upgrade Your Account')" icon="credit-card" />
+        <PopupHeader :title="$t('upgrade_your_account')" icon="credit-card" />
 
         <!--Payment Options-->
         <div v-if="isPaymentOptionPage">
@@ -9,7 +9,7 @@
                 <PaymentMethod
                     v-if="config.isStripe"
                     driver="stripe"
-                    :description="$t('Pay by your credit card or Apple Pay')"
+                    :description="$t(config.stripe_payment_description)"
                 >
                     <div v-if="stripe.isGettingCheckoutLink" class="translate-y-3 scale-50 transform">
                         <Spinner />
@@ -19,7 +19,7 @@
                         :class="{ 'opacity-0': stripe.isGettingCheckoutLink }"
                         class="text-theme cursor-pointer text-sm font-bold"
                     >
-                        {{ $t('Select') }}
+                        {{ $t('select') }}
                     </span>
                 </PaymentMethod>
 
@@ -33,7 +33,7 @@
                     <PaymentMethod
                         @click.native="payByPayPal"
                         driver="paypal"
-                        :description="$t('Available PayPal Credit, Debit or Credit Card.')"
+                        :description="$t(config.paypal_payment_description)"
                     >
                         <div v-if="paypal.isMethodLoading" class="translate-y-3 scale-50 transform">
                             <Spinner />
@@ -43,7 +43,7 @@
                             :class="{ 'opacity-0': paypal.isMethodLoading }"
                             class="text-theme cursor-pointer text-sm font-bold"
                         >
-                            {{ $t('Select') }}
+                            {{ $t('select') }}
                         </span>
                     </PaymentMethod>
 
@@ -55,7 +55,7 @@
                 <PaymentMethod
                     v-if="config.isPaystack"
                     driver="paystack"
-                    :description="$t('Available Bank Account, USSD, Mobile Money, Apple Pay')"
+                    :description="$t(config.paystack_payment_description)"
                 >
                     <div v-if="paystack.isGettingCheckoutLink" class="translate-y-3 scale-50 transform">
                         <Spinner />
@@ -65,14 +65,14 @@
                         :class="{ 'opacity-0': paystack.isGettingCheckoutLink }"
                         class="text-theme cursor-pointer text-sm font-bold"
                     >
-                        {{ $t('Select') }}
+                        {{ $t('select') }}
                     </span>
                 </PaymentMethod>
             </PopupContent>
 
             <PopupActions>
                 <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
-                    {{ $t('Cancel Payment') }}
+                    {{ $t('cancel_payment') }}
                 </ButtonBase>
             </PopupActions>
         </div>
@@ -110,7 +110,7 @@
                     v-if="plans && plans.data.length !== 0"
                     :button-style="buttonStyle"
                     @click.native="isPaymentOptionPage = true"
-                    >{{ $t('Upgrade Account') }}
+                    >{{ $t('upgrade_account') }}
                 </ButtonBase>
             </PopupActions>
         </div>
@@ -221,7 +221,7 @@ export default {
             } catch (error) {
                 events.$emit('toaster', {
                     type: 'danger',
-                    message: this.$t('Failed to load the PayPal service'),
+                    message: this.$t('failed_to_load_paypal'),
                 })
             }
 
@@ -266,7 +266,7 @@ export default {
 
             events.$emit('toaster', {
                 type: 'success',
-                message: this.$t('Your payment was successfully received.'),
+                message: this.$t('payment_was_successfully_received'),
             })
 
             // todo: temporary reload function

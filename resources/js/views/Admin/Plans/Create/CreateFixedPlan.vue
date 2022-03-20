@@ -2,7 +2,7 @@
     <ValidationObserver @submit.prevent="createPlan" ref="createPlan" v-slot="{ invalid }" tag="form">
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('Details') }}
+                {{ $t('details') }}
             </FormLabel>
 
             <!--Name-->
@@ -34,7 +34,7 @@
 
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('Pricing') }}
+                {{ $t('pricing') }}
             </FormLabel>
 
             <div class="justify-items md:flex md:space-x-4">
@@ -47,10 +47,10 @@
                     v-slot="{ errors }"
                     class="w-full"
                 >
-                    <AppInputText :title="$t('admin_page_plans.form.price')" class="w-full">
+                    <AppInputText :title="$t('plan_price')" class="w-full">
                         <input
                             v-model="plan.amount"
-                            :placeholder="$t('admin_page_plans.form.price_plac')"
+                            :placeholder="$t('plan_price')"
                             type="number"
                             step="0.01"
                             min="1"
@@ -70,11 +70,11 @@
                     v-slot="{ errors }"
                     class="w-full"
                 >
-                    <AppInputText :title="$t('Currency')" class="w-full">
+                    <AppInputText :title="$t('currency')" class="w-full">
                         <SelectInput
                             v-model="plan.currency"
                             :options="currencyList"
-                            :placeholder="$t('Select plan currency')"
+                            :placeholder="$t('select_plan_currency')"
                             :isError="errors[0]"
                         />
                     </AppInputText>
@@ -83,11 +83,11 @@
 
             <!--Interval-->
             <ValidationProvider tag="div" mode="passive" name="Interval" rules="required" v-slot="{ errors }">
-                <AppInputText :title="$t('Interval')" :is-last="true">
+                <AppInputText :title="$t('interval')" :is-last="true">
                     <SelectInput
                         v-model="plan.interval"
                         :options="intervalList"
-                        :placeholder="$t('Select billing interval')"
+                        :placeholder="$t('select_billing_interval')"
                         :isError="errors[0]"
                     />
                 </AppInputText>
@@ -96,7 +96,7 @@
 
         <div class="card shadow-card">
             <FormLabel>
-                {{ $t('Features') }}
+                {{ $t('features') }}
             </FormLabel>
 
             <!--Storage Capacity-->
@@ -126,13 +126,13 @@
             <!--Team Members-->
             <ValidationProvider tag="div" mode="passive" name="Max Team Members" rules="required" v-slot="{ errors }">
                 <AppInputText
-                    :title="$t('Team Members')"
-                    :description="$t('Type -1 to set unlimited team members.')"
+                    :title="$t('team_members')"
+                    :description="$t('zero_for_unlimited_members')"
                     :is-last="true"
                 >
                     <input
                         v-model="plan.features.max_team_members"
-                        :placeholder="$t('Add max team members in number')"
+                        :placeholder="$t('add_max_team_members')"
                         type="number"
                         min="1"
                         max="999999999"

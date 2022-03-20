@@ -36,10 +36,10 @@
                     alt="transaction"
                 />
                 <h1 class="mb-1 text-2xl font-bold">
-                    {{ $t('There is Nothing') }}
+                    {{ $t('there_is_nothing') }}
                 </h1>
                 <p class="text-sm text-gray-600">
-                    {{ $t('All your transactions will be visible here') }}
+                    {{ $t('transaction_will_be_here') }}
                 </p>
             </div>
         </div>

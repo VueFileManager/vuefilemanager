@@ -43,7 +43,9 @@
                             <user-icon v-if="option.icon === 'user'" size="14" />
                             <edit2-icon v-if="option.icon === 'user-edit'" size="14" />
                         </div>
-                        <span class="option-value">{{ option.label }}</span>
+                        <span class="option-value">
+							{{ $t(option.label) }}
+						</span>
                     </li>
                 </ul>
             </div>

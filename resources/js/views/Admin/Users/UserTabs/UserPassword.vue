@@ -6,7 +6,7 @@
             </FormLabel>
 
             <AppInputText
-                :title="$t('Reset User Password')"
+                :title="$t('reset_user_password')"
                 :description="$t('user_box_password.description')"
                 :is-last="true"
             >

@@ -83,7 +83,7 @@
                     >
                         <input
                             v-model="user.password_confirmation"
-                            :placeholder="$t('admin_page_user.create_user.label_conf_pass')"
+                            :placeholder="$t('confirm_password')"
                             type="password"
                             class="focus-border-theme input-dark"
                             :class="{ '!border-rose-600': errors[0] }"

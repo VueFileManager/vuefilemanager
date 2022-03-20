@@ -45,7 +45,7 @@
                     @keyup.down="onPageDown"
                     @keyup.up="onPageUp"
                     type="text"
-                    placeholder="Spotlight search..."
+                    :placeholder="$t('spotlight_search')"
                     ref="searchInput"
                 />
 
@@ -66,7 +66,7 @@
                 class="relative z-50 px-4 pb-4"
             >
                 <CategoryName>
-                    {{ $t('Suggested Filters') }}
+                    {{ $t('suggested_filters') }}
                 </CategoryName>
 
                 <FilterSuggestion
@@ -82,7 +82,7 @@
             <div v-if="isNotEmptyQuery" class="relative z-50 px-4 pb-4">
                 <!--Show actions-->
                 <CategoryName v-if="actions.length !== 0">
-                    {{ $t('Actions') }}
+                    {{ $t('actions') }}
                 </CategoryName>
 
                 <div v-if="actions.length !== 0" class="mb-2">
@@ -236,7 +236,7 @@
 
                 <!--Show results-->
                 <CategoryName v-if="!activeFilter && results.length !== 0">
-                    {{ $t('Files & Folders') }}
+                    {{ $t('files_and_folders') }}
                 </CategoryName>
 
                 <div v-if="results.length !== 0" v-for="(result, i) in results" :key="result.data.id" class="relative">
@@ -377,56 +377,56 @@ export default {
         actionList() {
             let adminLocations = [
                 {
-                    title: this.$t('Go To Dashboard'),
+                    title: this.$t('go_to_dashboard'),
                     action: {
                         type: 'route',
                         value: 'Dashboard',
                     },
                 },
                 {
-                    title: this.$t('Go To Settings'),
+                    title: this.$t('go_to_settings'),
                     action: {
                         type: 'route',
                         value: 'AppOthers',
                     },
                 },
                 {
-                    title: this.$t('Go To Payments'),
+                    title: this.$t('go_to_payments'),
                     action: {
                         type: 'route',
                         value: 'AppPayments',
                     },
                 },
                 {
-                    title: this.$t('Go To Pages'),
+                    title: this.$t('go_to_pages'),
                     action: {
                         type: 'route',
                         value: 'Pages',
                     },
                 },
                 {
-                    title: this.$t('Go To Languages'),
+                    title: this.$t('go_to_languages'),
                     action: {
                         type: 'route',
                         value: 'Language',
                     },
                 },
                 {
-                    title: this.$t('Show all Users'),
+                    title: this.$t('show_all_users'),
                     action: {
                         type: 'route',
                         value: 'Users',
                     },
                 },
                 {
-                    title: this.$t('Show all Plans'),
+                    title: this.$t('show_all_plans'),
                     action: {
                         type: 'route',
                         value: 'Plans',
                     },
                 },
                 {
-                    title: this.$t('Show Transactions'),
+                    title: this.$t('show_transactions'),
                     action: {
                         type: 'route',
                         value: 'Invoices',
@@ -436,42 +436,42 @@ export default {
 
             let fileLocations = [
                 {
-                    title: this.$t('Go Home'),
+                    title: this.$t('go_home_spotlight'),
                     action: {
                         type: 'route',
                         value: 'Files',
                     },
                 },
                 {
-                    title: this.$t('Go To Recent Uploads'),
+                    title: this.$t('go_to_recent_uploads'),
                     action: {
                         type: 'route',
                         value: 'RecentUploads',
                     },
                 },
                 {
-                    title: this.$t('Go To Publicly Shared'),
+                    title: this.$t('go_to_publicly_shared'),
                     action: {
                         type: 'route',
                         value: 'MySharedItems',
                     },
                 },
                 {
-                    title: this.$t('Go To Trash'),
+                    title: this.$t('go_to_trash'),
                     action: {
                         type: 'route',
                         value: 'Trash',
                     },
                 },
                 {
-                    title: this.$t('Go To Team Folders'),
+                    title: this.$t('go_to_team_folders'),
                     action: {
                         type: 'route',
                         value: 'TeamFolders',
                     },
                 },
                 {
-                    title: this.$t('Go To Shared with Me'),
+                    title: this.$t('go_to_shared_with_me'),
                     action: {
                         type: 'route',
                         value: 'SharedWithMe',
@@ -481,7 +481,7 @@ export default {
 
             let adminActions = [
                 {
-                    title: this.$t('Create User'),
+                    title: this.$t('create_user'),
                     action: {
                         type: 'route',
                         value: 'UserCreate',
@@ -491,42 +491,42 @@ export default {
 
             let userSettings = [
                 {
-                    title: this.$t('Update Profile Settings'),
+                    title: this.$t('update_profile_settings'),
                     action: {
                         type: 'route',
                         value: 'Profile',
                     },
                 },
                 {
-                    title: this.$t('Update Security & API'),
+                    title: this.$t('update_security_api'),
                     action: {
                         type: 'route',
                         value: 'Password',
                     },
                 },
                 {
-                    title: this.$t('Show Storage Details'),
+                    title: this.$t('show_storage_details'),
                     action: {
                         type: 'route',
                         value: 'Storage',
                     },
                 },
                 {
-                    title: this.$t('Show Billing'),
+                    title: this.$t('show_billing'),
                     action: {
                         type: 'route',
                         value: 'Billing',
                     },
                 },
                 {
-                    title: this.$t('Empty Your Trash'),
+                    title: this.$t('empty_your_trash'),
                     action: {
                         type: 'function',
                         value: 'empty-trash',
                     },
                 },
                 {
-                    title: this.$t('Log Out'),
+                    title: this.$t('logout'),
                     action: {
                         type: 'function',
                         value: 'log-out',
@@ -536,14 +536,14 @@ export default {
 
             let createList = [
                 {
-                    title: this.$t('Create Team Folder'),
+                    title: this.$t('create_team_folder'),
                     action: {
                         type: 'function',
                         value: 'create-team-folder',
                     },
                 },
                 {
-                    title: this.$t('Create File Request'),
+                    title: this.$t('create_file_request'),
                     action: {
                         type: 'function',
                         value: 'create-file-request',
@@ -553,21 +553,21 @@ export default {
 
             let functionList = [
                 {
-                    title: this.$t('Toggle Grid/List View'),
+                    title: this.$t('toggle_grid_list_view'),
                     action: {
                         type: 'function',
                         value: 'toggle-grid-list',
                     },
                 },
                 {
-                    title: this.$t('Toggle Dark/Light Mode'),
+                    title: this.$t('toggle_dark_light_mode'),
                     action: {
                         type: 'function',
                         value: 'dark-mode',
                     },
                 },
                 {
-                    title: this.$t('Toggle Full-Screen Mode'),
+                    title: this.$t('toggle_full_screen_mode'),
                     action: {
                         type: 'function',
                         value: 'full-screen-mode',
@@ -578,7 +578,7 @@ export default {
             // Available only for apple users
             if (this.$isApple()) {
                 functionList.push({
-                    title: this.$t('Toggle Emoji Type'),
+                    title: this.$t('toggle_emoji_type'),
                     action: {
                         type: 'function',
                         value: 'toggle-emoji',
@@ -596,7 +596,7 @@ export default {
                 // Available only for fixed subscription
                 if (this.config.subscriptionType === 'fixed') {
                     adminLocations.push({
-                        title: this.$t('Show all Subscriptions'),
+                        title: this.$t('show_all_subscriptions'),
                         action: {
                             type: 'route',
                             value: 'Subscriptions',
@@ -610,7 +610,7 @@ export default {
                     this.config.subscriptionType === 'fixed'
                 ) {
                     adminActions.push({
-                        title: this.$t('Create Plan'),
+                        title: this.$t('create_plan'),
                         action: {
                             type: 'route',
                             value: this.config.subscriptionType === 'fixed' ? 'CreateFixedPlan' : 'CreateMeteredPlan',
@@ -657,7 +657,7 @@ export default {
             filters: [
                 {
                     keyword: 'u',
-                    description: this.$t('Search through your users...'),
+                    description: this.$t('search_your_users'),
                     slug: 'users',
                 },
             ],

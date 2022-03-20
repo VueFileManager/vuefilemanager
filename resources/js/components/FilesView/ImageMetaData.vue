@@ -1,7 +1,7 @@
 <template>
     <div>
 		<div class="flex items-center justify-between pt-0.5 pb-2" v-if="clipboard.data.attributes.date_time_original">
-			<b class="font-bold text-sm">{{ $t('file_detail_meta.time_data') }}</b>
+			<b class="font-bold text-sm">{{ $t('time_data') }}</b>
 			<b class="font-bold text-sm">{{ clipboard.data.attributes.date_time_original }}</b>
 		</div>
 

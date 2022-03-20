@@ -1,6 +1,6 @@
 <template>
     <PopupWrapper name="confirm-password">
-        <PopupHeader :title="$t('Confirm Password')" icon="edit" />
+        <PopupHeader :title="$t('confirm_password')" icon="edit" />
 
         <PopupContent>
             <ValidationObserver @submit.prevent="confirmPassword" ref="passwordForm" v-slot="{ invalid }" tag="form">

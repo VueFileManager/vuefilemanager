@@ -93,31 +93,31 @@ const FunctionHelpers = {
                     progress: storage.data.meta.images.percentage,
                     color: 'success',
                     value: storage.data.meta.images.used,
-                    title: 'Images',
+                    title: i18n.t('images'),
                 },
                 {
                     progress: storage.data.meta.videos.percentage,
                     color: 'danger',
                     value: storage.data.meta.videos.used,
-                    title: 'Videos',
+                    title: i18n.t('videos'),
                 },
                 {
                     progress: storage.data.meta.audios.percentage,
                     color: 'warning',
                     value: storage.data.meta.audios.used,
-                    title: 'Audios',
+                    title: i18n.t('audios'),
                 },
                 {
                     progress: storage.data.meta.documents.percentage,
                     color: 'info',
                     value: storage.data.meta.documents.used,
-                    title: 'Documents',
+                    title: i18n.t('documents'),
                 },
                 {
                     progress: storage.data.meta.others.percentage,
                     color: 'purple',
                     value: storage.data.meta.others.used,
-                    title: 'Others',
+                    title: i18n.t('others'),
                 },
             ]
 
@@ -130,7 +130,7 @@ const FunctionHelpers = {
                     progress: 100 - storage.data.attributes.percentage,
                     color: 'secondary',
                     value: storage.data.meta.others.used,
-                    title: 'Empty',
+                    title: i18n.t('empty'),
                 })
             }
 
@@ -288,27 +288,27 @@ const FunctionHelpers = {
                 return store.getters.currentFolder.data.attributes.name
             } else {
                 return {
-                    RequestUpload: this.$t('Home'),
-                    RecentUploads: this.$t('Recent Uploads'),
+                    RequestUpload: this.$t('home'),
+                    RecentUploads: this.$t('menu.latest'),
                     MySharedItems: this.$t('publicly_shared'),
-                    Trash: this.$t('Trash'),
-                    Public: this.$t('Files'),
+                    Trash: this.$t('trash'),
+                    Public: this.$t('menu.files'),
                     Files: this.$t('sidebar.home'),
-                    TeamFolders: this.$t('Team Folders'),
-                    SharedWithMe: this.$t('Shared With Me'),
+                    TeamFolders: this.$t('team_folders'),
+                    SharedWithMe: this.$t('shared_with_me'),
                 }[this.$route.name]
             }
         }
 
         Vue.prototype.$getCurrentSectionName = function () {
             return {
-                RecentUploads: this.$t('Recent Uploads'),
+                RecentUploads: this.$t('menu.latest'),
                 MySharedItems: this.$t('publicly_shared'),
-                Trash: this.$t('Trash'),
-                Public: this.$t('Files'),
+                Trash: this.$t('trash'),
+                Public: this.$t('menu.files'),
                 Files: this.$t('sidebar.home'),
-                TeamFolders: this.$t('Team Folders'),
-                SharedWithMe: this.$t('Shared With Me'),
+                TeamFolders: this.$t('team_folders'),
+                SharedWithMe: this.$t('shared_with_me'),
             }[this.$route.name]
         }
 

@@ -7,7 +7,7 @@
             <div class="text-center">
                 <eye-off-icon size="22" class="vue-feather mb-3 inline-block text-gray-500" />
                 <small class="block text-xs text-gray-500">
-                    {{ $t('messages.nothing_to_preview') }}
+                    {{ $t('nothing_to_preview') }}
                 </small>
             </div>
         </div>
@@ -85,7 +85,7 @@
             </ListInfoItem>
 
             <!--Author-->
-            <ListInfoItem v-if="canShowAuthor" :title="$t('Author')">
+            <ListInfoItem v-if="canShowAuthor" :title="$t('author')">
                 <div class="mt-1.5 flex items-center">
                     <MemberAvatar :size="32" :member="singleFile.data.relationships.owner" />
                     <span class="ml-3 block text-sm font-bold">
@@ -154,7 +154,7 @@ import { mapGetters } from 'vuex'
 					return option.value === this.clipboard[0].data.relationships.shared.permission
 				})
 
-            return title ? this.$t(title.label) : this.$t('shared.can_download')
+            return title ? this.$t(title.label) : this.$t('can_download_file')
         },
         canShowAuthor() {
             return (

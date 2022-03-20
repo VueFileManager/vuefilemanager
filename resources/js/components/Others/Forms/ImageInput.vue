@@ -85,7 +85,7 @@ export default {
                 // Update user avatar
                 this.$emit('input', event.target.files[0])
             } else {
-                alert(this.$t('validation_errors.wrong_image'))
+                alert(this.$t('wrong_image_error'))
             }
         },
     },

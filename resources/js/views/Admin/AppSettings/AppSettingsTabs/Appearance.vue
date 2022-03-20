@@ -36,7 +36,7 @@
         </div>
         <div v-if="app" class="card shadow-card">
             <FormLabel>
-                {{ $t('Branding') }}
+                {{ $t('branding') }}
             </FormLabel>
 
             <AppInputText :title="$t('admin_settings.appearance.logo')">
@@ -47,7 +47,7 @@
                 />
             </AppInputText>
 
-            <AppInputText :title="$t('App Logo Dark Mode (optional)')">
+            <AppInputText :title="$t('app_logo_dark_mode')">
                 <ImageInput
                     @input="$updateImage('/admin/settings', 'app_logo_dark', app.logo_dark)"
                     :image="$getImage(app.logo_dark)"
@@ -63,7 +63,7 @@
                 />
             </AppInputText>
 
-            <AppInputText :title="$t('App Logo Horizontal Dark Mode (optional)')">
+            <AppInputText :title="$t('app_logo_horizontal_dark_mode')">
                 <ImageInput
                     @input="$updateImage('/admin/settings', 'app_logo_horizontal_dark', app.logo_horizontal_dark)"
                     :image="$getImage(app.logo_horizontal_dark)"

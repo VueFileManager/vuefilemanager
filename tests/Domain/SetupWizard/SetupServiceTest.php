@@ -32,7 +32,7 @@ class SetupServiceTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('language_translations', [
-            'key'   => 'actions.close',
+            'key'   => 'close',
             'value' => 'Close',
             'lang'  => 'en',
         ]);

@@ -2,8 +2,8 @@
     <AuthContentWrapper ref="auth" class="h-screen">
         <AuthContent :visible="true">
             <Headline
-                :title="$t('Temporary Unavailable')"
-                :description="$t('Unfortunately, this shared link is temporary unavailable. Please try it later.')"
+                :title="$t('temporary_unavailable')"
+                :description="$t('shared_link_temporary_unavailable')"
             />
 
             <span class="additional-link"

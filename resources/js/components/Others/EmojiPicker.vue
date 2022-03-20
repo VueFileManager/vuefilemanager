@@ -13,7 +13,7 @@
                 v-model="query"
                 class="focus-border-theme input-dark"
                 type="text"
-                :placeholder="$t('Select or search emoji icon...')"
+                :placeholder="$t('select_or_search_emoji')"
             />
         </div>
 
@@ -79,7 +79,7 @@
 
             <!-- Not found -->
             <span class="ml-2 text-sm font-bold" v-if="filteredEmojis.length === 0 && query !== undefined">
-                {{ $t('There is nothing :(') }}
+                {{ $t('there_is_nothing_smile') }}
             </span>
         </div>
     </div>
@@ -127,7 +127,7 @@ export default {
             this.filteredEmojis = this.emojis.list.filter((emoji) => emoji.name.includes(val.toLowerCase()))
 
             if (this.filteredEmojis.length === 0) {
-                console.log('empty')
+                //
             }
         }, 200),
     },
