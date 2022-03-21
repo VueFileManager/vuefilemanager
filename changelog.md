@@ -67,14 +67,17 @@ Folder Upload
 
 User Settings
 - New appearance option was added where user can set his theme mode by dark, light or based by system option
-- New default emoji option was added where mac user can switch between native emojis or twemoji
+- New default emoji option was added where Apple user can switch between native emojis or twemoji
 - 2fa setup challenge option was added. User can store and generate backup keys.
 - New Personal Access Token section was added where user can generate access token for API requests.
 - New 'Current Password' input was added into change password functionality
+- New widget to track the latest upload and download was added into the Storage tab
+- Storage usage widget was redesigned
+- New Billing tab with all subscription related items was added
 
 Dashboard
-- New widget to track latest upload and download was added
-- New widget latest transactions was added into extended license version
+- New widget to track the latest upload and download was added
+- New widget with the latest transactions was added into extended license version
 - New earnings widget was added
 
 Security
