@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Files\Requests;
 
 use Domain\Admin\Rules\DisabledMimetypes;
@@ -28,6 +29,7 @@ class UploadRequest extends FormRequest
             'parent_id' => 'nullable|uuid',
             'path'      => 'required|string',
             'is_last'   => 'sometimes|string',
+            'extension' => 'sometimes|string|nullable',
             'file'      => ['required', 'file', new DisabledMimetypes],
         ];
     }

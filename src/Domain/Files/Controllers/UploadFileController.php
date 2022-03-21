@@ -21,15 +21,17 @@ class UploadFileController extends Controller
     /**
      * Upload file for authenticated master|editor user
      */
-    public function __invoke(
-        UploadRequest $request,
-    ): Response | array {
+    public function __invoke(UploadRequest $request)  {
         if (is_demo_account()) {
             return ($this->fakeUploadFile)($request);
         }
 
         try {
             // Upload and store file record
+            if (! $request->boolean('is_last')) {
+                return ($this->uploadFiles)($request);
+            }
+
             $file = ($this->uploadFiles)($request);
 
             return response(new FileResource($file), 201);

@@ -235,6 +235,7 @@ const FunctionHelpers = {
                 formData.set('file', chunk, source_name)
                 formData.set('path', item.path)
                 formData.set('parent_id', item.parent_id)
+                formData.set('extension', item.file.name.split('.').pop())
                 formData.set('is_last', isLast)
 
                 // Upload chunks

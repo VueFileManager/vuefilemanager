@@ -36,9 +36,6 @@ class UploadFileAction
 
         $chunkName = $file->getClientOriginalName();
 
-        // File name
-        $fileName = Str::uuid() . '.' . $file->extension();
-
         // File Path
         $filePath = Storage::disk('local')->path('chunks/' . $chunkName);
 
@@ -59,6 +56,9 @@ class UploadFileAction
         // If last then process file
         if ($request->boolean('is_last')) {
             $disk_local = Storage::disk('local');
+
+            // File name
+            $fileName = Str::uuid() . '.' . $request->input('extension');
 
             // Get user data
             $user = $userId ? User::find($userId) : Auth::user();
