@@ -17,7 +17,7 @@
                     icon="check-square"
                     :title="$t('selected_multiple')"
                     :subtitle="clipboard.length + ' ' + $tc('items', clipboard.length)"
-                    v-if="clipboard.length > 1 || !isSelectedItem"
+                    v-if="clipboard.length > 1 && !isSelectedItem"
                 />
 
                 <TreeMenu

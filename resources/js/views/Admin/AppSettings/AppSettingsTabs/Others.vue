@@ -185,7 +185,7 @@
         </div>
 
         <!-- Subscription -->
-        <div v-if="app" class="card shadow-card">
+        <div v-if="app && config.isSaaS" class="card shadow-card">
             <FormLabel icon="credit-card">
                 {{ $t('subscription') }}
             </FormLabel>

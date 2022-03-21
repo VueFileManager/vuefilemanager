@@ -105,7 +105,7 @@
 			chunkSize: {{ format_bytes(config('vuefilemanager.chunk_size')) }},
 
 			isAuthenticated: {{ $isUser ? 1 : 0 }},
-			isSaaS: {{ $settings && optional($settings)->license === 'Extended' ? 1 : 0 }},
+			isSaaS: {{ $settings && optional($settings)->license === 'extended' ? 1 : 0 }},
 
 			isDev: {{ is_dev() ? 1 : 0 }},
 			isDemo: {{ config('vuefilemanager.is_demo') ? 1 : 0 }},
