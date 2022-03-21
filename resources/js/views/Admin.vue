@@ -7,6 +7,7 @@
 		<!--Spotlight Addons-->
 		<CreateUploadRequestPopup />
 		<CreateTeamFolderPopup />
+		<NotificationsPopup />
 
 		<!--Mobile Navigation-->
         <MobileNavigation />
@@ -84,6 +85,7 @@ import {
 import { mapGetters } from 'vuex'
 import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
 import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
+import NotificationsPopup from "../components/Others/NotificationsPopup";
 
 export default {
     name: 'Admin',
@@ -188,6 +190,7 @@ export default {
         },
     },
     components: {
+		NotificationsPopup,
 		CreateTeamFolderPopup,
 		CreateUploadRequestPopup,
         MobileNavigationToolbar,

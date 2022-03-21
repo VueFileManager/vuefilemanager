@@ -760,7 +760,7 @@ return [
         'notification_center'                            => 'Notification Center',
         'clear_all'                                      => 'Clear all',
         'not_any_notifications'                          => "There aren't any notifications.",
-        'unread'                                         => 'unread',
+        'unread'                                         => 'Unread',
         'read'                                           => 'Read',
         'notifications'                                  => 'Notifications',
         'options'                                        => 'Options',

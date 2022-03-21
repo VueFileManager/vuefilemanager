@@ -7,6 +7,7 @@
 		<!--Spotlight Addons-->
 		<CreateUploadRequestPopup />
 		<CreateTeamFolderPopup />
+		<NotificationsPopup />
 
         <ConfirmPopup />
 
@@ -92,10 +93,12 @@ import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolba
 import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
 import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
 import ChangeSubscriptionPopup from "../components/Subscription/ChangeSubscriptionPopup";
+import NotificationsPopup from "../components/Others/NotificationsPopup";
 
 export default {
     name: 'Settings',
     components: {
+		NotificationsPopup,
 		ChangeSubscriptionPopup,
 		CreateTeamFolderPopup,
 		CreateUploadRequestPopup,
