@@ -91,7 +91,7 @@ Login & Registration
 - Integrated database with more than 550 disposable temporary email services to automatically deny new account registrations
 - Users can now set up 2 factor verification with their favourite authenticator app
 - reCaptcha was added to provide security for your registration and contact form
-- Social authentication was implemented with Facebook, Google and GitHub drivers
+- Social authentication was implemented with Facebook, Google and GitHub drivers.
 
 Adsense
 - Adsense will be integrated into VueFileManager

@@ -23,19 +23,14 @@ class MoveFileToExternalStorageAction
 
         // If file is bigger than 5.2 MB then run multipart upload
         if ($filesize > 5242880) {
-            // Get driver
-            $driver = Storage::getDriver();
-
-            // Get adapter
-            $adapter = $driver->getAdapter();
 
             // Get client
-            $client = $adapter->getClient();
+            $client = Storage::disk('s3')->getClient();
 
             // Prepare the upload parameters.
             // TODO: replace local files with temp folder
             $uploader = new MultipartUploader($client, config('filesystems.disks.local.root') . "/files/$user_id/$file", [
-                'bucket' => $adapter->getBucket(),
+                'bucket' => config('filesystems.disks.s3.bucket'),
                 'key'    => "files/$user_id/$file",
             ]);
 
