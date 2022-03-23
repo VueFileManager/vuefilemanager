@@ -65,9 +65,15 @@ That was the hardest part of installation process. Please follow instructions in
 
 #### 7. Set up Cron
 
-Add the following Cron entry to your server. Just update your php path (if it's different) and project path:
+Add the following Cron entry to your server. 
+
+If you are running on shared hosting, just update your php path (if it's different) and project path:
 ```
 * * * * *  /usr/local/bin/php /www/html/your-project/artisan schedule:run >> /dev/null 2>&1
+```
+If you are running on linux server, just update your php path (if it's different) and project path:
+```
+* * * * *  cd /www/html/your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
 
 #### 8. Broadcasting
