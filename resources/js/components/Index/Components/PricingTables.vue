@@ -1,49 +1,70 @@
 <template>
-    <div class="plans-wrapper" v-if="plans">
-        <article class="plan" v-for="(plan, i) in plans" :key="i">
-            <div class="plan-wrapper">
-                <header class="plan-header">
-                    <div class="icon">
-                        <hard-drive-icon class="text-theme" size="26" />
-                    </div>
-                    <h1 class="title">{{ plan.data.attributes.name }}</h1>
-                    <h2 class="description">
-                        {{ plan.data.attributes.description }}
-                    </h2>
-                </header>
-                <section class="plan-features">
-                    <b class="storage-size">{{ plan.data.attributes.capacity_formatted }}</b>
-                    <span class="storage-description">{{ $t('page_pricing_tables.storage_capacity') }}</span>
-                </section>
-                <footer class="plan-footer">
-                    <b class="price text-theme">
-                        {{ plan.data.attributes.price }}/{{ $t('mo.') }}
-                        <small v-if="plan.data.attributes.tax_rates.length > 0" class="vat-disclaimer">{{
-                            $t('page_pricing_tables.vat_excluded')
-                        }}</small>
-                    </b>
-                </footer>
-            </div>
-        </article>
-    </div>
+	<div class="text-center">
+		<PlanPeriodSwitcher v-if="plans && yearlyPlans.length > 0" v-model="isSelectedYearlyPlans" class="inline-block" />
+		<div class="plans-wrapper" v-if="plans">
+			<article class="plan" v-if="plan.data.attributes.interval === intervalPlanType" v-for="plan in plans.data" :key="plan.data.id">
+				<div class="plan-wrapper">
+					<header class="plan-header mb-8">
+						<div class="icon">
+							<hard-drive-icon class="text-theme mx-auto" size="26" />
+						</div>
+						<h1 class="title">{{ plan.data.attributes.name }}</h1>
+						<h2 class="description">
+							{{ plan.data.attributes.description }}
+						</h2>
+					</header>
+					<div class="justify-center flex py-1.5" v-for="(value, key, i) in plan.data.attributes.features" :key="i">
+						<div class="flex items-center">
+							<CheckIcon size="18" class="svg-stroke-theme mr-2" />
+
+							<span class="text-sm font-bold" v-if="value !== -1">
+								{{ $t( key === 'max_team_members' ? 'max_team_members_total' : key, { value: value }) }}
+							</span>
+
+							<span class="text-sm font-bold" v-if="value === -1">
+								{{ $t(`${key}.unlimited`) }}
+							</span>
+						</div>
+					</div>
+					<footer class="plan-footer mt-8">
+						<b class="price text-theme">
+							{{ plan.data.attributes.price }} / {{ $t(`interval.${plan.data.attributes.interval}`) }}
+						</b>
+					</footer>
+				</div>
+			</article>
+		</div>
+	</div>
 </template>
 
 <script>
-import { HardDriveIcon } from 'vue-feather-icons'
+import { CheckIcon, HardDriveIcon } from 'vue-feather-icons'
 import axios from 'axios'
+import PlanPeriodSwitcher from "../../Subscription/PlanPeriodSwitcher";
 
 export default {
     name: 'PricingTables',
     components: {
+		PlanPeriodSwitcher,
         HardDriveIcon,
+		CheckIcon,
     },
+	computed: {
+		intervalPlanType() {
+			return this.isSelectedYearlyPlans ? 'year' : 'month'
+		},
+		yearlyPlans() {
+			return this.plans.data.filter((plan) => plan.data.attributes.interval === 'year')
+		},
+	},
     data() {
         return {
             plans: undefined,
+			isSelectedYearlyPlans: false,
         }
     },
     created() {
-        axios.get('/api/pricing').then((response) => {
+        axios.get('api/subscriptions/plans').then((response) => {
             this.plans = response.data
             this.$emit('load', response.data)
         })
@@ -83,7 +104,7 @@ export default {
         }
 
         .title {
-            @include font-size(22);
+            @include font-size(25);
             font-weight: 800;
             padding-top: 10px;
         }

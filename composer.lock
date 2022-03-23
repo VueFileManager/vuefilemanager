@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d783346bc156d4d036fec1beae64e9b1",
+    "content-hash": "e61b8e24ece57235dd4b1e44dc3e832d",
     "packages": [
         {
             "name": "amphp/amp",
@@ -280,16 +280,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.215.1",
+            "version": "3.215.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "32cb9c6ac53ef7eb773d645ce6eda308ff069c5e"
+                "reference": "8ddbc5242ec59a22b2c4704867e028343c6d8ade"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/32cb9c6ac53ef7eb773d645ce6eda308ff069c5e",
-                "reference": "32cb9c6ac53ef7eb773d645ce6eda308ff069c5e",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8ddbc5242ec59a22b2c4704867e028343c6d8ade",
+                "reference": "8ddbc5242ec59a22b2c4704867e028343c6d8ade",
                 "shasum": ""
             },
             "require": {
@@ -365,9 +365,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.215.1"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.215.2"
             },
-            "time": "2022-03-21T18:18:55+00:00"
+            "time": "2022-03-22T19:02:23+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -4397,7 +4397,7 @@
         },
         {
             "name": "makingcg/subscription",
-            "version": "v1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "git@github.com:VueFileManager/subscription.git",
@@ -14319,16 +14319,16 @@
         },
         {
             "name": "spatie/ignition",
-            "version": "1.2.5",
+            "version": "1.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ignition.git",
-                "reference": "982f69f3c2e525cef62fa23ada047d745e4bcda9"
+                "reference": "be24d33a9de271638314924b5da85e168e4148e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ignition/zipball/982f69f3c2e525cef62fa23ada047d745e4bcda9",
-                "reference": "982f69f3c2e525cef62fa23ada047d745e4bcda9",
+                "url": "https://api.github.com/repos/spatie/ignition/zipball/be24d33a9de271638314924b5da85e168e4148e4",
+                "reference": "be24d33a9de271638314924b5da85e168e4148e4",
                 "shasum": ""
             },
             "require": {
@@ -14385,7 +14385,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-19T14:07:30+00:00"
+            "time": "2022-03-23T11:02:14+00:00"
         },
         {
             "name": "spatie/laravel-ignition",

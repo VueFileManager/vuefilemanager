@@ -21,7 +21,7 @@
             <li class="mb-1.5 flex items-center" v-for="(value, key, i) in plan.data.attributes.features" :key="i">
                 <CheckIcon size="12" class="svg-stroke-theme" />
                 <small class="pl-1.5 text-xs font-bold text-gray-600" v-if="value !== -1">
-                    {{ $t(key, { value: value }) }}
+                    {{ $t(key === 'max_team_members' ? 'max_team_members_total' : key, { value: value }) }}
                 </small>
                 <small class="pl-1.5 text-xs font-bold text-gray-600" v-if="value === -1">
                     {{ $t(`${key}.unlimited`) }}
