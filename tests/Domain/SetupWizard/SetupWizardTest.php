@@ -85,7 +85,7 @@ class SetupWizardTest extends TestCase
             ])
             ->assertDatabaseHas('settings', [
                 'name'  => 'user_verification',
-                'value' => 1,
+                'value' => 0,
             ])
             ->assertDatabaseHas('settings', [
                 'name'  => 'app_color',

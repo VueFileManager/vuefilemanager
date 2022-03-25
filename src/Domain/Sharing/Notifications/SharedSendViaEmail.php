@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Sharing\Notifications;
 
+use App\Users\Models\User;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
 
@@ -12,33 +12,24 @@ class SharedSendViaEmail extends Notification
 
     /**
      * Create a new notification instance.
-     *
-     * @param $token
      */
-    public function __construct($token)
-    {
-        $this->token = $token;
-        $this->user = Auth::user();
-    }
+    public function __construct(
+        public string $token,
+        public User $user,
+    ) {}
 
     /**
      * Get the notification's delivery channels.
-     *
-     * @param mixed $notifiable
-     * @return array
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
         return ['mail'];
     }
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable): MailMessage
     {
         return (new MailMessage)
             ->subject(__t('shared_link_email_subject', ['user' => $this->user->settings->name]))
@@ -46,17 +37,5 @@ class SharedSendViaEmail extends Notification
             ->line(__t('shared_link_email_user', ['user' => $this->user->settings->name, 'email' => $this->user->email]))
             ->action(__t('shared_link_email_link'), url('/share', ['token' => $this->token]))
             ->salutation(__t('shared_link_email_salutation', ['app_name' => get_settings('app_title') ?? 'VueFileManager']));
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-        ];
     }
 }
