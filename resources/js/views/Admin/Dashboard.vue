@@ -53,6 +53,18 @@
                 </div>
             </div>
 
+            <!--New language strings alert-->
+            <div
+                v-if="data.app.shouldUpgradeTranslations"
+                class="mb-6 flex items-center rounded-xl dark:bg-green-700/30 bg-green-200 p-5 shadow-card cursor-pointer"
+				@click="upgradeTranslations"
+            >
+                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 dark:text-green-500 text-green-700" />
+                <p class="text-sm dark:text-green-500 text-green-700">
+                    We detect new language strings. You should <b class="dark:text-green-500 text-green-600 text-sm font-bold underline">upgrade your translations</b>. After that, you can find new translations at the bottom page of your translations in language editor. Please click on this box.
+                </p>
+            </div>
+
             <!--Create metered plan alert-->
             <div
                 v-if="config.subscriptionType === 'metered' && config.isEmptyPlans"
@@ -206,6 +218,7 @@ import { mapGetters } from 'vuex'
 import axios from 'axios'
 import WidgetLatestTransactions from '../../components/Admin/WidgetLatestTransactions'
 import InfoBox from '../../components/Others/Forms/InfoBox'
+import {events} from "../../bus";
 
 export default {
     name: 'Dashboard',
@@ -231,6 +244,25 @@ export default {
             data: undefined,
         }
     },
+	methods: {
+		upgradeTranslations() {
+			axios.get('/upgrade/translations')
+				.then(() => {
+					this.data.app.shouldUpgradeTranslations = false
+
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('Your translations was upgraded successfully.'),
+					})
+				})
+				.catch(() => {
+					events.$emit('alert:open', {
+						title: this.$t('popup_error.title'),
+						message: this.$t('popup_error.message'),
+					})
+				})
+		}
+	},
     created() {
         axios
             .get('/api/admin/dashboard')

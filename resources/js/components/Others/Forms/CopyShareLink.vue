@@ -102,6 +102,11 @@ export default {
         SendIcon,
 		DownloadIcon,
     },
+	watch: {
+		'item': function () {
+			this.setClipboard()
+		}
+	},
     data() {
         return {
             id: 'link-input-' + Math.floor(Math.random() * 10000000),
@@ -182,11 +187,13 @@ export default {
                 this.isCopiedLink = false
             }, 1000)
         },
+		setClipboard() {
+			this.directLink = this.item.data.relationships.shared.data.attributes.link + '/direct'
+			this.iframeCode = `<iframe src="${this.item.data.relationships.shared.data.attributes.link}" width="790" height="400" allowfullscreen frameborder="0"></iframe>`
+		}
     },
 	created() {
-		// Generate copied
-		this.directLink = this.item.data.relationships.shared.data.attributes.link + '/direct'
-		this.iframeCode = `<iframe src="${this.item.data.relationships.shared.data.attributes.link}" width="790" height="400" allowfullscreen frameborder="0"></iframe>`
+		this.setClipboard()
 	}
 }
 </script>
