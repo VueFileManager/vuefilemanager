@@ -442,7 +442,7 @@ if (! function_exists('store_system_image')) {
         $image = $request->file($name);
 
         // Store avatar
-        $filename = Str::uuid() . $image->getClientOriginalExtension();
+        $filename = Str::uuid() . '.' . $image->getClientOriginalExtension();
 
         // Store image to disk
         Storage::putFileAs('system', $image, $filename);

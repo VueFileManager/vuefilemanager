@@ -447,6 +447,11 @@ export default {
         this.$scrollTop()
         this.$store.commit('PROCESSING_POPUP', undefined)
 
+		// Redirect if user is authenticated
+		if (this.$root.$data.config.isAuthenticated) {
+			this.$router.push({name: 'Files'})
+		}
+
         if (this.config.isDemo || this.config.isDev) {
             this.loginEmail = 'howdy@hi5ve.digital'
             this.loginPassword = 'vuefilemanager'

@@ -267,6 +267,11 @@ export default {
     created() {
         this.$scrollTop()
 
+		// Redirect if user is authenticated
+		if (this.$root.$data.config.isAuthenticated) {
+			this.$router.push({name: 'Files'})
+		}
+
 		if (this.config.isDemo || this.config.isDev) {
 			this.register = {
 				name: 'John Doe',
