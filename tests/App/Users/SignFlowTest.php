@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\App\Users;
 
 use Storage;

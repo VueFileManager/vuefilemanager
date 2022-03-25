@@ -61,7 +61,7 @@ class InvitationIntoTeamFolder extends Notification implements ShouldQueue
         return [
             'category'    => 'team-invitation',
             'title'       => __t('new_team_invitation'),
-            'description' => __t('x_invite_to_join_team', ['name' => $this->invitation->inviter->settings->name,]),
+            'description' => __t('x_invite_to_join_team', ['name' => $this->invitation->inviter->settings->name, ]),
             'action'      => [
                 'type'   => 'invitation',
                 'params' => [

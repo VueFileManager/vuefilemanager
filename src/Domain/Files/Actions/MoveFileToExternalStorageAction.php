@@ -23,7 +23,6 @@ class MoveFileToExternalStorageAction
 
         // If file is bigger than 5.2 MB then run multipart upload
         if ($filesize > 5242880) {
-
             // Get client
             $client = Storage::disk('s3')->getClient();
 

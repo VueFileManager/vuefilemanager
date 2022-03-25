@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\UploadRequest\Notifications;
 
 use Illuminate\Bus\Queueable;
@@ -19,7 +18,8 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
      */
     public function __construct(
         public UploadRequest $uploadRequest
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.
@@ -50,7 +50,7 @@ class UploadRequestFulfilledNotification extends Notification implements ShouldQ
         return [
             'category'    => 'file-request',
             'title'       => __t('file_request_filled'),
-            'description' => __t('file_request_filled_desc', ['name' => $this->uploadRequest->parent->name,]),
+            'description' => __t('file_request_filled_desc', ['name' => $this->uploadRequest->parent->name, ]),
             'action'      => [
                 'type'   => 'route',
                 'params' => [
