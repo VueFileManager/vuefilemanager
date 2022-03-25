@@ -4,6 +4,7 @@ namespace Domain\Folders\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class FavouriteController extends Controller
@@ -12,7 +13,7 @@ class FavouriteController extends Controller
      * Add folder to user favourites
      * todo: pridat validator ako AddToFavouritesRequest
      */
-    public function store(Request $request): Response
+    public function store(Request $request): Response|Collection
     {
         $user = Auth::user();
 
@@ -34,7 +35,7 @@ class FavouriteController extends Controller
     /**
      * Remove folder from user favourites
      */
-    public function destroy(string $id): Response
+    public function destroy(string $id): Response|Collection
     {
         $user = Auth::user();
 
