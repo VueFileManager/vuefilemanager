@@ -686,7 +686,7 @@ if (! function_exists('mapTrafficRecords')) {
 
                 $record->upload = 0;
                 $record->download = 0;
-                $record->created_at = $day;
+                $record->date = $day;
 
                 $records->add($record);
             }

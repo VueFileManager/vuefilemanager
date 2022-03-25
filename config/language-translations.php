@@ -927,5 +927,7 @@ return [
         'password_doesnt_match'                          => 'The provided password does not match your current password.',
         'amount'                                         => 'Amount',
         'upload_request_default_folder'                  => 'Upload Request from :timestamp',
+        'copy_direct_download_link'                      => 'Copy Direct Download Link',
+        'direct_link_copied'                             => 'Your direct download link was copied',
     ],
 ];

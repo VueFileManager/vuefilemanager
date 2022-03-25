@@ -4,6 +4,7 @@ use Domain\Homepage\Controllers\IndexController;
 use Domain\Invoices\Controllers\GetInvoiceController;
 use Domain\Settings\Controllers\DownloadLogController;
 use App\Socialite\Controllers\SocialiteCallbackController;
+use Domain\Sharing\Controllers\DirectlyDownloadFileController;
 use Domain\Sharing\Controllers\SharePublicIndexController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
@@ -22,8 +23,10 @@ Route::get('/admin/log/{log}', DownloadLogController::class)
 
 // Get og site for web crawlers
 if (Crawler::isCrawler()) {
+    Route::get('/share/{share}/direct', WebCrawlerOpenGraphController::class);
     Route::get('/share/{share}', WebCrawlerOpenGraphController::class);
 } else {
+    Route::get('/share/{share}/direct', DirectlyDownloadFileController::class);
     Route::get('/share/{share}', SharePublicIndexController::class);
 }
 

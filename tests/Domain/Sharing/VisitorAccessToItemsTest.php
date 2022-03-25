@@ -64,6 +64,57 @@ class VisitorAccessToItemsTest extends TestCase
     /**
      * @test
      */
+    public function it_directly_download_file()
+    {
+        $user = User::factory()
+            ->create();
+
+        $document = UploadedFile::fake()
+            ->create(Str::random() . '-fake-file.pdf', 1000, 'application/pdf');
+
+        Storage::putFileAs("files/$user->id", $document, $document->name);
+
+        $file = File::factory()
+            ->create([
+                'filesize' => $document->getSize(),
+                'user_id'  => $user->id,
+                'basename' => $document->name,
+                'name'     => $document->name,
+            ]);
+
+        $share = Share::factory()
+            ->create([
+                'item_id'      => $file->id,
+                'user_id'      => $user->id,
+                'type'         => 'file',
+                'is_protected' => false,
+            ]);
+
+        // Get shared file
+        $this->get("/share/$share->token/direct")
+            ->assertStatus(200)
+            ->assertDownload($document->name);
+    }
+
+    /**
+     * @test
+     */
+    public function it_try_directly_download_protected_file()
+    {
+        $share = Share::factory()
+            ->create([
+                'type'         => 'file',
+                'is_protected' => true,
+            ]);
+
+        // Get shared file
+        $this->get("/share/$share->token/direct")
+            ->assertStatus(403);
+    }
+
+    /**
+     * @test
+     */
     public function it_try_to_get_protected_file_record()
     {
         $user = User::factory()

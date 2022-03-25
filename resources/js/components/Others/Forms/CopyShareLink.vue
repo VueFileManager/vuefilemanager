@@ -26,6 +26,18 @@
             class="absolute top-12 left-0 right-0 z-10 select-none overflow-y-auto overflow-x-hidden rounded-lg shadow-xl"
         >
             <li
+				v-if="item.data.type !== 'folder' && !item.data.relationships.shared.data.attributes.protected"
+                @click="copyDirectLink"
+                class="block flex cursor-pointer items-center bg-white py-2.5 px-5 hover:bg-light-background dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground"
+            >
+                <div class="w-8">
+                    <download-icon size="14" />
+                </div>
+                <span class="text-sm font-bold">
+                    {{ $t('copy_direct_download_link') }}
+                </span>
+            </li>
+            <li
                 @click="getQrCode"
                 class="block flex cursor-pointer items-center bg-white py-2.5 px-5 hover:bg-light-background dark:bg-2x-dark-foreground dark:hover:bg-4x-dark-foreground"
             >
@@ -61,6 +73,12 @@
         </ul>
 
         <textarea
+            v-model="directLink"
+            ref="directLinkTextarea"
+            class="pointer-events-none absolute right-full opacity-0"
+        ></textarea>
+
+        <textarea
             v-model="iframeCode"
             ref="iframe"
             class="pointer-events-none absolute right-full opacity-0"
@@ -69,7 +87,7 @@
 </template>
 
 <script>
-import { CameraIcon, CopyIcon, CheckIcon, SendIcon, MoreHorizontalIcon, CodeIcon } from 'vue-feather-icons'
+import { DownloadIcon, CameraIcon, CopyIcon, CheckIcon, SendIcon, MoreHorizontalIcon, CodeIcon } from 'vue-feather-icons'
 import { events } from '../../../bus'
 
 export default {
@@ -82,11 +100,13 @@ export default {
         CopyIcon,
         CodeIcon,
         SendIcon,
+		DownloadIcon,
     },
     data() {
         return {
             id: 'link-input-' + Math.floor(Math.random() * 10000000),
-            iframeCode: '',
+			directLink: undefined,
+            iframeCode: undefined,
             isCopiedLink: false,
             isOpenedMoreOptions: false,
         }
@@ -113,11 +133,8 @@ export default {
 
             this.isOpenedMoreOptions = false
         },
-        copyIframe() {
-            // generate iframe
-            this.iframeCode = `<iframe src="${this.item.data.relationships.shared.link}" width="790" height="400" allowfullscreen frameborder="0"></iframe>`
-
-            let copyText = this.$refs.iframe
+		copyDirectLink() {
+            let copyText = this.$refs.directLinkTextarea
 
             copyText.select()
             copyText.setSelectionRange(0, 99999)
@@ -126,14 +143,29 @@ export default {
 
             events.$emit('toaster', {
                 type: 'success',
-                message: this.$t('web_code_copied'),
+                message: this.$t('direct_link_copied'),
             })
 
-            this.isOpenedMoreOptions = false
+			this.isOpenedMoreOptions = false
         },
+		copyIframe() {
+			let copyText = this.$refs.iframe
+
+			copyText.select()
+			copyText.setSelectionRange(0, 99999)
+
+			document.execCommand('copy')
+
+			events.$emit('toaster', {
+				type: 'success',
+				message: this.$t('web_code_copied'),
+			})
+
+			this.isOpenedMoreOptions = false
+		},
         copyUrl() {
             // Get input value
-            var copyText = document.getElementById(this.id)
+            let copyText = document.getElementById(this.id)
 
             // select link
             copyText.select()
@@ -151,5 +183,10 @@ export default {
             }, 1000)
         },
     },
+	created() {
+		// Generate copied
+		this.directLink = this.item.data.relationships.shared.data.attributes.link + '/direct'
+		this.iframeCode = `<iframe src="${this.item.data.relationships.shared.data.attributes.link}" width="790" height="400" allowfullscreen frameborder="0"></iframe>`
+	}
 }
 </script>
