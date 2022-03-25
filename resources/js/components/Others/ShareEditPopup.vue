@@ -60,7 +60,7 @@
 
         <!--Update sharing-->
         <div v-if="pickedItem && !activeSection">
-            <PopupContent>
+            <PopupContent class="!overflow-initial">
                 <!--Item Thumbnail-->
                 <ThumbnailItem class="mb-5" :item="pickedItem" />
 
