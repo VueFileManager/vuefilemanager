@@ -21,10 +21,6 @@ class StoreAppSettingsController extends Controller
                 'value' => $request->input('subscriptionType') ?? 'none',
             ],
             [
-                'name'  => 'user_verification',
-                'value' => $request->input('userVerification'),
-            ],
-            [
                 'name'  => 'app_color',
                 'value' => $request->input('color'),
             ],
@@ -87,6 +83,10 @@ class StoreAppSettingsController extends Controller
             [
                 'name'  => 'default_max_team_member',
                 'value' => $request->input('defaultMaxTeamMember') ?? 10,
+            ],
+            [
+                'name'  => 'user_verification',
+                'value' => 0,
             ],
         ])->each(function ($col) {
             Setting::updateOrCreate([

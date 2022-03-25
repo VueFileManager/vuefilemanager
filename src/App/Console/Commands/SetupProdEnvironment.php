@@ -135,7 +135,7 @@ class SetupProdEnvironment extends Command
             ],
             [
                 'name'  => 'user_verification',
-                'value' => 1,
+                'value' => 0,
             ],
             [
                 'name'  => 'storage_limitation',

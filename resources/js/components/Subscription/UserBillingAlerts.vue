@@ -5,7 +5,7 @@
         </FormLabel>
 
         <div v-if="user.data.relationships.alert">
-            <b class="-mt-3 mb-0.5 block flex items-center text-3xl font-extrabold">
+            <b class="-mt-3 mb-0.5 block flex items-center text-2xl font-extrabold sm:text-3xl">
                 {{ user.data.relationships.alert.data.attributes.formatted }}
                 <edit2-icon
                     v-if="!showUpdateBillingAlertForm"

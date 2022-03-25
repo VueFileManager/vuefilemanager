@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'version' => '2.0.4',
+    'version' => '2.0.5',
 
     'is_demo' => env('APP_DEMO', false),
 

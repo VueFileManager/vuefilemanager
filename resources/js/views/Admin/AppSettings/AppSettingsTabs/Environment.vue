@@ -181,7 +181,6 @@
 				</ValidationProvider>
 
 				<ValidationProvider
-					v-if="storage.driver !== 's3'"
 					tag="div"
 					mode="passive"
 					name="Endpoint"
@@ -482,6 +481,7 @@ export default {
 				wasabi: 'https://s3.' + val + '.wasabisys.com',
 				backblaze: 'https://s3.' + val + '.backblazeb2.com',
 				oss: 'https://' + val + '.aliyuncs.com',
+				s3: 'https://s3.amazonaws.com',
 			}[this.storage.driver]
 		},
 	},

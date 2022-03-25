@@ -88,7 +88,7 @@
                             rules="required"
                             v-slot="{ errors }"
                         >
-                            <AppInputText v-if="storage.driver !== 's3'" title="Endpoint URL" :error="errors[0]">
+                            <AppInputText title="Endpoint URL" :error="errors[0]">
                                 <input
                                     class="focus-border-theme input-dark"
                                     v-model="storage.endpoint"
@@ -535,7 +535,8 @@ export default {
                 wasabi: 'https://s3.' + val + '.wasabisys.com',
                 backblaze: 'https://s3.' + val + '.backblazeb2.com',
                 oss: 'https://' + val + '.aliyuncs.com',
-            }[this.storage.driver]
+				s3: 'https://s3.amazonaws.com',
+			}[this.storage.driver]
         },
     },
     computed: {

@@ -158,16 +158,9 @@
                     <AppInputSwitch
                         title="Allow User Registration"
                         description="You can disable public registration for new users. You will still able to create new users in administration panel."
+						:is-last="true"
                     >
                         <SwitchInput v-model="app.userRegistration" class="switch" :state="app.userRegistration" />
-                    </AppInputSwitch>
-
-                    <AppInputSwitch
-                        :title="$t('require_email_verification')"
-                        :description="$t('require_email_verification_note')"
-                        :is-last="true"
-                    >
-                        <SwitchInput v-model="app.userVerification" class="switch" :state="app.userVerification" />
                     </AppInputSwitch>
                 </div>
 
@@ -268,7 +261,6 @@ export default {
                 defaultStorage: '5',
                 userRegistration: 1,
                 storageLimitation: 1,
-                userVerification: 0,
             },
         }
     },
@@ -294,7 +286,6 @@ export default {
             formData.append('title', this.app.title)
             formData.append('description', this.app.description)
             formData.append('contactMail', this.app.contactMail)
-            formData.append('userVerification', Boolean(this.app.userVerification) ? 1 : 0)
             formData.append('userRegistration', Boolean(this.app.userRegistration) ? 1 : 0)
             formData.append('storageLimitation', Boolean(this.app.storageLimitation) ? 1 : 0)
 
