@@ -58,26 +58,25 @@ class GetDashboardDataController extends Controller
         // Get bandwidth data
         $trafficRecords = DB::table('traffic')
             ->where('created_at', '>', $period)
-            ->select(
-                DB::raw('DATE(created_at) as created_at'),
+            ->groupBy('date')
+            ->get([
+                DB::raw('Date(created_at) as date'),
                 DB::raw('sum(download) as download'),
-                DB::raw('sum(upload) as upload')
-            )
-            ->groupBy('created_at')
-            ->get(['upload', 'download', 'created_at'])
-            ->each(fn ($record) => $record->created_at = format_date($record->created_at, 'd. M. Y'))
-            ->keyBy('created_at');
+                DB::raw('sum(upload) as upload'),
+            ])
+            ->each(fn ($record) => $record->date = format_date($record->date, 'd. M. Y'))
+            ->keyBy('date');
 
         $mappedTrafficRecords = mapTrafficRecords($trafficRecords);
 
         $upload = $mappedTrafficRecords->map(fn ($record) => [
-            'created_at' => $record->created_at,
+            'created_at' => $record->date,
             'percentage' => intval($trafficRecords->max('upload')) !== 0 ? round(($record->upload / $trafficRecords->max('upload')) * 100, 2) : 0,
             'amount'     => Metric::bytes($record->upload)->format(),
         ]);
 
         $download = $mappedTrafficRecords->map(fn ($record) => [
-            'created_at' => $record->created_at,
+            'created_at' => $record->date,
             'percentage' => intval($trafficRecords->max('download')) !== 0 ? round(($record->download / $trafficRecords->max('download')) * 100, 2) : 0,
             'amount'     => Metric::bytes($record->download)->format(),
         ]);
