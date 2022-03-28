@@ -20,7 +20,7 @@
 
 - PHP >= 8.0.2 version (8.1+ recommended)
 - MySQL 5.6+
-- Nginx or Apache
+- Nginx or Apache (Nginx recommended)
 
 **These PHP Extensions are require:**
 
@@ -76,7 +76,10 @@ If you are running on linux server, just update your php path (if it's different
 * * * * *  cd /www/html/your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
 
-#### 8. Broadcasting
+#### 8. CORS Configuration (If you Set External Storage s3 Service) 
+In your s3 bucket settings you should have option to set up your CORS (Cross-Origin Resource Sharing). It's basically adding your app url to the list of allowed CORS. This step is required for reading pdf documents from s3 in your VueFileManager app without loading issues.
+
+#### 9. Broadcasting
 
 Coming soon...
 
@@ -200,7 +203,7 @@ The following support channels are available at your fingertips:
 We are trying to make the best for VueFileManager. There are a lot of things to do, and a lot of features we can make. 
 But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help us. There is couple way you can support us, and then, we support you with all great new features we can make. Thank you for participating on this awesome application!
 
-- [Buy me a Coffe](https://www.buymeacoffee.com/pepe)
+- [Buy me a Coffee](https://www.buymeacoffee.com/pepe)
 - [Become a Patreon](https://www.patreon.com/vuefilemanager)
 - [One-time donation via PayPal](https://www.paypal.me/peterpapp)
 
