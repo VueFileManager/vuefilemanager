@@ -129,15 +129,19 @@ class UserStorageResource extends JsonResource
         $trafficRecords = DB::table('traffic')
             ->where('user_id', $this->id)
             ->where('created_at', '>', $period)
-            ->orderBy('created_at')
-            ->get(['upload', 'download', 'created_at'])
-            ->each(fn ($record) => $record->created_at = format_date($record->created_at, 'd. M. Y'))
-            ->keyBy('created_at');
+            ->groupBy('date')
+            ->get([
+                DB::raw('Date(created_at) as date'),
+                DB::raw('sum(download) as download'),
+                DB::raw('sum(upload) as upload'),
+            ])
+            ->each(fn ($record) => $record->date = format_date($record->date, 'd. M. Y'))
+            ->keyBy('date');
 
         $mappedTrafficRecords = mapTrafficRecords($trafficRecords);
 
         $upload = $mappedTrafficRecords->map(fn ($record) => [
-            'created_at' => $record->created_at,
+            'created_at' => $record->date,
             'amount'     => Metric::bytes($record->upload)->format(),
             'percentage' => intval($uploadMax) !== 0
                 ? round(($record->upload / $uploadMax) * 100, 2)
@@ -145,7 +149,7 @@ class UserStorageResource extends JsonResource
         ]);
 
         $download = $mappedTrafficRecords->map(fn ($record) => [
-            'created_at' => $record->created_at,
+            'created_at' => $record->date,
             'amount'     => Metric::bytes($record->download)->format(),
             'percentage' => intval($downloadMax) !== 0
                 ? round(($record->download / $downloadMax) * 100, 2)
