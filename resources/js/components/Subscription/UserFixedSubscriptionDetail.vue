@@ -17,7 +17,7 @@
             <b class="mb-3 block text-sm dark:text-gray-500 text-gray-400">
                 {{ limit.message }}
             </b>
-            <ProgressLine :data="limit.distribution" />
+            <ProgressLine v-if="limit.isVisibleBar" :data="limit.distribution" />
         </div>
     </div>
 </template>
@@ -51,7 +51,9 @@ export default {
                     },
                     message: {
                         max_storage_amount: this.$t('total_x_of_x_used', {use: item.use, total:item.total }),
-                        max_team_members: this.$t('total_x_of_x_members', {use: item.use, total:item.total }),
+                        max_team_members: item.total === -1
+							? this.$t('max_team_members.unlimited')
+							: this.$t('total_x_of_x_members', {use: item.use, total:item.total }),
                     },
                     title: {
                         max_storage_amount: this.$t('storage'),
@@ -61,7 +63,8 @@ export default {
 
                 limitations.push({
                     message: payload.message[key],
-                    distribution: [
+					isVisibleBar: item.total !== -1,
+					distribution: [
                         {
                             progress: item.percentage,
                             color: payload.color[key],
