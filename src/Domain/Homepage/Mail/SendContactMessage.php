@@ -11,8 +11,7 @@ class SendContactMessage extends Mailable
 
     public function __construct(
         private array $request
-    ) {
-    }
+    ) {}
 
     /**
      * Build the message.
