@@ -12,7 +12,7 @@
                 />
 
                 <!--Text logo if image isn't available-->
-                <b v-if="!config.app_logo_horizontal" class="mb-4 block text-xl font-bold">
+                <b v-if="!config.app_logo_horizontal" class="mb-4 block text-xl font-bold text-center">
                     {{ config.app_name }}
                 </b>
             </router-link>
