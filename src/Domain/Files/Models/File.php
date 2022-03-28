@@ -122,7 +122,6 @@ class File extends Model
 
                 // Set upload request public url
                 if ($this->uploadRequestAccess) {
-                    // TODO: review request for s3
                     $route .= "/upload-request/$this->uploadRequestAccess";
                 }
 
