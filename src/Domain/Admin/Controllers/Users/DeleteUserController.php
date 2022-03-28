@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Admin\Requests\DeleteUserRequest;
 use Domain\Admin\Actions\DeleteUserDataAction;
+use Illuminate\Support\Str;
 
 class DeleteUserController extends Controller
 {
@@ -30,7 +31,7 @@ class DeleteUserController extends Controller
             abort(406, "You can\'t delete your account");
         }
 
-        if ($user->settings->name !== $request->name) {
+        if (trim($user->settings->name) !== $request->input('name')) {
             abort(403, 'The name you typed is wrong!');
         }
 

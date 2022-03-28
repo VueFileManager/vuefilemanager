@@ -8,7 +8,7 @@
                 <AppInputText
                     :title="
                         $t('admin_page_user.label_delete_user', {
-                            user: user.data.relationships.settings.data.attributes.name,
+                            user: user.data.relationships.settings.data.attributes.name.trim(),
                         })
                     "
                     :description="$t('user_box_delete.description')"
@@ -82,7 +82,7 @@ export default {
 
             if (!isValid) return
 
-            if (this.userName !== this.user.data.relationships.settings.data.attributes.name) {
+            if (this.userName.trim() !== this.user.data.relationships.settings.data.attributes.name.trim()) {
                 this.$refs.deleteUser.setErrors({
                     'User name': 'The user name is not the same.',
                 })
