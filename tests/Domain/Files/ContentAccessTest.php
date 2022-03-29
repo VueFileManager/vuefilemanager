@@ -61,13 +61,13 @@ class ContentAccessTest extends TestCase
             ->create([
                 'user_id'  => $user->id,
                 'basename' => $file->name,
-                'name'     => 'fake-file.pdf',
+                'name'     => $file->name,
             ]);
 
         $this
             ->actingAs($user)
             ->get("file/$file->name")
-            ->assertOk();
+            ->assertDownload($file->name);
     }
 
     /**
@@ -93,7 +93,7 @@ class ContentAccessTest extends TestCase
         $this
             ->actingAs($user)
             ->get("thumbnail/xs-$thumbnail->name")
-            ->assertStatus(200);
+            ->assertDownload("xs-$thumbnail->name");
     }
 
     /**

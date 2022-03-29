@@ -2,14 +2,15 @@
 namespace Domain\Files\Controllers\FileAccess;
 
 use Domain\Files\Models\File;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Files\Actions\DownloadFileAction;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Domain\Sharing\Actions\VerifyAccessToItemWithinAction;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Get file public
@@ -27,13 +28,10 @@ class VisitorGetFileController extends Controller
     public function __invoke(
         $filename,
         Share $shared,
-    ): BinaryFileResponse|Response {
+    ): StreamedResponse|RedirectResponse|Response {
         // Check if user can download file
         if (! $shared->user->canDownload()) {
-            return response([
-                'type'    => 'error',
-                'message' => 'This user action is not allowed.',
-            ], 401);
+            return response(userActionNotAllowedError(), 401);
         }
 
         // Check ability to access protected share files
@@ -49,11 +47,11 @@ class VisitorGetFileController extends Controller
 
         // Store user download size
         ($this->recordDownload)(
-            file_size: (int) $file->getRawOriginal('filesize'),
+            file_size: $file->filesize,
             user_id: $shared->user_id,
         );
 
         // Finally, download file
-        return ($this->downloadFile)($file, $shared->user_id);
+        return ($this->downloadFile)($file);
     }
 }

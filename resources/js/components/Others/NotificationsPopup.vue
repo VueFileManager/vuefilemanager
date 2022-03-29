@@ -4,7 +4,7 @@
         <PopupHeader :title="$t('notifications')" icon="bell" />
 
         <!--Content-->
-        <PopupContent>
+        <PopupContent v-if="readNotifications && unreadNotifications">
 			<MobileActionButton
 				v-if="readNotifications.length || unreadNotifications.length"
 				@click.native="$store.dispatch('deleteAllNotifications')"

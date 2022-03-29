@@ -186,7 +186,8 @@ class TrafficTest extends TestCase
             ]);
 
         $this->get("/file/$document->name/shared/$share->token")
-            ->assertStatus(200);
+            ->assertStatus(200)
+            ->assertDownload($document->name);
 
         $this->assertDatabaseHas('traffic', [
             'user_id'  => $this->user->id,

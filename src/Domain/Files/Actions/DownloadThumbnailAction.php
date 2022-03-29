@@ -2,6 +2,7 @@
 namespace Domain\Files\Actions;
 
 use Domain\Files\Models\File;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -13,18 +14,18 @@ class DownloadThumbnailAction
     public function __invoke(
         string $filename,
         File $file
-    ): StreamedResponse {
+    ): StreamedResponse|Response {
         // Get file path
-        $path = "/files/$file->user_id/$filename";
+        $filePath = "/files/$file->user_id/$filename";
 
         // Check if file exist
-        if (! Storage::exists($path)) {
+        if (! Storage::exists($filePath)) {
             // Get original file path
             $substituteFilePath = "/files/$file->user_id/$file->basename";
 
             // Check if original file exist
             if (! Storage::exists($substituteFilePath)) {
-                abort(404);
+                return response('File not found', 404);
             }
 
             // Return image thumbnail
@@ -32,6 +33,6 @@ class DownloadThumbnailAction
         }
 
         // Return image thumbnail
-        return Storage::download($path, $filename);
+        return Storage::download($filePath, $filename);
     }
 }

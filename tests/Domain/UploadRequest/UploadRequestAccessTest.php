@@ -37,12 +37,12 @@ class UploadRequestAccessTest extends TestCase
                 'parent_id' => $uploadRequest->id,
                 'basename'  => $file->name,
                 'user_id'   => $user->id,
-                'name'      => 'fake-file.pdf',
+                'name'      => $file->name,
             ]);
 
         $this
             ->get("/file/$file->name/upload-request/$uploadRequest->id")
-            ->assertOk();
+            ->assertDownload($file->name);
     }
 
     /**
@@ -75,7 +75,7 @@ class UploadRequestAccessTest extends TestCase
 
         $this
             ->get("/thumbnail/xs-$thumbnail->name/upload-request/$uploadRequest->id")
-            ->assertOk();
+            ->assertDownload("xs-$thumbnail->name");
     }
 
     /**

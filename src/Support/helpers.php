@@ -269,13 +269,13 @@ if (! function_exists('get_storage')) {
     }
 }
 
-if (! function_exists('is_storage_driver')) {
+if (! function_exists('isStorageDriver')) {
     /**
      * Check if is running AWS s3 as storage
      *
      * @return bool
      */
-    function is_storage_driver($driver)
+    function isStorageDriver($driver)
     {
         if (is_array($driver)) {
             return in_array(config('filesystems.default'), $driver);
@@ -722,7 +722,7 @@ if (! function_exists('get_file_type_from_mimetype')) {
     }
 }
 
-if (! function_exists('get_pretty_name')) {
+if (! function_exists('getPrettyName')) {
     /**
      * Format pretty name file
      *
@@ -731,11 +731,11 @@ if (! function_exists('get_pretty_name')) {
      * @param $mimetype
      * @return string
      */
-    function get_pretty_name($basename, $name, $mimetype)
+    function getPrettyName($basename, $name, $mimetype): string
     {
         $file_extension = substr(strrchr($basename, '.'), 1);
 
-        if (strpos($name, $file_extension) !== false) {
+        if (str_contains($name, $file_extension)) {
             return $name;
         }
 

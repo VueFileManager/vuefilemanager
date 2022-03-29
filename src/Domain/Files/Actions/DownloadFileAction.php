@@ -2,36 +2,44 @@
 namespace Domain\Files\Actions;
 
 use Domain\Files\Models\File;
+use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DownloadFileAction
 {
     /**
      * Call and download file
      */
-    public function __invoke(
-        File $file,
-        string $user_id,
-    ): BinaryFileResponse {
+    public function __invoke(File $file): Response|StreamedResponse|RedirectResponse
+    {
         // Get file path
-        $path = "files/$user_id/$file->basename";
-
-        // Check if file exist
-        if (! Storage::exists($path)) {
-            abort(404);
-        }
+        $filePath = "files/$file->user_id/$file->basename";
 
         // Get pretty name
-        $pretty_name = get_pretty_name($file->basename, $file->name, $file->mimetype);
+        $fileName = getPrettyName($file->basename, $file->name, $file->mimetype);
 
-        return response()
-            ->download(Storage::path($path), $pretty_name, [
-                'Accept-Ranges'       => 'bytes',
-                'Content-Type'        => Storage::mimeType($path),
-                'Content-Length'      => Storage::size($path),
-                'Content-Range'       => 'bytes 0-600/' . Storage::size($path),
-                'Content-Disposition' => "attachment; filename=$pretty_name",
-            ]);
+        // Check if file exist
+        if (! Storage::exists($filePath)) {
+            return response('The file not found.', 404);
+        }
+
+        // Format response header
+        $header = [
+            'ResponseAcceptRanges'       => 'bytes',
+            'ResponseContentType'        => Storage::mimeType($filePath),
+            'ResponseContentLength'      => Storage::size($filePath),
+            'ResponseContentRange'       => 'bytes 0-600/' . Storage::size($filePath),
+            'ResponseContentDisposition' => "attachment; filename=$fileName",
+        ];
+
+        // If s3 redirect to temporary download url
+        if (isStorageDriver('s3')) {
+            return redirect()->away(Storage::temporaryUrl($filePath, now()->addHour(), $header));
+        }
+
+        // Download file
+        return Storage::download($filePath, $fileName, $header);
     }
 }

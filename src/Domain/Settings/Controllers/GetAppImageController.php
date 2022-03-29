@@ -1,9 +1,9 @@
 <?php
 namespace Domain\Settings\Controllers;
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class GetAppImageController
 {
@@ -12,10 +12,10 @@ class GetAppImageController
      */
     public function __invoke(
         string $basename
-    ): StreamedResponse | FileNotFoundException {
+    ): StreamedResponse | Response {
         // Check if file exist
         if (! Storage::exists("/system/$basename")) {
-            abort(404);
+            return response('File not found', 404);
         }
 
         // Return avatar

@@ -49,14 +49,16 @@ class VisitorAccessToItemsTest extends TestCase
                     ])];
 
                     $this->withCookies($cookie)
-                        ->get("/file/$document->name/$share->token")
-                        ->assertStatus(200);
+                        ->get("/file/$document->name/shared/$share->token")
+                        ->assertStatus(200)
+                        ->assertDownload($document->name);
                 }
 
                 if (! $is_protected) {
                     // Get shared file
-                    $this->get("/file/$document->name/$share->token")
-                        ->assertStatus(200);
+                    $this->get("/file/$document->name/shared/$share->token")
+                        ->assertStatus(200)
+                        ->assertDownload($document->name);
                 }
             });
     }
@@ -236,13 +238,13 @@ class VisitorAccessToItemsTest extends TestCase
                     ];
 
                     $this->withCookies($cookie)
-                        ->get("/thumbnail/xs-$fileName/$share->token")
-                        ->assertStatus(200);
+                        ->get("/thumbnail/xs-$fileName/shared/$share->token")
+                        ->assertDownload("xs-$fileName");
                 }
 
                 if (! $is_protected) {
-                    $this->get("/thumbnail/xs-$fileName/$share->token")
-                        ->assertStatus(200);
+                    $this->get("/thumbnail/xs-$fileName/shared/$share->token")
+                        ->assertDownload("xs-$fileName");
                 }
 
                 $this->assertDatabaseMissing('traffic', [

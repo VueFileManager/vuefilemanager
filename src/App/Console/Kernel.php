@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        if (! is_storage_driver('local')) {
+        if (! isStorageDriver('local')) {
             $schedule->call(
                 fn () => resolve(DeleteFailedFilesAction::class)()
             )->everySixHours();

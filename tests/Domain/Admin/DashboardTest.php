@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Admin;
 
 use Tests\TestCase;
@@ -24,17 +25,18 @@ class DashboardTest extends TestCase
             ->getJson('/api/admin/dashboard')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'app' => [
-                    'earnings'      => '$0.00',
-                    'isRunningCron' => false,
-                    'license'       => 'extended',
-                    'version'       => config('vuefilemanager.version'),
+                'app'   => [
+                    'shouldUpgradeTranslations' => true,
+                    'earnings'                  => '$0.00',
+                    'isRunningCron'             => false,
+                    'license'                   => 'extended',
+                    'version'                   => config('vuefilemanager.version'),
                 ],
                 'users' => [
                     'total'             => 1,
                     'usersPremiumTotal' => 0,
                 ],
-                'used' => '2.00MB',
+                'used'  => '2.00MB',
             ]);
     }
 
@@ -53,8 +55,7 @@ class DashboardTest extends TestCase
             ->create(['role' => 'admin']);
 
         $users->each(
-            fn ($user) =>
-            $this
+            fn($user) => $this
                 ->actingAs($admin)
                 ->getJson('/api/admin/dashboard/newbies')
                 ->assertStatus(200)

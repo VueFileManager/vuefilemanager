@@ -33,7 +33,7 @@ class GetThumbnailFromUploadRequestController extends Controller
 
         // Store user download size
         ($this->recordDownload)(
-            file_size: (int) $file->getRawOriginal('filesize'),
+            file_size: $file->filesize,
             user_id: $uploadRequest->user_id,
         );
 

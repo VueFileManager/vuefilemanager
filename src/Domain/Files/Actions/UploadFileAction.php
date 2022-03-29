@@ -82,7 +82,7 @@ class UploadFileAction
             ($this->createImageThumbnail)($fileName, $file, $user->id);
             
             // Move files to external storage
-            if (! is_storage_driver('local')) {
+            if (! isStorageDriver('local')) {
                 ($this->moveFileToExternalStorage)($fileName, $user->id);
             }
 

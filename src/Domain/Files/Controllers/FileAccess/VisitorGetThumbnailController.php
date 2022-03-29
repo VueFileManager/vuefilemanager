@@ -40,7 +40,7 @@ class VisitorGetThumbnailController extends Controller
 
         // Store user download size
         ($this->recordDownload)(
-            file_size: (int) $file->getRawOriginal('filesize'),
+            file_size: $file->filesize,
             user_id: $shared->user_id,
         );
 

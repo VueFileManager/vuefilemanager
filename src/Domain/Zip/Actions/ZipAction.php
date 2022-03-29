@@ -38,12 +38,12 @@ class ZipAction
             // Add file into zip
             if (Storage::exists($filePath)) {
                 // local disk
-                if (is_storage_driver('local')) {
+                if (isStorageDriver('local')) {
                     $zip->add(Storage::path($filePath), $file->name);
                 }
 
                 // s3 client
-                if (is_storage_driver('s3')) {
+                if (isStorageDriver('s3')) {
                     $bucketName = config('filesystems.disks.s3.bucket');
 
                     $zip->add("s3://$bucketName/$filePath", $file->name);
@@ -75,12 +75,12 @@ class ZipAction
                     $zipDestination = "{$file['folder_path']}/{$file['name']}";
 
                     // local disk
-                    if (is_storage_driver('local')) {
+                    if (isStorageDriver('local')) {
                         $zip->add(Storage::path($filePath), $zipDestination);
                     }
 
                     // s3 client
-                    if (is_storage_driver('s3')) {
+                    if (isStorageDriver('s3')) {
                         $bucketName = config('filesystems.disks.s3.bucket');
 
                         $zip->add("s3://$bucketName/$filePath", $zipDestination);

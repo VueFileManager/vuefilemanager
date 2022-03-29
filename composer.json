@@ -82,6 +82,7 @@
             "database/factories"
         ],
         "files": [
+            "src/Support/errors.php",
             "src/Support/helpers.php"
         ]
     },

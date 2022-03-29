@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string user_id
  * @property string parent_id
  * @property string thumbnail
- * @property string filesize
+ * @property int filesize
  * @property string type
  * @property string basename
  * @property string name
@@ -100,7 +100,7 @@ class File extends Model
             ->all();
 
         // Generate thumbnail link for external storage service
-        if ($this->type === 'image' && ! is_storage_driver('local')) {
+        if ($this->type === 'image' && ! isStorageDriver('local')) {
             foreach ($thumbnail_sizes as $item) {
                 $filePath = "files/{$this->user_id}/{$item['name']}-{$this->basename}";
 
@@ -139,23 +139,6 @@ class File extends Model
      */
     public function getFileUrlAttribute(): string
     {
-        // Get file from external storage
-        if (! is_storage_driver('local')) {
-            $file_pretty_name = is_storage_driver('backblaze')
-                ? Str::snake(mb_strtolower($this->attributes['name']))
-                : get_pretty_name($this->attributes['basename'], $this->attributes['name'], $this->attributes['mimetype']);
-
-            $header = [
-                'ResponseAcceptRanges'       => 'bytes',
-                'ResponseContentType'        => $this->attributes['mimetype'],
-                'ResponseContentLength'      => $this->attributes['filesize'],
-                'ResponseContentRange'       => 'bytes 0-600/' . $this->attributes['filesize'],
-                'ResponseContentDisposition' => 'attachment; filename=' . $file_pretty_name,
-            ];
-
-            return Storage::temporaryUrl("files/$this->user_id/{$this->attributes['basename']}", now()->addDay(), $header);
-        }
-
         // Get thumbnail from local storage
         $route = route('file', ['name' => $this->attributes['basename']]);
 
@@ -166,7 +149,6 @@ class File extends Model
 
         // Set upload request public url
         if ($this->uploadRequestAccess) {
-            // TODO: review request for s3
             $route .= "/upload-request/$this->uploadRequestAccess";
         }
 
