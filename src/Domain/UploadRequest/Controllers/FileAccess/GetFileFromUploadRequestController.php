@@ -2,8 +2,8 @@
 namespace Domain\UploadRequest\Controllers\FileAccess;
 
 use Domain\Files\Models\File;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
 use Domain\Files\Actions\DownloadFileAction;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\Traffic\Actions\RecordDownloadAction;

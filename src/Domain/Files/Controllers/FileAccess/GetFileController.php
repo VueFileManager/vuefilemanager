@@ -2,10 +2,10 @@
 namespace Domain\Files\Controllers\FileAccess;
 
 use Gate;
-use Illuminate\Http\RedirectResponse;
+use Domain\Files\Models\File;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
-use Domain\Files\Models\File;
+use Illuminate\Http\RedirectResponse;
 use Domain\Files\Actions\DownloadFileAction;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;

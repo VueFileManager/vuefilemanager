@@ -3,8 +3,8 @@ namespace Domain\Folders\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Collection;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class FavouriteController extends Controller

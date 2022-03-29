@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Admin\Controllers\Dashboard;
 
 use ByteUnits\Metric;
@@ -68,18 +67,18 @@ class GetDashboardDataController extends Controller
                 DB::raw('sum(download) as download'),
                 DB::raw('sum(upload) as upload'),
             ])
-            ->each(fn($record) => $record->date = format_date($record->date, 'd. M. Y'))
+            ->each(fn ($record) => $record->date = format_date($record->date, 'd. M. Y'))
             ->keyBy('date');
 
         $mappedTrafficRecords = mapTrafficRecords($trafficRecords);
 
-        $upload = $mappedTrafficRecords->map(fn($record) => [
+        $upload = $mappedTrafficRecords->map(fn ($record) => [
             'created_at' => $record->date,
             'percentage' => intval($trafficRecords->max('upload')) !== 0 ? round(($record->upload / $trafficRecords->max('upload')) * 100, 2) : 0,
             'amount'     => Metric::bytes($record->upload)->format(),
         ]);
 
-        $download = $mappedTrafficRecords->map(fn($record) => [
+        $download = $mappedTrafficRecords->map(fn ($record) => [
             'created_at' => $record->date,
             'percentage' => intval($trafficRecords->max('download')) !== 0 ? round(($record->download / $trafficRecords->max('download')) * 100, 2) : 0,
             'amount'     => Metric::bytes($record->download)->format(),
@@ -128,6 +127,7 @@ class GetDashboardDataController extends Controller
         $activeTranslationsCount = DB::table('language_translations')
             ->where('lang', 'en')
             ->count();
-        return array($originalTranslationCount, $activeTranslationsCount);
+
+        return [$originalTranslationCount, $activeTranslationsCount];
     }
 }

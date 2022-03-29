@@ -2,15 +2,15 @@
 namespace Domain\Files\Controllers\FileAccess;
 
 use Domain\Files\Models\File;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Domain\Files\Actions\DownloadFileAction;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
-use Domain\Sharing\Actions\VerifyAccessToItemWithinAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Domain\Sharing\Actions\VerifyAccessToItemWithinAction;
 
 /**
  * Get file public

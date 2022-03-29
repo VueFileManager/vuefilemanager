@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Admin;
 
 use Tests\TestCase;
@@ -55,7 +54,7 @@ class DashboardTest extends TestCase
             ->create(['role' => 'admin']);
 
         $users->each(
-            fn($user) => $this
+            fn ($user) => $this
                 ->actingAs($admin)
                 ->getJson('/api/admin/dashboard/newbies')
                 ->assertStatus(200)

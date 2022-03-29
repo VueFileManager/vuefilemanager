@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Admin\Requests\DeleteUserRequest;
 use Domain\Admin\Actions\DeleteUserDataAction;
-use Illuminate\Support\Str;
 
 class DeleteUserController extends Controller
 {

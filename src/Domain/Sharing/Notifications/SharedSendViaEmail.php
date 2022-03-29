@@ -16,7 +16,8 @@ class SharedSendViaEmail extends Notification
     public function __construct(
         public string $token,
         public User $user,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the notification's delivery channels.

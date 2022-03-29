@@ -11,7 +11,8 @@ class ShareViaEmailController extends Controller
 {
     public function __construct(
         private SendViaEmailAction $sendLinkToEmailAction,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         Request $request,

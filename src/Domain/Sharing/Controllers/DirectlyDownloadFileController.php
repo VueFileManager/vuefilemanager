@@ -1,32 +1,30 @@
 <?php
-
 namespace Domain\Sharing\Controllers;
 
-use App\Http\Controllers\Controller;
-use Domain\Files\Actions\DownloadFileAction;
 use Domain\Files\Models\File;
-use Domain\Sharing\Actions\ProtectShareRecordAction;
-use Domain\Sharing\Actions\VerifyAccessToItemWithinAction;
-use Domain\Sharing\Models\Share;
-use Domain\Traffic\Actions\RecordDownloadAction;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
+use Domain\Sharing\Models\Share;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Domain\Files\Actions\DownloadFileAction;
+use Domain\Traffic\Actions\RecordDownloadAction;
+use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Domain\Sharing\Actions\VerifyAccessToItemWithinAction;
 
 class DirectlyDownloadFileController extends Controller
 {
     public function __construct(
-        private DownloadFileAction             $downloadFile,
-        private RecordDownloadAction           $recordDownload,
-        private ProtectShareRecordAction       $protectShareRecord,
+        private DownloadFileAction $downloadFile,
+        private RecordDownloadAction $recordDownload,
+        private ProtectShareRecordAction $protectShareRecord,
         private VerifyAccessToItemWithinAction $verifyAccessToItemWithin,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         Share $share
-    ): Response|StreamedResponse|RedirectResponse
-    {
+    ): Response|StreamedResponse|RedirectResponse {
         // Check if item is not a folder
         if ($share->type !== 'file') {
             return response('This content is not downloadable');
@@ -36,7 +34,7 @@ class DirectlyDownloadFileController extends Controller
         ($this->protectShareRecord)($share);
 
         // Check if user can download file
-        if (!$share->user->canDownload()) {
+        if (! $share->user->canDownload()) {
             return response([
                 'type'    => 'error',
                 'message' => 'This user action is not allowed.',

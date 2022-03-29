@@ -1,17 +1,17 @@
 <?php
-
 namespace Domain\Items\Actions;
 
-use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
-use Domain\Folders\Models\Folder;
-use Domain\Sharing\Models\Share;
 use Gate;
+use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
+use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
 
 class MoveFileOrFolderAction
 {
     public function __construct(
         public SetTeamFolderPropertyForAllChildrenAction $setTeamFolderPropertyForAllChildren,
-    ) {}
+    ) {
+    }
 
     /**
      * Move folder or file to new location
@@ -26,7 +26,6 @@ class MoveFileOrFolderAction
 
             // Process folder
             if ($item['type'] === 'folder') {
-
                 // Determine, if we are moving folder into the team folder or not
                 $isTeamFolder = is_null($request->input('to_id'))
                     ? false

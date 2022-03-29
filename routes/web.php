@@ -4,9 +4,9 @@ use Domain\Homepage\Controllers\IndexController;
 use Domain\Invoices\Controllers\GetInvoiceController;
 use Domain\Settings\Controllers\DownloadLogController;
 use App\Socialite\Controllers\SocialiteCallbackController;
-use Domain\Sharing\Controllers\DirectlyDownloadFileController;
 use Domain\Sharing\Controllers\SharePublicIndexController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
+use Domain\Sharing\Controllers\DirectlyDownloadFileController;
 use Domain\Localization\Controllers\CurrentLocalizationController;
 
 Route::get('/socialite/{provider}/callback', SocialiteCallbackController::class);
