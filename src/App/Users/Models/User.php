@@ -221,5 +221,14 @@ class User extends Authenticatable implements MustVerifyEmail
             // Create user directory for his files
             Storage::makeDirectory("files/$user->id");
         });
+
+        static::updating(function ($user) {
+
+            // Prevent to set 2fa in demo mode
+            if (config('vuefilemanager.is_demo') && $user->email === 'howdy@hi5ve.digital') {
+                $user->two_factor_secret = null;
+                $user->two_factor_recovery_codes = null;
+            }
+        });
     }
 }
