@@ -1,8 +1,8 @@
 <?php
 
-use Domain\Maintenance\Controllers\MaintenanceModeController;
-use Domain\Maintenance\Controllers\UpgradeDatabaseController;
 use Domain\Maintenance\Controllers\UpgradeTranslationsController;
+use Domain\Maintenance\Controllers\MaintenanceModeController;
+use Domain\Maintenance\Controllers\UpgradeSystemController;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/down', [MaintenanceModeController::class, 'down']);
@@ -10,6 +10,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::group(['prefix' => 'upgrade'], function () {
         Route::get('/translations', UpgradeTranslationsController::class);
-        Route::get('/database', UpgradeDatabaseController::class);
+        Route::get('/system', UpgradeSystemController::class);
     });
 });

@@ -55,6 +55,18 @@
 
             <!--New language strings alert-->
             <div
+                v-if="true"
+                class="mb-6 flex items-center rounded-xl dark:bg-green-700/30 bg-green-200 p-5 shadow-card cursor-pointer"
+				@click="upgradeSystem"
+            >
+                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 dark:text-green-500 text-green-700" />
+                <p class="text-sm dark:text-green-500 text-green-700">
+                    There is a new update that need upgrade some stuff on your backend. Please click on this box to upgrade.
+                </p>
+            </div>
+
+            <!--New language strings alert-->
+            <div
                 v-if="data.app.shouldUpgradeTranslations"
                 class="mb-6 flex items-center rounded-xl dark:bg-green-700/30 bg-green-200 p-5 shadow-card cursor-pointer"
 				@click="upgradeTranslations"
@@ -253,6 +265,21 @@ export default {
 					events.$emit('toaster', {
 						type: 'success',
 						message: this.$t('Your translations was upgraded successfully.'),
+					})
+				})
+				.catch(() => {
+					events.$emit('alert:open', {
+						title: this.$t('popup_error.title'),
+						message: this.$t('popup_error.message'),
+					})
+				})
+		},
+		upgradeSystem() {
+			axios.get('/upgrade/system')
+				.then(() => {
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('Your app was upgraded successfully.'),
 					})
 				})
 				.catch(() => {

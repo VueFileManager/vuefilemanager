@@ -21,8 +21,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * @method static whereUserId(int|string|null $id)
  * @method static find(mixed $id)
- * @method static where(string $string, string $user_id)
- * @method static findOrFail(string $root_id)
+ * @method static where(string $key, string $value)
+ * @method static findOrFail(string $id)
  * @method static create(array $array)
  * @property string id
  * @property string user_id
