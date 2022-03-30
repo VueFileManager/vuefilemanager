@@ -1,13 +1,12 @@
 <?php
-
 namespace Tests\Domain\Teams;
 
-use Illuminate\Http\UploadedFile;
 use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Domain\Teams\Notifications\InvitationIntoTeamFolder;
 

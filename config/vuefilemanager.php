@@ -61,6 +61,7 @@ return [
         ],
     ],
 
+    // The update versions which need to run upgrade process
     'updates' => [
         '2_0_10',
     ],

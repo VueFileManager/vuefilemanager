@@ -2,6 +2,7 @@
 namespace Domain\Settings\Actions;
 
 use Domain\Settings\Models\Setting;
+use Domain\Maintenance\Models\AppUpdate;
 
 class SeedDefaultSettingsAction
 {
@@ -11,6 +12,7 @@ class SeedDefaultSettingsAction
     public function __invoke(
         string $license
     ): void {
+        // Set default settings
         collect(
             config('content.content.' . strtolower($license))
         )->each(fn ($content) => Setting::updateOrCreate([
@@ -18,5 +20,9 @@ class SeedDefaultSettingsAction
         ], [
             'value' => $content['value'],
         ]));
+
+        // Set update records
+        collect(config('vuefilemanager.updates'))
+            ->each(fn ($version) => AppUpdate::create(['version' => $version]));
     }
 }

@@ -2,7 +2,6 @@
 namespace Domain\Files\Models;
 
 use App\Users\Models\User;
-use Domain\Traffic\Actions\RecordUploadAction;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Domain\Sharing\Models\Share;
@@ -13,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
+use Domain\Traffic\Actions\RecordUploadAction;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

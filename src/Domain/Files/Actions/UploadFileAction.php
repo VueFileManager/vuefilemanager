@@ -88,13 +88,13 @@ class UploadFileAction
 
             // Create new file
             $item = UserFile::create([
-                'mimetype'  => get_file_type_from_mimetype($fileMimetype),
-                'type'      => get_file_type($fileMimetype),
-                'parent_id' => ($this->getFileParentId)($request, $user->id),
-                'name'      => $request->input('filename'),
-                'basename'  => $fileName,
-                'filesize'  => $fileSize,
-                'user_id'   => $user->id,
+                'mimetype'   => get_file_type_from_mimetype($fileMimetype),
+                'type'       => get_file_type($fileMimetype),
+                'parent_id'  => ($this->getFileParentId)($request, $user->id),
+                'name'       => $request->input('filename'),
+                'basename'   => $fileName,
+                'filesize'   => $fileSize,
+                'user_id'    => $user->id,
                 'creator_id' => auth()->id(),
             ]);
 

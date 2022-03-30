@@ -4,10 +4,10 @@ namespace Domain\Teams\Controllers;
 use Gate;
 use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
-use Illuminate\Support\Facades\DB;
 
 class LeaveTeamFolderController extends Controller
 {

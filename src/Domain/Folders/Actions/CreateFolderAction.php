@@ -3,7 +3,6 @@ namespace Domain\Folders\Actions;
 
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Facades\Auth;
 use Domain\Folders\Requests\CreateFolderRequest;
 use App\Users\Exceptions\InvalidUserActionException;
 
@@ -42,7 +41,7 @@ class CreateFolderAction
             'user_id'     => $user->id,
             'team_folder' => $isFilledParentId
                 ? Folder::find($parentId)->getLatestParent()->team_folder
-                : false
+                : false,
         ]);
     }
 }

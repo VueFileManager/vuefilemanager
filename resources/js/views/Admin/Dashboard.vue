@@ -54,56 +54,24 @@
             </div>
 
             <!--New language strings alert-->
-            <div
-                v-if="true"
-                class="mb-6 flex items-center rounded-xl dark:bg-green-700/30 bg-green-200 p-5 shadow-card cursor-pointer"
-				@click="upgradeSystem"
-            >
-                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 dark:text-green-500 text-green-700" />
-                <p class="text-sm dark:text-green-500 text-green-700">
-                    There is a new update that need upgrade some stuff on your backend. Please click on this box to upgrade.
-                </p>
-            </div>
+			<AlertBox v-if="data.app.shouldUpgrade" @click.native.once="upgradeSystem" color="green">
+				There is a new update that needs to upgrade some stuff on your backend. Please click on this box to upgrade.
+			</AlertBox>
 
             <!--New language strings alert-->
-            <div
-                v-if="data.app.shouldUpgradeTranslations"
-                class="mb-6 flex items-center rounded-xl dark:bg-green-700/30 bg-green-200 p-5 shadow-card cursor-pointer"
-				@click="upgradeTranslations"
-            >
-                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 dark:text-green-500 text-green-700" />
-                <p class="text-sm dark:text-green-500 text-green-700">
-                    We detect new language strings. You should <b class="dark:text-green-500 text-green-600 text-sm font-bold underline">upgrade your translations</b>. After that, you can find new translations at the bottom page of your translations in language editor. Please click on this box.
-                </p>
-            </div>
+			<AlertBox v-if="data.app.shouldUpgradeTranslations" @click.native.once="upgradeTranslations" color="green">
+				We detect new language strings. You should <b class="dark:text-green-500 text-green-600 text-sm font-bold underline">upgrade your translations</b>. After that, you can find new translations at the bottom page of your translations in language editor. Please click on this box.
+			</AlertBox>
 
             <!--Create metered plan alert-->
-            <div
-                v-if="config.subscriptionType === 'metered' && config.isEmptyPlans"
-                class="mb-6 flex items-center rounded-xl dark:bg-rose-700/30 bg-rose-200 p-5 shadow-card"
-            >
-                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 dark:text-rose-500 text-rose-700" />
-                <p class="text-sm dark:text-rose-500 text-rose-700">
-                    As you installed app with metered subscription type, you have to
-                    <router-link :to="{ name: 'CreateMeteredPlan' }" class="dark:text-rose-500 text-sm font-bold underline"
-                        >create your plan</router-link
-                    >
-                    as soon as possible to prevent new user registration without automatically assigned subscription
-                    plan.
-                </p>
-            </div>
+			<AlertBox v-if="config.subscriptionType === 'metered' && config.isEmptyPlans" color="rose">
+            	As you installed app with metered subscription type, you have to <router-link :to="{ name: 'CreateMeteredPlan' }" class="dark:text-rose-500 text-sm font-bold underline">create your plan</router-link> as soon as possible to prevent new user registration without automatically assigned subscription plan.
+			</AlertBox>
 
             <!--Cron Alert-->
-            <div
-                v-if="!data.app.isRunningCron && !config.isDev"
-                class="mb-6 flex items-center rounded-xl dark:bg-rose-700/30 bg-rose-200 p-5 shadow-card"
-            >
-                <alert-octagon-icon size="18" class="vue-feather mr-4 shrink-0 dark:text-rose-500 text-rose-700" />
-                <p class="text-sm dark:text-rose-500 text-rose-700">
-                    We detect your cron jobs probably doesn't work correctly, please check it, you need it for running
-                    app correctly. If you set your cron job, please get back one minute later.
-                </p>
-            </div>
+			<AlertBox v-if="!data.app.isRunningCron && !config.isDev" color="rose">
+				We detect your cron jobs probably doesn't work correctly, please check it, you need it for running app correctly. If you set your cron job, please get back one minute later.
+			</AlertBox>
 
             <!--Metric widgets-->
             <div class="mb-2 md:mb-6 md:flex md:space-x-6">
@@ -221,26 +189,24 @@
 <script>
 import WidgetLatestRegistrations from '../../components/Admin/WidgetLatestRegistrations'
 import ColorLabel from '../../components/Others/ColorLabel'
-import { AlertOctagonIcon, ChevronRightIcon, ThumbsUpIcon } from 'vue-feather-icons'
-import WidgetWrapper from '../../components/Admin/WidgetWrapper'
+import {AlertOctagonIcon, ChevronRightIcon, ThumbsUpIcon} from 'vue-feather-icons'
 import Spinner from '../../components/FilesView/Spinner'
 import FormLabel from '../../components/Others/Forms/FormLabel'
 import BarChart from '../../components/UI/BarChart'
-import { mapGetters } from 'vuex'
+import {mapGetters} from 'vuex'
 import axios from 'axios'
 import WidgetLatestTransactions from '../../components/Admin/WidgetLatestTransactions'
-import InfoBox from '../../components/Others/Forms/InfoBox'
 import {events} from "../../bus";
+import AlertBox from "./AlertBox";
 
 export default {
     name: 'Dashboard',
     components: {
-        InfoBox,
+		AlertBox,
         WidgetLatestTransactions,
         WidgetLatestRegistrations,
         ChevronRightIcon,
         AlertOctagonIcon,
-        WidgetWrapper,
         ThumbsUpIcon,
         ColorLabel,
         FormLabel,
@@ -277,6 +243,8 @@ export default {
 		upgradeSystem() {
 			axios.get('/upgrade/system')
 				.then(() => {
+					this.data.app.shouldUpgrade = false
+
 					events.$emit('toaster', {
 						type: 'success',
 						message: this.$t('Your app was upgraded successfully.'),

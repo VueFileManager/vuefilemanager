@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -880,15 +879,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $teamGallery->id,
-                    'user_id'    => $user->id,
+                    'parent_id'   => $teamGallery->id,
+                    'user_id'     => $user->id,
                     'creator_id'  => $author->id,
-                    'name'       => $thumbnail['name'],
-                    'basename'   => $thumbnail['basename'],
-                    'type'       => 'image',
-                    'mimetype'   => 'jpg',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $thumbnail['name'],
+                    'basename'    => $thumbnail['basename'],
+                    'type'        => 'image',
+                    'mimetype'    => 'jpg',
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -903,15 +902,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $presentationMaterial->id,
-                    'user_id'    => $user->id,
+                    'parent_id'   => $presentationMaterial->id,
+                    'user_id'     => $user->id,
                     'creator_id'  => $author->id,
-                    'name'       => $thumbnail['name'],
-                    'basename'   => $thumbnail['basename'],
-                    'type'       => 'image',
-                    'mimetype'   => 'jpg',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $thumbnail['name'],
+                    'basename'    => $thumbnail['basename'],
+                    'type'        => 'image',
+                    'mimetype'    => 'jpg',
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -951,15 +950,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $financeDocumentsFolder->id,
-                    'user_id'    => $user->id,
+                    'parent_id'   => $financeDocumentsFolder->id,
+                    'user_id'     => $user->id,
                     'creator_id'  => $author->id,
-                    'name'       => $thumbnail['name'],
-                    'basename'   => $thumbnail['basename'],
-                    'type'       => 'image',
-                    'mimetype'   => 'jpg',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $thumbnail['name'],
+                    'basename'    => $thumbnail['basename'],
+                    'type'        => 'image',
+                    'mimetype'    => 'jpg',
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -974,15 +973,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $reserves->id,
-                    'user_id'    => $user->id,
+                    'parent_id'   => $reserves->id,
+                    'user_id'     => $user->id,
                     'creator_id'  => $author->id,
-                    'name'       => $thumbnail['name'],
-                    'basename'   => $thumbnail['basename'],
-                    'type'       => 'image',
-                    'mimetype'   => 'jpg',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $thumbnail['name'],
+                    'basename'    => $thumbnail['basename'],
+                    'type'        => 'image',
+                    'mimetype'    => 'jpg',
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -1025,15 +1024,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $folder->id,
-                    'user_id'    => $user->id,
+                    'parent_id'   => $folder->id,
+                    'user_id'     => $user->id,
                     'creator_id'  => $author->id,
-                    'name'       => $file['name'],
-                    'basename'   => $basename,
-                    'type'       => 'file',
-                    'mimetype'   => $file['mimetype'],
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $file['name'],
+                    'basename'    => $basename,
+                    'type'        => 'file',
+                    'mimetype'    => $file['mimetype'],
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -1067,15 +1066,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $destinationGallery->id,
-                    'user_id'    => $user->id,
+                    'parent_id'   => $destinationGallery->id,
+                    'user_id'     => $user->id,
                     'creator_id'  => $author->id,
-                    'name'       => $thumbnail['name'],
-                    'basename'   => $thumbnail['basename'],
-                    'type'       => 'image',
-                    'mimetype'   => 'jpg',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $thumbnail['name'],
+                    'basename'    => $thumbnail['basename'],
+                    'type'        => 'image',
+                    'mimetype'    => 'jpg',
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -1107,15 +1106,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $holiday2022Folder->id,
-                    'user_id'    => $user->id,
+                    'parent_id'   => $holiday2022Folder->id,
+                    'user_id'     => $user->id,
                     'creator_id'  => $author->id,
-                    'name'       => $file['name'],
-                    'basename'   => $basename,
-                    'type'       => 'file',
-                    'mimetype'   => $file['mimetype'],
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $file['name'],
+                    'basename'    => $basename,
+                    'type'        => 'file',
+                    'mimetype'    => $file['mimetype'],
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -1135,7 +1134,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[0]->id, $members[1]->id, $members[5]->id])
             ->each(
-                fn($id) => DB::table('team_folder_members')
+                fn ($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $companyProjectFolder->id,
                         'user_id'    => $id,
@@ -1145,7 +1144,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[3]->id, $members[2]->id])
             ->each(
-                fn($id) => DB::table('team_folder_members')
+                fn ($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $financeDocumentsFolder->id,
                         'user_id'    => $id,
@@ -1155,7 +1154,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[2]->id, $members[3]->id, $members[5]->id, $members[0]->id])
             ->each(
-                fn($id) => DB::table('team_folder_members')
+                fn ($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $holiday2022Folder->id,
                         'user_id'    => $id,
@@ -1166,7 +1165,7 @@ class SetupDevEnvironment extends Command
         // Create invitations
         collect([$members[4], $members[5]])
             ->each(
-                fn($user) => TeamFolderInvitation::factory()
+                fn ($user) => TeamFolderInvitation::factory()
                     ->create([
                         'email'      => $user->email,
                         'parent_id'  => $companyProjectFolder->id,
@@ -1247,15 +1246,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $videos->id,
-                    'user_id'    => $owner->id,
+                    'parent_id'   => $videos->id,
+                    'user_id'     => $owner->id,
                     'creator_id'  => $author->id,
-                    'name'       => $file,
-                    'basename'   => $basename,
-                    'type'       => 'video',
-                    'mimetype'   => 'mp4',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $file,
+                    'basename'    => $basename,
+                    'type'        => 'video',
+                    'mimetype'    => 'mp4',
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -1276,15 +1275,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $folder->id,
-                    'user_id'    => $owner->id,
+                    'parent_id'   => $folder->id,
+                    'user_id'     => $owner->id,
                     'creator_id'  => $author->id,
-                    'name'       => $file['name'],
-                    'basename'   => $basename,
-                    'type'       => 'file',
-                    'mimetype'   => $file['mimetype'],
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $file['name'],
+                    'basename'    => $basename,
+                    'type'        => 'file',
+                    'mimetype'    => $file['mimetype'],
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -1318,15 +1317,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $folder->id,
-                    'user_id'    => $owner->id,
+                    'parent_id'   => $folder->id,
+                    'user_id'     => $owner->id,
                     'creator_id'  => $johan->id,
-                    'name'       => $thumbnail['name'],
-                    'basename'   => $thumbnail['basename'],
-                    'type'       => 'image',
-                    'mimetype'   => 'jpg',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $thumbnail['name'],
+                    'basename'    => $thumbnail['basename'],
+                    'type'        => 'image',
+                    'mimetype'    => 'jpg',
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
 
@@ -1339,15 +1338,15 @@ class SetupDevEnvironment extends Command
 
                 // Create file record
                 File::create([
-                    'parent_id'  => $hug->id,
-                    'user_id'    => $owner->id,
+                    'parent_id'   => $hug->id,
+                    'user_id'     => $owner->id,
                     'creator_id'  => $member->id,
-                    'name'       => $thumbnail['name'],
-                    'basename'   => $thumbnail['basename'],
-                    'type'       => 'image',
-                    'mimetype'   => 'jpg',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
+                    'name'        => $thumbnail['name'],
+                    'basename'    => $thumbnail['basename'],
+                    'type'        => 'image',
+                    'mimetype'    => 'jpg',
+                    'filesize'    => rand(1000000, 4000000),
+                    'created_at'  => now()->subMinutes(rand(1, 5)),
                 ]);
             });
     }
@@ -1568,7 +1567,7 @@ class SetupDevEnvironment extends Command
         foreach (range(0, 45) as $day) {
             $user
                 ->each(
-                    fn($user) => DB::table('traffic')
+                    fn ($user) => DB::table('traffic')
                         ->insert([
                             'id'         => Str::uuid(),
                             'user_id'    => $user->id,
@@ -1664,7 +1663,7 @@ class SetupDevEnvironment extends Command
                 // Create thumbnail only if image is larger than predefined image sizes
                 if ($intervention->getWidth() > $size['size']) {
                     // Generate thumbnail
-                    $intervention->resize($size['size'], null, fn($constraint) => $constraint->aspectRatio())->stream();
+                    $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
 
                     // Store thumbnail to disk
                     Storage::put("files/$user->id/{$size['name']}-{$file_name}", $intervention);
