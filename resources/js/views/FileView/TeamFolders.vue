@@ -3,8 +3,8 @@
         <MobileContextMenu>
             <OptionGroup v-if="item">
                 <Option @click.native="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
-                <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" :class="{'is-inactive': isTeamFolderHomepage}" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" :class="{'is-inactive': isTeamFolderHomepage}" />
             </OptionGroup>
             <OptionGroup v-if="item">
                 <Option
@@ -115,8 +115,8 @@
                         :title="$t('rename')"
                         icon="rename"
                     />
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" :class="{'is-inactive': isTeamFolderHomepage}" />
+                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" :class="{'is-inactive': isTeamFolderHomepage}" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option
