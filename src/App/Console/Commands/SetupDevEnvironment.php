@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Console\Commands;
 
 use App\Users\Models\User;
@@ -103,9 +104,9 @@ class SetupDevEnvironment extends Command
                 'notifiable_type' => 'App\Users\Models\User',
                 'notifiable_id'   => $howdy->id,
                 'data'            => json_encode([
-                    'category'        => 'gift',
-                    'title'           => 'You Received $10.00',
-                    'description'     => 'You received credit bonus $10.00 for your registration. Happy spending!',
+                    'category'    => 'gift',
+                    'title'       => 'You Received $10.00',
+                    'description' => 'You received credit bonus $10.00 for your registration. Happy spending!',
                 ]),
                 'read_at'         => now()->subMinutes(5),
                 'created_at'      => now()->subMinutes(5),
@@ -144,10 +145,10 @@ class SetupDevEnvironment extends Command
                 'notifiable_type' => 'App\Users\Models\User',
                 'notifiable_id'   => $howdy->id,
                 'data'            => json_encode([
-                    'category'        => 'team-invitation',
-                    'title'           => 'New Team Invitation',
-                    'description'     => 'Jane Doe invite you to join into Team Folder.',
-                    'action'          => [
+                    'category'    => 'team-invitation',
+                    'title'       => 'New Team Invitation',
+                    'description' => 'Jane Doe invite you to join into Team Folder.',
+                    'action'      => [
                         'type'   => 'invitation',
                         'params' => [
                             'id' => $invitation->id,
@@ -183,10 +184,10 @@ class SetupDevEnvironment extends Command
                 'notifiable_type' => 'App\Users\Models\User',
                 'notifiable_id'   => $howdy->id,
                 'data'            => json_encode([
-                    'category'        => 'file-request',
-                    'title'           => 'File Request Filled',
-                    'description'     => "Your file request for 'Shared Folder' folder was filled successfully.",
-                    'action'          => [
+                    'category'    => 'file-request',
+                    'title'       => 'File Request Filled',
+                    'description' => "Your file request for 'Shared Folder' folder was filled successfully.",
+                    'action'      => [
                         'type'   => 'route',
                         'params' => [
                             'route'  => 'Files',
@@ -872,8 +873,8 @@ class SetupDevEnvironment extends Command
             'demo/images/team-gallery/photo-2.jpeg',
             'demo/images/team-gallery/photo-3.jpeg',
         ])
-            ->each(function ($file) use ($users, $teamGallery) {
-                $user = $users[rand(0, 2)];
+            ->each(function ($file) use ($users, $user, $teamGallery) {
+                $author = $users[rand(0, 2)];
 
                 $thumbnail = $this->generate_thumbnails($file, $user);
 
@@ -881,6 +882,7 @@ class SetupDevEnvironment extends Command
                 File::create([
                     'parent_id'  => $teamGallery->id,
                     'user_id'    => $user->id,
+                    'creator_id'  => $author->id,
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
@@ -894,8 +896,8 @@ class SetupDevEnvironment extends Command
             'demo/images/presentation/photo-1.jpeg',
             'demo/images/presentation/photo-2.jpeg',
         ])
-            ->each(function ($file) use ($users, $presentationMaterial) {
-                $user = $users[rand(0, 2)];
+            ->each(function ($file) use ($users, $user, $presentationMaterial) {
+                $author = $users[rand(0, 2)];
 
                 $thumbnail = $this->generate_thumbnails($file, $user);
 
@@ -903,6 +905,7 @@ class SetupDevEnvironment extends Command
                 File::create([
                     'parent_id'  => $presentationMaterial->id,
                     'user_id'    => $user->id,
+                    'creator_id'  => $author->id,
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
@@ -941,8 +944,8 @@ class SetupDevEnvironment extends Command
             'demo/images/finance-documents/photo-2.jpeg',
             'demo/images/finance-documents/photo-3.jpeg',
         ])
-            ->each(function ($file) use ($users, $financeDocumentsFolder) {
-                $user = $users[rand(0, 2)];
+            ->each(function ($file) use ($users, $user, $financeDocumentsFolder) {
+                $author = $users[rand(0, 2)];
 
                 $thumbnail = $this->generate_thumbnails($file, $user);
 
@@ -950,6 +953,7 @@ class SetupDevEnvironment extends Command
                 File::create([
                     'parent_id'  => $financeDocumentsFolder->id,
                     'user_id'    => $user->id,
+                    'creator_id'  => $author->id,
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
@@ -963,8 +967,8 @@ class SetupDevEnvironment extends Command
             'demo/images/finance-documents/photo-4.jpeg',
             'demo/images/finance-documents/photo-5.jpeg',
         ])
-            ->each(function ($file) use ($users, $reserves) {
-                $user = $users[rand(0, 2)];
+            ->each(function ($file) use ($users, $user, $reserves) {
+                $author = $users[rand(0, 2)];
 
                 $thumbnail = $this->generate_thumbnails($file, $user);
 
@@ -972,6 +976,7 @@ class SetupDevEnvironment extends Command
                 File::create([
                     'parent_id'  => $reserves->id,
                     'user_id'    => $user->id,
+                    'creator_id'  => $author->id,
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
@@ -1009,8 +1014,8 @@ class SetupDevEnvironment extends Command
                 'mimetype' => 'pages',
             ],
         ])
-            ->each(function ($file) use ($users, $financeDocumentsFolder, $otherDocuments) {
-                $user = $users[rand(0, 2)];
+            ->each(function ($file) use ($users, $user, $financeDocumentsFolder, $otherDocuments) {
+                $author = $users[rand(0, 2)];
                 $folder = [$financeDocumentsFolder, $otherDocuments][rand(0, 1)];
 
                 $basename = Str::random(12) . '-' . $file['basename'];
@@ -1022,6 +1027,7 @@ class SetupDevEnvironment extends Command
                 File::create([
                     'parent_id'  => $folder->id,
                     'user_id'    => $user->id,
+                    'creator_id'  => $author->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
@@ -1054,8 +1060,8 @@ class SetupDevEnvironment extends Command
             'demo/images/destination-gallery/photo-4.jpeg',
             'demo/images/destination-gallery/photo-5.jpeg',
         ])
-            ->each(function ($file) use ($users, $destinationGallery) {
-                $user = $users[rand(0, 2)];
+            ->each(function ($file) use ($users, $user, $destinationGallery) {
+                $author = $users[rand(0, 2)];
 
                 $thumbnail = $this->generate_thumbnails($file, $user);
 
@@ -1063,6 +1069,7 @@ class SetupDevEnvironment extends Command
                 File::create([
                     'parent_id'  => $destinationGallery->id,
                     'user_id'    => $user->id,
+                    'creator_id'  => $author->id,
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
@@ -1090,8 +1097,8 @@ class SetupDevEnvironment extends Command
                 'mimetype' => 'pages',
             ],
         ])
-            ->each(function ($file) use ($users, $holiday2022Folder) {
-                $user = $users[rand(0, 2)];
+            ->each(function ($file) use ($users, $user, $holiday2022Folder) {
+                $author = $users[rand(0, 2)];
 
                 $basename = Str::random(12) . '-' . $file['basename'];
 
@@ -1102,6 +1109,7 @@ class SetupDevEnvironment extends Command
                 File::create([
                     'parent_id'  => $holiday2022Folder->id,
                     'user_id'    => $user->id,
+                    'creator_id'  => $author->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
@@ -1127,7 +1135,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[0]->id, $members[1]->id, $members[5]->id])
             ->each(
-                fn ($id) => DB::table('team_folder_members')
+                fn($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $companyProjectFolder->id,
                         'user_id'    => $id,
@@ -1137,7 +1145,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[3]->id, $members[2]->id])
             ->each(
-                fn ($id) => DB::table('team_folder_members')
+                fn($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $financeDocumentsFolder->id,
                         'user_id'    => $id,
@@ -1147,7 +1155,7 @@ class SetupDevEnvironment extends Command
 
         collect([$members[2]->id, $members[3]->id, $members[5]->id, $members[0]->id])
             ->each(
-                fn ($id) => DB::table('team_folder_members')
+                fn($id) => DB::table('team_folder_members')
                     ->insert([
                         'parent_id'  => $holiday2022Folder->id,
                         'user_id'    => $id,
@@ -1158,7 +1166,7 @@ class SetupDevEnvironment extends Command
         // Create invitations
         collect([$members[4], $members[5]])
             ->each(
-                fn ($user) => TeamFolderInvitation::factory()
+                fn($user) => TeamFolderInvitation::factory()
                     ->create([
                         'email'      => $user->email,
                         'parent_id'  => $companyProjectFolder->id,
@@ -1229,18 +1237,19 @@ class SetupDevEnvironment extends Command
             'Apple Watch App Video Promotion.mp4',
             'Smart Watch 3D Device Pack for Element 3D.mp4',
         ])
-            ->each(function ($file) use ($users, $videos) {
-                $user = $users[rand(0, 1)];
+            ->each(function ($file) use ($users, $owner, $videos) {
+                $author = $users[rand(0, 1)];
 
                 $basename = Str::random(12) . '-' . $file;
 
                 // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/video/$file"), $basename, 'private');
+                Storage::putFileAs("files/$owner->id", storage_path("demo/video/$file"), $basename, 'private');
 
                 // Create file record
                 File::create([
                     'parent_id'  => $videos->id,
-                    'user_id'    => $user->id,
+                    'user_id'    => $owner->id,
+                    'creator_id'  => $author->id,
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'video',
@@ -1257,18 +1266,19 @@ class SetupDevEnvironment extends Command
                 'mimetype' => 'pdf',
             ],
         ])
-            ->each(function ($file) use ($users, $folder) {
+            ->each(function ($file) use ($users, $owner, $folder) {
                 $basename = Str::random(12) . '-' . $file['basename'];
 
-                $user = $users[rand(0, 1)];
+                $author = $users[rand(0, 1)];
 
                 // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');
+                Storage::putFileAs("files/$owner->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');
 
                 // Create file record
                 File::create([
                     'parent_id'  => $folder->id,
-                    'user_id'    => $user->id,
+                    'user_id'    => $owner->id,
+                    'creator_id'  => $author->id,
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
@@ -1303,13 +1313,14 @@ class SetupDevEnvironment extends Command
         collect([
             'demo/images/memes/You Are My Sunshine.jpg',
         ])
-            ->each(function ($file) use ($johan, $folder) {
-                $thumbnail = $this->generate_thumbnails($file, $johan);
+            ->each(function ($file) use ($johan, $owner, $folder) {
+                $thumbnail = $this->generate_thumbnails($file, $owner);
 
                 // Create file record
                 File::create([
                     'parent_id'  => $folder->id,
-                    'user_id'    => $johan->id,
+                    'user_id'    => $owner->id,
+                    'creator_id'  => $johan->id,
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
@@ -1323,13 +1334,14 @@ class SetupDevEnvironment extends Command
             'demo/images/memes/Eggcited bro.jpg',
             'demo/images/memes/Get a Rest.jpg',
         ])
-            ->each(function ($file) use ($member, $hug) {
-                $thumbnail = $this->generate_thumbnails($file, $member);
+            ->each(function ($file) use ($member, $owner, $hug) {
+                $thumbnail = $this->generate_thumbnails($file, $owner);
 
                 // Create file record
                 File::create([
                     'parent_id'  => $hug->id,
-                    'user_id'    => $member->id,
+                    'user_id'    => $owner->id,
+                    'creator_id'  => $member->id,
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
@@ -1533,7 +1545,7 @@ class SetupDevEnvironment extends Command
             ],
         ])->each(function ($col) {
             Setting::updateOrCreate([
-                'name'  => $col['name'],
+                'name' => $col['name'],
             ], [
                 'value' => $col['value'],
             ]);
@@ -1556,7 +1568,7 @@ class SetupDevEnvironment extends Command
         foreach (range(0, 45) as $day) {
             $user
                 ->each(
-                    fn ($user) => DB::table('traffic')
+                    fn($user) => DB::table('traffic')
                         ->insert([
                             'id'         => Str::uuid(),
                             'user_id'    => $user->id,
@@ -1652,7 +1664,7 @@ class SetupDevEnvironment extends Command
                 // Create thumbnail only if image is larger than predefined image sizes
                 if ($intervention->getWidth() > $size['size']) {
                     // Generate thumbnail
-                    $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
+                    $intervention->resize($size['size'], null, fn($constraint) => $constraint->aspectRatio())->stream();
 
                     // Store thumbnail to disk
                     Storage::put("files/$user->id/{$size['name']}-{$file_name}", $intervention);
