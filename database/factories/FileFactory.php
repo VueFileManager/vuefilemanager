@@ -25,15 +25,13 @@ class FileFactory extends Factory
         return [
             'id'         => $this->faker->uuid,
             'user_id'    => $this->faker->uuid,
+            'creator_id'  => $this->faker->uuid,
             'name'       => $this->faker->word,
             'basename'   => Str::slug($this->faker->name),
             'mimetype'   => $this->faker->mimeType,
             'filesize'   => $this->faker->numberBetween(10000, 99999),
             'type'       => $this->faker->randomElement(
                 ['image', 'file', 'video', 'audio']
-            ),
-            'author'     => $this->faker->randomElement(
-                ['user', 'member', 'visitor']
             ),
             'created_at' => $this->faker->dateTimeBetween('-36 months'),
         ];

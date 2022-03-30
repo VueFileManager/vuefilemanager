@@ -28,7 +28,7 @@ class ConvertFolderIntoTeamFolderController extends Controller
         }
 
         // Check if user didn't exceed max team members limit
-        if (! $folder->owner->canInviteTeamMembers($request->input('invitations'))) {
+        if (! $folder->user->canInviteTeamMembers($request->input('invitations'))) {
             return response([
                 'type'    => 'error',
                 'message' => 'You exceed your members limit.',

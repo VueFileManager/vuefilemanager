@@ -87,9 +87,9 @@
             <!--Author-->
             <ListInfoItem v-if="canShowAuthor" :title="$t('author')">
                 <div class="mt-1.5 flex items-center">
-                    <MemberAvatar :size="32" :member="singleFile.data.relationships.owner" />
+                    <MemberAvatar :size="32" :member="singleFile.data.relationships.creator" />
                     <span class="ml-3 block text-sm font-bold">
-                        {{ singleFile.data.relationships.owner.data.attributes.name }}
+                        {{ singleFile.data.relationships.creator.data.attributes.name }}
                     </span>
                 </div>
             </ListInfoItem>
@@ -160,7 +160,7 @@ import { mapGetters } from 'vuex'
             return (
                 this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders']) &&
                 this.clipboard[0].data.type !== 'folder' &&
-                this.user.data.id !== this.clipboard[0].data.relationships.owner.data.id
+                this.user.data.id !== this.clipboard[0].data.relationships.creator.data.id
             )
         },
     },

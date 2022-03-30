@@ -788,36 +788,35 @@ export default {
                         },
                     })
                 } else if (file.data.attributes.isTeamFolder) {
-                    if (file.data.relationships.owner.data.id === this.user.data.id) {
-                        this.$router.push({
-                            name: 'TeamFolders',
-                            params: { id: file.data.id },
-                        })
-                    } else {
-                        this.$router.push({
-                            name: 'SharedWithMe',
-                            params: { id: file.data.id },
-                        })
-                    }
+					let route = file.data.relationships.user.data.id === this.user.data.id
+						? 'TeamFolders'
+						: 'SharedWithMe'
+
+					this.$router.push({
+						name: route,
+						params: { id: file.data.id },
+					})
                 } else {
                     this.$router.push({
                         name: 'Files',
                         params: { id: file.data.id },
                     })
                 }
-            } else {
-                // Show file
-                if (['video', 'audio', 'image'].includes(file.data.type) || file.data.attributes.mimetype === 'pdf') {
-                    this.$store.commit('ADD_TO_FAST_PREVIEW', file)
-
-                    events.$emit('file-preview:show')
-                } else {
-                    this.$downloadFile(
-                        file.data.attributes.file_url,
-                        file.data.attributes.name + '.' + file.data.attributes.mimetype
-                    )
-                }
             }
+
+			if (file.data.type !== 'folder') {
+				// Show file
+				if (['video', 'audio', 'image'].includes(file.data.type) || file.data.attributes.mimetype === 'pdf') {
+					this.$store.commit('ADD_TO_FAST_PREVIEW', file)
+
+					events.$emit('file-preview:show')
+				} else {
+					this.$downloadFile(
+						file.data.attributes.file_url,
+						file.data.attributes.name + '.' + file.data.attributes.mimetype
+					)
+				}
+			}
 
             this.exitSpotlight()
         },

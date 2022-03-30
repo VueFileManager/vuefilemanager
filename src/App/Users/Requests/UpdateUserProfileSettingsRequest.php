@@ -25,7 +25,7 @@ class UpdateUserProfileSettingsRequest extends FormRequest
         return [
             'avatar' => 'sometimes|file',
             'name'   => 'string',
-            'value'  => 'string',
+            'value'  => 'string|nullable',
         ];
     }
 }

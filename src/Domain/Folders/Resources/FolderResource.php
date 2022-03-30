@@ -22,10 +22,10 @@ class FolderResource extends JsonResource
                     'isTeamFolder'  => $this->team_folder,
                     'items'         => $this->items,
                     'trashed_items' => $this->trashed_items,
-                    'created_at'    => set_time_by_user_timezone($this->owner, $this->created_at),
-                    'updated_at'    => set_time_by_user_timezone($this->owner, $this->updated_at),
+                    'created_at'    => set_time_by_user_timezone($this->user, $this->created_at),
+                    'updated_at'    => set_time_by_user_timezone($this->user, $this->updated_at),
                     'deleted_at'    => $this->deleted_at
-                        ? set_time_by_user_timezone($this->owner, $this->deleted_at)
+                        ? set_time_by_user_timezone($this->user, $this->deleted_at)
                         : null,
                 ],
                 'relationships' => [
@@ -49,15 +49,15 @@ class FolderResource extends JsonResource
                             ],
                         ],
                     ]),
-                    $this->mergeWhen($this->owner, fn () => [
-                        'owner' => [
+                    $this->mergeWhen($this->user, fn () => [
+                        'user' => [
                             'data' => [
-                                'type'       => 'owner',
+                                'type'       => 'user',
                                 'id'         => $this->user_id,
                                 'attributes' => [
-                                    'name'   => $this->owner->settings->name,
-                                    'avatar' => $this->owner->settings->avatar,
-                                    'color'  => $this->owner->settings->color,
+                                    'name'   => $this->user->settings->name,
+                                    'avatar' => $this->user->settings->avatar,
+                                    'color'  => $this->user->settings->color,
                                 ],
                             ],
                         ],

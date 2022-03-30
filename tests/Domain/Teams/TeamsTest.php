@@ -1,6 +1,8 @@
 <?php
+
 namespace Tests\Domain\Teams;
 
+use Illuminate\Http\UploadedFile;
 use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -31,9 +33,8 @@ class TeamsTest extends TestCase
                 'parent_id' => $level_1->id,
             ]);
 
-        $teamRoot = $level_2->getLatestParent();
-
-        $this->assertEquals($teamFolder->id, $teamRoot->id);
+        $this->assertEquals($teamFolder->id, $level_2->getLatestParent()->id);
+        $this->assertEquals($teamFolder->id, $teamFolder->getLatestParent()->id);
     }
 
     /**
@@ -72,6 +73,7 @@ class TeamsTest extends TestCase
 
         $this
             ->assertDatabaseHas('folders', [
+                'user_id'     => $user->id,
                 'name'        => 'Company Project',
                 'team_folder' => 1,
             ])
@@ -96,6 +98,7 @@ class TeamsTest extends TestCase
 
         $teamFolder = Folder::factory()
             ->create([
+                'user_id'     => $user->id,
                 'team_folder' => 1,
             ]);
 
@@ -108,6 +111,7 @@ class TeamsTest extends TestCase
             ->assertStatus(201)
             ->assertJsonFragment([
                 'isTeamFolder' => true,
+                'id'           => $user->id,
             ]);
     }
 
@@ -253,5 +257,43 @@ class TeamsTest extends TestCase
             ->assertJsonFragment([
                 'id' => $folders[0]->id,
             ]);
+    }
+
+    /**
+     * @test
+     */
+    public function team_member_upload_new_file()
+    {
+        $file = UploadedFile::fake()
+            ->create('fake-file.pdf', 12000000, 'application/pdf');
+
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $member = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+                'team_folder' => 1,
+            ]);
+
+        $this
+            ->actingAs($member)
+            ->postJson('/api/upload', [
+                'filename'  => $file->name,
+                'file'      => $file,
+                'parent_id' => $folder->id,
+                'path'      => "/$file->name",
+                'is_last'   => 'true',
+            ])->assertStatus(201);
+
+        $this->assertDatabaseHas('files', [
+            'user_id'    => $user->id,
+            'creator_id' => $member->id,
+        ]);
     }
 }

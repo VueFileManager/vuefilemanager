@@ -28,7 +28,6 @@ class FakeUploadFileAction
             'basename'   => $filename,
             'mimetype'   => $file->getClientOriginalExtension(),
             'file_url'   => 'https://vuefilemanager.hi5ve.digital/assets/vue-file-manager-preview.jpg',
-            'author'     => $request->user() ? 'user' : 'visitor',
             'created_at' => now()->format(__t('time')),
             'updated_at' => now()->format(__t('time')),
             'type'       => $fileType,

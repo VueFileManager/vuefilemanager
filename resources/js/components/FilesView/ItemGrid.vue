@@ -38,7 +38,7 @@
                         v-if="user && canShowAuthor"
                         :size="38"
                         :is-border="true"
-                        :member="entry.data.relationships.owner"
+                        :member="entry.data.relationships.creator"
                         class="absolute right-2 -bottom-5 z-10 z-10 scale-75 transform lg:-bottom-7 lg:scale-100"
                     />
 
@@ -58,7 +58,7 @@
                         v-if="user && canShowAuthor"
                         :size="38"
                         :is-border="true"
-                        :member="entry.data.relationships.owner"
+                        :member="entry.data.relationships.creator"
                         class="absolute -right-3 -bottom-2.5 z-10 scale-75 transform lg:scale-100"
                     />
 
@@ -200,9 +200,10 @@ export default {
         },
         canShowAuthor() {
             return (
-                this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders']) &&
-                !this.isFolder &&
-                this.user.data.id !== this.entry.data.relationships.owner.data.id
+                this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
+				&& !this.isFolder
+				&& this.entry.data.relationships.creator
+				&& this.user.data.id !== this.entry.data.relationships.creator.data.id
             )
         },
         canShowLinkIcon() {

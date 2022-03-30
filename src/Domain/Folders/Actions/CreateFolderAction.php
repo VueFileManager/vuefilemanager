@@ -18,35 +18,31 @@ class CreateFolderAction
         CreateFolderRequest $request,
         ?Share $shared = null,
     ): Folder|array {
-        // Get user model
-        $user = $shared
-            ? $shared->user
-            : Auth::user();
+        // Get stuff
+        $isFilledParentId = $request->filled('parent_id');
+        $parentId = $request->input('parent_id');
+
+        // Get user
+        $user = $isFilledParentId
+            ? Folder::find($parentId)->getLatestParent()->user
+            : auth()->user();
 
         // Check if user can create folder
         if (! $user->canCreateFolder()) {
             throw new InvalidUserActionException();
         }
 
-        /*
-         * Check if exist parent team folder, if yes,
-         * then get the latest parent folder to detect whether it is team_folder
-        */
-        if ($request->has('parent_id')) {
-            $isTeamFolder = Folder::find($request->input('parent_id'))
-                ->getLatestParent()
-                ->team_folder;
-        }
-
         // Create folder record
         return Folder::create([
-            'parent_id'   => $request->input('parent_id'),
+            'parent_id'   => $parentId,
             'name'        => $request->input('name'),
             'color'       => $request->input('color') ?? null,
             'emoji'       => $request->input('emoji') ?? null,
             'author'      => $shared ? 'visitor' : 'user',
             'user_id'     => $user->id,
-            'team_folder' => $isTeamFolder ?? false,
+            'team_folder' => $isFilledParentId
+                ? Folder::find($parentId)->getLatestParent()->team_folder
+                : false
         ]);
     }
 }

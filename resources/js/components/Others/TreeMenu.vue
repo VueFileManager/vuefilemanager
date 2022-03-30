@@ -1,13 +1,13 @@
 <template>
     <div
         :class="{
-            'pointer-events-none opacity-50': (disabledById && disabledById.data.id === nodes.id) || !disableId || (isRootDepth && !nodes.folders.length),
+            'pointer-events-none opacity-50': (disabledById && disabledById.data.id === nodes.id) || !disableId || (isRootDepth && !nodes.folders.length && nodes.location !== 'files'),
             'mb-2.5': isRootDepth,
         }"
     >
         <div
             :style="indent"
-            class="relative relative flex cursor-pointer select-none items-center whitespace-nowrap lg:py-2 py-3.5 px-1.5 transition-all duration-150"
+            class="relative relative flex cursor-pointer select-none items-center whitespace-nowrap px-1.5 transition-all duration-150"
         >
             <!--Arrow icon-->
             <span @click.stop="showTree" class="-m-2 p-2">
@@ -51,7 +51,7 @@
             <!--Item label-->
             <b
                 @click="getFolder"
-                class="ml-3 inline-block overflow-x-hidden text-ellipsis whitespace-nowrap text-xs font-bold transition-all duration-150"
+                class="lg:py-2 py-3.5 ml-3 inline-block overflow-x-hidden text-ellipsis whitespace-nowrap text-xs font-bold transition-all duration-150"
                 :class="{'text-theme': isSelectedItem }"
             >
                 {{ nodes.name }}

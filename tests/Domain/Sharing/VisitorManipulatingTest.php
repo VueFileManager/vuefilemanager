@@ -306,7 +306,6 @@ class VisitorManipulatingTest extends TestCase
                 $folder = Folder::factory()
                     ->create([
                         'user_id' => $user->id,
-                        'author'  => 'user',
                     ]);
 
                 $share = Share::factory()
@@ -349,10 +348,6 @@ class VisitorManipulatingTest extends TestCase
                         'is_last'   => 'true',
                     ])->assertStatus(201);
                 }
-
-                $this->assertDatabaseHas('files', [
-                    'author' => 'visitor',
-                ]);
 
                 $file = File::all()->last();
 

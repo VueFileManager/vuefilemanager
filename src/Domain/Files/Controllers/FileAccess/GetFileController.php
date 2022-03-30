@@ -27,7 +27,7 @@ class GetFileController extends Controller
             ->firstOrFail();
 
         // Check if user can download file
-        if (! $file->owner->canDownload()) {
+        if (! $file->user->canDownload()) {
             return response(userActionNotAllowedError(), 401);
         }
 

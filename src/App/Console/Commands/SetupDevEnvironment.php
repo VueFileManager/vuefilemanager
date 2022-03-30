@@ -213,7 +213,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -329,7 +328,6 @@ class SetupDevEnvironment extends Command
         $shared_folder = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
-                'author'     => 'user',
                 'name'       => 'Shared Folder',
                 'emoji'      => [
                     'codes'    => '1F680',
@@ -365,7 +363,6 @@ class SetupDevEnvironment extends Command
         $random_pics = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
-                'author'     => 'user',
                 'name'       => 'Random Pics',
                 'emoji'      => [
                     'codes'    => '1F4F7',
@@ -414,7 +411,6 @@ class SetupDevEnvironment extends Command
         $playable_media = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
-                'author'     => 'user',
                 'name'       => 'Playable Media',
                 'created_at' => now()->subMinutes(2),
             ]);
@@ -439,7 +435,6 @@ class SetupDevEnvironment extends Command
         $multi_level = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
-                'author'     => 'user',
                 'name'       => 'Multi Level Folder',
                 'created_at' => now()->subMinutes(3),
             ]);
@@ -472,7 +467,6 @@ class SetupDevEnvironment extends Command
         $documents = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
-                'author'     => 'user',
                 'name'       => 'Documents',
                 'created_at' => now()->subMinutes(4),
             ]);
@@ -492,7 +486,6 @@ class SetupDevEnvironment extends Command
         $videohive = Folder::factory()
             ->create([
                 'user_id'    => $user->id,
-                'author'     => 'user',
                 'name'       => 'Videohive',
                 'created_at' => now()->subMinutes(5),
             ]);
@@ -542,7 +535,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -585,7 +577,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -617,7 +608,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -675,7 +665,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'author'     => 'visitor',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -702,7 +691,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'video',
-                    'author'     => 'user',
                     'mimetype'   => 'mp4',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -726,7 +714,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'video',
-                    'author'     => 'user',
                     'mimetype'   => 'mp4',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -750,7 +737,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'audio',
-                    'author'     => 'user',
                     'mimetype'   => 'mp3',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -781,7 +767,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -808,7 +793,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -839,7 +823,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -901,7 +884,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -924,7 +906,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -972,7 +953,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -995,7 +975,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -1046,7 +1025,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -1088,7 +1066,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -1128,7 +1105,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -1268,7 +1244,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file,
                     'basename'   => $basename,
                     'type'       => 'video',
-                    'author'     => 'user',
                     'mimetype'   => 'mp4',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -1297,7 +1272,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $file['name'],
                     'basename'   => $basename,
                     'type'       => 'file',
-                    'author'     => 'user',
                     'mimetype'   => $file['mimetype'],
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -1319,7 +1293,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -1340,7 +1313,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),
@@ -1361,7 +1333,6 @@ class SetupDevEnvironment extends Command
                     'name'       => $thumbnail['name'],
                     'basename'   => $thumbnail['basename'],
                     'type'       => 'image',
-                    'author'     => 'user',
                     'mimetype'   => 'jpg',
                     'filesize'   => rand(1000000, 4000000),
                     'created_at' => now()->subMinutes(rand(1, 5)),

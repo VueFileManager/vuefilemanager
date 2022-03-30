@@ -2,6 +2,7 @@
 namespace Domain\Files\Models;
 
 use App\Users\Models\User;
+use Domain\Traffic\Actions\RecordUploadAction;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Domain\Sharing\Models\Share;
@@ -174,7 +175,12 @@ class File extends Model
         return $this->hasOne(Share::class, 'item_id', 'id');
     }
 
-    public function owner(): HasOne
+    public function creator(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'creator_id');
+    }
+
+    public function user(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
@@ -207,6 +213,9 @@ class File extends Model
 
         static::creating(function ($file) {
             $file->id = (string) Str::uuid();
+
+            // Store upload record
+            resolve(RecordUploadAction::class)($file->filesize, $file->user_id);
         });
 
         static::deleting(function ($file) {

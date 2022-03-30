@@ -158,7 +158,6 @@ class VisitorBrowseTest extends TestCase
                     ->create([
                         'parent_id' => $root->id,
                         'name'      => 'Documents',
-                        'author'    => 'user',
                         'user_id'   => $user->id,
                     ]);
 
@@ -168,7 +167,6 @@ class VisitorBrowseTest extends TestCase
                         'name'      => 'Document',
                         'basename'  => 'document.pdf',
                         'mimetype'  => 'application/pdf',
-                        'author'    => 'user',
                         'type'      => 'file',
                         'user_id'   => $user->id,
                     ]);
@@ -238,7 +236,6 @@ class VisitorBrowseTest extends TestCase
                     ->create([
                         'name'      => 'level 2',
                         'parent_id' => $folder_level_1->id,
-                        'author'    => 'user',
                         'user_id'   => $user->id,
                     ]);
 
@@ -246,7 +243,6 @@ class VisitorBrowseTest extends TestCase
                     ->create([
                         'name'      => 'level 3',
                         'parent_id' => $folder_level_2->id,
-                        'author'    => 'user',
                         'user_id'   => $user->id,
                     ]);
 
@@ -254,7 +250,6 @@ class VisitorBrowseTest extends TestCase
                     ->create([
                         'name'      => 'level 2 Sibling',
                         'parent_id' => $folder_level_1->id,
-                        'author'    => 'user',
                         'user_id'   => $user->id,
                     ]);
 

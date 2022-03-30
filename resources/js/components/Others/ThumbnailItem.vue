@@ -7,7 +7,7 @@
                 v-if="user && canShowAuthor"
                 :size="28"
                 :is-border="true"
-                :member="item.data.relationships.owner"
+                :member="item.data.relationships.creator"
                 class="absolute right-1.5 -bottom-2 z-10"
             />
 
@@ -130,7 +130,7 @@ export default {
                 : this.item.data.attributes.items
         },
         canShowAuthor() {
-            return !this.isFolder && this.user.data.id !== this.item.data.relationships.owner.data.id
+            return !this.isFolder && this.user.data.id !== this.item.data.relationships.creator.data.id
         },
         canDrag() {
             return !this.isDeleted && this.$checkPermission(['master', 'editor'])

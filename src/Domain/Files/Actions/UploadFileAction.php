@@ -1,9 +1,8 @@
 <?php
 namespace Domain\Files\Actions;
 
-use App\Users\Models\User;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Domain\Files\Requests\UploadRequest;
@@ -60,13 +59,14 @@ class UploadFileAction
             // File name
             $fileName = Str::uuid() . '.' . $request->input('extension');
 
-            // Get user data
-            $user = $userId ? User::find($userId) : Auth::user();
+            // Get user
+            $user = $request->filled('parent_id')
+                ? Folder::find($request->input('parent_id'))->getLatestParent()->user
+                : auth()->user();
 
             // File Info
             $fileSize = $disk_local->size("chunks/$chunkName");
-
-            $file_mimetype = $disk_local->mimeType("chunks/$chunkName");
+            $fileMimetype = $disk_local->mimeType("chunks/$chunkName");
 
             // Check if user has enough space to upload file
             if (! $user->canUpload($fileSize)) {
@@ -80,27 +80,24 @@ class UploadFileAction
 
             // Create multiple image thumbnails
             ($this->createImageThumbnail)($fileName, $file, $user->id);
-            
+
             // Move files to external storage
             if (! isStorageDriver('local')) {
                 ($this->moveFileToExternalStorage)($fileName, $user->id);
             }
 
-            // Store user upload size
-            ($this->recordUpload)($fileSize, $user->id);
-
             // Create new file
             $item = UserFile::create([
-                'mimetype'  => get_file_type_from_mimetype($file_mimetype),
-                'type'      => get_file_type($file_mimetype),
+                'mimetype'  => get_file_type_from_mimetype($fileMimetype),
+                'type'      => get_file_type($fileMimetype),
                 'parent_id' => ($this->getFileParentId)($request, $user->id),
                 'name'      => $request->input('filename'),
                 'basename'  => $fileName,
-                'author'    => $userId ? 'visitor' : 'user',
                 'filesize'  => $fileSize,
                 'user_id'   => $user->id,
+                'creator_id' => auth()->id(),
             ]);
-            
+
             // Store exif metadata for files
             ($this->storeExifMetadata)($item, $file);
 

@@ -268,7 +268,8 @@ export default {
             this.$updateText(
                 '/user/settings',
                 'last_name',
-                this.user.data.relationships.settings.data.attributes.last_name
+                this.user.data.relationships.settings.data.attributes.last_name,
+				true
             )
         },
     },
