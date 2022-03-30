@@ -92,7 +92,7 @@ class UpgradeSystemController extends Controller
                         // Update file permission
                         File::find($file->id)->update([
                             'user_id'    => $teamFolder->user_id,
-                            'author_id'  => $teamFolder->user_id !== $file->user_id ? $file->user_id : null,
+                            'creator_id'  => $teamFolder->user_id !== $file->user_id ? $file->user_id : null,
                         ]);
                     });
 
