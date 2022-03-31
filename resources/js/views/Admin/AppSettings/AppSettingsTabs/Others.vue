@@ -50,6 +50,21 @@
             </AppInputText>
 
             <AppInputText
+				:title="$t('File Chunk Size (in MB)')"
+				:description="$t('When you upload file on the server, your file will be sliced into many chunks in this size. Small size of the chunk can prevent many limits you can suffer from your server or provider. Default value is 64MB if is not set.')"
+			>
+                <input
+					@input="$updateText('/admin/settings', 'chunk_size', app.chunkSize, true)"
+					v-model="app.chunkSize"
+					:placeholder="$t('Type the chunk size in MB')"
+					type="number"
+					min="0"
+					step="1"
+					class="focus-border-theme input-dark"
+				/>
+            </AppInputText>
+
+            <AppInputText
 				:title="$t('admin_settings.others.mimetypes_blacklist')"
 				:description="$t('admin_settings.others.mimetypes_blacklist_help')"
 				:is-last="true"
@@ -186,7 +201,7 @@
         </div>
 
 		<!--Upgrade License-->
-		<div v-if="!config.isSaaS" class="card shadow-card">
+		<div v-if="app && !config.isSaaS" class="card shadow-card">
 			<FormLabel icon="trending-up">
 				{{ $t('Upgrade your License') }}
 			</FormLabel>
@@ -409,7 +424,7 @@ export default {
 		axios
 			.get('/api/admin/settings', {
 				params: {
-					column: 'contact_email|google_analytics|default_max_storage_amount|storage_limitation|mimetypes_blacklist|upload_limit|subscriptionType',
+					column: 'contact_email|google_analytics|default_max_storage_amount|storage_limitation|mimetypes_blacklist|upload_limit|subscriptionType|chunk_size',
 				},
 			})
 			.then((response) => {
@@ -423,6 +438,7 @@ export default {
 					mimetypesBlacklist: response.data.mimetypes_blacklist,
 					uploadLimit: response.data.upload_limit,
 					subscriptionType: response.data.subscriptionType,
+					chunkSize: response.data.chunk_size,
 				}
 			})
 	},

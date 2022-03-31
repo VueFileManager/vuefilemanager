@@ -102,7 +102,7 @@
 			mimetypesBlacklist: '{{ isset($settings->mimetypes_blacklist) ? $settings->mimetypes_blacklist: null}}',
 			uploadLimit: {{ isset($settings->upload_limit) ? format_bytes($settings->upload_limit) : 'undefined' }},
 			uploadLimitFormatted: '{{ isset($settings->upload_limit) ? format_megabytes($settings->upload_limit) : null }}',
-			chunkSize: {{ format_bytes(config('vuefilemanager.chunk_size')) }},
+			chunkSize: {{ isset($settings->chunk_size) ? format_bytes($settings->chunk_size) : format_bytes(64) }},
 
 			isAuthenticated: {{ $isUser ? 1 : 0 }},
 			isSaaS: {{ $settings && optional($settings)->license === 'extended' ? 1 : 0 }},

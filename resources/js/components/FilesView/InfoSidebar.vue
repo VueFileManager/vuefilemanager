@@ -158,9 +158,10 @@ export default {
 		},
 		canShowAuthor() {
 			return (
-				this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders']) &&
-				this.clipboard[0].data.type !== 'folder' &&
-				this.user.data.id !== this.clipboard[0].data.relationships.creator.data.id
+				this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
+				&& this.clipboard[0].data.type !== 'folder'
+				&& this.clipboard[0].data.relationships.creator
+				&& this.user.data.id !== this.clipboard[0].data.relationships.creator.data.id
 			)
 		},
 		isTeamsHomepage() {
