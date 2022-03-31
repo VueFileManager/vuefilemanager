@@ -40,46 +40,52 @@
 
 ## Installation
 
-#### 1. Upload files on your server
+### 1. Upload files on your server
 Upload project files to the web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
-#### 2. Configure your domain host root folder
+### 2. Configure your domain host root folder
 Configure your web server's document root to point to the public directory of the files you previously uploaded. For example, if you've uploaded the files in `html` folder, your domain root directory should be changed to `html/project_files/public` folder or anything else where domain root is in project `/public` directory.
 
-#### 3. Set write permissions
+### 3. Set write permissions
 Set `755` permission (CHMOD) to these files and folders directory within all children subdirectories:
 
 - /bootstrap
 - /storage
 - /.env
 
-#### 4. Open your application in your web browser
+### 4. Open your application in your web browser
 Then open your application in web browser. If everything works fine, you will be redirected to the setup wizard installation process. 
 
-#### 5. Server Check
+### 5. Server Check
 On the first page you will see server check. Make sure all items are green. If not, then correct your server setup by recommended values and refresh your setup wizard page.
 
-#### 6. Follow setup wizard steps
+### 6. Follow setup wizard steps
 
 That was the hardest part of installation process. Please follow instructions in every step of Setup Wizard to successfully install VueFileManager.
 
-#### 7. Set up Cron
+### 7. Set up Cron
 
-Add the following Cron entry to your server. 
+#### If you are running VueFileManager on shared web hosting (CPanel, Plesk etc.)
+1. Create new cron job
+2. Set execution cycle every minute
+3. Search the absolute directory path where you uploaded VueFileManager files (like `/www/project_files`). The path must start with `/`.
+4. Copy the command below, paste it to the command text area and replace in command string `replace_by_your_path` exactly with your path you found in step 3.
+5. It should [look like this](https://i.ibb.co/SmR585j/Screenshot-2022-03-31-at-09-30-36.png) with your pasted project path.
+```
+php replace_by_your_path/artisan schedule:run >> /dev/null 2>&1
+```
 
-If you are running on shared hosting, just update your php path (if it's different) and project path:
+#### If you are running VueFileManager on linux server
+1. Search the absolute directory path where you uploaded VueFileManager files (like `/www/project_files`). The path must start with `/`.
+2. Copy the command below, paste it to your cron list and replace in command string `/www/project_files` exactly with your path you found in step 1.
 ```
-* * * * *  /usr/local/bin/php /www/html/your-project/artisan schedule:run >> /dev/null 2>&1
-```
-If you are running on linux server, just update your php path (if it's different) and project path:
-```
-* * * * *  cd /www/html/your-project && php artisan schedule:run >> /dev/null 2>&1
+* * * * *  cd /www/project_files && php artisan schedule:run >> /dev/null 2>&1
 ```
 
-#### 8. CORS Configuration (If you Set External Storage s3 Service) 
+### 8. CORS Configuration (If you Set External Storage s3 Service) 
 In your s3 bucket settings you should have option to set up your CORS (Cross-Origin Resource Sharing). It's basically adding your app url to the list of allowed CORS. This step is required for reading pdf documents from s3 in your VueFileManager app without loading issues.
 
-#### 9. Broadcasting
+### 9. Broadcasting
 
 Coming soon...
 
