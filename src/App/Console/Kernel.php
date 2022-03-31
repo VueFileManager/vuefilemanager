@@ -5,6 +5,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
 use Support\Scheduler\Actions\ReportUsageAction;
+use Support\Demo\Actions\DeleteAllSharedLinksAction;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
@@ -37,6 +38,12 @@ class Kernel extends ConsoleKernel
             $schedule->call(
                 fn () => resolve(DeleteFailedFilesAction::class)()
             )->everySixHours();
+        }
+
+        if (is_demo()) {
+            $schedule->call(
+                fn () => resolve(DeleteAllSharedLinksAction::class)()
+            )->daily()->at('00:00');
         }
 
         $schedule->call(
