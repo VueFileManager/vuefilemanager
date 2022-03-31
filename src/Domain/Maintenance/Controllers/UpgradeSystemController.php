@@ -14,8 +14,6 @@ use App\Http\Controllers\Controller;
 use Domain\Maintenance\Models\AppUpdate;
 use Domain\Maintenance\Actions\UpgradeDatabaseAction;
 
-ini_set('max_execution_time', -1);
-
 class UpgradeSystemController extends Controller
 {
     public function __construct(
@@ -25,6 +23,8 @@ class UpgradeSystemController extends Controller
 
     public function __invoke(Request $request): Response
     {
+        ini_set('max_execution_time', -1);
+
         // Get already updated versions
         $alreadyUpdated = Schema::hasTable('app_updates')
             ? AppUpdate::all()
