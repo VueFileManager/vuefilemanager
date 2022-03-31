@@ -637,16 +637,19 @@ if (! function_exists('format_date')) {
 if (! function_exists('get_file_type')) {
     /**
      * Get file type from mimetype
-     *
-     * @param $file_mimetype
-     * @return string
      */
-    function get_file_type($file_mimetype)
+    function get_file_type(string $fileMimetype): string
     {
         // Get mimetype from file
-        $mimetype = explode('/', $file_mimetype);
+        $mimetype = explode('/', $fileMimetype);
 
-        if (in_array($mimetype[0], ['image', 'video', 'audio'])) {
+        // Check image
+        if ($mimetype[0] === 'image' && in_array(strtolower($mimetype[1]), ['jpg', 'jpeg', 'bmp', 'png', 'gif', 'svg', 'svg+xml'])) {
+            return 'image';
+        }
+
+        // Check video or audio
+        if (in_array($mimetype[0], ['video', 'audio'])) {
             return $mimetype[0];
         }
 

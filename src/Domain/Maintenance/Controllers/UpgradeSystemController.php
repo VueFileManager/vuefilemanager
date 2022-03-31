@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Maintenance\Controllers;
 
 use DB;
@@ -110,5 +111,14 @@ class UpgradeSystemController extends Controller
                     ->whereIn('parent_id', $teamFolderIds)
                     ->update(['user_id' => $teamFolder->user_id]);
             });
+
+        // Upgrade dwg files
+        File::withTrashed()
+            ->where('mimetype', 'vnd.dwg')
+            ->cursor()
+            ->each(fn($file) => $file->update([
+                'mimetype' => 'dwg',
+                'type'     => 'file',
+            ]));
     }
 }

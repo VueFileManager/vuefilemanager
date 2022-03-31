@@ -40,6 +40,10 @@
 
 ## Installation
 
+- [How to install VPS with Debian 10](https://medium.com/vuefilemanager/how-to-set-up-vuefilemanager-laravel-application-on-vps-with-debian-10-64676a3ff4d7)
+- [How to Set Up AWS S3](https://medium.com/vuefilemanager/how-to-set-up-vuefilemanager-with-aws-s3-as-an-external-storage-a2c525aec698)
+- [How to Set Up Digital Ocean Spaces](https://medium.com/vuefilemanager/how-to-set-up-vuefilemanager-with-digital-ocean-spaces-as-a-external-storage-6cccf590c23d)
+
 ### 1. Upload files on your server
 Upload project files to the web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
