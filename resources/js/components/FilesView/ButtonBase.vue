@@ -1,7 +1,7 @@
 <template>
     <button class="button-base" :class="buttonStyle" type="button">
         <div v-if="loading" class="icon">
-            <refresh-cw-icon size="16" class="sync-alt" />
+            <refresh-cw-icon size="16" class="animate-spin" />
         </div>
         <div class="content">
             <slot v-if="!loading"></slot>
@@ -90,19 +90,6 @@ export default {
         path {
             stroke: $text;
         }
-    }
-}
-
-.sync-alt {
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0);
-    }
-    100% {
-        transform: rotate(360deg);
     }
 }
 

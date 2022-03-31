@@ -54,12 +54,12 @@
             </div>
 
             <!--New language strings alert-->
-			<AlertBox v-if="data.app.shouldUpgrade" @click.native.once="upgradeSystem" color="green">
+			<AlertBox v-if="data.app.shouldUpgrade" @click.native.once="upgradeSystem" color="green" :is-loading="isUpgradingApp">
 				There is a new update that needs to upgrade some stuff on your backend. Please click on this box to upgrade.
 			</AlertBox>
 
             <!--New language strings alert-->
-			<AlertBox v-if="data.app.shouldUpgradeTranslations" @click.native.once="upgradeTranslations" color="green">
+			<AlertBox v-if="data.app.shouldUpgradeTranslations" @click.native.once="upgradeTranslations" color="green" :is-loading="isUpgradingLanguages">
 				We detect new language strings. You should <b class="dark:text-green-500 text-green-600 text-sm font-bold underline">upgrade your translations</b>. After that, you can find new translations at the bottom page of your translations in language editor. Please click on this box.
 			</AlertBox>
 
@@ -218,12 +218,16 @@ export default {
     },
     data() {
         return {
+			isUpgradingLanguages: false,
+			isUpgradingApp: false,
             isLoading: false,
             data: undefined,
         }
     },
 	methods: {
 		upgradeTranslations() {
+			this.isUpgradingLanguages = true
+
 			axios.get('/upgrade/translations')
 				.then(() => {
 					this.data.app.shouldUpgradeTranslations = false
@@ -241,6 +245,8 @@ export default {
 				})
 		},
 		upgradeSystem() {
+			this.isUpgradingApp = true
+
 			axios.get('/upgrade/system')
 				.then(() => {
 					this.data.app.shouldUpgrade = false
