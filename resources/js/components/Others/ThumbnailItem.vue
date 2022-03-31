@@ -130,7 +130,7 @@ export default {
                 : this.item.data.attributes.items
         },
         canShowAuthor() {
-            return !this.isFolder && this.user.data.id !== this.item.data.relationships.creator.data.id
+            return !this.isFolder && (this.item.data.relationships.creator && this.user.data.id !== this.item.data.relationships.creator.data.id)
         },
         canDrag() {
             return !this.isDeleted && this.$checkPermission(['master', 'editor'])
