@@ -65,7 +65,8 @@
                             </AppInputText>
                         </ValidationProvider>
 
-                        <ValidationProvider tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
+						<!--List Region-->
+                        <ValidationProvider v-if="storage.driver !== 'other'" tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
                             <AppInputText
                                 title="Region"
                                 description="Select your region where is your bucket/space created."
@@ -81,6 +82,24 @@
                             </AppInputText>
                         </ValidationProvider>
 
+						<!--Input Region-->
+						<ValidationProvider v-if="storage.driver === 'other'" tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
+							<AppInputText
+								title="Region"
+								description="Type your region where is your bucket created."
+								:error="errors[0]"
+							>
+								<input
+									class="focus-border-theme input-dark"
+									v-model="storage.region"
+									placeholder="Type your region"
+									type="text"
+									:class="{ '!border-rose-600': errors[0] }"
+									:readonly="storage.driver !== 'other'"
+								/>
+							</AppInputText>
+						</ValidationProvider>
+
                         <ValidationProvider
                             tag="div"
                             mode="passive"
@@ -88,14 +107,14 @@
                             rules="required"
                             v-slot="{ errors }"
                         >
-                            <AppInputText title="Endpoint URL" :error="errors[0]">
+                            <AppInputText title="Endpoint URL" :description="endpointUrlDescription" :error="errors[0]">
                                 <input
                                     class="focus-border-theme input-dark"
                                     v-model="storage.endpoint"
                                     placeholder="Type your endpoint"
                                     type="text"
                                     :class="{ '!border-rose-600': errors[0] }"
-                                    readonly
+									:readonly="storage.driver !== 'other'"
                                 />
                             </AppInputText>
                         </ValidationProvider>
@@ -103,7 +122,7 @@
                         <ValidationProvider tag="div" mode="passive" name="Bucket" rules="required" v-slot="{ errors }">
                             <AppInputText
                                 title="Bucket"
-                                description="Provide your created unique bucket name"
+                                description="Type your created unique bucket name"
                                 :error="errors[0]"
                                 :is-last="true"
                             >
@@ -562,6 +581,7 @@ export default {
                 backblaze: 'https://s3.' + val + '.backblazeb2.com',
                 oss: 'https://' + val + '.aliyuncs.com',
 				s3: 'https://s3.amazonaws.com',
+				other: undefined,
 			}[this.storage.driver]
         },
     },
@@ -575,8 +595,12 @@ export default {
                 wasabi: this.wasabiRegions,
                 backblaze: this.backblazeRegions,
                 oss: this.ossRegions,
+				other: undefined,
             }[this.storage.driver]
         },
+		endpointUrlDescription() {
+			return this.storage.driver === 'other' ? this.$t('The endpoint url should start with https://') : ''
+		}
     },
     data() {
         return {
@@ -827,6 +851,10 @@ export default {
                     label: 'Alibaba Cloud OSS',
                     value: 'oss',
                 },
+				{
+					label: 'Other S3 Compatible Service',
+					value: 'other',
+				},
             ],
             storage: {
                 driver: 'local',

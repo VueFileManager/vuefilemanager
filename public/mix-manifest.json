@@ -42,7 +42,7 @@
     "/chunks/app-settings.js": "/chunks/app-settings.js?id=55da23af2b076069",
     "/chunks/app-appearance.js": "/chunks/app-appearance.js?id=a694a01f3641712c",
     "/chunks/app-index.js": "/chunks/app-index.js?id=efdbfa062749ca00",
-    "/chunks/app-environment.js": "/chunks/app-environment.js?id=7008cbc674035319",
+    "/chunks/app-environment.js": "/chunks/app-environment.js?id=1f5458233a20b263",
     "/chunks/app-others.js": "/chunks/app-others.js?id=16dc948aa2205189",
     "/chunks/app-sign-in-out.js": "/chunks/app-sign-in-out.js?id=1cfffc99465b9a7a",
     "/chunks/app-adsense.js": "/chunks/app-adsense.js?id=a5dc9e715f8561bd",
@@ -72,5 +72,5 @@
     "/chunks/invitation.js": "/chunks/invitation.js?id=9ed8456c9d6d5ce1",
     "/css/tailwind.css": "/css/tailwind.css",
     "/css/app.css": "/css/app.css",
-    "/chunks/environment.js": "/chunks/environment.js?id=50e798871582c3fa"
+    "/chunks/environment.js": "/chunks/environment.js?id=cef6ee74e56cb0d0"
 }

@@ -1,6 +1,7 @@
 ## Version 2.0.11
 #### Release date: 1. April 2022
 - Improved email setup in administration settings and setup wizard
+- Ability to set custom s3 compatible service in administration settings and setup wizard
 
 ## Version 2.0.0 - 2.0.10
 #### Release date: 31. March 2022
