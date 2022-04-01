@@ -3,6 +3,7 @@
 - Improved email setup in administration settings and setup wizard
 - Ability to set custom s3 compatible service in administration settings and setup wizard
 - Test s3 connection before set up in administration settings and setup wizard
+- Test smtp connection before set up in administration settings and setup wizard
 
 ## Version 2.0.0 - 2.0.10
 #### Release date: 31. March 2022
