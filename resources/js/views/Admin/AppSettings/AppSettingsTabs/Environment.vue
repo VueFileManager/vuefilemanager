@@ -278,7 +278,7 @@
                     <AppInputText title="Mail Username" :error="errors[0]">
                         <input
                             class="focus-border-theme input-dark"
-                            v-model="smtp.username"
+                            v-model.lazy="smtp.username"
                             placeholder="Type your mail username"
                             type="text"
                             :class="{ '!border-rose-600': errors[0] }"
@@ -302,7 +302,6 @@
                     tag="div"
                     mode="passive"
                     name="Mail Encryption"
-                    rules="required"
                     v-slot="{ errors }"
                 >
                     <AppInputText title="Mail Encryption" :error="errors[0]">
@@ -313,6 +312,18 @@
                             placeholder="Select your mail encryption"
                             :isError="errors[0]"
                         />
+                    </AppInputText>
+                </ValidationProvider>
+
+				<ValidationProvider v-if="shouldSetSMTPEmail" tag="div" mode="passive" name="Mail From Address" rules="required|email" v-slot="{ errors }">
+                    <AppInputText title="Mail" :error="errors[0]">
+                        <input
+							class="focus-border-theme input-dark"
+							v-model.trim="smtp.email"
+							placeholder="Type your mail from address"
+							type="text"
+							:class="{ '!border-rose-600': errors[0] }"
+						/>
                     </AppInputText>
                 </ValidationProvider>
             </div>
@@ -413,7 +424,7 @@
                 </ValidationProvider>
 
                 <ValidationProvider tag="div" mode="passive" name="Session Token" v-slot="{ errors }">
-                    <AppInputText title="Session Token" :error="errors[0]">
+                    <AppInputText title="Session Token (optional)" :error="errors[0]">
                         <input
                             class="focus-border-theme input-dark"
                             v-model="ses.session_token"
@@ -471,6 +482,14 @@ export default {
         InfoBox,
     },
 	watch: {
+		'smtp.username': function (val) {
+			if (this.$isValidEmail(val)) {
+				this.smtp.email = undefined
+				this.shouldSetSMTPEmail = false
+			} else {
+				this.shouldSetSMTPEmail = true
+			}
+		},
 		'storage.driver': function () {
 			this.storage.region = undefined
 		},
@@ -500,6 +519,7 @@ export default {
     },
     data() {
         return {
+			shouldSetSMTPEmail: false,
             isLoading: false,
             isSendingEmailForm: false,
             isSendingStorageForm: false,
@@ -808,6 +828,7 @@ export default {
             smtp: {
                 host: undefined,
                 port: undefined,
+				email: undefined,
                 username: undefined,
                 password: undefined,
                 encryption: undefined,

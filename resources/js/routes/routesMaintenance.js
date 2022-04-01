@@ -35,9 +35,9 @@ const routesMaintenance = [
             },
             {
                 name: 'EnvironmentSetup',
-                path: '/setup-wizard/environment-setup',
+                path: '/setup-wizard/environment',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/environment-setup" */ '../views/SetupWizard/EnvironmentSetup'),
+                    import(/* webpackChunkName: "chunks/environment" */ '../views/SetupWizard/EnvironmentSetup'),
                 meta: {
                     requiresAuth: false,
                 },

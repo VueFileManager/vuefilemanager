@@ -158,7 +158,7 @@ export default {
                 })
         },
         addMember() {
-            if (this.$isInvalidEmail(this.email)) {
+            if (!this.$isValidEmail(this.email)) {
                 this.$refs.teamFolderForm.setErrors({
                     Email: this.$t('type_valid_email'),
                 })

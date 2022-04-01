@@ -1,5 +1,3 @@
-import i18n from '../../i18n'
-
 const defaultState = {
     mailEncryptionList: [
         {
@@ -9,6 +7,10 @@ const defaultState = {
         {
             label: 'SSL',
             value: 'ssl',
+        },
+        {
+            label: 'None',
+            value: '',
         },
     ],
     mailDriverList: [

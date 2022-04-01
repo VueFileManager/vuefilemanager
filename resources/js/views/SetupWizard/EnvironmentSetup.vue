@@ -191,7 +191,7 @@
                             <AppInputText title="Mail Username" :error="errors[0]">
                                 <input
                                     class="focus-border-theme input-dark"
-                                    v-model="smtp.username"
+                                    v-model.lazy="smtp.username"
                                     placeholder="Type your mail username"
                                     type="text"
                                     :class="{ '!border-rose-600': errors[0] }"
@@ -221,10 +221,9 @@
                             tag="div"
                             mode="passive"
                             name="Mail Encryption"
-                            rules="required"
                             v-slot="{ errors }"
                         >
-                            <AppInputText title="Mail Encryption" :error="errors[0]" :is-last="true">
+                            <AppInputText title="Mail Encryption" :error="errors[0]" :is-last="! shouldSetSMTPEmail">
                                 <SelectInput
                                     v-model="smtp.encryption"
                                     :default="smtp.encryption"
@@ -232,6 +231,25 @@
                                     placeholder="Select your mail encryption"
                                     :isError="errors[0]"
                                 />
+                            </AppInputText>
+                        </ValidationProvider>
+
+						<ValidationProvider
+							v-if="shouldSetSMTPEmail"
+							tag="div"
+							mode="passive"
+							name="Mail From Address"
+							rules="required|email"
+							v-slot="{ errors }"
+						>
+                            <AppInputText title="Mail" :error="errors[0]" :is-last="true">
+                                <input
+									class="focus-border-theme input-dark"
+									v-model.lazy="smtp.email"
+									placeholder="Type your mail from address"
+									type="text"
+									:class="{ '!border-rose-600': errors[0] }"
+								/>
                             </AppInputText>
                         </ValidationProvider>
                     </div>
@@ -350,7 +368,7 @@
                         </ValidationProvider>
 
                         <ValidationProvider tag="div" mode="passive" name="Session Token" v-slot="{ errors }">
-                            <AppInputText title="Session Token" :error="errors[0]" :is-last="true">
+                            <AppInputText title="Session Token (optional)" :error="errors[0]" :is-last="true">
                                 <input
                                     class="focus-border-theme input-dark"
                                     v-model="ses.session_token"
@@ -525,6 +543,14 @@ export default {
         Headline,
     },
     watch: {
+		'smtp.username': function (val) {
+			if (this.$isValidEmail(val)) {
+				this.smtp.email = undefined
+				this.shouldSetSMTPEmail = false
+			} else {
+				this.shouldSetSMTPEmail = true
+			}
+		},
         'storage.driver': function () {
             this.storage.region = ''
         },
@@ -554,7 +580,8 @@ export default {
     },
     data() {
         return {
-            isError: false,
+			shouldSetSMTPEmail: false,
+			isError: false,
             isLoading: false,
             environment: 'production',
             environmentSetupList: [
@@ -819,7 +846,8 @@ export default {
             smtp: {
                 host: undefined,
                 port: undefined,
-                username: undefined,
+				email: undefined,
+				username: undefined,
                 password: undefined,
                 encryption: undefined,
             },
@@ -936,6 +964,8 @@ export default {
     beforeMount() {
         if (this.$root.$data.config.isSetupWizardDebug) {
             this.mailDriver = 'smtp'
+            this.environment = 'local'
+            this.storage.driver = 'local'
 
             this.smtp = {
                 host: 'test.mail.com',
@@ -944,16 +974,6 @@ export default {
                 password: 'root',
                 encryption: 'ssl',
             }
-
-            this.environment = 'local'
-
-            this.storage.driver = 'local'
-            //this.storage.key = '51oLNVBaNKcxHG0lFucxBbJyhxmTwmF3WnzVLRqMZj0'
-            //this.storage.secret = 'sC1YuKsbWv7MdWugb9ZsYBqv2QZJ+QOuHZHEddOsAao'
-            //this.storage.endpoint = 'https://nyc3.digitaloceanspaces.com'
-            //this.storage.bucket = 'cloud'
-            //this.storage.region = 'nyc3'
-            setTimeout(() => (this.storage.region = 'nyc3'), 100)
         }
     },
     created() {

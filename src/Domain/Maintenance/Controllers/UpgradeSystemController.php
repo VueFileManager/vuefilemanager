@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Maintenance\Controllers;
 
 use DB;
@@ -116,7 +115,7 @@ class UpgradeSystemController extends Controller
         File::withTrashed()
             ->where('mimetype', 'vnd.dwg')
             ->cursor()
-            ->each(fn($file) => $file->update([
+            ->each(fn ($file) => $file->update([
                 'mimetype' => 'dwg',
                 'type'     => 'file',
             ]));

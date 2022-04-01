@@ -24,13 +24,15 @@ class StoreEmailCredentialsController
                     'MAIL_DRIVER'    => 'postmark',
                     'POSTMARK_TOKEN' => $request->input('postmark.token'),
                 ],
-                'smtp'     => [
-                    'MAIL_DRIVER'     => 'smtp',
-                    'MAIL_HOST'       => $request->input('smtp.host'),
-                    'MAIL_PORT'       => $request->input('smtp.port'),
-                    'MAIL_USERNAME'   => $request->input('smtp.username'),
-                    'MAIL_PASSWORD'   => $request->input('smtp.password'),
-                    'MAIL_ENCRYPTION' => $request->input('smtp.encryption'),
+                'smtp' => [
+                    'MAIL_DRIVER'       => 'smtp',
+                    'MAIL_HOST'         => $request->input('smtp.host'),
+                    'MAIL_PORT'         => $request->input('smtp.port'),
+                    'MAIL_USERNAME'     => $request->input('smtp.username'),
+                    'MAIL_PASSWORD'     => $request->input('smtp.password'),
+                    'MAIL_ENCRYPTION'   => $request->input('smtp.encryption') ?? '',
+                    'MAIL_FROM_ADDRESS' => $request->input('smtp.email') ?? '"${MAIL_USERNAME}"',
+                    'MAIL_FROM_NAME'    => $request->input('smtp.email') ?? '"${MAIL_USERNAME}"',
                 ],
                 'ses'      => [
                     'MAIL_DRIVER'           => 'ses',
