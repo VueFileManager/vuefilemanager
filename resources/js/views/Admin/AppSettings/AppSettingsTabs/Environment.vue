@@ -932,20 +932,6 @@ export default {
 					storage: this.storage
 				})
 				.then(() => {
-					events.$emit('toaster', {
-						type: 'success',
-						message: this.$t('storage_driver_updated'),
-					})
-				})
-				.catch(() => {
-					events.$emit('toaster', {
-						type: 'danger',
-						message: this.$t('popup_error.title'),
-					})
-				})
-				.finally(() => {
-					this.isSendingStorageForm = false
-
 					this.storage = {
 						driver: undefined,
 						key: undefined,
@@ -954,6 +940,28 @@ export default {
 						region: undefined,
 						bucket: undefined,
 					}
+
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('storage_driver_updated'),
+					})
+				})
+				.catch((error) => {
+
+					if (error.response.status === 401 && error.response.data.type === 's3-connection-error') {
+						events.$emit('alert:open', {
+							title: 'S3 Connection Error - Wrong Credentials or Not Permitted',
+							message: error.response.data.message,
+						})
+					} else {
+						events.$emit('toaster', {
+							type: 'danger',
+							message: this.$t('popup_error.title'),
+						})
+					}
+				})
+				.finally(() => {
+					this.isSendingStorageForm = false
 				})
 		},
         async emailSetupSubmit() {

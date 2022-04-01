@@ -544,6 +544,7 @@ import Headline from '../Auth/Headline'
 import { required } from 'vee-validate/dist/rules'
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+import {events} from "../../bus";
 
 export default {
     name: 'EnvironmentSetup',
@@ -982,7 +983,14 @@ export default {
                     this.$router.push({ name: 'AppSetup' })
                 })
                 .catch((error) => {
-                    this.isError = true
+					if (error.response.status === 401 && error.response.data.type === 's3-connection-error') {
+						events.$emit('alert:open', {
+							title: 'S3 Connection Error - Wrong Credentials or Not Permitted',
+							message: error.response.data.message,
+						})
+					} else {
+                    	this.isError = true
+					}
                 })
                 .finally(() => {
                     this.isLoading = false

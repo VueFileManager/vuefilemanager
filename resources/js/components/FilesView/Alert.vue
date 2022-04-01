@@ -62,7 +62,7 @@ export default {
             this.title = args.title || undefined
             this.message = args.message || undefined
 
-            this.button = this.$t('alerts.error_confirm')
+            this.button = this.$te('alerts.error_confirm') ? this.$t('alerts.error_confirm') : 'That’s horrible!'
             this.emoji = '😢😢😢'
             this.buttonStyle = 'danger'
 

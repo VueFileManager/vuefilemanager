@@ -3,11 +3,20 @@ namespace Domain\SetupWizard\Controllers;
 
 use Artisan;
 use Illuminate\Http\Response;
+use Aws\S3\Exception\S3Exception;
 use App\Http\Controllers\Controller;
+use League\Flysystem\UnableToWriteFile;
+use Domain\Settings\DTO\S3CredentialsData;
+use Domain\Settings\Actions\TestS3ConnectionAction;
 use Domain\SetupWizard\Requests\StoreEnvironmentSetupRequest;
 
 class StoreEnvironmentSettingsController extends Controller
 {
+    public function __construct(
+        private TestS3ConnectionAction $testS3Connection,
+    ) {
+    }
+
     /**
      * Store environment setup
      */
@@ -15,6 +24,20 @@ class StoreEnvironmentSettingsController extends Controller
         StoreEnvironmentSetupRequest $request,
     ): Response {
         if (! app()->runningUnitTests()) {
+            // Test s3 credentials
+            if ($request->input('storage.driver') !== 'local') {
+                try {
+                    // connect to the s3
+                    ($this->testS3Connection)(S3CredentialsData::fromRequest($request));
+                } catch (S3Exception | UnableToWriteFile $error) {
+                    return response([
+                        'type'    => 's3-connection-error',
+                        'title'   => 'S3 Connection Error',
+                        'message' => $error->getMessage(),
+                    ], 401);
+                }
+            }
+
             $setup = [
                 'broadcasting' => [
                     'pusher' => [

@@ -3,10 +3,19 @@ namespace Domain\Settings\Controllers;
 
 use Artisan;
 use Illuminate\Http\Response;
+use Aws\S3\Exception\S3Exception;
+use League\Flysystem\UnableToWriteFile;
+use Domain\Settings\DTO\S3CredentialsData;
+use Domain\Settings\Actions\TestS3ConnectionAction;
 use Domain\Settings\Requests\StoreStorageCredentialsRequest;
 
 class StoreStorageCredentialsController
 {
+    public function __construct(
+        private TestS3ConnectionAction $testS3Connection,
+    ) {
+    }
+
     /**
      * Set new email credentials to .env file
      */
@@ -14,6 +23,20 @@ class StoreStorageCredentialsController
     {
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
+
+        // Test s3 credentials
+        if ($request->input('storage.driver') !== 'local') {
+            try {
+                // connect to the s3
+                ($this->testS3Connection)(S3CredentialsData::fromRequest($request));
+            } catch (S3Exception | UnableToWriteFile $error) {
+                return response([
+                    'type'    => 's3-connection-error',
+                    'title'   => 'S3 Connection Error',
+                    'message' => $error->getMessage(),
+                ], 401);
+            }
+        }
 
         if (! app()->runningUnitTests()) {
             $drivers = [
@@ -34,10 +57,9 @@ class StoreStorageCredentialsController
             $driver = 'local' === $request->input('storage.driver') ? 'local' : 's3';
 
             // Storage credentials for storage
-            setEnvironmentValue(
-                $drivers[$driver]
-            );
+            setEnvironmentValue($drivers[$driver]);
 
+            // Cache the config
             Artisan::call('config:cache');
         }
 
