@@ -581,7 +581,7 @@ export default {
                 wasabi: 'https://s3.' + val + '.wasabisys.com',
                 backblaze: 'https://s3.' + val + '.backblazeb2.com',
                 oss: 'https://' + val + '.aliyuncs.com',
-				s3: 'https://s3.amazonaws.com',
+				s3: 'https://s3.' + val + '.amazonaws.com',
 				other: undefined,
 			}[this.storage.driver]
         },
@@ -986,6 +986,11 @@ export default {
 					if (error.response.status === 401 && error.response.data.type === 's3-connection-error') {
 						events.$emit('alert:open', {
 							title: 'S3 Connection Error - Wrong Credentials or Not Permitted',
+							message: error.response.data.message,
+						})
+					} else if (error.response.status === 401 && error.response.data.type === 'mailer-connection-error') {
+						events.$emit('alert:open', {
+							title: 'Mailer Connection Error - Wrong Credentials',
 							message: error.response.data.message,
 						})
 					} else {

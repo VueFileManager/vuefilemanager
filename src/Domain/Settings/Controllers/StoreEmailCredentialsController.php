@@ -1,9 +1,13 @@
 <?php
 namespace Domain\Settings\Controllers;
 
+use Mail;
 use Artisan;
 use Illuminate\Http\Response;
+use Domain\Settings\Mail\TestMail;
+use Symfony\Component\Mailer\Exception\LogicException;
 use Domain\Settings\Requests\StoreEmailCredentialsRequest;
+use Symfony\Component\Mailer\Exception\TransportException;
 
 class StoreEmailCredentialsController
 {
@@ -16,6 +20,39 @@ class StoreEmailCredentialsController
         abort_if(is_demo(), 204, 'Done.');
 
         if (! app()->runningUnitTests()) {
+            // Test smtp server
+            if ($request->input('mailDriver') === 'smtp') {
+                try {
+                    // Get credentials
+                    $credentials = [
+                        'smtp' => [
+                            'driver'       => 'smtp',
+                            'host'         => $request->input('smtp.host'),
+                            'port'         => $request->input('smtp.port'),
+                            'username'     => $request->input('smtp.username'),
+                            'password'     => $request->input('smtp.password'),
+                            'encryption'   => $request->input('smtp.encryption') ?? '',
+                            'from.address' => $request->input('smtp.email') ?? $request->input('smtp.username'),
+                            'from.name'    => $request->input('smtp.email') ?? $request->input('smtp.username'),
+                        ],
+                    ];
+
+                    // Set temporary mail connection
+                    config(['mail' => $credentials['smtp']]);
+
+                    $sender = $request->input('smtp.email') ?? $request->input('smtp.username');
+
+                    // Send test email
+                    Mail::to('test@hi5ve.digital')->send(new TestMail($sender));
+                } catch (TransportException|LogicException $error) {
+                    return response([
+                        'type'    => 'mailer-connection-error',
+                        'title'   => 'Mail Connection Error',
+                        'message' => $error->getMessage(),
+                    ], 401);
+                }
+            }
+
             $mail = [
                 'log'      => [
                     'MAIL_DRIVER' => 'log',

@@ -1,13 +1,17 @@
 <?php
 namespace Domain\SetupWizard\Controllers;
 
+use Mail;
 use Artisan;
 use Illuminate\Http\Response;
 use Aws\S3\Exception\S3Exception;
+use Domain\Settings\Mail\TestMail;
 use App\Http\Controllers\Controller;
 use League\Flysystem\UnableToWriteFile;
 use Domain\Settings\DTO\S3CredentialsData;
 use Domain\Settings\Actions\TestS3ConnectionAction;
+use Symfony\Component\Mailer\Exception\LogicException;
+use Symfony\Component\Mailer\Exception\TransportException;
 use Domain\SetupWizard\Requests\StoreEnvironmentSetupRequest;
 
 class StoreEnvironmentSettingsController extends Controller
@@ -33,6 +37,39 @@ class StoreEnvironmentSettingsController extends Controller
                     return response([
                         'type'    => 's3-connection-error',
                         'title'   => 'S3 Connection Error',
+                        'message' => $error->getMessage(),
+                    ], 401);
+                }
+            }
+
+            // Test smtp server
+            if ($request->input('mailDriver') === 'smtp') {
+                try {
+                    // Get credentials
+                    $credentials = [
+                        'smtp' => [
+                            'driver'       => 'smtp',
+                            'host'         => $request->input('smtp.host'),
+                            'port'         => $request->input('smtp.port'),
+                            'username'     => $request->input('smtp.username'),
+                            'password'     => $request->input('smtp.password'),
+                            'encryption'   => $request->input('smtp.encryption') ?? '',
+                            'from.address' => $request->input('smtp.email') ?? $request->input('smtp.username'),
+                            'from.name'    => $request->input('smtp.email') ?? $request->input('smtp.username'),
+                        ],
+                    ];
+
+                    // Set temporary mail connection
+                    config(['mail' => $credentials['smtp']]);
+
+                    $sender = $request->input('smtp.email') ?? $request->input('smtp.username');
+
+                    // Send test email
+                    Mail::to('test@hi5ve.digital')->send(new TestMail($sender));
+                } catch (TransportException|LogicException $error) {
+                    return response([
+                        'type'    => 'mailer-connection-error',
+                        'title'   => 'Mail Connection Error',
                         'message' => $error->getMessage(),
                     ], 401);
                 }

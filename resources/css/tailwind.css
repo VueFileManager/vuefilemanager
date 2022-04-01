@@ -38,4 +38,7 @@
     .overflow-initial {
         overflow: initial;
     }
+    .overflow-anywhere {
+        overflow-wrap: anywhere;
+    }
 }

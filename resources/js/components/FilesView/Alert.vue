@@ -13,7 +13,7 @@
 						<h1 v-if="title" class="mb-2 text-2xl font-bold">
 							{{ title }}
 						</h1>
-						<p v-if="message" class="mb-4 text-sm">
+						<p v-if="message" class="mb-4 text-sm overflow-anywhere">
 							{{ message }}
 						</p>
 					</div>
