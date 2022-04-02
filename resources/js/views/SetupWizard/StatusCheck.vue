@@ -93,7 +93,7 @@
                         <x-icon v-if="!value" size="16" class="vue-feather dark:text-red-600 text-red-600" />
 
                         <span class="ml-3 text-sm font-bold" :class="value ? 'dark:text-green-600 text-green-600' : 'dark:text-red-600 text-red-600'">
-                            {{ value ? 'Module Installed' : 'Missing Module' }}
+                            {{ value ? 'Module Installed' : 'You have to install this module' }}
                         </span>
                     </div>
                 </div>

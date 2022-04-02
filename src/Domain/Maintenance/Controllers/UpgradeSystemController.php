@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Maintenance\Controllers;
 
+use Artisan;
 use DB;
 use Schema;
 use Storage;
@@ -23,6 +24,9 @@ class UpgradeSystemController extends Controller
     public function __invoke(Request $request): Response
     {
         ini_set('max_execution_time', -1);
+
+        // Clear config
+        Artisan::call('config:clear');
 
         // Get already updated versions
         $alreadyUpdated = Schema::hasTable('app_updates')

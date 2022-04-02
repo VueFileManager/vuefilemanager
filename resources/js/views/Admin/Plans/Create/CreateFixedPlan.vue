@@ -250,7 +250,12 @@ export default {
                         }
                     }
 
-                    if (error.response.status === 500) {
+					if (error.response.status === 500 && error.response.data.type) {
+						events.$emit('alert:open', {
+							title: error.response.data.title,
+							message: error.response.data.message,
+						})
+					} else if (error.response.status === 500) {
                         this.isError = true
                         this.errorMessage = error.response.data.message
                     }

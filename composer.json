@@ -28,7 +28,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4.2",
         "league/flysystem-aws-s3-v3": "^3.0.9",
-        "makingcg/subscription": "^1.0.1",
+        "makingcg/subscription": "^1.0.3",
         "pusher/pusher-php-server": "^7.0",
         "spatie/data-transfer-object": "^3.7.3",
         "spatie/laravel-backup": "^8.0.8",

@@ -112,6 +112,11 @@
                                 {{ row.data.attributes.name }}
                             </router-link>
                         </td>
+						<td class="px-3 md:px-1">
+                            <ColorLabel :color="$getPlanStatusColor(row.data.attributes.status)">
+                                {{ $t(row.data.attributes.status) }}
+                            </ColorLabel>
+                        </td>
                         <td class="px-3 md:px-1">
                             <span class="text-sm font-bold">
                                 {{ row.data.attributes.price }}
@@ -258,6 +263,11 @@ export default {
                         field: 'name',
                         sortable: true,
                     },
+					{
+						label: this.$t('status'),
+						field: 'status',
+						sortable: true,
+					},
                     {
                         label: this.$t('price'),
                         field: 'amount',

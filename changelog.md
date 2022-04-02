@@ -1,3 +1,9 @@
+## Version 2.0.12
+#### Release date: 2. April 2022
+- Added status column to the fixed plan table
+- Ability to delete fixed plan if there isn't any subscribed user
+- Improved error handling in subscription module
+
 ## Version 2.0.11
 #### Release date: 1. April 2022
 - Improved email setup in administration settings and setup wizard

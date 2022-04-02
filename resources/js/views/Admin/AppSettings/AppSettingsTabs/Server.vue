@@ -189,7 +189,7 @@
                         class="ml-3 text-sm font-bold"
                         :class="value ? 'text-green-600 dark:text-green-600' : 'text-red-600 dark:text-red-600'"
                     >
-                        {{ value ? 'Module Installed' : 'Missing Module' }}
+                        {{ value ? 'Module Installed' : 'You have to install this module' }}
                     </span>
                 </div>
             </div>

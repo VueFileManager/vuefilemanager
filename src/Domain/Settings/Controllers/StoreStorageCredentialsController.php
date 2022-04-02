@@ -24,21 +24,21 @@ class StoreStorageCredentialsController
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
-        // Test s3 credentials
-        if ($request->input('storage.driver') !== 'local') {
-            try {
-                // connect to the s3
-                ($this->testS3Connection)(S3CredentialsData::fromRequest($request));
-            } catch (S3Exception | UnableToWriteFile $error) {
-                return response([
-                    'type'    => 's3-connection-error',
-                    'title'   => 'S3 Connection Error',
-                    'message' => $error->getMessage(),
-                ], 401);
-            }
-        }
-
         if (! app()->runningUnitTests()) {
+            // Test s3 credentials
+            if ($request->input('storage.driver') !== 'local') {
+                try {
+                    // connect to the s3
+                    ($this->testS3Connection)(S3CredentialsData::fromRequest($request));
+                } catch (S3Exception | UnableToWriteFile $error) {
+                    return response([
+                        'type'    => 's3-connection-error',
+                        'title'   => 'S3 Connection Error',
+                        'message' => $error->getMessage(),
+                    ], 401);
+                }
+            }
+
             $drivers = [
                 'local' => [
                     'FILESYSTEM_DISK' => 'local',

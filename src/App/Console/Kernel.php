@@ -76,6 +76,9 @@ class Kernel extends ConsoleKernel
             ->daily()
             ->at('00:20');
 
+        $schedule->command('config:clear')
+            ->daily();
+
         $schedule->call(fn () => cache()->set('latest_cron_update', now()->toString()))
             ->everyMinute();
     }

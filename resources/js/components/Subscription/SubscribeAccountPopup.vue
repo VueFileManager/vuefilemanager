@@ -134,6 +134,7 @@ import Spinner from '../FilesView/Spinner'
 import InfoBox from '../Others/Forms/InfoBox'
 import PlanPeriodSwitcher from './PlanPeriodSwitcher'
 
+
 export default {
     name: 'SubscribeAccountPopup',
     components: {
@@ -257,6 +258,26 @@ export default {
                 .then((response) => {
                     window.location = response.data.url
                 })
+				.catch((error) => {
+					this.$closePopup()
+
+					setTimeout(() => {
+						if (error.response.status === 500 && error.response.data.type) {
+							events.$emit('alert:open', {
+								title: error.response.data.title,
+								message: error.response.data.message,
+							})
+						} else {
+							events.$emit('alert:open', {
+								title: this.$t('popup_error.title'),
+								message: this.$t('popup_error.message'),
+							})
+						}
+					}, 100)
+				})
+				.finally(() => {
+					this.stripe.isGettingCheckoutLink = false
+				})
         },
         selectPlan(plan) {
             this.selectedPlan = plan
