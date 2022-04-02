@@ -31,7 +31,6 @@ class GetServerSetupStatusAction
                 'sqlite3'   => extension_loaded('sqlite3'),
                 'bcmath'    => extension_loaded('bcmath'),
                 'ctype'     => extension_loaded('ctype'),
-                'pcntl'     => extension_loaded('pcntl'),
                 'json'      => extension_loaded('json'),
                 'exif'      => extension_loaded('exif'),
                 'intl'      => extension_loaded('intl'),
