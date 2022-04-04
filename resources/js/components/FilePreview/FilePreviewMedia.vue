@@ -23,7 +23,7 @@
             <div class="flex h-full w-full items-center justify-center">
                 <Audio v-if="isAudio" :file="currentFile" />
                 <Video v-if="isVideo" :file="currentFile" class="mx-auto max-h-full max-w-[1080px] self-center" />
-                <ImageFile v-if="isImage" :file="currentFile" class="mx-auto max-h-[100%] max-w-[100%] self-center" />
+                <ImageFile v-if="isImage" :file="currentFile" class="mx-auto max-h-[100%] max-w-[100%] self-center" :class="{'file-shadow': !$isMobile()}" id="printable-file" />
             </div>
         </div>
 

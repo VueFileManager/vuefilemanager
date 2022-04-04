@@ -1,7 +1,13 @@
 <template>
     <div v-if="canBePreview" class="mb-4 block w-full">
         <!--Image-->
-		<ImageFile v-if="singleFile.data.type === 'image'" :file="singleFile" class="w-full overflow-hidden rounded-lg object-cover shadow-lg" />
+		<img
+			v-if="singleFile.data.type === 'image'"
+			:src="imageSrc"
+			class="w-full overflow-hidden rounded-lg object-cover shadow-lg"
+			@error="replaceByOriginal"
+			alt=""
+		>
 
         <!--Audio-->
         <audio
@@ -51,7 +57,29 @@ export default {
             if (val.data.type === 'video') {
                 this.$refs.video.load()
             }
+            if (val.data.type === 'image') {
+				this.getImageSrc()
+            }
         },
     },
+	data() {
+		return {
+			imageSrc: undefined,
+		}
+	},
+	methods: {
+		replaceByOriginal() {
+			this.imageSrc = this.singleFile.data.attributes.file_url
+		},
+		getImageSrc() {
+			this.imageSrc = this.singleFile.data.attributes.mimetype === 'svg'
+				? this.singleFile.data.attributes.file_url
+				: this.singleFile.data.attributes.thumbnail.lg
+		},
+	},
+	created() {
+		if (this.singleFile.data.type === 'image')
+			this.getImageSrc()
+	}
 }
 </script>

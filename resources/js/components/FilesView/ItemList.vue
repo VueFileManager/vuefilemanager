@@ -43,9 +43,10 @@
             <img
                 v-if="isImage && entry.data.attributes.thumbnail"
                 class="ml-0.5 h-12 w-12 rounded object-cover"
-                :src="entry.data.attributes.thumbnail.xs"
+                :src="imageSrc"
 				alt=""
                 loading="lazy"
+				@error="replaceByOriginal"
             />
         </div>
 
@@ -140,7 +141,8 @@ export default {
             itemName: undefined,
             isSelected: false,
 			isChecked: false,
-        }
+			imageSrc: undefined,
+		}
     },
     computed: {
         ...mapGetters(['isMultiSelectMode', 'clipboard', 'user']),
@@ -190,6 +192,14 @@ export default {
         },
     },
     methods: {
+		getImageSrc() {
+			this.imageSrc = this.entry.data.attributes.mimetype === 'svg'
+				? this.entry.data.attributes.file_url
+				: this.entry.data.attributes.thumbnail.xs
+		},
+		replaceByOriginal() {
+			this.imageSrc = this.entry.data.attributes.file_url
+		},
         showItemActions() {
             this.$store.commit('CLIPBOARD_CLEAR')
             this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.entry)
@@ -226,6 +236,8 @@ export default {
                 document.execCommand('selectAll')
             }
         })
-    },
+
+		this.getImageSrc()
+	},
 }
 </script>

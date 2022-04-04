@@ -64,9 +64,10 @@
 
                     <img
                         class="h-full w-full rounded-lg object-cover shadow-lg"
-                        :src="entry.data.attributes.thumbnail.sm"
+                        :src="imageSrc"
 						alt=""
                         loading="lazy"
+						@error="replaceByOriginal"
                     />
                 </div>
             </div>
@@ -157,6 +158,7 @@ export default {
         return {
             mobileMultiSelect: false,
             itemName: undefined,
+			imageSrc: undefined,
         }
     },
     computed: {
@@ -214,6 +216,14 @@ export default {
         },
     },
     methods: {
+		getImageSrc() {
+			this.imageSrc = this.entry.data.attributes.mimetype === 'svg'
+				? this.entry.data.attributes.file_url
+				: this.entry.data.attributes.thumbnail.xs
+		},
+		replaceByOriginal() {
+			this.imageSrc = this.entry.data.attributes.file_url
+		},
         showItemActions() {
             this.$store.commit('CLIPBOARD_CLEAR')
             this.$store.commit('ADD_ITEM_TO_CLIPBOARD', this.entry)
@@ -248,6 +258,8 @@ export default {
                 document.execCommand('selectAll')
             }
         })
+
+		this.getImageSrc()
     },
 }
 </script>
