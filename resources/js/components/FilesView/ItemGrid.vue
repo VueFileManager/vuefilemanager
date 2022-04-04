@@ -219,7 +219,7 @@ export default {
 		getImageSrc() {
 			this.imageSrc = this.entry.data.attributes.mimetype === 'svg'
 				? this.entry.data.attributes.file_url
-				: this.entry.data.attributes.thumbnail.xs
+				: this.entry.data.attributes.thumbnail.sm
 		},
 		replaceByOriginal() {
 			this.imageSrc = this.entry.data.attributes.file_url
