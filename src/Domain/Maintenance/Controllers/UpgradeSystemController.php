@@ -5,7 +5,6 @@ use DB;
 use Schema;
 use Storage;
 use Artisan;
-use Stripe\Plan;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
@@ -14,6 +13,7 @@ use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Maintenance\Models\AppUpdate;
 use Domain\Maintenance\Actions\UpgradeDatabaseAction;
+use VueFileManager\Subscription\Domain\Plans\Models\Plan;
 
 class UpgradeSystemController extends Controller
 {
