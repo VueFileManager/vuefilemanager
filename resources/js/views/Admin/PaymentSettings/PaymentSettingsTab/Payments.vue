@@ -552,7 +552,7 @@ export default {
                     key: undefined,
                     secret: undefined,
                     webhook: undefined,
-					live: false,
+					live: undefined,
                 },
             },
             columns: [
