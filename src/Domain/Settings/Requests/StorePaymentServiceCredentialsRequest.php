@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Settings\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -26,6 +27,7 @@ class StorePaymentServiceCredentialsRequest extends FormRequest
             'key'     => 'required|string',
             'secret'  => 'required|string',
             'webhook' => 'sometimes|string',
+            'live'    => 'sometimes|nullable|boolean',
         ];
     }
 }

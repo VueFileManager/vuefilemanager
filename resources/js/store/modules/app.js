@@ -165,6 +165,9 @@ const mutations = {
     SET_PAYPAL_CREDENTIALS(state, data) {
         state.config.paypal_client_id = data.key
         state.config.isPayPal = true
+
+        if (data.live)
+            state.config.isPayPalLive = data.live
     },
     UPDATE_DARK_MODE_STATUS(state, val) {
         state.isDarkMode = val

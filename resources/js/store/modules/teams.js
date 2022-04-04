@@ -17,7 +17,7 @@ const actions = {
         }
 
         axios
-            .get(`${getters.api}/teams/folders/${id}/${getters.sorting.URI}`)
+            .get(`${getters.api}/teams/folders/${id}${getters.sorting.URI}`)
             .then((response) => {
                 let folders = response.data.folders.data
                 let files = response.data.files.data
@@ -59,7 +59,7 @@ const actions = {
         }
 
         axios
-            .get(`${getters.api}/teams/shared-with-me/${id}/${getters.sorting.URI}`)
+            .get(`${getters.api}/teams/shared-with-me/${id}${getters.sorting.URI}`)
             .then((response) => {
                 let folders = response.data.folders.data
                 let files = response.data.files.data

@@ -39,6 +39,8 @@ class StorePaymentServiceCredentialsController
                 'value' => $setting['value'],
             ]));
 
+        $PayPalDefaultMode = config('subscription.credentials.paypal.is_live') ? 'true' : 'false';
+
         // Get and store credentials
         if (! app()->runningUnitTests()) {
             $credentials = [
@@ -55,14 +57,14 @@ class StorePaymentServiceCredentialsController
                     'PAYPAL_CLIENT_ID'     => $request->input('key'),
                     'PAYPAL_CLIENT_SECRET' => $request->input('secret'),
                     'PAYPAL_WEBHOOK_ID'    => $request->input('webhook'),
-                    'PAYPAL_IS_LIVE'       => 'true',
+                    'PAYPAL_IS_LIVE'       => $request->has('live') ? (string) $request->input('live') : $PayPalDefaultMode,
                 ],
             ];
 
             // Store credentials into the .env file
             setEnvironmentValue($credentials[$request->input('service')]);
 
-            // TODO: call plan creation
+            // TODO: call plan synchronization
 
             // Clear cache
             if (! is_dev()) {

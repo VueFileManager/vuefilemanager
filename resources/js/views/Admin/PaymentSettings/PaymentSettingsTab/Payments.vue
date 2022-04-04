@@ -348,7 +348,7 @@
 				</AppInputText>
 
                 <div v-if="paypal.isConfigured">
-                    <AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle amid live and sandbox mode')">
+                    <AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle between live and sandbox mode')">
                         <SwitchInput
                             @input="$updateText('/admin/settings', 'paypal_live', config.isPayPalLive)"
                             v-model="config.isPayPalLive"
@@ -402,6 +402,13 @@
                     <FormLabel v-if="!paypal.isConfigured" icon="shield">
                         {{ $t('configure_your_credentials') }}
                     </FormLabel>
+
+					<ValidationProvider>
+						<AppInputSwitch v-if="! paypal.isConfigured" :title="$t('Live Mode')" :description="$t('Toggle between live and sandbox mode')">
+							<SwitchInput v-model="paypal.credentials.live" :state="paypal.credentials.live" />
+						</AppInputSwitch>
+					</ValidationProvider>
+
                     <ValidationProvider
                         tag="div"
                         mode="passive"
@@ -545,6 +552,7 @@ export default {
                     key: undefined,
                     secret: undefined,
                     webhook: undefined,
+					live: false,
                 },
             },
             columns: [
@@ -591,6 +599,7 @@ export default {
                     key: this[service].credentials.key,
                     secret: this[service].credentials.secret,
                     webhook: this[service].credentials.webhook || undefined,
+                    live: this[service].credentials.live,
                 })
                 .then(() => {
                     // Update Credentials
