@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c0a0d904e14bf5bd941d39fb70224c34",
+    "content-hash": "669354d19fcd40d6005df2082a0f91c4",
     "packages": [
         {
             "name": "amphp/amp",
@@ -4398,7 +4398,7 @@
         },
         {
             "name": "makingcg/subscription",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "git@github.com:VueFileManager/subscription.git",
@@ -4493,7 +4493,7 @@
                 "subscription"
             ],
             "support": {
-                "source": "https://github.com/VueFileManager/subscription/tree/1.0.3",
+                "source": "https://github.com/VueFileManager/subscription/tree/1.0.4",
                 "issues": "https://github.com/VueFileManager/subscription/issues"
             },
             "funding": [
@@ -8316,16 +8316,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "5.1.3",
+            "version": "5.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "388b6ced16caa751030f6a69e588299fa09200ac"
+                "reference": "1b5dff7bb151a4db11d49d90e5408e4e938270f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/388b6ced16caa751030f6a69e588299fa09200ac",
-                "reference": "388b6ced16caa751030f6a69e588299fa09200ac",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/1b5dff7bb151a4db11d49d90e5408e4e938270f7",
+                "reference": "1b5dff7bb151a4db11d49d90e5408e4e938270f7",
                 "shasum": ""
             },
             "require": {
@@ -8367,7 +8367,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/environment/issues",
-                "source": "https://github.com/sebastianbergmann/environment/tree/5.1.3"
+                "source": "https://github.com/sebastianbergmann/environment/tree/5.1.4"
             },
             "funding": [
                 {
@@ -8375,7 +8375,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-09-28T05:52:38+00:00"
+            "time": "2022-04-03T09:37:03+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -9618,16 +9618,16 @@
         },
         {
             "name": "stechstudio/laravel-zipstream",
-            "version": "4.7",
+            "version": "4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stechstudio/laravel-zipstream.git",
-                "reference": "8484cd8722c5609478c471f8bf43d3d1559002c3"
+                "reference": "eec27aa9dc1144a96fd0208b0bf8fcaa0455ab7b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stechstudio/laravel-zipstream/zipball/8484cd8722c5609478c471f8bf43d3d1559002c3",
-                "reference": "8484cd8722c5609478c471f8bf43d3d1559002c3",
+                "url": "https://api.github.com/repos/stechstudio/laravel-zipstream/zipball/eec27aa9dc1144a96fd0208b0bf8fcaa0455ab7b",
+                "reference": "eec27aa9dc1144a96fd0208b0bf8fcaa0455ab7b",
                 "shasum": ""
             },
             "require": {
@@ -9674,9 +9674,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stechstudio/laravel-zipstream/issues",
-                "source": "https://github.com/stechstudio/laravel-zipstream/tree/4.7"
+                "source": "https://github.com/stechstudio/laravel-zipstream/tree/4.8"
             },
-            "time": "2022-02-17T01:33:41+00:00"
+            "time": "2022-04-04T13:05:01+00:00"
         },
         {
             "name": "stripe/stripe-php",

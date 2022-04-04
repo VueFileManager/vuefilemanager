@@ -1,10 +1,11 @@
 <?php
 namespace Domain\Maintenance\Controllers;
 
-use Artisan;
 use DB;
 use Schema;
 use Storage;
+use Artisan;
+use Stripe\Plan;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
@@ -123,5 +124,13 @@ class UpgradeSystemController extends Controller
                 'mimetype' => 'dwg',
                 'type'     => 'file',
             ]));
+    }
+
+    private function upgrade_to_2_0_13(): void
+    {
+        // Force plan synchronization
+        if (get_settings('license') === 'extended' && Plan::count() !== 0) {
+            Artisan::call('subscription:synchronize-plans');
+        }
     }
 }

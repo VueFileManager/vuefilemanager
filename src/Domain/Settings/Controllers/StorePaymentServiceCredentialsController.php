@@ -64,7 +64,8 @@ class StorePaymentServiceCredentialsController
             // Store credentials into the .env file
             setEnvironmentValue($credentials[$request->input('service')]);
 
-            // TODO: call plan synchronization
+            // Call plan synchronization for makingcg/subscription package
+            cache()->add('action.synchronize-plans', now()->toString());
 
             // Clear cache
             if (! is_dev()) {
