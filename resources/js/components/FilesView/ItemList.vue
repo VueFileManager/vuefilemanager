@@ -219,9 +219,6 @@ export default {
         }, 300),
     },
     created() {
-        // Set item name to own component variable
-        this.itemName = this.entry.data.attributes.name
-
         // Change item name
         events.$on('change:name', (item) => {
             if (this.entry.data.id === item.id) {
@@ -237,7 +234,12 @@ export default {
             }
         })
 
-		this.getImageSrc()
+		// Set item name to own component variable
+		this.itemName = this.entry.data.attributes.name
+
+		if (this.entry.data.type === 'image') {
+			this.getImageSrc()
+		}
 	},
 }
 </script>

@@ -13,7 +13,7 @@
 
         <!--Desktop preview-->
         <div
-            v-if="!$isMobile() && (isAudio || isImage || isVideo || isPDF)"
+            v-if="(!$isMobile() || fastPreview) && (isAudio || isImage || isVideo || isPDF)"
             class="flex h-full w-full items-center justify-center"
         >
             <!--Show PDF-->
@@ -29,7 +29,7 @@
 
         <!--Mobile Preview-->
         <div
-            v-if="$isMobile() && (isAudio || isImage || isVideo || isPDF)"
+            v-if="($isMobile() && !fastPreview) && (isAudio || isImage || isVideo || isPDF)"
             @scroll="checkGroupInView"
             id="group-box"
             ref="scrollBox"
@@ -170,8 +170,6 @@ export default {
         events.$on('file-preview:next', () => this.next())
         events.$on('file-preview:prev', () => this.prev())
 
-        this.getFilesForView()
-
 		events.$on('file:deleted', id => {
 			this.files = this.files.filter(item => item.data.id !== id)
 
@@ -181,6 +179,10 @@ export default {
 				this.$store.commit('CLIPBOARD_REPLACE', this.currentFile)
 			}
 		})
+
+		if (! this.fastPreview) {
+			this.getFilesForView()
+		}
     },
 	destroyed() {
 		events.$off('file:deleted')
