@@ -10,6 +10,11 @@ class CheckMaxTeamMembersLimitAction
         // Get user limitation summary
         $limits = $user->limitations->summary();
 
+        // Check unlimited option
+        if ((int) $limits['max_team_members']['total'] === -1) {
+            return true;
+        }
+
         // Get currently used member emails
         $allowedEmails = $limits['max_team_members']['meta']['allowed_emails'];
 

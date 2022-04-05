@@ -10,6 +10,11 @@ const ValidatorHelpers = {
             // Get max team members limitations
             let limit = store.getters.user.data.meta.limitations.max_team_members
 
+            // Unlimited option
+            if (limit.total === -1) {
+                return false
+            }
+
             // Get emails from invitations and currently active members
             let newInvitationEmails = invitations.map((item) => item['email'])
             let allowedMemberEmails = limit.meta.allowed_emails
