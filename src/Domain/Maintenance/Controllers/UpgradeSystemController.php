@@ -2,6 +2,7 @@
 namespace Domain\Maintenance\Controllers;
 
 use DB;
+use Domain\Localization\Actions\DeleteLanguageStringsAction;
 use Schema;
 use Storage;
 use Artisan;
@@ -20,6 +21,7 @@ class UpgradeSystemController extends Controller
 {
     public function __construct(
         public UpgradeDatabaseAction $upgradeDatabase,
+        public DeleteLanguageStringsAction $deleteLanguageStrings,
     ) {
     }
 
@@ -142,5 +144,9 @@ class UpgradeSystemController extends Controller
         User::whereNotNull('two_factor_secret')
             ->cursor()
             ->each(fn ($user) => $user->forceFill(['two_factor_confirmed_at' => now()])->save());
+
+        ($this->deleteLanguageStrings)([
+            'popup_2fa.disappear_qr'
+        ]);
     }
 }
