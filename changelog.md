@@ -2,6 +2,7 @@
 #### Release date: 5. April 2022
 - Added option to set default max team members for new user registrations
 - Added new app settings shortcuts findable by spotlight - Application, Login & Registration, Appearance, Adsense, Homepage, Environment, Server
+- Now in 2fa set up challenge user is required to confirm his app setup with code
 
 ## Version 2.0.13
 #### Release date: 4. April 2022

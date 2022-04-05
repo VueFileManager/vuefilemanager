@@ -9,6 +9,15 @@
   - [Installation](#installation)
   - [Nginx Configuration](#nginx-configuration)
   - [Apache Configuration](#apache-configuration)
+- [Developers](#developers)
+  - [Running Environment On Your Localhost](#running-environment-on-your-localhost)
+  - [Express Installation](#express-installation)
+  - [Express Installation with Demo Data](#express-installation-with-demo-data)
+  - [Generate Demo Data for Metered Subscription](#generate-demo-data-for-metered-subscription)
+  - [Generate Demo Data for Fixed Subscription](#generate-demo-data-for-fixed-subscription)
+  - [Sanctum Stateful Domains](#sanctum-stateful-domains)
+  - [Running your Local Server](#running-your-local-server)
+  - [Building Your App for Production](#building-your-app-for-production)
 - [Others](#others)
   - [Support](#support)
   - [Security Vulnerabilities](#security-vulnerabilities)
@@ -155,14 +164,15 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
 ```
 
 # Developers
-## Running development environment on your localhost
+## Running Environment On Your Localhost
 
 **For running development environment make sure you have:**
 
 - Node >= 14
 - NPM >= 6
 
-If you would like to express set up, please update your database credentials in .env file
+### Express Installation
+If you would like to have express installation without Setup Wizard process, please update your database credentials in .env file
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -171,18 +181,47 @@ DB_DATABASE=laravel
 DB_USERNAME=root
 DB_PASSWORD=
 ```
-
-If you would like to generate demo content, run this command below. Demo account will be created with credentials `howdy@hi5ve.digital` and password `vuefilemanager`.
-```
-php artisan setup:dev
-```
-If you would like express installation without demo data, run this command below. Demo account will be created with credentials `howdy@hi5ve.digital` and password `vuefilemanager`.
+Next, run this command below. Admin account will be created with credentials `howdy@hi5ve.digital` and password `vuefilemanager`.
 ```
 php artisan setup:prod
 ```
-After that, please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.
 
+### Express Installation with Demo Data
+If you would like to generate demo content, run this command below. Admin account will be created with credentials `howdy@hi5ve.digital` and password `vuefilemanager`.
+```
+php artisan setup:dev
+```
 
+### Generate Demo Data for Metered Subscription
+If you would like to generate demo content for the subscription with the metered billing, run this command below.
+```
+php artisan subscription:demo metered
+```
+
+### Generate Demo Data for Fixed Subscription
+If you would like to generate demo content for the subscription with the fixed billing, please fill the credentials in your `.env` file for the payment systems you'd like to use:
+```
+STRIPE_SECRET_KEY=
+STRIPE_PUBLIC_KEY=
+STRIPE_WEBHOOK_SECRET=
+
+PAYSTACK_SECRET=
+PAYSTACK_PUBLIC_KEY=
+
+PAYPAL_CLIENT_ID=
+PAYPAL_CLIENT_SECRET=
+PAYPAL_WEBHOOK_ID=
+PAYPAL_IS_LIVE=false
+```
+and then run this command to generate demo content for fixed subscription:
+```
+php artisan subscription:demo fixed
+```
+
+### Sanctum Stateful Domains
+After installation, please make sure your current host/domain where you are running app is included in your `.env` file in `SANCTUM_STATEFUL_DOMAINS` variable.
+
+### Running your Local Server
 To start server on your localhost, run command below.
 ```
 php artisan serve
@@ -198,6 +237,7 @@ To compiles and hot-reloads for front-end development. Then run this command:
 npm run hot
 ```
 
+### Building Your App for Production
 To compiles for production build, run this command
 ```
 npm run prod
