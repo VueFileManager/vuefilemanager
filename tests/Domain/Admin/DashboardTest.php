@@ -25,8 +25,6 @@ class DashboardTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment([
                 'app' => [
-                    'shouldUpgrade'             => true,
-                    'shouldUpgradeTranslations' => true,
                     'earnings'                  => '$0.00',
                     'isRunningCron'             => false,
                     'license'                   => 'extended',

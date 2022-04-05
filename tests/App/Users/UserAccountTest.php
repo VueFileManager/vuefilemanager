@@ -157,6 +157,7 @@ class UserAccountTest extends TestCase
                         'role'                      => $user->role,
                         'socialite_account'         => false,
                         'two_factor_authentication' => false,
+                        'two_factor_confirmed_at'   => null,
                         'storage'                   => [
                             'used'               => 0,
                             'used_formatted'     => '0%',

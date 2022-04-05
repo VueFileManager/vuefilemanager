@@ -53,16 +53,6 @@
                 </div>
             </div>
 
-            <!--New language strings alert-->
-			<AlertBox v-if="data.app.shouldUpgrade" @click.native.once="upgradeSystem" color="green" :is-loading="isUpgradingApp">
-				There is a new update that needs to upgrade some stuff on your backend. Please click on this box to upgrade.
-			</AlertBox>
-
-            <!--New language strings alert-->
-			<AlertBox v-if="data.app.shouldUpgradeTranslations" @click.native.once="upgradeTranslations" color="green" :is-loading="isUpgradingLanguages">
-				We detect new language strings. You should <b class="dark:text-green-500 text-green-600 text-sm font-bold underline">upgrade your translations</b>. After that, you can find new translations at the bottom page of your translations in language editor. Please click on this box.
-			</AlertBox>
-
             <!--Create metered plan alert-->
 			<AlertBox v-if="config.subscriptionType === 'metered' && config.isEmptyPlans" color="rose">
             	As you installed app with metered subscription type, you have to <router-link :to="{ name: 'CreateMeteredPlan' }" class="dark:text-rose-500 text-sm font-bold underline">create your plan</router-link> as soon as possible to prevent new user registration without automatically assigned subscription plan.
@@ -218,52 +208,10 @@ export default {
     },
     data() {
         return {
-			isUpgradingLanguages: false,
-			isUpgradingApp: false,
             isLoading: false,
             data: undefined,
         }
     },
-	methods: {
-		upgradeTranslations() {
-			this.isUpgradingLanguages = true
-
-			axios.get('/upgrade/translations')
-				.then(() => {
-					this.data.app.shouldUpgradeTranslations = false
-
-					events.$emit('toaster', {
-						type: 'success',
-						message: this.$t('Your translations was upgraded successfully.'),
-					})
-				})
-				.catch(() => {
-					events.$emit('alert:open', {
-						title: this.$t('popup_error.title'),
-						message: this.$t('popup_error.message'),
-					})
-				})
-		},
-		upgradeSystem() {
-			this.isUpgradingApp = true
-
-			axios.get('/upgrade/system')
-				.then(() => {
-					this.data.app.shouldUpgrade = false
-
-					events.$emit('toaster', {
-						type: 'success',
-						message: this.$t('Your app was upgraded successfully.'),
-					})
-				})
-				.catch(() => {
-					events.$emit('alert:open', {
-						title: this.$t('popup_error.title'),
-						message: this.$t('popup_error.message'),
-					})
-				})
-		}
-	},
     created() {
         axios
             .get('/api/admin/dashboard')

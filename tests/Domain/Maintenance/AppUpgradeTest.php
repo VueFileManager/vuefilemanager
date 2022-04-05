@@ -5,6 +5,7 @@ use DB;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Illuminate\Support\Str;
+use Support\Upgrading\Actions\UpdateSystemAction;
 
 class AppUpgradeTest extends TestCase
 {
@@ -39,10 +40,7 @@ class AppUpgradeTest extends TestCase
                     ]);
             });
 
-        $this
-            ->actingAs($user)
-            ->get('/upgrade/translations')
-            ->assertStatus(201);
+        resolve(UpdateSystemAction::class)();
 
         collect(['en', 'sk'])
             ->map(function ($locale) {
@@ -65,13 +63,7 @@ class AppUpgradeTest extends TestCase
      */
     public function it_upgrade_app()
     {
-        $user = User::factory()
-            ->create(['role' => 'admin']);
-
-        $this
-            ->actingAs($user)
-            ->get('/upgrade/system')
-            ->assertStatus(201);
+        resolve(UpdateSystemAction::class)();
 
         $this->assertDatabaseHas('app_updates', [
             'version' => '2_0_10',

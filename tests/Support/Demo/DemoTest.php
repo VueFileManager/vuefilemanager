@@ -1,11 +1,10 @@
 <?php
-
 namespace Tests\Support\Demo;
 
+use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Sharing\Models\Share;
-use Support\Demo\Actions\DeleteAllSharedLinksAction;
-use Tests\TestCase;
+use Support\Demo\Actions\DeleteAllDemoSharedLinksAction;
 
 class DemoTest extends TestCase
 {
@@ -30,7 +29,7 @@ class DemoTest extends TestCase
         Share::factory()
             ->create(['user_id' => $howdy->id]);
 
-        resolve(DeleteAllSharedLinksAction::class)();
+        resolve(DeleteAllDemoSharedLinksAction::class)();
 
         $this->assertDatabaseHas('shares', [
             'user_id' => $user->id,

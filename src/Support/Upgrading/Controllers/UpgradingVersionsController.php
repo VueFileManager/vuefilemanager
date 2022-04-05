@@ -1,69 +1,28 @@
 <?php
-namespace Domain\Maintenance\Controllers;
+namespace Support\Upgrading\Controllers;
 
 use DB;
-use Domain\Localization\Actions\DeleteLanguageStringsAction;
-use Domain\Localization\Actions\UpdateLanguageStringsAction;
-use Schema;
-use Storage;
 use Artisan;
+use Storage;
 use App\Users\Models\User;
 use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
-use App\Http\Controllers\Controller;
-use Domain\Maintenance\Models\AppUpdate;
 use Domain\Maintenance\Actions\UpgradeDatabaseAction;
 use VueFileManager\Subscription\Domain\Plans\Models\Plan;
+use Domain\Localization\Actions\DeleteLanguageTranslationsAction;
+use Domain\Localization\Actions\UpdateLanguageTranslationsAction;
 
-class UpgradeSystemController extends Controller
+class UpgradingVersionsController
 {
     public function __construct(
         public UpgradeDatabaseAction $upgradeDatabase,
-        public DeleteLanguageStringsAction $deleteLanguageStrings,
-        public UpdateLanguageStringsAction $updateLanguageStrings,
+        public DeleteLanguageTranslationsAction $deleteLanguageStrings,
+        public UpdateLanguageTranslationsAction $updateLanguageStrings,
     ) {
     }
 
-    public function __invoke(Request $request): Response
-    {
-        ini_set('max_execution_time', -1);
-
-        // Clear config
-        Artisan::call('config:clear');
-
-        // Get already updated versions
-        $alreadyUpdated = Schema::hasTable('app_updates')
-            ? AppUpdate::all()
-                ->pluck('version')
-                ->toArray()
-            : [];
-
-        // Get versions which has to be upgraded
-        $needToUpgrade = array_diff(config('vuefilemanager.updates'), $alreadyUpdated);
-
-        // Iterate and upgrade
-        foreach ($needToUpgrade as $version) {
-            // Get method name
-            $method = "upgrade_to_$version";
-
-            if (method_exists($this, $method)) {
-                // Run update
-                $this->{$method}($request);
-
-                // Store update record
-                AppUpdate::create(['version' => $version]);
-
-                return response('Done', 201);
-            }
-        }
-
-        return response('Whooops, something went wrong!', 500);
-    }
-
-    private function upgrade_to_2_0_10(): void
+    public function upgrade_to_2_0_10(): void
     {
         ($this->upgradeDatabase)();
 
@@ -131,7 +90,7 @@ class UpgradeSystemController extends Controller
             ]));
     }
 
-    private function upgrade_to_2_0_13(): void
+    public function upgrade_to_2_0_13(): void
     {
         // Force plan synchronization
         if (get_settings('license') === 'extended' && Plan::count() !== 0) {
@@ -139,7 +98,7 @@ class UpgradeSystemController extends Controller
         }
     }
 
-    private function upgrade_to_2_0_14(): void
+    public function upgrade_to_2_0_14(): void
     {
         ($this->upgradeDatabase)();
 
@@ -148,7 +107,7 @@ class UpgradeSystemController extends Controller
             ->each(fn ($user) => $user->forceFill(['two_factor_confirmed_at' => now()])->save());
 
         ($this->deleteLanguageStrings)([
-            'popup_2fa.disappear_qr'
+            'popup_2fa.disappear_qr',
         ]);
 
         ($this->updateLanguageStrings)([

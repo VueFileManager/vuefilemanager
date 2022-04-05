@@ -9,6 +9,7 @@
   - [Installation](#installation)
   - [Nginx Configuration](#nginx-configuration)
   - [Apache Configuration](#apache-configuration)
+- [Updating Application](#updating-application)
 - [Developers](#developers)
   - [Running Environment On Your Localhost](#running-environment-on-your-localhost)
   - [Express Installation](#express-installation)
@@ -162,6 +163,11 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
     RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 </VirtualHost>
 ```
+
+# Updating Application
+1. Replace all files where the app is located except `/storage` folder and `.env` file.
+2. Clear the application cache (Admin / Settings / Application).
+3. In 5 minutes the app update stuff automatically on the background if needed.
 
 # Developers
 ## Running Environment On Your Localhost

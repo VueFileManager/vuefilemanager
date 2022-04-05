@@ -1,10 +1,10 @@
 <?php
 namespace Support\Demo\Actions;
 
-use App\Users\Models\User;
 use DB;
+use App\Users\Models\User;
 
-class DeleteAllSharedLinksAction
+class DeleteAllDemoSharedLinksAction
 {
     public function __invoke()
     {

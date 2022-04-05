@@ -1,27 +1,17 @@
 <?php
 namespace Domain\Admin\Controllers\Dashboard;
 
-use Schema;
 use ByteUnits\Metric;
 use App\Users\Models\User;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Domain\Maintenance\Models\AppUpdate;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class GetDashboardDataController extends Controller
 {
-    public function __invoke(): Application|ResponseFactory|Response
+    public function __invoke(): JsonResponse
     {
-        // Get app update data
-        $shouldUpgrade = $this->getUpgradeData();
-
-        // Get translations data
-        list($originalTranslations, $activeTranslations) = $this->countTranslations();
-
         // Get bandwidth data
         list($upload, $download, $uploadTotal, $downloadTotal, $storageUsage) = $this->getDiskData();
 
@@ -31,7 +21,7 @@ class GetDashboardDataController extends Controller
             ->where('type', 'charge')
             ->sum('amount');
 
-        return response([
+        return response()->json([
             'users' => [
                 'total'             => User::count(),
                 'usersPremiumTotal' => Subscription::count(),
@@ -48,8 +38,6 @@ class GetDashboardDataController extends Controller
                 ],
             ],
             'app'   => [
-                'shouldUpgrade'             => count($shouldUpgrade) > 0,
-                'shouldUpgradeTranslations' => $activeTranslations !== $originalTranslations,
                 'isRunningCron'             => isRunningCron(),
                 'license'                   => get_settings('license'),
                 'version'                   => config('vuefilemanager.version'),
@@ -110,41 +98,5 @@ class GetDashboardDataController extends Controller
         )->format();
 
         return [$upload, $download, $uploadTotal, $downloadTotal, $storageUsage];
-    }
-
-    private function countTranslations(): array
-    {
-        $default_translations = [
-            'extended' => collect([
-                config('language-translations.extended'),
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-            'regular'  => collect([
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-        ];
-
-        $originalTranslationCount = count($default_translations[get_settings('license')]);
-
-        $activeTranslationsCount = DB::table('language_translations')
-            ->where('lang', 'en')
-            ->count();
-
-        return [$originalTranslationCount, $activeTranslationsCount];
-    }
-
-    private function getUpgradeData(): array
-    {
-        // Get already updated versions
-        $alreadyUpdated = Schema::hasTable('app_updates')
-            ? AppUpdate::all()
-                ->pluck('version')
-                ->toArray()
-            : [];
-
-        // Get versions which has to be upgraded
-        return array_diff(config('vuefilemanager.updates'), $alreadyUpdated);
     }
 }
