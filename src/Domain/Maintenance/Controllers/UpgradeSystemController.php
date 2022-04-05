@@ -3,6 +3,7 @@ namespace Domain\Maintenance\Controllers;
 
 use DB;
 use Domain\Localization\Actions\DeleteLanguageStringsAction;
+use Domain\Localization\Actions\UpdateLanguageStringsAction;
 use Schema;
 use Storage;
 use Artisan;
@@ -22,6 +23,7 @@ class UpgradeSystemController extends Controller
     public function __construct(
         public UpgradeDatabaseAction $upgradeDatabase,
         public DeleteLanguageStringsAction $deleteLanguageStrings,
+        public UpdateLanguageStringsAction $updateLanguageStrings,
     ) {
     }
 
@@ -148,5 +150,12 @@ class UpgradeSystemController extends Controller
         ($this->deleteLanguageStrings)([
             'popup_2fa.disappear_qr'
         ]);
+
+        ($this->updateLanguageStrings)([
+            'require_email_verification'      => 'Require Verify Email Address',
+            'require_email_verification_note' => 'Turn on, if you want to verify user email address after registration.',
+        ]);
+
+        Artisan::call('cache:clear');
     }
 }
