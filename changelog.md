@@ -1,6 +1,7 @@
 ## Version 2.0.14
 #### Release date: 5. April 2022
 - Added option to set default max team members for new user registrations
+- Added new app settings shortcuts findable by spotlight - Application, Login & Registration, Appearance, Adsense, Homepage, Environment, Server
 
 ## Version 2.0.13
 #### Release date: 4. April 2022

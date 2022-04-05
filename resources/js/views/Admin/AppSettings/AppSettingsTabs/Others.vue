@@ -3,51 +3,51 @@
 
 		<div v-if="app" class="card shadow-card">
 			<FormLabel>
-                {{ $t('Upload Settings') }}
+                {{ $t('upload_settings') }}
             </FormLabel>
 
 			<AppInputText
-				:title="$t('admin_settings.others.upload_limit')"
 				:description="$t('admin_settings.others.upload_limit_help')"
+				:title="$t('admin_settings.others.upload_limit')"
 			>
                 <input
-					@input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit, true)"
 					v-model="app.uploadLimit"
 					:placeholder="$t('admin_settings.others.upload_limit_plac')"
-					type="number"
+					class="focus-border-theme input-dark"
 					min="0"
 					step="1"
-					class="focus-border-theme input-dark"
+					type="number"
+					@input="$updateText('/admin/settings', 'upload_limit', app.uploadLimit, true)"
 				/>
             </AppInputText>
 
             <AppInputText
-				:title="$t('File Chunk Size (in MB)')"
 				:description="$t('When you upload file on the server, your file will be sliced into many chunks in this size. Small size of the chunk can prevent many limits you can suffer from your server or provider. Default value is 64MB if is not set.')"
+				:title="$t('File Chunk Size (in MB)')"
 			>
                 <input
-					@input="$updateText('/admin/settings', 'chunk_size', app.chunkSize, true)"
 					v-model="app.chunkSize"
 					:placeholder="$t('Type the chunk size in MB')"
-					type="number"
+					class="focus-border-theme input-dark"
 					min="0"
 					step="1"
-					class="focus-border-theme input-dark"
+					type="number"
+					@input="$updateText('/admin/settings', 'chunk_size', app.chunkSize, true)"
 				/>
             </AppInputText>
 
             <AppInputText
-				:title="$t('admin_settings.others.mimetypes_blacklist')"
 				:description="$t('admin_settings.others.mimetypes_blacklist_help')"
 				:is-last="true"
+				:title="$t('admin_settings.others.mimetypes_blacklist')"
 			>
                 <textarea
-					rows="2"
-					@input="$updateText('/admin/settings', 'mimetypes_blacklist', app.mimetypesBlacklist, true)"
 					v-model="app.mimetypesBlacklist"
 					:placeholder="$t('admin_settings.others.mimetypes_blacklist_plac')"
-					type="text"
 					class="focus-border-theme input-dark"
+					rows="2"
+					type="text"
+					@input="$updateText('/admin/settings', 'mimetypes_blacklist', app.mimetypesBlacklist, true)"
 				/>
             </AppInputText>
 		</div>
@@ -55,45 +55,45 @@
 		<!--Store & Upload-->
         <div v-if="app" class="card shadow-card">
             <FormLabel>
-                {{ $t('User Features') }}
+                {{ $t('user_features') }}
             </FormLabel>
 
 			<!--Available only when is not metered billing-->
             <div v-if="config.subscriptionType !== 'metered'">
                 <AppInputSwitch
-					:title="$t('admin_settings.others.storage_limit')"
 					:description="$t('admin_settings.others.storage_limit_help')"
+					:title="$t('admin_settings.others.storage_limit')"
 				>
                     <SwitchInput
-						@input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
 						v-model="app.storageLimitation"
 						:state="app.storageLimitation"
 						class="switch"
+						@input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
 					/>
                 </AppInputSwitch>
 
                 <AppInputText v-if="app.storageLimitation" :title="$t('admin_settings.others.default_storage')">
                     <input
-						@input="$updateText('/admin/settings', 'default_max_storage_amount', app.defaultStorage)"
 						v-model="app.defaultStorage"
-						min="1"
-						max="999999999"
 						:placeholder="$t('admin_settings.others.default_storage_plac')"
-						type="number"
 						class="focus-border-theme input-dark"
+						max="999999999"
+						min="1"
+						type="number"
+						@input="$updateText('/admin/settings', 'default_max_storage_amount', app.defaultStorage)"
 					/>
                 </AppInputText>
             </div>
 
-			<AppInputText :title="$t('max_team_members')" :description="$t('zero_for_unlimited_members')" :is-last="true">
+			<AppInputText :description="$t('zero_for_unlimited_members')" :is-last="true" :title="$t('max_team_members')">
 				<input
-					@input="$updateText('/admin/settings', 'default_max_team_member', app.teamsDefaultMembers)"
 					v-model="app.teamsDefaultMembers"
-					min="1"
-					max="999999999"
 					:placeholder="$t('admin_settings.others.default_storage_plac')"
-					type="number"
 					class="focus-border-theme input-dark"
+					max="999999999"
+					min="1"
+					type="number"
+					@input="$updateText('/admin/settings', 'default_max_team_member', app.teamsDefaultMembers)"
 				/>
 			</AppInputText>
         </div>
@@ -105,61 +105,61 @@
             </FormLabel>
 
             <AppInputSwitch
-				:title="$t('allow_recaptcha')"
 				:description="$t('allow_recaptcha_note')"
 				:is-last="!recaptcha.allowedService"
+				:title="$t('allow_recaptcha')"
 			>
                 <SwitchInput
-					@input="$updateText('/admin/settings', 'allowed_recaptcha', recaptcha.allowedService)"
 					v-model="recaptcha.allowedService"
-					class="switch"
 					:state="recaptcha.allowedService"
+					class="switch"
+					@input="$updateText('/admin/settings', 'allowed_recaptcha', recaptcha.allowedService)"
 				/>
             </AppInputSwitch>
 
             <div
 				v-if="config.isRecaptchaConfigured && recaptcha.allowedService"
-				@click="recaptcha.isVisibleCredentialsForm = !recaptcha.isVisibleCredentialsForm"
-				class="flex cursor-pointer items-center"
 				:class="{ 'mb-4': recaptcha.isVisibleCredentialsForm }"
+				class="flex cursor-pointer items-center"
+				@click="recaptcha.isVisibleCredentialsForm = !recaptcha.isVisibleCredentialsForm"
 			>
-                <edit2-icon size="12" class="vue-feather text-theme mr-2" />
+                <edit2-icon class="vue-feather text-theme mr-2" size="12" />
                 <b class="text-xs">{{ $t('update_your_credentials') }}</b>
             </div>
 
 			<!--Set up recaptcha credentials-->
             <ValidationObserver
 				v-if="(!config.isRecaptchaConfigured || recaptcha.isVisibleCredentialsForm) && recaptcha.allowedService"
-				@submit.prevent="storeCredentials('recaptcha')"
 				ref="credentialsForm"
 				v-slot="{ invalid }"
-				tag="form"
 				class="rounded-xl p-5 shadow-lg"
+				tag="form"
+				@submit.prevent="storeCredentials('recaptcha')"
 			>
                 <FormLabel v-if="!config.isRecaptchaConfigured" icon="shield">
                     {{ $t('configure_your_credentials') }}
                 </FormLabel>
 
-                <ValidationProvider tag="div" mode="passive" name="Site Key" rules="required" v-slot="{ errors }">
-                    <AppInputText :title="$t('Site Key')" :error="errors[0]">
+                <ValidationProvider v-slot="{ errors }" mode="passive" name="Site Key" rules="required" tag="div">
+                    <AppInputText :error="errors[0]" :title="$t('Site Key')">
                         <input
 							v-model="recaptcha.credentials.client_id"
-							:placeholder="$t('Paste your Site Key here')"
-							type="text"
 							:class="{ '!border-rose-600': errors[0] }"
+							:placeholder="$t('Paste your Site Key here')"
 							class="focus-border-theme input-dark"
+							type="text"
 						/>
                     </AppInputText>
                 </ValidationProvider>
 
-                <ValidationProvider tag="div" mode="passive" name="Secret key" rules="required" v-slot="{ errors }">
-                    <AppInputText :title="$t('Secret Key')" :error="errors[0]">
+                <ValidationProvider v-slot="{ errors }" mode="passive" name="Secret key" rules="required" tag="div">
+                    <AppInputText :error="errors[0]" :title="$t('Secret Key')">
                         <input
 							v-model="recaptcha.credentials.client_secret"
-							:placeholder="$t('Paste your Secret key here')"
-							type="text"
 							:class="{ '!border-rose-600': errors[0] }"
+							:placeholder="$t('Paste your Secret key here')"
 							class="focus-border-theme input-dark"
+							type="text"
 						/>
                     </AppInputText>
                 </ValidationProvider>
@@ -168,8 +168,8 @@
 					:disabled="isLoading"
 					:loading="isLoading"
 					button-style="theme"
-					type="submit"
 					class="w-full"
+					type="submit"
 				>
                     {{ $t('store_credentials') }}
                 </ButtonBase>
@@ -183,15 +183,15 @@
             </FormLabel>
 
             <AppInputButton
-				:title="$t('cache')"
 				:description="$t('cache_note')"
+				:title="$t('cache')"
 			>
                 <ButtonBase
-					@click.native="flushCache"
-					:loading="isFlushingCache"
 					:disabled="isFlushingCache"
-					class="w-full sm:w-auto"
+					:loading="isFlushingCache"
 					button-style="theme"
+					class="w-full sm:w-auto"
+					@click.native="flushCache"
 				>
                     {{ $t('clear_cache') }}
                 </ButtonBase>
@@ -199,21 +199,21 @@
 
             <AppInputText :title="$t('admin_settings.others.contact_email')">
                 <input
-					class="focus-border-theme input-dark"
-					@input="$updateText('/admin/settings', 'contact_email', app.contactMail)"
 					v-model="app.contactMail"
 					:placeholder="$t('admin_settings.others.contact_email_plac')"
+					class="focus-border-theme input-dark"
 					type="email"
+					@input="$updateText('/admin/settings', 'contact_email', app.contactMail)"
 				/>
             </AppInputText>
 
-            <AppInputText :title="$t('admin_settings.others.google_analytics')" :is-last="true">
+            <AppInputText :is-last="true" :title="$t('admin_settings.others.google_analytics')">
                 <input
-					@input="$updateText('/admin/settings', 'google_analytics', app.googleAnalytics, true)"
 					v-model="app.googleAnalytics"
 					:placeholder="$t('admin_settings.others.google_analytics_plac')"
-					type="text"
 					class="focus-border-theme input-dark"
+					type="text"
+					@input="$updateText('/admin/settings', 'google_analytics', app.googleAnalytics, true)"
 				/>
             </AppInputText>
         </div>
@@ -226,17 +226,17 @@
 
 			<ValidationObserver
 				ref="upgradeLicense"
-				@submit.prevent="upgradeLicense"
 				v-slot="{ invalid }"
-				tag="form"
 				class="mt-6"
+				tag="form"
+				@submit.prevent="upgradeLicense"
 			>
 				<ValidationProvider
-					tag="div"
 					v-slot="{ errors }"
 					mode="passive"
 					name="Purchase Code"
 					rules="required"
+					tag="div"
 				>
 					<AppInputText
 						:error="errors[0]"
@@ -245,12 +245,12 @@
 						<div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
 							<input
 								v-model="purchaseCode"
-								:placeholder="$t('Paste your Purchase code here...')"
-								type="text"
-								class="focus-border-theme input-dark"
 								:class="{ '!border-rose-600': errors[0] }"
+								:placeholder="$t('Paste your Purchase code here...')"
+								class="focus-border-theme input-dark"
+								type="text"
 							/>
-							<ButtonBase type="submit" button-style="theme" :loading="isLoadingUpgradingButton" class="w-full sm:w-auto">
+							<ButtonBase :loading="isLoadingUpgradingButton" button-style="theme" class="w-full sm:w-auto" type="submit">
 								{{ $t('Upgrade') }}
 							</ButtonBase>
 						</div>
@@ -265,12 +265,12 @@
                 {{ $t('subscription') }}
             </FormLabel>
 
-            <AppInputText :title="$t('subscription_type')" :description="$t('subscription_type_note')" :is-last="true">
+            <AppInputText :description="$t('subscription_type_note')" :is-last="true" :title="$t('subscription_type')">
                 <SelectInput
-					@change="subscriptionTypeChange"
 					:default="app.subscriptionType"
 					:options="subscriptionTypes"
 					:placeholder="$t('select_subscription_type')"
+					@change="subscriptionTypeChange"
 				/>
             </AppInputText>
         </div>
@@ -338,36 +338,36 @@ export default {
 			if (!isValid) return
 
 			axios.post('/api/admin/upgrade-license', {
-				purchaseCode: this.purchaseCode
-			})
-			.then((response) => {
-				this.$store.dispatch('getLanguageTranslations', this.config.locale)
-
-				this.$store.commit('REPLACE_CONFIG_VALUE', {
-					key: 'isSaaS',
-					value: true,
+					purchaseCode: this.purchaseCode
 				})
+				.then((response) => {
+					this.$store.dispatch('getLanguageTranslations', this.config.locale)
 
-				events.$emit('toaster', {
-					type: 'success',
-					message: this.$t('Your license was successfully upgraded'),
+					this.$store.commit('REPLACE_CONFIG_VALUE', {
+						key: 'isSaaS',
+						value: true,
+					})
+
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('Your license was successfully upgraded'),
+					})
 				})
-			})
-			.catch((error) => {
-				if (error.response.status === 400) {
-					events.$emit('alert:open', {
-						title: this.$t('Purchase code is invalid or is not Extended License'),
-					})
-				} else {
-					events.$emit('alert:open', {
-						title: this.$t('popup_error.title'),
-						message: this.$t('popup_error.message'),
-					})
-				}
-			})
-			.finally(() => {
-				this.isLoadingUpgradingButton = false
-			})
+				.catch((error) => {
+					if (error.response.status === 400) {
+						events.$emit('alert:open', {
+							title: this.$t('Purchase code is invalid or is not Extended License'),
+						})
+					} else {
+						events.$emit('alert:open', {
+							title: this.$t('popup_error.title'),
+							message: this.$t('popup_error.message'),
+						})
+					}
+				})
+				.finally(() => {
+					this.isLoadingUpgradingButton = false
+				})
 		},
 		subscriptionTypeChange(type) {
 			events.$emit('confirm:open', {

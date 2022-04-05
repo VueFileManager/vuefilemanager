@@ -95,7 +95,7 @@
                             }"
                         >
                             <settings-icon
-                                v-if="['AppOthers', 'Profile', 'Password'].includes(result.action.value)"
+                                v-if="['AppOthers', 'Profile', 'Password', 'AppServer', 'AppAppearance', 'AppIndex', 'AppEnvironment', 'AppOthers', 'AppSignInUp', 'AppAdsense'].includes(result.action.value)"
                                 size="18"
                                 class="vue-feather text-theme"
                             />
@@ -430,6 +430,55 @@ export default {
                     action: {
                         type: 'route',
                         value: 'Invoices',
+                    },
+                },
+                {
+                    title: this.$t('application_settings'),
+                    action: {
+                        type: 'route',
+                        value: 'AppOthers',
+                    },
+                },
+                {
+                    title: this.$t('login_registration_settings'),
+                    action: {
+                        type: 'route',
+                        value: 'AppSignInUp',
+                    },
+                },
+                {
+                    title: this.$t('appearance_settings'),
+                    action: {
+                        type: 'route',
+                        value: 'AppAppearance',
+                    },
+                },
+                {
+                    title: this.$t('adsense_settings'),
+                    action: {
+                        type: 'route',
+                        value: 'AppAdsense',
+                    },
+                },
+                {
+                    title: this.$t('homepage_settings'),
+                    action: {
+                        type: 'route',
+                        value: 'AppIndex',
+                    },
+                },
+                {
+                    title: this.$t('environment_settings'),
+                    action: {
+                        type: 'route',
+                        value: 'AppEnvironment',
+                    },
+                },
+                {
+                    title: this.$t('server_settings'),
+                    action: {
+                        type: 'route',
+                        value: 'AppServer',
                     },
                 },
             ]
