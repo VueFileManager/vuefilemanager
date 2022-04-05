@@ -1,6 +1,6 @@
 <template>
     <PopupWrapper name="two-factor-qr-setup">
-        <PopupHeader :title="$t('confirm_your_password')" icon="edit" />
+        <PopupHeader :title="$t('set_up_2fa_app')" icon="edit" />
 
         <PopupContent>
             <div v-if="qrCode" class="flex justify-center">
@@ -10,27 +10,42 @@
             <InfoBox style="margin-bottom: 0">
                 <p v-html="$t('popup_2fa.help')"></p>
             </InfoBox>
+
+            <ValidationObserver @submit.prevent="confirm2FaSetup" ref="codeForm" v-slot="{ invalid }" tag="form" class="mt-5">
+                <ValidationProvider tag="div" mode="passive" name="Code" rules="required" v-slot="{ errors }">
+                    <AppInputText :title="$t('confirm')" :error="errors[0]" :is-last="true">
+                        <input
+							v-model="code"
+							:class="{ '!border-rose-600': errors[0] }"
+							type="text"
+							ref="input"
+							class="focus-border-theme input-dark"
+							:placeholder="$t('paste_code_from_2fa_app')"
+						/>
+                    </AppInputText>
+                </ValidationProvider>
+            </ValidationObserver>
+
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="closeQrCodePopup" :button-style="closeQrButtonStyle">
-                {{ closeQrButtonText }}
+            <ButtonBase @click.native="confirm2FaSetup" class="w-full" button-style="theme" :loading="isLoading">
+                {{ $t('confirm_your_code') }}
             </ButtonBase>
         </PopupActions>
     </PopupWrapper>
 </template>
 
 <script>
-import AppInputText from '../Admin/AppInputText'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { required } from 'vee-validate/dist/rules'
+import ButtonBase from '../FilesView/ButtonBase'
+import AppInputText from '../Admin/AppInputText'
 import PopupWrapper from './Popup/PopupWrapper'
 import PopupActions from './Popup/PopupActions'
 import PopupContent from './Popup/PopupContent'
 import PopupHeader from './Popup/PopupHeader'
-import ButtonBase from '../FilesView/ButtonBase'
 import InfoBox from './Forms/InfoBox'
-import { required } from 'vee-validate/dist/rules'
-import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
 
@@ -48,31 +63,49 @@ export default {
         required,
         InfoBox,
     },
-    computed: {
-        ...mapGetters(['user']),
-        closeQrButtonText() {
-            return this.isConfirmedClose ? this.$t('popup_2fa.disappear_qr') : this.$t('awesome_iam_done')
-        },
-        closeQrButtonStyle() {
-            return this.isConfirmedClose ? 'danger' : 'theme'
-        },
-    },
     data() {
         return {
+            qrCode: undefined,
             isLoading: false,
-            qrCode: '',
-            isConfirmedClose: false,
+			code: undefined
         }
     },
     methods: {
+		async confirm2FaSetup() {
+			// Validate fields
+			const isValid = await this.$refs.codeForm.validate()
+
+			if (!isValid) return
+
+			this.isLoading = true
+
+			axios
+				.post('/user/confirmed-two-factor-authentication', {code: this.code})
+				.then(() => {
+					this.$store.commit('CHANGE_TWO_FACTOR_AUTHENTICATION_STATE', true)
+
+					this.$closePopup()
+
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('popup_2fa.toaster_enabled'),
+					})
+				})
+				.catch((error) => {
+					if (error.response.status === 422) {
+						this.$refs.codeForm.setErrors({
+							'Code': error.response.data.errors['code'][0],
+						})
+					}
+				})
+				.finally(() => this.isLoading = false)
+		},
         enable() {
             axios
                 .post('/user/two-factor-authentication')
-                .then(() => {
-                    this.$store.commit('CHANGE_TWO_FACTOR_AUTHENTICATION_STATE', true)
-
-                    this.getQrCode()
-                })
+				.then(() => {
+					this.getQrCode()
+				})
                 .catch(() => {
                     this.$isSomethingWrong()
                 })
@@ -87,28 +120,12 @@ export default {
                     this.$isSomethingWrong()
                 })
         },
-        closeQrCodePopup() {
-            if (!this.isConfirmedClose) {
-                this.isConfirmedClose = true
-            } else {
-                events.$emit('toaster', {
-                    type: 'success',
-                    message: this.$t('popup_2fa.toaster_enabled'),
-                })
-
-                this.qrCode = undefined
-                this.isConfirmedClose = false
-
-                this.$closePopup()
-            }
-        },
     },
     created() {
-        // Show popup
         events.$on('popup:open', (args) => {
             if (args.name !== 'two-factor-qr-setup') return
 
-            this.enable()
+			this.enable()
         })
     },
 }

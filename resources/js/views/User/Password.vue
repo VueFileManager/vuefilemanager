@@ -8,18 +8,18 @@
             <AppInputSwitch
                 :title="$t('popup_2fa.switch_title')"
                 :description="$t('popup_2fa.switch_info')"
-                :is-last="!user.data.attributes.two_factor_authentication"
+                :is-last="!user.data.attributes.two_factor_confirmed_at"
             >
                 <SwitchInput
 					@click.native="toggle2Fa"
 					:is-disabled="true"
-                    v-model="user.data.attributes.two_factor_authentication"
+                    v-model="user.data.attributes.two_factor_confirmed_at"
                     class="switch"
-                    :state="user.data.attributes.two_factor_authentication"
+                    :state="user.data.attributes.two_factor_confirmed_at"
                 />
             </AppInputSwitch>
             <AppInputButton
-                v-if="user && user.data.attributes.two_factor_authentication"
+                v-if="user && user.data.attributes.two_factor_confirmed_at"
                 :title="$t('show_recovery_codes')"
                 :description="$t('popup_2fa.codes_info')"
                 :is-last="true"
@@ -184,7 +184,7 @@ export default {
     },
     methods: {
 		toggle2Fa() {
-			this.user.data.attributes.two_factor_authentication ? this.disable2faPopup() : this.enable2faPopup()
+			this.user.data.attributes.two_factor_confirmed_at ? this.disable2faPopup() : this.enable2faPopup()
 		},
         async resetPassword() {
             // Validate fields

@@ -5,6 +5,7 @@ use DB;
 use Schema;
 use Storage;
 use Artisan;
+use App\Users\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
@@ -132,5 +133,14 @@ class UpgradeSystemController extends Controller
         if (get_settings('license') === 'extended' && Plan::count() !== 0) {
             Artisan::call('subscription:synchronize-plans');
         }
+    }
+
+    private function upgrade_to_2_0_14(): void
+    {
+        ($this->upgradeDatabase)();
+
+        User::whereNotNull('two_factor_secret')
+            ->cursor()
+            ->each(fn ($user) => $user->forceFill(['two_factor_confirmed_at' => now()])->save());
     }
 }

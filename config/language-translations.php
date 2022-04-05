@@ -656,7 +656,6 @@ return [
         'confirm_your_password'                          => 'Confirm Your Password',
         'popup_2fa.help'                                 => 'Scan the image above with the <b class="text-theme dark-text-theme">two-factor authentication app</b> on your phone.',
         'confirm'                                        => 'Confirm',
-        'popup_2fa.disappear_qr'                         => 'Really disappear this QR code?',
         'popup_2fa.toaster_enabled'                      => 'Your 2FA was enabled successfully!',
         'popup_2fa.toaster_disabled'                     => 'Your 2FA was disabled!',
         'popup_2fa.switch_title'                         => 'Enable / Disable Two Factor Authentication',
@@ -938,5 +937,8 @@ return [
         'server_settings'                                => 'Server / Settings',
         'user_features'                                  => 'User Features',
         'upload_settings'                                => 'Upload Settings',
+        'set_up_2fa_app'                                 => 'Set up Your Authenticator App',
+        'confirm_your_code'                              => 'Confirm Your Code',
+        'paste_code_from_2fa_app'                        => 'Paste the latest code from 2fa app...',
     ],
 ];

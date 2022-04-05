@@ -68,7 +68,7 @@ export default {
     data() {
         return {
             isLoading: false,
-            password: '',
+            password: undefined,
             args: undefined,
         }
     },
