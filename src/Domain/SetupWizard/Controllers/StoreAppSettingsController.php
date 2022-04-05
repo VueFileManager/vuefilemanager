@@ -82,7 +82,7 @@ class StoreAppSettingsController extends Controller
             ],
             [
                 'name'  => 'default_max_team_member',
-                'value' => $request->input('defaultMaxTeamMember') ?? 10,
+                'value' => $request->input('teamsDefaultMembers') ?? 10,
             ],
             [
                 'name'  => 'user_verification',

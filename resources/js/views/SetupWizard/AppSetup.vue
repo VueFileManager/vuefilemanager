@@ -125,37 +125,6 @@
                     </ValidationProvider>
 
                     <AppInputSwitch
-                        title="Storage Limitation"
-                        description="If this value is off, all users will have infinity storage capacity and you won't be able to charge your users for storage plan."
-                    >
-                        <SwitchInput v-model="app.storageLimitation" :state="app.storageLimitation" />
-                    </AppInputSwitch>
-
-                    <ValidationProvider
-                        tag="div"
-                        mode="passive"
-                        name="Default Storage Space"
-                        rules="required"
-                        v-slot="{ errors }"
-                    >
-                        <AppInputText
-                            v-if="app.storageLimitation"
-                            title="Default Storage Space for Accounts"
-                            :error="errors[0]"
-                        >
-                            <input
-                                class="focus-border-theme input-dark"
-                                v-model="app.defaultStorage"
-                                min="1"
-                                max="999999999"
-                                placeholder="Set default storage space in GB"
-                                type="number"
-                                :class="{ '!border-rose-600': errors[0] }"
-                            />
-                        </AppInputText>
-                    </ValidationProvider>
-
-                    <AppInputSwitch
                         title="Allow User Registration"
                         description="You can disable public registration for new users. You will still able to create new users in administration panel."
 						:is-last="true"
@@ -163,6 +132,67 @@
                         <SwitchInput v-model="app.userRegistration" class="switch" :state="app.userRegistration" />
                     </AppInputSwitch>
                 </div>
+
+				<div class="card text-left shadow-card">
+					<FormLabel>User Features</FormLabel>
+
+					<AppInputSwitch
+						title="Storage Limitation"
+						description="If this value is off, all users will have infinity storage capacity and you won't be able to charge your users for storage plan."
+					>
+                        <SwitchInput v-model="app.storageLimitation" :state="app.storageLimitation" />
+                    </AppInputSwitch>
+
+                    <ValidationProvider
+						tag="div"
+						mode="passive"
+						name="Default Storage Space"
+						rules="required"
+						v-slot="{ errors }"
+					>
+                        <AppInputText
+							v-if="app.storageLimitation"
+							title="Default Storage Space for Accounts"
+							:error="errors[0]"
+						>
+                            <input
+								class="focus-border-theme input-dark"
+								v-model="app.defaultStorage"
+								min="1"
+								max="999999999"
+								placeholder="Set default storage space in GB"
+								type="number"
+								:class="{ '!border-rose-600': errors[0] }"
+							/>
+                        </AppInputText>
+                    </ValidationProvider>
+
+                    <ValidationProvider
+						tag="div"
+						mode="passive"
+						name="Default Storage Space"
+						rules="required"
+						v-slot="{ errors }"
+					>
+                        <AppInputText
+							v-if="app.teamsDefaultMembers"
+							title="Max Team Members"
+							description="Type -1 to set unlimited team members."
+							:error="errors[0]"
+							:is-last="true"
+						>
+                            <input
+								class="focus-border-theme input-dark"
+								v-model="app.teamsDefaultMembers"
+								min="1"
+								max="999999999"
+								placeholder="Set default max team members"
+								type="number"
+								:class="{'!border-rose-600': errors[0]}"
+							/>
+                        </AppInputText>
+                    </ValidationProvider>
+				</div>
 
                 <div v-if="isExtended" class="card text-left shadow-card">
                     <FormLabel>Subscription</FormLabel>
@@ -258,7 +288,8 @@ export default {
                 touch_icon: undefined,
                 contactMail: undefined,
                 googleAnalytics: undefined,
-                defaultStorage: '5',
+                defaultStorage: 5,
+				teamsDefaultMembers: 5,
                 userRegistration: 1,
                 storageLimitation: 1,
             },
@@ -294,6 +325,7 @@ export default {
 			if (this.app.googleAnalytics) formData.append('googleAnalytics', this.app.googleAnalytics)
 
             if (this.app.defaultStorage) formData.append('defaultStorage', this.app.defaultStorage)
+            if (this.app.teamsDefaultMembers) formData.append('teamsDefaultMembers', this.app.teamsDefaultMembers)
 
             if (this.app.logo) formData.append('logo', this.app.logo)
 

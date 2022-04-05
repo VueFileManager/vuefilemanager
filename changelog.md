@@ -1,3 +1,14 @@
+## Version 2.0.14
+#### Release date: 5. April 2022
+- Added option to set default max team members for new user registrations
+
+## Version 2.0.13
+#### Release date: 4. April 2022
+- Auto plan synchronization improvements.
+- Fixed issue with thumbnails in grid preview type
+- PayPal sandbox option was added into PayPal credentials setup
+- Fixed issue in mobile spotlight where you trying open searched image
+
 ## Version 2.0.12
 #### Release date: 2. April 2022
 - Added status column to the fixed plan table

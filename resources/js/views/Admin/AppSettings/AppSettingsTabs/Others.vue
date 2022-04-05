@@ -1,40 +1,12 @@
 <template>
     <PageTab :is-loading="isLoading">
 
-		<!--Store & Upload-->
-        <div v-if="app" class="card shadow-card">
-            <FormLabel>
-                {{ $t('storage_upload') }}
+		<div v-if="app" class="card shadow-card">
+			<FormLabel>
+                {{ $t('Upload Settings') }}
             </FormLabel>
 
-			<!--Available only when is not metered billing-->
-            <div v-if="config.subscriptionType !== 'metered'">
-                <AppInputSwitch
-					:title="$t('admin_settings.others.storage_limit')"
-					:description="$t('admin_settings.others.storage_limit_help')"
-				>
-                    <SwitchInput
-						@input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
-						v-model="app.storageLimitation"
-						:state="app.storageLimitation"
-						class="switch"
-					/>
-                </AppInputSwitch>
-
-                <AppInputText v-if="app.storageLimitation" :title="$t('admin_settings.others.default_storage')">
-                    <input
-						@input="$updateText('/admin/settings', 'default_max_storage_amount', app.defaultStorage)"
-						v-model="app.defaultStorage"
-						min="1"
-						max="999999999"
-						:placeholder="$t('admin_settings.others.default_storage_plac')"
-						type="number"
-						class="focus-border-theme input-dark"
-					/>
-                </AppInputText>
-            </div>
-
-            <AppInputText
+			<AppInputText
 				:title="$t('admin_settings.others.upload_limit')"
 				:description="$t('admin_settings.others.upload_limit_help')"
 			>
@@ -78,6 +50,52 @@
 					class="focus-border-theme input-dark"
 				/>
             </AppInputText>
+		</div>
+
+		<!--Store & Upload-->
+        <div v-if="app" class="card shadow-card">
+            <FormLabel>
+                {{ $t('User Features') }}
+            </FormLabel>
+
+			<!--Available only when is not metered billing-->
+            <div v-if="config.subscriptionType !== 'metered'">
+                <AppInputSwitch
+					:title="$t('admin_settings.others.storage_limit')"
+					:description="$t('admin_settings.others.storage_limit_help')"
+				>
+                    <SwitchInput
+						@input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
+						v-model="app.storageLimitation"
+						:state="app.storageLimitation"
+						class="switch"
+					/>
+                </AppInputSwitch>
+
+                <AppInputText v-if="app.storageLimitation" :title="$t('admin_settings.others.default_storage')">
+                    <input
+						@input="$updateText('/admin/settings', 'default_max_storage_amount', app.defaultStorage)"
+						v-model="app.defaultStorage"
+						min="1"
+						max="999999999"
+						:placeholder="$t('admin_settings.others.default_storage_plac')"
+						type="number"
+						class="focus-border-theme input-dark"
+					/>
+                </AppInputText>
+            </div>
+
+			<AppInputText :title="$t('max_team_members')" :description="$t('zero_for_unlimited_members')" :is-last="true">
+				<input
+					@input="$updateText('/admin/settings', 'default_max_team_member', app.teamsDefaultMembers)"
+					v-model="app.teamsDefaultMembers"
+					min="1"
+					max="999999999"
+					:placeholder="$t('admin_settings.others.default_storage_plac')"
+					type="number"
+					class="focus-border-theme input-dark"
+				/>
+			</AppInputText>
         </div>
 
 		<!-- ReCaptcha -->
@@ -424,7 +442,7 @@ export default {
 		axios
 			.get('/api/admin/settings', {
 				params: {
-					column: 'contact_email|google_analytics|default_max_storage_amount|storage_limitation|mimetypes_blacklist|upload_limit|subscriptionType|chunk_size',
+					column: 'contact_email|google_analytics|default_max_storage_amount|storage_limitation|mimetypes_blacklist|upload_limit|subscriptionType|chunk_size|default_max_team_member',
 				},
 			})
 			.then((response) => {
@@ -439,6 +457,7 @@ export default {
 					uploadLimit: response.data.upload_limit,
 					subscriptionType: response.data.subscriptionType,
 					chunkSize: response.data.chunk_size,
+					teamsDefaultMembers: response.data.default_max_team_member,
 				}
 			})
 	},
