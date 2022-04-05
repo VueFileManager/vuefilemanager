@@ -106,7 +106,7 @@
                         class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
                     />
                 </AppInputText>
-                <AppInputText :title="$t('postal_co')" class="w-full">
+                <AppInputText :title="$t('postal_code')" class="w-full">
                     <input
                         :value="user.data.relationships.settings.data.attributes.postal_code"
                         type="text"
