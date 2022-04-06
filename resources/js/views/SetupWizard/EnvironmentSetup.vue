@@ -669,24 +669,52 @@ export default {
                     value: 'oss-cn-hongkong',
                 },
             ],
-            wasabiRegions: [
-                {
-                    label: 'US East 1 (N. Virginia)',
-                    value: 'us-east-1',
-                },
-                {
-                    label: 'US East 2 (N. Virginia)',
-                    value: 'us-east-2',
-                },
-                {
-                    label: 'US West 1 (Oregon)',
-                    value: 'us-west-1',
-                },
-                {
-                    label: 'EU Central 1 (Amsterdam)',
-                    value: 'eu-central-1',
-                },
-            ],
+			wasabiRegions: [
+				{
+					label: 'us-west-1',
+					value: 'us-west-1',
+				},
+				{
+					label: 'ap-northeast-1',
+					value: 'ap-northeast-1',
+				},
+				{
+					label: 'ap-northeast-2',
+					value: 'ap-northeast-2',
+				},
+				{
+					label: 'ca-central-1',
+					value: 'ca-central-1',
+				},
+				{
+					label: 'eu-central-1',
+					value: 'eu-central-1',
+				},
+				{
+					label: 'eu-central-2',
+					value: 'eu-central-2',
+				},
+				{
+					label: 'eu-west-1',
+					value: 'eu-west-1',
+				},
+				{
+					label: 'eu-west-2',
+					value: 'eu-west-2',
+				},
+				{
+					label: 'us-central-1',
+					value: 'us-central-1',
+				},
+				{
+					label: 'us-east-1',
+					value: 'us-east-1',
+				},
+				{
+					label: 'us-east-2',
+					value: 'us-east-2',
+				},
+			],
             storjRegions: [
                 {
                     label: 'EU Central 1',

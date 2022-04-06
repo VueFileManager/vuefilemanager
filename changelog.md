@@ -1,3 +1,7 @@
+## Version 2.0.15
+#### Release date: 6. April 2022
+- Wasabi region list updated
+
 ## Version 2.0.14
 #### Release date: 5. April 2022
 - Added option to set default max team members for new user registrations
