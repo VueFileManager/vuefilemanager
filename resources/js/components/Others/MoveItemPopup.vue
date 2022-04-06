@@ -96,7 +96,7 @@ export default {
             // Move item
 			this.$store.dispatch('moveItem', {
 				to_item: this.selectedFolder,
-				noSelectedItem: this.isSelectedItem ? this.pickedItem : null,
+				item: this.isSelectedItem ? this.pickedItem : undefined,
 			})
 
             // Close popup

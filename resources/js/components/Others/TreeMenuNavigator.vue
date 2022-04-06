@@ -108,7 +108,7 @@ export default {
             if (!this.clipboard.includes(this.draggedItem[0])) {
                 this.$store.dispatch('moveItem', {
                     to_item: this.nodes,
-                    noSelectedItem: this.draggedItem[0],
+					item: this.draggedItem[0],
                 })
             }
 
@@ -116,7 +116,7 @@ export default {
             if (this.clipboard.includes(this.draggedItem[0])) {
                 this.$store.dispatch('moveItem', {
                     to_item: this.nodes,
-                    noSelectedItem: null,
+					item: null,
                 })
             }
 

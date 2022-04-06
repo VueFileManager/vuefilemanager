@@ -3,6 +3,8 @@
 - Wasabi region list updated
 - The delay after first upload in file request when the interface wasn't showing was removed
 - If adsense banner location isn't filled, the ads space won't be showed
+- Fixed issue when in grid view you tried to move image into another folder
+- Fixed issue when you can't move or delete items via mobile multiselect function
 
 ## Version 2.0.14
 #### Release date: 5. April 2022

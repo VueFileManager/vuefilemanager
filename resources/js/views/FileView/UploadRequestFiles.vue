@@ -32,7 +32,7 @@
 				:class="{ 'is-inactive': clipboard.length < 1 }"
 			/>
             <ToolbarButton
-				@click.native="$deleteFileOrFolder(clipboard)"
+				@click.native="$deleteFileOrFolder()"
 				source="trash"
 				:class="{ 'is-inactive': clipboard.length < 1 }"
 				:action="$t('delete')"

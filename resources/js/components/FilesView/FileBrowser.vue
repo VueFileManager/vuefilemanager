@@ -97,7 +97,7 @@ export default {
                 if (!this.clipboard.includes(this.draggingId)) {
                     this.$store.dispatch('moveItem', {
                         to_item: data,
-                        noSelectedItem: this.draggingId,
+                        item: this.draggingId,
                     })
                 }
 
@@ -105,7 +105,7 @@ export default {
                 if (this.clipboard.length > 0 && this.clipboard.includes(this.draggingId)) {
                     this.$store.dispatch('moveItem', {
                         to_item: data,
-                        noSelectedItem: null,
+                        item: null,
                     })
                 }
             } else {

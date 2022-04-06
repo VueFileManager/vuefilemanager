@@ -44,7 +44,7 @@
             />
             <ToolbarButton
                 v-if="canEdit"
-                @click.native="$deleteFileOrFolder(clipboard)"
+                @click.native="$deleteFileOrFolder()"
                 class="mr-4"
                 source="trash"
                 :class="{ 'is-inactive': clipboard.length < 1 }"

@@ -40,22 +40,22 @@ const actions = {
         // Download zip
         Vue.prototype.$downloadFile(route, 'files.zip')
     },
-    moveItem: ({ commit, getters, dispatch }, { to_item, noSelectedItem }) => {
-        let itemsToMove = []
-        let items = [noSelectedItem]
+    moveItem: ({ commit, getters, dispatch }, { to_item, item }) => {
+        let items = item
+            ? [item]
+            : getters.clipboard
 
-        // If coming no selected item dont get items to move from clipboard
-        if (!noSelectedItem) items = getters.clipboard
-
-        items.forEach((data) =>
-            itemsToMove.push({
+        let itemsToMove = items.map((data) => {
+            return {
                 id: data.data.id,
                 type: data.data.type,
-            })
-        )
+            }
+        })
 
         // Remove file preview
-        if (!noSelectedItem) commit('CLIPBOARD_CLEAR')
+        if (!item) {
+            commit('CLIPBOARD_CLEAR')
+        }
 
         // Get route
         let route = {
@@ -63,14 +63,11 @@ const actions = {
             Public: `/api/editor/move/${router.currentRoute.params.token}`,
         }[router.currentRoute.name] || '/api/move'
 
-        let moveToId = null
-
-        if (to_item.data) moveToId = to_item.data.id
-        else if (to_item.id) moveToId = to_item.id
+        let moveToId = to_item.data ? to_item.data.id : to_item.id
 
         axios
             .post(route, {
-                to_id: moveToId,
+                to_id: moveToId || null,
                 items: itemsToMove,
             })
             .then(() => {
@@ -78,9 +75,11 @@ const actions = {
                     commit('REMOVE_ITEM', item.id)
                     commit('INCREASE_FOLDER_ITEM', moveToId)
 
-                    if (item.type === 'folder') dispatch('getAppData')
+                    if (item.type === 'folder')
+                        dispatch('getAppData')
 
-                    if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) dispatch('getFolderTree')
+                    if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
+                        dispatch('getFolderTree')
                 })
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
@@ -270,19 +269,18 @@ const actions = {
         })
     },
     restoreItem: ({ commit, getters }, item) => {
-        let itemToRestore = []
-        let items = [item]
+        let items = item
+            ? [item]
+            : getters.clipboard
+
         let restoreToHome = Vue.prototype.$isThisRoute(router.currentRoute, ['Trash'])
 
-        // If coming no selected item dont get items to restore from clipboard
-        if (!item) items = getters.clipboard
-
-        items.forEach((data) =>
-            itemToRestore.push({
+        let itemToRestore = items.map((data) => {
+            return {
                 type: data.data.type,
                 id: data.data.id,
-            })
-        )
+            }
+        })
 
         // Remove file preview
         commit('CLIPBOARD_CLEAR')
@@ -292,31 +290,28 @@ const actions = {
                 to_home: restoreToHome,
                 items: itemToRestore,
             })
-            .then(items.forEach((item) => commit('REMOVE_ITEM', item.data.id)))
+            .then(() => items.forEach((item) => commit('REMOVE_ITEM', item.data.id)))
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    deleteItem: ({ commit, getters, dispatch }, noSelectedItem) => {
-        let itemsToDelete = []
-        let items = [noSelectedItem]
+    deleteItem: ({ commit, getters, dispatch }, item) => {
+        let items = item
+            ? [item]
+            : getters.clipboard
 
-        // If coming no selected item dont get items to move from clipboard
-        if (!noSelectedItem) items = getters.clipboard
-
-        items.forEach((data) => {
-            itemsToDelete.push({
-                force_delete: !!data.data.attributes.deleted_at,
-                type: data.data.type,
-                id: data.data.id,
-            })
-
-            // Remove file
+        let deletedItems = items.map((data) => {
+            // Remove file from view
             commit('REMOVE_ITEM', data.data.id)
             commit('REMOVE_ITEM_FROM_CLIPBOARD', data.data.id)
             events.$emit('file:deleted', data.data.id)
 
             // Remove item from sidebar
-            if (! ['Public', 'RequestUpload'].includes(router.currentRoute.name)) {
-                if (data.data.type === 'folder') commit('REMOVE_ITEM_FROM_FAVOURITES', data)
+            if (! ['Public', 'RequestUpload'].includes(router.currentRoute.name) && data.data.type === 'folder')
+                commit('REMOVE_ITEM_FROM_FAVOURITES', data)
+
+            return {
+                force_delete: !!data.data.attributes.deleted_at,
+                type: data.data.type,
+                id: data.data.id,
             }
         })
 
@@ -328,10 +323,10 @@ const actions = {
 
         axios
             .post(route, {
-                items: itemsToDelete,
+                items: deletedItems,
             })
             .then(() => {
-                itemsToDelete.forEach((data) => {
+                deletedItems.forEach((data) => {
                     // If is folder, update app data
                     if (data.type === 'folder' && getters.currentFolder && data.id === getters.currentFolder.data.id) {
                         router.back()
