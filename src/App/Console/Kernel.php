@@ -5,7 +5,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
 use Support\Scheduler\Actions\ReportUsageAction;
-use Support\Demo\Actions\DeleteAllDemoSharedLinksAction;
+use Support\Demo\Actions\ClearHowdyDemoDataAction;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
@@ -43,7 +43,7 @@ class Kernel extends ConsoleKernel
 
         if (is_demo()) {
             $schedule->call(
-                fn () => resolve(DeleteAllDemoSharedLinksAction::class)()
+                fn () => resolve(ClearHowdyDemoDataAction::class)()
             )->daily()->at('00:00');
         }
 
