@@ -13,14 +13,17 @@
 
         <!--Desktop preview-->
         <div
-            v-if="(!$isMobile() || fastPreview) && (isAudio || isImage || isVideo || isPDF)"
+            v-if="!$isMobile() || fastPreview"
             class="flex h-full w-full items-center justify-center"
         >
+            <!--Show File-->
+			<ItemGrid v-if="isFile && !isPDF" :entry="currentFile" :mobile-handler="false" :can-hover="false"/>
+
             <!--Show PDF-->
-            <PdfFile v-if="isPDF" :file="currentFile" />
+            <PdfFile v-if="isFile && isPDF" :file="currentFile" />
 
             <!--Show Audio, Video and Image-->
-            <div class="flex h-full w-full items-center justify-center">
+            <div v-if="isAudio || isImage || isVideo" class="flex h-full w-full items-center justify-center">
                 <Audio v-if="isAudio" :file="currentFile" />
                 <Video v-if="isVideo" :file="currentFile" class="mx-auto max-h-full max-w-[1080px] self-center" />
                 <ImageFile v-if="isImage" :file="currentFile" class="mx-auto max-h-[100%] max-w-[100%] self-center" :class="{'file-shadow': !$isMobile()}" id="printable-file" />
@@ -53,6 +56,7 @@
 <script>
 import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons'
 import ToolbarButton from '../FilesView/ToolbarButton'
+import ItemGrid from "../FilesView/ItemGrid"
 import ImageFile from './Media/ImageFile'
 import Audio from './Media/Audio'
 import Video from './Media/Video'
@@ -68,6 +72,7 @@ export default {
         ChevronLeftIcon,
         ToolbarButton,
         ImageFile,
+		ItemGrid,
         Spinner,
         Audio,
         Video,
@@ -77,6 +82,9 @@ export default {
         currentFile() {
             return this.fastPreview ? this.fastPreview : this.files[Math.abs(this.currentIndex) % this.files.length]
         },
+		isFile() {
+            return this.currentFile.data.type === 'file'
+		},
         isPDF() {
             return this.currentFile.data.attributes.mimetype === 'pdf'
         },

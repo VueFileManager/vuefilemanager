@@ -853,18 +853,13 @@ export default {
                 }
             }
 
+			// Show file
 			if (file.data.type !== 'folder') {
-				// Show file
-				if (['video', 'audio', 'image'].includes(file.data.type) || file.data.attributes.mimetype === 'pdf') {
-					this.$store.commit('ADD_TO_FAST_PREVIEW', file)
+				this.$store.commit('ADD_TO_FAST_PREVIEW', file)
+				this.$store.commit('CLIPBOARD_REPLACE', file)
 
-					events.$emit('file-preview:show')
-				} else {
-					this.$downloadFile(
-						file.data.attributes.file_url,
-						file.data.attributes.name + '.' + file.data.attributes.mimetype
-					)
-				}
+				// Show file thumbnail
+				events.$emit('file-preview:show')
 			}
 
             this.exitSpotlight()

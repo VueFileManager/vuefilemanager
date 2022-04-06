@@ -1,7 +1,7 @@
 <template>
     <div
         :class="{
-            'bg-light-background dark:bg-dark-foreground': isClicked,
+            'bg-light-background dark:bg-dark-foreground': isClicked && canHover,
             'dark:hover:bg-dark-foreground lg:hover:bg-light-background': canHover,
         }"
         class="relative z-0 flex h-48 select-none flex-wrap items-center justify-center rounded-lg border-2 border-dashed border-transparent px-1 pt-2 text-center sm:h-56 lg:h-60"
@@ -241,9 +241,6 @@ export default {
         }, 300),
     },
     created() {
-        // Set item name to own component variable
-        this.itemName = this.entry.data.attributes.name
-
         // Change item name
         events.$on('change:name', (item) => {
             if (this.entry.data.id === item.id) this.itemName = item.name
@@ -257,7 +254,12 @@ export default {
             }
         })
 
-		this.getImageSrc()
+		// Set item name to own component variable
+		this.itemName = this.entry.data.attributes.name
+
+		if (this.entry.data.type === 'image') {
+			this.getImageSrc()
+		}
     },
 }
 </script>

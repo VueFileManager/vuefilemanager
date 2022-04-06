@@ -5,6 +5,7 @@
 - If adsense banner location isn't filled, the ads space won't be showed
 - Fixed issue when in grid view you tried to move image into another folder
 - Fixed issue when you can't move or delete items via mobile multiselect function
+- You can now open searched file from spotlight in FilePreview mode to access file settings and functions
 
 ## Version 2.0.14
 #### Release date: 5. April 2022
