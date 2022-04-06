@@ -22,17 +22,17 @@
             @contextmenu.prevent.capture="contextMenu($event, undefined)"
             class="transition-transform duration-200 lg:grid lg:flex-grow lg:content-start lg:px-3.5"
         >
-            <DesktopUploadRequestToolbar v-if="uploadRequest && uploadRequest.data.attributes.status === 'filling'" />
-            <MobileUploadRequestToolBar v-if="uploadRequest && uploadRequest.data.attributes.status === 'filling'" />
+            <DesktopUploadRequestToolbar v-if="canShowUI" />
+            <MobileUploadRequestToolBar v-if="canShowUI" />
 
             <!--Google Adsense banner-->
-            <div v-if="config.allowedAdsense" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
+            <div v-if="config.allowedAdsense && config.adsenseBanner01" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
 
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden">
                 <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
 
-                <InfoSidebarUploadRequest v-if="uploadRequest && uploadRequest.data.attributes.status === 'filling' && isVisibleSidebar" />
+                <InfoSidebarUploadRequest v-if="canShowUI && isVisibleSidebar" />
             </div>
         </div>
     </div>
@@ -73,7 +73,10 @@ export default {
         DragUI,
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'config', 'uploadRequest']),
+        ...mapGetters(['isVisibleSidebar', 'config', 'uploadRequest', 'fileQueue']),
+		canShowUI() {
+			return (this.uploadRequest && this.uploadRequest.data.attributes.status === 'filling') || this.fileQueue.length > 0
+		}
     },
     data() {
         return {

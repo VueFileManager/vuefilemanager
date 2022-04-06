@@ -39,7 +39,7 @@
 			/>
         </MobileMultiSelectToolbar>
 
-        <ContextMenu v-if="uploadRequest && uploadRequest.data.attributes.status === 'filling'">
+        <ContextMenu v-if="canShowUI">
             <template v-slot:empty-select>
                 <OptionGroup>
                     <OptionUpload :title="$t('upload_files')" type="file" />
@@ -80,7 +80,7 @@
             </template>
         </ContextMenu>
 
-        <FileActionsMobile v-if="uploadRequest && uploadRequest.data.attributes.status === 'filling'">
+        <FileActionsMobile v-if="canShowUI">
 			<!--I am Done-->
 			<button @click="uploadingDone" class="flex shrink-0 items-center mr-2 rounded-xl bg-theme-200 py-1 px-1 pr-3">
 				<MemberAvatar
@@ -121,7 +121,7 @@
 				</ButtonUpload>
 			</div>
 
-			<div v-if="['active', 'filled', 'expired'].includes(uploadRequest.data.attributes.status)">
+			<div v-if="['active', 'filled', 'expired'].includes(uploadRequest.data.attributes.status) && fileQueue.length === 0">
 				<div class="relative mx-auto mb-8 w-24 text-center">
 					<VueFolderIcon class="inline-block w-28" />
 					<MemberAvatar
@@ -197,7 +197,7 @@ export default {
 		Option,
 	},
 	computed: {
-		...mapGetters(['fastPreview', 'clipboard', 'config', 'user', 'uploadRequest']),
+		...mapGetters(['fastPreview', 'clipboard', 'config', 'user', 'uploadRequest', 'fileQueue']),
 		isFolder() {
 			return this.item && this.item.data.type === 'folder'
 		},
@@ -217,6 +217,9 @@ export default {
 				filled: this.$t('request_for_upload_unavailable'),
 				expired: this.$t('request_for_upload_unavailable'),
 			}[this.uploadRequest.data.attributes.status]
+		},
+		canShowUI() {
+			return this.uploadRequest && this.uploadRequest.data.attributes.status === 'filling' || this.fileQueue.length > 0
 		}
 	},
 	data() {

@@ -206,7 +206,7 @@
 
     {{--Adsense code--}}
     @if(optional($settings)->allowed_adsense)
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $settings->adsense_client_id }}" crossorigin="anonymous"></script>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={{ $settings->adsense_client_id ?? '' }}" crossorigin="anonymous"></script>
 
         <script>
              (adsbygoogle = window.adsbygoogle || []).push({});

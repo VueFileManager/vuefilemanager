@@ -73,7 +73,7 @@
             </ButtonBase>
 
             <!--Google Adsense banner-->
-            <div v-if="config.allowedAdsense" v-html="config.adsenseBanner02" class="mt-5 min-h-[120px]"></div>
+            <div v-if="config.allowedAdsense && config.adsenseBanner02" v-html="config.adsenseBanner02" class="mt-5 min-h-[120px]"></div>
         </div>
     </div>
 </template>
