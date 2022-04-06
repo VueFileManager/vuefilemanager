@@ -54,7 +54,7 @@
                     <div class="text-left">
                         <b class="block text-sm font-bold">{{ setting }}</b>
                         <small v-if="!values.status" class="dark:text-gray-500 text-xs text-gray-600 pt-1 block leading-normal">
-                            We recommend set this value at least {{ values.minimal }}.
+                            You must set this value at least {{ values.minimal }}.
                         </small>
                     </div>
                     <div class="flex items-center">

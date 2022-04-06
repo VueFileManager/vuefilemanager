@@ -57,8 +57,10 @@
 ### 1. Upload files on your server
 Upload project files to the web root folder of your domain. It's mostly located in `html`, `www` or `public_html` folder name.
 
-### 2. Configure your domain host root folder
-Configure your web server's document root to point to the public directory of the files you previously uploaded. For example, if you've uploaded the files in `html` folder, your domain root directory should be changed to `html/project_files/public` folder or anything else where domain root is in project `/public` directory.
+### 2. Configure your Document Root
+Configure your domain document root to the point of the files you previously uploaded directly into `/public` folder. So, if you uploaded files into `/public_html` folder, your document root must be set as `/public_html/public`. It should [look like this](https://i.ibb.co/SfLdmCQ/Screenshot-2022-04-06-at-08-53-29.png)
+
+Don't forget to enable Force HTTPS Redirect.
 
 ### 3. Set write permissions
 Set `755` permission (CHMOD) to these files and folders directory within all children subdirectories:
