@@ -115,7 +115,7 @@ export default {
             'isDarkMode',
         ]),
         favourites() {
-            return this.user.data.relationships.favourites.data.attributes.folders
+            return this.user.data.relationships.favourites.attributes.folders
         },
         storage() {
             return this.$store.getters.user.data.attributes.storage

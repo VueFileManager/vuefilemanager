@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
-use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderResource;
-use Domain\Folders\Resources\FolderCollection;
 
 class BrowseFolderController
 {
@@ -31,11 +29,15 @@ class BrowseFolderController
             ->sortable()
             ->get();
 
-        // Collect folders and files to single array
+        list($data, $paginate, $links) = groupPaginate($request, $folders, $files);
+
         return [
-            'folders' => new FolderCollection($folders),
-            'files'   => new FilesCollection($files),
-            'root'    => $root_id ? new FolderResource(Folder::findOrFail($root_id)) : null,
+            'data'  => $data,
+            'links' => $links,
+            'meta'  => [
+                'paginate' => $paginate,
+                'root'     => $root_id ? new FolderResource(Folder::findOrFail($root_id)) : null,
+            ]
         ];
     }
 }

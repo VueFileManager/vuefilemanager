@@ -3,17 +3,16 @@ namespace Domain\Teams\Controllers;
 
 use Str;
 use Gate;
+use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderResource;
-use Domain\Folders\Resources\FolderCollection;
 
 class BrowseSharedWithMeController
 {
-    public function __invoke($id): array
+    public function __invoke(Request $request, $id): array
     {
         $id = Str::isUuid($id) ? $id : null;
 
@@ -46,11 +45,16 @@ class BrowseSharedWithMeController
                 ->get();
         }
 
+        list($data, $paginate, $links) = groupPaginate($request, $folders, $files ?? null);
+
         return [
-            'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
-            'folders'    => new FolderCollection($folders),
-            'files'      => isset($files) ? new FilesCollection($files) : new FilesCollection([]),
+            'data'       => $data,
             'teamFolder' => $id ? new FolderResource($teamFolder) : null,
+            'links'      => $links,
+            'meta'       => [
+                'paginate' => $paginate,
+                'root'     => $id ? new FolderResource(Folder::findOrFail($id)) : null
+            ]
         ];
     }
 }

@@ -60,4 +60,8 @@ return [
             ],
         ],
     ],
+
+    'paginate' => [
+        'perPage' => 50
+    ]
 ];

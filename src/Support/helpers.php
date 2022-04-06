@@ -5,6 +5,7 @@ use ByteUnits\Metric;
 use App\Users\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
@@ -15,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Domain\Localization\Models\Language;
+use Domain\Files\Resources\FilesCollection;
+use Domain\Folders\Resources\FolderCollection;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -1148,4 +1151,52 @@ if (! function_exists('replace_occurrence')) {
             return "{$degrees}°$minutes'$seconds\"$ref";
         }
     }
+
+    if(! function_exists('groupPaginate')) {
+        /**
+         * Group paginate of Foldes and Files
+         */
+        function groupPaginate(
+            Request $request,
+            ?Collection $folders = null,
+            ?Collection $files = null
+        ) : array {
+
+            $perPage = config('vuefilemanager.paginate.perPage');
+            $currentPage = $request->get('page');
+
+              // Collect Folders with Files
+            $entries = collect([
+                $folders ? json_decode((new FolderCollection($folders))->toJson(), true) : null,
+                $files   ? json_decode((new FilesCollection($files))->toJson(), true) : null,
+            ])->collapse();
+
+            // Paginate grouped Folders and Files
+            $groupPaginate = $entries->forPage($currentPage, $perPage)->values();
+
+            $uri = $request->fullUrl();
+
+            $lastPage = ceil(count($entries) / $perPage);
+              
+            return [
+                $groupPaginate, 
+                [
+                    'currentPage'   => (int)$currentPage,
+                    'from'          => 1,
+                    'lastPage'      => $lastPage,
+                    'path'          => $uri,
+                    'perPage'       => $perPage,
+                    'to'            => $perPage,
+                    'total'         => count($entries),
+                ],
+                [
+                    'first'         => $uri . '&page=' . 1,
+                    'last'          => $uri . '&page=' . $lastPage,
+                    'next'          => $currentPage == $lastPage ? null :  $uri . '&page=' . $currentPage + 1,
+                    'prev'          => $currentPage == 1 ? null : $uri . '&page=' . $currentPage -1,
+                ]
+            ];
+        }
+    }
+
 }

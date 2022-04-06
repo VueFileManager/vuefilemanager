@@ -17,7 +17,7 @@ const itemHelpers = {
         }
 
         Vue.prototype.$toggleFavourites = function (entry) {
-            let favourites = store.getters.user.data.relationships.favourites.data
+            let favourites = store.getters.user.data.relationships.favourites
 
             // Check if folder is in favourites and then add/remove from favourites
             if (favourites && !favourites.find((el) => el.data.id === entry.data.id)) {

@@ -275,7 +275,7 @@ export default {
             return this.item && this.item.data.type === 'folder'
         },
         isInFavourites() {
-            return this.user.data.relationships.favourites.data.find((el) => el.id === this.item.id)
+            return this.user.data.relationships.favourites.find((el) => el.id === this.item.id)
         },
         hasFile() {
             return this.clipboard.find((item) => item.type !== 'folder')
@@ -287,7 +287,7 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('getTeamFolder', this.$route.params.id)
+        this.$store.dispatch('getTeamFolder', {page:null, id:this.$route.params.id})
 
         events.$on('context-menu:show', (event, item) => (this.item = item))
         events.$on('mobile-context-menu:show', (item) => (this.item = item))

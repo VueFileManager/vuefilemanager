@@ -159,8 +159,7 @@ class User extends Authenticatable implements MustVerifyEmail
             ->with([
                 'parent:id,name',
                 'shared:token,id,item_id,permission,is_protected,expire_in',
-            ])
-            ->take(40);
+            ]);
     }
 
     /**

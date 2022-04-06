@@ -839,13 +839,13 @@ export default {
                 .then((response) => {
                     // Show user result
                     if (this.activeFilter === 'users') {
-                        this.results = response.data.data
+                        this.results = response.data
                     }
 
                     // Show file result
                     if (!this.activeFilter) {
-                        let files = response.data.files.data
-                        let folders = response.data.folders.data
+                        let files = response.data.files
+                        let folders = response.data.folders
 
                         this.results = folders.concat(files)
                     }

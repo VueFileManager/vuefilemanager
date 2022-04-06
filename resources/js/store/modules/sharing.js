@@ -20,21 +20,26 @@ const defaultState = {
     sharedFile: undefined,
 }
 const actions = {
-    getSharedFolder: ({ commit, getters }, id) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
+    getSharedFolder: ({ commit, getters }, {page, id}) => {
+
+        if(! page)
+            commit('LOADING_STATE', { loading: true, data: [] })
+
+        let currentPage = page || 1
 
         return new Promise((resolve, reject) => {
             axios
-                .get(`/api/browse/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
+                .get(`/api/browse/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}&page=${currentPage}`)
                 .then((response) => {
-                    let folders = response.data.folders.data
-                    let files = response.data.files.data
+                    commit('SET_PAGINATE', {
+                        paginate: response.data.meta.paginate
+                    })
 
                     commit('LOADING_STATE', {
                         loading: false,
-                        data: folders.concat(files),
+                        data: response.data.data,
                     })
-                    commit('SET_CURRENT_FOLDER', response.data.root)
+                    commit('SET_CURRENT_FOLDER', response.data.meta.root)
 
                     events.$emit('scrollTop')
 

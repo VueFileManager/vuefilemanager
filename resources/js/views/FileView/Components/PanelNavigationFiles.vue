@@ -132,7 +132,7 @@ export default {
     computed: {
         ...mapGetters(['isVisibleNavigationBars', 'navigation', 'clipboard', 'config', 'user']),
         favourites() {
-            return this.user.data.relationships.favourites.data
+            return this.user.data.relationships.favourites
         },
         storage() {
             return this.$store.getters.user.data.attributes.storage

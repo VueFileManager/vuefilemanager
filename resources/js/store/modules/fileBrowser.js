@@ -12,93 +12,150 @@ const defaultState = {
     isLoading: true,
     clipboard: [],
     entries: [],
+    paginate: undefined,
 }
 
 const actions = {
-    getFolder: ({ commit, getters }, id) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
+    getFolder: ({ commit, getters },{page, id}) => {
+        return new Promise ((resolve, reject) => {
 
-        axios
-            .get(`${getters.api}/browse/folders/${id}/${getters.sorting.URI}`)
-            .then((response) => {
-                let folders = response.data.folders.data
-                let files = response.data.files.data
+            if( !page)
+                commit('LOADING_STATE', { loading: true, data: [] })
 
-                commit('LOADING_STATE', {
-                    loading: false,
-                    data: folders.concat(files),
-                })
-                commit('SET_CURRENT_FOLDER', response.data.root)
+            let currentPage = page || 1
 
-                events.$emit('scrollTop')
-            })
-            .catch((error) => {
-                // Redirect if unauthenticated
-                if ([401, 403].includes(error.response.status)) {
-                    commit('SET_AUTHORIZED', false)
-                    router.push({ name: 'SignIn' })
-                } else {
-                    // Show error message
-                    events.$emit('alert:open', {
-                        title: i18n.t('popup_error.title'),
-                        message: i18n.t('popup_error.message'),
+            axios
+                .get(`${getters.api}/browse/folders/${id}/${getters.sorting.URI}&page=${currentPage}`)
+                .then((response) => {
+                    commit('SET_PAGINATE', {
+                        paginate: response.data.meta.paginate
                     })
-                }
-            })
-    },
-    getRecentUploads: ({ commit, getters }) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
 
-        axios
-            .get(getters.api + '/browse/latest')
-            .then((response) => {
-                commit('LOADING_STATE', {
-                    loading: false,
-                    data: response.data.files.data,
+                    commit('LOADING_STATE', {
+                        loading: false,
+                        data: response.data.data,
+                    })
+                    commit('SET_CURRENT_FOLDER', response.data.meta.root)
+
+                    events.$emit('scrollTop')
+
+                    resolve(true);
                 })
-                commit('SET_CURRENT_FOLDER', undefined)
+                .catch((error) => {
+                    // Redirect if unauthenticated
+                    if ([401, 403].includes(error.response.status)) {
+                        commit('SET_AUTHORIZED', false)
+                        router.push({ name: 'SignIn' })
+                    } else {
+                        // Show error message
+                        events.$emit('alert:open', {
+                            title: i18n.t('popup_error.title'),
+                            message: i18n.t('popup_error.message'),
+                        })
+                    }
 
-                events.$emit('scrollTop')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
-    },
-    getMySharedItems: ({ commit, getters }) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
-
-        axios
-            .get(getters.api + '/browse/share' + getters.sorting.URI)
-            .then((response) => {
-                let folders = response.data.folders.data
-                let files = response.data.files.data
-
-                commit('LOADING_STATE', {
-                    loading: false,
-                    data: folders.concat(files),
+                    reject(error)
                 })
-                commit('SET_CURRENT_FOLDER', undefined)
-
-                events.$emit('scrollTop')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+        })
     },
-    getTrash: ({ commit, getters }, id) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
+    getRecentUploads: ({ commit, getters }, page) => {
+        return new Promise ((resolve, reject) => {
 
-        axios
-            .get(`${getters.api}/browse/trash/${id}/${getters.sorting.URI}`)
-            .then((response) => {
-                let folders = response.data.folders.data
-                let files = response.data.files.data
+            if(! page)
+                commit('LOADING_STATE', { loading: true, data: [] })
+    
+            let currentPage = page || 1
+    
+            axios
+                .get(getters.api + `/browse/latest?page=${currentPage}`)
+                .then((response) => {
+    
+                    commit('SET_PAGINATE', {
+                        paginate: response.data.meta.paginate
+                    })
+    
+                    commit('LOADING_STATE', {
+                        loading: false,
+                        data: response.data.data,
+                    })
+                    commit('SET_CURRENT_FOLDER', undefined)
+    
+                    events.$emit('scrollTop')
 
-                commit('LOADING_STATE', {
-                    loading: false,
-                    data: folders.concat(files),
+                    resolve(true)
                 })
-                commit('SET_CURRENT_FOLDER', response.data.root)
+                .catch((error) => {
+                    Vue.prototype.$isSomethingWrong()
 
-                events.$emit('scrollTop')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+                    reject(error)
+                })
+        })
+
+    },
+    getMySharedItems: ({ commit, getters }, page) => {
+        return new Promise ((resolve, reject) => {            
+            if(! page)
+                commit('LOADING_STATE', { loading: true, data: [] })
+
+            let currentPage = page || 1
+    
+            axios
+                .get(`${getters.api}/browse/share${getters.sorting.URI}&page=${currentPage}`)
+                .then((response) => {
+                   
+                    commit('SET_PAGINATE', {
+                        paginate: response.data.meta.paginate
+                    })
+    
+                    commit('LOADING_STATE', {
+                        loading: false,
+                        data: response.data.data,
+                    })
+                    commit('SET_CURRENT_FOLDER', undefined)
+    
+                    events.$emit('scrollTop')
+
+                    resolve(true)
+                })
+                .catch((error) => {
+                    Vue.prototype.$isSomethingWrong()
+
+                    reject(error)
+                })
+        })
+
+    },
+    getTrash: ({ commit, getters },{page, id}) => {
+        return new Promise ((resolve, reject) => {
+            if(! page)
+                commit('LOADING_STATE', { loading: true, data: [] })
+
+            let currentPage = page || 1
+            
+            axios
+                .get(`${getters.api}/browse/trash/${id}/${getters.sorting.URI}&page=${currentPage}`)
+                .then((response) => {
+
+                    commit('SET_PAGINATE', {
+                        paginate: response.data.meta.paginate
+                    })
+    
+                    commit('LOADING_STATE', {
+                        loading: false,
+                        data: response.data.data,
+                    })
+                    commit('SET_CURRENT_FOLDER', response.data.meta.root)
+    
+                    events.$emit('scrollTop')
+
+                    resolve(true)
+                })
+                .catch((error) => {
+                    Vue.prototype.$isSomethingWrong()
+
+                    reject(error)
+                })
+        })
     },
     getFolderTree: ({ commit, getters }) => {
         return new Promise((resolve, reject) => {
@@ -116,17 +173,24 @@ const actions = {
                     commit('UPDATE_FOLDER_TREE', response.data)
                 })
                 .catch((error) => {
-                    reject(error)
-
                     Vue.prototype.$isSomethingWrong()
+                    
+                    reject(error)
                 })
         })
     },
 }
 
 const mutations = {
+    SET_PAGINATE(state, payload) {
+        state.paginate = payload
+    },
     LOADING_STATE(state, payload) {
-        state.entries = payload.data
+        if(payload.data.length === 0) {
+            state.entries = []
+        } else {
+            state.entries.push(...payload.data)
+        }
         state.isLoading = payload.loading
     },
     SET_CURRENT_FOLDER(state, folder) {
@@ -221,6 +285,7 @@ const getters = {
     clipboard: (state) => state.clipboard,
     isLoading: (state) => state.isLoading,
     entries: (state) => state.entries,
+    paginate: (state) => state.paginate
 }
 
 export default {

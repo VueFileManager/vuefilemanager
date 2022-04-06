@@ -180,6 +180,7 @@
             // App settings
 			userRegistration: {{ $settings->registration ?? 1 }},
 			userVerification: {{ $settings->user_verification ?? 0 }},
+            itemsPerPage:     {{ config('vuefilemanager.paginate.perPage') }},
         }
     </script>
 

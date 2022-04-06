@@ -4,11 +4,10 @@ namespace Domain\Browsing\Controllers;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
-use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderResource;
-use Domain\Folders\Resources\FolderCollection;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
+use Illuminate\Http\Request;
 
 /**
  * Browse shared folder
@@ -24,6 +23,7 @@ class VisitorBrowseFolderController
     public function __invoke(
         string $id,
         Share $shared,
+        Request $request,
     ): array {
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
@@ -48,10 +48,15 @@ class VisitorBrowseFolderController
         // Set thumbnail links for public files
         $files->map(fn ($file) => $file->setSharedPublicUrl($shared->token));
 
+        list($data, $paginate, $links) = groupPaginate($request, $folders, $files);
+
         return [
-            'folders' => new FolderCollection($folders),
-            'files'   => new FilesCollection($files),
-            'root'    => new FolderResource($requestedFolder),
+            'data'  => $data,
+            'links' => $links,
+            'meta'  => [
+                'paginate' => $paginate,
+                'root'     => new FolderResource($requestedFolder),
+            ]
         ];
     }
 }
