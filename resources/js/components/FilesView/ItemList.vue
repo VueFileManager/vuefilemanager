@@ -42,7 +42,7 @@
             <!--Image thumbnail-->
             <img
                 v-if="isImage && entry.data.attributes.thumbnail"
-                class="ml-0.5 h-12 w-12 rounded object-cover"
+                class="ml-0.5 h-12 w-12 rounded object-cover pointer-events-none"
                 :src="imageSrc"
 				alt=""
                 loading="lazy"

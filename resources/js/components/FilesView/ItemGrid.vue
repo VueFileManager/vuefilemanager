@@ -63,7 +63,7 @@
                     />
 
                     <img
-                        class="h-full w-full rounded-lg object-cover shadow-lg"
+                        class="h-full w-full rounded-lg object-cover shadow-lg pointer-events-none"
                         :src="imageSrc"
 						alt=""
                         loading="lazy"
@@ -90,24 +90,22 @@
 
                 <!--Item sub line-->
                 <div class="flex items-center justify-center">
-                    <!--Shared Icon-->
-                    <div v-if="canShowLinkIcon">
-                        <link-icon size="12" class="text-theme dark-text-theme vue-feather mr-1.5" />
-                    </div>
 
                     <!--File & Image sub line-->
                     <small v-if="!isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
-                        {{ entry.data.attributes.filesize }}
+						<link-icon size="12" class="text-theme dark-text-theme vue-feather inline-block mr-0.5 mb-1" />
+						{{ entry.data.attributes.filesize }},
                         <span class="hidden text-xs text-gray-500 dark:text-gray-500 lg:inline-block"
-                            >, {{ timeStamp }}</span
+                            >{{ timeStamp }}</span
                         >
                     </small>
 
                     <!--Folder sub line-->
                     <small v-if="isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
+						<link-icon v-if="canShowLinkIcon" size="12" class="text-theme dark-text-theme vue-feather mr-0.5 mb-1 inline-block" />
                         {{ folderItems === 0 ? $t('empty') : $tc('folder.item_counts', folderItems)
-                        }}<span class="hidden text-xs text-gray-500 dark:text-gray-500 lg:inline-block"
-                            >, {{ timeStamp }}</span
+                        }}, <span class="hidden text-xs text-gray-500 dark:text-gray-500 lg:inline-block"
+                            >{{ timeStamp }}</span
                         >
                     </small>
                 </div>
