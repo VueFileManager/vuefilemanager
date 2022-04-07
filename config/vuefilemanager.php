@@ -10,12 +10,16 @@ return [
     'is_admin_vuefilemanager_bar' => env('IS_ADMIN_VUEFILEMANAGER_BAR', true),
 
     'colors' => [
-        '#9ad2bf',
-        '#9ad2cd',
-        '#d29a9a',
-        '#d2ce9a',
-        '#9aadd2',
-        '#c59ad2',
+        '#1BE7FF',
+        '#6eeb83',
+        '#e4ff1a',
+        '#E8AA14',
+        '#FF5714',
+        '#541388',
+        '#D90368',
+        '#F1E9DA',
+        '#2E294E',
+        '#FFD400',
     ],
 
     'avatar_sizes' => [
