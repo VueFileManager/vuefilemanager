@@ -65,7 +65,7 @@ export default {
                 return  this.paginate.paginate.currentPage !== this.paginate.paginate.lastPage
         },
         showInfiniteLoadSpinner() {
-            return this.continueInfiniteScroll && this.entries.length !== 0 && config.itemsPerPage <= this.entries.length
+            return this.continueInfiniteScroll && this.entries.length !== 0 && this.paginate.paginate.perPage <= this.entries.length
         },
     },
     data() {
@@ -90,7 +90,7 @@ export default {
             }
         },
         elementInViewport() {
-            var item =  document.getElementById('infinite-loader')
+            var item = document.getElementById('infinite-loader')
             var rect = item.getBoundingClientRect()
 
             return (

@@ -1163,7 +1163,7 @@ if (! function_exists('replace_occurrence')) {
         ) : array {
 
             $perPage = config('vuefilemanager.paginate.perPage');
-            $currentPage = $request->get('page');
+            $currentPage = $request->get('page') === 'all' ? 1 : (int)$request->get('page');
 
               // Collect Folders with Files
             $entries = collect([
@@ -1171,8 +1171,13 @@ if (! function_exists('replace_occurrence')) {
                 $files   ? json_decode((new FilesCollection($files))->toJson(), true) : null,
             ])->collapse();
 
-            // Paginate grouped Folders and Files
-            $groupPaginate = $entries->forPage($currentPage, $perPage)->values();
+            if($request->input('page') === 'all') {
+                // If is page set to 'all' return all records
+                $groupPaginate = $entries;
+            } else {
+                // Paginate grouped Folders and Files
+                $groupPaginate = $entries->forPage($currentPage, $perPage)->values();
+            }
 
             $uri = $request->fullUrl();
 
@@ -1181,7 +1186,7 @@ if (! function_exists('replace_occurrence')) {
             return [
                 $groupPaginate, 
                 [
-                    'currentPage'   => (int)$currentPage,
+                    'currentPage'   => $currentPage,
                     'from'          => 1,
                     'lastPage'      => $lastPage,
                     'path'          => $uri,
