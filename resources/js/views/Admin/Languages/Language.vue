@@ -7,7 +7,7 @@
                 :class="{
                     'fixed top-0 left-0 right-0 z-10 rounded-none bg-white bg-opacity-70 px-6 backdrop-blur-lg backdrop-filter dark:bg-dark-foreground':
                         fixedNav,
-                    'card sticky top-0 z-10 block py-0 shadow-card md:hidden': !fixedNav,
+                    'card sticky top-0 z-10 block !pb-0 shadow-card md:hidden': !fixedNav,
                 }"
             >
                 <SearchInput v-model="query" @reset-query="query = ''" />
