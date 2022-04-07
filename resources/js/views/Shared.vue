@@ -24,7 +24,7 @@
 
         <div
             @contextmenu.prevent.capture="contextMenu($event, undefined)"
-            class="transition-transform duration-200 lg:grid lg:flex-grow lg:content-start lg:px-3.5"
+            class="lg:flex lg:flex-col lg:w-full lg:px-3.5"
         >
             <DesktopSharepageToolbar />
 
@@ -34,7 +34,7 @@
             <div v-if="config.allowedAdsense && config.adsenseBanner01" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
 
             <!--File list & info sidebar-->
-            <div class="flex space-x-3 lg:overflow-hidden">
+            <div class="flex space-x-3 lg:overflow-hidden grow">
                 <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
 
                 <InfoSidebar v-if="isVisibleSidebar" />

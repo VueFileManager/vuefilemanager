@@ -11,7 +11,7 @@
         <!--Show warning bar when user functionality is restricted-->
         <RestrictionWarningBar />
 
-		<div :class="{'lg:flex lg:h-screen lg:overflow-hidden w-full': isSidebarNavigation}">
+		<div :class="{'lg:flex': isSidebarNavigation}">
 			<SidebarNavigation v-if="isSidebarNavigation" />
 			<router-view v-if="isLoaded" />
 		</div>

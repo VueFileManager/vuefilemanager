@@ -1,8 +1,6 @@
 import axios from 'axios'
 import router from '../../router'
 import Vue from 'vue'
-import { events } from '../../bus'
-import i18n from '../../i18n'
 
 const defaultState = {
     permission: 'master', // master | editor | visitor
