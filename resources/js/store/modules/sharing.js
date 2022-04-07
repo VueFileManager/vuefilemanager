@@ -69,16 +69,8 @@ const actions = {
     },
     shareCancel: ({ commit, getters }, singleItem) => {
         return new Promise((resolve, reject) => {
-            let tokens = []
-            let items = [singleItem]
-
-            if (!singleItem) {
-                items = getters.clipboard
-            }
-
-            items.forEach((item) => {
-                tokens.push(item.data.relationships.shared.data.attributes.token)
-            })
+            let items = singleItem ? [singleItem] : getters.clipboard
+            let tokens = items.map((item) => item.data.relationships.shared.data.attributes.token)
 
             axios
                 .post('/api/share/revoke', {
@@ -88,16 +80,13 @@ const actions = {
                 .then(() => {
                     items.forEach((item) => {
                         // Remove item from file browser
-                        if (
-                            getters.currentFolder &&
-                            Vue.prototype.$isThisRoute(router.currentRoute, ['MySharedItems'])
-                        ) {
+                        if (Vue.prototype.$isThisRoute(router.currentRoute, ['MySharedItems'])) {
                             commit('REMOVE_ITEM', item.data.id)
+                            commit('CLIPBOARD_CLEAR')
                         }
 
                         // Flush shared data
                         commit('FLUSH_SHARED', item.data.id)
-                        commit('CLIPBOARD_CLEAR')
                     })
                     resolve(true)
                 })
