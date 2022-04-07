@@ -23,7 +23,7 @@ const routesAdmin = [
                 component: () => import(/* webpackChunkName: "chunks/invoices" */ '../views/Admin/Invoices'),
                 meta: {
                     requiresAuth: true,
-                    title: 'routes_title.invoices',
+                    title: 'transactions',
                 },
             },
             {
@@ -32,7 +32,7 @@ const routesAdmin = [
                 component: () => import(/* webpackChunkName: "chunks/subscriptions" */ '../views/Admin/Subscriptions'),
                 meta: {
                     requiresAuth: true,
-                    title: 'Subscriptions',
+                    title: 'subscriptions',
                 },
             },
             {
@@ -343,7 +343,7 @@ const routesAdmin = [
                             ),
                         meta: {
                             requiresAuth: true,
-                            title: 'email',
+                            title: 'environment',
                         },
                     },
                     {

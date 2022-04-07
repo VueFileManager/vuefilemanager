@@ -40,7 +40,7 @@ const routesUser = [
                 component: () => import(/* webpackChunkName: "chunks/billing" */ '../views/User/Billing'),
                 meta: {
                     requiresAuth: true,
-                    title: 'subscription',
+                    title: 'billing',
                 },
             },
         ],

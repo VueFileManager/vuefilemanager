@@ -542,7 +542,7 @@ return [
         'others'                                         => 'Others',
         'edit_page'                                      => 'Edit Page',
         'my_profile'                                     => 'My Profile',
-        'change_password'                                => 'Change Password',
+        'change_password'                                => 'Security & API',
         'create_user'                                    => 'Create User',
         'delete_user'                                    => 'Delete User',
         'routes_title.users_list'                        => 'User Management',
