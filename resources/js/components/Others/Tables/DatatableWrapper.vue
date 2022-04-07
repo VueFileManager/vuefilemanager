@@ -39,9 +39,9 @@
         <slot v-if="!isLoading && !hasData" name="empty-page"></slot>
 
         <!--Paginator-->
-        <div v-if="paginator && hasData" class="mt-6 flex items-center justify-between">
+        <div v-if="paginator && hasData" class="mt-6 sm:flex sm:items-center sm:justify-between">
             <!--Show if there is only 6 pages-->
-            <ul v-if="data.meta.total > 15 && data.meta.last_page <= 6" class="pagination flex items-center">
+            <ul v-if="data.meta.total > 15 && data.meta.last_page <= 6" class="pagination flex justify-center items-center">
                 <!--Go previous icon-->
                 <li class="previous inline-block p-1">
                     <a
@@ -86,7 +86,7 @@
             </ul>
 
             <!--Show if there is more than 6 pages-->
-            <ul v-if="data.meta.total > 15 && data.meta.last_page > 6" class="pagination flex items-center">
+            <ul v-if="data.meta.total > 15 && data.meta.last_page > 6" class="pagination flex justify-center items-center">
                 <!--Go previous icon-->
                 <li class="previous inline-block p-1">
                     <a
@@ -191,7 +191,7 @@
                 </li>
             </ul>
 
-            <span class="text-xs text-gray-600 dark:text-gray-500">
+            <span class="text-xs text-gray-600 dark:text-gray-500 block text-center sm:mt-0 mt-4">
 				{{ $t('paginator', {from: data.meta.from, to: data.meta.to, total: data.meta.total}) }}
             </span>
         </div>
