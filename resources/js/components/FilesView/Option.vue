@@ -244,7 +244,7 @@
 </template>
 
 <script>
-import AlphabetIcon from './Icons/AlphabetIcon'
+import AlphabetIcon from '../Icons/AlphabetIcon'
 import {
     UserMinusIcon,
     UserCheckIcon,

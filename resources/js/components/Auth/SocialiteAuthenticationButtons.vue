@@ -12,12 +12,13 @@
         </div>
 
         <div v-if="config.allowedGoogleLogin" class="mx-5 cursor-pointer">
-            <span @click="socialiteRedirect('google')" class="text-3xl font-semibold">G</span>
+			<google-icon @click="socialiteRedirect('google')" class="vue-feather"/>
         </div>
     </div>
 </template>
 
 <script>
+import GoogleIcon from "../Icons/GoogleIcon";
 import { FacebookIcon, GithubIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 
@@ -25,6 +26,7 @@ export default {
     name: 'SocialiteAuthenticationButtons',
     components: {
         FacebookIcon,
+        GoogleIcon,
         GithubIcon,
     },
     computed: {

@@ -161,7 +161,7 @@ import MobileMultiSelectToolbar from '../../components/FilesView/MobileMultiSele
 import MobileActionButton from '../../components/FilesView/MobileActionButton'
 import FileActionsMobile from '../../components/FilesView/FileActionsMobile'
 import MobileContextMenu from '../../components/FilesView/MobileContextMenu'
-import VueFolderIcon from '../../components/FilesView/Icons/VueFolderIcon'
+import VueFolderIcon from '../../components/Icons/VueFolderIcon'
 import MobileCreateMenu from '../../components/FilesView/MobileCreateMenu'
 import EmptyFilePage from '../../components/FilesView/EmptyFilePage'
 import ToolbarButton from '../../components/FilesView/ToolbarButton'

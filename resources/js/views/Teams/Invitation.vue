@@ -119,7 +119,7 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import VueFolderTeamIcon from '../../components/FilesView/Icons/VueFolderTeamIcon'
+import VueFolderTeamIcon from '../../components/Icons/VueFolderTeamIcon'
 import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
 import AuthContent from '../../components/Auth/AuthContent'
 import MemberAvatar from '../../components/FilesView/MemberAvatar'
