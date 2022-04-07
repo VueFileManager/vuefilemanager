@@ -18,12 +18,10 @@ class DownloadFileAction
         $filePath = "files/$file->user_id/$file->basename";
 
         // Get pretty name
-        $fileName = getPrettyName($file->basename, $file->name, $file->mimetype);
+        $fileName = getPrettyName($file);
 
         // Check if file exist
-        if (! Storage::exists($filePath)) {
-            return response('The file not found.', 404);
-        }
+        abort_if(Storage::missing($filePath), 404, 'The file not found.');
 
         // Format response header
         $header = [

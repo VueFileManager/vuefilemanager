@@ -728,25 +728,20 @@ if (! function_exists('get_file_type_from_mimetype')) {
 if (! function_exists('getPrettyName')) {
     /**
      * Format pretty name file
-     *
-     * @param $basename
-     * @param $name
-     * @param $mimetype
-     * @return string
      */
-    function getPrettyName($basename, $name, $mimetype): string
+    function getPrettyName(File $file): string
     {
-        $file_extension = substr(strrchr($basename, '.'), 1);
+        $file_extension = substr(strrchr($file->basename, '.'), 1);
 
-        if (str_contains($name, $file_extension)) {
-            return $name;
+        if (str_contains($file->name, $file_extension)) {
+            return $file->name;
         }
 
         if ($file_extension) {
-            return $name . '.' . $file_extension;
+            return $file->name . '.' . $file_extension;
         }
 
-        return $name . '.' . $mimetype;
+        return $file->name . '.' . $file->mimetype;
     }
 }
 

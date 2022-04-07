@@ -58,17 +58,24 @@ class SharePublicIndexController extends Controller
     /**
      * Get image from storage and show it
      */
-    private function get_single_image(File $file, string $user_id): StreamedResponse
+    private function get_single_image(File $file, string $userId): StreamedResponse|RedirectResponse
     {
-        // Store user download size
-        ($this->recordDownload)($file->getRawOriginal('filesize'), $user_id);
+        // Record user download
+        ($this->recordDownload)($file->filesize, $userId);
 
         // Get file path
-        $path = "/files/$user_id/$file->basename";
+        $path = "/files/$userId/$file->basename";
 
         // Check if file exist
-        if (! Storage::exists($path)) {
-            abort(404);
+        abort_if(Storage::missing($path), 404);
+
+        // If s3 redirect to temporary download url
+        if (isStorageDriver('s3')) {
+            return redirect()->away(Storage::temporaryUrl($path, now()->addHour(), [
+                'ResponseAcceptRanges'       => 'bytes',
+                'ResponseContentType'        => Storage::mimeType($path),
+                'ResponseContentLength'      => Storage::size($path),
+            ]));
         }
 
         return Storage::response($path, "{$file->name}.{$file->mimetype}", [
