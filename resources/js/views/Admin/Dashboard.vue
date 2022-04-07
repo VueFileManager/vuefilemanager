@@ -1,57 +1,10 @@
 <template>
     <div>
         <div id="page-content" v-if="!isLoading && data">
-            <!--Headline-->
-            <div v-if="config.isAdminVueFileManagerBar" class="mb-4 hidden justify-between items-center md:mb-6 md:block md:flex">
-                <!--VueFileManager logo-->
-                <a href="https://vuefilemanager.com" target="_blank">
-                    <img
-                        :src="isDarkMode ? '/assets/images/vuefilemanager-horizontal-logo-dark.svg' : '/assets/images/vuefilemanager-horizontal-logo.svg'"
-                        alt="VueFileManager"
-                        class="light-mode"
-                    />
-                </a>
 
-                <!--App Info-->
-                <div class="mt-4 flex items-center md:mt-0">
-                    <a
-                        href="https://gist.github.com/MakingCG/9c07f8af392081ae5d5290d920a79b5d"
-                        target="_blank"
-                        class="mr-4 inline-block"
-                    >
-                        <span class="text-sm font-bold"> {{ $t('version') }}: </span>
-                        <ColorLabel color="purple">
-                            {{ data.app.version }}
-                        </ColorLabel>
-                    </a>
-                    <a
-                        href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986"
-                        target="_blank"
-                        class="mr-4 inline-block"
-                    >
-                        <span class="text-sm font-bold"> {{ $t('license') }}: </span>
-                        <ColorLabel color="purple">
-                            {{ data.app.license }}
-                        </ColorLabel>
-                    </a>
-                    <b v-if="data.app.license === 'extended'" class="mr-4 inline-block">
-                        <span class="text-sm font-bold"> {{ $t('subscription') }}: </span>
-                        <ColorLabel color="purple">
-                            {{ config.subscriptionType }}
-                        </ColorLabel>
-                    </b>
-                    <a
-                        href="https://bit.ly/VueFileManager-survey"
-                        target="_blank"
-                        class="bg-theme-100 ml-8 inline-block hidden items-center rounded-lg py-1.5 px-3 md:flex lg:ml-4"
-                    >
-                        <thumbs-up-icon size="15" class="vue-feather text-theme mr-2.5" />
-                        <span class="text-theme text-sm font-bold">
-                            {{ $t('write_feedback') }}
-                        </span>
-                    </a>
-                </div>
-            </div>
+            <!--Headline-->
+            <AppSpecification v-if="config.isAdminVueFileManagerBar" :data="data" class="hidden lg:flex" />
+            <AppSpecification v-if="config.isAdminVueFileManagerBar" :data="data" class="card shadow-card lg:hidden" />
 
             <!--Create metered plan alert-->
 			<AlertBox v-if="config.subscriptionType === 'metered' && config.isEmptyPlans" color="rose">
@@ -178,33 +131,30 @@
 
 <script>
 import WidgetLatestRegistrations from '../../components/Admin/WidgetLatestRegistrations'
-import ColorLabel from '../../components/Others/ColorLabel'
-import {AlertOctagonIcon, ChevronRightIcon, ThumbsUpIcon} from 'vue-feather-icons'
+import {ChevronRightIcon} from 'vue-feather-icons'
 import Spinner from '../../components/FilesView/Spinner'
 import FormLabel from '../../components/Others/Forms/FormLabel'
 import BarChart from '../../components/UI/BarChart'
 import {mapGetters} from 'vuex'
 import axios from 'axios'
 import WidgetLatestTransactions from '../../components/Admin/WidgetLatestTransactions'
-import {events} from "../../bus";
 import AlertBox from "../../components/Admin/AlertBox";
+import AppSpecification from "../../components/Admin/AppSpecification";
 
 export default {
     name: 'Dashboard',
     components: {
+		AppSpecification,
 		AlertBox,
         WidgetLatestTransactions,
         WidgetLatestRegistrations,
         ChevronRightIcon,
-        AlertOctagonIcon,
-        ThumbsUpIcon,
-        ColorLabel,
         FormLabel,
         BarChart,
         Spinner,
     },
     computed: {
-        ...mapGetters(['config', 'isDarkMode']),
+        ...mapGetters(['config']),
     },
     data() {
         return {

@@ -117,4 +117,13 @@ class UpgradingVersionsController
 
         Artisan::call('cache:clear');
     }
+
+    public function upgrade_to_2_0_16(): void
+    {
+        ($this->updateLanguageStrings)([
+            'write_feedback'      => 'Help Us Improve',
+        ]);
+
+        Artisan::call('cache:clear');
+    }
 }
