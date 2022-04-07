@@ -1,5 +1,5 @@
 <template>
-    <div id="single-page">
+    <div>
         <div id="page-content" v-if="!isLoading && data">
             <!--Headline-->
             <div v-if="config.isAdminVueFileManagerBar" class="mb-4 hidden justify-between items-center md:mb-6 md:block md:flex">
@@ -187,7 +187,7 @@ import {mapGetters} from 'vuex'
 import axios from 'axios'
 import WidgetLatestTransactions from '../../components/Admin/WidgetLatestTransactions'
 import {events} from "../../bus";
-import AlertBox from "./AlertBox";
+import AlertBox from "../../components/Admin/AlertBox";
 
 export default {
     name: 'Dashboard',

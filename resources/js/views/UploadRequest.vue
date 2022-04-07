@@ -1,5 +1,5 @@
 <template>
-    <div class="lg:flex lg:h-screen lg:overflow-hidden w-full">
+    <div class="lg:flex h-screen lg:overflow-hidden w-full">
         <!--On Top of App Components-->
         <FilePreview />
         <Spotlight />

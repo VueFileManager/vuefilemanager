@@ -80,7 +80,7 @@
             </div>
 
             <!--Content-->
-            <div class="dynamic-content">
+            <div class="dynamic-content w-full">
                 <Spinner v-if="!selectedLanguage" class="spinner" />
 
                 <div v-if="selectedLanguage">
@@ -240,7 +240,8 @@ export default {
                 return !string.toLowerCase().includes(val.toLowerCase())
             })
 
-            var container = document.getElementById('single-page')
+			// todo: fix container
+            let container = document.getElementById('single-page')
 
             container.scrollTop = 0
         }, 300),
