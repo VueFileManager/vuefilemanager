@@ -99,7 +99,12 @@
         </FileActionsMobile>
 
         <EmptyFilePage>
-            <h1 class="title">{{ $t('shared.empty_shared') }}</h1>
+            <h1 class="title">
+				{{ $t('shared.empty_shared') }}
+			</h1>
+			<p class="description">
+                {{ $t('shared.empty_shared_desc') }}
+            </p>
         </EmptyFilePage>
 
         <FileBrowser />

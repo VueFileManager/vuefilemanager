@@ -86,6 +86,9 @@
 
         <EmptyFilePage>
             <h1 class="title">{{ $t('your_trash_is_empty') }}</h1>
+			<p class="description">
+				{{ $t('your_trash_is_empty_desc') }}
+			</p>
         </EmptyFilePage>
 
         <FileBrowser />
