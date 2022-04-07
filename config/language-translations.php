@@ -707,7 +707,7 @@ return [
         'register_with_email_and_get_folder'             => 'Register account with your email {email} and get access to this Team Folder.',
         'invite_to_join_team_folder'                     => 'Invitation To Join Team Folder',
         'or_decline_your_invitation'                     => 'Or {0} your invitation.',
-        'decline'                                        => 'decline',
+        'decline'                                        => 'Decline',
         'you_are_successfully_joined'                    => 'You are successfully joined',
         'proceed_to_participate_with_team'               => 'You can now proceed to your account and participate in team folder',
         'proceed_to_your_account'                        => 'Proceed to your account',

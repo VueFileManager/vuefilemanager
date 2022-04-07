@@ -49,20 +49,22 @@
             <div v-if="action && action.type === 'invitation'" class="flex items-center space-x-3 mt-4">
                 <div
 					@click="acceptAction"
-                    class="flex cursor-pointer items-center rounded-xl py-1.5 px-2 transition-colors hover:bg-green-100 dark:hover:bg-green-900"
+                    class="relative flex cursor-pointer items-center rounded-xl py-1.5 px-2 transition-colors bg-green-100 dark:bg-green-900"
                 >
-                    <check-icon size="16" class="vue-feather mr-2 text-green-600 dark:text-green-600" />
-                    <span class="text-sm font-bold text-green-600 dark:text-green-600">
+					<refresh-cw-icon v-if="isAccepting" size="16" class="animate-spin left-0 right-0 mx-auto vue-feather text-green-600 dark:text-green-600 absolute justify-center" />
+                    <check-icon size="16" class="vue-feather mr-1 text-green-600 dark:text-green-600" :class="{'opacity-0': isAccepting}" />
+                    <span class="text-sm font-bold text-green-600 dark:text-green-600" :class="{'opacity-0': isAccepting}">
                         {{ $t('accept') }}
                     </span>
                 </div>
 
                 <div
 					@click="declineAction"
-                    class="flex cursor-pointer items-center rounded-xl py-1.5 px-2 transition-colors hover:bg-rose-100 dark:hover:bg-rose-900"
+                    class="relative flex cursor-pointer items-center rounded-xl py-1.5 px-2 transition-colors bg-rose-100 dark:bg-rose-900"
                 >
-                    <x-icon size="16" class="vue-feather mr-2 text-rose-600 dark:text-rose-600" />
-                    <span class="text-sm font-bold text-rose-600 dark:text-rose-600">
+					<refresh-cw-icon v-if="isDeclining" size="16" class="animate-spin left-0 right-0 mx-auto vue-feather text-rose-600 dark:text-rose-600 absolute justify-center" />
+                    <x-icon size="16" class="vue-feather mr-1 text-rose-600 dark:text-rose-600" :class="{'opacity-0': isDeclining}" />
+                    <span class="text-sm font-bold text-rose-600 dark:text-rose-600 capitalize" :class="{'opacity-0': isDeclining}">
                         {{ $t('decline') }}
                     </span>
                 </div>
@@ -84,7 +86,7 @@
     </article>
 </template>
 <script>
-import { TrendingUpIcon, GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from 'vue-feather-icons'
+import { RefreshCwIcon, TrendingUpIcon, GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from 'vue-feather-icons'
 import MemberAvatar from '../FilesView/MemberAvatar'
 import {events} from "../../bus";
 
@@ -97,6 +99,7 @@ export default {
         ChevronRightIcon,
         UploadCloudIcon,
 		TrendingUpIcon,
+		RefreshCwIcon,
         UserPlusIcon,
         CheckIcon,
 		GiftIcon,
@@ -110,11 +113,15 @@ export default {
     },
 	data() {
 		return {
-			isUnread: false
+			isUnread: false,
+			isAccepting: false,
+			isDeclining: false,
 		}
 	},
     methods: {
 		acceptAction() {
+			this.isAccepting = true
+
 			axios.put(`/api/teams/invitations/${this.notification.data.attributes.action.params.id}`)
 				.then(() => {
 					this.$store.commit('CLEAR_NOTIFICATION_ACTION_DATA', this.notification.data.id)
@@ -124,8 +131,11 @@ export default {
 						message: this.$t('you_accepted_invitation'),
 					})
 				})
+				.finally(() => this.isAccepting = false)
 		},
 		declineAction() {
+			this.isDeclining = true
+
 			axios.delete(`/api/teams/invitations/${this.notification.data.attributes.action.params.id}`)
 				.then(() => {
 					this.$store.commit('CLEAR_NOTIFICATION_ACTION_DATA', this.notification.data.id)
@@ -135,6 +145,7 @@ export default {
 						message: this.$t('you_decline_invitation'),
 					})
 				})
+				.finally(() => this.isDeclining = false)
 		},
         closeCenter() {
             this.$store.commit('CLOSE_NOTIFICATION_CENTER')
