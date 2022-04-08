@@ -121,9 +121,10 @@ class UpgradingVersionsController
     public function upgrade_to_2_0_16(): void
     {
         ($this->updateLanguageStrings)([
-            'write_feedback'      => 'Help Us Improve',
-            'change_password'     => 'Security & API',
-            'shared.empty_shared' => "Nothing Shared Yet",
+            'write_feedback'                        => 'Help Us Improve',
+            'change_password'                       => 'Security & API',
+            'shared.empty_shared'                   => 'Nothing Shared Yet',
+            'admin_settings.others.default_storage' => 'Default Storage Space for User Accounts (in GB)',
         ]);
 
         Artisan::call('cache:clear');

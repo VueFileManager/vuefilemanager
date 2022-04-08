@@ -5,6 +5,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
 use Support\Scheduler\Actions\ReportUsageAction;
+use Support\Upgrading\Actions\UpdateSystemAction;
 use Support\Demo\Actions\ClearHowdyDemoDataAction;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -12,7 +13,6 @@ use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
 use App\Console\Commands\GenerateDemoSubscriptionContentCommand;
 use Support\Scheduler\Actions\ExpireUnfilledUploadRequestAction;
-use Support\Upgrading\Actions\UpdateSystemAction;
 
 class Kernel extends ConsoleKernel
 {

@@ -1,3 +1,8 @@
+## Version 2.0.16
+#### Release date: 8. April 2022
+- Test mailgun connection before storing your credentials into the app
+- UI enhancements & fixes
+
 ## Version 2.0.15
 #### Release date: 6. April 2022
 - Wasabi region list updated

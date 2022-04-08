@@ -2,7 +2,6 @@
 namespace Support\Demo\Actions;
 
 use ByteUnits\Metric;
-use Domain\Sharing\Resources\ShareResource;
 use Illuminate\Support\Str;
 use Domain\Files\Requests\UploadRequest;
 

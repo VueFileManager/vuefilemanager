@@ -1,23 +1,21 @@
 <?php
 namespace Domain\SetupWizard\Controllers;
 
-use Mail;
 use Artisan;
-use Illuminate\Http\Response;
-use Aws\S3\Exception\S3Exception;
-use Domain\Settings\Mail\TestMail;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use League\Flysystem\UnableToWriteFile;
 use Domain\Settings\DTO\S3CredentialsData;
 use Domain\Settings\Actions\TestS3ConnectionAction;
-use Symfony\Component\Mailer\Exception\LogicException;
-use Symfony\Component\Mailer\Exception\TransportException;
+use Domain\Settings\Actions\TestSMTPConnectionAction;
+use Domain\Settings\Actions\TestMailgunConnectionAction;
 use Domain\SetupWizard\Requests\StoreEnvironmentSetupRequest;
 
 class StoreEnvironmentSettingsController extends Controller
 {
     public function __construct(
         private TestS3ConnectionAction $testS3Connection,
+        private TestSMTPConnectionAction $testSMTPConnection,
+        private TestMailgunConnectionAction $testMailgunConnection,
     ) {
     }
 
@@ -26,54 +24,29 @@ class StoreEnvironmentSettingsController extends Controller
      */
     public function __invoke(
         StoreEnvironmentSetupRequest $request,
-    ): Response {
+    ): JsonResponse {
         if (! app()->runningUnitTests()) {
             // Test s3 credentials
             if ($request->input('storage.driver') !== 'local') {
-                try {
-                    // connect to the s3
-                    ($this->testS3Connection)(S3CredentialsData::fromRequest($request));
-                } catch (S3Exception | UnableToWriteFile $error) {
-                    return response([
-                        'type'    => 's3-connection-error',
-                        'title'   => 'S3 Connection Error',
-                        'message' => $error->getMessage(),
-                    ], 401);
-                }
+                ($this->testS3Connection)(S3CredentialsData::fromRequest($request));
             }
 
-            // Test smtp server
-            if ($request->input('mailDriver') === 'smtp') {
-                try {
-                    // Get credentials
-                    $credentials = [
-                        'smtp' => [
-                            'driver'       => 'smtp',
-                            'host'         => $request->input('smtp.host'),
-                            'port'         => $request->input('smtp.port'),
-                            'username'     => $request->input('smtp.username'),
-                            'password'     => $request->input('smtp.password'),
-                            'encryption'   => $request->input('smtp.encryption') ?? '',
-                            'from.address' => $request->input('smtp.email') ?? $request->input('smtp.username'),
-                            'from.name'    => $request->input('smtp.email') ?? $request->input('smtp.username'),
-                        ],
-                    ];
-
-                    // Set temporary mail connection
-                    config(['mail' => $credentials['smtp']]);
-
-                    $sender = $request->input('smtp.email') ?? $request->input('smtp.username');
-
-                    // Send test email
-                    Mail::to('test@hi5ve.digital')->send(new TestMail($sender));
-                } catch (TransportException|LogicException $error) {
-                    return response([
-                        'type'    => 'mailer-connection-error',
-                        'title'   => 'Mail Connection Error',
-                        'message' => $error->getMessage(),
-                    ], 401);
-                }
-            }
+            // Test email connection
+            match ($request->input('mailDriver')) {
+                'smtp' => ($this->testSMTPConnection)([
+                    'host'       => $request->input('smtp.host'),
+                    'port'       => $request->input('smtp.port'),
+                    'username'   => $request->input('smtp.username'),
+                    'password'   => $request->input('smtp.password'),
+                    'encryption' => $request->input('smtp.encryption') ?? '',
+                    'email'      => $request->input('smtp.email'),
+                ]),
+                'mailgun' => ($this->testMailgunConnection)([
+                    'domain'   => $request->input('mailgun.domain'),
+                    'secret'   => $request->input('mailgun.secret'),
+                    'endpoint' => $request->input('mailgun.endpoint'),
+                ]),
+            };
 
             $setup = [
                 'broadcasting' => [
@@ -118,7 +91,7 @@ class StoreEnvironmentSettingsController extends Controller
                         'MAIL_DRIVER'    => 'postmark',
                         'POSTMARK_TOKEN' => $request->input('postmark.token'),
                     ],
-                    'smtp' => [
+                    'smtp'     => [
                         'MAIL_DRIVER'       => 'smtp',
                         'MAIL_HOST'         => $request->input('smtp.host'),
                         'MAIL_PORT'         => $request->input('smtp.port'),
@@ -174,6 +147,6 @@ class StoreEnvironmentSettingsController extends Controller
             Artisan::call('config:cache');
         }
 
-        return response('Done', 204);
+        return response()->json('Done', 204);
     }
 }

@@ -1,57 +1,45 @@
 <?php
 namespace Domain\Settings\Controllers;
 
-use Mail;
 use Artisan;
-use Illuminate\Http\Response;
-use Domain\Settings\Mail\TestMail;
-use Symfony\Component\Mailer\Exception\LogicException;
+use Illuminate\Http\JsonResponse;
+use Domain\Settings\Actions\TestSMTPConnectionAction;
+use Domain\Settings\Actions\TestMailgunConnectionAction;
 use Domain\Settings\Requests\StoreEmailCredentialsRequest;
-use Symfony\Component\Mailer\Exception\TransportException;
 
 class StoreEmailCredentialsController
 {
+    public function __construct(
+        private TestMailgunConnectionAction $testMailgunConnection,
+        private TestSMTPConnectionAction $testSMTPConnection,
+    ) {
+    }
+
     /**
      * Set new email credentials to .env file
      */
-    public function __invoke(StoreEmailCredentialsRequest $request): Response
+    public function __invoke(StoreEmailCredentialsRequest $request): JsonResponse
     {
         // Abort in demo mode
         abort_if(is_demo(), 204, 'Done.');
 
         if (! app()->runningUnitTests()) {
-            // Test smtp server
-            if ($request->input('mailDriver') === 'smtp') {
-                try {
-                    // Get credentials
-                    $credentials = [
-                        'smtp' => [
-                            'driver'       => 'smtp',
-                            'host'         => $request->input('smtp.host'),
-                            'port'         => $request->input('smtp.port'),
-                            'username'     => $request->input('smtp.username'),
-                            'password'     => $request->input('smtp.password'),
-                            'encryption'   => $request->input('smtp.encryption') ?? '',
-                            'from.address' => $request->input('smtp.email') ?? $request->input('smtp.username'),
-                            'from.name'    => $request->input('smtp.email') ?? $request->input('smtp.username'),
-                        ],
-                    ];
-
-                    // Set temporary mail connection
-                    config(['mail' => $credentials['smtp']]);
-
-                    $sender = $request->input('smtp.email') ?? $request->input('smtp.username');
-
-                    // Send test email
-                    Mail::to('test@hi5ve.digital')->send(new TestMail($sender));
-                } catch (TransportException|LogicException $error) {
-                    return response([
-                        'type'    => 'mailer-connection-error',
-                        'title'   => 'Mail Connection Error',
-                        'message' => $error->getMessage(),
-                    ], 401);
-                }
-            }
+            // Test email connection
+            match ($request->input('mailDriver')) {
+                'smtp' => ($this->testSMTPConnection)([
+                    'host'       => $request->input('smtp.host'),
+                    'port'       => $request->input('smtp.port'),
+                    'username'   => $request->input('smtp.username'),
+                    'password'   => $request->input('smtp.password'),
+                    'encryption' => $request->input('smtp.encryption') ?? '',
+                    'email'      => $request->input('smtp.email'),
+                ]),
+                'mailgun' => ($this->testMailgunConnection)([
+                    'domain'   => $request->input('mailgun.domain'),
+                    'secret'   => $request->input('mailgun.secret'),
+                    'endpoint' => $request->input('mailgun.endpoint'),
+                ]),
+            };
 
             $mail = [
                 'log'      => [
@@ -61,7 +49,7 @@ class StoreEmailCredentialsController
                     'MAIL_DRIVER'    => 'postmark',
                     'POSTMARK_TOKEN' => $request->input('postmark.token'),
                 ],
-                'smtp' => [
+                'smtp'     => [
                     'MAIL_DRIVER'       => 'smtp',
                     'MAIL_HOST'         => $request->input('smtp.host'),
                     'MAIL_PORT'         => $request->input('smtp.port'),
@@ -96,6 +84,6 @@ class StoreEmailCredentialsController
             Artisan::call('config:cache');
         }
 
-        return response('Done', 204);
+        return response()->json('Done', 204);
     }
 }

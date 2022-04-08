@@ -306,13 +306,12 @@
                             v-slot="{ errors }"
                         >
                             <AppInputText title="Endpoint" :error="errors[0]" :is-last="true">
-                                <input
-                                    class="focus-border-theme input-dark"
-                                    v-model="mailgun.endpoint"
-                                    placeholder="Type your endpoint"
-                                    type="text"
-                                    :class="{ '!border-rose-600': errors[0] }"
-                                />
+								<SelectInput
+									v-model="mailgun.endpoint"
+									:options="mailgunRegions"
+									placeholder="Select your endpoint"
+									:isError="errors[0]"
+								/>
                             </AppInputText>
                         </ValidationProvider>
                     </div>
@@ -937,6 +936,16 @@ export default {
 				{
 					label: 'None',
 					value: 'none',
+				},
+			],
+			mailgunRegions: [
+				{
+					label: 'US Endpoint (api.mailgun.net)',
+					value: 'api.mailgun.net',
+				},
+				{
+					label: 'EU Endpoint (api.eu.mailgun.net)',
+					value: 'api.eu.mailgun.net',
 				},
 			],
 			pusherClusters: [
