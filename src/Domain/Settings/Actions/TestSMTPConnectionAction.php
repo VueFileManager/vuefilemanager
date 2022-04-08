@@ -30,10 +30,11 @@ class TestSMTPConnectionAction
                 ],
             ]]);
 
+            // Get sender
             $sender = $credentials['email'] ?? $credentials['username'];
 
             // Send test email
-            Mail::to('test@hi5ve.digital')->send(new TestMail($sender));
+            Mail::to($sender)->send(new TestMail($sender));
         } catch (TransportException | LogicException $error) {
             abort(
                 response()->json([

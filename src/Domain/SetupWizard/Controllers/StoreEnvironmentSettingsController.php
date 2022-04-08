@@ -8,6 +8,7 @@ use Domain\Settings\DTO\S3CredentialsData;
 use Domain\Settings\Actions\TestS3ConnectionAction;
 use Domain\Settings\Actions\TestSMTPConnectionAction;
 use Domain\Settings\Actions\TestMailgunConnectionAction;
+use Domain\Settings\Actions\TestPostmarkConnectionAction;
 use Domain\SetupWizard\Requests\StoreEnvironmentSetupRequest;
 
 class StoreEnvironmentSettingsController extends Controller
@@ -16,6 +17,7 @@ class StoreEnvironmentSettingsController extends Controller
         private TestS3ConnectionAction $testS3Connection,
         private TestSMTPConnectionAction $testSMTPConnection,
         private TestMailgunConnectionAction $testMailgunConnection,
+        private TestPostmarkConnectionAction $testPostmarkConnection,
     ) {
     }
 
@@ -45,6 +47,11 @@ class StoreEnvironmentSettingsController extends Controller
                     'domain'   => $request->input('mailgun.domain'),
                     'secret'   => $request->input('mailgun.secret'),
                     'endpoint' => $request->input('mailgun.endpoint'),
+                    'sender'   => $request->input('mailgun.sender'),
+                ]),
+                'postmark' => ($this->testPostmarkConnection)([
+                    'token'  => $request->input('postmark.token'),
+                    'sender' => $request->input('postmark.sender'),
                 ]),
             };
 
@@ -85,11 +92,13 @@ class StoreEnvironmentSettingsController extends Controller
                 ],
                 'mail'         => [
                     'log'      => [
-                        'MAIL_DRIVER' => 'log',
+                        'MAIL_DRIVER'       => 'log',
                     ],
                     'postmark' => [
-                        'MAIL_DRIVER'    => 'postmark',
-                        'POSTMARK_TOKEN' => $request->input('postmark.token'),
+                        'MAIL_DRIVER'       => 'postmark',
+                        'POSTMARK_TOKEN'    => $request->input('postmark.token'),
+                        'MAIL_FROM_ADDRESS' => $request->input('postmark.sender'),
+                        'MAIL_FROM_NAME'    => $request->input('postmark.sender'),
                     ],
                     'smtp'     => [
                         'MAIL_DRIVER'       => 'smtp',
@@ -98,8 +107,8 @@ class StoreEnvironmentSettingsController extends Controller
                         'MAIL_USERNAME'     => $request->input('smtp.username'),
                         'MAIL_PASSWORD'     => $request->input('smtp.password'),
                         'MAIL_ENCRYPTION'   => $request->input('smtp.encryption') ?? '',
-                        'MAIL_FROM_ADDRESS' => $request->input('smtp.email') ?? '"${MAIL_USERNAME}"',
-                        'MAIL_FROM_NAME'    => $request->input('smtp.email') ?? '"${MAIL_USERNAME}"',
+                        'MAIL_FROM_ADDRESS' => $request->input('smtp.email') ?? $request->input('smtp.username'),
+                        'MAIL_FROM_NAME'    => $request->input('smtp.email') ?? $request->input('smtp.username'),
                     ],
                     'ses'      => [
                         'MAIL_DRIVER'           => 'ses',
@@ -109,10 +118,12 @@ class StoreEnvironmentSettingsController extends Controller
                         'AWS_SESSION_TOKEN'     => $request->input('ses.session_token'),
                     ],
                     'mailgun'  => [
-                        'MAIL_DRIVER'      => 'mailgun',
-                        'MAILGUN_DOMAIN'   => $request->input('mailgun.domain'),
-                        'MAILGUN_SECRET'   => $request->input('mailgun.secret'),
-                        'MAILGUN_ENDPOINT' => $request->input('mailgun.endpoint'),
+                        'MAIL_DRIVER'       => 'mailgun',
+                        'MAILGUN_DOMAIN'    => $request->input('mailgun.domain'),
+                        'MAILGUN_SECRET'    => $request->input('mailgun.secret'),
+                        'MAILGUN_ENDPOINT'  => $request->input('mailgun.endpoint'),
+                        'MAIL_FROM_ADDRESS' => $request->input('mailgun.sender'),
+                        'MAIL_FROM_NAME'    => $request->input('mailgun.sender'),
                     ],
                 ],
                 'environment'  => [

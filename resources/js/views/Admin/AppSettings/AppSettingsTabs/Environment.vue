@@ -382,6 +382,18 @@
 						/>
                     </AppInputText>
                 </ValidationProvider>
+
+				<ValidationProvider tag="div" mode="passive" name="Sender" rules="required|email" v-slot="{ errors }">
+                    <AppInputText title="Sender (Email)" :error="errors[0]">
+                        <input
+							class="focus-border-theme input-dark"
+							v-model="mailgun.sender"
+							placeholder="Type your sender email..."
+							type="text"
+							:class="{ '!border-rose-600': errors[0] }"
+						/>
+                    </AppInputText>
+                </ValidationProvider>
             </div>
 
             <div v-if="mailDriver === 'postmark'">
@@ -391,6 +403,18 @@
                             class="focus-border-theme input-dark"
                             v-model="postmark.token"
                             placeholder="Type your token"
+                            type="text"
+                            :class="{ '!border-rose-600': errors[0] }"
+                        />
+                    </AppInputText>
+                </ValidationProvider>
+
+                <ValidationProvider tag="div" mode="passive" name="Sender" rules="required|email" v-slot="{ errors }">
+                    <AppInputText title="Sender Signature (Email)" :error="errors[0]">
+                        <input
+                            class="focus-border-theme input-dark"
+                            v-model="postmark.sender"
+                            placeholder="Type your sender signature..."
                             type="text"
                             :class="{ '!border-rose-600': errors[0] }"
                         />
@@ -902,9 +926,11 @@ export default {
                 domain: undefined,
                 secret: undefined,
                 endpoint: undefined,
+				sender: undefined,
             },
             postmark: {
                 token: undefined,
+				sender: undefined,
             },
 			broadcast: {
 				driver: undefined,

@@ -31,7 +31,7 @@ const defaultState = {
             value: 'postmark',
         },
         {
-            label: 'None (Log)',
+            label: 'None',
             value: 'log',
         },
     ],

@@ -298,6 +298,18 @@
                             </AppInputText>
                         </ValidationProvider>
 
+						<ValidationProvider tag="div" mode="passive" name="Sender" rules="required|email" v-slot="{ errors }">
+							<AppInputText title="Sender (Email)" :error="errors[0]">
+								<input
+									class="focus-border-theme input-dark"
+									v-model="mailgun.sender"
+									placeholder="Type your sender email..."
+									type="text"
+									:class="{ '!border-rose-600': errors[0] }"
+								/>
+							</AppInputText>
+						</ValidationProvider>
+
                         <ValidationProvider
                             tag="div"
                             mode="passive"
@@ -318,7 +330,7 @@
 
                     <div v-if="mailDriver === 'postmark'">
                         <ValidationProvider tag="div" mode="passive" name="Token" rules="required" v-slot="{ errors }">
-                            <AppInputText title="Token" :error="errors[0]" :is-last="true">
+                            <AppInputText title="Token" :error="errors[0]">
                                 <input
                                     class="focus-border-theme input-dark"
                                     v-model="postmark.token"
@@ -328,6 +340,18 @@
                                 />
                             </AppInputText>
                         </ValidationProvider>
+
+						<ValidationProvider tag="div" mode="passive" name="Sender" rules="required|email" v-slot="{ errors }">
+							<AppInputText title="Sender Signature (Email)" :is-last="true" :error="errors[0]">
+								<input
+									class="focus-border-theme input-dark"
+									v-model="postmark.sender"
+									placeholder="Type your sender signature..."
+									type="text"
+									:class="{ '!border-rose-600': errors[0] }"
+								/>
+							</AppInputText>
+						</ValidationProvider>
                     </div>
 
                     <div v-if="mailDriver === 'ses'">
@@ -911,10 +935,12 @@ export default {
                 domain: undefined,
                 secret: undefined,
                 endpoint: undefined,
+				sender: undefined,
             },
             postmark: {
                 token: undefined,
-            },
+				sender: undefined,
+			},
 			broadcast: {
 				driver: undefined,
 				id: undefined,

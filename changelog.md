@@ -1,6 +1,6 @@
 ## Version 2.0.16
 #### Release date: 8. April 2022
-- Test mailgun connection before storing your credentials into the app
+- Test mailgun and postmark connection before storing your credentials into the app
 - UI enhancements & fixes
 
 ## Version 2.0.15
