@@ -3,6 +3,7 @@ namespace Domain\Settings\Controllers;
 
 use Artisan;
 use Illuminate\Http\JsonResponse;
+use Domain\Settings\Actions\TestSESConnectionAction;
 use Domain\Settings\Actions\TestSMTPConnectionAction;
 use Domain\Settings\Actions\TestMailgunConnectionAction;
 use Domain\Settings\Actions\TestPostmarkConnectionAction;
@@ -14,6 +15,7 @@ class StoreEmailCredentialsController
         private TestPostmarkConnectionAction $testPostmarkConnection,
         private TestMailgunConnectionAction $testMailgunConnection,
         private TestSMTPConnectionAction $testSMTPConnection,
+        private TestSESConnectionAction $testSESConnection,
     ) {
     }
 
@@ -46,11 +48,18 @@ class StoreEmailCredentialsController
                     'token'  => $request->input('postmark.token'),
                     'sender' => $request->input('postmark.sender'),
                 ]),
+                'ses' => ($this->testSESConnection)([
+                    'access_key'        => $request->input('ses.access_key'),
+                    'secret_access_key' => $request->input('ses.secret_access_key'),
+                    'default_region'    => $request->input('ses.default_region'),
+                    'session_token'     => $request->input('ses.session_token'),
+                    'identity'          => $request->input('ses.sender'),
+                ]),
             };
 
             $mail = [
                 'log'      => [
-                    'MAIL_DRIVER'       => 'log',
+                    'MAIL_DRIVER' => 'log',
                 ],
                 'postmark' => [
                     'MAIL_DRIVER'       => 'postmark',
@@ -74,6 +83,8 @@ class StoreEmailCredentialsController
                     'AWS_SECRET_ACCESS_KEY' => $request->input('ses.secret_access_key'),
                     'AWS_DEFAULT_REGION'    => $request->input('ses.default_region'),
                     'AWS_SESSION_TOKEN'     => $request->input('ses.session_token'),
+                    'MAIL_FROM_ADDRESS'     => $request->input('ses.sender'),
+                    'MAIL_FROM_NAME'        => $request->input('ses.sender'),
                 ],
                 'mailgun'  => [
                     'MAIL_DRIVER'       => 'mailgun',

@@ -398,16 +398,27 @@
                             rules="required"
                             v-slot="{ errors }"
                         >
-                            <AppInputText title="Default Region" :error="errors[0]">
-                                <input
-                                    class="focus-border-theme input-dark"
-                                    v-model="ses.default_region"
-                                    placeholder="Type your default region"
-                                    type="text"
-                                    :class="{ '!border-rose-600': errors[0] }"
-                                />
+                            <AppInputText title="Region" :error="errors[0]">
+								<SelectInput
+									v-model="ses.default_region"
+									:options="s3Regions"
+									placeholder="Select your region"
+									:isError="errors[0]"
+								/>
                             </AppInputText>
                         </ValidationProvider>
+
+						<ValidationProvider tag="div" mode="passive" name="Sender" rules="required|email" v-slot="{ errors }">
+							<AppInputText title="Identity (Email)" :error="errors[0]">
+								<input
+									class="focus-border-theme input-dark"
+									v-model="ses.sender"
+									placeholder="Type your identity email..."
+									type="text"
+									:class="{ '!border-rose-600': errors[0] }"
+								/>
+							</AppInputText>
+						</ValidationProvider>
 
                         <ValidationProvider tag="div" mode="passive" name="Session Token" v-slot="{ errors }">
                             <AppInputText title="Session Token (optional)" :error="errors[0]" :is-last="true">
@@ -922,7 +933,8 @@ export default {
                 secret_access_key: undefined,
                 default_region: undefined,
                 session_token: undefined,
-            },
+				sender: undefined,
+			},
             smtp: {
                 host: undefined,
                 port: undefined,
