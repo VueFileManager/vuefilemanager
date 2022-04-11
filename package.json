@@ -32,7 +32,7 @@
         "@paypal/paypal-js": "^4.2.2",
         "@stripe/stripe-js": "^1.26.0",
         "lodash": "^4.17.21",
-        "node-sass": "^4.14.1",
+        "node-sass": "^7.0.0",
         "pdfvuer": "^1.9.2",
         "tailwind-scrollbar-hide": "^1.1.7",
         "twemoji": "^13.1.1",
