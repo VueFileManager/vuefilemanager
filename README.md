@@ -90,6 +90,10 @@ That was the hardest part of installation process. Please follow instructions in
 ```
 php replace_by_your_path/artisan schedule:run >> /dev/null 2>&1
 ```
+6. If you have multiple php versions installed on your server, you should specify php path to the latest php version (8+). So, you should edit `php` in command above and replace it by path. For Example:
+```
+/usr/bin/php8.1/php replace_by_your_path/artisan schedule:run >> /dev/null 2>&1
+```
 
 #### If you are running VueFileManager on linux server
 1. Search the absolute directory path where you uploaded VueFileManager files (like `/www/project_files`). The path must start with `/`.

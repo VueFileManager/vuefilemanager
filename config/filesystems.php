@@ -46,5 +46,11 @@ return [
             'bucket'   => env('S3_BUCKET'),
             'endpoint' => env('S3_URL'),
         ],
+        'ftp' => [
+            'driver' => 'ftp',
+            'host' => env('FTP_HOST'),
+            'username' => env('FTP_USERNAME'),
+            'password' => env('FTP_PASSWORD'),
+        ],
     ],
 ];

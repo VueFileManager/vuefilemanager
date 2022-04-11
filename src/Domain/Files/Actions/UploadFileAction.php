@@ -15,10 +15,11 @@ class UploadFileAction
 {
     public function __construct(
         public RecordUploadAction $recordUpload,
-        public ProcessImageThumbnailAction $createImageThumbnail,
         public GetFileParentId $getFileParentId,
-        public MoveFileToExternalStorageAction $moveFileToExternalStorage,
         public StoreFileExifMetadataAction $storeExifMetadata,
+        public MoveFileToFTPStorageAction $moveFileToFTPStorage,
+        public ProcessImageThumbnailAction $createImageThumbnail,
+        public MoveFileToExternalStorageAction $moveFileToExternalStorage,
     ) {
     }
 
@@ -82,9 +83,10 @@ class UploadFileAction
             ($this->createImageThumbnail)($fileName, $file, $user->id);
 
             // Move files to external storage
-            if (! isStorageDriver('local')) {
-                ($this->moveFileToExternalStorage)($fileName, $user->id);
-            }
+            match (config('filesystems.default')) {
+                's3' => ($this->moveFileToExternalStorage)($fileName, $user->id),
+                'ftp' => ($this->moveFileToFTPStorage)($fileName, $user->id),
+            };
 
             // Create new file
             $item = UserFile::create([

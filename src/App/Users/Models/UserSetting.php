@@ -42,7 +42,7 @@ class UserSetting extends Model
         $link = [];
 
         // Get avatar from external storage
-        if ($this->attributes['avatar'] && ! isStorageDriver('local')) {
+        if ($this->attributes['avatar'] && isStorageDriver('s3')) {
             foreach (config('vuefilemanager.avatar_sizes') as $item) {
                 $filePath = "avatars/{$item['name']}-{$this->attributes['avatar']}";
 

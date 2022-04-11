@@ -48,6 +48,11 @@ class ZipAction
 
                     $zip->add("s3://$bucketName/$filePath", $file->name);
                 }
+
+                // ftp client
+                if (isStorageDriver('ftp')) {
+                    $zip->addRaw(Storage::get($filePath), $file->name);
+                }
             }
         });
 
@@ -79,11 +84,14 @@ class ZipAction
                         $zip->add(Storage::path($filePath), $zipDestination);
                     }
 
-                    // s3 client
                     if (isStorageDriver('s3')) {
                         $bucketName = config('filesystems.disks.s3.bucket');
 
                         $zip->add("s3://$bucketName/$filePath", $zipDestination);
+                    }
+
+                    if (isStorageDriver('ftp')) {
+                        $zip->addRaw(Storage::get($filePath), $zipDestination);
                     }
                 }
             }

@@ -272,10 +272,8 @@ if (! function_exists('get_storage')) {
 if (! function_exists('isStorageDriver')) {
     /**
      * Check if is running AWS s3 as storage
-     *
-     * @return bool
      */
-    function isStorageDriver($driver)
+    function isStorageDriver(string|array $driver): bool
     {
         if (is_array($driver)) {
             return in_array(config('filesystems.default'), $driver);
