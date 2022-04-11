@@ -101,7 +101,7 @@ class File extends Model
             ->all();
 
         // Generate thumbnail link for external storage service
-        if ($this->type === 'image' && isStorageDriver('s3')) {
+        if ($this->type === 'image' && isStorageDriver(['s3', 'azure'])) {
             foreach ($thumbnail_sizes as $item) {
                 $filePath = "files/{$this->user_id}/{$item['name']}-{$this->basename}";
 
