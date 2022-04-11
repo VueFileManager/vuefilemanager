@@ -118,129 +118,14 @@
 			tag="form"
 			class="card shadow-card"
 		>
-			<FormLabel icon="hard-drive">
-				{{ $t('storage_driver') }}
-			</FormLabel>
-
-			<ValidationProvider
-				tag="div"
-				mode="passive"
-				name="Storage Service"
-				rules="required"
-				v-slot="{ errors }"
-			>
-				<AppInputText title="Storage Service" :error="errors[0]">
-					<SelectInput
-						v-model="storage.driver"
-						:options="storageServiceList"
-						placeholder="Select your storage service"
-						:isError="errors[0]"
-					/>
-				</AppInputText>
-			</ValidationProvider>
-
-			<div v-if="storage.driver !== 'local' && storage.driver">
-				<ValidationProvider tag="div" mode="passive" name="Key" rules="required" v-slot="{ errors }">
-					<AppInputText title="Key" :error="errors[0]">
-						<input
-							class="focus-border-theme input-dark"
-							v-model="storage.key"
-							placeholder="Paste your key"
-							type="text"
-							:class="{ '!border-rose-600': errors[0] }"
-						/>
-					</AppInputText>
-				</ValidationProvider>
-
-				<ValidationProvider tag="div" mode="passive" name="Secret" rules="required" v-slot="{ errors }">
-					<AppInputText title="Secret" :error="errors[0]">
-						<input
-							class="focus-border-theme input-dark"
-							v-model="storage.secret"
-							placeholder="Paste your secret"
-							type="text"
-							:class="{ '!border-rose-600': errors[0] }"
-						/>
-					</AppInputText>
-				</ValidationProvider>
-
-				<!--List Region-->
-				<ValidationProvider v-if="storage.driver !== 'other'" tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
-					<AppInputText
-						title="Region"
-						description="Select your region where is your bucket created."
-						:error="errors[0]"
-					>
-						<SelectInput
-							v-model="storage.region"
-							:options="regionList"
-							:default="storage.region"
-							placeholder="Select your region"
-							:isError="errors[0]"
-						/>
-					</AppInputText>
-				</ValidationProvider>
-
-				<!--Input Region-->
-				<ValidationProvider v-if="storage.driver === 'other'" tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
-					<AppInputText
-						title="Region"
-						description="Type your region where is your bucket created."
-						:error="errors[0]"
-					>
-						<input
-							class="focus-border-theme input-dark"
-							v-model="storage.region"
-							placeholder="Type your region"
-							type="text"
-							:class="{ '!border-rose-600': errors[0] }"
-							:readonly="storage.driver !== 'other'"
-						/>
-					</AppInputText>
-				</ValidationProvider>
-
-				<ValidationProvider
-					tag="div"
-					mode="passive"
-					name="Endpoint"
-					rules="required"
-					v-slot="{ errors }"
-				>
-					<AppInputText title="Endpoint URL" :description="endpointUrlDescription" :error="errors[0]">
-						<input
-							class="focus-border-theme input-dark"
-							v-model="storage.endpoint"
-							placeholder="Type your endpoint"
-							type="text"
-							:class="{ '!border-rose-600': errors[0] }"
-							:readonly="storage.driver !== 'other'"
-						/>
-					</AppInputText>
-				</ValidationProvider>
-
-				<ValidationProvider tag="div" mode="passive" name="Bucket" rules="required" v-slot="{ errors }">
-					<AppInputText
-						title="Bucket"
-						description="Type your created unique bucket name"
-						:error="errors[0]"
-					>
-						<input
-							class="focus-border-theme input-dark"
-							v-model="storage.bucket"
-							placeholder="Type your bucket name"
-							type="text"
-							:class="{ '!border-rose-600': errors[0] }"
-						/>
-					</AppInputText>
-				</ValidationProvider>
-			</div>
+			<StorageSetup v-model="storage" />
 
 			<ButtonBase
 				:loading="isSendingStorageForm"
 				:disabled="isSendingStorageForm"
 				type="submit"
 				button-style="theme"
-				class="w-full sm:w-auto"
+				class="w-full sm:w-auto mt-6 sm:mt-7"
 			>
                 {{ $t('save_storage_settings') }}
             </ButtonBase>
@@ -503,36 +388,29 @@
 </template>
 
 <script>
-import AppInputText from '../../../../components/Admin/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PageTabGroup from '../../../../components/Others/Layout/PageTabGroup'
+import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
 import SelectInput from '../../../../components/Others/Forms/SelectInput'
-import ImageInput from '../../../../components/Others/Forms/ImageInput'
 import FormLabel from '../../../../components/Others/Forms/FormLabel'
+import AppInputText from '../../../../components/Admin/AppInputText'
 import ButtonBase from '../../../../components/FilesView/ButtonBase'
-import SetupBox from '../../../../components/Others/Forms/SetupBox'
 import PageTab from '../../../../components/Others/Layout/PageTab'
-import InfoBox from '../../../../components/Others/Forms/InfoBox'
-import { required } from 'vee-validate/dist/rules'
-import { events } from '../../../../bus'
+import StorageSetup from "../../../../components/Setup/StorageSetup"
+import {events} from '../../../../bus'
+import {mapGetters} from 'vuex'
 import axios from 'axios'
-import { mapGetters } from 'vuex'
 
 export default {
     name: 'AppEnvironment',
     components: {
+		StorageSetup,
         AppInputText,
         ValidationObserver,
         ValidationProvider,
-        PageTabGroup,
         SelectInput,
-        ImageInput,
         ButtonBase,
         FormLabel,
-        SetupBox,
-        required,
         PageTab,
-        InfoBox,
+
     },
 	watch: {
 		'smtp.username': function (val) {
@@ -543,37 +421,12 @@ export default {
 				this.shouldSetSMTPEmail = true
 			}
 		},
-		'storage.driver': function () {
-			this.storage.region = undefined
-		},
-		'storage.region': function (val) {
-			this.storage.endpoint = {
-				storj: 'https://gateway.' + val + '.storjshare.io',
-				spaces: 'https://' + val + '.digitaloceanspaces.com',
-				wasabi: 'https://s3.' + val + '.wasabisys.com',
-				backblaze: 'https://s3.' + val + '.backblazeb2.com',
-				oss: 'https://' + val + '.aliyuncs.com',
-				s3: 'https://s3.' + val + '.amazonaws.com',
-				other: undefined,
-			}[this.storage.driver]
-		},
 	},
     computed: {
-        ...mapGetters(['mailEncryptionList', 'mailDriverList']),
-		regionList() {
-			return {
-				storj: this.storjRegions,
-				s3: this.s3Regions,
-				spaces: this.digitalOceanRegions,
-				wasabi: this.wasabiRegions,
-				backblaze: this.backblazeRegions,
-				oss: this.ossRegions,
-				other: undefined,
-			}[this.storage.driver]
-		},
-		endpointUrlDescription() {
-			return this.storage.driver === 'other' ? this.$t('The endpoint url should start with https://') : ''
-		}
+        ...mapGetters([
+			'mailEncryptionList',
+			'mailDriverList'
+		]),
     },
     data() {
         return {
@@ -645,280 +498,7 @@ export default {
 					value: 'sa1',
 				},
 			],
-			ossRegions: [
-				{
-					label: 'China (Hangzhou)',
-					value: 'oss-cn-hangzhou',
-				},
-				{
-					label: 'China (Shanghai)',
-					value: 'oss-cn-shanghai',
-				},
-				{
-					label: 'China (Qingdao)',
-					value: 'oss-cn-qingdao',
-				},
-				{
-					label: 'China (Beijing)',
-					value: 'oss-cn-beijing',
-				},
-				{
-					label: 'China (Zhangjiakou)',
-					value: 'oss-cn-zhangjiakou',
-				},
-				{
-					label: 'China (Hohhot)',
-					value: 'oss-cn-huhehaote',
-				},
-				{
-					label: 'China (Ulanqab)',
-					value: 'oss-cn-wulanchabu',
-				},
-				{
-					label: 'China (Shenzhen)',
-					value: 'oss-cn-shenzhen',
-				},
-				{
-					label: 'China (Heyuan)',
-					value: 'oss-cn-heyuan',
-				},
-				{
-					label: 'China (Guangzhou)',
-					value: 'oss-cn-guangzhou',
-				},
-				{
-					label: 'China (Chengdu)',
-					value: 'oss-cn-chengdu',
-				},
-				{
-					label: 'China (Hong Kong)',
-					value: 'oss-cn-hongkong',
-				},
-			],
-			wasabiRegions: [
-				{
-					label: 'us-west-1',
-					value: 'us-west-1',
-				},
-				{
-					label: 'ap-northeast-1',
-					value: 'ap-northeast-1',
-				},
-				{
-					label: 'ap-northeast-2',
-					value: 'ap-northeast-2',
-				},
-				{
-					label: 'ca-central-1',
-					value: 'ca-central-1',
-				},
-				{
-					label: 'eu-central-1',
-					value: 'eu-central-1',
-				},
-				{
-					label: 'eu-central-2',
-					value: 'eu-central-2',
-				},
-				{
-					label: 'eu-west-1',
-					value: 'eu-west-1',
-				},
-				{
-					label: 'eu-west-2',
-					value: 'eu-west-2',
-				},
-				{
-					label: 'us-central-1',
-					value: 'us-central-1',
-				},
-				{
-					label: 'us-east-1',
-					value: 'us-east-1',
-				},
-				{
-					label: 'us-east-2',
-					value: 'us-east-2',
-				},
-			],
-			storjRegions: [
-				{
-					label: 'EU Central 1',
-					value: 'eu1',
-				},
-				{
-					label: 'US Central 1',
-					value: 'us1',
-				},
-				{
-					label: 'AP Central 1',
-					value: 'ap1',
-				},
-			],
-			backblazeRegions: [
-				{
-					label: 'us-west-001',
-					value: 'us-west-001',
-				},
-				{
-					label: 'us-west-002',
-					value: 'us-west-002',
-				},
-				{
-					label: 'us-west-004',
-					value: 'us-west-004',
-				},
-				{
-					label: 'eu-central-003',
-					value: 'eu-central-003',
-				},
-			],
-			digitalOceanRegions: [
-				{
-					label: 'New York',
-					value: 'nyc3',
-				},
-				{
-					label: 'San Francisco',
-					value: 'sfo2',
-				},
-				{
-					label: 'Amsterdam',
-					value: 'ams3',
-				},
-				{
-					label: 'Singapore',
-					value: 'sgp1',
-				},
-				{
-					label: 'Frankfurt',
-					value: 'fra1',
-				},
-			],
-			s3Regions: [
-				{
-					label: 'us-east-1',
-					value: 'us-east-1',
-				},
-				{
-					label: 'us-east-2',
-					value: 'us-east-2',
-				},
-				{
-					label: 'us-west-1',
-					value: 'us-west-1',
-				},
-				{
-					label: 'us-west-2',
-					value: 'us-west-2',
-				},
-				{
-					label: 'af-south-1',
-					value: 'af-south-1',
-				},
-				{
-					label: 'ap-east-1',
-					value: 'ap-east-1',
-				},
-				{
-					label: 'ap-south-1',
-					value: 'ap-south-1',
-				},
-				{
-					label: 'ap-northeast-2',
-					value: 'ap-northeast-2',
-				},
-				{
-					label: 'ap-southeast-1',
-					value: 'ap-southeast-1',
-				},
-				{
-					label: 'ap-southeast-2',
-					value: 'ap-southeast-2',
-				},
-				{
-					label: 'ap-northeast-1',
-					value: 'ap-northeast-1',
-				},
-				{
-					label: 'ca-central-1',
-					value: 'ca-central-1',
-				},
-				{
-					label: 'eu-central-1',
-					value: 'eu-central-1',
-				},
-				{
-					label: 'eu-west-1',
-					value: 'eu-west-1',
-				},
-				{
-					label: 'eu-west-2',
-					value: 'eu-west-2',
-				},
-				{
-					label: 'eu-south-1',
-					value: 'eu-south-1',
-				},
-				{
-					label: 'eu-west-3',
-					value: 'eu-west-3',
-				},
-				{
-					label: 'eu-north-1',
-					value: 'eu-north-1',
-				},
-				{
-					label: 'me-south-1',
-					value: 'me-south-1',
-				},
-				{
-					label: 'sa-east-1',
-					value: 'sa-east-1',
-				},
-			],
-			storageServiceList: [
-				{
-					label: 'Local Driver',
-					value: 'local',
-				},
-				{
-					label: 'Amazon Web Services S3',
-					value: 's3',
-				},
-				{
-					label: 'Storj',
-					value: 'storj',
-				},
-				{
-					label: 'Digital Ocean Spaces',
-					value: 'spaces',
-				},
-				{
-					label: 'Object Cloud Storage by Wasabi',
-					value: 'wasabi',
-				},
-				{
-					label: 'Backblaze B2 Cloud Storage',
-					value: 'backblaze',
-				},
-				{
-					label: 'Alibaba Cloud OSS',
-					value: 'oss',
-				},
-				{
-					label: 'Other S3 Compatible Service',
-					value: 'other',
-				},
-			],
-			storage: {
-				driver: undefined,
-				key: undefined,
-				secret: undefined,
-				endpoint: undefined,
-				region: undefined,
-				bucket: undefined,
-			},
+			storage: undefined,
             ses: {
                 access_key: undefined,
                 secret_access_key: undefined,
@@ -1007,14 +587,7 @@ export default {
 					storage: this.storage
 				})
 				.then(() => {
-					this.storage = {
-						driver: undefined,
-						key: undefined,
-						secret: undefined,
-						endpoint: undefined,
-						region: undefined,
-						bucket: undefined,
-					}
+					this.storage = undefined
 
 					events.$emit('toaster', {
 						type: 'success',
