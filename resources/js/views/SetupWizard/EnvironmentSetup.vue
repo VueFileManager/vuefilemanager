@@ -316,19 +316,11 @@ export default {
                     this.$router.push({ name: 'AppSetup' })
                 })
                 .catch((error) => {
-                    if (error.response.status === 401 && error.response.data.type === 's3-connection-error') {
-                        events.$emit('alert:open', {
-                            title: 'S3 Connection Error - Wrong Credentials or Not Permitted',
-                            message: error.response.data.message,
-                        })
-                    } else if (
-                        error.response.status === 401 &&
-                        error.response.data.type === 'mailer-connection-error'
-                    ) {
-                        events.$emit('alert:open', {
-                            title: 'Mailer Connection Error - Wrong Credentials',
-                            message: error.response.data.message,
-                        })
+					if ([401, 500].includes(error.response.status)) {
+						events.$emit('alert:open', {
+							title: error.response.data.title || 'Whooops, something went wrong!',
+							message: error.response.data.message,
+						})
                     } else {
                         this.isError = true
                     }

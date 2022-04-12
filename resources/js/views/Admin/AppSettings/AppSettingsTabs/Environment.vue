@@ -309,9 +309,9 @@ export default {
                     })
                 })
                 .catch((error) => {
-                    if (error.response.status === 401 && error.response.data.type === 's3-connection-error') {
+                    if ([401, 500].includes(error.response.status)) {
                         events.$emit('alert:open', {
-                            title: 'S3 Connection Error - Wrong Credentials or Not Permitted',
+                            title: error.response.data.title || this.$t('popup_error.title'),
                             message: error.response.data.message,
                         })
                     } else {

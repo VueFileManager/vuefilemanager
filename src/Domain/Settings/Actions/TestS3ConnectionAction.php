@@ -35,7 +35,7 @@ class TestS3ConnectionAction
             abort(
                 response()->json([
                     'type'    => 's3-connection-error',
-                    'title'   => 'S3 Connection Error',
+                    'title'   => 'S3 Connection Error - Wrong Credentials or Not Permitted',
                     'message' => $error->getMessage(),
                 ], 401)
             );

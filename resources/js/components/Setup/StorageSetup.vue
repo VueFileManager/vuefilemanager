@@ -21,12 +21,12 @@
 			</AppInputText>
 		</ValidationProvider>
 
-		<div v-if="storage.driver !== 'local' && storage.driver">
+		<div v-if="s3PredefinedList.includes(storage.driver)">
 			<ValidationProvider tag="div" mode="passive" name="Key" rules="required" v-slot="{ errors }">
 				<AppInputText title="Key" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
-						v-model="storage.key"
+						v-model="storage.s3.key"
 						placeholder="Paste your key"
 						type="text"
 						:class="{ '!border-rose-600': errors[0] }"
@@ -38,7 +38,7 @@
 				<AppInputText title="Secret" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
-						v-model="storage.secret"
+						v-model="storage.s3.secret"
 						placeholder="Paste your secret"
 						type="text"
 						:class="{ '!border-rose-600': errors[0] }"
@@ -54,9 +54,8 @@
 					:error="errors[0]"
 				>
 					<SelectInput
-						v-model="storage.region"
+						v-model="storage.s3.region"
 						:options="regionList"
-						:default="storage.region"
 						placeholder="Select your region"
 						:isError="errors[0]"
 					/>
@@ -72,7 +71,7 @@
 				>
 					<input
 						class="focus-border-theme input-dark"
-						v-model="storage.region"
+						v-model="storage.s3.region"
 						placeholder="Type your region"
 						type="text"
 						:class="{ '!border-rose-600': errors[0] }"
@@ -91,7 +90,7 @@
 				<AppInputText title="Endpoint URL" :description="endpointUrlDescription" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
-						v-model="storage.endpoint"
+						v-model="storage.s3.endpoint"
 						placeholder="Type your endpoint"
 						type="text"
 						:class="{ '!border-rose-600': errors[0] }"
@@ -109,8 +108,44 @@
 				>
 					<input
 						class="focus-border-theme input-dark"
-						v-model="storage.bucket"
+						v-model="storage.s3.bucket"
 						placeholder="Type your bucket name"
+						type="text"
+						:class="{ '!border-rose-600': errors[0] }"
+					/>
+				</AppInputText>
+			</ValidationProvider>
+		</div>
+
+		<div v-if="storage.driver === 'ftp'">
+			<ValidationProvider tag="div" mode="passive" name="FTP Host" rules="required" v-slot="{ errors }">
+				<AppInputText title="FTP Host" :error="errors[0]">
+					<input
+						class="focus-border-theme input-dark"
+						v-model="storage.ftp.host"
+						placeholder="Type your ftp host..."
+						type="text"
+						:class="{ '!border-rose-600': errors[0] }"
+					/>
+				</AppInputText>
+			</ValidationProvider>
+			<ValidationProvider tag="div" mode="passive" name="FTP Username" rules="required" v-slot="{ errors }">
+				<AppInputText title="FTP Username" :error="errors[0]">
+					<input
+						class="focus-border-theme input-dark"
+						v-model="storage.ftp.user"
+						placeholder="Type your ftp username..."
+						type="text"
+						:class="{ '!border-rose-600': errors[0] }"
+					/>
+				</AppInputText>
+			</ValidationProvider>
+			<ValidationProvider tag="div" mode="passive" name="FTP Password" rules="required" v-slot="{ errors }">
+				<AppInputText title="FTP Password" :error="errors[0]" :is-last="true">
+					<input
+						class="focus-border-theme input-dark"
+						v-model="storage.ftp.password"
+						placeholder="Type your ftp password..."
 						type="text"
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
@@ -143,10 +178,10 @@
 				deep: true
 			},
 			'storage.driver': function () {
-				this.storage.region = undefined
+				this.storage.s3.region = undefined
 			},
-			'storage.region': function (val) {
-				this.storage.endpoint = {
+			'storage.s3.region': function (val) {
+				this.storage.s3.endpoint = {
 					storj: 'https://gateway.' + val + '.storjshare.io',
 					spaces: 'https://' + val + '.digitaloceanspaces.com',
 					wasabi: 'https://s3.' + val + '.wasabisys.com',
@@ -180,11 +215,18 @@
 			return {
 				storage: {
 					driver: undefined,
-					key: undefined,
-					secret: undefined,
-					endpoint: undefined,
-					region: undefined,
-					bucket: undefined,
+					s3: {
+						key: undefined,
+						secret: undefined,
+						endpoint: undefined,
+						region: undefined,
+						bucket: undefined,
+					},
+					ftp: {
+						host: undefined,
+						user: undefined,
+						password: undefined,
+					}
 				},
 				ossRegions: [
 					{
@@ -336,6 +378,15 @@
 						value: 'fra1',
 					},
 				],
+				s3PredefinedList: [
+					's3',
+					'storj',
+					'spaces',
+					'wasabi',
+					'backblaze',
+					'oss',
+					'other',
+				],
 				storageServiceList: [
 					{
 						label: 'Local Driver',
@@ -368,6 +419,10 @@
 					{
 						label: 'Other S3 Compatible Service',
 						value: 'other',
+					},
+					{
+						label: 'FTP',
+						value: 'ftp',
 					},
 				],
 			}

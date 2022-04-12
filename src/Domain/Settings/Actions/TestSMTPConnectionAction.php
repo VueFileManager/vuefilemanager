@@ -39,7 +39,7 @@ class TestSMTPConnectionAction
             abort(
                 response()->json([
                     'type'    => 'mailer-connection-error',
-                    'title'   => 'Mail Connection Error',
+                    'title'   => 'Mailer Connection Error - Wrong Credentials',
                     'message' => $error->getMessage(),
                 ], 401)
             );

@@ -86,6 +86,7 @@ class UploadFileAction
             match (config('filesystems.default')) {
                 's3' => ($this->moveFileToExternalStorage)($fileName, $user->id),
                 'ftp', 'azure' => ($this->moveFileToFTPStorage)($fileName, $user->id),
+                default => null
             };
 
             // Create new file

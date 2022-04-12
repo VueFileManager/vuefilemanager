@@ -2,6 +2,7 @@
 namespace Domain\SetupWizard\Controllers;
 
 use Artisan;
+use Domain\Settings\Actions\TestFTPConnectionAction;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Settings\DTO\S3CredentialsData;
@@ -17,11 +18,11 @@ class StoreEnvironmentSettingsController extends Controller
     public function __construct(
         private TestS3ConnectionAction $testS3Connection,
         private TestSESConnectionAction $testSESConnection,
+        private TestFTPConnectionAction $testFTPConnection,
         private TestSMTPConnectionAction $testSMTPConnection,
         private TestMailgunConnectionAction $testMailgunConnection,
         private TestPostmarkConnectionAction $testPostmarkConnection,
-    ) {
-    }
+    ) {}
 
     /**
      * Store environment setup
@@ -30,10 +31,25 @@ class StoreEnvironmentSettingsController extends Controller
         StoreEnvironmentSetupRequest $request,
     ): JsonResponse {
         if (! app()->runningUnitTests()) {
-            // Test s3 credentials
-            if ($request->input('storage.driver') !== 'local') {
-                ($this->testS3Connection)(S3CredentialsData::fromRequest($request));
-            }
+            // Get storage driver from request
+            $StorageDriver = match ($request->input('storage.driver')) {
+                's3', 'storj', 'spaces', 'wasabi', 'backblaze', 'oss', 'other' => 's3',
+                'local' => 'local',
+                'ftp' => 'ftp',
+            };
+
+            // Test driver connection
+            match ($StorageDriver) {
+                's3' => ($this->testS3Connection)(
+                    S3CredentialsData::fromRequest($request)
+                ),
+                'ftp' => ($this->testFTPConnection)([
+                    'host'     => $request->input('storage.ftp.host'),
+                    'user'     => $request->input('storage.ftp.user'),
+                    'password' => $request->input('storage.ftp.password'),
+                ]),
+                default => null
+            };
 
             // Test email connection
             match ($request->input('mailDriver')) {
@@ -93,11 +109,17 @@ class StoreEnvironmentSettingsController extends Controller
                     ],
                     's3'    => [
                         'FILESYSTEM_DISK'      => 's3',
-                        'S3_ACCESS_KEY_ID'     => $request->input('storage.key') ?? null,
-                        'S3_SECRET_ACCESS_KEY' => $request->input('storage.secret') ?? null,
-                        'S3_DEFAULT_REGION'    => $request->input('storage.region') ?? null,
-                        'S3_BUCKET'            => $request->input('storage.bucket') ?? null,
-                        'S3_URL'               => $request->input('storage.endpoint') ?? null,
+                        'S3_ACCESS_KEY_ID'     => $request->input('storage.s3.key') ?? null,
+                        'S3_SECRET_ACCESS_KEY' => $request->input('storage.s3.secret') ?? null,
+                        'S3_DEFAULT_REGION'    => $request->input('storage.s3.region') ?? null,
+                        'S3_BUCKET'            => $request->input('storage.s3.bucket') ?? null,
+                        'S3_URL'               => $request->input('storage.s3.endpoint') ?? null,
+                    ],
+                    'ftp' => [
+                        'FILESYSTEM_DISK' => 'ftp',
+                        'FTP_HOST'        => $request->input('storage.ftp.host') ?? null,
+                        'FTP_USERNAME'    => $request->input('storage.ftp.user') ?? null,
+                        'FTP_PASSWORD'    => $request->input('storage.ftp.password') ?? null,
                     ],
                 ],
                 'mail'         => [
@@ -155,15 +177,12 @@ class StoreEnvironmentSettingsController extends Controller
                 ],
             ];
 
-            // Get storage driver from request
-            $driver = 'local' === $request->input('storage.driver') ? 'local' : 's3';
-
             // Set other environment variables
             setEnvironmentValue(array_merge(
                 $setup['broadcasting'][$request->input('broadcast.driver')],
                 $setup['environment'][$request->input('environment')],
                 $setup['mail'][$request->input('mailDriver')],
-                $setup['drivers'][$driver],
+                $setup['drivers'][$StorageDriver],
                 $setup['others'],
             ));
 

@@ -1,3 +1,7 @@
+## Version 2.0.17
+#### Release date: 12. April 2022
+- Added option to use FTP as VueFileManager file storage server
+
 ## Version 2.0.16
 #### Release date: 8. April 2022
 - Test mailgun, ses and postmark connection before storing your credentials into the app

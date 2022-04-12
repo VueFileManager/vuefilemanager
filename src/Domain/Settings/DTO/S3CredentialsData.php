@@ -14,11 +14,11 @@ class S3CredentialsData extends DataTransferObject
     public static function fromRequest($request): self
     {
         return new self([
-            'key'      => $request->input('storage.key'),
-            'secret'   => $request->input('storage.secret'),
-            'region'   => $request->input('storage.region'),
-            'bucket'   => $request->input('storage.bucket'),
-            'endpoint' => $request->input('storage.endpoint'),
+            'key'      => $request->input('storage.s3.key'),
+            'secret'   => $request->input('storage.s3.secret'),
+            'region'   => $request->input('storage.s3.region'),
+            'bucket'   => $request->input('storage.s3.bucket'),
+            'endpoint' => $request->input('storage.s3.endpoint'),
         ]);
     }
 }
