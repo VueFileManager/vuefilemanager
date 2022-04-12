@@ -1,38 +1,92 @@
 const defaultState = {
-    mailEncryptionList: [
+    s3Regions: [
         {
-            label: 'TLS',
-            value: 'tls',
+            label: 'us-east-1',
+            value: 'us-east-1',
         },
         {
-            label: 'SSL',
-            value: 'ssl',
+            label: 'us-east-2',
+            value: 'us-east-2',
         },
         {
-            label: 'None',
-            value: '',
-        },
-    ],
-    mailDriverList: [
-        {
-            label: 'SMTP',
-            value: 'smtp',
+            label: 'us-west-1',
+            value: 'us-west-1',
         },
         {
-            label: 'Mailgun',
-            value: 'mailgun',
+            label: 'us-west-2',
+            value: 'us-west-2',
         },
         {
-            label: 'SES',
-            value: 'ses',
+            label: 'af-south-1',
+            value: 'af-south-1',
         },
         {
-            label: 'Postmark',
-            value: 'postmark',
+            label: 'ap-east-1',
+            value: 'ap-east-1',
         },
         {
-            label: 'None',
-            value: 'log',
+            label: 'ap-south-1',
+            value: 'ap-south-1',
+        },
+        {
+            label: 'ap-southeast-1',
+            value: 'ap-southeast-1',
+        },
+        {
+            label: 'ap-southeast-2',
+            value: 'ap-southeast-2',
+        },
+        {
+            label: 'ap-southeast-3',
+            value: 'ap-southeast-3',
+        },
+        {
+            label: 'ap-northeast-1',
+            value: 'ap-northeast-1',
+        },
+        {
+            label: 'ap-northeast-2',
+            value: 'ap-northeast-2',
+        },
+        {
+            label: 'ap-northeast-3',
+            value: 'ap-northeast-3',
+        },
+        {
+            label: 'ca-central-1',
+            value: 'ca-central-1',
+        },
+        {
+            label: 'eu-central-1',
+            value: 'eu-central-1',
+        },
+        {
+            label: 'eu-west-1',
+            value: 'eu-west-1',
+        },
+        {
+            label: 'eu-west-2',
+            value: 'eu-west-2',
+        },
+        {
+            label: 'eu-south-1',
+            value: 'eu-south-1',
+        },
+        {
+            label: 'eu-west-3',
+            value: 'eu-west-3',
+        },
+        {
+            label: 'eu-north-1',
+            value: 'eu-north-1',
+        },
+        {
+            label: 'me-south-1',
+            value: 'me-south-1',
+        },
+        {
+            label: 'sa-east-1',
+            value: 'sa-east-1',
         },
     ],
     transactionColumns: [
@@ -1061,16 +1115,15 @@ const defaultState = {
 }
 
 const getters = {
-    mailEncryptionList: (state) => state.mailEncryptionList,
     transactionColumns: (state) => state.transactionColumns,
     subscriptionTypes: (state) => state.subscriptionTypes,
     teamPermissions: (state) => state.teamPermissions,
-    mailDriverList: (state) => state.mailDriverList,
     expirationList: (state) => state.expirationList,
     currencyList: (state) => state.currencyList,
     intervalList: (state) => state.intervalList,
     timezones: (state) => state.timezones,
     countries: (state) => state.countries,
+    s3Regions: (state) => state.s3Regions,
     roles: (state) => state.roles,
 }
 

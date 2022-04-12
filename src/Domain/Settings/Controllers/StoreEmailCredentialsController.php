@@ -55,6 +55,7 @@ class StoreEmailCredentialsController
                     'session_token'     => $request->input('ses.session_token'),
                     'identity'          => $request->input('ses.sender'),
                 ]),
+                default => null
             };
 
             $mail = [
