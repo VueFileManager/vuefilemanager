@@ -210,19 +210,23 @@ if (! function_exists('setEnvironmentValue')) {
 
         if (count($values) > 0) {
             foreach ($values as $envKey => $envValue) {
+
                 $str .= "\n"; // In case the searched variable is in the last line without \n
                 $keyPosition = strpos($str, "{$envKey}=");
-                $endOfLinePosition = strpos($str, "\n", $keyPosition);
-                $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
 
-                // If key does not exist, add it
-                $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+                if ($keyPosition) {
+                    $endOfLinePosition = strpos($str, "\n", $keyPosition);
+                    $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
+                    $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+                } else {
+                    $str .= "\n$envKey=$envValue";
+                }
             }
         }
 
         $str = substr($str, 0, -1);
 
-        return ! (! file_put_contents($envFile, $str));
+        return file_put_contents($envFile, $str);
     }
 }
 
