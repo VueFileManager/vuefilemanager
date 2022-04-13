@@ -21,6 +21,7 @@ Vue.use(functionHelpers)
 Vue.use(AlertHelpers)
 Vue.use(itemHelpers)
 
+// ReCaptcha configuration
 if (config.allowedRecaptcha) {
     Vue.use(VueReCaptcha, {
         siteKey: config.recaptcha_client_id,

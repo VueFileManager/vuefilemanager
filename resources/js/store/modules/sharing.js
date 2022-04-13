@@ -102,9 +102,6 @@ const mutations = {
     SET_SHARED_DETAIL(state, data) {
         state.sharedDetail = data
     },
-    STORE_SHARED_FILE(state, data) {
-        state.sharedFile = data
-    },
 }
 const getters = {
     permissionOptions: (state) => state.permissionOptions,

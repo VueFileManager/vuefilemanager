@@ -1,5 +1,3 @@
-import store from '../store/index'
-
 const ValidatorHelpers = {
     install(Vue) {
         Vue.prototype.$generatePaystackReference = function () {

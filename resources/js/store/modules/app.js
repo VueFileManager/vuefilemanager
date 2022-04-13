@@ -12,7 +12,6 @@ const defaultState = {
     itemViewType: localStorage.getItem('preview_type') || 'list',
     config: undefined,
     index: undefined,
-    requestedPlan: undefined,
     emojis: undefined,
     sorting: {
         sort: localStorage.getItem('sorting') ? JSON.parse(localStorage.getItem('sorting')).sort : 'DESC',
@@ -107,9 +106,6 @@ const mutations = {
     INIT(state, data) {
         state.config = data.config
     },
-    SET_SAAS(state, data) {
-        state.config.isSaaS = data
-    },
     FILE_INFO_TOGGLE(state, isVisible) {
         state.isVisibleSidebar = isVisible
 
@@ -126,9 +122,6 @@ const mutations = {
     },
     TOGGLE_NAVIGATION_BARS(state) {
         state.isVisibleNavigationBars = !state.isVisibleNavigationBars
-    },
-    STORE_REQUESTED_PLAN(state, plan) {
-        state.requestedPlan = plan
     },
     REPLACE_CONFIG_VALUE(state, { key, value }) {
         state.config[key] = value
@@ -189,7 +182,6 @@ const getters = {
     notificationCount: (state) => state.notificationCount,
     isVisibleSidebar: (state) => state.isVisibleSidebar,
     itemViewType: (state) => state.itemViewType,
-    requestedPlan: (state) => state.requestedPlan,
     api: (state) => state.config.api,
     config: (state) => state.config,
     emojis: (state) => state.emojis,

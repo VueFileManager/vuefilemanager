@@ -178,9 +178,6 @@ const mutations = {
             }
         })
     },
-    PUSH_NEW_NOTIFICATION(state, notification) {
-        state.user.data.relationships.unreadNotifications.data.push(notification)
-    },
     FLUSH_NOTIFICATIONS(state) {
         state.user.data.relationships.readNotifications.data = []
         state.user.data.relationships.unreadNotifications.data = []
