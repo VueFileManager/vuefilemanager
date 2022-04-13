@@ -106,17 +106,16 @@
 </template>
 
 <script>
-import ProgressLine from '../../../../components/Admin/ProgressLine'
-import AppInputText from '../../../../components/Admin/AppInputText'
-import FormLabel from '../../../../components/Others/Forms/FormLabel'
-import InfoBox from '../../../../components/Others/Forms/InfoBox'
-import PageTabGroup from '../../../../components/Others/Layout/PageTabGroup'
-import PageTab from '../../../../components/Others/Layout/PageTab'
+import ProgressLine from '../../../../components/UI/ProgressChart/ProgressLine'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
+import FormLabel from '../../../../components/UI/Labels/FormLabel'
+import InfoBox from '../../../../components/UI/Others/InfoBox'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup'
+import PageTab from '../../../../components/Layout/PageTab'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '../../../../components/FilesView/ButtonBase'
-import SetupBox from '../../../../components/Others/Forms/SetupBox'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
 import { required } from 'vee-validate/dist/rules'
-import BarChart from '../../../../components/UI/BarChart'
+import BarChart from '../../../../components/UI/BarChart/BarChart'
 import { events } from '../../../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -134,7 +133,6 @@ export default {
         ValidationProvider,
         ValidationObserver,
         ButtonBase,
-        SetupBox,
         required,
         BarChart,
     },

@@ -55,30 +55,30 @@
 </template>
 
 <script>
-import FileSortingMobile from '../components/FilesView/FileSortingMobile'
+import FileSortingMobile from '../components/Menus/FileSortingMobile'
 import SidebarNavigation from '../components/Sidebar/SidebarNavigation'
-import FileFilterMobile from '../components/FilesView/FileFilterMobile'
-import CreateFolderPopup from '../components/Others/CreateFolderPopup'
-import ProcessingPopup from '../components/FilesView/ProcessingPopup'
-import MobileNavigation from '../components/Others/MobileNavigation'
-import ShareCreatePopup from '../components/Others/ShareCreatePopup'
-import DesktopToolbar from '../components/FilesView/DesktopToolbar'
+import FileFilterMobile from '../components/Menus/FileFilterMobile'
+import CreateFolderPopup from '../components/Popups/CreateFolderPopup'
+import ProcessingPopup from '../components/Popups/ProcessingPopup'
+import MobileNavigation from '../components/Mobile/MobileNavigation'
+import ShareCreatePopup from '../components/Popups/ShareCreatePopup'
+import DesktopToolbar from '../components/Layout/Toolbars/DesktopToolbar'
 import CreateTeamFolderPopup from '../components/Teams/CreateTeamFolderPopup'
-import ConfirmPopup from '../components/Others/Popup/ConfirmPopup'
-import RenameItemPopup from '../components/Others/RenameItemPopup'
-import PanelNavigationFiles from './FileView/Components/PanelNavigationFiles'
-import MobileToolbar from '../components/FilesView/MobileToolbar'
-import ShareEditPopup from '../components/Others/ShareEditPopup'
+import ConfirmPopup from '../components/Popups/ConfirmPopup'
+import RenameItemPopup from '../components/Popups/RenameItemPopup'
+import PanelNavigationFiles from '../components/EntriesView/PanelNavigationFiles'
+import MobileToolbar from '../components/Layout/Toolbars/MobileToolbar'
+import ShareEditPopup from '../components/Popups/ShareEditPopup'
 import FilePreview from '../components/FilePreview/FilePreview'
-import MoveItemPopup from '../components/Others/MoveItemPopup'
+import MoveItemPopup from '../components/Popups/MoveItemPopup'
 import EditTeamFolderPopup from '../components/Teams/EditTeamFolderPopup'
 import Spotlight from '../components/Spotlight/Spotlight'
-import DragUI from '../components/FilesView/DragUI'
-import InfoSidebar from '../components/FilesView/InfoSidebar'
+import DragUI from '../components/UI/Others/DragUI'
+import InfoSidebar from '../components/Layout/Sidebars/InfoSidebar'
 import { events } from '../bus'
 import { mapGetters } from 'vuex'
-import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
-import NotificationsPopup from "../components/Others/NotificationsPopup";
+import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
+import NotificationsPopup from "../components/Notifications/NotificationsPopup";
 
 export default {
     name: 'Platform',

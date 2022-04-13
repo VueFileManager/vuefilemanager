@@ -1,6 +1,6 @@
 <template>
     <div class="menu-options">
-        <slot></slot>
+        <slot />
     </div>
 </template>
 

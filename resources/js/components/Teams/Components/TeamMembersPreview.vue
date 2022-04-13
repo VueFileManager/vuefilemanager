@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import MemberAvatar from '../../FilesView/MemberAvatar'
+import MemberAvatar from '../../UI/Others/MemberAvatar'
 
 export default {
     name: 'TeamMembersPreview',

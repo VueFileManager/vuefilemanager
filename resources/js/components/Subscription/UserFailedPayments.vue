@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import FormLabel from '../Others/Forms/FormLabel'
-import InfoBox from '../Others/Forms/InfoBox'
+import FormLabel from '../UI/Labels/FormLabel'
+import InfoBox from '../UI/Others/InfoBox'
 import { mapGetters } from 'vuex'
 
 export default {

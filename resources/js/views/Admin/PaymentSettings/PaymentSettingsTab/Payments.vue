@@ -466,21 +466,20 @@
 
 <script>
 import { Edit2Icon, Trash2Icon } from 'vue-feather-icons'
-import AppInputButton from '../../../../components/Admin/AppInputButton'
-import DatatableWrapper from '../../../../components/Others/Tables/DatatableWrapper'
+import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton'
+import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PageTabGroup from '../../../../components/Others/Layout/PageTabGroup'
-import SelectInput from '../../../../components/Others/Forms/SelectInput'
-import SwitchInput from '../../../../components/Others/Forms/SwitchInput'
-import ImageInput from '../../../../components/Others/Forms/ImageInput'
-import AppInputSwitch from '../../../../components/Admin/AppInputSwitch'
-import FormLabel from '../../../../components/Others/Forms/FormLabel'
-import ButtonBase from '../../../../components/FilesView/ButtonBase'
-import CopyInput from '../../../../components/Others/Forms/CopyInput'
-import SetupBox from '../../../../components/Others/Forms/SetupBox'
-import AppInputText from '../../../../components/Admin/AppInputText'
-import PageTab from '../../../../components/Others/Layout/PageTab'
-import InfoBox from '../../../../components/Others/Forms/InfoBox'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup'
+import SelectInput from '../../../../components/Inputs/SelectInput'
+import SwitchInput from '../../../../components/Inputs/SwitchInput'
+import ImageInput from '../../../../components/Inputs/ImageInput'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
+import FormLabel from '../../../../components/UI/Labels/FormLabel'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
+import CopyInput from '../../../../components/Inputs/CopyInput'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
+import PageTab from '../../../../components/Layout/PageTab'
+import InfoBox from '../../../../components/UI/Others/InfoBox'
 import { required } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import { mapGetters } from 'vuex'
@@ -504,7 +503,6 @@ export default {
         FormLabel,
         Trash2Icon,
         Edit2Icon,
-        SetupBox,
         required,
         PageTab,
         InfoBox,

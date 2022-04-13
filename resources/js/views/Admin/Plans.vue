@@ -193,11 +193,11 @@
 </template>
 
 <script>
-import DatatableWrapper from '../../components/Others/Tables/DatatableWrapper'
-import MobileActionButton from '../../components/FilesView/MobileActionButton'
-import SwitchInput from '../../components/Others/Forms/SwitchInput'
-import ButtonBase from '../../components/FilesView/ButtonBase'
-import ColorLabel from '../../components/Others/ColorLabel'
+import DatatableWrapper from '../../components/UI/Table/DatatableWrapper'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
+import SwitchInput from '../../components/Inputs/SwitchInput'
+import ButtonBase from '../../components/UI/Buttons/ButtonBase'
+import ColorLabel from '../../components/UI/Labels/ColorLabel'
 import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 

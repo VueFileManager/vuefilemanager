@@ -193,9 +193,9 @@
 </template>
 
 <script>
-import AppInputText from '../../components/Admin/AppInputText'
-import SelectInput from '../../components/Others/Forms/SelectInput'
-import FormLabel from '../../components/Others/Forms/FormLabel'
+import AppInputText from '../../components/Forms/Layouts/AppInputText'
+import SelectInput from '../../components/Inputs/SelectInput'
+import FormLabel from '../../components/UI/Labels/FormLabel'
 import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 

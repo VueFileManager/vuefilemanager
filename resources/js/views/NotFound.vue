@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import AuthContentWrapper from '../components/Auth/AuthContentWrapper'
-import AuthContent from '../components/Auth/AuthContent'
-import AuthButton from '../components/Auth/AuthButton'
-import Headline from './Auth/Headline'
+import AuthContentWrapper from '../components/Layout/AuthPages/AuthContentWrapper'
+import AuthContent from '../components/Layout/AuthPages/AuthContent'
+import AuthButton from '../components/UI/Buttons/AuthButton'
+import Headline from '../components/UI/Labels/LogoHeadline'
 
 export default {
     name: 'NotFound',

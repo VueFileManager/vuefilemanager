@@ -32,7 +32,7 @@
 </template>
 <script>
 import { CheckIcon } from 'vue-feather-icons'
-import CheckBox from '../FilesView/CheckBox'
+import CheckBox from '../Inputs/CheckBox'
 
 export default {
     name: 'PlanDetail',

@@ -16,7 +16,7 @@
 	</div>
 </template>
 <script>
-import SwitchInput from '../Others/Forms/SwitchInput'
+import SwitchInput from '../Inputs/SwitchInput'
 
 export default {
 	name: 'PlanPeriodSwitcher',

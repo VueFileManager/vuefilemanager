@@ -111,12 +111,12 @@
 </template>
 
 <script>
-import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContent from '../../components/Auth/AuthContent'
-import AuthButton from '../../components/Auth/AuthButton'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent'
+import AuthButton from '../../components/UI/Buttons/AuthButton'
 import { required } from 'vee-validate/dist/rules'
-import Headline from './Headline'
+import Headline from '../../components/UI/Labels/LogoHeadline'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

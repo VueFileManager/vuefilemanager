@@ -22,8 +22,8 @@
     </div>
 </template>
 <script>
-import FormLabel from '../Others/Forms/FormLabel'
-import ProgressLine from '../Admin/ProgressLine'
+import FormLabel from '../UI/Labels/FormLabel'
+import ProgressLine from '../UI/ProgressChart/ProgressLine'
 import { mapGetters } from 'vuex'
 
 export default {

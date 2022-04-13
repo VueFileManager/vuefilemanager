@@ -10,7 +10,7 @@
                 <h1 class="title">{{ title }}</h1>
                 <h2 class="description">{{ description }}</h2>
             </div>
-            <slot></slot>
+            <slot />
         </div>
     </div>
 </template>

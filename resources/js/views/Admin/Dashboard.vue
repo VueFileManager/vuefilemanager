@@ -130,16 +130,16 @@
 </template>
 
 <script>
-import WidgetLatestRegistrations from '../../components/Admin/WidgetLatestRegistrations'
+import WidgetLatestRegistrations from '../../components/Dashboard/Widgets/WidgetLatestRegistrations'
 import {ChevronRightIcon} from 'vue-feather-icons'
-import Spinner from '../../components/FilesView/Spinner'
-import FormLabel from '../../components/Others/Forms/FormLabel'
-import BarChart from '../../components/UI/BarChart'
+import Spinner from '../../components/UI/Others/Spinner'
+import FormLabel from '../../components/UI/Labels/FormLabel'
+import BarChart from '../../components/UI/BarChart/BarChart'
 import {mapGetters} from 'vuex'
 import axios from 'axios'
-import WidgetLatestTransactions from '../../components/Admin/WidgetLatestTransactions'
-import AlertBox from "../../components/Admin/AlertBox";
-import AppSpecification from "../../components/Admin/AppSpecification";
+import WidgetLatestTransactions from '../../components/Dashboard/Widgets/WidgetLatestTransactions'
+import AlertBox from "../../components/UI/Others/AlertBox";
+import AppSpecification from "../../components/Dashboard/AppSpecification";
 
 export default {
     name: 'Dashboard',

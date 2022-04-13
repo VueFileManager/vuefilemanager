@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import PageTitle from '../../components/Index/Components/PageTitle'
-import PageFooter from '../../components/Index/IndexPageFooter'
-import Navigation from '../../components/Index/IndexNavigation'
+import PageTitle from '../../components/IndexPage/Components/PageTitle'
+import PageFooter from '../../components/IndexPage/IndexPageFooter'
+import Navigation from '../../components/IndexPage/IndexNavigation'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

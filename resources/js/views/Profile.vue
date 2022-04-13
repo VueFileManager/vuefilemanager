@@ -74,26 +74,26 @@
 </template>
 
 <script>
-import MobileNavigation from '../components/Others/MobileNavigation'
-import ChargePaymentPopup from '../components/Others/ChargePaymentPopup'
-import SubscribeAccountPopup from '../components/Subscription/SubscribeAccountPopup'
-import ConfirmPopup from '../components/Others/Popup/ConfirmPopup'
+import MobileNavigation from '../components/Mobile/MobileNavigation'
+import ChargePaymentPopup from '../components/Subscription/Popups/ChargePaymentPopup'
+import SubscribeAccountPopup from '../components/Subscription/Popups/SubscribeAccountPopup'
+import ConfirmPopup from '../components/Popups/ConfirmPopup'
 import FilePreview from '../components/FilePreview/FilePreview'
 import Spotlight from '../components/Spotlight/Spotlight'
-import TwoFactorRecoveryCodesPopup from '../components/Others/TwoFactorRecoveryCodesPopup'
-import CreatePersonalTokenPopup from '../components/Others/CreatePersonalTokenPopup'
-import TwoFactorQrSetupPopup from '../components/Others/TwoFactorQrSetupPopup'
-import AvatarInput from '../components/Others/Forms/AvatarInput'
-import ColorLabel from '../components/Others/ColorLabel'
-import Spinner from '../components/FilesView/Spinner'
+import TwoFactorRecoveryCodesPopup from '../components/TwoFactorSetup/TwoFactorRecoveryCodesPopup'
+import CreatePersonalTokenPopup from '../components/Popups/CreatePersonalTokenPopup'
+import TwoFactorQrSetupPopup from '../components/TwoFactorSetup/TwoFactorQrSetupPopup'
+import AvatarInput from '../components/Inputs/AvatarInput'
+import ColorLabel from '../components/UI/Labels/ColorLabel'
+import Spinner from '../components/UI/Others/Spinner'
 import { mapGetters } from 'vuex'
-import CardNavigation from '../components/Admin/CardNavigation'
-import ConfirmPassword from '../components/Others/ConfirmPassword'
+import CardNavigation from '../components/UI/Others/CardNavigation'
+import ConfirmPassword from '../components/TwoFactorSetup/ConfirmPassword'
 import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar'
-import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
+import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
 import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
-import ChangeSubscriptionPopup from "../components/Subscription/ChangeSubscriptionPopup";
-import NotificationsPopup from "../components/Others/NotificationsPopup";
+import ChangeSubscriptionPopup from "../components/Subscription/Popups/ChangeSubscriptionPopup";
+import NotificationsPopup from "../components/Notifications/NotificationsPopup";
 
 export default {
     name: 'Settings',

@@ -262,22 +262,21 @@
             </DatatableWrapper>
         </div>
         <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
+            <Spinner />
         </div>
     </div>
 </template>
 
 <script>
-import MemberAvatar from '../../components/FilesView/MemberAvatar'
-import DatatableCellImage from '../../components/Others/Tables/DatatableCellImage'
-import DatatableWrapper from '../../components/Others/Tables/DatatableWrapper'
-import MobileActionButton from '../../components/FilesView/MobileActionButton'
+import MemberAvatar from '../../components/UI/Others/MemberAvatar'
+import DatatableCellImage from '../../components/UI/Table/DatatableCellImage'
+import DatatableWrapper from '../../components/UI/Table/DatatableWrapper'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
 import MobileHeader from '../../components/Mobile/MobileHeader'
-import SectionTitle from '../../components/Others/SectionTitle'
-import ButtonBase from '../../components/FilesView/ButtonBase'
-import PageHeader from '../../components/Others/PageHeader'
-import ColorLabel from '../../components/Others/ColorLabel'
-import Spinner from '../../components/FilesView/Spinner'
+import SectionTitle from '../../components/UI/Labels/SectionTitle'
+import ButtonBase from '../../components/UI/Buttons/ButtonBase'
+import ColorLabel from '../../components/UI/Labels/ColorLabel'
+import Spinner from '../../components/UI/Others/Spinner'
 import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -292,7 +291,6 @@ export default {
         SectionTitle,
         MobileHeader,
         Trash2Icon,
-        PageHeader,
         ButtonBase,
         ColorLabel,
         Edit2Icon,

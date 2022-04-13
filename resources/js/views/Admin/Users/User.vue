@@ -37,17 +37,16 @@
 </template>
 
 <script>
-import CardNavigation from '../../../components/Admin/CardNavigation'
+import CardNavigation from '../../../components/UI/Others/CardNavigation'
 import { UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon } from 'vue-feather-icons'
 import MobileHeader from '../../../components/Mobile/MobileHeader'
-import SectionTitle from '../../../components/Others/SectionTitle'
-import PageHeader from '../../../components/Others/PageHeader'
-import ColorLabel from '../../../components/Others/ColorLabel'
-import Spinner from '../../../components/FilesView/Spinner'
+import SectionTitle from '../../../components/UI/Labels/SectionTitle'
+import ColorLabel from '../../../components/UI/Labels/ColorLabel'
+import Spinner from '../../../components/UI/Others/Spinner'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import MemberAvatar from "../../../components/FilesView/MemberAvatar";
+import MemberAvatar from "../../../components/UI/Others/MemberAvatar";
 
 export default {
     name: 'Profile',
@@ -59,7 +58,6 @@ export default {
         SectionTitle,
         FileTextIcon,
         MobileHeader,
-        PageHeader,
         ColorLabel,
         Trash2Icon,
         UserIcon,

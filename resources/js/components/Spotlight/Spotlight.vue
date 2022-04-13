@@ -300,12 +300,12 @@
 
 <script>
 import { events } from '../../bus'
-import ItemList from '../FilesView/ItemList'
-import MemberAvatar from '../FilesView/MemberAvatar'
-import Spinner from '../FilesView/Spinner'
-import CategoryName from './CategoryName'
-import FilterSuggestion from './FilterSuggestion'
-import KeyboardHints from './KeyboardHints'
+import ItemList from '../UI/Entries/ItemList'
+import MemberAvatar from '../UI/Others/MemberAvatar'
+import Spinner from '../UI/Others/Spinner'
+import CategoryName from './Components/CategoryName'
+import FilterSuggestion from './Components/FilterSuggestion'
+import KeyboardHints from './Components/KeyboardHints'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import {

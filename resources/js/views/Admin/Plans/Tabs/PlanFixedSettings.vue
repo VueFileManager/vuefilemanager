@@ -113,12 +113,12 @@
 </template>
 
 <script>
-import SwitchInput from '../../../../components/Others/Forms/SwitchInput'
-import SelectInput from '../../../../components/Others/Forms/SelectInput'
-import AppInputSwitch from '../../../../components/Admin/AppInputSwitch'
-import FormLabel from '../../../../components/Others/Forms/FormLabel'
-import AppInputText from '../../../../components/Admin/AppInputText'
-import InfoBox from '../../../../components/Others/Forms/InfoBox'
+import SwitchInput from '../../../../components/Inputs/SwitchInput'
+import SelectInput from '../../../../components/Inputs/SelectInput'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
+import FormLabel from '../../../../components/UI/Labels/FormLabel'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
+import InfoBox from '../../../../components/UI/Others/InfoBox'
 
 export default {
     name: 'PlanFixedSettings',

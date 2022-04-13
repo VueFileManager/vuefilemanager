@@ -157,24 +157,24 @@
 </template>
 
 <script>
-import MobileMultiSelectToolbar from '../../components/FilesView/MobileMultiSelectToolbar'
-import MobileActionButton from '../../components/FilesView/MobileActionButton'
-import FileActionsMobile from '../../components/FilesView/FileActionsMobile'
-import MobileContextMenu from '../../components/FilesView/MobileContextMenu'
+import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
+import FileActionsMobile from '../../components/Mobile/FileActionsMobile'
+import MobileContextMenu from '../../components/Menus/MobileContextMenu'
 import VueFolderIcon from '../../components/Icons/VueFolderIcon'
-import MobileCreateMenu from '../../components/FilesView/MobileCreateMenu'
-import EmptyFilePage from '../../components/FilesView/EmptyFilePage'
-import ToolbarButton from '../../components/FilesView/ToolbarButton'
-import MemberAvatar from '../../components/FilesView/MemberAvatar'
-import ButtonUpload from '../../components/FilesView/ButtonUpload'
-import OptionUpload from '../../components/FilesView/OptionUpload'
-import FileBrowser from '../../components/FilesView/FileBrowser'
-import ContextMenu from '../../components/FilesView/ContextMenu'
-import OptionGroup from '../../components/FilesView/OptionGroup'
-import Option from '../../components/FilesView/Option'
+import MobileCreateMenu from '../../components/Menus/MobileCreateMenu'
+import EmptyFilePage from '../../components/EntriesView/EmptyFilePage'
+import ToolbarButton from '../../components/UI/Buttons/ToolbarButton'
+import MemberAvatar from '../../components/UI/Others/MemberAvatar'
+import ButtonUpload from '../../components/UI/Buttons/ButtonUpload'
+import OptionUpload from '../../components/Menus/Components/OptionUpload'
+import FileBrowser from '../../components/EntriesView/FileBrowser'
+import ContextMenu from '../../components/Menus/ContextMenu'
+import OptionGroup from '../../components/Menus/Components/OptionGroup'
+import Option from '../../components/Menus/Components/Option'
 import {events} from '../../bus'
 import {mapGetters} from 'vuex'
-import InfoBox from "../../components/Others/Forms/InfoBox";
+import InfoBox from "../../components/UI/Others/InfoBox";
 
 export default {
 	name: 'Files',

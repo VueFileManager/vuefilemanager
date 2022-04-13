@@ -65,13 +65,13 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
-import InfoBox from '../../components/Others/Forms/InfoBox'
-import AuthContent from '../../components/Auth/AuthContent'
-import AuthButton from '../../components/Auth/AuthButton'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
+import InfoBox from '../../components/UI/Others/InfoBox'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent'
+import AuthButton from '../../components/UI/Buttons/AuthButton'
 import { SettingsIcon } from 'vue-feather-icons'
 import { required } from 'vee-validate/dist/rules'
-import Headline from '../Auth/Headline'
+import Headline from '../../components/UI/Labels/LogoHeadline'
 import axios from 'axios'
 
 export default {

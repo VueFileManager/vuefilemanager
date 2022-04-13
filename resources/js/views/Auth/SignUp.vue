@@ -136,7 +136,7 @@
                 </div>
             </ValidationObserver>
 
-            <SocialiteAuthenticationButtons />
+            <SocialLoginButtons />
 
             <span class="block"
                 >{{ $t('page_registration.have_an_account') }}
@@ -149,12 +149,12 @@
 </template>
 
 <script>
-import Headline from './Headline'
-import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
+import Headline from '../../components/UI/Labels/LogoHeadline'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContent from '../../components/Auth/AuthContent'
-import AuthButton from '../../components/Auth/AuthButton'
-import SocialiteAuthenticationButtons from '../../components/Auth/SocialiteAuthenticationButtons'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent'
+import AuthButton from '../../components/UI/Buttons/AuthButton'
+import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons'
 import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
@@ -163,7 +163,7 @@ import axios from 'axios'
 export default {
     name: 'SignUp',
     components: {
-        SocialiteAuthenticationButtons,
+        SocialLoginButtons,
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,

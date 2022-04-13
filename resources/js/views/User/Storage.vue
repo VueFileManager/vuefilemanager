@@ -55,11 +55,11 @@
 </template>
 
 <script>
-import ProgressLine from '../../components/Admin/ProgressLine'
-import FormLabel from '../../components/Others/Forms/FormLabel'
-import PageTab from '../../components/Others/Layout/PageTab'
+import ProgressLine from '../../components/UI/ProgressChart/ProgressLine'
+import FormLabel from '../../components/UI/Labels/FormLabel'
+import PageTab from '../../components/Layout/PageTab'
 import axios from 'axios'
-import BarChart from '../../components/UI/BarChart'
+import BarChart from '../../components/UI/BarChart/BarChart'
 import { mapGetters } from 'vuex'
 
 export default {

@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import AppInputSwitch from '../Admin/AppInputSwitch'
-import ButtonBase from '../FilesView/ButtonBase'
-import FormLabel from '../Others/Forms/FormLabel'
+import AppInputSwitch from '../Forms/Layouts/AppInputSwitch'
+import ButtonBase from '../UI/Buttons/ButtonBase'
+import FormLabel from '../UI/Labels/FormLabel'
 import axios from 'axios'
 import { events } from '../../bus'
-import AppInputButton from '../Admin/AppInputButton'
+import AppInputButton from '../Forms/Layouts/AppInputButton'
 
 export default {
     name: 'UserUpdatePaymentMethodsExternally',

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import CardNavigation from '../../../components/Admin/CardNavigation'
+import CardNavigation from '../../../components/UI/Others/CardNavigation'
 
 export default {
     name: 'PaymentSettings',

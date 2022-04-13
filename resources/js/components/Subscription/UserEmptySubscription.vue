@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import InfoBox from '../Others/Forms/InfoBox'
-import FormLabel from '../Others/Forms/FormLabel'
-import ButtonBase from '../FilesView/ButtonBase'
+import InfoBox from '../UI/Others/InfoBox'
+import FormLabel from '../UI/Labels/FormLabel'
+import ButtonBase from '../UI/Buttons/ButtonBase'
 
 export default {
     name: 'UserEmptySubscription',

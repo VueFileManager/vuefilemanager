@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import CardNavigation from '../../../components/Admin/CardNavigation'
-import Spinner from '../../../components/FilesView/Spinner'
+import CardNavigation from '../../../components/UI/Others/CardNavigation'
+import Spinner from '../../../components/UI/Others/Spinner'
 import axios from 'axios'
 
 export default {

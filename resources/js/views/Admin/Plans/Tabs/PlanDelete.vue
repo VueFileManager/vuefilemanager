@@ -46,11 +46,11 @@
 </template>
 
 <script>
-import AppInputText from '../../../../components/Admin/AppInputText'
-import FormLabel from '../../../../components/Others/Forms/FormLabel'
-import InfoBox from '../../../../components/Others/Forms/InfoBox'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
+import FormLabel from '../../../../components/UI/Labels/FormLabel'
+import InfoBox from '../../../../components/UI/Others/InfoBox'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '../../../../components/FilesView/ButtonBase'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
 import { required, is } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import axios from 'axios'

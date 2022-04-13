@@ -79,9 +79,9 @@
 </template>
 
 <script>
-import ButtonBase from '../components/FilesView/ButtonBase'
+import ButtonBase from '../components/UI/Buttons/ButtonBase'
 import Video from '../components/FilePreview/Media/Video'
-import ItemGrid from '../components/FilesView/ItemGrid'
+import ItemGrid from '../components/UI/Entries/ItemGrid'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

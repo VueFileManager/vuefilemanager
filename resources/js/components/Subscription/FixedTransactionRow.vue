@@ -62,9 +62,9 @@
     </tr>
 </template>
 <script>
-import MemberAvatar from '../FilesView/MemberAvatar'
+import MemberAvatar from '../UI/Others/MemberAvatar'
 import MeteredTransactionDetailRow from './MeteredTransactionDetailRow'
-import ColorLabel from '../Others/ColorLabel'
+import ColorLabel from '../UI/Labels/ColorLabel'
 import { EyeIcon, FileTextIcon } from 'vue-feather-icons'
 
 export default {

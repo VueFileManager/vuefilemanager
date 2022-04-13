@@ -22,13 +22,13 @@
 </template>
 
 <script>
-import ToasterWrapper from './components/Others/Notifications/ToasterNotifications'
+import ToasterWrapper from './components/Toaster/ToasterNotifications'
 import RestrictionWarningBar from './components/Subscription/RestrictionWarningBar'
 import SidebarNavigation from "./components/Sidebar/SidebarNavigation"
-import CookieDisclaimer from './components/Others/CookieDisclaimer'
-import Spinner from './components/FilesView/Spinner'
-import Vignette from './components/Others/Vignette'
-import Alert from './components/FilesView/Alert'
+import CookieDisclaimer from './components/UI/Others/CookieDisclaimer'
+import Spinner from './components/UI/Others/Spinner'
+import Vignette from './components/UI/Others/Vignette'
+import Alert from './components/Popups/Alert'
 import { mapGetters } from 'vuex'
 import { events } from './bus'
 

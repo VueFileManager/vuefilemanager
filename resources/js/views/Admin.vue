@@ -62,9 +62,9 @@
 
 <script>
 import FilePreview from '../components/FilePreview/FilePreview'
-import CreateLanguage from '../components/Others/CreateLanguage'
-import MobileNavigation from '../components/Others/MobileNavigation'
-import ConfirmPopup from '../components/Others/Popup/ConfirmPopup'
+import CreateLanguage from '../components/Popups/CreateLanguagePopup'
+import MobileNavigation from '../components/Mobile/MobileNavigation'
+import ConfirmPopup from '../components/Popups/ConfirmPopup'
 import ContentGroup from '../components/Sidebar/ContentGroup'
 import ContentSidebar from '../components/Sidebar/ContentSidebar'
 import Spotlight from '../components/Spotlight/Spotlight'
@@ -83,9 +83,9 @@ import {
     UsersIcon,
 } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
-import CreateUploadRequestPopup from "../components/Others/CreateUploadRequestPopup";
+import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
 import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
-import NotificationsPopup from "../components/Others/NotificationsPopup";
+import NotificationsPopup from "../components/Notifications/NotificationsPopup";
 
 export default {
     name: 'Admin',

@@ -51,9 +51,9 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '../FilesView/ButtonBase'
-import FormLabel from '../Others/Forms/FormLabel'
-import AppInputText from '../Admin/AppInputText'
+import ButtonBase from '../UI/Buttons/ButtonBase'
+import FormLabel from '../UI/Labels/FormLabel'
+import AppInputText from '../Forms/Layouts/AppInputText'
 import { mapGetters } from 'vuex'
 
 export default {

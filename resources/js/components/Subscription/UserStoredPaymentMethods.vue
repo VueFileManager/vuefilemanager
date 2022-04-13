@@ -69,15 +69,15 @@
     </div>
 </template>
 <script>
-import ButtonBase from '../FilesView/ButtonBase'
-import FormLabel from '../Others/Forms/FormLabel'
+import ButtonBase from '../UI/Buttons/ButtonBase'
+import FormLabel from '../UI/Labels/FormLabel'
 import PaymentCard from './PaymentCard'
-import Spinner from '../FilesView/Spinner'
+import Spinner from '../UI/Others/Spinner'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios'
-import InfoBox from "../Others/Forms/InfoBox";
+import InfoBox from "../UI/Others/InfoBox";
 
 // Define stripe variables
 let stripe,

@@ -66,18 +66,16 @@
 </template>
 
 <script>
-import DatatableWrapper from '../../components/Others/Tables/DatatableWrapper'
-import MobileActionButton from '../../components/FilesView/MobileActionButton'
+import DatatableWrapper from '../../components/UI/Table/DatatableWrapper'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
 import EmptyPageContent from '../../components/Others/EmptyPageContent'
-import SwitchInput from '../../components/Others/Forms/SwitchInput'
+import SwitchInput from '../../components/Inputs/SwitchInput'
 import MobileHeader from '../../components/Mobile/MobileHeader'
-import SectionTitle from '../../components/Others/SectionTitle'
-import ButtonBase from '../../components/FilesView/ButtonBase'
+import SectionTitle from '../../components/UI/Labels/SectionTitle'
+import ButtonBase from '../../components/UI/Buttons/ButtonBase'
 import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
-import PageHeader from '../../components/Others/PageHeader'
-import ColorLabel from '../../components/Others/ColorLabel'
-import Spinner from '../../components/FilesView/Spinner'
-import axios from 'axios'
+import ColorLabel from '../../components/UI/Labels/ColorLabel'
+import Spinner from '../../components/UI/Others/Spinner'
 
 export default {
     name: 'Pages',
@@ -89,7 +87,6 @@ export default {
         MobileHeader,
         SwitchInput,
         Trash2Icon,
-        PageHeader,
         ButtonBase,
         ColorLabel,
         Edit2Icon,

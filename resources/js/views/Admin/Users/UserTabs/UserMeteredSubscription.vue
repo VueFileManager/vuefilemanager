@@ -94,10 +94,10 @@
 </template>
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AppInputText from '../../../../components/Admin/AppInputText'
-import FormLabel from '../../../../components/Others/Forms/FormLabel'
-import ButtonBase from '../../../../components/FilesView/ButtonBase'
-import ColorLabel from '../../../../components/Others/ColorLabel'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
+import FormLabel from '../../../../components/UI/Labels/FormLabel'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
+import ColorLabel from '../../../../components/UI/Labels/ColorLabel'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { events } from '../../../../bus'

@@ -27,10 +27,10 @@
 </template>
 <script>
 import { EyeIcon, FileTextIcon } from 'vue-feather-icons'
-import ColorLabel from '../Others/ColorLabel'
-import DatatableWrapper from '../Others/Tables/DatatableWrapper'
-import FormLabel from '../Others/Forms/FormLabel'
-import InfoBox from '../Others/Forms/InfoBox'
+import ColorLabel from '../UI/Labels/ColorLabel'
+import DatatableWrapper from '../UI/Table/DatatableWrapper'
+import FormLabel from '../UI/Labels/FormLabel'
+import InfoBox from '../UI/Others/InfoBox'
 import { mapGetters } from 'vuex'
 import MeteredTransactionDetailRow from './MeteredTransactionDetailRow'
 import MeteredTransactionRow from './MeteredTransactionRow'

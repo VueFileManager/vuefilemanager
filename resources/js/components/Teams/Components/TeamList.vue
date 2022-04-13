@@ -53,7 +53,7 @@
 
 <script>
 import PermissionToggleButton from './PermissionToggleButton'
-import MemberAvatar from '../../FilesView/MemberAvatar'
+import MemberAvatar from '../../UI/Others/MemberAvatar'
 import { XIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 

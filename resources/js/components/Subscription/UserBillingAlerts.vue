@@ -113,9 +113,9 @@
 </template>
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '../FilesView/ButtonBase'
-import AppInputText from '../Admin/AppInputText'
-import FormLabel from '../Others/Forms/FormLabel'
+import ButtonBase from '../UI/Buttons/ButtonBase'
+import AppInputText from '../Forms/Layouts/AppInputText'
+import FormLabel from '../UI/Labels/FormLabel'
 import { Edit2Icon, Trash2Icon } from 'vue-feather-icons'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'

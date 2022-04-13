@@ -186,18 +186,17 @@
 </template>
 
 <script>
-import AppInputSwitch from '../../../components/Admin/AppInputSwitch'
-import AppInputText from '../../../components/Admin/AppInputText'
+import AppInputSwitch from '../../../components/Forms/Layouts/AppInputSwitch'
+import AppInputText from '../../../components/Forms/Layouts/AppInputText'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import MobileActionButton from '../../../components/FilesView/MobileActionButton'
-import SwitchInput from '../../../components/Others/Forms/SwitchInput'
-import SearchInput from '../../../components/Others/Forms/SearchInput'
-import FormLabel from '../../../components/Others/Forms/FormLabel'
+import MobileActionButton from '../../../components/UI/Buttons/MobileActionButton'
+import SwitchInput from '../../../components/Inputs/SwitchInput'
+import SearchInput from '../../../components/Inputs/SearchInput'
+import FormLabel from '../../../components/UI/Labels/FormLabel'
 import MobileHeader from '../../../components/Mobile/MobileHeader'
-import ButtonBase from '../../../components/FilesView/ButtonBase'
-import InfoBox from '../../../components/Others/Forms/InfoBox'
-import PageHeader from '../../../components/Others/PageHeader'
-import Spinner from '../../../components/FilesView/Spinner'
+import ButtonBase from '../../../components/UI/Buttons/ButtonBase'
+import InfoBox from '../../../components/UI/Others/InfoBox'
+import Spinner from '../../../components/UI/Others/Spinner'
 import { PlusIcon, XIcon } from 'vue-feather-icons'
 import { debounce, omitBy } from 'lodash'
 import { events } from '../../../bus'
@@ -214,7 +213,6 @@ export default {
         SearchInput,
         SwitchInput,
         ButtonBase,
-        PageHeader,
         FormLabel,
         PlusIcon,
         InfoBox,

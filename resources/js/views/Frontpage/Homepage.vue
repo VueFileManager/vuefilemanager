@@ -26,20 +26,20 @@
             <PageFooter />
         </div>
         <div v-if="isLoading">
-            <Spinner></Spinner>
+            <Spinner />
         </div>
     </div>
 </template>
 
 <script>
-import HeroScreenshot from '../../components/Index/IndexHeroScreenshot'
-import PricingTables from '../../components/Index/IndexPricingTables'
-import MainFeatures from '../../components/Index/IndexMainFeatures'
-import Navigation from '../../components/Index/IndexNavigation'
-import PageHeader from '../../components/Index/IndexPageHeader'
-import GetStarted from '../../components/Index/IndexGetStarted'
-import PageFooter from '../../components/Index/IndexPageFooter'
-import Spinner from '../../components/FilesView/Spinner'
+import HeroScreenshot from '../../components/IndexPage/IndexHeroScreenshot'
+import PricingTables from '../../components/IndexPage/IndexPricingTables'
+import MainFeatures from '../../components/IndexPage/IndexMainFeatures'
+import Navigation from '../../components/IndexPage/IndexNavigation'
+import PageHeader from '../../components/IndexPage/IndexPageHeader'
+import GetStarted from '../../components/IndexPage/IndexGetStarted'
+import PageFooter from '../../components/IndexPage/IndexPageFooter'
+import Spinner from '../../components/UI/Others/Spinner'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 
@@ -85,9 +85,3 @@ export default {
     },
 }
 </script>
-
-<style lang="scss" scoped>
-@import '../../../sass/vuefilemanager/landing-page';
-@import '../../../sass/vuefilemanager/variables';
-@import '../../../sass/vuefilemanager/mixins';
-</style>

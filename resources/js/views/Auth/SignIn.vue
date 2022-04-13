@@ -38,7 +38,7 @@
                 />
             </ValidationObserver>
 
-            <SocialiteAuthenticationButtons />
+            <SocialLoginButtons />
 
             <span v-if="config.userRegistration" class="block">
                 {{ $t('page_login.registration_text') }}
@@ -228,21 +228,21 @@
 </template>
 
 <script>
-import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
 import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import SocialiteAuthenticationButtons from '../../components/Auth/SocialiteAuthenticationButtons'
-import AuthContent from '../../components/Auth/AuthContent'
-import AuthButton from '../../components/Auth/AuthButton'
-import Spinner from '../../components/FilesView/Spinner'
+import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent'
+import AuthButton from '../../components/UI/Buttons/AuthButton'
+import Spinner from '../../components/UI/Others/Spinner'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
-import Headline from './Headline'
+import Headline from '../../components/UI/Labels/LogoHeadline'
 
 export default {
     name: 'SignIn',
     components: {
-        SocialiteAuthenticationButtons,
+        SocialLoginButtons,
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,

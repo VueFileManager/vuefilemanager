@@ -24,11 +24,11 @@
     </div>
 </template>
 <script>
-import InfoBox from '../Others/Forms/InfoBox'
-import DatatableWrapper from '../Others/Tables/DatatableWrapper'
+import InfoBox from '../UI/Others/InfoBox'
+import DatatableWrapper from '../UI/Table/DatatableWrapper'
 import FixedTransactionRow from './FixedTransactionRow'
-import FormLabel from '../Others/Forms/FormLabel'
-import ColorLabel from '../Others/ColorLabel'
+import FormLabel from '../UI/Labels/FormLabel'
+import ColorLabel from '../UI/Labels/ColorLabel'
 
 export default {
     name: 'UserTransactionsForFixedBilling',

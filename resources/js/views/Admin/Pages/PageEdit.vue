@@ -33,23 +33,22 @@
             </AppInputText>
         </div>
         <div id="loader" v-if="isLoading">
-            <Spinner></Spinner>
+            <Spinner />
         </div>
     </div>
 </template>
 
 <script>
-import AppInputSwitch from '../../../components/Admin/AppInputSwitch'
-import AppInputText from '../../../components/Admin/AppInputText'
+import AppInputSwitch from '../../../components/Forms/Layouts/AppInputSwitch'
+import AppInputText from '../../../components/Forms/Layouts/AppInputText'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import FormLabel from '../../../components/Others/Forms/FormLabel'
+import FormLabel from '../../../components/UI/Labels/FormLabel'
 import { required } from 'vee-validate/dist/rules'
-import SwitchInput from '../../../components/Others/Forms/SwitchInput'
+import SwitchInput from '../../../components/Inputs/SwitchInput'
 import MobileHeader from '../../../components/Mobile/MobileHeader'
-import SectionTitle from '../../../components/Others/SectionTitle'
-import ButtonBase from '../../../components/FilesView/ButtonBase'
-import PageHeader from '../../../components/Others/PageHeader'
-import Spinner from '../../../components/FilesView/Spinner'
+import SectionTitle from '../../../components/UI/Labels/SectionTitle'
+import ButtonBase from '../../../components/UI/Buttons/ButtonBase'
+import Spinner from '../../../components/UI/Others/Spinner'
 import axios from 'axios'
 
 export default {
@@ -63,7 +62,6 @@ export default {
         SectionTitle,
         MobileHeader,
         SwitchInput,
-        PageHeader,
         ButtonBase,
         required,
         Spinner,

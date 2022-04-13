@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import AppInputButton from '../Admin/AppInputButton'
-import AppInputText from '../Admin/AppInputText'
-import AppInputSwitch from '../Admin/AppInputSwitch'
-import ButtonBase from '../FilesView/ButtonBase'
-import FormLabel from '../Others/Forms/FormLabel'
+import AppInputButton from '../Forms/Layouts/AppInputButton'
+import AppInputText from '../Forms/Layouts/AppInputText'
+import AppInputSwitch from '../Forms/Layouts/AppInputSwitch'
+import ButtonBase from '../UI/Buttons/ButtonBase'
+import FormLabel from '../UI/Labels/FormLabel'
 import { events } from '../../bus'
 import axios from 'axios'
 

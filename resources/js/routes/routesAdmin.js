@@ -304,7 +304,7 @@ const routesAdmin = [
                 name: 'AppSettings',
                 path: '/admin/settings',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/app-settings" */ '../views/Admin/AppSettings/AppSettings'),
+                    import(/* webpackChunkName: "chunks/app-settings" */ '../views/Admin/Settings/AppSettings'),
                 meta: {
                     requiresAuth: true,
                     title: 'settings',
@@ -315,7 +315,7 @@ const routesAdmin = [
                         path: '/admin/settings/appearance',
                         component: () =>
                             import(
-                                /* webpackChunkName: "chunks/app-appearance" */ '../views/Admin/AppSettings/AppSettingsTabs/Appearance'
+                                /* webpackChunkName: "chunks/app-appearance" */ '../views/Admin/Settings/AppSettingsTabs/Appearance'
                             ),
                         meta: {
                             requiresAuth: true,
@@ -327,7 +327,7 @@ const routesAdmin = [
                         path: '/admin/settings/index',
                         component: () =>
                             import(
-                                /* webpackChunkName: "chunks/app-index" */ '../views/Admin/AppSettings/AppSettingsTabs/Index'
+                                /* webpackChunkName: "chunks/app-index" */ '../views/Admin/Settings/AppSettingsTabs/Index'
                             ),
                         meta: {
                             requiresAuth: true,
@@ -339,7 +339,7 @@ const routesAdmin = [
                         path: '/admin/settings/environment',
                         component: () =>
                             import(
-                                /* webpackChunkName: "chunks/app-environment" */ '../views/Admin/AppSettings/AppSettingsTabs/Environment'
+                                /* webpackChunkName: "chunks/app-environment" */ '../views/Admin/Settings/AppSettingsTabs/Environment'
                             ),
                         meta: {
                             requiresAuth: true,
@@ -351,7 +351,7 @@ const routesAdmin = [
                         path: '/admin/settings/others',
                         component: () =>
                             import(
-                                /* webpackChunkName: "chunks/app-others" */ '../views/Admin/AppSettings/AppSettingsTabs/Others'
+                                /* webpackChunkName: "chunks/app-others" */ '../views/Admin/Settings/AppSettingsTabs/Others'
                             ),
                         meta: {
                             requiresAuth: true,
@@ -363,7 +363,7 @@ const routesAdmin = [
                         path: '/admin/settings/sign-in',
                         component: () =>
                             import(
-                                /* webpackChunkName: "chunks/app-sign-in-out" */ '../views/Admin/AppSettings/AppSettingsTabs/SignInUp'
+                                /* webpackChunkName: "chunks/app-sign-in-out" */ '../views/Admin/Settings/AppSettingsTabs/SignInUp'
                             ),
                         meta: {
                             requiresAuth: true,
@@ -375,7 +375,7 @@ const routesAdmin = [
                         path: '/admin/settings/adsense',
                         component: () =>
                             import(
-                                /* webpackChunkName: "chunks/app-adsense" */ '../views/Admin/AppSettings/AppSettingsTabs/Adsense'
+                                /* webpackChunkName: "chunks/app-adsense" */ '../views/Admin/Settings/AppSettingsTabs/Adsense'
                             ),
                         meta: {
                             requiresAuth: true,
@@ -387,7 +387,7 @@ const routesAdmin = [
                         path: '/admin/settings/server',
                         component: () =>
                             import(
-                                /* webpackChunkName: "chunks/app-server" */ '../views/Admin/AppSettings/AppSettingsTabs/Server'
+                                /* webpackChunkName: "chunks/app-server" */ '../views/Admin/Settings/AppSettingsTabs/Server'
                             ),
                         meta: {
                             requiresAuth: true,

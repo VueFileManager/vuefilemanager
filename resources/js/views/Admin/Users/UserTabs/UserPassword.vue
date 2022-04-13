@@ -26,17 +26,16 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PageTabGroup from '../../../../components/Others/Layout/PageTabGroup'
-import AppInputSwitch from '../../../../components/Admin/AppInputSwitch'
-import FormLabel from '../../../../components/Others/Forms/FormLabel'
-import ButtonBase from '../../../../components/FilesView/ButtonBase'
-import SetupBox from '../../../../components/Others/Forms/SetupBox'
-import PageTab from '../../../../components/Others/Layout/PageTab'
-import InfoBox from '../../../../components/Others/Forms/InfoBox'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
+import FormLabel from '../../../../components/UI/Labels/FormLabel'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
+import PageTab from '../../../../components/Layout/PageTab'
+import InfoBox from '../../../../components/UI/Others/InfoBox'
 import { required } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import axios from 'axios'
-import AppInputText from '../../../../components/Admin/AppInputText'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
 
 export default {
     name: 'UserPassword',
@@ -48,7 +47,6 @@ export default {
         PageTabGroup,
         ButtonBase,
         FormLabel,
-        SetupBox,
         required,
         InfoBox,
         PageTab,

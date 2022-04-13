@@ -41,8 +41,8 @@
 </template>
 
 <script>
-import MobileActionButton from "../FilesView/MobileActionButton"
-import Notification from "./Notification"
+import MobileActionButton from "../UI/Buttons/MobileActionButton"
+import Notification from "./Components/Notification"
 import vClickOutside from 'v-click-outside'
 import {mapGetters} from "vuex";
 

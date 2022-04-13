@@ -120,12 +120,12 @@
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
 import VueFolderTeamIcon from '../../components/Icons/VueFolderTeamIcon'
-import AuthContentWrapper from '../../components/Auth/AuthContentWrapper'
-import AuthContent from '../../components/Auth/AuthContent'
-import MemberAvatar from '../../components/FilesView/MemberAvatar'
-import AuthButton from '../../components/Auth/AuthButton'
-import Spinner from '../../components/FilesView/Spinner'
-import Headline from '../Auth/Headline'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent'
+import MemberAvatar from '../../components/UI/Others/MemberAvatar'
+import AuthButton from '../../components/UI/Buttons/AuthButton'
+import Spinner from '../../components/UI/Others/Spinner'
+import Headline from '../../components/UI/Labels/LogoHeadline'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

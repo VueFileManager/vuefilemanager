@@ -39,19 +39,19 @@
 </template>
 
 <script>
-import DesktopUploadRequestToolbar from '../components/FilesView/DesktopUploadRequestToolbar'
-import MobileUploadRequestToolBar from "../components/FilesView/MobileUploadRequestToolbar"
-import InfoSidebarUploadRequest from "../components/FilesView/InfoSidebarUploadRequest"
-import FileSortingMobile from '../components/FilesView/FileSortingMobile'
-import FileFilterMobile from '../components/FilesView/FileFilterMobile'
-import CreateFolderPopup from '../components/Others/CreateFolderPopup'
-import DesktopToolbar from '../components/FilesView/DesktopToolbar'
-import ConfirmPopup from "../components/Others/Popup/ConfirmPopup"
-import RenameItemPopup from '../components/Others/RenameItemPopup'
+import DesktopUploadRequestToolbar from '../components/Layout/Toolbars/DesktopUploadRequestToolbar'
+import MobileUploadRequestToolBar from "../components/Layout/Toolbars/MobileUploadRequestToolbar"
+import InfoSidebarUploadRequest from "../components/Layout/Sidebars/InfoSidebarUploadRequest"
+import FileSortingMobile from '../components/Menus/FileSortingMobile'
+import FileFilterMobile from '../components/Menus/FileFilterMobile'
+import CreateFolderPopup from '../components/Popups/CreateFolderPopup'
+import DesktopToolbar from '../components/Layout/Toolbars/DesktopToolbar'
+import ConfirmPopup from "../components/Popups/ConfirmPopup"
+import RenameItemPopup from '../components/Popups/RenameItemPopup'
 import FilePreview from '../components/FilePreview/FilePreview'
-import MoveItemPopup from '../components/Others/MoveItemPopup'
+import MoveItemPopup from '../components/Popups/MoveItemPopup'
 import Spotlight from '../components/Spotlight/Spotlight'
-import DragUI from '../components/FilesView/DragUI'
+import DragUI from '../components/UI/Others/DragUI'
 import { mapGetters } from 'vuex'
 import { events } from '../bus'
 

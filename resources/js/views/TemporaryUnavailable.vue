@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import AuthContentWrapper from '../components/Auth/AuthContentWrapper'
-import AuthContent from '../components/Auth/AuthContent'
-import Headline from './Auth/Headline'
+import AuthContentWrapper from '../components/Layout/AuthPages/AuthContentWrapper'
+import AuthContent from '../components/Layout/AuthPages/AuthContent'
+import Headline from '../components/UI/Labels/LogoHeadline'
 
 export default {
     name: 'TemporaryUnavailable',
