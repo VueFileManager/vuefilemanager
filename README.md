@@ -7,9 +7,12 @@
 - [Installation](#installation)
   - [Server Requirements](#server-requirements)
   - [Installation](#installation)
+  - [Updating Application](#updating-application)
   - [Nginx Configuration](#nginx-configuration)
   - [Apache Configuration](#apache-configuration)
-- [Updating Application](#updating-application)
+- [Subscription Configuration](#subscription-configuration)
+  - [Configuring Production/Testing Environment](#configuring-productiontesting-environment)
+  - [Upgrading From Testing Environment to the Production Mode](#upgrading-from-testing-environment-to-the-production-mode)
 - [Developers](#developers)
   - [Running Environment On Your Localhost](#running-environment-on-your-localhost)
   - [Express Installation](#express-installation)
@@ -70,7 +73,7 @@ Set `755` permission (CHMOD) to these files and folders directory within all chi
 - /.env
 
 ### 4. Open your application in your web browser
-Then open your application in web browser. If everything works fine, you will be redirected to the setup wizard installation process. 
+Then open your application in web browser. If everything works fine, you will be redirected to the setup wizard installation process.
 
 ### 5. Server Check
 On the first page you will see server check. Make sure all items are green. If not, then correct your server setup by recommended values and refresh your setup wizard page.
@@ -102,12 +105,16 @@ php replace_by_your_path/artisan schedule:run >> /dev/null 2>&1
 * * * * *  cd /www/project_files && php artisan schedule:run >> /dev/null 2>&1
 ```
 
-### 8. CORS Configuration (If you Set External Storage s3 Service) 
+### 8. CORS Configuration (If you Set External Storage s3 Service)
 In your s3 bucket settings you should have option to set up your CORS (Cross-Origin Resource Sharing). It's basically adding your app url to the list of allowed CORS. This step is required for reading pdf documents from s3 in your VueFileManager app without loading issues.
 
 ### 9. Broadcasting
-
 Coming soon...
+
+# Updating Application
+1. Replace all files where the app is located except `/storage` folder and `.env` file.
+2. Clear the application cache (Admin / Settings / Application).
+3. In 5 minutes the app update stuff automatically on the background if needed.
 
 ## Nginx Configuration
 If you running VueFileManager under Nginx, don't forget set this value in your `nginx.conf` file:
@@ -170,10 +177,21 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
 </VirtualHost>
 ```
 
-# Updating Application
-1. Replace all files where the app is located except `/storage` folder and `.env` file.
-2. Clear the application cache (Admin / Settings / Application).
-3. In 5 minutes the app update stuff automatically on the background if needed.
+# Subscription Configuration
+
+## Configuring Production/Testing Environment
+To set up your subscription, please follow these steps below.
+1. If you didn't set up your subscription type in Setup Wizard, go to the `Admin / Settings / Application` and find subscription widget. Next set value as `Fixed`.
+2. Go to the `Admin / Billings` and fill the inputs with your billing information.
+3. Go to the `Admin / Payments` and turn on the switch `Allow Subscription Payments`.
+4. Set up credentials for all payment gateway you want. If you set production mode, make sure you fill your credentials with production keys, and vice versa. If needed, don't forget to turn on `live mode` for PayPal.
+5. Set up your webhooks, you can find your webhook url in payment gateway widget.
+6. Go to the `Admin / Plans` and create your first plan. Make sure all payment gateways support the currency you want, especially for Paystack, it supports only `GHS, NGN, USD and ZAR`.
+
+## Upgrading From Testing Environment to the Production Mode
+1. Go to the `Admin / Payments` and set up credentials for all payment gateway you want with production keys type. Don't forget to turn on `live mode` for PayPal.
+2. Go to the `Admin / Plans` and delete all your previously created plans. They will be archived.
+3. Create new production plans you want offer.
 
 # Developers
 ## Running Environment On Your Localhost

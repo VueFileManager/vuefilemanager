@@ -371,10 +371,8 @@ export default {
 		},
 		subscriptionTypeChange(type) {
 			events.$emit('confirm:open', {
-				title: this.$t(''),
-				message: this.$t(
-					'subscription_type_change_warn_description'
-				),
+				title: this.$t('subscription_type_change_warn'),
+				message: this.$t('subscription_type_change_warn_description'),
 				action: {
 					type: type,
 					operation: 'change-subscription-type',
