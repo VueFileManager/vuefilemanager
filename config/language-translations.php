@@ -942,5 +942,10 @@ return [
         'paste_code_from_2fa_app'                        => 'Paste the latest code from 2fa app...',
         'zero_for_unlimited_members'                     => 'Type -1 to set unlimited team members.',
         'max_team_members'                               => 'Max Team Members',
+        'remote_upload'                                  => 'Remote Upload',
+        'upload_files_remotely'                          => 'Upload Files Remotely',
+        'remote_links'                                   => 'Remote Links',
+        'remote_links_help'                              => 'For every line paste one link',
+        'paste_remote_links_here'                        => 'Paste your remote links here...',
     ],
 ];

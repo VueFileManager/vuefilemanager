@@ -569,6 +569,10 @@ const FunctionHelpers = {
         Vue.prototype.$changeSubscriptionOptions = function () {
             events.$emit('popup:open', { name: 'change-plan-subscription' })
         }
+
+        Vue.prototype.$openRemoteUploadPopup = function () {
+            events.$emit('popup:open', {name: 'remote-upload'})
+        }
     },
 }
 

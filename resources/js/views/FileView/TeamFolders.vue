@@ -43,6 +43,12 @@
                 />
             </OptionGroup>
             <OptionGroup :title="$t('others')">
+				<Option
+					@click.stop.native="$openRemoteUploadPopup"
+					:title="$t('remote_upload')"
+					icon="remote-upload"
+					:class="{'is-inactive': isTeamFolderHomepage}"
+				/>
                 <Option
                     @click.stop.native="$createTeamFolder"
                     :title="$t('create_team_folder')"

@@ -119,6 +119,12 @@
                     class="vue-feather group-hover-text-theme"
                     :class="{ 'text-theme': isActive }"
                 />
+                <link2-icon
+                    v-if="icon === 'remote-upload'"
+                    size="17"
+                    class="vue-feather group-hover-text-theme"
+                    :class="{ 'text-theme': isActive }"
+                />
                 <users-icon
                     v-if="icon === 'users'"
                     size="17"
@@ -246,6 +252,7 @@
 <script>
 import AlphabetIcon from '../../Icons/AlphabetIcon'
 import {
+	Link2Icon,
     UserMinusIcon,
     UserCheckIcon,
     UserPlusIcon,
@@ -287,6 +294,7 @@ export default {
     name: 'Option',
     props: ['isHoverDisabled', 'isActive', 'title', 'arrow', 'icon'],
     components: {
+		Link2Icon,
         UserMinusIcon,
         UserCheckIcon,
         UserPlusIcon,

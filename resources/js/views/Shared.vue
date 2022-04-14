@@ -7,6 +7,7 @@
         <!--Popups-->
         <ProcessingPopup />
 
+		<RemoteUploadPopup />
         <CreateFolderPopup />
         <RenameItemPopup />
         <MoveItemPopup />
@@ -61,12 +62,13 @@ import DragUI from '../components/UI/Others/DragUI'
 import Alert from '../components/Popups/Alert'
 import { mapGetters } from 'vuex'
 import { events } from '../bus'
-import router from '../router'
 import DesktopSharepageToolbar from '../components/Layout/Toolbars/DesktopSharepageToolbar'
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
 
 export default {
     name: 'Shared',
     components: {
+		RemoteUploadPopup,
         DesktopSharepageToolbar,
         MobileToolbar,
         InfoSidebar,

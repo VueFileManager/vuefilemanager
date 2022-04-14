@@ -39,6 +39,11 @@
 								:title="$t('upload_folder')"
 								type="folder"
 							/>
+							<Option
+								@click.stop.native="$openRemoteUploadPopup"
+								:title="$t('remote_upload')"
+								icon="remote-upload"
+							/>
                             <Option
                                 @click.stop.native="$createTeamFolder"
                                 :class="{ 'is-inactive': canCreateTeamFolder }"

@@ -2,6 +2,7 @@
     <div class="flex items-center justify-between px-6 pt-6 pb-6">
         <div class="flex items-center">
             <div class="mr-3">
+                <link2-icon v-if="icon === 'remote-upload'" size="18" class="vue-feather text-theme" />
                 <upload-cloud-icon v-if="icon === 'upload'" size="18" class="vue-feather text-theme" />
                 <corner-down-right-icon v-if="icon === 'move'" size="18" class="vue-feather text-theme" />
                 <share-icon v-if="icon === 'share'" size="18" class="vue-feather text-theme" />
@@ -25,6 +26,7 @@
 
 <script>
 import {
+	Link2Icon,
 	BellIcon,
 	UploadCloudIcon,
     CreditCardIcon,
@@ -43,6 +45,7 @@ export default {
     name: 'PopupHeader',
     props: ['title', 'icon'],
     components: {
+		Link2Icon,
 		BellIcon,
 		UploadCloudIcon,
         CornerDownRightIcon,

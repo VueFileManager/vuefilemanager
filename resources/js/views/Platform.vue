@@ -16,6 +16,7 @@
 
         <CreateUploadRequestPopup />
 		<NotificationsPopup />
+		<RemoteUploadPopup />
         <CreateFolderPopup />
         <RenameItemPopup />
         <MoveItemPopup />
@@ -79,10 +80,12 @@ import { events } from '../bus'
 import { mapGetters } from 'vuex'
 import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
 import NotificationsPopup from "../components/Notifications/NotificationsPopup";
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
 
 export default {
     name: 'Platform',
     components: {
+		RemoteUploadPopup,
 		NotificationsPopup,
 		CreateUploadRequestPopup,
         CreateTeamFolderPopup,

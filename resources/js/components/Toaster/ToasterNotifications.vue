@@ -1,7 +1,7 @@
 <template>
     <div
 		v-if="toasters.length || notifications.length"
-		class="fixed bottom-4 right-4 left-4 z-50 sm:w-[360px] sm:left-auto lg:bottom-8 lg:right-8"
+		class="fixed bottom-4 right-4 left-4 z-[55] sm:w-[360px] sm:left-auto lg:bottom-8 lg:right-8"
 	>
         <ToasterWrapper
 			v-for="notification in notifications"

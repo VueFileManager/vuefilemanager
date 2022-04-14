@@ -139,6 +139,11 @@
                                 size="18"
                                 class="vue-feather text-theme"
                             />
+                            <link2-icon
+                                v-if="result.action.value === 'remote-upload'"
+                                size="18"
+                                class="vue-feather text-theme"
+                            />
                             <upload-cloud-icon
                                 v-if="result.action.value === 'RecentUploads'"
                                 size="18"
@@ -309,6 +314,7 @@ import KeyboardHints from './Components/KeyboardHints'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import {
+	Link2Icon,
     FolderPlusIcon,
     SmileIcon,
     BoxIcon,
@@ -340,6 +346,7 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'Spotlight',
     components: {
+		Link2Icon,
         FolderPlusIcon,
         SmileIcon,
         KeyboardHints,
@@ -598,6 +605,13 @@ export default {
                         value: 'create-file-request',
                     },
                 },
+                {
+                    title: this.$t('remote_upload'),
+                    action: {
+                        type: 'function',
+                        value: 'remote-upload',
+                    },
+                },
             ]
 
             let functionList = [
@@ -812,6 +826,10 @@ export default {
 
                 if (arg.action.value === 'create-file-request') {
                     this.$createFileRequest()
+                }
+
+                if (arg.action.value === 'remote-upload') {
+                    this.$openRemoteUploadPopup()
                 }
             }
 
