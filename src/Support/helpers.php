@@ -5,12 +5,12 @@ use ByteUnits\Metric;
 use App\Users\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
 use Domain\Settings\Models\Setting;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
@@ -1157,13 +1157,13 @@ if (! function_exists('replace_occurrence')) {
          * Group paginate of Foldes and Files
          */
         function groupPaginate(
-            Request $request,
             ?Collection $folders = null,
-            ?Collection $files = null
+            ?Collection $files = null,
+            int $totalItemsCount
         ) : array {
 
             $perPage = config('vuefilemanager.paginate.perPage');
-            $currentPage = $request->get('page') === 'all' ? 1 : (int)$request->get('page');
+            $currentPage = request()->input('page') === 'all' ? 1 : (int)request()->input('page');
 
               // Collect Folders with Files
             $entries = collect([
@@ -1171,20 +1171,11 @@ if (! function_exists('replace_occurrence')) {
                 $files   ? json_decode((new FilesCollection($files))->toJson(), true) : null,
             ])->collapse();
 
-            if($request->input('page') === 'all') {
-                // If is page set to 'all' return all records
-                $groupPaginate = $entries;
-            } else {
-                // Paginate grouped Folders and Files
-                $groupPaginate = $entries->forPage($currentPage, $perPage)->values();
-            }
-
-            $uri = $request->fullUrl();
-
-            $lastPage = ceil(count($entries) / $perPage);
+            $uri = request()->fullUrl();
+            $lastPage = ceil($totalItemsCount / $perPage);
               
             return [
-                $groupPaginate, 
+                $entries, 
                 [
                     'currentPage'   => $currentPage,
                     'from'          => 1,
@@ -1192,7 +1183,7 @@ if (! function_exists('replace_occurrence')) {
                     'path'          => $uri,
                     'perPage'       => $perPage,
                     'to'            => $perPage,
-                    'total'         => count($entries),
+                    'total'         => $totalItemsCount,
                 ],
                 [
                     'first'         => $uri . '&page=' . 1,
@@ -1202,6 +1193,62 @@ if (! function_exists('replace_occurrence')) {
                 ]
             ];
         }
-    }
 
+    if(! function_exists('getRecordsCount')) {
+        /**
+         * Get count of items from the Database
+         */
+        function getRecordsCount (
+            array $folderQuery, 
+            array $fileQuery
+            ) : array {
+
+            $perPage = config('vuefilemanager.paginate.perPage');
+            $currentPage = request()->input('page') === 'all' ? 1 : (int)request()->input('page');
+
+            $foldersSkip = 0;
+            $foldersTake = 0;
+            $filesSkip   = 0;
+            $filesTake   = 0; 
+
+            $foldersCount = DB::table('folders')
+                ->where($folderQuery)
+                ->count();
+
+            $filesCount = DB::table('files')
+                ->where($fileQuery)
+                ->count();
+
+            $totalItemsCount = $foldersCount + $filesCount;
+
+            if(request()->input('page') !== 'all') {
+
+                // Folders pages
+                if($foldersCount >= $currentPage * $perPage) {
+                    $foldersTake = $perPage;
+                    $foldersSkip = ($currentPage - 1) * $perPage;
+                }
+    
+                // Mixed page
+                if($foldersCount < $currentPage * $perPage && ceil($currentPage) === ceil($foldersCount / $perPage) ) {
+                    $foldersSkip = ($currentPage - 1) * $perPage;
+                    $foldersTake = $foldersCount - $foldersSkip;
+                    $filesTake   = ($currentPage * $perPage) - $foldersCount;
+                    $filesSkip = 0;
+                }
+    
+                // Files pages
+                if($currentPage > ceil($foldersCount / $perPage)) {
+                    $filesTake = $perPage;
+                    $filesSkip = ((ceil($foldersCount / $perPage) * $perPage) - $foldersCount) + ($currentPage - (ceil($foldersCount / $perPage)) -1) * $perPage;
+                }
+            } else {
+                $foldersTake = $foldersCount;
+                $filesTake   = $filesCount;
+            }
+
+            return [$foldersTake, $foldersSkip, $filesTake, $filesSkip, $totalItemsCount];
+        }
+        }
+    }
 }
