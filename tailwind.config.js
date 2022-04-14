@@ -8,6 +8,14 @@ module.exports = {
 		debugScreens: {
 			position: ['bottom', 'right'],
 		},
+		screens: {
+			'xs': '420px',
+			'sm': '640px',
+			'md': '768px',
+			'lg': '1024px',
+			'xl': '1280px',
+			'2xl': '1536px',
+		},
 		/*textColor: {
 			'green': '#0ABB87',
 			'red': '#fd397a',

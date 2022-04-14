@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="isFullPreview"
-        class="fixed left-0 right-0 top-0 bottom-0 z-40 h-full w-full bg-white dark:bg-dark-background"
+        class="fixed left-0 right-0 top-0 bottom-0 z-40 h-full w-full bg-white dark:bg-dark-background min-w-[320px]"
         ref="filePreview"
         tabindex="-1"
         @keydown.esc="closeFilePreview"

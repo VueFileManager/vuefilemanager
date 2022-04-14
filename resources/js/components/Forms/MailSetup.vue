@@ -45,7 +45,7 @@
 				<AppInputText title="Mail Username" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
-						v-model.lazy="mail.smtp.username"
+						v-model="mail.smtp.username"
 						placeholder="Type your mail username"
 						type="text"
 						:class="{ '!border-rose-600': errors[0] }"
@@ -82,8 +82,8 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ValidationProvider v-if="shouldSetSMTPEmail" tag="div" mode="passive" name="Mail From Address" rules="required|email" v-slot="{ errors }">
-				<AppInputText title="Mail" :error="errors[0]" :is-last="true">
+			<ValidationProvider v-if="shouldSetSMTPEmail" tag="div" mode="passive" name="Mail From" rules="required|email" v-slot="{ errors }">
+				<AppInputText title="Mail From Address" :error="errors[0]" :is-last="true">
 					<input
 						class="focus-border-theme input-dark"
 						v-model.trim="mail.smtp.email"

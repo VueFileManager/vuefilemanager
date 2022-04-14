@@ -1,5 +1,5 @@
 <template>
-    <div @keydown.esc="closeOverlays" tabindex="-1">
+    <div @keydown.esc="closeOverlays" tabindex="-1" class="min-w-[320px]">
         <!--UI components-->
         <Alert />
         <ToasterWrapper />
