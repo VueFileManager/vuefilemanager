@@ -4,7 +4,7 @@ namespace Domain\UploadRequest\Controllers;
 use DB;
 use Domain\Folders\Models\Folder;
 use Domain\Files\Resources\FileResource;
-use Domain\Files\Actions\UploadFileAction;
+use Domain\Files\Actions\ProcessFileAction;
 use Domain\UploadRequest\Models\UploadRequest;
 use App\Users\Exceptions\InvalidUserActionException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -12,7 +12,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 class UploadFilesForUploadRequestController
 {
     public function __construct(
-        private UploadFileAction $uploadFile,
+        private ProcessFileAction $uploadFile,
     ) {
     }
 

@@ -19,7 +19,7 @@ class FakeUploadFileAction
         return [
             'data' => [
                 'id'            => Str::uuid(),
-                'type'          => get_file_type($file->getMimeType()),
+                'type'          => getFileType($file->getMimeType()),
                 'attributes'    => [
                     'filesize'      => Metric::bytes($file->getSize())->format(),
                     'name'          => $request->input('filename'),

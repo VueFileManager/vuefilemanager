@@ -22,28 +22,33 @@ class ProcessImageThumbnailAction
      * Create image thumbnail from uploaded image
      */
     public function __invoke(
-        string $fileName,
-        $file,
-        string $userId
+        string $name,
+        string $userId,
     ): void {
-        // Create thumbnail from image
-        if (in_array($file->getClientMimeType(), $this->availableFormats)) {
-            // Make copy of file for the thumbnail generation
-            Storage::disk('local')->copy("files/$userId/{$fileName}", "temp/$userId/{$fileName}");
+        // Get local disk instance
+        $disk = Storage::disk('local');
 
-            // Create thumbnails instantly
-            ($this->generateImageThumbnail)(
-                fileName: $fileName,
-                userId: $userId,
-                execution: 'immediately'
-            );
+        if (! in_array($disk->mimeType("files/$userId/$name"), $this->availableFormats)) {
+            return;
+        }
 
-            // Create thumbnails later
-            ($this->generateImageThumbnail)->onQueue('high')->execute(
-                fileName: $fileName,
+        // Make copy of file for the thumbnail generation
+        $disk->copy("files/$userId/$name", "temp/$userId/$name");
+
+        // Create thumbnails instantly
+        ($this->generateImageThumbnail)(
+            fileName: $name,
+            userId: $userId,
+            execution: 'immediately'
+        );
+
+        // Create thumbnails later
+        ($this->generateImageThumbnail)
+            ->onQueue('high')
+            ->execute(
+                fileName: $name,
                 userId: $userId,
                 execution: 'later'
             );
-        }
     }
 }

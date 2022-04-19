@@ -210,7 +210,6 @@ if (! function_exists('setEnvironmentValue')) {
 
         if (count($values) > 0) {
             foreach ($values as $envKey => $envValue) {
-
                 $str .= "\n"; // In case the searched variable is in the last line without \n
                 $keyPosition = strpos($str, "{$envKey}=");
 
@@ -640,7 +639,7 @@ if (! function_exists('get_file_type')) {
     /**
      * Get file type from mimetype
      */
-    function get_file_type(string $fileMimetype): string
+    function getFileType(string $fileMimetype): string
     {
         // Get mimetype from file
         $mimetype = explode('/', $fileMimetype);
@@ -747,22 +746,32 @@ if (! function_exists('getPrettyName')) {
     }
 }
 
-if (! function_exists('get_image_meta_data')) {
+if (! function_exists('readExifData')) {
     /**
      * Get exif data from jpeg image
-     *
-     * @param $file
-     * @return array|null
      */
-    function get_image_meta_data($file)
+    function readExifData(string $file): object|null
     {
-        if (get_file_type_from_mimetype($file->getMimeType()) === 'jpeg') {
-            try {
-                // Try to get the exif data
-                return mb_convert_encoding(Image::make($file->getRealPath())->exif(), 'UTF8', 'UTF8');
-            } catch (\Exception $e) {
-                return null;
-            }
+        $disk = Storage::disk('local');
+
+        $type = get_file_type_from_mimetype(
+            $disk->mimeType($file)
+        );
+
+        if ($type !== 'jpeg') {
+            return null;
+        }
+
+        try {
+            // Try to get the exif data
+            $data = Image::make($disk->path($file))->exif();
+
+            // Encode data
+            $encodedData = mb_convert_encoding($data, 'UTF8', 'UTF8');
+
+            return json_decode(json_encode($encodedData));
+        } catch (Exception $e) {
+            return null;
         }
     }
 }

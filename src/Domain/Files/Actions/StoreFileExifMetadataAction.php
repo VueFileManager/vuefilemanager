@@ -1,18 +1,23 @@
 <?php
+
 namespace Domain\Files\Actions;
+
+use Domain\Files\Models\File;
 
 class StoreFileExifMetadataAction
 {
-    public function __invoke($item, $file)
+    public function __invoke(File $file)
     {
         // Get exif metadata
-        $exif_data = get_image_meta_data($file);
+        $data = readExifData("files/$file->user_id/$file->basename");
 
-        if ($exif_data) {
-            // Convert array to collection
-            $data = json_decode(json_encode($exif_data));
+        if (is_null($data)) {
+            return;
+        }
 
-            $item->exif()->create([
+        $file
+            ->exif()
+            ->create([
                 'date_time_original' => $data->DateTimeOriginal ?? null,
                 'artist'             => $data->OwnerName ?? null,
                 'width'              => $data->COMPUTED->Width ?? null,
@@ -33,6 +38,5 @@ class StoreFileExifMetadataAction
                 'longitude_ref'      => $data->GPSLongitudeRef ?? null,
                 'latitude_ref'       => $data->GPSLatitudeRef ?? null,
             ]);
-        }
     }
 }

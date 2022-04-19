@@ -2,11 +2,11 @@
 namespace Domain\SetupWizard\Controllers;
 
 use Artisan;
-use Domain\Settings\Actions\TestFTPConnectionAction;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Settings\DTO\S3CredentialsData;
 use Domain\Settings\Actions\TestS3ConnectionAction;
+use Domain\Settings\Actions\TestFTPConnectionAction;
 use Domain\Settings\Actions\TestSESConnectionAction;
 use Domain\Settings\Actions\TestSMTPConnectionAction;
 use Domain\Settings\Actions\TestMailgunConnectionAction;
@@ -22,7 +22,8 @@ class StoreEnvironmentSettingsController extends Controller
         private TestSMTPConnectionAction $testSMTPConnection,
         private TestMailgunConnectionAction $testMailgunConnection,
         private TestPostmarkConnectionAction $testPostmarkConnection,
-    ) {}
+    ) {
+    }
 
     /**
      * Store environment setup
@@ -35,7 +36,7 @@ class StoreEnvironmentSettingsController extends Controller
             $StorageDriver = match ($request->input('storage.driver')) {
                 's3', 'storj', 'spaces', 'wasabi', 'backblaze', 'oss', 'other' => 's3',
                 'local' => 'local',
-                'ftp' => 'ftp',
+                'ftp'   => 'ftp',
             };
 
             // Test driver connection

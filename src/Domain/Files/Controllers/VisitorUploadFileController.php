@@ -6,7 +6,7 @@ use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Resources\FileResource;
-use Domain\Files\Actions\UploadFileAction;
+use Domain\Files\Actions\ProcessFileAction;
 use Support\Demo\Actions\FakeUploadFileAction;
 use App\Users\Exceptions\InvalidUserActionException;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
@@ -19,8 +19,8 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 class VisitorUploadFileController extends Controller
 {
     public function __construct(
-        private UploadFileAction $uploadFile,
-        private FakeUploadFileAction $fakeUploadFile,
+        private ProcessFileAction        $uploadFile,
+        private FakeUploadFileAction     $fakeUploadFile,
         private ProtectShareRecordAction $protectShareRecord,
         private VerifyAccessToItemAction $verifyAccessToItem,
     ) {

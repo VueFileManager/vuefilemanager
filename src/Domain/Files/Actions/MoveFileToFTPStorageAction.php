@@ -12,7 +12,6 @@ class MoveFileToFTPStorageAction
         string $file,
         string $userId
     ): void {
-
         // Stream file object to ftp
         Storage::putFileAs("files/$userId", config('filesystems.disks.local.root') . "/files/$userId/$file", $file, 'private');
 

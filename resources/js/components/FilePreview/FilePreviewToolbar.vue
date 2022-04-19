@@ -10,7 +10,7 @@
             <div class="flex items-center">
                 <div class="mr-3 ml-0 flex items-center lg:mx-3">
                     <span
-                        class="inline-block max-w-[150px] xs:max-w-[230px] md:max-w-[290px] overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                        class="inline-block max-w-[150px] xs:max-w-[220px] md:max-w-[240px] overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                     >
                         {{ currentFile.data.attributes.name }}
                     </span>
