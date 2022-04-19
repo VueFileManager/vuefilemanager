@@ -13,9 +13,15 @@
                 />
             </Headline>
 
+			<a href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986">
+				<AlertBox color="rose" class="text-left">
+					<p class="text-rose-500">Please make sure you have only legal copy of VueFileManager <b class="text-rose-500 underline">purchased from CodeCanyon</b>. Any illegal copy can contain malicious software, bugs and others security issues which exposes your files to abuse.</p>
+				</AlertBox>
+			</a>
+
             <!--PHP version and ini check-->
             <div class="card shadow-card">
-                <FormLabel> PHP Setup </FormLabel>
+                <FormLabel>PHP Setup</FormLabel>
 
                 <InfoBox class="!mb-2">
                     <p>
@@ -182,10 +188,12 @@ import Headline from '../../components/UI/Labels/LogoHeadline'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { CheckIcon, XIcon, SettingsIcon } from 'vue-feather-icons'
+import AlertBox from "../../components/UI/Others/AlertBox";
 
 export default {
     name: 'StatusCheck',
     components: {
+		AlertBox,
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,

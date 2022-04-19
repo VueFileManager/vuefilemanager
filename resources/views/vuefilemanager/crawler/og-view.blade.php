@@ -15,6 +15,7 @@
 
     {{--Show protected og metadata--}}
     @if($metadata['is_protected'])
+        <meta name="robots" content="noindex">
         <meta property="og:title" content="{{ __t('protected_file') }} | {{ $settings->app_title ?? 'VueFileManager' }}">
         <title>{{ __t('protected_file') }} | {{ $settings->app_title ?? 'VueFileManager' }}</title>
     @endif

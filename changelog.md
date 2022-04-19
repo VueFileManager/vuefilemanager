@@ -1,3 +1,8 @@
+## Version 2.0.18
+#### Release date: 19. April 2022
+- Fixed issue with Google login button
+- Fixed issue with PayPal subscription
+
 ## Version 2.0.17
 #### Release date: 12. April 2022
 - Added option to use FTP as VueFileManager file storage server

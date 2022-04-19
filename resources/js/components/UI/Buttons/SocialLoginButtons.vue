@@ -12,7 +12,7 @@
         </div>
 
         <div v-if="config.allowedGoogleLogin" class="mx-5 cursor-pointer">
-			<google-icon @click="socialiteRedirect('google')" class="vue-feather"/>
+			<google-icon @click.native="socialiteRedirect('google')" class="vue-feather"/>
         </div>
     </div>
 </template>
