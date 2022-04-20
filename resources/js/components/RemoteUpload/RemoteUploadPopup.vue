@@ -93,10 +93,13 @@ export default {
 				.then(() => {
 					events.$emit('toaster', {
 						type: 'success',
-						message: this.$t('remote_download_submitted'),
+						message: this.$t('remote_download_processed'),
 					})
 
 					events.$emit('popup:close')
+
+					// Reload data
+					this.$getDataByLocation()
 				})
 				.catch((error) => {
 					if (error.response.status === 422) {

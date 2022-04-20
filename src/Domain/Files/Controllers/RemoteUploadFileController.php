@@ -27,9 +27,7 @@ class RemoteUploadFileController extends Controller
             : auth()->user();
 
         // Execute job for get content from url and save
-        ($this->getContentFromExternalSource)
-            ->onQueue()
-            ->execute($request->all(), $user);
+        ($this->getContentFromExternalSource)($request->all(), $user);
 
         return response('Files were successfully added to the upload queue', 201);
     }
