@@ -76,8 +76,8 @@ export default {
             this.loading = true
 
 			let route = this.$store.getters.sharedDetail
-				? `/api/editor/remote-upload/${this.$router.currentRoute.params.token}`
-				: '/api/remote-upload'
+				? `/api/editor/upload/remote/${this.$router.currentRoute.params.token}`
+				: '/api/upload/remote'
 
 			let parentId = this.$store.getters.currentFolder
 				? this.$store.getters.currentFolder.data.id
@@ -85,7 +85,9 @@ export default {
 
 			axios
 				.post(route, {
-					url: this.links.split(/\r?\n/),
+					urls: this.links
+						.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "")
+						.split(/\r?\n/),
 					parent_id: parentId,
 				})
 				.then(() => {
@@ -96,7 +98,13 @@ export default {
 
 					events.$emit('popup:close')
 				})
-				.catch(() => {
+				.catch((error) => {
+					if (error.response.status === 422) {
+						this.$refs.createForm.setErrors({
+							'Remote Links': error.response.data.message,
+						})
+					}
+
 					events.$emit('toaster', {
 						type: 'danger',
 						message: this.$t('popup_error.title'),

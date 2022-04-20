@@ -947,5 +947,6 @@ return [
         'remote_links'                                   => 'Remote Links',
         'remote_links_help'                              => 'For every line paste one link',
         'paste_remote_links_here'                        => 'Paste your remote links here...',
+        'remote_download_submitted'                      => 'Your links will be downloaded as soon as possible',
     ],
 ];

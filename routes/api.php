@@ -12,6 +12,7 @@ use Domain\SetupWizard\Controllers\PingAPIController;
 use Domain\Folders\Controllers\CreateFolderController;
 use Domain\Browsing\Controllers\BrowseFolderController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
+use Domain\Files\Controllers\RemoteUploadFileController;
 use Domain\Folders\Controllers\NavigationTreeController;
 use Domain\Items\Controllers\MoveFileOrFolderController;
 use App\Socialite\Controllers\SocialiteRedirectController;
@@ -78,6 +79,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 // User master,editor routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('/upload/remote', RemoteUploadFileController::class);
     Route::post('/create-folder', CreateFolderController::class);
     Route::post('/upload', UploadFileController::class);
 

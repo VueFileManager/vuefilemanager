@@ -1157,4 +1157,36 @@ if (! function_exists('replace_occurrence')) {
             return "{$degrees}°$minutes'$seconds\"$ref";
         }
     }
+
+    if (! function_exists('extractExtensionFromUrl')) {
+        /**
+         * Extract extension from the url
+         *
+         * TODO: make unit test
+         */
+        function extractExtensionFromUrl($url, $response): string|null
+        {
+            $string = str_replace(['&'], '?', pathinfo($url)['extension']);
+
+            // Get extension from url path
+            $extension = array_key_exists('extension', pathinfo($url))
+                ? explode('?', $string)[0]
+                : null;
+
+            // Return pure extension
+            if ($extension) {
+                return $extension;
+            }
+
+            // Prepare header for extracting content-type line
+            $header = array_change_key_case($response->headers(), CASE_LOWER);
+
+            // Get extension
+            if (array_key_exists('content-type', $header)) {
+                return '.' . explode('/', $header['content-type'][0])[1];
+            }
+
+            return null;
+        }
+    }
 }
