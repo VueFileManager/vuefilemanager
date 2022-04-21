@@ -75,9 +75,11 @@ export default {
 
             this.loading = true
 
-			let route = this.$store.getters.sharedDetail
-				? `/api/editor/upload/remote/${this.$router.currentRoute.params.token}`
-				: '/api/upload/remote'
+			// Get route
+			let route = {
+				RequestUpload: `/api/upload-request/${this.$router.currentRoute.params.token}/upload/remote`,
+				Public: `/api/editor/upload/remote/${this.$router.currentRoute.params.token}`,
+			}[this.$router.currentRoute.name] || '/api/upload/remote'
 
 			let parentId = this.$store.getters.currentFolder
 				? this.$store.getters.currentFolder.data.id

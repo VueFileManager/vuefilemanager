@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Controllers;
 
-use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
@@ -33,7 +32,7 @@ class VisitorUploadFileController extends Controller
     public function __invoke(
         UploadRequest $request,
         Share $shared,
-    ): Response | array {
+    ) {
         if (is_demo_account()) {
             return ($this->fakeUploadFile)($request);
         }

@@ -8,6 +8,7 @@
 
         <!--Popups-->
         <CreateFolderPopup />
+		<RemoteUploadPopup />
         <RenameItemPopup />
         <MoveItemPopup />
 
@@ -54,10 +55,12 @@ import Spotlight from '../components/Spotlight/Spotlight'
 import DragUI from '../components/UI/Others/DragUI'
 import { mapGetters } from 'vuex'
 import { events } from '../bus'
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
 
 export default {
     name: 'UploadRequest',
     components: {
+		RemoteUploadPopup,
         DesktopUploadRequestToolbar,
 		MobileUploadRequestToolBar,
 		InfoSidebarUploadRequest,

@@ -3,7 +3,7 @@
         <!--Menu icon-->
         <div
             v-if="!isVisibleNavigationBars"
-            @click="toggleNavigationBars"
+            @click.stop="toggleNavigationBars"
             class="-mt-0.5 mr-2 hidden cursor-pointer p-2 lg:block"
         >
             <menu-icon size="17" />

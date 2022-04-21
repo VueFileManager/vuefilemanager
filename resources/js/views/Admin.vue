@@ -8,6 +8,7 @@
 		<CreateUploadRequestPopup />
 		<CreateTeamFolderPopup />
 		<NotificationsPopup />
+		<RemoteUploadPopup />
 
 		<!--Mobile Navigation-->
         <MobileNavigation />
@@ -86,6 +87,7 @@ import { mapGetters } from 'vuex'
 import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
 import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
 import NotificationsPopup from "../components/Notifications/NotificationsPopup";
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
 
 export default {
     name: 'Admin',
@@ -190,6 +192,7 @@ export default {
         },
     },
     components: {
+		RemoteUploadPopup,
 		NotificationsPopup,
 		CreateTeamFolderPopup,
 		CreateUploadRequestPopup,
