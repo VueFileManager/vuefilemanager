@@ -791,7 +791,11 @@ export default {
                     value: 'vi',
                     label: 'Vielabele',
                 },
-                {
+				{
+					value: 'vn',
+					label: 'Viet Nam',
+				},
+				{
                     value: 'vo',
                     label: 'Volapük',
                 },

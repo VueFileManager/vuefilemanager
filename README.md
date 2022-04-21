@@ -10,6 +10,7 @@
   - [Updating Application](#updating-application)
   - [Nginx Configuration](#nginx-configuration)
   - [Apache Configuration](#apache-configuration)
+  - [Migrating to Another Domain](#migrating-to-another-domain)
 - [Subscription Configuration](#subscription-configuration)
   - [Configuring Production/Testing Environment](#configuring-productiontesting-environment)
   - [Upgrading From Testing Environment to the Production Mode](#upgrading-from-testing-environment-to-the-production-mode)
@@ -176,6 +177,13 @@ Make sure you have enabled mod_rewrite. There is an example config for running V
     RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 </VirtualHost>
 ```
+
+## Migrating to Another Domain
+If you move your VueFileManager application into another domain or subdomain, you have to manually change values in your `.env` file.
+1. Open your `/.env` file.
+2. Find `APP_URL` variable and write your new domain location. Don't forget start with defining `https://` protocol.
+3. Find `SANCTUM_STATEFUL_DOMAINS` variable and write your new domain location without http protocol.
+4. Remove your cached config file which is located `/bootstrap/cache/config.php`.
 
 # Subscription Configuration
 

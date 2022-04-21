@@ -21,7 +21,7 @@
 		</div>
 
         <!--Upload Progressbar-->
-        <UploadProgress class="pt-3" />
+        <UploadProgress class="pt-3 pl-4" />
     </div>
 </template>
 

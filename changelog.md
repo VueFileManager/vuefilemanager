@@ -1,3 +1,11 @@
+## Version 2.0.19
+#### Release date: 21. April 2022
+- Fixed issue with Backblaze credentials set up
+- The switch button in archived plans is now hidden
+- updated readme.md
+- Fixed upload progressbar in mobile version
+- Added Viet Nam language into the language editor
+
 ## Version 2.0.18
 #### Release date: 19. April 2022
 - Fixed issue with Google login button

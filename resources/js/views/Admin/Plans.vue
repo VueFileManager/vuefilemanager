@@ -88,7 +88,9 @@
                         class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
                     >
                         <td class="py-5 pr-3 md:pr-1">
+							<span v-if="row.data.attributes.status === 'archived'" class="ml-6 text-gray-300">-</span>
                             <SwitchInput
+								v-if="row.data.attributes.status === 'active'"
                                 @input="
                                     $updateInput(
                                         `/subscriptions/admin/plans/${row.data.id}`,
