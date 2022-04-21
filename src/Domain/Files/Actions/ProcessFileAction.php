@@ -1,9 +1,9 @@
 <?php
 namespace Domain\Files\Actions;
 
+use App\Users\Models\User;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
-use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Storage;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Traffic\Actions\RecordUploadAction;
@@ -25,7 +25,7 @@ class ProcessFileAction
      */
     public function __invoke(
         UploadRequest $request,
-        ?string $userId,
+        User $user,
         string $chunkPath,
     ) {
         // Get local disk instance
@@ -43,11 +43,6 @@ class ProcessFileAction
         if ($uploadLimit && $size > format_bytes($uploadLimit)) {
             abort(413);
         }
-
-        // Get user
-        $user = $request->filled('parent_id')
-            ? Folder::find($request->input('parent_id'))->getLatestParent()->user
-            : auth()->user();
 
         // Check if user has enough space to upload file
         if (! $user->canUpload($size)) {
@@ -86,7 +81,7 @@ class ProcessFileAction
             'basename'   => $name,
             'filesize'   => $size,
             'user_id'    => $user->id,
-            'creator_id' => auth()->id(),
+            'creator_id' => auth()->check() ? auth()->id() : $user->id,
         ]);
 
         // Store file exif data

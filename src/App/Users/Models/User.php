@@ -38,6 +38,7 @@ use VueFileManager\Subscription\App\User\Traits\Billable;
  * @method static where(string $string, string $string1)
  * @method static create(array $array)
  * @method static find(mixed $email)
+ * @method canUpload(int $size)
  */
 class User extends Authenticatable implements MustVerifyEmail
 {

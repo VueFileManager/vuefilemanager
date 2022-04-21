@@ -55,7 +55,7 @@ class VisitorUploadFileController extends Controller
         // Proceed after last chunk
         if ($request->boolean('is_last')) {
             // Process file
-            $file = ($this->processFie)($request, $shared->user_id, $chunkPath);
+            $file = ($this->processFie)($request, $shared->user, $chunkPath);
 
             // Set public access url
             $file->setSharedPublicUrl($shared->token);

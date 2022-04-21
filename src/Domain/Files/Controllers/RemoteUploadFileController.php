@@ -23,7 +23,9 @@ class RemoteUploadFileController extends Controller
 
         // Get user
         $user = $request->filled('parent_id')
-            ? Folder::find($request->input('parent_id'))->getLatestParent()->user
+            ? Folder::find($request->input('parent_id'))
+                ->getLatestParent()
+                ->user
             : auth()->user();
 
         // Execute job for get content from url and save

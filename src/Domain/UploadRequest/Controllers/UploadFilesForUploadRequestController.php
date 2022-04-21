@@ -41,7 +41,7 @@ class UploadFilesForUploadRequestController
         // Proceed after last chunk
         if ($request->boolean('is_last')) {
             // Process file
-            $file = ($this->processFie)($request, $uploadRequest->user_id, $chunkPath);
+            $file = ($this->processFie)($request, $uploadRequest->user, $chunkPath);
 
             // Set public access url
             $file->setUploadRequestPublicUrl($uploadRequest->id);

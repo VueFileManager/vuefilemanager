@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Files\Controllers;
 
+use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Resources\FileResource;
@@ -34,8 +35,15 @@ class UploadFileController extends Controller
 
         // Proceed after last chunk
         if ($request->boolean('is_last')) {
+            // Get user
+            $user = $request->filled('parent_id')
+                ? Folder::find($request->input('parent_id'))
+                    ->getLatestParent()
+                    ->user
+                : auth()->user();
+
             // Process file
-            $file = ($this->processFie)($request, null, $chunkPath);
+            $file = ($this->processFie)($request, $user, $chunkPath);
 
             return response(new FileResource($file), 201);
         }
