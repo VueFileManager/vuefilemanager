@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Settings\Actions;
 
 use Storage;
@@ -14,12 +15,13 @@ class TestS3ConnectionAction
             // Set temporary s3 connection
             config([
                 'filesystems.disks.s3' => [
-                    'driver'   => 's3',
-                    'key'      => $credentials->key,
-                    'secret'   => $credentials->secret,
-                    'region'   => $credentials->region,
-                    'bucket'   => $credentials->bucket,
-                    'endpoint' => $credentials->endpoint,
+                    'driver'     => 's3',
+                    'key'        => $credentials->key,
+                    'secret'     => $credentials->secret,
+                    'region'     => $credentials->region,
+                    'bucket'     => $credentials->bucket,
+                    'endpoint'   => $credentials->endpoint,
+                    'visibility' => 'private',
                 ],
             ]);
 
