@@ -283,7 +283,8 @@ class TeamsTest extends TestCase
         $this
             ->actingAs($member)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'parent_id' => $folder->id,
                 'path'      => "/$file->name",

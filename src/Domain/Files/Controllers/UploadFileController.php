@@ -12,8 +12,8 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 class UploadFileController extends Controller
 {
     public function __construct(
-        public ProcessFileAction     $processFie,
-        public FakeUploadFileAction  $fakeUploadFile,
+        public ProcessFileAction $processFie,
+        public FakeUploadFileAction $fakeUploadFile,
         public StoreFileChunksAction $storeFileChunks,
     ) {
     }
@@ -23,7 +23,8 @@ class UploadFileController extends Controller
      *
      * @throws FileNotFoundException
      */
-    public function __invoke(UploadRequest $request) {
+    public function __invoke(UploadRequest $request)
+    {
         if (is_demo_account()) {
             return ($this->fakeUploadFile)($request);
         }
@@ -33,7 +34,6 @@ class UploadFileController extends Controller
 
         // Proceed after last chunk
         if ($request->boolean('is_last')) {
-
             // Process file
             $file = ($this->processFie)($request, null, $chunkPath);
 

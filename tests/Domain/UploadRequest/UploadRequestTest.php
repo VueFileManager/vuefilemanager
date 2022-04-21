@@ -150,7 +150,8 @@ class UploadRequestTest extends TestCase
 
         $this
             ->postJson("/api/upload-request/$uploadRequest->id/upload", [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",
@@ -195,7 +196,8 @@ class UploadRequestTest extends TestCase
 
         $this
             ->postJson("/api/upload-request/$uploadRequest->id/upload", [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",
@@ -239,7 +241,7 @@ class UploadRequestTest extends TestCase
 
         $this
             ->postJson("/api/upload-request/$uploadRequest->id/upload", [
-                'filename'  => $file->name,
+                'name'      => $file->name,
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",
@@ -312,7 +314,8 @@ class UploadRequestTest extends TestCase
 
         $this
             ->postJson("/api/upload-request/$uploadRequest->id/upload", [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",

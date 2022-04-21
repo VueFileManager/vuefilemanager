@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Files;
 
 use Storage;
@@ -42,7 +41,8 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => '.jpg',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",
@@ -61,7 +61,7 @@ class FileTest extends TestCase
         ])
             ->collapse()
             ->each(
-                fn($item) => Storage::assertExists(
+                fn ($item) => Storage::assertExists(
                     "files/{$user->id}/{$item['name']}-{$file->basename}"
                 )
             );
@@ -82,7 +82,8 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",
@@ -175,7 +176,8 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'jpeg',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",
@@ -208,6 +210,7 @@ class FileTest extends TestCase
             ->actingAs($user)
             ->postJson('/api/upload', [
                 'file'      => $file,
+                'extension' => 'pdf',
                 'parent_id' => null,
                 'path'      => "/$file->name",
                 'is_last'   => 'true',
@@ -338,7 +341,7 @@ class FileTest extends TestCase
 
         // Assert thumbnail was deleted
         getThumbnailFileList('fake-image.jpeg')
-            ->each(fn($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
+            ->each(fn ($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
     }
 
     /**
@@ -398,7 +401,8 @@ class FileTest extends TestCase
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
                 $this->postJson('/api/upload', [
-                    'filename'  => $file->name,
+                    'name'      => $file->name,
+                    'extension' => 'pdf',
                     'file'      => $file,
                     'parent_id' => null,
                     'path'      => "/$file->name",
@@ -451,7 +455,8 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'jpg',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => '/' . $file->name,

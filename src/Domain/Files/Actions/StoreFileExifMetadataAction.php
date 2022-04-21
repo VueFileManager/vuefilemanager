@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Files\Actions;
 
 use Domain\Files\Models\File;

@@ -330,7 +330,8 @@ class VisitorManipulatingTest extends TestCase
                     $this
                         ->withUnencryptedCookies($cookie)
                         ->post("/api/editor/upload/$share->token", [
-                            'filename'  => $file->name,
+                            'name'      => $file->name,
+                            'extension' => 'pdf',
                             'file'      => $file,
                             'parent_id' => $folder->id,
                             'path'      => "/$file->name",
@@ -341,7 +342,8 @@ class VisitorManipulatingTest extends TestCase
                 // Check public shared item
                 if (! $is_protected) {
                     $this->postJson("/api/editor/upload/$share->token", [
-                        'filename'  => $file->name,
+                        'name'      => $file->name,
+                        'extension' => 'pdf',
                         'file'      => $file,
                         'parent_id' => $folder->id,
                         'path'      => "/$file->name",

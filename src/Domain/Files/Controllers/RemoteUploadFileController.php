@@ -1,10 +1,9 @@
 <?php
-
 namespace Domain\Files\Controllers;
 
-use Domain\Folders\Models\Folder;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\RemoteUploadRequest;
 use Domain\Files\Actions\GetContentFromExternalSource;
@@ -13,7 +12,8 @@ class RemoteUploadFileController extends Controller
 {
     public function __construct(
         public GetContentFromExternalSource $getContentFromExternalSource,
-    ) {}
+    ) {
+    }
 
     public function __invoke(RemoteUploadRequest $request, ?Share $shared = null): Response|array
     {

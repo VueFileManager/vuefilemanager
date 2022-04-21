@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Files\Requests;
 
 use Domain\Admin\Rules\DisabledMimetypes;

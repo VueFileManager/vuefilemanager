@@ -37,7 +37,7 @@ class TrafficTest extends TestCase
         $this
             ->actingAs($this->user)
             ->postJson('/api/upload', [
-                'filename'  => $this->file->name,
+                'name'      => $this->file->name,
                 'file'      => $this->file,
                 'parent_id' => null,
                 'path'      => '/' . $this->file->name,
@@ -58,7 +58,7 @@ class TrafficTest extends TestCase
         $this
             ->actingAs($this->user)
             ->postJson('/api/upload', [
-                'filename'  => $this->file->name,
+                'name'      => $this->file->name,
                 'file'      => $this->file,
                 'parent_id' => null,
                 'path'      => '/' . $this->file->name,
@@ -79,7 +79,7 @@ class TrafficTest extends TestCase
         $this
             ->actingAs($this->user)
             ->postJson('/api/upload', [
-                'filename'  => $secondFile->name,
+                'name'      => $secondFile->name,
                 'file'      => $secondFile,
                 'parent_id' => null,
                 'path'      => '/' . $secondFile->name,
@@ -117,7 +117,7 @@ class TrafficTest extends TestCase
 
         // Check public shared item
         $this->postJson("/api/editor/upload/$share->token", [
-            'filename'  => $this->file->name,
+            'name'      => $this->file->name,
             'file'      => $this->file,
             'parent_id' => $folder->id,
             'path'      => '/' . $this->file->name,

@@ -1,15 +1,14 @@
 <?php
 namespace Domain\Files\Actions;
 
-use App\Users\Models\User;
-use Domain\Files\Models\File;
+use Log;
 use Error;
 use ErrorException;
+use App\Users\Models\User;
 use Illuminate\Support\Str;
-use Domain\Sharing\Models\Share;
+use Domain\Files\Models\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
-use Log;
 use Spatie\QueueableAction\QueueableAction;
 
 class GetContentFromExternalSource
@@ -22,7 +21,8 @@ class GetContentFromExternalSource
         public MoveFileToFTPStorageAction $moveFileToFTPStorage,
         public ProcessImageThumbnailAction $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         array $payload,
@@ -80,7 +80,7 @@ class GetContentFromExternalSource
                     'ftp', 'azure' => ($this->moveFileToFTPStorage)($basename, $user->id),
                     default => null
                 };
-            } catch ( ErrorException | Error $e) {
+            } catch (ErrorException | Error $e) {
                 Log::error("Remote upload failed as {$e->getMessage()}");
                 Log::error($e->getTraceAsString());
             }

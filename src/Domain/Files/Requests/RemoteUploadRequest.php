@@ -24,7 +24,7 @@ class RemoteUploadRequest extends FormRequest
     {
         return [
             'urls.*'       => 'required|url',
-            'parent_id'   => 'nullable|uuid',
+            'parent_id'    => 'nullable|uuid',
         ];
     }
 }

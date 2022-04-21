@@ -6,13 +6,14 @@ use Domain\Folders\Models\Folder;
 use Domain\Files\Resources\FileResource;
 use Domain\Files\Actions\ProcessFileAction;
 use Domain\UploadRequest\Models\UploadRequest;
-use App\Users\Exceptions\InvalidUserActionException;
+use Domain\Files\Actions\StoreFileChunksAction;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class UploadFilesForUploadRequestController
 {
     public function __construct(
-        private ProcessFileAction $uploadFile,
+        private ProcessFileAction $processFie,
+        private StoreFileChunksAction $storeFileChunks,
     ) {
     }
 
@@ -29,14 +30,18 @@ class UploadFilesForUploadRequestController
             $this->createFolder($uploadRequest);
         }
 
-        try {
-            // Set default parent_id for uploaded file
-            if (is_null($request->input('parent_id'))) {
-                $request->merge(['parent_id' => $uploadRequest->id]);
-            }
+        // Set default parent_id for uploaded file
+        if (is_null($request->input('parent_id'))) {
+            $request->merge(['parent_id' => $uploadRequest->id]);
+        }
 
-            // Upload file
-            $file = ($this->uploadFile)($request, $uploadRequest->user_id);
+        // Store file chunks
+        $chunkPath = ($this->storeFileChunks)($request);
+
+        // Proceed after last chunk
+        if ($request->boolean('is_last')) {
+            // Process file
+            $file = ($this->processFie)($request, $uploadRequest->user_id, $chunkPath);
 
             // Set public access url
             $file->setUploadRequestPublicUrl($uploadRequest->id);
@@ -44,13 +49,7 @@ class UploadFilesForUploadRequestController
             // Set timestamp for auto filling
             cache()->set("auto-filling.$uploadRequest->id", now()->toString());
 
-            // Return new uploaded file
             return response(new FileResource($file), 201);
-        } catch (InvalidUserActionException $e) {
-            return response([
-                'type'    => 'error',
-                'message' => $e->getMessage(),
-            ], 401);
         }
     }
 
