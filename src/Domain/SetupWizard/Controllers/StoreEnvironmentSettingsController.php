@@ -89,6 +89,9 @@ class StoreEnvironmentSettingsController extends Controller
                         'PUSHER_APP_KEY'     => $request->input('broadcast.key'),
                         'PUSHER_APP_SECRET'  => $request->input('broadcast.secret'),
                         'PUSHER_APP_CLUSTER' => $request->input('broadcast.cluster'),
+                        'PUSHER_APP_HOST'    => '',
+                        'PUSHER_APP_PORT'    => '',
+                        'PUSHER_APP_TLS'     => true,
                     ],
                     'native' => [
                         'BROADCAST_DRIVER'   => 'pusher',
@@ -97,7 +100,8 @@ class StoreEnvironmentSettingsController extends Controller
                         'PUSHER_APP_SECRET'  => 'local',
                         'PUSHER_APP_CLUSTER' => 'local',
                         'PUSHER_APP_HOST'    => $request->input('broadcast.host'),
-                        'PUSHER_APP_PORT'    => $request->input('broadcast.port'),
+                        'PUSHER_APP_PORT'    => '',
+                        'PUSHER_APP_TLS'     => $request->boolean('tls') ? 'true' : 'false',
                     ],
                     'none'   => [
                         'BROADCAST_DRIVER' => 'null',

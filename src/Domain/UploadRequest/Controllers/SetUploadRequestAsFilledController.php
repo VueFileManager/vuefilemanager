@@ -17,7 +17,7 @@ class SetUploadRequestAsFilledController
         ]);
 
         // Send user notification
-        if (! (is_demo() && $uploadRequest->user->email === 'howdy@hi5ve.digital')) {
+        if ($uploadRequest->user->email !== 'howdy@hi5ve.digital') {
             $uploadRequest->user->notify(new UploadRequestFulfilledNotification($uploadRequest));
         }
 

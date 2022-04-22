@@ -26,6 +26,7 @@ class StoreBroadcastServiceCredentialsController
                     'PUSHER_APP_CLUSTER' => $request->input('cluster'),
                     'PUSHER_APP_HOST'    => '',
                     'PUSHER_APP_PORT'    => '',
+                    'PUSHER_APP_TLS'     => true,
                 ],
                 'native' => [
                     'BROADCAST_DRIVER'   => 'pusher',
@@ -34,7 +35,8 @@ class StoreBroadcastServiceCredentialsController
                     'PUSHER_APP_SECRET'  => 'local',
                     'PUSHER_APP_CLUSTER' => 'local',
                     'PUSHER_APP_HOST'    => $request->input('host'),
-                    'PUSHER_APP_PORT'    => $request->input('port'),
+                    'PUSHER_APP_PORT'    => '',
+                    'PUSHER_APP_TLS'     => $request->boolean('tls') ? 'true' : 'false',
                 ],
                 'none'   => [
                     'BROADCAST_DRIVER' => 'null',
