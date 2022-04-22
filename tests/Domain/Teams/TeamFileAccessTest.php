@@ -32,7 +32,8 @@ class TeamFileAccessTest extends TestCase
                 $this
                     ->actingAs($user)
                     ->postJson('/api/upload', [
-                        'filename'  => $file->name,
+                        'name'      => $file->name,
+                        'extension' => 'pdf',
                         'file'      => $file,
                         'parent_id' => $folder->id,
                         'path'      => "/$file->name",
@@ -80,7 +81,8 @@ class TeamFileAccessTest extends TestCase
                 $this
                     ->actingAs($user)
                     ->postJson('/api/upload', [
-                        'filename'  => $file->name,
+                        'name'      => $file->name,
+                        'extension' => 'pdf',
                         'file'      => $file,
                         'parent_id' => $folder->id,
                         'path'      => "/$file->name",

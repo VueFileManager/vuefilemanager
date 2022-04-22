@@ -21,6 +21,14 @@
                     :is-hover-disabled="true"
                 />
             </OptionGroup>
+            <OptionGroup :title="$t('others')">
+                <Option
+					@click.stop.native="$openRemoteUploadPopup"
+					:title="$t('remote_upload')"
+					icon="remote-upload"
+					:class="{'is-inactive': isTeamFolderHomepage}"
+				/>
+            </OptionGroup>
         </MobileCreateMenu>
 
         <MobileTeamContextMenu>

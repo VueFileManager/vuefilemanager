@@ -1,24 +1,28 @@
 <?php
 namespace Domain\Files\Controllers;
 
-use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Resources\FileResource;
-use Domain\Files\Actions\UploadFileAction;
+use Domain\Files\Actions\ProcessFileAction;
 use Support\Demo\Actions\FakeUploadFileAction;
-use App\Users\Exceptions\InvalidUserActionException;
+use Domain\Files\Actions\StoreFileChunksAction;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class UploadFileController extends Controller
 {
     public function __construct(
-        public UploadFileAction $uploadFiles,
+        public ProcessFileAction $processFie,
         public FakeUploadFileAction $fakeUploadFile,
+        public StoreFileChunksAction $storeFileChunks,
     ) {
     }
 
     /**
      * Upload file for authenticated master|editor user
+     *
+     * @throws FileNotFoundException
      */
     public function __invoke(UploadRequest $request)
     {
@@ -26,20 +30,22 @@ class UploadFileController extends Controller
             return ($this->fakeUploadFile)($request);
         }
 
-        try {
-            // Upload and store file record
-            if (! $request->boolean('is_last')) {
-                return ($this->uploadFiles)($request);
-            }
+        // Store file chunks
+        $chunkPath = ($this->storeFileChunks)($request);
 
-            $file = ($this->uploadFiles)($request);
+        // Proceed after last chunk
+        if ($request->boolean('is_last')) {
+            // Get user
+            $user = $request->filled('parent_id')
+                ? Folder::find($request->input('parent_id'))
+                    ->getLatestParent()
+                    ->user
+                : auth()->user();
+
+            // Process file
+            $file = ($this->processFie)($request, $user, $chunkPath);
 
             return response(new FileResource($file), 201);
-        } catch (InvalidUserActionException $e) {
-            return response([
-                'type'    => 'error',
-                'message' => $e->getMessage(),
-            ], 401);
         }
     }
 }

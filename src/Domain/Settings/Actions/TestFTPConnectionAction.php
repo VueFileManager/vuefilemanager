@@ -1,11 +1,10 @@
 <?php
-
 namespace Domain\Settings\Actions;
 
-use ErrorException;
-use League\Flysystem\Ftp\UnableToAuthenticate;
-use League\Flysystem\UnableToWriteFile;
 use Storage;
+use ErrorException;
+use League\Flysystem\UnableToWriteFile;
+use League\Flysystem\Ftp\UnableToAuthenticate;
 
 class TestFTPConnectionAction
 {

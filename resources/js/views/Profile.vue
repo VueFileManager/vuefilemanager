@@ -8,6 +8,7 @@
 		<CreateUploadRequestPopup />
 		<CreateTeamFolderPopup />
 		<NotificationsPopup />
+		<RemoteUploadPopup />
 
         <ConfirmPopup />
 
@@ -94,10 +95,12 @@ import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRe
 import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
 import ChangeSubscriptionPopup from "../components/Subscription/Popups/ChangeSubscriptionPopup";
 import NotificationsPopup from "../components/Notifications/NotificationsPopup";
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
 
 export default {
     name: 'Settings',
     components: {
+		RemoteUploadPopup,
 		NotificationsPopup,
 		ChangeSubscriptionPopup,
 		CreateTeamFolderPopup,

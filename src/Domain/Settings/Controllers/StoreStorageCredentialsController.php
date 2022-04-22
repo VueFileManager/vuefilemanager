@@ -2,10 +2,10 @@
 namespace Domain\Settings\Controllers;
 
 use Artisan;
-use Domain\Settings\Actions\TestFTPConnectionAction;
 use Illuminate\Http\Response;
 use Domain\Settings\DTO\S3CredentialsData;
 use Domain\Settings\Actions\TestS3ConnectionAction;
+use Domain\Settings\Actions\TestFTPConnectionAction;
 use Domain\Settings\Requests\StoreStorageCredentialsRequest;
 
 class StoreStorageCredentialsController
@@ -13,7 +13,8 @@ class StoreStorageCredentialsController
     public function __construct(
         private TestFTPConnectionAction $testFTPConnection,
         private TestS3ConnectionAction $testS3Connection,
-    ) {}
+    ) {
+    }
 
     /**
      * Set new email credentials to .env file
@@ -27,11 +28,10 @@ class StoreStorageCredentialsController
         $driver = match ($request->input('storage.driver')) {
             's3', 'storj', 'spaces', 'wasabi', 'backblaze', 'oss', 'other' => 's3',
             'local' => 'local',
-            'ftp' => 'ftp',
+            'ftp'   => 'ftp',
         };
 
         if (! app()->runningUnitTests()) {
-
             // Test driver connection
             match ($driver) {
                 's3' => ($this->testS3Connection)(

@@ -3,24 +3,22 @@ namespace Domain\UploadRequest\Controllers;
 
 use DB;
 use Domain\Folders\Models\Folder;
-use Domain\Files\Resources\FileResource;
-use Domain\Files\Actions\ProcessFileAction;
+use Domain\Files\Requests\RemoteUploadRequest;
 use Domain\UploadRequest\Models\UploadRequest;
-use Domain\Files\Actions\StoreFileChunksAction;
+use Domain\Files\Actions\GetContentFromExternalSource;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
-class UploadFilesForUploadRequestController
+class UploadFilesRemotelyForUploadRequestController
 {
     public function __construct(
-        private ProcessFileAction $processFie,
-        private StoreFileChunksAction $storeFileChunks,
+        private GetContentFromExternalSource $getContentFromExternalSource,
     ) {
     }
 
     /**
      * @throws FileNotFoundException
      */
-    public function __invoke(\Domain\Files\Requests\UploadRequest $request, UploadRequest $uploadRequest)
+    public function __invoke(RemoteUploadRequest $request, UploadRequest $uploadRequest)
     {
         // Get upload request root folder query
         $folder = Folder::where('id', $uploadRequest->id);
@@ -35,22 +33,13 @@ class UploadFilesForUploadRequestController
             $request->merge(['parent_id' => $uploadRequest->id]);
         }
 
-        // Store file chunks
-        $chunkPath = ($this->storeFileChunks)($request);
+        // Execute job for get content from url and save
+        ($this->getContentFromExternalSource)($request->all(), $uploadRequest->user);
 
-        // Proceed after last chunk
-        if ($request->boolean('is_last')) {
-            // Process file
-            $file = ($this->processFie)($request, $uploadRequest->user, $chunkPath);
+        // Set timestamp for auto filling
+        cache()->set("auto-filling.$uploadRequest->id", now()->toString());
 
-            // Set public access url
-            $file->setUploadRequestPublicUrl($uploadRequest->id);
-
-            // Set timestamp for auto filling
-            cache()->set("auto-filling.$uploadRequest->id", now()->toString());
-
-            return response(new FileResource($file), 201);
-        }
+        return response('Files were successfully added to the upload queue', 201);
     }
 
     /**

@@ -10,6 +10,7 @@ use Domain\UploadRequest\Controllers\MoveItemInUploadRequestController;
 use Domain\UploadRequest\Controllers\SetUploadRequestAsFilledController;
 use Domain\UploadRequest\Controllers\UploadFilesForUploadRequestController;
 use Domain\UploadRequest\Controllers\GetFolderTreeForUploadRequestController;
+use Domain\UploadRequest\Controllers\UploadFilesRemotelyForUploadRequestController;
 
 Route::get('/{uploadRequest}', GetUploadRequestController::class);
 
@@ -19,6 +20,7 @@ Route::group(['middleware' => 'upload-request'], function () {
     Route::delete('/{uploadRequest}', SetUploadRequestAsFilledController::class);
 
     // Edit
+    Route::post('/{uploadRequest}/upload/remote', UploadFilesRemotelyForUploadRequestController::class);
     Route::post('/{uploadRequest}/upload', UploadFilesForUploadRequestController::class);
     Route::patch('/{uploadRequest}/rename/{id}', RenameFileOrFolderController::class);
     Route::post('/{uploadRequest}/create-folder', CreateFolderController::class);

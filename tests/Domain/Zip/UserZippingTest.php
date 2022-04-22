@@ -32,7 +32,8 @@ class UserZippingTest extends TestCase
                     ->create("fake-inner-file-$index.pdf", 1200, 'application/pdf');
 
                 $this->postJson('/api/upload', [
-                    'filename'  => $file->name,
+                    'name'      => $file->name,
+                    'extension' => 'pdf',
                     'file'      => $file,
                     'parent_id' => $folder->id,
                     'path'      => "/$file->name",
@@ -46,7 +47,8 @@ class UserZippingTest extends TestCase
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
                 $this->postJson('/api/upload', [
-                    'filename'  => $file->name,
+                    'name'      => $file->name,
+                    'extension' => 'pdf',
                     'file'      => $file,
                     'parent_id' => null,
                     'path'      => "/$file->name",
@@ -87,7 +89,8 @@ class UserZippingTest extends TestCase
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
                 $this->postJson('/api/upload', [
-                    'filename'  => $file->name,
+                    'name'      => $file->name,
+                    'extension' => 'pdf',
                     'file'      => $file,
                     'parent_id' => $folder->id,
                     'path'      => "/$file->name",

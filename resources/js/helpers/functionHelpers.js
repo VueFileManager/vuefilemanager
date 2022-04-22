@@ -231,7 +231,7 @@ const FunctionHelpers = {
                     attempts = 0
 
                 // Set form data
-                formData.set('filename', item.file.name)
+                formData.set('name', item.file.name)
                 formData.set('file', chunk, source_name)
                 formData.set('path', item.path)
                 formData.set('parent_id', item.parent_id)
@@ -568,6 +568,10 @@ const FunctionHelpers = {
 
         Vue.prototype.$changeSubscriptionOptions = function () {
             events.$emit('popup:open', { name: 'change-plan-subscription' })
+        }
+
+        Vue.prototype.$openRemoteUploadPopup = function () {
+            events.$emit('popup:open', {name: 'remote-upload'})
         }
     },
 }

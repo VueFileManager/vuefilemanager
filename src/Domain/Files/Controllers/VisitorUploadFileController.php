@@ -1,14 +1,13 @@
 <?php
 namespace Domain\Files\Controllers;
 
-use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Resources\FileResource;
-use Domain\Files\Actions\UploadFileAction;
+use Domain\Files\Actions\ProcessFileAction;
 use Support\Demo\Actions\FakeUploadFileAction;
-use App\Users\Exceptions\InvalidUserActionException;
+use Domain\Files\Actions\StoreFileChunksAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
@@ -19,7 +18,8 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 class VisitorUploadFileController extends Controller
 {
     public function __construct(
-        private UploadFileAction $uploadFile,
+        public ProcessFileAction $processFie,
+        public StoreFileChunksAction $storeFileChunks,
         private FakeUploadFileAction $fakeUploadFile,
         private ProtectShareRecordAction $protectShareRecord,
         private VerifyAccessToItemAction $verifyAccessToItem,
@@ -32,7 +32,7 @@ class VisitorUploadFileController extends Controller
     public function __invoke(
         UploadRequest $request,
         Share $shared,
-    ): Response | array {
+    ) {
         if (is_demo_account()) {
             return ($this->fakeUploadFile)($request);
         }
@@ -48,19 +48,18 @@ class VisitorUploadFileController extends Controller
         // Check access to requested directory
         ($this->verifyAccessToItem)($request->input('parent_id'), $shared);
 
-        try {
-            // Return new uploaded file
-            $file = ($this->uploadFile)($request, $shared->user_id);
+        // Store file chunks
+        $chunkPath = ($this->storeFileChunks)($request);
+
+        // Proceed after last chunk
+        if ($request->boolean('is_last')) {
+            // Process file
+            $file = ($this->processFie)($request, $shared->user, $chunkPath);
 
             // Set public access url
             $file->setSharedPublicUrl($shared->token);
 
             return response(new FileResource($file), 201);
-        } catch (InvalidUserActionException $e) {
-            return response([
-                'type'    => 'error',
-                'message' => $e->getMessage(),
-            ], 401);
         }
     }
 }

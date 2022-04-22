@@ -9,6 +9,7 @@ use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
+use Illuminate\Support\Facades\Http;
 
 class FileTest extends TestCase
 {
@@ -40,7 +41,8 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => '.jpg',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",
@@ -80,7 +82,8 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",
@@ -98,6 +101,54 @@ class FileTest extends TestCase
         $disk->assertExists(
             "files/$user->id/$file->basename"
         );
+    }
+
+    /**
+     * @test
+     */
+    public function it_remotely_upload_new_file()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id' => $user->id,
+            ]);
+
+        $fakeFile = UploadedFile::fake()
+            ->create('top-secret-document.pdf', 12000000, 'application/pdf');
+
+        Http::fake([
+            'https://fake.com/top-secret-document.pdf'     => Http::response($fakeFile->getContent()),
+            'https://fake.com/another-secret-document.pdf' => Http::response($fakeFile->getContent()),
+        ]);
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/upload/remote', [
+                'urls'      => [
+                    'https://fake.com/top-secret-document.pdf',
+                    'https://fake.com/another-secret-document.pdf',
+                ],
+                'parent_id' => $folder->id,
+            ])->assertStatus(201);
+
+        $this
+            ->assertDatabaseHas('files', [
+                'user_id'   => $user->id,
+                'name'      => 'top-secret-document',
+                'parent_id' => $folder->id,
+            ])
+            ->assertDatabaseHas('files', [
+                'name'      => 'another-secret-document',
+            ]);
+
+        File::all()
+            ->each(function ($file) {
+                Storage::assertExists("files/$file->user_id/$file->basename");
+            });
     }
 
     /**
@@ -125,7 +176,8 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'jpeg',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => "/$file->name",
@@ -158,6 +210,7 @@ class FileTest extends TestCase
             ->actingAs($user)
             ->postJson('/api/upload', [
                 'file'      => $file,
+                'extension' => 'pdf',
                 'parent_id' => null,
                 'path'      => "/$file->name",
                 'is_last'   => 'true',
@@ -233,7 +286,7 @@ class FileTest extends TestCase
             'parent_id' => $folder->id,
         ]);
     }
-    
+
     /**
      * @test
      */
@@ -348,7 +401,8 @@ class FileTest extends TestCase
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
                 $this->postJson('/api/upload', [
-                    'filename'  => $file->name,
+                    'name'      => $file->name,
+                    'extension' => 'pdf',
                     'file'      => $file,
                     'parent_id' => null,
                     'path'      => "/$file->name",
@@ -387,8 +441,8 @@ class FileTest extends TestCase
     }
 
     /**
-    * @test
-    */
+     * @test
+     */
     public function it_store_file_exif_data_after_file_upload()
     {
         $file = UploadedFile::fake()
@@ -401,7 +455,8 @@ class FileTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'jpg',
                 'file'      => $file,
                 'parent_id' => null,
                 'path'      => '/' . $file->name,

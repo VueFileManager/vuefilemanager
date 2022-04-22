@@ -75,7 +75,7 @@ class TrashTest extends TestCase
             ->image('fake-image.jpg');
 
         $this->postJson('/api/upload', [
-            'filename'  => $image->name,
+            'name'      => $image->name,
             'file'      => $image,
             'parent_id' => null,
             'path'      => '/' . $image->name,

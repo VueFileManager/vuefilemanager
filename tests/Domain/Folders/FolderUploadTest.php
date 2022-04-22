@@ -30,7 +30,8 @@ class FolderUploadTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'path'      => '/',
                 'parent_id' => $folder->id,
@@ -59,7 +60,8 @@ class FolderUploadTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'path'      => "/level_1/level_2/level_3/$file->name",
                 'parent_id' => null,
@@ -69,7 +71,8 @@ class FolderUploadTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'path'      => "/level_1/level_2/level_3/$file->name",
                 'parent_id' => null,
@@ -127,7 +130,8 @@ class FolderUploadTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $file->name,
+                'name'      => $file->name,
+                'extension' => 'pdf',
                 'file'      => $file,
                 'path'      => "/another_folder/level_2/level_3/$file->name",
                 'parent_id' => null,
@@ -163,7 +167,8 @@ class FolderUploadTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $brother->name,
+                'name'      => $brother->name,
+                'extension' => 'pdf',
                 'file'      => $brother,
                 'path'      => "/Folder/Brother/$brother->name",
                 'parent_id' => null,
@@ -173,7 +178,8 @@ class FolderUploadTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/upload', [
-                'filename'  => $sister->name,
+                'name'      => $sister->name,
+                'extension' => 'pdf',
                 'file'      => $sister,
                 'path'      => "/Folder/Sister/$sister->name",
                 'parent_id' => null,
