@@ -1,6 +1,7 @@
 <?php
 namespace App\Console;
 
+use App\Console\Commands\SetupWebsocketEnvironment;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
@@ -25,6 +26,7 @@ class Kernel extends ConsoleKernel
         // Basic demo content generator
         SetupDevEnvironment::class,
         SetupProdEnvironment::class,
+        SetupWebsocketEnvironment::class,
 
         // Subscription demo generator
         GenerateDemoSubscriptionContentCommand::class,

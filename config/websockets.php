@@ -46,8 +46,7 @@ return [
      * This array contains the hosts of which you want to allow incoming requests.
      * Leave this empty if you want to accept requests from all hosts.
      */
-    'allowed_origins' => [
-    ],
+    'allowed_origins' => explode(',', env('PUSHER_APP_ALLOWED_ORIGIN', '')),
 
     /*
      * The maximum request size in kilobytes that is allowed for an incoming WebSocket request.
