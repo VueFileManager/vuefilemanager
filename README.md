@@ -11,6 +11,9 @@
   - [Nginx Configuration](#nginx-configuration)
   - [Apache Configuration](#apache-configuration)
   - [Migrating to Another Domain](#migrating-to-another-domain)
+- [Broadcasting](#broadcasting)
+  - [About Broadcasting](#about-broadcasting)
+  - [Install Broadcast Server](#install-broadcast-server)
 - [Subscription Configuration](#subscription-configuration)
   - [Configuring Production/Testing Environment](#configuring-productiontesting-environment)
   - [Upgrading From Testing Environment to the Production Mode](#upgrading-from-testing-environment-to-the-production-mode)
@@ -106,11 +109,8 @@ php replace_by_your_path/artisan schedule:run >> /dev/null 2>&1
 * * * * *  cd /www/project_files && php artisan schedule:run >> /dev/null 2>&1
 ```
 
-### 8. CORS Configuration (If you Set External Storage s3 Service)
+### 8. CORS Configuration (When you Set External S3 Storage)
 In your s3 bucket settings you should have option to set up your CORS (Cross-Origin Resource Sharing). It's basically adding your app url to the list of allowed CORS. This step is required for reading pdf documents from s3 in your VueFileManager app without loading issues.
-
-### 9. Broadcasting
-Coming soon...
 
 # Updating Application
 1. Replace all files where the app is located except `/storage` folder and `.env` file.
@@ -184,6 +184,110 @@ If you move your VueFileManager application into another domain or subdomain, yo
 2. Find `APP_URL` variable and write your new domain location. Don't forget start with defining `https://` protocol.
 3. Find `SANCTUM_STATEFUL_DOMAINS` variable and write your new domain location without http protocol.
 4. Remove your cached config file which is located `/bootstrap/cache/config.php`.
+
+# Broadcasting
+### About Broadcasting
+Broadcasting is responsible for real time app experience. If broadcasting is set, you will be able to get just in time updates in your frontend. You will get immediately notifications about new events like team invitations, file requests and many more.
+
+VueFileManager support 2 types of connections:
+1. [Pusher](https://pusher.com/) - Suitable for all users and all hosting platforms
+2. VueFileManager Broadcast Server - Free of charge, suitable for experienced users, limited for VPS servers
+
+## Install Broadcast Server
+We strongly recommend only for experienced users to set up and running VueFileManager broadcast server. For others, we recommend to use Pusher service to easy set up and host broadcasting service.
+
+### Server Requirements
+**For running app make sure you have:**
+
+- VPS server with SSH access
+- PHP >= 8.0.2 version (8.1+ recommended)
+- Nginx
+- Supervisor
+- Certbot
+
+### Installation
+We assume you have installed and running properly your VPS server.
+### Websocket Server Set Up
+Upload VueFileManager into your server, for example path directory `/var/www/sockets` would be great. Next connect to your server with ssh and change your terminal directory into VueFileManager:
+```
+cd /var/www/sockets
+```
+Run installation command for websocket server. You will be prompted to type host of which you want to allow incoming requests.
+```
+php artisan websockets:install
+```
+### Domain & Nginx Set Up
+Create subdomain for your socket host, for example `socket.vuefilemanager.com` and direct this subdomain to your vps where socket server will be running.
+
+Then, create nginx config for your subdomain:
+```
+nano /etc/nginx/sites-available/socket.conf
+```
+And paste the template below, just replace subdomain with yours:
+```
+server {
+  listen        80;
+  server_name   socket.vuefilemanager.com;
+
+  location / {
+    proxy_pass             http://127.0.0.1:6001;
+    proxy_read_timeout     60;
+    proxy_connect_timeout  60;
+    proxy_redirect         off;
+
+    # Allow the use of websockets
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
+}
+```
+Enable your created config by this command:
+```
+ln -s /etc/nginx/sites-available/socket.conf /etc/nginx/sites-enabled/
+```
+Restart your nginx:
+```
+systemctl restart nginx
+```
+In the last step, install ssl certificate for your previously created subdomain with certbot:
+```
+certbot --nginx
+```
+### Supervisor Configuration
+We need supervisor to manage running your websocket server on the background.
+In `/etc/supervisor/conf.d` (Debian/Ubuntu) or `/etc/supervisord.d/` (Red Hat/CentOS) create a file `websockets.conf`.
+
+Just edit php path, project path and user when they are different for your vps:
+```
+[program:websockets]
+command=/usr/bin/php /var/www/socket/artisan websockets:serve
+numprocs=1
+autostart=true
+autorestart=true
+user=www-data
+```
+Run command below to start your websocket server:
+```
+supervisorctl start websockets
+```
+Run command below to stop your websocket server:
+```
+supervisorctl stop websockets
+```
+When you update code or server for some reason, you must also update running supervisor:
+```
+supervisorctl reload
+```
+### VueFileManager Set Up
+Log in to your VueFileManager admin account and go to `Admin / Settings / Environment`.
+
+Find Broadcasting form and select `VueFileManager` as broadcasting driver. Set your hostname and save the form.
+
+That's all, you are running your own Broadcast server.
+
 
 # Subscription Configuration
 
