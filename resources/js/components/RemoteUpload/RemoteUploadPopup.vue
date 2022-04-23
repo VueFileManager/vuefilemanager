@@ -93,15 +93,21 @@ export default {
 					parent_id: parentId,
 				})
 				.then(() => {
-					events.$emit('toaster', {
-						type: 'success',
-						message: this.$t('remote_download_processed'),
-					})
+					// If broadcasting
+					if (this.$store.getters.isBroadcasting) {
+						events.$emit('toaster', {
+							type: 'success',
+							message: this.$t('remote_download_processed'),
+						})
+					}
+
+					// If broadcasting is not set
+					if (!this.$store.getters.isBroadcasting) {
+						// Reload data
+						this.$getDataByLocation()
+					}
 
 					events.$emit('popup:close')
-
-					// Reload data
-					this.$getDataByLocation()
 				})
 				.catch((error) => {
 					if (error.response.status === 422) {
@@ -129,6 +135,8 @@ export default {
             this.$nextTick(() => {
 				setTimeout(() => this.$refs.textarea.focus(), 100)
             })
+
+			console.log(this.$store.getters.isBroadcasting);
         })
     },
 }

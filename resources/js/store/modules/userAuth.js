@@ -18,7 +18,7 @@ const actions = {
                     commit('RETRIEVE_USER', response.data)
                     commit('UPDATE_NOTIFICATION_COUNT', response.data.data.relationships.unreadNotifications.data.length)
 
-                    if (! getters.isRunningConnection && getters.config.broadcasting === 'pusher') {
+                    if (! getters.isBroadcasting && getters.config.broadcasting === 'pusher') {
                         dispatch('runConnection')
                     }
                 })

@@ -33,8 +33,14 @@ class UploadFilesRemotelyForUploadRequestController
             $request->merge(['parent_id' => $uploadRequest->id]);
         }
 
-        // Execute job for get content from url and save
-        ($this->getContentFromExternalSource)($request->all(), $uploadRequest->user);
+        // Get content from external sources
+        if (isBroadcasting()) {
+            ($this->getContentFromExternalSource)
+                ->onQueue()
+                ->execute($request->all(), $uploadRequest->user);
+        } else {
+            ($this->getContentFromExternalSource)($request->all(), $uploadRequest->user);
+        }
 
         // Set timestamp for auto filling
         cache()->set("auto-filling.$uploadRequest->id", now()->toString());

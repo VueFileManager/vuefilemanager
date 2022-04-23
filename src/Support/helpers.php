@@ -38,6 +38,16 @@ if (! function_exists('getListOfLatestLogs')) {
     }
 }
 
+if (! function_exists('isBroadcasting')) {
+    /**
+     * Check if cron is running
+     */
+    function isBroadcasting(): bool
+    {
+        return config('broadcasting.default') === 'pusher';
+    }
+}
+
 if (! function_exists('isRunningCron')) {
     /**
      * Check if cron is running

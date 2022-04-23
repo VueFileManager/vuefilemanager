@@ -31,8 +31,14 @@ class VisitorRemoteUploadFileController extends Controller
         // Check access to requested directory
         ($this->verifyAccessToItem)($request->input('parent_id'), $shared);
 
-        // Execute job for get content from url and save
-        ($this->getContentFromExternalSource)($request->all(), $shared->user);
+        // Get content from external sources
+        if (isBroadcasting()) {
+            ($this->getContentFromExternalSource)
+                ->onQueue()
+                ->execute($request->all(), $shared->user);
+        } else {
+            ($this->getContentFromExternalSource)($request->all(), $shared->user);
+        }
 
         return response('Files were successfully added to the upload queue', 201);
     }

@@ -1,6 +1,8 @@
 <?php
 namespace Domain\Files\Actions;
 
+use Domain\Files\Events\NewFileWasStoredEvent;
+use Domain\Files\Resources\FileResource;
 use Log;
 use Error;
 use ErrorException;
@@ -80,6 +82,9 @@ class GetContentFromExternalSource
                     'ftp', 'azure' => ($this->moveFileToFTPStorage)($basename, $user->id),
                     default => null
                 };
+
+                // Broadcast new file into the frontend
+                NewFileWasStoredEvent::dispatch(new FileResource($file));
             } catch (ErrorException | Error $e) {
                 Log::error("Remote upload failed as {$e->getMessage()}");
                 Log::error($e->getTraceAsString());
