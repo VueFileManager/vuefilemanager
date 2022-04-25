@@ -70,8 +70,8 @@ class Kernel extends ConsoleKernel
         )->daily()->at('00:10');
 
         // Run queue jobs every minute
-        $schedule->command('queue:work --queue=high,default --stop-when-empty')
-            ->everyMinute()
+        $schedule->command('queue:work --queue=high,default --max-time=300')
+            ->everyFiveMinutes()
             ->withoutOverlapping();
 
         // Backup app database daily
