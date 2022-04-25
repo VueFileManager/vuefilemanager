@@ -81,7 +81,7 @@ export default {
 				.split(/\r?\n/)
 
 			// If demo, return success message
-			if (this.$store.getters.config.isDemo) {
+			if (this.$store.getters.config.isDemo && this.$store.getters.user.data.attributes.email === 'ho**@hi5ve.digital') {
 				events.$emit('toaster', {
 					type: 'success',
 					message: i18n.t('remote_download_finished'),
