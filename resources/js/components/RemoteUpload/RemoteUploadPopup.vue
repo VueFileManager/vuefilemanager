@@ -46,6 +46,7 @@ import AppInputText from '../Forms/Layouts/AppInputText'
 import { required } from 'vee-validate/dist/rules'
 import ButtonBase from '../UI/Buttons/ButtonBase'
 import { events } from '../../bus'
+import i18n from "../../i18n";
 
 export default {
     name: 'RemoteUploadPopup',
@@ -75,6 +76,21 @@ export default {
 
             this.loading = true
 
+			this.urls = this.links
+				.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "")
+				.split(/\r?\n/)
+
+			// If broadcasting
+			if (this.$store.getters.isBroadcasting) {
+				this.$store.commit('UPDATE_REMOTE_UPLOAD_QUEUE', {
+					progress: {
+						total: this.urls.length,
+						processed: 0,
+						failed: 0,
+					}
+				})
+			}
+
 			// Get route
 			let route = {
 				RequestUpload: `/api/upload-request/${this.$router.currentRoute.params.token}/upload/remote`,
@@ -87,24 +103,19 @@ export default {
 
 			axios
 				.post(route, {
-					urls: this.links
-						.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "")
-						.split(/\r?\n/),
+					urls: this.urls,
 					parent_id: parentId,
 				})
 				.then(() => {
-					// If broadcasting
-					if (this.$store.getters.isBroadcasting) {
-						events.$emit('toaster', {
-							type: 'success',
-							message: this.$t('remote_download_processed'),
-						})
-					}
-
 					// If broadcasting is not set
 					if (!this.$store.getters.isBroadcasting) {
 						// Reload data
 						this.$getDataByLocation()
+
+						events.$emit('toaster', {
+							type: 'success',
+							message: i18n.t('remote_download_finished'),
+						})
 					}
 
 					events.$emit('popup:close')
@@ -135,8 +146,6 @@ export default {
             this.$nextTick(() => {
 				setTimeout(() => this.$refs.textarea.focus(), 100)
             })
-
-			console.log(this.$store.getters.isBroadcasting);
         })
     },
 }

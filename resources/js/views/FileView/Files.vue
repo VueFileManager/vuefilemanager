@@ -217,7 +217,6 @@
 <script>
 import EmptyFilePage from '../../components/EntriesView/EmptyFilePage'
 import FileActionsMobile from '../../components/Mobile/FileActionsMobile'
-import MobileActionButtonUpload from '../../components/UI/Buttons/MobileActionButtonUpload'
 import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar'
 import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
 import MobileContextMenu from '../../components/Menus/MobileContextMenu'
@@ -237,7 +236,6 @@ export default {
     components: {
         EmptyFilePage,
         FileActionsMobile,
-        MobileActionButtonUpload,
         MobileMultiSelectToolbar,
         MobileActionButton,
         MobileContextMenu,

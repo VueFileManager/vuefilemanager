@@ -4,6 +4,7 @@
         <Alert />
         <ToasterWrapper />
         <CookieDisclaimer />
+		<RemoteUploadProgress />
 
         <!--Show spinner before translations is loaded-->
         <Spinner v-if="!isLoaded" />
@@ -22,8 +23,9 @@
 </template>
 
 <script>
-import ToasterWrapper from './components/Toaster/ToasterNotifications'
 import RestrictionWarningBar from './components/Subscription/RestrictionWarningBar'
+import RemoteUploadProgress from "./components/RemoteUpload/RemoteUploadProgress"
+import ToasterWrapper from './components/Toaster/ToasterNotifications'
 import SidebarNavigation from "./components/Sidebar/SidebarNavigation"
 import CookieDisclaimer from './components/UI/Others/CookieDisclaimer'
 import Spinner from './components/UI/Others/Spinner'
@@ -35,8 +37,9 @@ import { events } from './bus'
 export default {
     name: 'App',
     components: {
-		SidebarNavigation,
         RestrictionWarningBar,
+		RemoteUploadProgress,
+		SidebarNavigation,
         CookieDisclaimer,
         ToasterWrapper,
         Vignette,

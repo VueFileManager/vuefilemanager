@@ -19,7 +19,7 @@ class NewFileWasStoredEvent implements ShouldBroadcastNow
      * @return void
      */
     public function __construct(
-        public FileResource $file,
+        public array $payload,
     ) {}
 
     /**
@@ -35,6 +35,6 @@ class NewFileWasStoredEvent implements ShouldBroadcastNow
      */
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel("App.Users.Models.User.{$this->file->user_id}");
+        return new PrivateChannel("App.Users.Models.User.{$this->payload['file']->user_id}");
     }
 }

@@ -1,6 +1,8 @@
 import { events } from '../../bus'
+import i18n from "../../i18n"
 
 const defaultState = {
+    remoteUploadQueue: undefined,
     isBroadcasting: false,
 }
 
@@ -10,13 +12,23 @@ const actions = {
 
         Echo.private(`App.Users.Models.User.${getters.user.data.id}`)
             .listen('.file.created', (event) => {
+                commit('UPDATE_REMOTE_UPLOAD_QUEUE', event.payload)
+
                 // If user is located in same directory as remote upload was called, then show the files
                 if (
-                    (!getters.currentFolder && !event.file.data.attributes.parent_id) ||
-                    (getters.currentFolder && event.file.data.attributes.parent_id === getters.currentFolder.data.id)
+                    event.payload.file &&
+                    (!getters.currentFolder && !event.payload.file.data.attributes.parent_id) ||
+                    (getters.currentFolder && event.payload.file.data.attributes.parent_id === getters.currentFolder.data.id)
                 ) {
                     // Add received item into view
-                    commit('ADD_NEW_ITEMS', event.file)
+                    commit('ADD_NEW_ITEMS', event.payload.file)
+                }
+
+                if (event.payload.progress.total === event.payload.progress.processed) {
+                    events.$emit('toaster', {
+                        type: 'success',
+                        message: i18n.t('remote_download_finished'),
+                    })
                 }
             })
             .notification((notification) => {
@@ -47,9 +59,20 @@ const mutations = {
     SET_RUNNING_COMMUNICATION(state) {
         state.isBroadcasting = true
     },
+    UPDATE_REMOTE_UPLOAD_QUEUE(state, payload) {
+        if (payload.progress.total !== payload.progress.processed) {
+            state.remoteUploadQueue = {
+                total: payload.progress.total,
+                processed: payload.progress.processed,
+            }
+        } else {
+            state.remoteUploadQueue = undefined
+        }
+    },
 }
 
 const getters = {
+    remoteUploadQueue: (state) => state.remoteUploadQueue,
     isBroadcasting: (state) => state.isBroadcasting,
 }
 

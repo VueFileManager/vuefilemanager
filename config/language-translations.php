@@ -947,7 +947,8 @@ return [
         'remote_links'                                   => 'Remote Links',
         'remote_links_help'                              => 'For every new line paste one link and we will give a try to download the file.',
         'paste_remote_links_here'                        => 'Paste your links to the files here...',
-        'remote_download_submitted'                      => 'Your links will be downloaded as soon as possible',
-        'remote_download_processed'                      => 'Links was added to the queue and will be downloaded soon',
+        'remote_download_finished'                       => 'Remote upload was successfully finished',
+        'remote_upload_progress'                         => 'Uploading Remotely - {processed} / {total}',
+        'remote_upload_failed_count'                     => 'Failed: {count}',
     ],
 ];

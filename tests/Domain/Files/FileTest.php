@@ -153,7 +153,7 @@ class FileTest extends TestCase
 
         File::all()
             ->each(function ($file) {
-                Event::assertDispatched(fn(NewFileWasStoredEvent $event) => $event->file->id === $file->id);
+                Event::assertDispatched(fn(NewFileWasStoredEvent $event) => $event->payload['file']->id === $file->id);
 
                 Storage::assertExists("files/$file->user_id/$file->basename");
             });

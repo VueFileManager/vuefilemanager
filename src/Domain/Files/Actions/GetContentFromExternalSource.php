@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Files\Actions;
 
 use Domain\Files\Events\NewFileWasStoredEvent;
@@ -18,18 +19,21 @@ class GetContentFromExternalSource
     use QueueableAction;
 
     public function __construct(
-        public ProcessFileAction $processFile,
-        public StoreFileExifMetadataAction $storeExifMetadata,
-        public MoveFileToFTPStorageAction $moveFileToFTPStorage,
-        public ProcessImageThumbnailAction $createImageThumbnail,
+        public ProcessFileAction               $processFile,
+        public StoreFileExifMetadataAction     $storeExifMetadata,
+        public MoveFileToFTPStorageAction      $moveFileToFTPStorage,
+        public ProcessImageThumbnailAction     $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
-    ) {
-    }
+    ) {}
 
     public function __invoke(
         array $payload,
-        User $user,
+        User  $user,
     ) {
+        $total = count($payload['urls']);
+        $processed = 0;
+        $failed = 0;
+
         foreach ($payload['urls'] as $url) {
             try {
                 // Get local disk instance
@@ -83,9 +87,33 @@ class GetContentFromExternalSource
                     default => null
                 };
 
+                // Increment processed items count
+                $processed++;
+
                 // Broadcast new file into the frontend
-                NewFileWasStoredEvent::dispatch(new FileResource($file));
+                NewFileWasStoredEvent::dispatch([
+                    'progress' => [
+                        'total'     => $total,
+                        'processed' => $processed,
+                        'failed'    => $failed,
+                    ],
+                    'file'     => new FileResource($file),
+                ]);
             } catch (ErrorException | Error $e) {
+                // Increment items count
+                $processed++;
+                $failed++;
+
+                // Broadcast new file into the frontend
+                NewFileWasStoredEvent::dispatch([
+                    'progress' => [
+                        'total'     => $total,
+                        'processed' => $processed,
+                        'failed'    => $failed,
+                    ],
+                    'file'     => null,
+                ]);
+
                 Log::error("Remote upload failed as {$e->getMessage()}");
                 Log::error($e->getTraceAsString());
             }
