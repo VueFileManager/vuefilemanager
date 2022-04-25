@@ -11,7 +11,7 @@ const actions = {
         commit('SET_RUNNING_COMMUNICATION')
 
         Echo.private(`App.Users.Models.User.${getters.user.data.id}`)
-            .listen('.file.created', (event) => {
+            .listen('.RemoteFile.Created', (event) => {
                 commit('UPDATE_REMOTE_UPLOAD_QUEUE', event.payload)
 
                 // If user is located in same directory as remote upload was called, then show the files

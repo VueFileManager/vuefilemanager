@@ -10,7 +10,7 @@ use Domain\UploadRequest\Controllers\MoveItemInUploadRequestController;
 use Domain\UploadRequest\Controllers\SetUploadRequestAsFilledController;
 use Domain\UploadRequest\Controllers\UploadFilesForUploadRequestController;
 use Domain\UploadRequest\Controllers\GetFolderTreeForUploadRequestController;
-use Domain\UploadRequest\Controllers\UploadFilesRemotelyForUploadRequestController;
+use Domain\RemoteUpload\Controllers\UploadFilesRemotelyForUploadRequestController;
 
 Route::get('/{uploadRequest}', GetUploadRequestController::class);
 

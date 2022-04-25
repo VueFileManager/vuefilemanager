@@ -1,12 +1,12 @@
 <?php
-namespace Domain\UploadRequest\Controllers;
+namespace Domain\RemoteUpload\Controllers;
 
 use DB;
 use Domain\Folders\Models\Folder;
 use Domain\Files\Requests\RemoteUploadRequest;
 use Domain\UploadRequest\Models\UploadRequest;
-use Domain\Files\Actions\GetContentFromExternalSource;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Domain\RemoteUpload\Actions\GetContentFromExternalSource;
 
 class UploadFilesRemotelyForUploadRequestController
 {

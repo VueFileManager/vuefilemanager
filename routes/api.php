@@ -12,7 +12,6 @@ use Domain\SetupWizard\Controllers\PingAPIController;
 use Domain\Folders\Controllers\CreateFolderController;
 use Domain\Browsing\Controllers\BrowseFolderController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
-use Domain\Files\Controllers\RemoteUploadFileController;
 use Domain\Folders\Controllers\NavigationTreeController;
 use Domain\Items\Controllers\MoveFileOrFolderController;
 use App\Socialite\Controllers\SocialiteRedirectController;
@@ -25,6 +24,7 @@ use Domain\Browsing\Controllers\BrowseLatestFilesController;
 use Domain\Browsing\Controllers\BrowseSharedItemsController;
 use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
+use Domain\RemoteUpload\Controllers\RemoteUploadFileController;
 use Domain\Sharing\Controllers\GetShareLinkViaQrCodeController;
 use App\Users\Controllers\Authentication\RegisterUserController;
 

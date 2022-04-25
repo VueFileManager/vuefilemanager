@@ -1,13 +1,13 @@
 <?php
 namespace App\Console;
 
-use App\Console\Commands\SetupWebsocketEnvironment;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
 use Support\Scheduler\Actions\ReportUsageAction;
 use Support\Upgrading\Actions\UpdateSystemAction;
 use Support\Demo\Actions\ClearHowdyDemoDataAction;
+use App\Console\Commands\SetupWebsocketEnvironment;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;

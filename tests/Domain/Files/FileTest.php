@@ -11,7 +11,7 @@ use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Http;
-use Domain\Files\Events\NewFileWasStoredEvent;
+use Domain\RemoteUpload\Events\RemoteFileCreatedEvent;
 
 class FileTest extends TestCase
 {
@@ -111,7 +111,7 @@ class FileTest extends TestCase
     public function it_remotely_upload_new_file()
     {
         Event::fake([
-            NewFileWasStoredEvent::class,
+            RemoteFileCreatedEvent::class,
         ]);
 
         $user = User::factory()
@@ -153,7 +153,7 @@ class FileTest extends TestCase
 
         File::all()
             ->each(function ($file) {
-                Event::assertDispatched(fn(NewFileWasStoredEvent $event) => $event->payload['file']->id === $file->id);
+                Event::assertDispatched(fn (RemoteFileCreatedEvent $event) => $event->payload['file']->id === $file->id);
 
                 Storage::assertExists("files/$file->user_id/$file->basename");
             });

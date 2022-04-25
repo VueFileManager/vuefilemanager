@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Settings\Actions;
 
 use Storage;

@@ -1,12 +1,12 @@
 <?php
-namespace Domain\Files\Controllers;
+namespace Domain\RemoteUpload\Controllers;
 
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\RemoteUploadRequest;
-use Domain\Files\Actions\GetContentFromExternalSource;
+use Domain\RemoteUpload\Actions\GetContentFromExternalSource;
 
 class RemoteUploadFileController extends Controller
 {

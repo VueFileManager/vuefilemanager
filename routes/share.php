@@ -7,12 +7,12 @@ use Domain\Files\Controllers\VisitorUploadFileController;
 use Domain\Folders\Controllers\VisitorCreateFolderController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
 use Domain\Browsing\Controllers\VisitorBrowseFolderController;
-use Domain\Files\Controllers\VisitorRemoteUploadFileController;
 use Domain\Items\Controllers\VisitorMoveFileOrFolderController;
 use Domain\Items\Controllers\VisitorDeleteFileOrFolderController;
 use Domain\Items\Controllers\VisitorRenameFileOrFolderController;
 use Domain\Sharing\Controllers\VisitorUnlockLockedShareController;
 use Domain\Folders\Controllers\VisitorNavigationFolderTreeController;
+use Domain\RemoteUpload\Controllers\VisitorRemoteUploadFileController;
 use Domain\Browsing\Controllers\VisitorSearchFilesAndFoldersController;
 
 // Browse functions

@@ -1,9 +1,6 @@
 <?php
+namespace Domain\RemoteUpload\Actions;
 
-namespace Domain\Files\Actions;
-
-use Domain\Files\Events\NewFileWasStoredEvent;
-use Domain\Files\Resources\FileResource;
 use Log;
 use Error;
 use ErrorException;
@@ -12,23 +9,31 @@ use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Domain\Files\Resources\FileResource;
+use Domain\Files\Actions\ProcessFileAction;
 use Spatie\QueueableAction\QueueableAction;
+use Domain\Files\Actions\MoveFileToFTPStorageAction;
+use Domain\Files\Actions\ProcessImageThumbnailAction;
+use Domain\Files\Actions\StoreFileExifMetadataAction;
+use Domain\RemoteUpload\Events\RemoteFileCreatedEvent;
+use Domain\Files\Actions\MoveFileToExternalStorageAction;
 
 class GetContentFromExternalSource
 {
     use QueueableAction;
 
     public function __construct(
-        public ProcessFileAction               $processFile,
-        public StoreFileExifMetadataAction     $storeExifMetadata,
-        public MoveFileToFTPStorageAction      $moveFileToFTPStorage,
-        public ProcessImageThumbnailAction     $createImageThumbnail,
+        public ProcessFileAction $processFile,
+        public StoreFileExifMetadataAction $storeExifMetadata,
+        public MoveFileToFTPStorageAction $moveFileToFTPStorage,
+        public ProcessImageThumbnailAction $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
-    ) {}
+    ) {
+    }
 
     public function __invoke(
         array $payload,
-        User  $user,
+        User $user,
     ) {
         $total = count($payload['urls']);
         $processed = 0;
@@ -91,7 +96,7 @@ class GetContentFromExternalSource
                 $processed++;
 
                 // Broadcast new file into the frontend
-                NewFileWasStoredEvent::dispatch([
+                RemoteFileCreatedEvent::dispatch([
                     'progress' => [
                         'total'     => $total,
                         'processed' => $processed,
@@ -105,7 +110,7 @@ class GetContentFromExternalSource
                 $failed++;
 
                 // Broadcast new file into the frontend
-                NewFileWasStoredEvent::dispatch([
+                RemoteFileCreatedEvent::dispatch([
                     'progress' => [
                         'total'     => $total,
                         'processed' => $processed,

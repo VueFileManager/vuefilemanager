@@ -1,15 +1,13 @@
 <?php
+namespace Domain\RemoteUpload\Events;
 
-namespace Domain\Files\Events;
-
-use Domain\Files\Resources\FileResource;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class NewFileWasStoredEvent implements ShouldBroadcastNow
+class RemoteFileCreatedEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,14 +18,15 @@ class NewFileWasStoredEvent implements ShouldBroadcastNow
      */
     public function __construct(
         public array $payload,
-    ) {}
+    ) {
+    }
 
     /**
      * The event's broadcast name.
      */
     public function broadcastAs(): string
     {
-        return 'file.created';
+        return 'RemoteFile.Created';
     }
 
     /**
