@@ -762,10 +762,8 @@ if (! function_exists('readExifData')) {
      */
     function readExifData(string $file): object|null
     {
-        $disk = Storage::disk('local');
-
         $type = get_file_type_from_mimetype(
-            $disk->mimeType($file)
+            Storage::mimeType($file)
         );
 
         if ($type !== 'jpeg') {
