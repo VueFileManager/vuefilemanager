@@ -762,6 +762,12 @@ if (! function_exists('readExifData')) {
      */
     function readExifData(string $file): object|null
     {
+        $mimetype = Storage::mimeType($file);
+
+        if (!$mimetype) {
+            return null;
+        }
+
         $type = get_file_type_from_mimetype(
             Storage::mimeType($file)
         );
@@ -772,7 +778,7 @@ if (! function_exists('readExifData')) {
 
         try {
             // Try to get the exif data
-            $data = Image::make($disk->path($file))->exif();
+            $data = Image::make(Storage::path($file))->exif();
 
             // Encode data
             $encodedData = mb_convert_encoding($data, 'UTF8', 'UTF8');
