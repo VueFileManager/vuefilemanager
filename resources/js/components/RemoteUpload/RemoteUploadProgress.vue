@@ -1,7 +1,7 @@
 <template>
 	<transition name="popup">
 		<div v-if="remoteUploadQueue" class="fixed left-0 right-0 bottom-8 text-center select-none pointer-events-none z-10">
-			<div class="relative inline-block rounded-lg overflow-hidden bg-theme shadow-[#ff8200]/40 shadow-lg px-3 py-2">
+			<div class="relative inline-block rounded-lg overflow-hidden bg-theme shadow-lg px-3 py-2">
 				<div class="flex items-center">
 					<RefreshCwIcon size="14" class="vue-feather text-white animate-[spin_2s_linear_infinite] z-10 relative" />
 					<span class="text-xs font-bold text-white z-10 relative ml-2 dark:text-black">

@@ -80,6 +80,18 @@ export default {
 				.replace(/^(?=\n)$|^\s*|\s*$|\n\n+/gm, "")
 				.split(/\r?\n/)
 
+			// If demo, return success message
+			if (this.$store.getters.config.isDemo) {
+				events.$emit('toaster', {
+					type: 'success',
+					message: i18n.t('remote_download_finished'),
+				})
+
+				events.$emit('popup:close')
+
+				return
+			}
+
 			// If broadcasting
 			if (this.$store.getters.isBroadcasting) {
 				this.$store.commit('UPDATE_REMOTE_UPLOAD_QUEUE', {
