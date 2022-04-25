@@ -1,3 +1,8 @@
+## Version 2.1.0
+#### Release date: 25. April 2022
+- New remote upload function
+- Broadcast server implementation, for more info check [Broadcasting Guide](https://gist.github.com/MakingCG/a702a112be63bc6f0032dd55522327cf#broadcasting)
+
 ## Version 2.0.19
 #### Release date: 21. April 2022
 - Fixed issue with Backblaze credentials set up

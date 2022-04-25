@@ -187,7 +187,11 @@ If you move your VueFileManager application into another domain or subdomain, yo
 
 # Broadcasting
 ### About Broadcasting
-Broadcasting is responsible for real time app experience. If broadcasting is set, you will be able to get just in time updates in your frontend. Remote upload works on the background while the files are downloading and showing in your view after they are ready. You will get immediately notifications about new events like team invitations, file requests and many more.
+Broadcasting is responsible for real time app experience. If broadcasting is set, you will be able to get just in time updates in your app. 
+
+For example, remote upload works on the background, while the files are downloading and showing in your view immediately after they are ready without refreshing the app. Or, you will get immediately notifications about new events like team invitations, file requests and many more.
+
+More real time features will be implemented in incoming updates.
 
 VueFileManager support 2 types of connections:
 1. [Pusher](https://pusher.com/) - Suitable for all users and all hosting platforms
