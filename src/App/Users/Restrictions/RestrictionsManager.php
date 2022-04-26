@@ -10,21 +10,11 @@ class RestrictionsManager extends Manager
 {
     public function getDefaultDriver(): string
     {
-        return get_restriction_driver();
+        return 'default';
     }
 
     public function createDefaultDriver(): DefaultRestrictionsEngine
     {
         return new DefaultRestrictionsEngine();
-    }
-
-    public function createFixedDriver(): FixedBillingRestrictionsEngine
-    {
-        return new FixedBillingRestrictionsEngine();
-    }
-
-    public function createMeteredDriver(): MeteredBillingRestrictionsEngine
-    {
-        return new MeteredBillingRestrictionsEngine();
     }
 }

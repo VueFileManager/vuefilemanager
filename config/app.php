@@ -161,7 +161,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
 
