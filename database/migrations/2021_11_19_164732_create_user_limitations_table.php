@@ -16,7 +16,6 @@ class CreateUserLimitationsTable extends Migration
         Schema::create('user_limitations', function (Blueprint $table) {
             $table->uuid('user_id');
             $table->text('max_storage_amount');
-            $table->text('max_team_members');
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
         });

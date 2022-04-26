@@ -6,7 +6,6 @@ use App\Users\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class GetDashboardDataController extends Controller
 {
@@ -15,16 +14,9 @@ class GetDashboardDataController extends Controller
         // Get bandwidth data
         list($upload, $download, $uploadTotal, $downloadTotal, $storageUsage) = $this->getDiskData();
 
-        // Get total earnings from transactions
-        $totalEarnings = DB::table('transactions')
-            ->where('status', 'completed')
-            ->where('type', 'charge')
-            ->sum('amount');
-
         return response()->json([
             'users' => [
                 'total'             => User::count(),
-                'usersPremiumTotal' => Subscription::count(),
             ],
             'disk'  => [
                 'used'     => $storageUsage,
@@ -41,7 +33,6 @@ class GetDashboardDataController extends Controller
                 'isRunningCron'             => isRunningCron(),
                 'license'                   => get_settings('license'),
                 'version'                   => config('vuefilemanager.version'),
-                'earnings'                  => format_currency($totalEarnings, 'USD'), // todo: refactor currency to global setup or plan currency
             ],
         ]);
     }

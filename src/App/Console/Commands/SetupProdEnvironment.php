@@ -5,7 +5,6 @@ use App\Users\Models\User;
 use Illuminate\Console\Command;
 use Domain\Settings\Models\Setting;
 use Illuminate\Foundation\Testing\WithFaker;
-use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
@@ -17,7 +16,7 @@ class SetupProdEnvironment extends Command
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'setup:prod {license=extended}';
+    protected $signature = 'setup:prod';
 
     /**
      * The console command description.
@@ -30,7 +29,6 @@ class SetupProdEnvironment extends Command
         private CreateDiskDirectoriesAction $createDiskDirectories,
         private SeedDefaultSettingsAction $seedDefaultSettings,
         private SeedDefaultLanguageAction $seedDefaultLanguage,
-        private SeedDefaultPagesAction $seedDefaultPages,
     ) {
         parent::__construct();
         $this->setUpFaker();
@@ -54,7 +52,6 @@ class SetupProdEnvironment extends Command
         $this->info('Storing default settings and content...');
         $this->store_default_settings();
 
-        ($this->seedDefaultPages)();
         ($this->seedDefaultSettings)($this->argument('license'));
         ($this->seedDefaultLanguage)();
 
@@ -130,14 +127,6 @@ class SetupProdEnvironment extends Command
                 'value' => null,
             ],
             [
-                'name'  => 'registration',
-                'value' => 0,
-            ],
-            [
-                'name'  => 'user_verification',
-                'value' => 0,
-            ],
-            [
                 'name'  => 'storage_limitation',
                 'value' => 1,
             ],
@@ -146,16 +135,12 @@ class SetupProdEnvironment extends Command
                 'value' => 5,
             ],
             [
-                'name'  => 'default_max_team_member',
-                'value' => 10,
-            ],
-            [
                 'name'  => 'setup_wizard_success',
                 'value' => 1,
             ],
             [
                 'name'  => 'license',
-                'value' => $this->argument('license'),
+                'value' => 'regular',
             ],
             [
                 'name'  => 'purchase_code',
@@ -203,20 +188,6 @@ class SetupProdEnvironment extends Command
                 'value' => $col['value'],
             ]);
         });
-
-        if ($this->argument('license') === 'extended') {
-            $choice = $this->choice('Choose subscription type', [
-                'metered' => 'Metered',
-                'fixed'   => 'Fixed',
-                'none'    => 'None',
-            ]);
-
-            Setting::updateOrCreate([
-                'name'  => 'subscription_type',
-            ], [
-                'value' => $choice,
-            ]);
-        }
     }
 
     /**

@@ -45,9 +45,6 @@ class AuthServiceProvider extends ServiceProvider
                     if ($user?->id === $item->user_id) {
                         return true;
                     }
-
-                    // Check team member ability to access into requested item
-                    return $this->teamMemberGuard($item, $user, $ability);
                 });
             });
 
@@ -84,18 +81,5 @@ class AuthServiceProvider extends ServiceProvider
         }
 
         return $share->user_id === $item->user_id;
-    }
-
-    private function teamMemberGuard(Folder | File $item, ?User $user, $ability): bool
-    {
-        $teamFolder = $item->getLatestParent();
-
-        $membership = DB::table('team_folder_members')
-            ->where('parent_id', $teamFolder->id)
-            ->where('user_id', $user->id)
-            ->first();
-
-        // check existing members permission or check team folder owner privileges
-        return $membership?->permission === $ability || $teamFolder->user_id === Auth::id();
     }
 }

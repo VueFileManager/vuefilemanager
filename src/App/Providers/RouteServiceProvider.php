@@ -43,10 +43,6 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->group(base_path('routes/share.php'));
 
-            Route::prefix('api/upload-request')
-                ->middleware('api')
-                ->group(base_path('routes/upload-request.php'));
-
             Route::prefix('api/admin')
                 ->middleware(['api', 'auth:sanctum', 'admin'])
                 ->group(base_path('routes/admin.php'));
@@ -63,10 +59,6 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/file.php'));
-
-            Route::prefix('api/teams')
-                ->middleware(['api'])
-                ->group(base_path('routes/teams.php'));
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));

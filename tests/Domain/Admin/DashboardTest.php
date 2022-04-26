@@ -25,14 +25,12 @@ class DashboardTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment([
                 'app' => [
-                    'earnings'                  => '$0.00',
                     'isRunningCron'             => false,
-                    'license'                   => 'extended',
+                    'license'                   => 'regular',
                     'version'                   => config('vuefilemanager.version'),
                 ],
                 'users' => [
                     'total'             => 1,
-                    'usersPremiumTotal' => 0,
                 ],
                 'used'  => '2.00MB',
             ]);

@@ -7,7 +7,6 @@ use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\StatefulGuard;
-use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\SetupWizard\Requests\StoreAdminAccountRequest;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
@@ -20,7 +19,6 @@ class CreateAdminAccountController extends Controller
 {
     public function __construct(
         protected StatefulGuard $guard,
-        public SeedDefaultPagesAction $seedDefaultPages,
         public SeedDefaultLanguageAction $seedDefaultLanguage,
         public CreateDiskDirectoriesAction $createDiskDirectories,
         public SeedDefaultSettingsAction $seedDefaultSettingsAction,
@@ -58,7 +56,7 @@ class CreateAdminAccountController extends Controller
             ],
             [
                 'name'  => 'license',
-                'value' => strtolower($request->input('license')),
+                'value' => 'regular',
             ],
             [
                 'name'  => 'purchase_code',
@@ -79,8 +77,7 @@ class CreateAdminAccountController extends Controller
         Artisan::call('config:clear');
 
         // Set up application
-        ($this->seedDefaultPages)();
-        ($this->seedDefaultSettingsAction)($request->input('license'));
+        ($this->seedDefaultSettingsAction)();
         ($this->seedDefaultLanguage)();
 
         return response('Registration was successful', 204);

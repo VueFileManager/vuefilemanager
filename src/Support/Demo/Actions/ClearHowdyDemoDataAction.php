@@ -17,14 +17,5 @@ class ClearHowdyDemoDataAction
         DB::table('shares')
             ->where('user_id', $user->id)
             ->delete();
-
-        // Delete File request
-        UploadRequest::where('user_id', $user->id)
-            ->cursor()
-            ->each(function ($request) {
-                if ($request->created_at->diffInHours(now()) >= 6) {
-                    $request->delete();
-                }
-            });
     }
 }

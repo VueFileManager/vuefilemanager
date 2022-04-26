@@ -30,9 +30,6 @@ class IndexController
             // Get setup status
             $setup_status = get_setup_status();
 
-            // Get app pages
-            $pages = Page::all();
-
             // Get all settings
             $settings = get_settings_in_json();
         } catch (PDOException $e) {
@@ -45,7 +42,6 @@ class IndexController
         return view('index')
             ->with('status_check', $status_check ?? [])
             ->with('settings', $settings ?? null)
-            ->with('legal', $pages ?? null)
             ->with('installation', $setup_status);
     }
 }

@@ -23,7 +23,6 @@ class StoreEnvironmentSetupRequest extends FormRequest
     public function rules()
     {
         return [
-            'broadcast'        => 'required|array',
             'storage'          => 'required|array',
             'environment'      => 'required|string',
             'storage.driver'   => 'required|string',

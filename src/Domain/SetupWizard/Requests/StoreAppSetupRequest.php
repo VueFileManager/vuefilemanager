@@ -31,7 +31,6 @@ class StoreAppSetupRequest extends FormRequest
             'contactMail'       => 'required|email',
             'googleAnalytics'   => 'sometimes|string',
             'defaultStorage'    => 'sometimes|digits_between:1,9',
-            'userRegistration'  => 'required|boolean',
             'storageLimitation' => 'required|boolean',
         ];
     }

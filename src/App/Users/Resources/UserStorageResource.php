@@ -18,11 +18,7 @@ class UserStorageResource extends JsonResource
         list($images, $audios, $videos, $documents, $others) = $this->get_file_type_distribution();
         list($downloadTotal, $uploadTotal, $upload, $download) = $this->get_traffic_distribution();
 
-        $totalCapacity = match (get_settings('subscription_type')) {
-            'metered' => $this->usedCapacity / 1000000000,
-            'fixed'   => $this->limitations->max_storage_amount,
-            default   => $this->limitations->max_storage_amount,
-        };
+        $totalCapacity = $this->limitations->max_storage_amount;
 
         return [
             'data' => [

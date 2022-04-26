@@ -15,7 +15,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use App\Users\Notifications\ResetPassword;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use Domain\UploadRequest\Models\UploadRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Users\Restrictions\RestrictionsManager;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -23,7 +22,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use VueFileManager\Subscription\App\User\Traits\Billable;
 
 /**
  * @property string id
@@ -47,7 +45,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use HasFactory;
     use Sortable;
-    use Billable;
 
     protected $guarded = [
         'id',
@@ -57,7 +54,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'email',
         'password',
-        'oauth_provider',
     ];
 
     protected $hidden = [
@@ -138,8 +134,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function favouriteFolders(): BelongsToMany
     {
-        return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'parent_id', 'id', 'id')
-            ->where('team_folder', false);
+        return $this->belongsToMany(Folder::class, 'favourite_folder', 'user_id', 'parent_id', 'id', 'id');
     }
 
     /**
@@ -182,11 +177,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Traffic::class);
     }
 
-    public function uploadRequest(): HasOne
-    {
-        return $this->hasOne(UploadRequest::class);
-    }
-
     /**
      * Send the password reset notification.
      */
@@ -216,7 +206,6 @@ class User extends Authenticatable implements MustVerifyEmail
             // Create default limitations
             $user->limitations()->create([
                 'max_storage_amount' => get_settings('default_max_storage_amount') ?? 1,
-                'max_team_members'   => get_settings('default_max_team_member') ?? 10,
             ]);
 
             // Create user directory for his files

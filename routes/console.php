@@ -1,7 +1,5 @@
 <?php
 
-use Support\Scheduler\Actions\ReportUsageAction;
-
 /*
 |--------------------------------------------------------------------------
 | Console Routes
@@ -12,6 +10,3 @@ use Support\Scheduler\Actions\ReportUsageAction;
 | simple approach to interacting with each command's IO methods.
 |
 */
-
-Artisan::command('report:usage', fn () => resolve(ReportUsageAction::class)())
-    ->describe('Store user usage estimates for metered billing');

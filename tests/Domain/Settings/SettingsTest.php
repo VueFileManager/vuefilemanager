@@ -6,9 +6,7 @@ use Tests\TestCase;
 use App\Users\Models\User;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
-use Illuminate\Support\Facades\Http;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
-use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
 class SettingsTest extends TestCase
 {
@@ -40,7 +38,7 @@ class SettingsTest extends TestCase
      */
     public function it_get_admin_settings()
     {
-        resolve(SeedDefaultSettingsAction::class)('Extended');
+        resolve(SeedDefaultSettingsAction::class)();
 
         $admin = User::factory()
             ->create(['role' => 'admin']);
@@ -74,7 +72,7 @@ class SettingsTest extends TestCase
      */
     public function it_update_settings()
     {
-        resolve(SeedDefaultSettingsAction::class)('Extended');
+        resolve(SeedDefaultSettingsAction::class)();
 
         $admin = User::factory()
             ->create(['role' => 'admin']);
@@ -140,50 +138,6 @@ class SettingsTest extends TestCase
     /**
      * @test
      */
-    public function it_store_payment_service_credentials()
-    {
-        $admin = User::factory()
-            ->create(['role' => 'admin']);
-
-        $this
-            ->actingAs($admin)
-            ->post('/api/admin/settings/payment-service', [
-                'service' => 'stripe',
-                'key'     => '123456789',
-                'secret'  => '123456789',
-            ])->assertStatus(204);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'allowed_stripe',
-            'value' => '1',
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function it_store_social_service_credentials()
-    {
-        $admin = User::factory()
-            ->create(['role' => 'admin']);
-
-        $this
-            ->actingAs($admin)
-            ->post('/api/admin/settings/social-service', [
-                'client_id'     => '123456789',
-                'client_secret' => '123456789',
-                'service'       => 'facebook',
-            ])->assertStatus(204);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'allowed_facebook',
-            'value' => 1,
-        ]);
-    }
-
-    /**
-     * @test
-     */
     public function it_set_email()
     {
         $admin = User::factory()
@@ -221,86 +175,5 @@ class SettingsTest extends TestCase
                     'endpoint' => 'https://cloud.frankfurt.storage.com',
                 ],
             ])->assertStatus(204);
-    }
-
-    /**
-     * @test
-     */
-    public function it_set_broadcast()
-    {
-        $admin = User::factory()
-            ->create(['role' => 'admin']);
-
-        $this
-            ->actingAs($admin)
-            ->postJson('/api/admin/settings/broadcast', [
-                'driver'  => 'pusher',
-                'id'      => '123',
-                'key'     => '123456',
-                'secret'  => 'mOoiofnssddf',
-                'cluster' => 'eu',
-                'port'    => null,
-                'host'    => null,
-            ])->assertStatus(204);
-    }
-
-    /**
-     * @test
-     */
-    public function it_upgrade_license()
-    {
-        Http::fake([
-            'https://verify.vuefilemanager.com/api/verify-code/*' => Http::response('b6896a44017217c36f4a6fdc56699728'),
-        ]);
-
-        collect([
-            [
-                'name'  => 'license',
-                'value' => 'regular',
-            ],
-            [
-                'name'  => 'purchase_code',
-                'value' => '22b28b36-6d84-41b2-a920-a884b2bf63b6',
-            ],
-        ])->each(function ($col) {
-            Setting::updateOrCreate([
-                'name' => $col['name'],
-            ], [
-                'value' => $col['value'],
-            ]);
-        });
-
-        resolve(SeedDefaultLanguageAction::class)();
-
-        $admin = User::factory()
-            ->create(['role' => 'admin']);
-
-        $this
-            ->actingAs($admin)
-            ->postJson('/api/admin/upgrade-license', [
-                'purchaseCode' => '6ab28b36-6d84-41b2-a920-a884b2bf63b6',
-            ])->assertStatus(201);
-
-        collect([
-            [
-                'name'  => 'license',
-                'value' => 'extended',
-            ],
-            [
-                'name'  => 'purchase_code',
-                'value' => '6ab28b36-6d84-41b2-a920-a884b2bf63b6',
-            ],
-        ])->each(function ($col) {
-            $this->assertDatabaseHas('settings', [
-                'name'  => $col['name'],
-                'value' => $col['value'],
-            ]);
-        });
-
-        $this->assertDatabaseHas('language_translations', [
-            'key'   => 'go_to_subscription',
-            'value' => 'Go to Subscription',
-            'lang'  => 'en',
-        ]);
     }
 }

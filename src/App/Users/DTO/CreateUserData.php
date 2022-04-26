@@ -9,7 +9,6 @@ class CreateUserData extends DataTransferObject
     public string $name;
     public string $email;
     public ?string $password;
-    public ?string $oauth_provider;
     public ?string $avatar;
 
     public static function fromRequest($request): self
@@ -20,7 +19,6 @@ class CreateUserData extends DataTransferObject
             'email'           => $request->input('email'),
             'avatar'          => $request->input('avatar') ?? null,
             'password'        => $request->input('password'),
-            'oauth_provider'  => $request->input('oauth_provider') ?? null,
         ]);
     }
 
@@ -32,7 +30,6 @@ class CreateUserData extends DataTransferObject
             'email'           => $array['email'],
             'avatar'          => $array['avatar'] ?? null,
             'password'        => $array['password'] ?? null,
-            'oauth_provider'  => $array['oauth_provider'] ?? null,
         ]);
     }
 }

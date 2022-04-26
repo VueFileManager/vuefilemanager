@@ -11,9 +11,5 @@ interface RestrictionsEngine
 
     public function canCreateFolder(User $user): bool;
 
-    public function canCreateTeamFolder(User $user): bool;
-
-    public function canInviteTeamMembers(User $user, array $newInvites = []): bool;
-
     public function canVisitShared(User $user): bool;
 }

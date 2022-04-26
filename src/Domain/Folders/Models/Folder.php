@@ -10,7 +10,6 @@ use Kyslik\ColumnSortable\Sortable;
 use Database\Factories\FolderFactory;
 use Illuminate\Database\Eloquent\Model;
 use TeamTNT\TNTSearch\Indexer\TNTIndexer;
-use Domain\Teams\Models\TeamFolderInvitation;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -34,7 +33,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string created_at
  * @property string updated_at
  * @property string deleted_at
- * @property bool team_folder
  */
 class Folder extends Model
 {
@@ -54,7 +52,6 @@ class Folder extends Model
 
     protected $casts = [
         'emoji'       => 'array',
-        'team_folder' => 'boolean',
     ];
 
     public $sortable = [
@@ -178,18 +175,6 @@ class Folder extends Model
     public function shared(): HasOne
     {
         return $this->hasOne(Share::class, 'item_id', 'id');
-    }
-
-    public function teamInvitations(): HasMany
-    {
-        return $this->hasMany(TeamFolderInvitation::class, 'parent_id', 'id')
-            ->where('status', 'pending');
-    }
-
-    public function teamMembers(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'team_folder_members', 'parent_id', 'user_id')
-            ->withPivot('permission');
     }
 
     public function user(): HasOne

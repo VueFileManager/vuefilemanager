@@ -15,7 +15,6 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Support\Middleware\PreventRequestsDuringMaintenance;
 use Illuminate\Foundation\Http\Middleware\ValidatePostSize;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Domain\UploadRequest\Middleware\ProtectUploadRequestRoutes;
 use Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull;
 use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
@@ -78,6 +77,5 @@ class Kernel extends HttpKernel
         'verified'         => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin'            => AdminCheck::class,
         'setup-wizard'     => ProtectSetupWizardRoutes::class,
-        'upload-request'   => ProtectUploadRequestRoutes::class,
     ];
 }

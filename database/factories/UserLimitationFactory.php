@@ -24,7 +24,6 @@ class UserLimitationFactory extends Factory
         return [
             'user_id'            => $this->faker->uuid,
             'max_storage_amount' => $this->faker->randomElement([100, 200, 300]),
-            'max_team_members'   => $this->faker->randomElement([10, 20, 30]),
         ];
     }
 }

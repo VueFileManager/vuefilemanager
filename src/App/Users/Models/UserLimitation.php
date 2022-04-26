@@ -46,7 +46,6 @@ class UserLimitation extends Model
     {
         return [
             'max_storage_amount' => $this->getMaxStorageAmount(),
-            'max_team_members'   => $this->getMaxTeamMembers(),
         ];
     }
 
@@ -61,46 +60,6 @@ class UserLimitation extends Model
             'use'        => Metric::bytes($userCapacity)->format(),
             'total'      => format_gigabytes($this->max_storage_amount),
             'percentage' => get_storage_percentage($userCapacity, $this->max_storage_amount),
-        ];
-    }
-
-    /**
-     * Get usage data of team members
-     */
-    private function getMaxTeamMembers(): array
-    {
-        $userTeamFolderIds = DB::table('team_folder_members')
-            ->where('user_id', $this->user_id)
-            ->pluck('parent_id');
-
-        $memberIds = DB::table('team_folder_members')
-            ->where('user_id', '!=', $this->user_id)
-            ->whereIn('parent_id', $userTeamFolderIds)
-            ->pluck('user_id')
-            ->unique();
-
-        // Get member emails
-        $memberEmails = User::whereIn('id', $memberIds)
-            ->pluck('email');
-
-        // Get active invitation emails
-        $InvitationEmails = DB::table('team_folder_invitations')
-            ->where('status', 'pending')
-            ->where('inviter_id', $this->user_id)
-            ->pluck('email')
-            ->unique();
-
-        // Get allowed emails in the limit
-        $totalUsedEmails = $memberEmails->merge($InvitationEmails)
-            ->unique();
-
-        return [
-            'use'        => $totalUsedEmails->count(),
-            'total'      => (int) $this->max_team_members,
-            'percentage' => ($totalUsedEmails->count() / $this->max_team_members) * 100,
-            'meta'       => [
-                'allowed_emails' => $totalUsedEmails,
-            ],
         ];
     }
 }

@@ -1,15 +1,12 @@
 <?php
 namespace Tests\Domain\Homepage;
 
-use Mail;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Domain\Settings\Models\Setting;
-use Domain\Homepage\Mail\SendContactMessage;
-use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 
 class HomepageTest extends TestCase
@@ -19,9 +16,7 @@ class HomepageTest extends TestCase
      */
     public function it_get_index_page()
     {
-        resolve(SeedDefaultPagesAction::class)();
-
-        resolve(SeedDefaultSettingsAction::class)('Extended');
+        resolve(SeedDefaultSettingsAction::class)();
 
         Setting::create([
             'name'  => 'setup_wizard_success',
@@ -135,26 +130,5 @@ class HomepageTest extends TestCase
             ->get("/api/og-site/$share->token")
             ->assertStatus(200)
             ->assertSee('This link is protected by password');
-    }
-
-    /**
-     * @test
-     */
-    public function it_send_contact_form()
-    {
-        Mail::fake();
-
-        Setting::create([
-            'name'  => 'contact_email',
-            'value' => 'jane@doe.com',
-        ]);
-
-        $this->postJson('/api/contact', [
-            'email'   => 'john@doe.com',
-            'message' => 'Whaats is up!',
-        ])
-            ->assertStatus(201);
-
-        Mail::assertSent(SendContactMessage::class);
     }
 }

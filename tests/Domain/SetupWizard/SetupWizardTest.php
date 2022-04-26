@@ -66,9 +66,6 @@ class SetupWizardTest extends TestCase
             'description'            => 'The best file manager on the internet',
             'googleAnalytics'        => 'UA-12345678-1',
             'contactMail'            => 'john@doe.com',
-            'subscriptionType'       => 'metered',
-            'userVerification'       => 1,
-            'userRegistration'       => 1,
             'storageLimitation'      => 1,
             'defaultStorage'         => 10,
             'logo'                   => UploadedFile::fake()->image('fake-logo.jpg'),
@@ -79,14 +76,6 @@ class SetupWizardTest extends TestCase
         ])->assertStatus(204);
 
         $this
-            ->assertDatabaseHas('settings', [
-                'name'  => 'subscription_type',
-                'value' => 'metered',
-            ])
-            ->assertDatabaseHas('settings', [
-                'name'  => 'user_verification',
-                'value' => 0,
-            ])
             ->assertDatabaseHas('settings', [
                 'name'  => 'app_color',
                 'value' => '#00BC72',
@@ -152,15 +141,6 @@ class SetupWizardTest extends TestCase
 
         $this->assertDatabaseMissing('user_settings', [
             'avatar' => null,
-        ]);
-
-        $this->assertDatabaseHas('pages', [
-            'title' => 'Terms of Service',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'feature_title_1',
-            'value' => 'Truly Freedom',
         ]);
 
         $this->assertDatabaseHas('settings', [

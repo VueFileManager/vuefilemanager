@@ -9,12 +9,10 @@ class SeedDefaultSettingsAction
     /**
      * Store default VueFileManager settings into database
      */
-    public function __invoke(
-        string $license
-    ): void {
+    public function __invoke(): void {
         // Set default settings
         collect(
-            config('content.content.' . strtolower($license))
+            config('content.content.regular')
         )->each(fn ($content) => Setting::updateOrCreate([
             'name' => $content['name'],
         ], [
@@ -23,6 +21,6 @@ class SeedDefaultSettingsAction
 
         // Set update records
         collect(config('vuefilemanager.updates'))
-            ->each(fn ($version) => AppUpdate::create(['version' => $version]));
+            ->each(fn ($version) => AppUpdate::create(['version' => 'regular']));
     }
 }

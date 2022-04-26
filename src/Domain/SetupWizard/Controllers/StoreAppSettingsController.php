@@ -17,10 +17,6 @@ class StoreAppSettingsController extends Controller
     ): Response {
         collect([
             [
-                'name'  => 'subscription_type',
-                'value' => $request->input('subscriptionType') ?? 'none',
-            ],
-            [
                 'name'  => 'app_color',
                 'value' => $request->input('color'),
             ],
@@ -69,24 +65,12 @@ class StoreAppSettingsController extends Controller
                 'value' => $request->input('contactMail'),
             ],
             [
-                'name'  => 'registration',
-                'value' => $request->input('userRegistration'),
-            ],
-            [
                 'name'  => 'storage_limitation',
                 'value' => $request->input('storageLimitation'),
             ],
             [
                 'name'  => 'default_max_storage_amount',
                 'value' => $request->input('defaultStorage') ?? 5,
-            ],
-            [
-                'name'  => 'default_max_team_member',
-                'value' => $request->input('teamsDefaultMembers') ?? 10,
-            ],
-            [
-                'name'  => 'user_verification',
-                'value' => 0,
             ],
         ])->each(function ($col) {
             Setting::updateOrCreate([

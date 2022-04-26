@@ -39,9 +39,6 @@ class CreateFolderAction
             'emoji'       => $request->input('emoji') ?? null,
             'author'      => $shared ? 'visitor' : 'user',
             'user_id'     => $user->id,
-            'team_folder' => $isFilledParentId
-                ? Folder::find($parentId)->getLatestParent()->team_folder
-                : false,
         ]);
     }
 }

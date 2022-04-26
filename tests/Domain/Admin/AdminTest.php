@@ -78,24 +78,6 @@ class AdminTest extends TestCase
     }
 
     /**
-     * todo: complete test
-     */
-    public function it_get_non_existed_user_subscription()
-    {
-        $user = User::factory()
-            ->hasSettings()
-            ->create();
-
-        $admin = User::factory()
-            ->create(['role' => 'admin']);
-
-        $this
-            ->actingAs($admin)
-            ->getJson("/api/admin/users/$user->id/subscription")
-            ->assertStatus(404);
-    }
-
-    /**
      * @test
      */
     public function it_get_user_storage_detail()

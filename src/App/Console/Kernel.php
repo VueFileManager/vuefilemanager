@@ -4,16 +4,12 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use App\Console\Commands\SetupDevEnvironment;
 use App\Console\Commands\SetupProdEnvironment;
-use Support\Scheduler\Actions\ReportUsageAction;
 use Support\Upgrading\Actions\UpdateSystemAction;
 use Support\Demo\Actions\ClearHowdyDemoDataAction;
-use App\Console\Commands\SetupWebsocketEnvironment;
 use Support\Scheduler\Actions\DeleteFailedFilesAction;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
 use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
-use App\Console\Commands\GenerateDemoSubscriptionContentCommand;
-use Support\Scheduler\Actions\ExpireUnfilledUploadRequestAction;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,10 +22,6 @@ class Kernel extends ConsoleKernel
         // Basic demo content generator
         SetupDevEnvironment::class,
         SetupProdEnvironment::class,
-        SetupWebsocketEnvironment::class,
-
-        // Subscription demo generator
-        GenerateDemoSubscriptionContentCommand::class,
     ];
 
     /**
@@ -54,20 +46,12 @@ class Kernel extends ConsoleKernel
         )->everyTenMinutes();
 
         $schedule->call(
-            fn () => resolve(ExpireUnfilledUploadRequestAction::class)()
-        )->hourly();
-
-        $schedule->call(
             fn () => resolve(UpdateSystemAction::class)()
         )->everyMinute();
 
         $schedule->call(
             fn () => resolve(DeleteUnverifiedUsersAction::class)()
         )->daily()->at('00:05');
-
-        $schedule->call(
-            fn () => resolve(ReportUsageAction::class)()
-        )->daily()->at('00:10');
 
         // Run queue jobs every minute
         $schedule->command('queue:work --queue=high,default --max-time=300')

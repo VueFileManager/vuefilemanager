@@ -33,16 +33,6 @@ class DefaultRestrictionsEngine implements RestrictionsEngine
         return true;
     }
 
-    public function canCreateTeamFolder(User $user): bool
-    {
-        return true;
-    }
-
-    public function canInviteTeamMembers(User $user, array $newInvites = []): bool
-    {
-        return true;
-    }
-
     public function canVisitShared(User $user): bool
     {
         return true;

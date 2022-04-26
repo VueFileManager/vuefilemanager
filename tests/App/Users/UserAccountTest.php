@@ -170,16 +170,11 @@ class UserAccountTest extends TestCase
                     'meta'          => [
                         'restrictions' => [
                             'canCreateFolder'      => true,
-                            'canCreateTeamFolder'  => true,
                             'canDownload'          => true,
-                            'canInviteTeamMembers' => true,
                             'canUpload'            => true,
                         ],
                     ],
                     'relationships' => [
-                        'creditCards' => [
-                            'data' => [],
-                        ],
                         'settings'    => [
                             'data' => [
                                 'id'         => (string) $user->id,
@@ -200,12 +195,6 @@ class UserAccountTest extends TestCase
                             ],
                         ],
                         'favourites'  => [
-                            'data' => [],
-                        ],
-                        'readNotifications'  => [
-                            'data' => [],
-                        ],
-                        'unreadNotifications'  => [
                             'data' => [],
                         ],
                     ],

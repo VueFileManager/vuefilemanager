@@ -60,19 +60,10 @@ class GetFileParentId
 
     private function createFolder($directoryName, $userId, $parentId): Folder
     {
-        /*
-         * Check if exist parent team folder, if yes,
-         * then get the latest parent folder to detect whether it is team_folder
-        */
-        if ($parentId) {
-            $isTeamFolder = Folder::find($parentId)->getLatestParent()->team_folder;
-        }
-
         return Folder::create([
             'name'        => $directoryName,
             'parent_id'   => $parentId,
             'user_id'     => $userId,
-            'team_folder' => $isTeamFolder ?? false,
         ]);
     }
 }

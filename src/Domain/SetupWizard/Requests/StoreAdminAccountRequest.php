@@ -27,7 +27,6 @@ class StoreAdminAccountRequest extends FormRequest
             'password'      => 'required|string|min:6|confirmed',
             'name'          => 'required|string',
             'purchase_code' => 'required|string',
-            'license'       => 'required|string',
             'avatar'        => 'sometimes|file',
         ];
     }

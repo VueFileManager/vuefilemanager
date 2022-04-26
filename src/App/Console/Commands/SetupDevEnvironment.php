@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\DB;
 use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
-use Domain\Teams\Models\TeamFolderInvitation;
-use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Intervention\Image\ImageManagerStatic as Image;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
@@ -25,7 +23,7 @@ class SetupDevEnvironment extends Command
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'setup:dev {license=extended}';
+    protected $signature = 'setup:dev';
 
     /**
      * The console command description.
@@ -36,7 +34,6 @@ class SetupDevEnvironment extends Command
         private CreateDiskDirectoriesAction $createDiskDirectories,
         private SeedDefaultSettingsAction $seedDefaultSettings,
         private SeedDefaultLanguageAction $seedDefaultLanguage,
-        private SeedDefaultPagesAction $seedDefaultPages,
     ) {
         parent::__construct();
         $this->setUpFaker();
@@ -56,8 +53,7 @@ class SetupDevEnvironment extends Command
         $this->migrate_and_generate();
 
         $this->info('Storing default settings and content...');
-        ($this->seedDefaultPages)();
-        ($this->seedDefaultSettings)($this->argument('license'));
+        ($this->seedDefaultSettings)();
         ($this->seedDefaultLanguage)();
         $this->store_default_settings();
 
@@ -69,14 +65,8 @@ class SetupDevEnvironment extends Command
 
         $this->info('Creating default demo content...');
         $this->create_admin_default_content();
-        $this->create_team_folders_content();
-        $this->create_share_with_me_team_folders_content();
         $this->create_share_records();
         $this->generate_traffic();
-
-        $this->generateCommonNotification();
-        $this->generateTeamInvitationNotification();
-        $this->generateFileRequestFilledNotification();
 
         $this->info('Clearing application cache...');
         $this->clear_cache();
@@ -89,135 +79,6 @@ class SetupDevEnvironment extends Command
         $this->warn('Please make sure your current host/domain where you are running app is included in your .env SANCTUM_STATEFUL_DOMAINS variable.');
 
         $this->info('Everything is done, congratulations! 🥳🥳🥳');
-    }
-
-    private function generateCommonNotification()
-    {
-        $howdy = User::whereEmail('howdy@hi5ve.digital')
-            ->first();
-
-        DB::table('notifications')
-            ->insert([
-                'id'              => Str::uuid(),
-                'type'            => 'App\Users\Notifications\RegistrationBonusAddedNotification',
-                'notifiable_type' => 'App\Users\Models\User',
-                'notifiable_id'   => $howdy->id,
-                'data'            => json_encode([
-                    'category'    => 'gift',
-                    'title'       => 'You Received $10.00',
-                    'description' => 'You received credit bonus $10.00 for your registration. Happy spending!',
-                ]),
-                'read_at'         => now()->subMinutes(5),
-                'created_at'      => now()->subMinutes(5),
-                'updated_at'      => now()->subMinutes(5),
-            ]);
-    }
-
-    private function generateTeamInvitationNotification()
-    {
-        $alice = User::whereEmail('alice@hi5ve.digital')
-            ->first();
-
-        $howdy = User::whereEmail('howdy@hi5ve.digital')
-            ->first();
-
-        $newV2Wallpaper = Folder::factory()
-            ->create([
-                'user_id'     => $alice->id,
-                'team_folder' => true,
-                'name'        => 'New v2 Wallpaper',
-            ]);
-
-        $invitation = TeamFolderInvitation::factory()
-            ->create([
-                'email'      => 'howdy@hi5ve.digital',
-                'parent_id'  => $newV2Wallpaper->id,
-                'inviter_id' => $newV2Wallpaper->user_id,
-                'status'     => 'pending',
-                'permission' => 'can-edit',
-            ]);
-
-        DB::table('notifications')
-            ->insert([
-                'id'              => Str::uuid(),
-                'type'            => 'Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification',
-                'notifiable_type' => 'App\Users\Models\User',
-                'notifiable_id'   => $howdy->id,
-                'data'            => json_encode([
-                    'category'    => 'team-invitation',
-                    'title'       => 'New Team Invitation',
-                    'description' => 'Jane Doe invite you to join into Team Folder.',
-                    'action'      => [
-                        'type'   => 'invitation',
-                        'params' => [
-                            'id' => $invitation->id,
-                        ],
-                    ],
-                ]),
-                'read_at'         => now(),
-                'created_at'      => now(),
-                'updated_at'      => now(),
-            ]);
-    }
-
-    private function generateFileRequestFilledNotification()
-    {
-        $howdy = User::whereEmail('howdy@hi5ve.digital')
-            ->first();
-
-        $sharedFolder = Folder::where('name', 'Shared Folder')
-            ->first();
-
-        $fileRequestFolder = Folder::factory()
-            ->create([
-                'parent_id'   => $sharedFolder->id,
-                'user_id'     => $howdy->id,
-                'team_folder' => false,
-                'name'        => 'Upload Request from 10. Mar. 2022',
-            ]);
-
-        DB::table('notifications')
-            ->insert([
-                'id'              => Str::uuid(),
-                'type'            => 'Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification',
-                'notifiable_type' => 'App\Users\Models\User',
-                'notifiable_id'   => $howdy->id,
-                'data'            => json_encode([
-                    'category'    => 'file-request',
-                    'title'       => 'File Request Filled',
-                    'description' => "Your file request for 'Shared Folder' folder was filled successfully.",
-                    'action'      => [
-                        'type'   => 'route',
-                        'params' => [
-                            'route'  => 'Files',
-                            'button' => 'Show Files',
-                            'id'     => $fileRequestFolder->id,
-                        ],
-                    ],
-                ]),
-                'created_at'      => now(),
-                'updated_at'      => now(),
-            ]);
-
-        // Get meme gallery
-        collect([
-            'demo/request/v2-wallpaper.jpg',
-        ])
-            ->each(function ($file) use ($howdy, $fileRequestFolder) {
-                $thumbnail = $this->generate_thumbnails($file, $howdy);
-
-                // Create file record
-                File::create([
-                    'parent_id'  => $fileRequestFolder->id,
-                    'user_id'    => $howdy->id,
-                    'name'       => $thumbnail['name'],
-                    'basename'   => $thumbnail['basename'],
-                    'type'       => 'image',
-                    'mimetype'   => 'jpg',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
     }
 
     /**
@@ -830,527 +691,6 @@ class SetupDevEnvironment extends Command
             });
     }
 
-    private function create_team_folders_content(): void
-    {
-        $user = User::whereEmail('howdy@hi5ve.digital')
-            ->first();
-
-        $alice = User::whereEmail('alice@hi5ve.digital')
-            ->first();
-
-        $johan = User::whereEmail('johan@hi5ve.digital')
-            ->first();
-
-        $users = [$user, $alice, $johan];
-
-        // 1. Company project
-        $companyProjectFolder = Folder::factory()
-            ->create([
-                'user_id'     => $user->id,
-                'team_folder' => true,
-                'name'        => 'Company Project',
-            ]);
-
-        $presentationMaterial = Folder::factory()
-            ->create([
-                'user_id'     => $user->id,
-                'parent_id'   => $companyProjectFolder->id,
-                'name'        => 'Presentation Materials',
-                'team_folder' => true,
-            ]);
-
-        $teamGallery = Folder::factory()
-            ->create([
-                'user_id'     => $user->id,
-                'parent_id'   => $companyProjectFolder->id,
-                'name'        => 'Team Gallery',
-                'team_folder' => true,
-            ]);
-
-        collect([
-            'demo/images/team-gallery/photo-1.jpeg',
-            'demo/images/team-gallery/photo-2.jpeg',
-            'demo/images/team-gallery/photo-3.jpeg',
-        ])
-            ->each(function ($file) use ($users, $user, $teamGallery) {
-                $author = $users[rand(0, 2)];
-
-                $thumbnail = $this->generate_thumbnails($file, $user);
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $teamGallery->id,
-                    'user_id'     => $user->id,
-                    'creator_id'  => $author->id,
-                    'name'        => $thumbnail['name'],
-                    'basename'    => $thumbnail['basename'],
-                    'type'        => 'image',
-                    'mimetype'    => 'jpg',
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        collect([
-            'demo/images/presentation/photo-1.jpeg',
-            'demo/images/presentation/photo-2.jpeg',
-        ])
-            ->each(function ($file) use ($users, $user, $presentationMaterial) {
-                $author = $users[rand(0, 2)];
-
-                $thumbnail = $this->generate_thumbnails($file, $user);
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $presentationMaterial->id,
-                    'user_id'     => $user->id,
-                    'creator_id'  => $author->id,
-                    'name'        => $thumbnail['name'],
-                    'basename'    => $thumbnail['basename'],
-                    'type'        => 'image',
-                    'mimetype'    => 'jpg',
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        // 2. Finance Documents
-        $financeDocumentsFolder = Folder::factory()
-            ->create([
-                'user_id'     => $user->id,
-                'team_folder' => true,
-                'name'        => 'Finance Documents',
-            ]);
-
-        $reserves = Folder::factory()
-            ->create([
-                'user_id'     => $user->id,
-                'parent_id'   => $financeDocumentsFolder->id,
-                'name'        => 'Reserves',
-                'team_folder' => true,
-            ]);
-
-        $otherDocuments = Folder::factory()
-            ->create([
-                'user_id'     => $user->id,
-                'parent_id'   => $financeDocumentsFolder->id,
-                'name'        => 'Other Documents',
-                'team_folder' => true,
-            ]);
-
-        collect([
-            'demo/images/finance-documents/photo-1.jpeg',
-            'demo/images/finance-documents/photo-2.jpeg',
-            'demo/images/finance-documents/photo-3.jpeg',
-        ])
-            ->each(function ($file) use ($users, $user, $financeDocumentsFolder) {
-                $author = $users[rand(0, 2)];
-
-                $thumbnail = $this->generate_thumbnails($file, $user);
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $financeDocumentsFolder->id,
-                    'user_id'     => $user->id,
-                    'creator_id'  => $author->id,
-                    'name'        => $thumbnail['name'],
-                    'basename'    => $thumbnail['basename'],
-                    'type'        => 'image',
-                    'mimetype'    => 'jpg',
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        collect([
-            'demo/images/finance-documents/photo-4.jpeg',
-            'demo/images/finance-documents/photo-5.jpeg',
-        ])
-            ->each(function ($file) use ($users, $user, $reserves) {
-                $author = $users[rand(0, 2)];
-
-                $thumbnail = $this->generate_thumbnails($file, $user);
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $reserves->id,
-                    'user_id'     => $user->id,
-                    'creator_id'  => $author->id,
-                    'name'        => $thumbnail['name'],
-                    'basename'    => $thumbnail['basename'],
-                    'type'        => 'image',
-                    'mimetype'    => 'jpg',
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        // Get documents to root directory
-        collect([
-            [
-                'name'     => 'Next Year Projection',
-                'basename' => 'Licence.pdf',
-                'mimetype' => 'pdf',
-            ],
-            [
-                'name'     => 'Budget.pdf',
-                'basename' => 'Project Notes.pdf',
-                'mimetype' => 'pdf',
-            ],
-            [
-                'name'     => '2022 Yearly Report.pages',
-                'basename' => 'School Report.pages',
-                'mimetype' => 'pages',
-            ],
-            [
-                'name'     => 'Company Project Notes.pages',
-                'basename' => 'Stories of the Night Skies.pages',
-                'mimetype' => 'pages',
-            ],
-            [
-                'name'     => 'Finance Stories.pages',
-                'basename' => 'Stories of the Night Skies.pages',
-                'mimetype' => 'pages',
-            ],
-        ])
-            ->each(function ($file) use ($users, $user, $financeDocumentsFolder, $otherDocuments) {
-                $author = $users[rand(0, 2)];
-                $folder = [$financeDocumentsFolder, $otherDocuments][rand(0, 1)];
-
-                $basename = Str::random(12) . '-' . $file['basename'];
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $folder->id,
-                    'user_id'     => $user->id,
-                    'creator_id'  => $author->id,
-                    'name'        => $file['name'],
-                    'basename'    => $basename,
-                    'type'        => 'file',
-                    'mimetype'    => $file['mimetype'],
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        // 3. Holiday 2022
-        $holiday2022Folder = Folder::factory()
-            ->create([
-                'user_id'     => $user->id,
-                'team_folder' => true,
-                'name'        => 'Holiday 2022',
-            ]);
-
-        $destinationGallery = Folder::factory()
-            ->create([
-                'user_id'     => $user->id,
-                'parent_id'   => $holiday2022Folder->id,
-                'name'        => 'Destination Gallery',
-                'team_folder' => true,
-            ]);
-
-        collect([
-            'demo/images/destination-gallery/photo-1.jpeg',
-            'demo/images/destination-gallery/photo-2.jpeg',
-            'demo/images/destination-gallery/photo-3.jpeg',
-            'demo/images/destination-gallery/photo-4.jpeg',
-            'demo/images/destination-gallery/photo-5.jpeg',
-        ])
-            ->each(function ($file) use ($users, $user, $destinationGallery) {
-                $author = $users[rand(0, 2)];
-
-                $thumbnail = $this->generate_thumbnails($file, $user);
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $destinationGallery->id,
-                    'user_id'     => $user->id,
-                    'creator_id'  => $author->id,
-                    'name'        => $thumbnail['name'],
-                    'basename'    => $thumbnail['basename'],
-                    'type'        => 'image',
-                    'mimetype'    => 'jpg',
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        // Get documents to root directory
-        collect([
-            [
-                'name'     => 'Finance.pages',
-                'basename' => 'Licence.pdf',
-                'mimetype' => 'pdf',
-            ],
-            [
-                'name'     => 'Fly tickets.pdf',
-                'basename' => 'Project Notes.pdf',
-                'mimetype' => 'pdf',
-            ],
-            [
-                'name'     => 'Documentation.pdf',
-                'basename' => 'School Report.pages',
-                'mimetype' => 'pages',
-            ],
-        ])
-            ->each(function ($file) use ($users, $user, $holiday2022Folder) {
-                $author = $users[rand(0, 2)];
-
-                $basename = Str::random(12) . '-' . $file['basename'];
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$user->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $holiday2022Folder->id,
-                    'user_id'     => $user->id,
-                    'creator_id'  => $author->id,
-                    'name'        => $file['name'],
-                    'basename'    => $basename,
-                    'type'        => 'file',
-                    'mimetype'    => $file['mimetype'],
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        collect([$companyProjectFolder, $financeDocumentsFolder, $holiday2022Folder])
-            ->each(function ($folder) use ($user) {
-                DB::table('team_folder_members')
-                    ->insert([
-                        'parent_id'  => $folder->id,
-                        'user_id'    => $user->id,
-                        'permission' => 'owner',
-                    ]);
-            });
-
-        // Attach members
-        $members = User::whereNotIn('email', ['howdy@hi5ve.digital'])
-            ->get();
-
-        collect([$members[0]->id, $members[1]->id, $members[5]->id])
-            ->each(
-                fn ($id) => DB::table('team_folder_members')
-                    ->insert([
-                        'parent_id'  => $companyProjectFolder->id,
-                        'user_id'    => $id,
-                        'permission' => 'can-edit',
-                    ])
-            );
-
-        collect([$members[3]->id, $members[2]->id])
-            ->each(
-                fn ($id) => DB::table('team_folder_members')
-                    ->insert([
-                        'parent_id'  => $financeDocumentsFolder->id,
-                        'user_id'    => $id,
-                        'permission' => 'can-edit',
-                    ])
-            );
-
-        collect([$members[2]->id, $members[3]->id, $members[5]->id, $members[0]->id])
-            ->each(
-                fn ($id) => DB::table('team_folder_members')
-                    ->insert([
-                        'parent_id'  => $holiday2022Folder->id,
-                        'user_id'    => $id,
-                        'permission' => 'can-edit',
-                    ])
-            );
-
-        // Create invitations
-        collect([$members[4], $members[5]])
-            ->each(
-                fn ($user) => TeamFolderInvitation::factory()
-                    ->create([
-                        'email'      => $user->email,
-                        'parent_id'  => $companyProjectFolder->id,
-                        'inviter_id' => $companyProjectFolder->user_id,
-                        'status'     => 'pending',
-                        'permission' => 'can-edit',
-                    ])
-            );
-    }
-
-    public function create_share_with_me_team_folders_content(): void
-    {
-        $member = User::whereEmail('howdy@hi5ve.digital')
-            ->first();
-
-        $owner = User::whereEmail('alice@hi5ve.digital')
-            ->first();
-
-        $johan = User::whereEmail('johan@hi5ve.digital')
-            ->first();
-
-        $users = [$member, $johan];
-
-        $folder = Folder::factory()
-            ->create([
-                'user_id'     => $owner->id,
-                'team_folder' => true,
-                'name'        => "Alice's Project Files",
-            ]);
-
-        $videos = Folder::factory()
-            ->create([
-                'user_id'     => $owner->id,
-                'parent_id'   => $folder->id,
-                'name'        => 'Videos',
-                'team_folder' => true,
-            ]);
-
-        $hug = Folder::factory()
-            ->create([
-                'user_id'     => $owner->id,
-                'parent_id'   => $folder->id,
-                'name'        => 'Digital Hug',
-                'team_folder' => true,
-            ]);
-
-        DB::table('team_folder_members')
-            ->insert([
-                [
-                    'parent_id'  => $folder->id,
-                    'user_id'    => $member->id,
-                    'permission' => 'can-edit',
-                ],
-                [
-                    'parent_id'  => $folder->id,
-                    'user_id'    => $owner->id,
-                    'permission' => 'owner',
-                ],
-                [
-                    'parent_id'  => $folder->id,
-                    'user_id'    => $johan->id,
-                    'permission' => 'can-edit',
-                ],
-            ]);
-
-        // Get videos
-        collect([
-            'Apple Watch App Video Promotion.mp4',
-            'Smart Watch 3D Device Pack for Element 3D.mp4',
-        ])
-            ->each(function ($file) use ($users, $owner, $videos) {
-                $author = $users[rand(0, 1)];
-
-                $basename = Str::random(12) . '-' . $file;
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$owner->id", storage_path("demo/video/$file"), $basename, 'private');
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $videos->id,
-                    'user_id'     => $owner->id,
-                    'creator_id'  => $author->id,
-                    'name'        => $file,
-                    'basename'    => $basename,
-                    'type'        => 'video',
-                    'mimetype'    => 'mp4',
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        collect([
-            [
-                'name'     => 'Notes',
-                'basename' => 'Licence.pdf',
-                'mimetype' => 'pdf',
-            ],
-        ])
-            ->each(function ($file) use ($users, $owner, $folder) {
-                $basename = Str::random(12) . '-' . $file['basename'];
-
-                $author = $users[rand(0, 1)];
-
-                // Copy file into app storage
-                Storage::putFileAs("files/$owner->id", storage_path("demo/documents/{$file['basename']}"), $basename, 'private');
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $folder->id,
-                    'user_id'     => $owner->id,
-                    'creator_id'  => $author->id,
-                    'name'        => $file['name'],
-                    'basename'    => $basename,
-                    'type'        => 'file',
-                    'mimetype'    => $file['mimetype'],
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        // Get meme gallery
-        collect([
-            'demo/images/memes/Sofishticated.jpg',
-            'demo/images/memes/whaaaaat.jpg',
-        ])
-            ->each(function ($file) use ($owner, $folder) {
-                $thumbnail = $this->generate_thumbnails($file, $owner);
-
-                // Create file record
-                File::create([
-                    'parent_id'  => $folder->id,
-                    'user_id'    => $owner->id,
-                    'name'       => $thumbnail['name'],
-                    'basename'   => $thumbnail['basename'],
-                    'type'       => 'image',
-                    'mimetype'   => 'jpg',
-                    'filesize'   => rand(1000000, 4000000),
-                    'created_at' => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        // Get meme gallery
-        collect([
-            'demo/images/memes/You Are My Sunshine.jpg',
-        ])
-            ->each(function ($file) use ($johan, $owner, $folder) {
-                $thumbnail = $this->generate_thumbnails($file, $owner);
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $folder->id,
-                    'user_id'     => $owner->id,
-                    'creator_id'  => $johan->id,
-                    'name'        => $thumbnail['name'],
-                    'basename'    => $thumbnail['basename'],
-                    'type'        => 'image',
-                    'mimetype'    => 'jpg',
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-
-        collect([
-            'demo/images/memes/Eggcited bro.jpg',
-            'demo/images/memes/Get a Rest.jpg',
-        ])
-            ->each(function ($file) use ($member, $owner, $hug) {
-                $thumbnail = $this->generate_thumbnails($file, $owner);
-
-                // Create file record
-                File::create([
-                    'parent_id'   => $hug->id,
-                    'user_id'     => $owner->id,
-                    'creator_id'  => $member->id,
-                    'name'        => $thumbnail['name'],
-                    'basename'    => $thumbnail['basename'],
-                    'type'        => 'image',
-                    'mimetype'    => 'jpg',
-                    'filesize'    => rand(1000000, 4000000),
-                    'created_at'  => now()->subMinutes(rand(1, 5)),
-                ]);
-            });
-    }
-
     private function create_share_records(): void
     {
         $user = User::whereEmail('howdy@hi5ve.digital')
@@ -1451,14 +791,6 @@ class SetupDevEnvironment extends Command
                 'value' => 1,
             ],
             [
-                'name'  => 'user_verification',
-                'value' => 0,
-            ],
-            [
-                'name'  => 'allowed_payments',
-                'value' => 1,
-            ],
-            [
                 'name'  => 'storage_limitation',
                 'value' => 1,
             ],
@@ -1467,16 +799,12 @@ class SetupDevEnvironment extends Command
                 'value' => 5,
             ],
             [
-                'name'  => 'default_max_team_member',
-                'value' => 10,
-            ],
-            [
                 'name'  => 'setup_wizard_success',
                 'value' => 1,
             ],
             [
                 'name'  => 'license',
-                'value' => $this->argument('license'),
+                'value' => 'regular',
             ],
             [
                 'name'  => 'purchase_code',
@@ -1513,30 +841,6 @@ class SetupDevEnvironment extends Command
             [
                 'name'  => 'billing_vat_number',
                 'value' => '41241241234',
-            ],
-            [
-                'name'  => 'allowed_registration_bonus',
-                'value' => 1,
-            ],
-            [
-                'name'  => 'registration_bonus_amount',
-                'value' => 10,
-            ],
-            [
-                'name'  => 'allowed_paypal',
-                'value' => 1,
-            ],
-            [
-                'name'  => 'allowed_paystack',
-                'value' => 1,
-            ],
-            [
-                'name'  => 'allowed_stripe',
-                'value' => 1,
-            ],
-            [
-                'name'  => 'subscription_type',
-                'value' => 'none',
             ],
             [
                 'name'  => 'allowed_recaptcha',

@@ -38,16 +38,6 @@ if (! function_exists('getListOfLatestLogs')) {
     }
 }
 
-if (! function_exists('isBroadcasting')) {
-    /**
-     * Check if cron is running
-     */
-    function isBroadcasting(): bool
-    {
-        return config('broadcasting.default') === 'pusher';
-    }
-}
-
 if (! function_exists('isRunningCron')) {
     /**
      * Check if cron is running
@@ -88,20 +78,6 @@ if (! function_exists('obfuscate_email')) {
         $len = floor(strlen($name) / 2);
 
         return substr($name, 0, $len) . str_repeat('*', $len) . '@' . end($em);
-    }
-}
-
-if (! function_exists('get_restriction_driver')) {
-    /**
-     * Get driver for limitation API
-     */
-    function get_restriction_driver(): string
-    {
-        return match (get_settings('subscription_type')) {
-            'fixed'   => 'fixed',
-            'metered' => 'metered',
-            default   => 'default',
-        };
     }
 }
 
@@ -239,24 +215,6 @@ if (! function_exists('setEnvironmentValue')) {
     }
 }
 
-if (! function_exists('get_invoice_number')) {
-    /**
-     * Get invoice number
-     *
-     * @return string
-     */
-    function get_invoice_number()
-    {
-        $invoices = \App\Invoice::all();
-
-        if ($invoices->isEmpty()) {
-            return now()->year . '001';
-        }
-
-        return (int) $invoices->last()->order + 1;
-    }
-}
-
 if (! function_exists('cache_forget_many')) {
     /**
      * Forget many cache keys at once
@@ -267,18 +225,6 @@ if (! function_exists('cache_forget_many')) {
         foreach ($cache as $item) {
             \Illuminate\Support\Facades\Cache::forget($item);
         }
-    }
-}
-
-if (! function_exists('get_storage')) {
-    /**
-     * Get app version from config
-     *
-     * @return \Illuminate\Config\Repository|mixed
-     */
-    function get_storage()
-    {
-        return config('filesystems.default');
     }
 }
 
@@ -1067,29 +1013,6 @@ if (! function_exists('replace_occurrence')) {
         );
     }
 
-    if (! function_exists('get_socialite_avatar')) {
-        /**
-         * Get socialite avatar create and store his thumbnails
-         */
-        function store_socialite_avatar($avatar)
-        {
-            // Get image from external source
-            $image = Http::get($avatar)->body();
-
-            // Generate avatar name
-            $avatar_name = Str::uuid() . '.jpg';
-
-            // Create intervention image
-            $intervention = Image::make($image);
-
-            // Generate avatar sizes
-            generate_avatar_thumbnails($intervention, $avatar_name);
-
-            // Return name of image
-            return $avatar_name;
-        }
-    }
-
     if (! function_exists('generate_avatar_thumbnails')) {
         /**
          * Create avatar thumbnails
@@ -1122,41 +1045,6 @@ if (! function_exists('replace_occurrence')) {
             $seconds = intval(substr(explode(',', $coordinates[2])[0], 0, 5)) / 100;
 
             return "{$degrees}°$minutes'$seconds\"$ref";
-        }
-    }
-
-    if (! function_exists('extractExtensionFromUrl')) {
-        /**
-         * Extract extension from the url
-         *
-         * TODO: make unit test
-         */
-        function extractExtensionFromUrl($url, $response): string|null
-        {
-            $extension = null;
-
-            if (array_key_exists('extension', pathinfo($url))) {
-                // Break attributes
-                $string = str_replace(['&'], '?', pathinfo($url)['extension']);
-
-                // Get extension from url path
-                $extension = explode('?', $string)[0];
-            }
-
-            // Return pure extension
-            if ($extension) {
-                return $extension;
-            }
-
-            // Prepare header for extracting content-type line
-            $header = array_change_key_case($response->headers(), CASE_LOWER);
-
-            // Get extension
-            if (array_key_exists('content-type', $header)) {
-                return explode('/', $header['content-type'][0])[1];
-            }
-
-            return null;
         }
     }
 }

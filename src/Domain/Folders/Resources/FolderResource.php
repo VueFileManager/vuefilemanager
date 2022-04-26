@@ -19,7 +19,7 @@ class FolderResource extends JsonResource
                     'color'         => $this->color,
                     'emoji'         => $this->emoji,
                     'filesize'      => $this->filesize,
-                    'isTeamFolder'  => $this->team_folder,
+                    'isTeamFolder'  => false,
                     'items'         => $this->items,
                     'trashed_items' => $this->trashed_items,
                     'created_at'    => set_time_by_user_timezone($this->user, $this->created_at),
@@ -29,12 +29,6 @@ class FolderResource extends JsonResource
                         : null,
                 ],
                 'relationships' => [
-                    $this->mergeWhen($this->teamMembers, fn () => [
-                        'members' => new TeamMembersCollection($this->teamMembers),
-                    ]),
-                    $this->mergeWhen($this->teamInvitations, fn () => [
-                        'invitations' => new TeamInvitationsCollection($this->teamInvitations),
-                    ]),
                     $this->mergeWhen($this->shared, fn () => [
                         'shared' => new ShareResource($this->shared),
                     ]),
@@ -45,19 +39,6 @@ class FolderResource extends JsonResource
                                 'id'         => $this->parent->id,
                                 'attributes' => [
                                     'name' => $this->parent->name,
-                                ],
-                            ],
-                        ],
-                    ]),
-                    $this->mergeWhen($this->user, fn () => [
-                        'user' => [
-                            'data' => [
-                                'type'       => 'user',
-                                'id'         => $this->user_id,
-                                'attributes' => [
-                                    'name'   => $this->user->settings->name,
-                                    'avatar' => $this->user->settings->avatar,
-                                    'color'  => $this->user->settings->color,
                                 ],
                             ],
                         ],

@@ -69,7 +69,6 @@ class BrowseTest extends TestCase
                             'name'          => 'level 1',
                             'items'         => 2,
                             'trashed_items' => 2,
-                            'team_folder'   => false,
                             'folders'       => [
                                 [
                                     'id'            => $folder_level_2->id,
@@ -77,7 +76,6 @@ class BrowseTest extends TestCase
                                     'name'          => 'level 2',
                                     'items'         => 1,
                                     'trashed_items' => 1,
-                                    'team_folder'   => false,
                                     'folders'       => [
                                         [
                                             'id'            => $folder_level_3->id,
@@ -92,7 +90,6 @@ class BrowseTest extends TestCase
                                             'updated_at'    => $folder_level_3->updated_at->toJson(),
                                             'items'         => 0,
                                             'trashed_items' => 0,
-                                            'team_folder'   => false,
                                             'folders'       => [],
                                         ],
                                     ],
@@ -103,7 +100,6 @@ class BrowseTest extends TestCase
                                     'name'          => 'level 2 Sibling',
                                     'items'         => 0,
                                     'trashed_items' => 0,
-                                    'team_folder'   => false,
                                     'folders'       => [],
                                 ],
                             ],
@@ -111,20 +107,6 @@ class BrowseTest extends TestCase
                     ],
                     'isMovable' => true,
                     'isOpen'    => true,
-                ],
-                [
-                    'location'  => 'team-folders',
-                    'name'      => 'Team Folders',
-                    'folders'   => [],
-                    'isMovable' => false,
-                    'isOpen'    => false,
-                ],
-                [
-                    'location'  => 'shared-with-me',
-                    'name'      => 'Shared with Me',
-                    'folders'   => [],
-                    'isMovable' => false,
-                    'isOpen'    => false,
                 ],
             ]);
     }

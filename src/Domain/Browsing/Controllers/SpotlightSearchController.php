@@ -53,18 +53,12 @@ class SpotlightSearchController
     {
         $user_id = Auth::id();
 
-        // Get "shared with me" folders
-        $sharedWithMeFolderIds = DB::table('team_folder_members')
-            ->where('user_id', $user_id)
-            ->pluck('parent_id');
-
         // Next get their folder tree for ids extraction
         $folderWithinIds = Folder::with('folders:id,parent_id')
-            ->whereIn('parent_id', $sharedWithMeFolderIds)
             ->get(['id']);
 
         // Then get all accessible shared folders within
-        $accessible_parent_ids = Arr::flatten([filter_folders_ids($folderWithinIds), $sharedWithMeFolderIds]);
+        $accessible_parent_ids = Arr::flatten([filter_folders_ids($folderWithinIds)]);
 
         // Prepare eloquent builder
         $folder = new Folder();

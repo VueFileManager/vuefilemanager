@@ -83,31 +83,6 @@ class StoreEnvironmentSettingsController extends Controller
             };
 
             $setup = [
-                'broadcasting' => [
-                    'pusher' => [
-                        'BROADCAST_DRIVER'   => 'pusher',
-                        'PUSHER_APP_ID'      => $request->input('broadcast.id'),
-                        'PUSHER_APP_KEY'     => $request->input('broadcast.key'),
-                        'PUSHER_APP_SECRET'  => $request->input('broadcast.secret'),
-                        'PUSHER_APP_CLUSTER' => $request->input('broadcast.cluster'),
-                        'PUSHER_APP_HOST'    => '',
-                        'PUSHER_APP_PORT'    => '',
-                        'PUSHER_APP_TLS'     => true,
-                    ],
-                    'native' => [
-                        'BROADCAST_DRIVER'   => 'pusher',
-                        'PUSHER_APP_ID'      => 'local',
-                        'PUSHER_APP_KEY'     => 'local',
-                        'PUSHER_APP_SECRET'  => 'local',
-                        'PUSHER_APP_CLUSTER' => 'local',
-                        'PUSHER_APP_HOST'    => $request->input('broadcast.host'),
-                        'PUSHER_APP_PORT'    => '',
-                        'PUSHER_APP_TLS'     => $request->boolean('tls') ? 'true' : 'false',
-                    ],
-                    'none'   => [
-                        'BROADCAST_DRIVER' => 'null',
-                    ],
-                ],
                 'drivers'      => [
                     'local' => [
                         'FILESYSTEM_DISK' => 'local',
@@ -184,7 +159,6 @@ class StoreEnvironmentSettingsController extends Controller
 
             // Set other environment variables
             setEnvironmentValue(array_merge(
-                $setup['broadcasting'][$request->input('broadcast.driver')],
                 $setup['environment'][$request->input('environment')],
                 $setup['mail'][$request->input('mailDriver')],
                 $setup['drivers'][$StorageDriver],

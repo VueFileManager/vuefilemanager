@@ -12,12 +12,10 @@ use Domain\Items\Controllers\VisitorDeleteFileOrFolderController;
 use Domain\Items\Controllers\VisitorRenameFileOrFolderController;
 use Domain\Sharing\Controllers\VisitorUnlockLockedShareController;
 use Domain\Folders\Controllers\VisitorNavigationFolderTreeController;
-use Domain\RemoteUpload\Controllers\VisitorRemoteUploadFileController;
 use Domain\Browsing\Controllers\VisitorSearchFilesAndFoldersController;
 
 // Browse functions
 Route::group(['prefix' => 'editor'], function () {
-    Route::post('/upload/remote/{shared}', VisitorRemoteUploadFileController::class);
     Route::post('/create-folder/{shared}', VisitorCreateFolderController::class);
     Route::post('/upload/{shared}', VisitorUploadFileController::class);
 
