@@ -13,7 +13,7 @@ class ProcessFileAction
     public function __construct(
         public RecordUploadAction $recordUpload,
         public GetFileParentId $getFileParentId,
-        public StoreFileExifMetadataAction $storeExifMetadata,
+        public StoreExifDataAction $storeExifData,
         public MoveFileToFTPStorageAction $moveFileToFTPStorage,
         public ProcessImageThumbnailAction $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
@@ -65,6 +65,9 @@ class ProcessFileAction
         // Create multiple image thumbnails
         ($this->createImageThumbnail)($name, $user->id);
 
+        // Store exif data if exists
+        $exif = ($this->storeExifData)("files/$user->id/$name");
+
         // Move file to external storage
         match (config('filesystems.default')) {
             's3' => ($this->moveFileToExternalStorage)($name, $user->id),
@@ -84,8 +87,8 @@ class ProcessFileAction
             'creator_id' => auth()->check() ? auth()->id() : $user->id,
         ]);
 
-        // Store file exif data
-        ($this->storeExifMetadata)($file);
+        // Attach file into the exif data
+        $exif?->update(['file_id' => $file->id]);
 
         // Return new file
         return $file;

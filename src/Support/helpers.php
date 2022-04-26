@@ -723,19 +723,6 @@ if (! function_exists('map_language_translations')) {
     }
 }
 
-if (! function_exists('get_file_type_from_mimetype')) {
-    /**
-     * Get file type from mimetype
-     *
-     * @param $mimetype
-     * @return mixed
-     */
-    function get_file_type_from_mimetype($mimetype)
-    {
-        return explode('/', $mimetype)[1];
-    }
-}
-
 if (! function_exists('getPrettyName')) {
     /**
      * Format pretty name file
@@ -753,40 +740,6 @@ if (! function_exists('getPrettyName')) {
         }
 
         return $file->name . '.' . $file->mimetype;
-    }
-}
-
-if (! function_exists('readExifData')) {
-    /**
-     * Get exif data from jpeg image
-     */
-    function readExifData(string $file): object|null
-    {
-        $mimetype = Storage::mimeType($file);
-
-        if (!$mimetype) {
-            return null;
-        }
-
-        $type = get_file_type_from_mimetype(
-            Storage::mimeType($file)
-        );
-
-        if ($type !== 'jpeg') {
-            return null;
-        }
-
-        try {
-            // Try to get the exif data
-            $data = Image::make(Storage::path($file))->exif();
-
-            // Encode data
-            $encodedData = mb_convert_encoding($data, 'UTF8', 'UTF8');
-
-            return json_decode(json_encode($encodedData));
-        } catch (Exception $e) {
-            return null;
-        }
     }
 }
 

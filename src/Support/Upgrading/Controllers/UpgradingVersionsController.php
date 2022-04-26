@@ -22,6 +22,11 @@ class UpgradingVersionsController
     ) {
     }
 
+    public function upgrade_to_2_1_1(): void
+    {
+        ($this->upgradeDatabase)();
+    }
+
     public function upgrade_to_2_0_10(): void
     {
         ($this->upgradeDatabase)();

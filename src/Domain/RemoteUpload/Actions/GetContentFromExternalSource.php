@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Storage;
 use Domain\Files\Resources\FileResource;
 use Domain\Files\Actions\ProcessFileAction;
 use Spatie\QueueableAction\QueueableAction;
+use Domain\Files\Actions\StoreExifDataAction;
 use Domain\Files\Actions\MoveFileToFTPStorageAction;
 use Domain\Files\Actions\ProcessImageThumbnailAction;
-use Domain\Files\Actions\StoreFileExifMetadataAction;
 use Domain\RemoteUpload\Events\RemoteFileCreatedEvent;
 use Domain\Files\Actions\MoveFileToExternalStorageAction;
 
@@ -24,7 +24,7 @@ class GetContentFromExternalSource
 
     public function __construct(
         public ProcessFileAction $processFile,
-        public StoreFileExifMetadataAction $storeExifMetadata,
+        public StoreExifDataAction $storeExifData,
         public MoveFileToFTPStorageAction $moveFileToFTPStorage,
         public ProcessImageThumbnailAction $createImageThumbnail,
         public MoveFileToExternalStorageAction $moveFileToExternalStorage,
@@ -70,6 +70,9 @@ class GetContentFromExternalSource
                 // Create multiple image thumbnails
                 ($this->createImageThumbnail)($basename, $user->id);
 
+                // Store file exif information
+                $exif = ($this->storeExifData)($path);
+
                 // Create new file
                 $file = File::create([
                     'mimetype'   => $extension,
@@ -82,8 +85,8 @@ class GetContentFromExternalSource
                     'creator_id' => auth()->id(),
                 ]);
 
-                // Store file exif information
-                ($this->storeExifMetadata)($file);
+                // Attach file into the exif data
+                $exif?->update(['file_id' => $file->id]);
 
                 // Move file to external storage
                 match (config('filesystems.default')) {
