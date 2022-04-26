@@ -25,6 +25,7 @@ class GetServerSetupStatusAction
             ],
             'modules'     => [
                 'tokenizer' => extension_loaded('tokenizer'),
+                'pdo_mysql' => extension_loaded('pdo_mysql'),
                 'fileinfo'  => extension_loaded('fileinfo'),
                 'mbstring'  => extension_loaded('mbstring'),
                 'openssl'   => extension_loaded('openssl'),
