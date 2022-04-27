@@ -248,7 +248,7 @@ export default {
             return this.isConfirmedDestroy ? this.$t('popup_share_edit.confirm') : this.$t('popup_share_edit.stop')
         },
         destroyButtonStyle() {
-            return this.isConfirmedDestroy ? 'danger-solid' : 'secondary'
+            return this.isConfirmedDestroy ? 'danger-solid' : 'danger'
         },
     },
     watch: {
