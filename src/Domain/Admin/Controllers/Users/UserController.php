@@ -62,6 +62,7 @@ class UserController extends Controller
         }
 
         // Update user data
+        $user->role = $data->role;
         $user->email_verified_at = now();
 
         $user->save();
