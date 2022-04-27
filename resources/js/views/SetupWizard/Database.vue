@@ -125,7 +125,7 @@
                     </AppInputText>
                 </ValidationProvider>
 
-                <InfoBox v-if="isError" type="error" style="margin-bottom: 10px">
+                <InfoBox v-if="isError" type="error" class="!mb-0 mt-7">
                     <p>We couldn't establish database connection. Please double check your database credentials.</p>
                     <br />
                     <p>Detailed error: {{ errorMessage }}</p>

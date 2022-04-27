@@ -113,7 +113,6 @@ export default {
             ],
             storage: undefined,
             mail: undefined,
-            broadcast: undefined,
         }
     },
     methods: {
@@ -134,7 +133,6 @@ export default {
             // Send request to get verify account
             axios
                 .post('/api/setup/environment-setup', {
-                    broadcast: this.broadcast,
                     environment: this.environment,
                     storage: this.storage,
                     mailDriver: this.mail.driver,

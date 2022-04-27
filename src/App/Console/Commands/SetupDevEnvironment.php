@@ -783,10 +783,6 @@ class SetupDevEnvironment extends Command
                 'value' => '',
             ],
             [
-                'name'  => 'contact_email',
-                'value' => '',
-            ],
-            [
                 'name'  => 'registration',
                 'value' => 1,
             ],

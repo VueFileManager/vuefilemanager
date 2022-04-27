@@ -61,10 +61,6 @@ class StoreAppSettingsController extends Controller
                 'value' => $request->input('googleAnalytics'),
             ],
             [
-                'name'  => 'contact_email',
-                'value' => $request->input('contactMail'),
-            ],
-            [
                 'name'  => 'storage_limitation',
                 'value' => $request->input('storageLimitation'),
             ],

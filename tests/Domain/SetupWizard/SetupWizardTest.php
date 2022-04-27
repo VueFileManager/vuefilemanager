@@ -93,10 +93,6 @@ class SetupWizardTest extends TestCase
                 'value' => 'UA-12345678-1',
             ])
             ->assertDatabaseHas('settings', [
-                'name'  => 'contact_email',
-                'value' => 'john@doe.com',
-            ])
-            ->assertDatabaseHas('settings', [
                 'name'  => 'default_max_storage_amount',
                 'value' => '10',
             ]);

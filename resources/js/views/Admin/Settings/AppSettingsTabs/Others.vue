@@ -309,14 +309,13 @@ export default {
 		axios
 			.get('/api/admin/settings', {
 				params: {
-					column: 'contact_email|google_analytics|default_max_storage_amount|storage_limitation|mimetypes_blacklist|upload_limit|subscriptionType|chunk_size|default_max_team_member',
+					column: 'google_analytics|default_max_storage_amount|storage_limitation|mimetypes_blacklist|upload_limit|subscriptionType|chunk_size|default_max_team_member',
 				},
 			})
 			.then((response) => {
 				this.isLoading = false
 
 				this.app = {
-					contactMail: response.data.contact_email,
 					googleAnalytics: response.data.google_analytics,
 					defaultStorage: response.data.default_max_storage_amount,
 					storageLimitation: parseInt(response.data.storage_limitation),

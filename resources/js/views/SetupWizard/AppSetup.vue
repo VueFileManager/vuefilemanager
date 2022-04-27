@@ -100,20 +100,8 @@
                 <div class="card text-left shadow-card">
                     <FormLabel>Application</FormLabel>
 
-                    <ValidationProvider tag="div" mode="passive" name="Contact Email" rules="required" v-slot="{ errors }">
-                        <AppInputText title="Contact Email" :error="errors[0]">
-                            <input
-                                class="focus-border-theme input-dark"
-                                v-model="app.contactMail"
-                                placeholder="Type your contact email"
-                                type="email"
-								:class="{ '!border-rose-600': errors[0] }"
-                            />
-                        </AppInputText>
-                    </ValidationProvider>
-
                     <ValidationProvider tag="div" mode="passive" name="Google Analytics Code" v-slot="{ errors }">
-                        <AppInputText title="Google Analytics Code (optional)" :error="errors[0]">
+                        <AppInputText title="Google Analytics Code (optional)" :error="errors[0]" :is-last="true">
                             <input
                                 class="focus-border-theme input-dark"
                                 v-model="app.googleAnalytics"
@@ -123,14 +111,6 @@
                             />
                         </AppInputText>
                     </ValidationProvider>
-
-                    <AppInputSwitch
-                        title="Allow User Registration"
-                        description="You can disable public registration for new users. You will still able to create new users in administration panel."
-						:is-last="true"
-                    >
-                        <SwitchInput v-model="app.userRegistration" class="switch" :state="app.userRegistration" />
-                    </AppInputSwitch>
                 </div>
 
 				<div class="card text-left shadow-card">
@@ -139,6 +119,7 @@
 					<AppInputSwitch
 						title="Storage Limitation"
 						description="If this value is off, all users will have infinity storage capacity and you won't be able to charge your users for storage plan."
+						:is-last="!app.storageLimitation"
 					>
                         <SwitchInput v-model="app.storageLimitation" :state="app.storageLimitation" />
                     </AppInputSwitch>
@@ -154,6 +135,7 @@
 							v-if="app.storageLimitation"
 							title="Default Storage Space for Accounts"
 							:error="errors[0]"
+							:is-last="true"
 						>
                             <input
 								class="focus-border-theme input-dark"
@@ -166,63 +148,7 @@
 							/>
                         </AppInputText>
                     </ValidationProvider>
-
-                    <ValidationProvider
-						tag="div"
-						mode="passive"
-						name="Default Storage Space"
-						rules="required"
-						v-slot="{ errors }"
-					>
-                        <AppInputText
-							v-if="app.teamsDefaultMembers"
-							title="Max Team Members"
-							description="Type -1 to set unlimited team members."
-							:error="errors[0]"
-							:is-last="true"
-						>
-                            <input
-								class="focus-border-theme input-dark"
-								v-model="app.teamsDefaultMembers"
-								min="1"
-								max="999999999"
-								placeholder="Set default max team members"
-								type="number"
-								:class="{'!border-rose-600': errors[0]}"
-							/>
-                        </AppInputText>
-                    </ValidationProvider>
 				</div>
-
-                <div v-if="isExtended" class="card text-left shadow-card">
-                    <FormLabel>Subscription</FormLabel>
-
-                    <ValidationProvider
-                        tag="div"
-                        mode="passive"
-                        name="Subscription Type"
-                        rules="required"
-                        v-slot="{ errors }"
-                    >
-                        <AppInputText
-                            :title="$t('Subscription Type')"
-                            description="Choose your preferred subscription system in advance. After installation and any other user registration, you can't change this setting later."
-							:error="errors[0]"
-                        >
-                            <SelectInput
-                                v-model="app.subscriptionType"
-                                :default="app.subscriptionType"
-                                :options="$store.getters.subscriptionTypes"
-                                :placeholder="$t('Select your subscription type')"
-								:is-error="errors[0]"
-                            />
-                        </AppInputText>
-                    </ValidationProvider>
-
-                    <InfoBox class="!mb-2">
-                        <p>Any other subscription related settings you will be able set up later in admin panel.</p>
-                    </InfoBox>
-                </div>
 
                 <AuthButton
                     class="w-full justify-center"
@@ -275,10 +201,8 @@ export default {
     data() {
         return {
             isLoading: false,
-            isExtended: undefined,
             app: {
                 color: '#00BC7E',
-                subscriptionType: undefined,
                 title: undefined,
                 description: undefined,
                 logo: undefined,
@@ -286,11 +210,8 @@ export default {
                 favicon: undefined,
                 og_image: undefined,
                 touch_icon: undefined,
-                contactMail: undefined,
                 googleAnalytics: undefined,
                 defaultStorage: 5,
-				teamsDefaultMembers: 5,
-                userRegistration: 1,
                 storageLimitation: 1,
             },
         }
@@ -316,16 +237,11 @@ export default {
             formData.append('color', this.app.color)
             formData.append('title', this.app.title)
             formData.append('description', this.app.description)
-            formData.append('contactMail', this.app.contactMail)
-            formData.append('userRegistration', Boolean(this.app.userRegistration) ? 1 : 0)
             formData.append('storageLimitation', Boolean(this.app.storageLimitation) ? 1 : 0)
-
-            if (this.app.subscriptionType) formData.append('subscriptionType', this.app.subscriptionType)
 
 			if (this.app.googleAnalytics) formData.append('googleAnalytics', this.app.googleAnalytics)
 
             if (this.app.defaultStorage) formData.append('defaultStorage', this.app.defaultStorage)
-            if (this.app.teamsDefaultMembers) formData.append('teamsDefaultMembers', this.app.teamsDefaultMembers)
 
             if (this.app.logo) formData.append('logo', this.app.logo)
 
@@ -357,8 +273,6 @@ export default {
     created() {
         this.$scrollTop()
 
-        this.isExtended = localStorage.getItem('license') === 'Extended'
-
         if (this.$root.$data.config.isSetupWizardDebug) {
             this.app.subscriptionType = 'metered'
             this.app.title = 'VueFileManager'
@@ -366,9 +280,7 @@ export default {
             this.app.contactMail = 'howdy@hi5ve.digital'
             this.app.googleAnalytics = 'UA-123456789'
             this.app.defaultStorage = '5'
-            this.app.userRegistration = 1
             this.app.storageLimitation = 1
-            this.app.userVerification = 0
         }
     },
 }

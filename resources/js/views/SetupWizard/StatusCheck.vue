@@ -13,11 +13,11 @@
                 />
             </Headline>
 
-			<a href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986">
+			<!--<a href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986">
 				<AlertBox color="rose" class="text-left">
 					<p class="text-rose-500">Please make sure you have only legal copy of VueFileManager <b class="text-rose-500 underline">purchased from CodeCanyon</b>. Any illegal copy can contain malicious software, bugs and others security issues which exposes your files to abuse.</p>
 				</AlertBox>
-			</a>
+			</a>-->
 
             <!--PHP version and ini check-->
             <div class="card shadow-card">

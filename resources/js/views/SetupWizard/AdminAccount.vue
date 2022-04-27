@@ -167,7 +167,6 @@ export default {
             formData.append('password', this.admin.password)
             formData.append('password_confirmation', this.admin.password_confirmation)
 
-            formData.append('license', localStorage.getItem('license'))
             formData.append('purchase_code', localStorage.getItem('purchase_code'))
 
             if (this.admin.avatar) formData.append('avatar', this.admin.avatar)

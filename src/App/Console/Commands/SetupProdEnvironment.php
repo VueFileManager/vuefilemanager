@@ -123,10 +123,6 @@ class SetupProdEnvironment extends Command
                 'value' => null,
             ],
             [
-                'name'  => 'contact_email',
-                'value' => null,
-            ],
-            [
                 'name'  => 'storage_limitation',
                 'value' => 1,
             ],

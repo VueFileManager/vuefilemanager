@@ -16,6 +16,7 @@ class CreateFilesTable extends Migration
         Schema::create('files', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
             $table->uuid('user_id')->index();
+            $table->uuid('creator_id')->nullable();
             $table->uuid('parent_id')->nullable();
 
             $table->text('name');
@@ -25,8 +26,6 @@ class CreateFilesTable extends Migration
             $table->text('filesize');
 
             $table->text('type')->nullable();
-
-            $table->enum('author', ['user', 'member', 'visitor'])->default('user');
 
             $table->softDeletes();
             $table->timestamps();

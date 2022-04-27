@@ -15,7 +15,7 @@ class CreateExifsTable extends Migration
     {
         Schema::create('exifs', function (Blueprint $table) {
             $table->uuid('id')->primary()->index();
-            $table->uuid('file_id')->index();
+            $table->uuid('file_id')->nullable()->index();
 
             $table->timestamp('date_time_original')->nullable();
             $table->string('artist')->nullable();
