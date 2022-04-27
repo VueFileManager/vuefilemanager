@@ -13,7 +13,7 @@
                     />
                     <PopoverItem name="desktop-create" side="left">
                         <OptionGroup
-                            :title="$t('create')"
+                            :title="$t('upload')"
                         >
                             <OptionUpload
 								:title="$t('upload_files')"
@@ -29,6 +29,10 @@
 								:title="$t('upload_folder')"
 								type="folder"
 							/>
+                        </OptionGroup>
+                        <OptionGroup
+                            :title="$t('create')"
+                        >
                             <Option
                                 @click.native="$createFolder"
                                 :class="{

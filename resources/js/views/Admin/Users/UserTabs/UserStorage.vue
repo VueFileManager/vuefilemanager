@@ -1,5 +1,51 @@
 <template>
     <PageTab :is-loading="isLoading" v-if="storage">
+		<!--Set Storage Size-->
+        <div
+			v-if="config.storageLimit"
+			class="card shadow-card"
+		>
+            <FormLabel>
+                {{ $t('user_box_storage.title') }}
+            </FormLabel>
+            <ValidationObserver
+				ref="changeStorageCapacity"
+				@submit.prevent="changeStorageCapacity"
+				v-slot="{ invalid }"
+				tag="form"
+			>
+                <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
+                    <AppInputText
+						:title="$t('admin_page_user.label_change_capacity')"
+						:description="$t('user_box_storage.description')"
+						:error="errors[0]"
+						:is-last="true"
+					>
+                        <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
+                            <input
+								v-model="capacity"
+								:placeholder="$t('admin_page_user.label_change_capacity')"
+								type="number"
+								min="1"
+								max="999999999"
+								class="focus-border-theme input-dark"
+								:class="{ '!border-rose-600': errors[0] }"
+							/>
+                            <ButtonBase
+								:loading="isSendingRequest"
+								:disabled="isSendingRequest"
+								type="submit"
+								button-style="theme"
+								class="w-full sm:w-auto"
+							>
+                                {{ $t('change_capacity') }}
+                            </ButtonBase>
+                        </div>
+                    </AppInputText>
+                </ValidationProvider>
+            </ValidationObserver>
+        </div>
+
         <!--Storage Usage-->
         <div v-if="distribution" class="card shadow-card">
             <FormLabel icon="hard-drive">
@@ -55,52 +101,6 @@
             </b>
 
             <BarChart :data="storage.data.meta.traffic.chart.download" color="#9d66fe" />
-        </div>
-
-		<!--Set Storage Size-->
-        <div
-			v-if="config.storageLimit"
-			class="card shadow-card"
-		>
-            <FormLabel>
-                {{ $t('user_box_storage.title') }}
-            </FormLabel>
-            <ValidationObserver
-				ref="changeStorageCapacity"
-				@submit.prevent="changeStorageCapacity"
-				v-slot="{ invalid }"
-				tag="form"
-			>
-                <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Capacity" rules="required">
-                    <AppInputText
-						:title="$t('admin_page_user.label_change_capacity')"
-						:description="$t('user_box_storage.description')"
-						:error="errors[0]"
-						:is-last="true"
-					>
-                        <div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
-                            <input
-								v-model="capacity"
-								:placeholder="$t('admin_page_user.label_change_capacity')"
-								type="number"
-								min="1"
-								max="999999999"
-								class="focus-border-theme input-dark"
-								:class="{ '!border-rose-600': errors[0] }"
-							/>
-                            <ButtonBase
-								:loading="isSendingRequest"
-								:disabled="isSendingRequest"
-								type="submit"
-								button-style="theme"
-								class="w-full sm:w-auto"
-							>
-                                {{ $t('change_capacity') }}
-                            </ButtonBase>
-                        </div>
-                    </AppInputText>
-                </ValidationProvider>
-            </ValidationObserver>
         </div>
     </PageTab>
 </template>

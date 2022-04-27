@@ -1,6 +1,6 @@
 <template>
     <div>
-        <VueFolderIcon v-if="!item.data.attributes.isTeamFolder" />
+        <VueFolderIcon />
     </div>
 </template>
 

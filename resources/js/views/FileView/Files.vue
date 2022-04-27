@@ -19,7 +19,7 @@
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup :title="$t('create')">
+            <OptionGroup>
                 <OptionUpload
                     :title="$t('upload_files')"
                     type="file"

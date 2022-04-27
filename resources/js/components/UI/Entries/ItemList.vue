@@ -13,15 +13,6 @@
 
         <!--Item thumbnail-->
         <div class="relative w-16 shrink-0">
-            <!--Member thumbnail for team folders-->
-            <MemberAvatar
-                v-if="user && canShowAuthor"
-                :size="28"
-                :is-border="true"
-                :member="entry.data.relationships.creator"
-                class="absolute right-1.5 -bottom-2 z-10"
-            />
-
             <!--Emoji Icon-->
             <Emoji
                 v-if="entry.data.attributes.emoji"
@@ -183,9 +174,6 @@ export default {
             return this.entry.data.attributes.deleted_at
                 ? this.entry.data.attributes.trashed_items
                 : this.entry.data.attributes.items
-        },
-        canShowAuthor() {
-            return !this.isFolder && (this.entry.data.relationships.creator && this.user.data.id !== this.entry.data.relationships.creator.data.id)
         },
         canDrag() {
             return !this.isDeleted && this.$checkPermission(['master', 'editor'])

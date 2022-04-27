@@ -70,7 +70,7 @@
 				/>
 			</AppInputSwitch>
 
-			<AppInputText v-if="app.storageLimitation" :title="$t('admin_settings.others.default_storage')">
+			<AppInputText v-if="app.storageLimitation" :title="$t('admin_settings.others.default_storage')" :is-last="true">
 				<input
 					v-model="app.defaultStorage"
 					:placeholder="$t('admin_settings.others.default_storage_plac')"
@@ -181,16 +181,6 @@
                     {{ $t('clear_cache') }}
                 </ButtonBase>
             </AppInputButton>
-
-            <AppInputText :title="$t('admin_settings.others.contact_email')">
-                <input
-					v-model="app.contactMail"
-					:placeholder="$t('admin_settings.others.contact_email_plac')"
-					class="focus-border-theme input-dark"
-					type="email"
-					@input="$updateText('/admin/settings', 'contact_email', app.contactMail)"
-				/>
-            </AppInputText>
 
             <AppInputText :is-last="true" :title="$t('admin_settings.others.google_analytics')">
                 <input

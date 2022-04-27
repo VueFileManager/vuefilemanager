@@ -180,7 +180,7 @@ export default {
                 })
                 .then((response) => {
                     // Go to sign page
-                    window.location = '/sign-in'
+                    window.location = '/'
                 })
                 .catch((error) => {
                     if (error.response.status === 500) {

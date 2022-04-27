@@ -9,7 +9,7 @@ const routesAuth = [
     },
     {
         name: 'SignIn',
-        path: '/sign-in',
+        path: '/',
         component: () => import(/* webpackChunkName: "chunks/sign-in" */ '../views/Auth/SignIn'),
         meta: {
             requiresAuth: false,

@@ -5,10 +5,6 @@ use App\Users\Models\User;
 use App\Users\DTO\CreateUserData;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
-use Domain\Teams\Models\TeamFolderMember;
-use Domain\Teams\Models\TeamFolderInvitation;
-use VueFileManager\Subscription\Domain\Plans\Models\Plan;
-use VueFileManager\Subscription\Domain\Plans\Exceptions\MeteredBillingPlanDoesntExist;
 
 class CreateNewUserAction extends Controller
 {

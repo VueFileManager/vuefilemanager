@@ -45,7 +45,7 @@ const actions = {
                 commit('DESTROY_DATA')
                 commit('SET_AUTHORIZED', false)
 
-                router.push({name: 'Homepage'})
+                router.push({name: 'SignIn'})
             })
     },
     addToFavourites: (context, folder) => {

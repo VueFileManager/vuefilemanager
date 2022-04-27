@@ -19,7 +19,6 @@ class FolderResource extends JsonResource
                     'color'         => $this->color,
                     'emoji'         => $this->emoji,
                     'filesize'      => $this->filesize,
-                    'isTeamFolder'  => false,
                     'items'         => $this->items,
                     'trashed_items' => $this->trashed_items,
                     'created_at'    => set_time_by_user_timezone($this->user, $this->created_at),

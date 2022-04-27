@@ -33,15 +33,6 @@
                     v-if="isFile || isVideo || isAudio || (isImage && !entry.data.attributes.thumbnail)"
                     class="relative mx-auto w-24"
                 >
-                    <!--Member thumbnail for team folders-->
-                    <MemberAvatar
-                        v-if="user && canShowAuthor"
-                        :size="38"
-                        :is-border="true"
-                        :member="entry.data.relationships.creator"
-                        class="absolute right-2 -bottom-5 z-10 z-10 scale-75 transform lg:-bottom-7 lg:scale-100"
-                    />
-
                     <FileIconThumbnail
                         :entry="entry"
                         class="z-0 mt-5 mb-10 scale-125 transform lg:mb-12 lg:mt-6 lg:scale-150"
@@ -197,14 +188,6 @@ export default {
             return this.entry.data.attributes.deleted_at
                 ? this.entry.data.attributes.trashed_items
                 : this.entry.data.attributes.items
-        },
-        canShowAuthor() {
-            return (
-                this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
-				&& !this.isFolder
-				&& this.entry.data.relationships.creator
-				&& this.user.data.id !== this.entry.data.relationships.creator.data.id
-            )
         },
         canShowLinkIcon() {
             return this.entry.data.relationships.shared && !this.$isThisRoute(this.$route, ['SharedSingleFile'])

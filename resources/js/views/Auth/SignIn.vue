@@ -37,13 +37,6 @@
                     :disabled="isLoading"
                 />
             </ValidationObserver>
-
-            <span v-if="config.userRegistration" class="block">
-                {{ $t('page_login.registration_text') }}
-                <router-link class="text-theme font-bold" :to="{ name: 'SignUp' }">
-                    {{ $t('page_login.registration_button') }}
-                </router-link>
-            </span>
         </AuthContent>
 
         <!--Log in By Password-->

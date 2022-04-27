@@ -12,21 +12,16 @@
                         :action="$t('create_something')"
                     />
                     <PopoverItem name="desktop-create" side="left">
-                        <OptionGroup :title="$t('frequently_used')">
+                        <OptionGroup :title="$t('upload')">
                             <OptionUpload :title="$t('upload_files')" type="file" />
+                            <OptionUpload :title="$t('upload_folder')" type="folder" />
+                        </OptionGroup>
+                        <OptionGroup :title="$t('create')">
                             <Option
                                 @click.native="$createFolder"
                                 :title="$t('create_folder')"
                                 icon="folder-plus"
                             />
-                        </OptionGroup>
-                        <OptionGroup :title="$t('others')">
-                            <OptionUpload :title="$t('upload_folder')" type="folder" />
-							<Option
-								@click.stop.native="$openRemoteUploadPopup"
-								:title="$t('remote_upload')"
-								icon="remote-upload"
-							/>
                         </OptionGroup>
                     </PopoverItem>
                 </PopoverWrapper>
@@ -111,7 +106,7 @@ export default {
         Option,
     },
     computed: {
-        ...mapGetters(['isVisibleNavigationBars', 'currentTeamFolder', 'currentFolder', 'sharedDetail', 'clipboard']),
+        ...mapGetters(['isVisibleNavigationBars', 'currentFolder', 'sharedDetail', 'clipboard']),
         canEdit() {
             return this.sharedDetail && this.sharedDetail.data.attributes.permission === 'editor'
         },

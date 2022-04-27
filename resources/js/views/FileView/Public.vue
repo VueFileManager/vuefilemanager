@@ -36,22 +36,17 @@
             </template>
         </MobileContextMenu>
 
-        <MobileCreateMenu>
-            <OptionGroup :title="$t('frequently_used')">
-                <OptionUpload :title="$t('upload_files')" type="file" :is-hover-disabled="true" />
+		<MobileCreateMenu>
+            <OptionGroup>
+                <OptionUpload
+					:title="$t('upload_files')"
+					type="file"
+					:is-hover-disabled="true"
+				/>
                 <Option
-                    @click.stop.native="createFolder"
-                    :title="$t('create_folder')"
-                    icon="folder-plus"
-                    :is-hover-disabled="true"
-                />
-            </OptionGroup>
-            <OptionGroup :title="$t('others')">
-                <OptionUpload :title="$t('upload_folder')" type="folder" :is-hover-disabled="true" />
-				<Option
-					@click.stop.native="$openRemoteUploadPopup"
-					:title="$t('remote_upload')"
-					icon="remote-upload"
+					@click.stop.native="$createFolderByPopup"
+					:title="$t('create_folder')"
+					icon="folder-plus"
 					:is-hover-disabled="true"
 				/>
             </OptionGroup>

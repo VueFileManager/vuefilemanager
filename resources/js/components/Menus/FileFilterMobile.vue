@@ -31,22 +31,6 @@
                     :is-hover-disabled="true"
                 />
             </OptionGroup>
-            <OptionGroup :title="$t('collaboration')">
-                <Option
-                    @click.native="goToTeamFolders"
-                    :title="$t('team_folders')"
-                    icon="users"
-                    :is-active="$isThisRoute($route, 'TeamFolders')"
-                    :is-hover-disabled="true"
-                />
-                <Option
-                    @click.native="goToSharedWithMe"
-                    :title="$t('shared_with_me')"
-                    icon="user-check"
-                    :is-active="$isThisRoute($route, 'SharedWithMe')"
-                    :is-hover-disabled="true"
-                />
-            </OptionGroup>
         </MenuMobileGroup>
     </MenuMobile>
 </template>
@@ -78,12 +62,6 @@ export default {
         },
         goToTrash() {
             this.$router.push({ name: 'Trash' })
-        },
-        goToTeamFolders() {
-            this.$router.push({ name: 'TeamFolders' })
-        },
-        goToSharedWithMe() {
-            this.$router.push({ name: 'SharedWithMe' })
         },
     },
 }
