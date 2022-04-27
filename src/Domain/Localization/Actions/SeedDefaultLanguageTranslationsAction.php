@@ -9,22 +9,15 @@ class SeedDefaultLanguageTranslationsAction
         string $license,
         string $locale
     ): void {
-        $translations = [
-            'extended' => collect([
-                config('language-translations.extended'),
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-            'regular' => collect([
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-        ];
+        $translations = collect([
+            config('language-translations.regular'),
+            config('custom-language-translations'),
+        ])->collapse();
 
-        $translations = $translations[strtolower($license)]
+        $translations = $translations
             ->map(fn ($value, $key) => [
                 'lang'  => $locale,
-                'value' => $value,
+                'value' => '___',
                 'key'   => $key,
             ])->toArray();
 

@@ -3,7 +3,6 @@ namespace Domain\Homepage\Controllers;
 
 use DB;
 use PDOException;
-use Domain\Pages\Models\Page;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\Foundation\Application;

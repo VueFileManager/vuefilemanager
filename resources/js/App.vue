@@ -3,7 +3,6 @@
         <!--UI components-->
         <Alert />
         <ToasterWrapper />
-        <CookieDisclaimer />
 
         <!--Show spinner before translations is loaded-->
         <Spinner v-if="!isLoaded" />
@@ -21,7 +20,6 @@
 <script>
 import ToasterWrapper from './components/Toaster/ToasterNotifications'
 import SidebarNavigation from "./components/Sidebar/SidebarNavigation"
-import CookieDisclaimer from './components/UI/Others/CookieDisclaimer'
 import Spinner from './components/UI/Others/Spinner'
 import Vignette from './components/UI/Others/Vignette'
 import Alert from './components/Popups/Alert'
@@ -32,7 +30,6 @@ export default {
     name: 'App',
     components: {
 		SidebarNavigation,
-        CookieDisclaimer,
         ToasterWrapper,
         Vignette,
         Spinner,

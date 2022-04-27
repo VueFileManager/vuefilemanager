@@ -7,7 +7,7 @@
             />
 
             <span class="block">
-                <router-link :to="{ name: 'Homepage' }" class="text-theme font-bold">
+                <router-link :to="{ name: 'SignIn' }" class="text-theme font-bold">
                     {{ $t('go_home') }}
                 </router-link>
             </span>
