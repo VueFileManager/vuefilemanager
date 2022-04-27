@@ -57,9 +57,7 @@
             </b>
 
             <b
-				v-if="
-                    config.subscriptionType === 'fixed' || (config.subscriptionType === 'none' && config.storageLimit)
-                "
+				v-if="config.storageLimit"
 				class="mt-0.5 block text-sm dark:text-gray-500 text-gray-400"
 			>
                 {{ $t('total_of', {capacity: storage.data.attributes.capacity}) }}

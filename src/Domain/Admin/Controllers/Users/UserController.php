@@ -52,16 +52,10 @@ class UserController extends Controller
         ]);
 
         // Register user
-        try {
-            $user = ($this->createNewUser)($data);
-        } catch (MeteredBillingPlanDoesntExist $e) {
-            return response([
-                'type'    => 'error',
-                'message' => 'User registrations are temporarily disabled',
-            ], 409);
-        }
+        $user = ($this->createNewUser)($data);
 
         // Update user data
+        $user->role = $data->role;
         $user->email_verified_at = now();
 
         $user->save();

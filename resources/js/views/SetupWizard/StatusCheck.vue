@@ -247,7 +247,8 @@ export default {
             )
 
             if (writeCheck && modulesCheck && iniCheck && this.apiRunning && this.phpVersion.acceptable) {
-                this.$router.push({ name: 'PurchaseCode' })
+                //this.$router.push({ name: 'PurchaseCode' })
+				this.$router.push({ name: 'Database' })
             } else {
                 this.isError = true
             }

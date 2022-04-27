@@ -61,6 +61,7 @@
 			<AppInputSwitch
 				:description="$t('admin_settings.others.storage_limit_help')"
 				:title="$t('admin_settings.others.storage_limit')"
+				:is-last="! app.storageLimitation"
 			>
 				<SwitchInput
 					v-model="app.storageLimitation"

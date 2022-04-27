@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'regular'  => [
+    'regular' => [
         'type'                                           => 'Type',
         'cancel'                                         => 'Cancel',
         'close'                                          => 'Close',
@@ -61,7 +61,7 @@ return [
         'admin_settings.email.port'                      => 'Mail Port',
         'admin_settings.email.save_button'               => 'Save Email Settings',
         'clear_cache'                                    => 'Clear Cache',
-        'admin_settings.others.default_storage'          => 'Default Storage Space for User Accounts (in GB)',
+        'admin_settings.others.default_storage'          => 'Default Storage Space for New User Accounts (in GB)',
         'admin_settings.others.default_storage_plac'     => 'Set default storage space in GB',
         'admin_settings.others.google_analytics'         => 'Google Analytics Code (optional)',
         'admin_settings.others.google_analytics_plac'    => 'Paste your Google Analytics Code',
@@ -523,5 +523,6 @@ return [
         'set_up_2fa_app'                                 => 'Set up Your Authenticator App',
         'confirm_your_code'                              => 'Confirm Your Code',
         'paste_code_from_2fa_app'                        => 'Paste the latest code from 2fa app...',
+        'configure_your_credentials'                     => 'Configure Your Credentials',
     ],
 ];
