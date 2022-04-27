@@ -17,7 +17,7 @@ class SeedDefaultLanguageTranslationsAction
         $translations = $translations
             ->map(fn ($value, $key) => [
                 'lang'  => $locale,
-                'value' => '___',
+                'value' => $value,
                 'key'   => $key,
             ])->toArray();
 
