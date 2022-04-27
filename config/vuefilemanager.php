@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'version' => '2.1.0.1',
+    'version' => '1.0.0',
 
     'is_demo' => env('APP_DEMO', false),
 
@@ -63,10 +63,6 @@ return [
 
     // The update versions which need to run upgrade process
     'updates' => [
-        '2_0_10',
-        '2_0_13',
-        '2_0_14',
-        '2_0_16',
-        '2_1_1',
+
     ],
 ];

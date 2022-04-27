@@ -10,9 +10,6 @@
             <!--VueFileManager ScreenShot-->
             <HeroScreenshot />
 
-            <!--Google Adsense banner-->
-            <div v-if="config.allowedAdsense && config.adsenseBanner03" v-html="config.adsenseBanner03" class="mb-5 min-h-[120px]"></div>
-
             <!--Main Features-->
             <MainFeatures />
 

@@ -1,13 +1,10 @@
-import routesUploadRequest from './routes/routesUploadRequest'
 import routesMaintenance from './routes/routesMaintenance'
 import routesShared from './routes/routesShared'
 import routesOthers from './routes/routesOthers'
 import routesAdmin from './routes/routesAdmin'
-import routesIndex from './routes/routesIndex'
 import routesAuth from './routes/routesAuth'
 import routesUser from './routes/routesUser'
 import routesFile from './routes/routesFile'
-import routesTeam from './routes/routesTeam'
 import store from './store/index'
 import Router from 'vue-router'
 import Vue from 'vue'
@@ -17,16 +14,13 @@ Vue.use(Router)
 const router = new Router({
     mode: 'history',
     routes: [
-        ...routesUploadRequest,
         ...routesMaintenance,
         ...routesShared,
         ...routesOthers,
         ...routesAdmin,
-        ...routesIndex,
         ...routesAuth,
         ...routesUser,
         ...routesFile,
-        ...routesTeam,
     ],
     scrollBehavior(to, from, savedPosition) {
         if (savedPosition) {

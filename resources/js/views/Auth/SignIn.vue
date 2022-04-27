@@ -38,8 +38,6 @@
                 />
             </ValidationObserver>
 
-            <SocialLoginButtons />
-
             <span v-if="config.userRegistration" class="block">
                 {{ $t('page_login.registration_text') }}
                 <router-link class="text-theme font-bold" :to="{ name: 'SignUp' }">
@@ -230,7 +228,6 @@
 <script>
 import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
 import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent'
 import AuthButton from '../../components/UI/Buttons/AuthButton'
 import Spinner from '../../components/UI/Others/Spinner'
@@ -242,7 +239,6 @@ import Headline from '../../components/UI/Labels/LogoHeadline'
 export default {
     name: 'SignIn',
     components: {
-        SocialLoginButtons,
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,

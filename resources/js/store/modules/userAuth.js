@@ -16,11 +16,6 @@ const actions = {
                     resolve(response)
 
                     commit('RETRIEVE_USER', response.data)
-                    commit('UPDATE_NOTIFICATION_COUNT', response.data.data.relationships.unreadNotifications.data.length)
-
-                    if (! getters.isBroadcasting && getters.config.broadcasting === 'pusher') {
-                        dispatch('runConnection')
-                    }
                 })
                 .catch((error) => {
                     reject(error)
@@ -52,16 +47,6 @@ const actions = {
 
                 router.push({name: 'Homepage'})
             })
-    },
-    socialiteRedirect: ({ commit }, provider) => {
-        axios
-            .get(`/api/socialite/${provider}/redirect`)
-            .then((response) => {
-                if (response.data.url) {
-                    window.location.href = response.data.url
-                }
-            })
-            .catch(() => this.$isSomethingWrong())
     },
     addToFavourites: (context, folder) => {
         let addFavourites = []
@@ -116,19 +101,6 @@ const actions = {
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
-    readAllNotifications: ({ commit }) => {
-        axios.post('/api/user/notifications/read')
-            .then(() => {
-                commit('UPDATE_NOTIFICATION_COUNT', 0)
-            })
-    },
-    deleteAllNotifications: ({ commit }) => {
-        axios.delete('/api/user/notifications')
-            .then(() => {
-                commit('FLUSH_NOTIFICATIONS')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
-    },
 }
 
 const mutations = {
@@ -178,34 +150,9 @@ const mutations = {
             }
         })
     },
-    FLUSH_NOTIFICATIONS(state) {
-        state.user.data.relationships.readNotifications.data = []
-        state.user.data.relationships.unreadNotifications.data = []
-    },
-    CLEAR_NOTIFICATION_ACTION_DATA(state, notificationId) {
-        if (state.user.data.relationships.readNotifications.data.length) {
-            state.user.data.relationships.readNotifications.data.map(notification => {
-                if (notification.data.id === notificationId) {
-                    notification.data.attributes.action = undefined
-                }
-            })
-        }
-
-        if (state.user.data.relationships.unreadNotifications.data.length) {
-            state.user.data.relationships.unreadNotifications.data.map(notification => {
-                if (notification.data.id === notificationId) {
-                    notification.data.attributes.action = undefined
-                }
-            })
-        }
-    },
 }
 
 const getters = {
-    isLimitedUser: (state) =>
-        state.user &&
-        state.user.data.relationships.failedPayments &&
-        state.user.data.relationships.failedPayments.data.length === 3,
     permission: (state) => state.permission,
     user: (state) => state.user,
 }

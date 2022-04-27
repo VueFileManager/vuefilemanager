@@ -18,51 +18,6 @@ const routesAdmin = [
                 },
             },
             {
-                name: 'Invoices',
-                path: '/admin/invoices',
-                component: () => import(/* webpackChunkName: "chunks/invoices" */ '../views/Admin/Invoices'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'transactions',
-                },
-            },
-            {
-                name: 'Subscriptions',
-                path: '/admin/subscriptions',
-                component: () => import(/* webpackChunkName: "chunks/subscriptions" */ '../views/Admin/Subscriptions'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'subscriptions',
-                },
-            },
-            {
-                name: 'Pages',
-                path: '/admin/pages',
-                component: () => import(/* webpackChunkName: "chunks/pages" */ '../views/Admin/Pages'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'pages',
-                },
-            },
-            {
-                name: 'PageEdit',
-                path: '/admin/pages/:slug',
-                component: () => import(/* webpackChunkName: "chunks/page-edit" */ '../views/Admin/Pages/PageEdit'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'edit_page',
-                },
-            },
-            {
-                name: 'Plans',
-                path: '/admin/plans',
-                component: () => import(/* webpackChunkName: "chunks/plans" */ '../views/Admin/Plans'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'pricing_plans',
-                },
-            },
-            {
                 name: 'Users',
                 path: '/admin/users',
                 component: () => import(/* webpackChunkName: "chunks/users" */ '../views/Admin/Users'),
@@ -78,30 +33,6 @@ const routesAdmin = [
                 meta: {
                     requiresAuth: true,
                     title: 'create_user',
-                },
-            },
-            {
-                name: 'CreateFixedPlan',
-                path: '/admin/plan/create/fixed',
-                component: () =>
-                    import(
-                        /* webpackChunkName: "chunks/plan-create/fixed" */ '../views/Admin/Plans/Create/CreateFixedPlan'
-                    ),
-                meta: {
-                    requiresAuth: true,
-                    title: 'create_plan',
-                },
-            },
-            {
-                name: 'CreateMeteredPlan',
-                path: '/admin/plan/create/metered',
-                component: () =>
-                    import(
-                        /* webpackChunkName: "chunks/plan-create/metered" */ '../views/Admin/Plans/Create/CreateMeteredPlan'
-                    ),
-                meta: {
-                    requiresAuth: true,
-                    title: 'create_plan',
                 },
             },
             {
@@ -137,18 +68,6 @@ const routesAdmin = [
                         },
                     },
                     {
-                        name: 'UserSubscription',
-                        path: '/admin/user/:id/subscription',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/user-subscription" */ '../views/Admin/Users/UserTabs/UserSubscription'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'subscription',
-                        },
-                    },
-                    {
                         name: 'UserPassword',
                         path: '/admin/user/:id/password',
                         component: () =>
@@ -170,132 +89,6 @@ const routesAdmin = [
                         meta: {
                             requiresAuth: true,
                             title: 'delete_user',
-                        },
-                    },
-                ],
-            },
-            {
-                name: 'PlanFixed',
-                path: '/admin/plan/:id',
-                component: () => import(/* webpackChunkName: "chunks/plan" */ '../views/Admin/Plans/FixedPlan'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'plan',
-                },
-                children: [
-                    {
-                        name: 'PlanFixedSubscribers',
-                        path: '/admin/plan/:id/fixed/subscribers',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/plan-subscribers" */ '../views/Admin/Plans/Tabs/PlanSubscribers'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'subscribers',
-                        },
-                    },
-                    {
-                        name: 'PlanFixedSettings',
-                        path: '/admin/plan/:id/fixed/settings',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/plan-settings" */ '../views/Admin/Plans/Tabs/PlanFixedSettings'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'plan_settings',
-                        },
-                    },
-                    {
-                        name: 'PlanFixedDelete',
-                        path: '/admin/plan/:id/fixed/delete',
-                        component: () =>
-                            import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'plan_delete',
-                        },
-                    },
-                ],
-            },
-            {
-                name: 'PlanMetered',
-                path: '/admin/plan/:id',
-                component: () => import(/* webpackChunkName: "chunks/plan" */ '../views/Admin/Plans/MeteredPlan'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'plan',
-                },
-                children: [
-                    {
-                        name: 'PlanMeteredSubscribers',
-                        path: '/admin/plan/:id/metered/subscribers',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/plan-subscribers" */ '../views/Admin/Plans/Tabs/PlanSubscribers'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'subscribers',
-                        },
-                    },
-                    {
-                        name: 'PlanMeteredSettings',
-                        path: '/admin/plan/:id/metered/settings',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/plan-settings" */ '../views/Admin/Plans/Tabs/PlanMeteredSettings'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'plan_settings',
-                        },
-                    },
-                    {
-                        name: 'PlanMeteredDelete',
-                        path: '/admin/plan/:id/metered/delete',
-                        component: () =>
-                            import(/* webpackChunkName: "chunks/plan-delete" */ '../views/Admin/Plans/Tabs/PlanDelete'),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'plan_delete',
-                        },
-                    },
-                ],
-            },
-            {
-                name: 'PaymentSettings',
-                path: '/admin/payments',
-                component: () =>
-                    import(/* webpackChunkName: "chunks/payments" */ '../views/Admin/PaymentSettings/PaymentSettings'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'Payment Settings',
-                },
-                children: [
-                    {
-                        name: 'AppBillings',
-                        path: '/admin/payments/billings',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/payments/billings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Billings'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'billings',
-                        },
-                    },
-                    {
-                        name: 'AppPayments',
-                        path: '/admin/payments/payments',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/payments/settings" */ '../views/Admin/PaymentSettings/PaymentSettingsTab/Payments'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'payments',
                         },
                     },
                 ],
@@ -323,18 +116,6 @@ const routesAdmin = [
                         },
                     },
                     {
-                        name: 'AppIndex',
-                        path: '/admin/settings/index',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/app-index" */ '../views/Admin/Settings/AppSettingsTabs/Index'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'Index',
-                        },
-                    },
-                    {
                         name: 'AppEnvironment',
                         path: '/admin/settings/environment',
                         component: () =>
@@ -356,30 +137,6 @@ const routesAdmin = [
                         meta: {
                             requiresAuth: true,
                             title: 'others',
-                        },
-                    },
-                    {
-                        name: 'AppSignInUp',
-                        path: '/admin/settings/sign-in',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/app-sign-in-out" */ '../views/Admin/Settings/AppSettingsTabs/SignInUp'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'Sign In/Up',
-                        },
-                    },
-                    {
-                        name: 'AppAdsense',
-                        path: '/admin/settings/adsense',
-                        component: () =>
-                            import(
-                                /* webpackChunkName: "chunks/app-adsense" */ '../views/Admin/Settings/AppSettingsTabs/Adsense'
-                            ),
-                        meta: {
-                            requiresAuth: true,
-                            title: 'Adsense',
                         },
                     },
                     {

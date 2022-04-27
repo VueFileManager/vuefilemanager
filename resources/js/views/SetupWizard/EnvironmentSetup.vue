@@ -23,8 +23,6 @@
 
                 <MailSetup v-model="mail" class="card text-left shadow-card" />
 
-				<BroadcastSetup v-model="broadcast" class="card text-left shadow-card" />
-
                 <div class="card text-left shadow-card">
                     <FormLabel>Environment Setup</FormLabel>
 
@@ -79,12 +77,10 @@ import { SettingsIcon } from 'vue-feather-icons'
 import Headline from '../../components/UI/Labels/LogoHeadline'
 import { events } from '../../bus'
 import axios from 'axios'
-import BroadcastSetup from "../../components/Forms/BroadcastSetup";
 
 export default {
     name: 'EnvironmentSetup',
     components: {
-		BroadcastSetup,
         MailSetup,
         StorageSetup,
         AuthContentWrapper,

@@ -11,29 +11,20 @@
                 </span>
             </div>
         </div>
-        <NotificationBell @click.native="openNotificationPopup" />
     </div>
 </template>
 
 <script>
 import MemberAvatar from './MemberAvatar'
-import NotificationBell from '../../Notifications/Components/NotificationBell'
-import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'UserHeadline',
     components: {
-        NotificationBell,
         MemberAvatar,
     },
     computed: {
         ...mapGetters(['user']),
-    },
-    methods: {
-        openNotificationPopup() {
-            events.$emit('popup:open', { name: 'notifications-mobile' })
-        },
     },
 }
 </script>

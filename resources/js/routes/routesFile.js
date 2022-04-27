@@ -38,23 +38,6 @@ const routesFile = [
                     requiresAuth: true,
                 },
             },
-            {
-                name: 'TeamFolders',
-                path: '/platform/team-folders/:id?',
-                component: () => import(/* webpackChunkName: "chunks/team-folders" */ '../views/FileView/TeamFolders'),
-                meta: {
-                    requiresAuth: true,
-                },
-            },
-            {
-                name: 'SharedWithMe',
-                path: '/platform/shared-with-me/:id?',
-                component: () =>
-                    import(/* webpackChunkName: "chunks/shared-with-me" */ '../views/FileView/SharedWithMe'),
-                meta: {
-                    requiresAuth: true,
-                },
-            },
         ],
     },
 ]

@@ -59,7 +59,6 @@ const actions = {
 
         // Get route
         let route = {
-            RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/move`,
             Public: `/api/editor/move/${router.currentRoute.params.token}`,
         }[router.currentRoute.name] || '/api/move'
 
@@ -87,7 +86,6 @@ const actions = {
     createFolder: ({ commit, getters, dispatch }, folder) => {
         // Get route
         let route = {
-            RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/create-folder`,
             Public: `/api/editor/create-folder/${router.currentRoute.params.token}`,
         }[router.currentRoute.name] || '/api/create-folder'
 
@@ -126,7 +124,6 @@ const actions = {
 
         // Get route
         let route = {
-            RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/rename/${data.id}`,
             Public: `/api/editor/rename/${data.id}/${router.currentRoute.params.token}`,
         }[router.currentRoute.name] || `/api/rename/${data.id}`
 
@@ -149,7 +146,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             // Get route
             let route = {
-                RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/upload`,
                 Public: `/api/editor/upload/${router.currentRoute.params.token}`,
             }[router.currentRoute.name] || '/api/upload'
 
@@ -317,7 +313,6 @@ const actions = {
 
         // Get route
         let route = {
-            RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/remove`,
             Public: `/api/editor/remove/${router.currentRoute.params.token}`,
         }[router.currentRoute.name] || '/api/remove'
 

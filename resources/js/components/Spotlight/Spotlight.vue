@@ -99,11 +99,6 @@
                                 size="18"
                                 class="vue-feather text-theme"
                             />
-                            <credit-card-icon
-                                v-if="result.action.value === 'AppPayments'"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
                             <home-icon
                                 v-if="result.action.value === 'Files'"
                                 size="18"
@@ -114,23 +109,13 @@
                                 size="18"
                                 class="vue-feather text-theme"
                             />
-                            <database-icon
-                                v-if="['CreateFixedPlan', 'CreateMeteredPlan'].includes(result.action.value)"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
                             <user-plus-icon
                                 v-if="result.action.value === 'UserCreate'"
                                 size="18"
                                 class="vue-feather text-theme"
                             />
                             <users-icon
-                                v-if="['TeamFolders', 'Users'].includes(result.action.value)"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
-                            <user-check-icon
-                                v-if="result.action.value === 'SharedWithMe'"
+                                v-if="['Users'].includes(result.action.value)"
                                 size="18"
                                 class="vue-feather text-theme"
                             />
@@ -139,38 +124,13 @@
                                 size="18"
                                 class="vue-feather text-theme"
                             />
-                            <link2-icon
-                                v-if="result.action.value === 'remote-upload'"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
                             <upload-cloud-icon
                                 v-if="result.action.value === 'RecentUploads'"
                                 size="18"
                                 class="vue-feather text-theme"
                             />
-                            <file-text-icon
-                                v-if="['Invoices', 'Invoice'].includes(result.action.value)"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
-                            <database-icon
-                                v-if="result.action.value === 'Plans'"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
-                            <dollar-sign-icon
-                                v-if="['Subscriptions', 'Billing'].includes(result.action.value)"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
                             <globe-icon
                                 v-if="result.action.value === 'Language'"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
-                            <monitor-icon
-                                v-if="result.action.value === 'Pages'"
                                 size="18"
                                 class="vue-feather text-theme"
                             />
@@ -211,16 +171,6 @@
                             />
                             <smile-icon
                                 v-if="result.action.value === 'toggle-emoji'"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
-                            <folder-plus-icon
-                                v-if="result.action.value === 'create-team-folder'"
-                                size="18"
-                                class="vue-feather text-theme"
-                            />
-                            <upload-cloud-icon
-                                v-if="result.action.value === 'create-file-request'"
                                 size="18"
                                 class="vue-feather text-theme"
                             />
@@ -398,20 +348,6 @@ export default {
                     },
                 },
                 {
-                    title: this.$t('go_to_payments'),
-                    action: {
-                        type: 'route',
-                        value: 'AppPayments',
-                    },
-                },
-                {
-                    title: this.$t('go_to_pages'),
-                    action: {
-                        type: 'route',
-                        value: 'Pages',
-                    },
-                },
-                {
                     title: this.$t('go_to_languages'),
                     action: {
                         type: 'route',
@@ -426,20 +362,6 @@ export default {
                     },
                 },
                 {
-                    title: this.$t('show_all_plans'),
-                    action: {
-                        type: 'route',
-                        value: 'Plans',
-                    },
-                },
-                {
-                    title: this.$t('show_transactions'),
-                    action: {
-                        type: 'route',
-                        value: 'Invoices',
-                    },
-                },
-                {
                     title: this.$t('application_settings'),
                     action: {
                         type: 'route',
@@ -447,31 +369,10 @@ export default {
                     },
                 },
                 {
-                    title: this.$t('login_registration_settings'),
-                    action: {
-                        type: 'route',
-                        value: 'AppSignInUp',
-                    },
-                },
-                {
                     title: this.$t('appearance_settings'),
                     action: {
                         type: 'route',
                         value: 'AppAppearance',
-                    },
-                },
-                {
-                    title: this.$t('adsense_settings'),
-                    action: {
-                        type: 'route',
-                        value: 'AppAdsense',
-                    },
-                },
-                {
-                    title: this.$t('homepage_settings'),
-                    action: {
-                        type: 'route',
-                        value: 'AppIndex',
                     },
                 },
                 {
@@ -519,20 +420,6 @@ export default {
                         value: 'Trash',
                     },
                 },
-                {
-                    title: this.$t('go_to_team_folders'),
-                    action: {
-                        type: 'route',
-                        value: 'TeamFolders',
-                    },
-                },
-                {
-                    title: this.$t('go_to_shared_with_me'),
-                    action: {
-                        type: 'route',
-                        value: 'SharedWithMe',
-                    },
-                },
             ]
 
             let adminActions = [
@@ -568,13 +455,6 @@ export default {
                     },
                 },
                 {
-                    title: this.$t('show_billing'),
-                    action: {
-                        type: 'route',
-                        value: 'Billing',
-                    },
-                },
-                {
                     title: this.$t('empty_your_trash'),
                     action: {
                         type: 'function',
@@ -590,29 +470,7 @@ export default {
                 },
             ]
 
-            let createList = [
-                {
-                    title: this.$t('create_team_folder'),
-                    action: {
-                        type: 'function',
-                        value: 'create-team-folder',
-                    },
-                },
-                {
-                    title: this.$t('create_file_request'),
-                    action: {
-                        type: 'function',
-                        value: 'create-file-request',
-                    },
-                },
-                {
-                    title: this.$t('remote_upload'),
-                    action: {
-                        type: 'function',
-                        value: 'remote-upload',
-                    },
-                },
-            ]
+            let createList = []
 
             let functionList = [
                 {
@@ -656,31 +514,6 @@ export default {
 
             // Return commands for logged admin
             if (this.isAdmin) {
-                // Available only for fixed subscription
-                if (this.config.subscriptionType === 'fixed') {
-                    adminLocations.push({
-                        title: this.$t('show_all_subscriptions'),
-                        action: {
-                            type: 'route',
-                            value: 'Subscriptions',
-                        },
-                    })
-                }
-
-                // Available only when is metered billing and plan doesnt exist or when is fixed billing
-                if (
-                    (this.config.subscriptionType === 'metered' && !this.config.isCreatedMeteredPlan) ||
-                    this.config.subscriptionType === 'fixed'
-                ) {
-                    adminActions.push({
-                        title: this.$t('create_plan'),
-                        action: {
-                            type: 'route',
-                            value: this.config.subscriptionType === 'fixed' ? 'CreateFixedPlan' : 'CreateMeteredPlan',
-                        },
-                    })
-                }
-
                 return [].concat.apply(
                     [],
                     [functionList, createList, userSettings, fileLocations, adminLocations, adminActions]
@@ -819,18 +652,6 @@ export default {
                 if (arg.action.value === 'empty-trash') {
                     this.$emptyTrashQuietly()
                 }
-
-                if (arg.action.value === 'create-team-folder') {
-                    this.$createTeamFolder()
-                }
-
-                if (arg.action.value === 'create-file-request') {
-                    this.$createFileRequest()
-                }
-
-                if (arg.action.value === 'remote-upload') {
-                    this.$openRemoteUploadPopup()
-                }
             }
 
             this.exitSpotlight()
@@ -854,15 +675,6 @@ export default {
                             id: file.data.id,
                         },
                     })
-                } else if (file.data.attributes.isTeamFolder) {
-					let route = file.data.relationships.user.data.id === this.user.data.id
-						? 'TeamFolders'
-						: 'SharedWithMe'
-
-					this.$router.push({
-						name: route,
-						params: { id: file.data.id },
-					})
                 } else {
                     this.$router.push({
                         name: 'Files',

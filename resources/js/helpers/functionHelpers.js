@@ -141,14 +141,6 @@ const FunctionHelpers = {
             return source ? store.getters.config.host + '/' + source : ''
         }
 
-        Vue.prototype.$getCreditCardBrand = function (brand) {
-            return `/assets/icons/${brand}.svg`
-        }
-
-        Vue.prototype.$getInvoiceLink = function (id) {
-            return '/invoices/' + id
-        }
-
         Vue.prototype.$uploadFiles = async function (files) {
             // Show alert message when upload is disabled
             if (store.getters.user && !store.getters.user.data.meta.restrictions.canUpload) {
@@ -289,14 +281,11 @@ const FunctionHelpers = {
                 return store.getters.currentFolder.data.attributes.name
             } else {
                 return {
-                    RequestUpload: this.$t('home'),
                     RecentUploads: this.$t('menu.latest'),
                     MySharedItems: this.$t('publicly_shared'),
                     Trash: this.$t('trash'),
                     Public: this.$t('menu.files'),
                     Files: this.$t('sidebar.home'),
-                    TeamFolders: this.$t('team_folders'),
-                    SharedWithMe: this.$t('shared_with_me'),
                 }[this.$route.name]
             }
         }
@@ -308,8 +297,6 @@ const FunctionHelpers = {
                 Trash: this.$t('trash'),
                 Public: this.$t('menu.files'),
                 Files: this.$t('sidebar.home'),
-                TeamFolders: this.$t('team_folders'),
-                SharedWithMe: this.$t('shared_with_me'),
             }[this.$route.name]
         }
 
@@ -320,87 +307,19 @@ const FunctionHelpers = {
                 Trash: 'trash2',
                 Public: 'hard-drive',
                 Files: 'hard-drive',
-                TeamFolders: 'users',
-                SharedWithMe: 'user-check',
             }[this.$router.currentRoute.name]
         }
 
         Vue.prototype.$getDataByLocation = function () {
             let routes = {
-                RequestUpload: ['getUploadRequestFolder', router.currentRoute.params.id || undefined ],
                 Public: ['getSharedFolder', router.currentRoute.params.id || undefined],
                 Files: ['getFolder', router.currentRoute.params.id || undefined],
                 RecentUploads: ['getRecentUploads'],
                 MySharedItems: ['getMySharedItems'],
                 Trash: ['getTrash', router.currentRoute.params.id || undefined],
-                TeamFolders: ['getTeamFolder', router.currentRoute.params.id || undefined],
-                SharedWithMe: ['getSharedWithMeFolder', router.currentRoute.params.id || undefined],
             }
 
             store.dispatch(...routes[router.currentRoute.name])
-        }
-
-        Vue.prototype.$getPaymentLogo = function (driver) {
-            return (
-                {
-                    paypal: store.getters.isDarkMode
-                        ? '/assets/payments/paypal-dark.svg'
-                        : '/assets/payments/paypal.svg',
-                    paystack: store.getters.isDarkMode
-                        ? '/assets/payments/paystack-dark.svg'
-                        : '/assets/payments/paystack.svg',
-                    stripe: '/assets/payments/stripe.svg',
-                    system: store.getters.isDarkMode
-                        ? this.$getImage(store.getters.config.app_logo_horizontal_dark)
-                        : this.$getImage(store.getters.config.app_logo_horizontal),
-                }[driver] || this.$getImage(store.getters.config.app_logo_horizontal)
-            )
-        }
-
-        Vue.prototype.$getSocialLogo = function (driver) {
-            return {
-                google: '/assets/socials/google.svg',
-                facebook: '/assets/socials/facebook.svg',
-                github: store.getters.isDarkMode ? '/assets/socials/github-dark.svg' : '/assets/socials/github.svg',
-            }[driver]
-        }
-
-        Vue.prototype.$getSubscriptionStatusColor = function (status) {
-            return {
-                active: 'green',
-                cancelled: 'yellow',
-                completed: 'purple',
-            }[status]
-        }
-
-        Vue.prototype.$getTransactionStatusColor = function (status) {
-            return {
-                completed: 'green',
-                cancelled: 'yellow',
-                error: 'red',
-            }[status]
-        }
-
-        Vue.prototype.$getTransactionTypeColor = function (type) {
-            return {
-                credit: 'green',
-                charge: 'purple',
-                withdrawal: 'red',
-            }[type]
-        }
-
-        Vue.prototype.$getTransactionStatusColor = function (type) {
-            return {
-                completed: 'green',
-                error: 'red',
-            }[type]
-        }
-
-        Vue.prototype.$getPlanStatusColor = function (type) {
-            return {
-                active: 'green',
-                archived: 'red',
-            }[type]
         }
 
         Vue.prototype.$getUserRoleColor = function (role) {
@@ -410,28 +329,9 @@ const FunctionHelpers = {
             }[role]
         }
 
-        Vue.prototype.$getTransactionTypeTextColor = function (type) {
-            return {
-                withdrawal: 'text-red',
-                credit: 'text-green',
-                charge: '',
-            }[type]
-        }
-
-        Vue.prototype.$getTransactionMark = function (type) {
-            return {
-                withdrawal: '-',
-                credit: '+',
-                charge: '',
-            }[type]
-        }
-
         Vue.prototype.$goToFileView = function (id) {
             let locations = {
-                RequestUpload: {name: 'RequestUpload', params: { token: this.$route.params.token, id: id }},
                 Public: {name: 'Public', params: { token: this.$route.params.token, id: id }},
-                TeamFolders: { name: 'TeamFolders', params: { id: id } },
-                SharedWithMe: { name: 'SharedWithMe', params: { id: id } },
                 MySharedItems: { name: 'Files', params: { id: id } },
                 Trash: { name: 'Trash', params: { id: id } },
                 Files: { name: 'Files', params: { id: id } },
@@ -524,19 +424,6 @@ const FunctionHelpers = {
             })
         }
 
-        Vue.prototype.$mapIntoMemberResource = function (entry) {
-            return {
-                data: {
-                    attributes: {
-                        avatar: entry.avatar,
-                        name: entry.name,
-                        email: entry.email,
-                        color: entry.color,
-                    },
-                },
-            }
-        }
-
         Vue.prototype.$closePopup = function () {
             events.$emit('popup:close')
         }
@@ -560,18 +447,6 @@ const FunctionHelpers = {
 
         Vue.prototype.$showMobileMenu = function (name) {
             events.$emit('mobile-menu:show', name)
-        }
-
-        Vue.prototype.$openSubscribeOptions = function () {
-            events.$emit('popup:open', { name: 'select-plan-subscription' })
-        }
-
-        Vue.prototype.$changeSubscriptionOptions = function () {
-            events.$emit('popup:open', { name: 'change-plan-subscription' })
-        }
-
-        Vue.prototype.$openRemoteUploadPopup = function () {
-            events.$emit('popup:open', {name: 'remote-upload'})
         }
     },
 }

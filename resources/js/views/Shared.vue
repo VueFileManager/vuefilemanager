@@ -7,7 +7,6 @@
         <!--Popups-->
         <ProcessingPopup />
 
-		<RemoteUploadPopup />
         <CreateFolderPopup />
         <RenameItemPopup />
         <MoveItemPopup />
@@ -30,9 +29,6 @@
             <DesktopSharepageToolbar />
 
             <MobileToolbar />
-
-            <!--Google Adsense banner-->
-            <div v-if="config.allowedAdsense && config.adsenseBanner01" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
 
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden grow">
@@ -63,12 +59,10 @@ import Alert from '../components/Popups/Alert'
 import { mapGetters } from 'vuex'
 import { events } from '../bus'
 import DesktopSharepageToolbar from '../components/Layout/Toolbars/DesktopSharepageToolbar'
-import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
 
 export default {
     name: 'Shared',
     components: {
-		RemoteUploadPopup,
         DesktopSharepageToolbar,
         MobileToolbar,
         InfoSidebar,

@@ -5,8 +5,6 @@ import router from '../../router'
 
 const defaultState = {
     isVisibleNavigationBars: localStorage.getItem('is_navigation_bars') !== 'false',
-    isVisibleNotificationCenter: false,
-    notificationCount: 0,
     isDarkMode: false,
     isVisibleSidebar: localStorage.getItem('file_info_visibility') === 'true' || false,
     itemViewType: localStorage.getItem('preview_type') || 'list',
@@ -126,60 +124,13 @@ const mutations = {
     REPLACE_CONFIG_VALUE(state, { key, value }) {
         state.config[key] = value
     },
-    SET_SOCIAL_LOGIN_CONFIGURED(state, service) {
-        if (service === 'facebook') {
-            state.config.allowedFacebookLogin = true
-            state.config.isFacebookLoginConfigured = true
-        }
-
-        if (service === 'google') {
-            state.config.allowedGoogleLogin = true
-            state.config.isGoogleLoginConfigured = true
-        }
-
-        if (service === 'github') {
-            state.config.allowedGithubLogin = true
-            state.config.isGithubLoginConfigured = true
-        }
-
-        if (service === 'recaptcha') {
-            state.config.allowedRecaptcha = true
-            state.config.isRecaptchaConfigured = true
-        }
-    },
-    SET_STRIPE_CREDENTIALS(state, data) {
-        state.config.stripe_public_key = data.key
-        state.config.isStripe = true
-    },
-    SET_PAYSTACK_CREDENTIALS(state, data) {
-        state.config.paystack_public_key = data.key
-        state.config.isPaystack = true
-    },
-    SET_PAYPAL_CREDENTIALS(state, data) {
-        state.config.paypal_client_id = data.key
-        state.config.isPayPal = true
-
-        if (data.live)
-            state.config.isPayPalLive = data.live
-    },
     UPDATE_DARK_MODE_STATUS(state, val) {
         state.isDarkMode = val
-    },
-    UPDATE_NOTIFICATION_COUNT(state, val) {
-        state.notificationCount = val
-    },
-    TOGGLE_NOTIFICATION_CENTER(state) {
-        state.isVisibleNotificationCenter = !state.isVisibleNotificationCenter
-    },
-    CLOSE_NOTIFICATION_CENTER(state) {
-        state.isVisibleNotificationCenter = false
     },
 }
 
 const getters = {
-    isVisibleNotificationCenter: (state) => state.isVisibleNotificationCenter,
     isVisibleNavigationBars: (state) => state.isVisibleNavigationBars,
-    notificationCount: (state) => state.notificationCount,
     isVisibleSidebar: (state) => state.isVisibleSidebar,
     itemViewType: (state) => state.itemViewType,
     api: (state) => state.config.api,

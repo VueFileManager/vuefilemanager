@@ -103,64 +103,6 @@ const itemHelpers = {
             }
         }
 
-        Vue.prototype.$dissolveTeamFolder = function (folder) {
-            events.$emit('confirm:open', {
-                title: i18n.t('really_dissolve_team'),
-                message: i18n.t(
-                    'really_dissolve_team_desc'
-                ),
-                action: {
-                    id: folder.data.id,
-                    operation: 'dissolve-team-folder',
-                },
-            })
-        }
-
-        Vue.prototype.$detachMeFromTeamFolder = function (folder) {
-            events.$emit('confirm:open', {
-                title: i18n.t('really_leave_team'),
-                message: i18n.t(
-                    "really_leave_team_desc"
-                ),
-                action: {
-                    id: folder.data.id,
-                    operation: 'leave-team-folder',
-                },
-            })
-        }
-
-        Vue.prototype.$createTeamFolder = function () {
-            // Show alert message when create folder is disabled
-            if (!store.getters.user.data.meta.restrictions.canCreateTeamFolder) {
-                Vue.prototype.$temporarilyDisabledFolderCreate()
-
-                return
-            }
-
-            events.$emit('popup:open', { name: 'create-team-folder' })
-        }
-
-        Vue.prototype.$convertAsTeamFolder = function (entry) {
-            events.$emit('popup:open', {
-                name: 'create-team-folder',
-                item: entry,
-            })
-        }
-
-        Vue.prototype.$createFileRequest = function (entry = undefined) {
-            events.$emit('popup:open', {
-                name: 'create-file-request',
-                item: entry,
-            })
-        }
-
-        Vue.prototype.$updateTeamFolder = function (entry) {
-            events.$emit('popup:open', {
-                name: 'update-team-folder',
-                item: entry,
-            })
-        }
-
         Vue.prototype.$removeFavourite = function (folder) {
             store.dispatch('removeFromFavourites', folder)
         }

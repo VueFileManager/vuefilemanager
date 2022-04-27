@@ -144,8 +144,6 @@ export default {
                 Trash: this.navigation[0].folders,
                 Public: this.navigation[0].folders,
                 Files: this.navigation[0].folders,
-                TeamFolders: this.navigation[1].folders,
-                SharedWithMe: this.navigation[2].folders,
             }[this.$route.name]
         },
     },
@@ -180,28 +178,11 @@ export default {
                         },
                     ],
                 },
-                {
-                    groupCollapsable: true,
-                    groupTitle: this.$t('collaboration'),
-                    groupLinks: [
-                        {
-                            icon: 'users',
-                            route: 'TeamFolders',
-                            title: this.$t('team_folders'),
-                        },
-                        {
-                            icon: 'user-check',
-                            route: 'SharedWithMe',
-                            title: this.$t('shared_with_me'),
-                        },
-                    ],
-                },
             ],
         }
     },
     methods: {
         resetData() {
-            this.$store.commit('SET_CURRENT_TEAM_FOLDER', null)
             this.$store.commit('CLIPBOARD_CLEAR')
         },
         goToFolder(folder) {

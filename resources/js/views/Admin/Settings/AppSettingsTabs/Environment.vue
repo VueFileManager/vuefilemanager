@@ -1,26 +1,5 @@
 <template>
     <PageTab :is-loading="isLoading">
-        <!--Broadcasting setup-->
-        <ValidationObserver
-            @submit.prevent="broadcastSetupSubmit"
-            ref="broadcastSetup"
-            v-slot="{ invalid }"
-            tag="form"
-            class="card shadow-card"
-        >
-            <BroadcastSetup v-model="broadcast" />
-
-            <ButtonBase
-                :loading="isSendingBroadcastForm"
-                :disabled="isSendingBroadcastForm"
-                type="submit"
-                button-style="theme"
-				class="mt-6 w-full sm:mt-7 sm:w-auto"
-            >
-                {{ $t('save_broadcast_settings') }}
-            </ButtonBase>
-        </ValidationObserver>
-
         <!--Storage setup-->
         <ValidationObserver
             @submit.prevent="storageSetupSubmit"
@@ -76,12 +55,10 @@ import PageTab from '../../../../components/Layout/PageTab'
 import MailSetup from '../../../../components/Forms/MailSetup'
 import { events } from '../../../../bus'
 import axios from 'axios'
-import BroadcastSetup from "../../../../components/Forms/BroadcastSetup";
 
 export default {
     name: 'AppEnvironment',
     components: {
-		BroadcastSetup,
         ValidationObserver,
         ValidationProvider,
         StorageSetup,
@@ -99,40 +76,9 @@ export default {
             isLoading: false,
             isSendingEmailForm: false,
             isSendingStorageForm: false,
-            isSendingBroadcastForm: false,
-            broadcast: undefined,
         }
     },
     methods: {
-        async broadcastSetupSubmit() {
-            // Validate fields
-            const isValid = await this.$refs.broadcastSetup.validate()
-
-            if (!isValid) return
-
-            // Start loading
-            this.isSendingBroadcastForm = true
-
-            axios
-                .post('/api/admin/settings/broadcast', { ...this.broadcast })
-                .then(() => {
-                    events.$emit('toaster', {
-                        type: 'success',
-                        message: this.$t('broadcast_driver_updated'),
-                    })
-                })
-                .catch(() => {
-                    events.$emit('toaster', {
-                        type: 'danger',
-                        message: this.$t('popup_error.title'),
-                    })
-                })
-                .finally(() => {
-                    this.isSendingBroadcastForm = false
-
-                    this.broadcast = undefined
-                })
-        },
         async storageSetupSubmit() {
             // Validate fields
             const isValid = await this.$refs.storageSetup.validate()

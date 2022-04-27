@@ -58,42 +58,27 @@
                 {{ $t('user_features') }}
             </FormLabel>
 
-			<!--Available only when is not metered billing-->
-            <div v-if="config.subscriptionType !== 'metered'">
-                <AppInputSwitch
-					:description="$t('admin_settings.others.storage_limit_help')"
-					:title="$t('admin_settings.others.storage_limit')"
-				>
-                    <SwitchInput
-						v-model="app.storageLimitation"
-						:state="app.storageLimitation"
-						class="switch"
-						@input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
-					/>
-                </AppInputSwitch>
+			<AppInputSwitch
+				:description="$t('admin_settings.others.storage_limit_help')"
+				:title="$t('admin_settings.others.storage_limit')"
+			>
+				<SwitchInput
+					v-model="app.storageLimitation"
+					:state="app.storageLimitation"
+					class="switch"
+					@input="$updateText('/admin/settings', 'storage_limitation', app.storageLimitation)"
+				/>
+			</AppInputSwitch>
 
-                <AppInputText v-if="app.storageLimitation" :title="$t('admin_settings.others.default_storage')">
-                    <input
-						v-model="app.defaultStorage"
-						:placeholder="$t('admin_settings.others.default_storage_plac')"
-						class="focus-border-theme input-dark"
-						max="999999999"
-						min="1"
-						type="number"
-						@input="$updateText('/admin/settings', 'default_max_storage_amount', app.defaultStorage)"
-					/>
-                </AppInputText>
-            </div>
-
-			<AppInputText :description="$t('zero_for_unlimited_members')" :is-last="true" :title="$t('max_team_members')">
+			<AppInputText v-if="app.storageLimitation" :title="$t('admin_settings.others.default_storage')">
 				<input
-					v-model="app.teamsDefaultMembers"
+					v-model="app.defaultStorage"
 					:placeholder="$t('admin_settings.others.default_storage_plac')"
 					class="focus-border-theme input-dark"
 					max="999999999"
 					min="1"
 					type="number"
-					@input="$updateText('/admin/settings', 'default_max_team_member', app.teamsDefaultMembers)"
+					@input="$updateText('/admin/settings', 'default_max_storage_amount', app.defaultStorage)"
 				/>
 			</AppInputText>
         </div>
@@ -217,63 +202,6 @@
 				/>
             </AppInputText>
         </div>
-
-		<!--Upgrade License-->
-		<div v-if="app && !config.isSaaS" class="card shadow-card">
-			<FormLabel icon="trending-up">
-				{{ $t('Upgrade your License') }}
-			</FormLabel>
-
-			<ValidationObserver
-				ref="upgradeLicense"
-				v-slot="{ invalid }"
-				class="mt-6"
-				tag="form"
-				@submit.prevent="upgradeLicense"
-			>
-				<ValidationProvider
-					v-slot="{ errors }"
-					mode="passive"
-					name="Purchase Code"
-					rules="required"
-					tag="div"
-				>
-					<AppInputText
-						:error="errors[0]"
-						:is-last="true"
-					>
-						<div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
-							<input
-								v-model="purchaseCode"
-								:class="{ '!border-rose-600': errors[0] }"
-								:placeholder="$t('Paste your Purchase code here...')"
-								class="focus-border-theme input-dark"
-								type="text"
-							/>
-							<ButtonBase :loading="isLoadingUpgradingButton" button-style="theme" class="w-full sm:w-auto" type="submit">
-								{{ $t('Upgrade') }}
-							</ButtonBase>
-						</div>
-					</AppInputText>
-				</ValidationProvider>
-			</ValidationObserver>
-    	</div>
-
-		<!-- Subscription -->
-        <div v-if="app && config.isSaaS" class="card shadow-card">
-            <FormLabel icon="credit-card">
-                {{ $t('subscription') }}
-            </FormLabel>
-
-            <AppInputText :description="$t('subscription_type_note')" :is-last="true" :title="$t('subscription_type')">
-                <SelectInput
-					:default="app.subscriptionType"
-					:options="subscriptionTypes"
-					:placeholder="$t('select_subscription_type')"
-					@change="subscriptionTypeChange"
-				/>
-            </AppInputText>
-        </div>
     </PageTab>
 </template>
 
@@ -310,7 +238,7 @@ export default {
 		PageTab,
 	},
 	computed: {
-		...mapGetters(['subscriptionTypes', 'config']),
+		...mapGetters(['config']),
 	},
 	data() {
 		return {
@@ -330,55 +258,6 @@ export default {
 		}
 	},
 	methods: {
-		async upgradeLicense() {
-			this.isLoadingUpgradingButton = true
-			// Validate fields
-			const isValid = await this.$refs.upgradeLicense.validate()
-
-			if (!isValid) return
-
-			axios.post('/api/admin/upgrade-license', {
-					purchaseCode: this.purchaseCode
-				})
-				.then((response) => {
-					this.$store.dispatch('getLanguageTranslations', this.config.locale)
-
-					this.$store.commit('REPLACE_CONFIG_VALUE', {
-						key: 'isSaaS',
-						value: true,
-					})
-
-					events.$emit('toaster', {
-						type: 'success',
-						message: this.$t('Your license was successfully upgraded'),
-					})
-				})
-				.catch((error) => {
-					if (error.response.status === 400) {
-						events.$emit('alert:open', {
-							title: this.$t('Purchase code is invalid or is not Extended License'),
-						})
-					} else {
-						events.$emit('alert:open', {
-							title: this.$t('popup_error.title'),
-							message: this.$t('popup_error.message'),
-						})
-					}
-				})
-				.finally(() => {
-					this.isLoadingUpgradingButton = false
-				})
-		},
-		subscriptionTypeChange(type) {
-			events.$emit('confirm:open', {
-				title: this.$t('subscription_type_change_warn'),
-				message: this.$t('subscription_type_change_warn_description'),
-				action: {
-					type: type,
-					operation: 'change-subscription-type',
-				},
-			})
-		},
 		async storeCredentials(service) {
 			// Validate fields
 			const isValid = await this.$refs.credentialsForm.validate()
@@ -453,29 +332,9 @@ export default {
 					storageLimitation: parseInt(response.data.storage_limitation),
 					mimetypesBlacklist: response.data.mimetypes_blacklist,
 					uploadLimit: response.data.upload_limit,
-					subscriptionType: response.data.subscriptionType,
 					chunkSize: response.data.chunk_size,
-					teamsDefaultMembers: response.data.default_max_team_member,
 				}
 			})
-	},
-	created() {
-		events.$on('action:confirmed', (data) => {
-			if (data.operation === 'change-subscription-type') {
-
-				// Update database
-				this.$updateText('/admin/settings', 'subscription_type', data.type)
-
-				// Update config
-				this.$store.commit('REPLACE_CONFIG_VALUE', {
-					key: 'subscriptionType',
-					value: data.type,
-				})
-			}
-		})
-	},
-	destroyed() {
-		events.$off('action:confirmed')
 	},
 }
 </script>

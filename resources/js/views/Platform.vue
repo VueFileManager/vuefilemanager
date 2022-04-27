@@ -8,15 +8,9 @@
         <ProcessingPopup />
         <ConfirmPopup />
 
-        <CreateTeamFolderPopup />
-        <EditTeamFolderPopup />
-
         <ShareCreatePopup />
         <ShareEditPopup />
 
-        <CreateUploadRequestPopup />
-		<NotificationsPopup />
-		<RemoteUploadPopup />
         <CreateFolderPopup />
         <RenameItemPopup />
         <MoveItemPopup />
@@ -42,9 +36,6 @@
 
             <MobileToolbar />
 
-            <!--Google Adsense banner-->
-            <div v-if="config.allowedAdsense && config.adsenseBanner01" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
-
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden grow">
                 <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
@@ -64,7 +55,6 @@ import ProcessingPopup from '../components/Popups/ProcessingPopup'
 import MobileNavigation from '../components/Mobile/MobileNavigation'
 import ShareCreatePopup from '../components/Popups/ShareCreatePopup'
 import DesktopToolbar from '../components/Layout/Toolbars/DesktopToolbar'
-import CreateTeamFolderPopup from '../components/Teams/CreateTeamFolderPopup'
 import ConfirmPopup from '../components/Popups/ConfirmPopup'
 import RenameItemPopup from '../components/Popups/RenameItemPopup'
 import PanelNavigationFiles from '../components/EntriesView/PanelNavigationFiles'
@@ -72,25 +62,16 @@ import MobileToolbar from '../components/Layout/Toolbars/MobileToolbar'
 import ShareEditPopup from '../components/Popups/ShareEditPopup'
 import FilePreview from '../components/FilePreview/FilePreview'
 import MoveItemPopup from '../components/Popups/MoveItemPopup'
-import EditTeamFolderPopup from '../components/Teams/EditTeamFolderPopup'
 import Spotlight from '../components/Spotlight/Spotlight'
 import DragUI from '../components/UI/Others/DragUI'
 import InfoSidebar from '../components/Layout/Sidebars/InfoSidebar'
 import { events } from '../bus'
 import { mapGetters } from 'vuex'
-import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
-import NotificationsPopup from "../components/Notifications/NotificationsPopup";
-import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
 
 export default {
     name: 'Platform',
     components: {
-		RemoteUploadPopup,
-		NotificationsPopup,
-		CreateUploadRequestPopup,
-        CreateTeamFolderPopup,
         PanelNavigationFiles,
-        EditTeamFolderPopup,
         CreateFolderPopup,
         FileSortingMobile,
         SidebarNavigation,
@@ -110,7 +91,7 @@ export default {
         DragUI,
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'isLimitedUser', 'config']),
+        ...mapGetters(['isVisibleSidebar', 'config']),
     },
     data() {
         return {

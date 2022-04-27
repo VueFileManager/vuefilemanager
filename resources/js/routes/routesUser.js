@@ -34,15 +34,6 @@ const routesUser = [
                     title: 'storage',
                 },
             },
-            {
-                name: 'Billing',
-                path: '/user/settings/billing',
-                component: () => import(/* webpackChunkName: "chunks/billing" */ '../views/User/Billing'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'billing',
-                },
-            },
         ],
     },
 ]

@@ -4,12 +4,6 @@
         <FilePreview />
         <Spotlight />
 
-		<!--Spotlight Addons-->
-		<CreateUploadRequestPopup />
-		<CreateTeamFolderPopup />
-		<NotificationsPopup />
-		<RemoteUploadPopup />
-
 		<!--Mobile Navigation-->
         <MobileNavigation />
 
@@ -18,7 +12,6 @@
 
         <!-- Create language popup -->
         <CreateLanguage />
-
         <MobileNavigationToolbar />
 
         <ContentSidebar>
@@ -84,61 +77,13 @@ import {
     UsersIcon,
 } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
-import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
-import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
-import NotificationsPopup from "../components/Notifications/NotificationsPopup";
-import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
 
 export default {
     name: 'Admin',
     computed: {
         ...mapGetters(['isVisibleNavigationBars', 'config']),
         nav() {
-            let subscriptionLinks = {
-                metered: [
-                    {
-                        title: this.$t('payments'),
-                        route: 'PaymentSettings',
-                        icon: 'card',
-                    },
-                    {
-                        title: this.$t('plans'),
-                        route: 'Plans',
-                        icon: 'database',
-                        linkActivation: ['plans', 'plan'],
-                    },
-                    {
-                        title: this.$t('transactions'),
-                        route: 'Invoices',
-                        icon: 'file-text',
-                    },
-                ],
-                fixed: [
-                    {
-                        title: this.$t('payments'),
-                        route: 'PaymentSettings',
-                        icon: 'card',
-                    },
-                    {
-                        title: this.$t('subscriptions'),
-                        route: 'Subscriptions',
-                        icon: 'dollar',
-                    },
-                    {
-                        title: this.$t('plans'),
-                        route: 'Plans',
-                        icon: 'database',
-                        linkActivation: ['plans', 'plan'],
-                    },
-                    {
-                        title: this.$t('transactions'),
-                        route: 'Invoices',
-                        icon: 'file-text',
-                    },
-                ],
-            }[this.config.subscriptionType]
-
-            let sections = [
+			return [
                 {
                     groupCollapsable: false,
                     groupTitle: this.$t('admin'),
@@ -159,43 +104,17 @@ export default {
                             route: 'AppSettings',
                             icon: 'settings',
                         },
-                    ],
-                },
-                {
-                    groupCollapsable: false,
-                    groupTitle: this.$t('content'),
-                    groupLinks: [
-                        {
-                            title: this.$t('pages'),
-                            route: 'Pages',
-                            icon: 'monitor',
-                        },
-                        {
-                            title: this.$t('languages'),
-                            route: 'Language',
-                            icon: 'globe',
-                        },
+						{
+							title: this.$t('languages'),
+							route: 'Language',
+							icon: 'globe',
+						},
                     ],
                 },
             ]
-
-            // Push subscription if there is metered or fixed type
-            if (this.config.subscriptionType !== 'none') {
-                sections.push({
-                    groupCollapsable: false,
-                    groupTitle: this.$t('subscription'),
-                    groupLinks: subscriptionLinks,
-                })
-            }
-
-            return sections
         },
     },
     components: {
-		RemoteUploadPopup,
-		NotificationsPopup,
-		CreateTeamFolderPopup,
-		CreateUploadRequestPopup,
         MobileNavigationToolbar,
         FilePreview,
         Spotlight,

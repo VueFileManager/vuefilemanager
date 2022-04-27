@@ -136,8 +136,6 @@
                 </div>
             </ValidationObserver>
 
-            <SocialLoginButtons />
-
             <span class="block"
                 >{{ $t('page_registration.have_an_account') }}
                 <router-link :to="{ name: 'SignIn' }" class="text-theme font-bold">
@@ -154,7 +152,6 @@ import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWra
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent'
 import AuthButton from '../../components/UI/Buttons/AuthButton'
-import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons'
 import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
@@ -163,7 +160,6 @@ import axios from 'axios'
 export default {
     name: 'SignUp',
     components: {
-        SocialLoginButtons,
         AuthContentWrapper,
         ValidationProvider,
         ValidationObserver,

@@ -43,7 +43,7 @@
             <ListInfoItem :title="$t('created_at')" :content="singleFile.data.attributes.created_at" />
 
 			<!--Location-->
-            <ListInfoItem v-if="$checkPermission(['master']) && !isTeamsHomepage" :title="$t('where')">
+            <ListInfoItem v-if="$checkPermission(['master'])" :title="$t('where')">
                 <div @click="$moveFileOrFolder(singleFile)" class="flex cursor-pointer items-center">
                     <b class="inline-block text-sm font-bold">
                         {{
@@ -84,16 +84,6 @@
                 </div>
             </ListInfoItem>
 
-			<!--Author-->
-            <ListInfoItem v-if="canShowAuthor" :title="$t('author')">
-                <div class="mt-1.5 flex items-center">
-                    <MemberAvatar :size="32" :member="singleFile.data.relationships.creator" />
-                    <span class="ml-3 block text-sm font-bold">
-                        {{ singleFile.data.relationships.creator.data.attributes.name }}
-                    </span>
-                </div>
-            </ListInfoItem>
-
 			<!--Metadata-->
             <ListInfoItem v-if="canShowMetaData" :title="$t('meta_data')">
                 <ImageMetaData />
@@ -108,7 +98,6 @@ import CopyShareLink from '../../Inputs/CopyShareLink'
 import {Edit2Icon, LockIcon, UnlockIcon, EyeOffIcon} from 'vue-feather-icons'
 import ImageMetaData from '../../UI/Others/ImageMetaData'
 import TitlePreview from '../../UI/Labels/TitlePreview'
-import TeamMembersPreview from '../../Teams/Components/TeamMembersPreview'
 import ListInfoItem from '../../UI/List/ListInfoItem'
 import MemberAvatar from '../../UI/Others/MemberAvatar'
 import {mapGetters} from 'vuex'
@@ -116,7 +105,6 @@ import {mapGetters} from 'vuex'
 export default {
 	name: 'InfoSidebar',
 	components: {
-		TeamMembersPreview,
 		FilePreviewDetail,
 		ImageMetaData,
 		CopyShareLink,
@@ -155,17 +143,6 @@ export default {
 			})
 
 			return title ? this.$t(title.label) : this.$t('can_download_file')
-		},
-		canShowAuthor() {
-			return (
-				this.$isThisRoute(this.$route, ['SharedWithMe', 'TeamFolders'])
-				&& this.clipboard[0].data.type !== 'folder'
-				&& this.clipboard[0].data.relationships.creator
-				&& this.user.data.id !== this.clipboard[0].data.relationships.creator.data.id
-			)
-		},
-		isTeamsHomepage() {
-			return this.$isThisRoute(this.$route, ['TeamFolders', 'SharedWithMe']) && !this.$route.params.id
 		},
 	},
 }

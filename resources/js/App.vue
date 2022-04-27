@@ -4,13 +4,9 @@
         <Alert />
         <ToasterWrapper />
         <CookieDisclaimer />
-		<RemoteUploadProgress />
 
         <!--Show spinner before translations is loaded-->
         <Spinner v-if="!isLoaded" />
-
-        <!--Show warning bar when user functionality is restricted-->
-        <RestrictionWarningBar />
 
 		<div :class="{'lg:flex': isSidebarNavigation}">
 			<SidebarNavigation v-if="isSidebarNavigation" />
@@ -23,8 +19,6 @@
 </template>
 
 <script>
-import RestrictionWarningBar from './components/Subscription/RestrictionWarningBar'
-import RemoteUploadProgress from "./components/RemoteUpload/RemoteUploadProgress"
 import ToasterWrapper from './components/Toaster/ToasterNotifications'
 import SidebarNavigation from "./components/Sidebar/SidebarNavigation"
 import CookieDisclaimer from './components/UI/Others/CookieDisclaimer'
@@ -37,8 +31,6 @@ import { events } from './bus'
 export default {
     name: 'App',
     components: {
-        RestrictionWarningBar,
-		RemoteUploadProgress,
 		SidebarNavigation,
         CookieDisclaimer,
         ToasterWrapper,

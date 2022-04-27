@@ -26,20 +26,8 @@ export default {
                     route: 'AppOthers',
                 },
                 {
-                    title: this.$t('login_and_registration'),
-                    route: 'AppSignInUp',
-                },
-                {
                     title: this.$t('appearance'),
                     route: 'AppAppearance',
-                },
-                {
-                    title: this.$t('Adsense'),
-                    route: 'AppAdsense',
-                },
-                {
-                    title: this.$t('homepage'),
-                    route: 'AppIndex',
                 },
                 {
                     title: this.$t('environment'),

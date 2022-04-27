@@ -5,12 +5,6 @@
         <NavigationBar />
 
         <div class="relative flex items-center">
-            <TeamMembersButton
-                v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])"
-                size="28"
-                @click.stop.native="$showMobileMenu('team-menu')"
-                class="absolute right-10"
-            />
 
             <!--More Actions-->
             <div class="flex items-center relative mr-[4px]">
@@ -24,8 +18,6 @@
 </template>
 
 <script>
-import TeamMembersPreview from '../../Teams/Components/TeamMembersPreview'
-import TeamMembersButton from '../../Teams/Components/TeamMembersButton'
 import { MenuIcon } from 'vue-feather-icons'
 import NavigationBar from './NavigationBar'
 
@@ -33,8 +25,6 @@ export default {
     name: 'MobileToolBar',
     components: {
         NavigationBar,
-        TeamMembersPreview,
-        TeamMembersButton,
         MenuIcon,
     },
     methods: {

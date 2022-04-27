@@ -12,27 +12,14 @@
                     :title="item.data.relationships.shared ? $t('edit_sharing') : $t('share')"
                     icon="share"
                 />
-                <Option
-                    @click.native="$convertAsTeamFolder(item)"
-                    v-if="isFolder"
-                    :title="$t('convert_as_team_folder')"
-                    icon="users"
-                />
-				<Option
-					@click.native="$createFileRequest(item)"
-					v-if="isFolder"
-					:title="$t('file_request')"
-					icon="upload-cloud"
-				/>
             </OptionGroup>
-
             <OptionGroup v-if="item">
                 <Option @click.native="$downloadSelection(item)" :title="$t('download')" icon="download" />
             </OptionGroup>
         </MobileContextMenu>
 
         <MobileCreateMenu>
-            <OptionGroup :title="$t('frequently_used')">
+            <OptionGroup :title="$t('create')">
                 <OptionUpload
                     :title="$t('upload_files')"
                     type="file"
@@ -44,25 +31,6 @@
                     icon="folder-plus"
                     :is-hover-disabled="true"
                 />
-            </OptionGroup>
-            <OptionGroup :title="$t('others')">
-				<Option
-					@click.stop.native="$openRemoteUploadPopup"
-					:title="$t('remote_upload')"
-					icon="remote-upload"
-				/>
-                <Option
-                    @click.stop.native="$createTeamFolder"
-                    :title="$t('create_team_folder')"
-                    icon="users"
-                    :is-hover-disabled="true"
-                />
-				<Option
-					@click.native="$createFileRequest"
-					:title="$t('create_file_request')"
-					icon="upload-cloud"
-					:is-hover-disabled="true"
-				/>
             </OptionGroup>
         </MobileCreateMenu>
 
@@ -131,18 +99,6 @@
                             item.data.relationships.shared ? $t('edit_sharing') : $t('share')
                         "
                         icon="share"
-                    />
-                    <Option
-                        @click.native="$convertAsTeamFolder(item)"
-                        v-if="isFolder"
-                        :title="$t('convert_as_team_folder')"
-                        icon="user-plus"
-                    />
-                    <Option
-                        @click.native="$createFileRequest(item)"
-                        v-if="isFolder"
-                        :title="$t('file_request')"
-                        icon="upload-cloud"
                     />
                 </OptionGroup>
                 <OptionGroup>

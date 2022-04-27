@@ -26,9 +26,6 @@
             <DesktopUploadRequestToolbar v-if="canShowUI" />
             <MobileUploadRequestToolBar v-if="canShowUI" />
 
-            <!--Google Adsense banner-->
-            <div v-if="config.allowedAdsense && config.adsenseBanner01" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
-
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden grow">
                 <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />

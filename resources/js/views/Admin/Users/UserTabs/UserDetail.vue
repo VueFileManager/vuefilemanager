@@ -71,67 +71,6 @@
                 />
             </AppInputText>
         </div>
-        <div class="card shadow-card">
-            <FormLabel>{{ $t('billing_information') }}</FormLabel>
-            <AppInputText :title="$t('name')">
-                <input
-                    :value="user.data.relationships.settings.data.attributes.name"
-                    type="text"
-                    class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
-                    disabled
-                />
-            </AppInputText>
-            <AppInputText :title="$t('address')">
-                <input
-                    :value="user.data.relationships.settings.data.attributes.address"
-                    type="text"
-                    disabled
-                    class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
-                />
-            </AppInputText>
-            <AppInputText :title="$t('country')">
-                <input
-                    :value="user.data.relationships.settings.data.attributes.country"
-                    type="text"
-                    disabled
-                    class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
-                />
-            </AppInputText>
-            <div class="flex space-x-4">
-                <AppInputText :title="$t('city')" class="w-full">
-                    <input
-                        :value="user.data.relationships.settings.data.attributes.city"
-                        type="text"
-                        disabled
-                        class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
-                    />
-                </AppInputText>
-                <AppInputText :title="$t('postal_code')" class="w-full">
-                    <input
-                        :value="user.data.relationships.settings.data.attributes.postal_code"
-                        type="text"
-                        disabled
-                        class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
-                    />
-                </AppInputText>
-            </div>
-            <AppInputText :title="$t('state')">
-                <input
-                    :value="user.data.relationships.settings.data.attributes.state"
-                    type="text"
-                    disabled
-                    class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
-                />
-            </AppInputText>
-            <AppInputText :title="$t('phone_number')" :is-last="true">
-                <input
-                    :value="user.data.relationships.settings.data.attributes.phone_number"
-                    type="text"
-                    disabled
-                    class="focus-border-theme input-dark disabled:text-gray-900 disabled:opacity-100"
-                />
-            </AppInputText>
-        </div>
     </PageTab>
 </template>
 

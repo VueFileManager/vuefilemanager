@@ -57,16 +57,4 @@ class AppUpgradeTest extends TestCase
                 ]);
             });
     }
-
-    /**
-     * @test
-     */
-    public function it_upgrade_app()
-    {
-        resolve(UpdateSystemAction::class)();
-
-        $this->assertDatabaseHas('app_updates', [
-            'version' => '2_0_10',
-        ]);
-    }
 }

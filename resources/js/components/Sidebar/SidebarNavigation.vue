@@ -7,26 +7,6 @@
         <div v-if="user" class="mb-auto text-center">
             <MemberAvatar class="mx-auto" :size="44" :is-border="false" :member="user" />
 
-            <!--Usage-->
-            <div
-                v-if="config.subscriptionType === 'metered' && user.data.meta.usages"
-                class="mt-2.5 text-center leading-3"
-            >
-                <b class="text-theme block text-xs font-bold leading-3">
-                    {{ user.data.meta.usages.costEstimate }}
-                </b>
-                <span class="text-xs text-gray-500">
-                    {{ $t('usage') }}
-                </span>
-            </div>
-
-            <!--Navigation-->
-            <div class="mt-2 relative">
-                <NotificationBell @click.native="$store.commit('TOGGLE_NOTIFICATION_CENTER')" class="hover:bg-light-300 dark:hover:bg-4x-dark-foreground" />
-            </div>
-
-			<NotificationCenter v-if="isVisibleNotificationCenter" />
-
             <!--Navigation-->
             <div class="mt-6">
                 <router-link
@@ -75,14 +55,10 @@
 import MemberAvatar from '../UI/Others/MemberAvatar'
 import {mapGetters} from 'vuex'
 import {HardDriveIcon, MoonIcon, PowerIcon, SettingsIcon, SunIcon, UserIcon,} from 'vue-feather-icons'
-import NotificationCenter from "../Notifications/NotificationCenter"
-import NotificationBell from "../Notifications/Components/NotificationBell";
 
 export default {
     name: 'SidebarNavigation',
     components: {
-		NotificationBell,
-		NotificationCenter,
 		HardDriveIcon,
         SettingsIcon,
         MemberAvatar,
@@ -92,7 +68,7 @@ export default {
         SunIcon,
     },
     computed: {
-        ...mapGetters(['isVisibleNavigationBars', 'isDarkMode', 'config', 'user', 'isVisibleNotificationCenter']),
+        ...mapGetters(['isVisibleNavigationBars', 'isDarkMode', 'config', 'user']),
         navigation() {
             if (this.user.data.attributes.role === 'admin') {
                 return [
@@ -133,11 +109,6 @@ export default {
             ]
         },
     },
-	data() {
-		return {
-			isNotificationCenter: false,
-		}
-	},
     methods: {
         isSection(section) {
             return this.$route.matched[0].name === section
