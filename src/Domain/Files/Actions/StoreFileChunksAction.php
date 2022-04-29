@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Domain\Files\Requests\UploadRequest;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Str;
 
 class StoreFileChunksAction
 {
@@ -17,7 +18,7 @@ class StoreFileChunksAction
         $file = $request->file('file');
 
         // Get chunk name
-        $name = $file->getClientOriginalName();
+        $name = Str::uuid() . '.' . $request->input('extension');
 
         // Get chunk file path
         $path = Storage::disk('local')->path("chunks/$name");
