@@ -1,5 +1,5 @@
 <?php
-namespace Domain\Files\Requests;
+namespace Domain\RemoteUpload\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

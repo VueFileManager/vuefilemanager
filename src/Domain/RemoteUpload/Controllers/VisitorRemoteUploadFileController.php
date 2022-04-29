@@ -4,7 +4,7 @@ namespace Domain\RemoteUpload\Controllers;
 use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
-use Domain\Files\Requests\RemoteUploadRequest;
+use Domain\RemoteUpload\Requests\RemoteUploadRequest;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
 use Domain\RemoteUpload\Actions\GetContentFromExternalSource;
