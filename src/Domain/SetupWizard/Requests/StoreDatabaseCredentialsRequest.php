@@ -28,7 +28,7 @@ class StoreDatabaseCredentialsRequest extends FormRequest
             'port'       => 'required|string',
             'name'       => 'required|string',
             'username'   => 'required|string',
-            'password'   => 'required|string',
+            'password'   => 'nullable|sometimes|string',
         ];
     }
 }

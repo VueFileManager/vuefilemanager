@@ -82,7 +82,7 @@
                         <input
                             v-model="databaseCredentials.name"
                             class="focus-border-theme input-dark"
-                            placeholder="Select your database name"
+                            placeholder="Type your database name"
                             type="text"
                             :class="{ '!border-rose-600': errors[0] }"
                         />
@@ -100,7 +100,7 @@
                         <input
                             v-model="databaseCredentials.username"
                             class="focus-border-theme input-dark"
-                            placeholder="Select your database name"
+                            placeholder="Type your database name"
                             type="text"
                             :class="{ '!border-rose-600': errors[0] }"
                         />
@@ -111,14 +111,13 @@
                     tag="div"
                     mode="passive"
                     name="Database Password"
-                    rules="required"
                     v-slot="{ errors }"
                 >
-                    <AppInputText title="Database Password" :error="errors[0]" :is-last="true">
+                    <AppInputText title="Database Password (optional)" :error="errors[0]" :is-last="true">
                         <input
                             v-model="databaseCredentials.password"
                             class="focus-border-theme input-dark"
-                            placeholder="Select your database password"
+                            placeholder="Type your database password"
                             type="text"
                             :class="{ '!border-rose-600': errors[0] }"
                         />
