@@ -27,7 +27,7 @@ class ShareController extends Controller
     public function store(
         CreateShareRequest $request,
         SendViaEmailAction $sendLinkToEmailAction,
-    ): ShareResource {
+    ): Response {
         $item = get_item($request->input('type'), $request->input('id'));
 
         $this->authorize('owner', $item);
@@ -52,7 +52,7 @@ class ShareController extends Controller
         }
 
         // Return created shared record
-        return new ShareResource($shared);
+        return response(new ShareResource($shared), 201);
     }
 
     /**

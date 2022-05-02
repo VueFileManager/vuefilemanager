@@ -35,7 +35,7 @@ class FavouriteController extends Controller
     /**
      * Remove folder from user favourites
      */
-    public function destroy(string $id): Response|Collection
+    public function destroy(string $id): Response
     {
         $user = Auth::user();
 

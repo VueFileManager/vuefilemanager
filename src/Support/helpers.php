@@ -476,7 +476,7 @@ if (! function_exists('make_single_input')) {
         $data = [];
 
         // Add data to array
-        $data[$request->name] = $request->value;
+        $data[$request->input('name')] = $request->input('value');
 
         // Return input
         return $data;
