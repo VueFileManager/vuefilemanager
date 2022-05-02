@@ -31,7 +31,7 @@ class StoreExifDataAction
             $exif = json_decode(json_encode($exifRaw));
 
             return Exif::create([
-                'file_id'            => Str::uuid(), // TODO: temporary store to prevent crash before app will be successfully upgraded
+                'file_id'            => Str::uuid(),
                 'date_time_original' => $exif->DateTimeOriginal ?? null,
                 'artist'             => $exif->OwnerName ?? null,
                 'width'              => $exif->COMPUTED->Width ?? null,
