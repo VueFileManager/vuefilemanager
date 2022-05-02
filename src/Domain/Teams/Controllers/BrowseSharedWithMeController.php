@@ -53,8 +53,8 @@ class BrowseSharedWithMeController
             'links'      => $links,
             'meta'       => [
                 'paginate' => $paginate,
-                'root'     => $id ? new FolderResource(Folder::findOrFail($id)) : null
-            ]
+                'root'     => $id ? new FolderResource(Folder::findOrFail($id)) : null,
+            ],
         ];
     }
 }

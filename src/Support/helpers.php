@@ -9,15 +9,13 @@ use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
-use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\DB;
+use Domain\Settings\Models\Setting;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Domain\Localization\Models\Language;
-use Domain\Files\Resources\FilesCollection;
-use Domain\Folders\Resources\FolderCollection;
 use Intervention\Image\ImageManagerStatic as Image;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -1152,30 +1150,20 @@ if (! function_exists('replace_occurrence')) {
         }
     }
 
-    if(! function_exists('groupPaginate')) {
+    if (! function_exists('generatePaginationCounts')) {
         /**
          * Group paginate of Foldes and Files
          */
-        function groupPaginate(
-            ?Collection $folders = null,
-            ?Collection $files = null,
+        function generatePaginationCounts(
             int $totalItemsCount
         ) : array {
-
             $perPage = config('vuefilemanager.paginate.perPage');
-            $currentPage = request()->input('page') === 'all' ? 1 : (int)request()->input('page');
-
-              // Collect Folders with Files
-            $entries = collect([
-                $folders ? json_decode((new FolderCollection($folders))->toJson(), true) : null,
-                $files   ? json_decode((new FilesCollection($files))->toJson(), true) : null,
-            ])->collapse();
+            $currentPage = request()->input('page') === 'all' ? 1 : (int) request()->input('page');
 
             $uri = request()->fullUrl();
             $lastPage = ceil($totalItemsCount / $perPage);
               
             return [
-                $entries, 
                 [
                     'currentPage'   => $currentPage,
                     'from'          => 1,
@@ -1188,28 +1176,29 @@ if (! function_exists('replace_occurrence')) {
                 [
                     'first'         => $uri . '&page=' . 1,
                     'last'          => $uri . '&page=' . $lastPage,
-                    'next'          => $currentPage == $lastPage ? null :  $uri . '&page=' . $currentPage + 1,
-                    'prev'          => $currentPage == 1 ? null : $uri . '&page=' . $currentPage -1,
-                ]
+                    'next'          => $currentPage == $lastPage ? null : $uri . '&page=' . $currentPage + 1,
+                    'prev'          => $currentPage == 1 ? null : $uri . '&page=' . $currentPage - 1,
+                ],
             ];
         }
-
-    if(! function_exists('getRecordsCount')) {
+    }
+    
+    if (! function_exists('getRecordsCount')) {
         /**
          * Get count of items from the Database
          */
-        function getRecordsCount (
-            array $folderQuery, 
-            array $fileQuery
-            ) : array {
-
+        function getRecordsCount(
+            array $folderQuery,
+            array $fileQuery,
+            string $page
+        ) : array {
             $perPage = config('vuefilemanager.paginate.perPage');
-            $currentPage = request()->input('page') === 'all' ? 1 : (int)request()->input('page');
+            $currentPage = $page === 'all' ? 1 : (int) $page;
 
             $foldersSkip = 0;
             $foldersTake = 0;
-            $filesSkip   = 0;
-            $filesTake   = 0; 
+            $filesSkip = 0;
+            $filesTake = 0;
 
             $foldersCount = DB::table('folders')
                 ->where($folderQuery)
@@ -1221,34 +1210,32 @@ if (! function_exists('replace_occurrence')) {
 
             $totalItemsCount = $foldersCount + $filesCount;
 
-            if(request()->input('page') !== 'all') {
-
+            if ($page !== 'all') {
                 // Folders pages
-                if($foldersCount >= $currentPage * $perPage) {
+                if ($foldersCount >= $currentPage * $perPage) {
                     $foldersTake = $perPage;
                     $foldersSkip = ($currentPage - 1) * $perPage;
                 }
     
                 // Mixed page
-                if($foldersCount < $currentPage * $perPage && ceil($currentPage) === ceil($foldersCount / $perPage) ) {
+                if ($foldersCount < $currentPage * $perPage && ceil($currentPage) === ceil($foldersCount / $perPage)) {
                     $foldersSkip = ($currentPage - 1) * $perPage;
                     $foldersTake = $foldersCount - $foldersSkip;
-                    $filesTake   = ($currentPage * $perPage) - $foldersCount;
+                    $filesTake = ($currentPage * $perPage) - $foldersCount;
                     $filesSkip = 0;
                 }
     
                 // Files pages
-                if($currentPage > ceil($foldersCount / $perPage)) {
+                if ($currentPage > ceil($foldersCount / $perPage)) {
                     $filesTake = $perPage;
-                    $filesSkip = ((ceil($foldersCount / $perPage) * $perPage) - $foldersCount) + ($currentPage - (ceil($foldersCount / $perPage)) -1) * $perPage;
+                    $filesSkip = ((ceil($foldersCount / $perPage) * $perPage) - $foldersCount) + ($currentPage - (ceil($foldersCount / $perPage)) - 1) * $perPage;
                 }
             } else {
                 $foldersTake = $foldersCount;
-                $filesTake   = $filesCount;
+                $filesTake = $filesCount;
             }
 
             return [$foldersTake, $foldersSkip, $filesTake, $filesSkip, $totalItemsCount];
-        }
         }
     }
 }

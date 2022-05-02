@@ -1,10 +1,10 @@
 <?php
 namespace Domain\Browsing\Controllers;
 
+use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class BrowseTrashContentController
 {
@@ -27,14 +27,12 @@ class BrowseTrashContentController
                 ->where('parent_id', $root_id)
                 ->sortable()
                 ->get();
-
-
         } else {
             // Get folders and files
             $folders_trashed = Folder::onlyTrashed()
-            ->with(['trashedFolders', 'parent'])
-            ->where('user_id', $user_id)
-            ->get(['parent_id', 'id', 'name']);
+                ->with(['trashedFolders', 'parent'])
+                ->where('user_id', $user_id)
+                ->get(['parent_id', 'id', 'name']);
 
             $folders = Folder::onlyTrashed()
                 ->with(['parent'])
@@ -64,7 +62,7 @@ class BrowseTrashContentController
             'meta'  => [
                 'paginate' => $paginate,
                 'root'     => $requestedFolder,
-            ]
+            ],
         ];
     }
 }

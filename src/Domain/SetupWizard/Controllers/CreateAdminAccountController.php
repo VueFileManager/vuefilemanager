@@ -3,7 +3,6 @@ namespace Domain\SetupWizard\Controllers;
 
 use Artisan;
 use App\Users\Models\User;
-use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
@@ -12,6 +11,7 @@ use Domain\Pages\Actions\SeedDefaultPagesAction;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\SetupWizard\Requests\StoreAdminAccountRequest;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
+use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
 
 /**
  * Create and login admin account

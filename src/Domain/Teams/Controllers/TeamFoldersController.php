@@ -61,7 +61,7 @@ class TeamFoldersController extends Controller
             'meta'       => [
                 'paginate'   => $paginate,
                 'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
-            ]
+            ],
         ];
     }
 

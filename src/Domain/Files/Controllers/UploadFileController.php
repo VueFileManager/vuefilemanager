@@ -2,7 +2,6 @@
 namespace Domain\Files\Controllers;
 
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Resources\FileResource;
@@ -21,7 +20,8 @@ class UploadFileController extends Controller
     /**
      * Upload file for authenticated master|editor user
      */
-    public function __invoke(UploadRequest $request)  {
+    public function __invoke(UploadRequest $request)
+    {
         if (is_demo_account()) {
             return ($this->fakeUploadFile)($request);
         }

@@ -1,11 +1,11 @@
 <?php
 namespace Domain\Browsing\Controllers;
 
+use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class BrowseSharedItemsController
 {
@@ -44,7 +44,7 @@ class BrowseSharedItemsController
             'meta'  => [
                 'paginate' => $paginate,
                 'root'     => null,
-            ]
+            ],
         ];
     }
 }

@@ -133,7 +133,7 @@ class AdminLanguageTranslatorTest extends TestCase
             ->assertStatus(200)
             ->assertJsonFragment([
                 'locale'        => 'en',
-                'close' => 'Close',
+                'close'         => 'Close',
             ]);
     }
 
@@ -180,7 +180,7 @@ class AdminLanguageTranslatorTest extends TestCase
             ->getJson("/api/admin/languages/$language->id")
             ->assertStatus(200)
             ->assertJsonFragment([
-                'close' => 'Close',
+                'close'         => 'Close',
                 'locale'        => 'en',
             ]);
     }

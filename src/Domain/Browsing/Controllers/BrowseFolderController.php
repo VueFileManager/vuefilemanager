@@ -5,7 +5,9 @@ use Str;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
+use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderResource;
+use Domain\Folders\Resources\FolderCollection;
 
 class BrowseFolderController
 {
@@ -18,16 +20,16 @@ class BrowseFolderController
             'parent_id'   => $root_id,
             'team_folder' => false,
             'user_id'     => Auth::id(),
-            'deleted_at'  => null
+            'deleted_at'  => null,
         ];
 
         $fileQuery = [
             'parent_id'   => $root_id,
             'user_id'     => Auth::id(),
-            'deleted_at'  => null
+            'deleted_at'  => null,
         ];
 
-        list($foldersTake, $foldersSkip, $filesTake, $filesSkip, $totalItemsCount) = getRecordsCount($folderQuery, $fileQuery);
+        list($foldersTake, $foldersSkip, $filesTake, $filesSkip, $totalItemsCount) = getRecordsCount($folderQuery, $fileQuery, request()->input('page'));
 
         $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
             ->where($folderQuery)
@@ -42,16 +44,21 @@ class BrowseFolderController
             ->skip($filesSkip)
             ->take($filesTake)
             ->get();
+        
+        $entries = collect([
+            $folders ? json_decode((new FolderCollection($folders))->toJson(), true) : null,
+            $files ? json_decode((new FilesCollection($files))->toJson(), true) : null,
+        ])->collapse();
             
-        list($data, $paginate, $links) = groupPaginate($folders, $files, $totalItemsCount);
+        list($paginate, $links) = generatePaginationCounts($totalItemsCount);
 
         return [
-            'data'  => $data,
+            'data'  => $entries,
             'links' => $links,
             'meta'  => [
                 'paginate' => $paginate,
                 'root'     => $root_id ? new FolderResource(Folder::findOrFail($root_id)) : null,
-            ]
+            ],
         ];
     }
 }

@@ -19,7 +19,6 @@ class GenerateImageThumbnailAction
         collect(config("vuefilemanager.image_sizes.$execution"))
             ->each(function ($size) use ($userId, $fileName, $imageWidth) {
                 if ($imageWidth > $size['size']) {
-
                     // Create intervention image
                     $intervention = Image::make(
                         Storage::disk('local')->path("temp/$userId/$fileName")

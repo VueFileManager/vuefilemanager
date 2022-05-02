@@ -2,8 +2,8 @@
 namespace Domain\Browsing\Controllers;
 
 use App\Users\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BrowseLatestFilesController
 {
@@ -23,7 +23,7 @@ class BrowseLatestFilesController
             'meta'  => [
                 'paginate' => $paginate,
                 'root'     => null,
-            ]
+            ],
         ];
     }
 }

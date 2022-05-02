@@ -1,10 +1,10 @@
 <?php
 namespace Domain\Items\Controllers;
 
-use App\Http\Controllers\Controller;
 use Domain\Files\Models\File;
-use Domain\Files\Resources\FileResource;
 use Domain\Folders\Models\Folder;
+use App\Http\Controllers\Controller;
+use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\Items\Actions\RenameFileOrFolderAction;
