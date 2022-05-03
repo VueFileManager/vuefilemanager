@@ -233,7 +233,7 @@ class FileTest extends TestCase
                         'id'   => $file->id,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('files', [
             'id'        => $file->id,
@@ -288,7 +288,7 @@ class FileTest extends TestCase
                         'force_delete' => true,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         // Assert primary file was deleted
         Storage::assertMissing("files/$user->id/fake-image.jpeg");
@@ -328,7 +328,7 @@ class FileTest extends TestCase
                         'force_delete' => false,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $files
             ->each(function ($file) {
@@ -379,7 +379,7 @@ class FileTest extends TestCase
                     'force_delete' => true,
                 ],
             ],
-        ])->assertStatus(204);
+        ])->assertStatus(200);
 
         $file_ids
             ->each(function ($id, $index) use ($user) {

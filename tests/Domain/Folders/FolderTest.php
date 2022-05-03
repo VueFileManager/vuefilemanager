@@ -180,7 +180,7 @@ class FolderTest extends TestCase
                         'id'   => $children->id,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertEquals(
             $root->id,
@@ -225,7 +225,7 @@ class FolderTest extends TestCase
                         'force_delete' => false,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         collect([$folder_1, $folder_2])
             ->each(function ($folder) {
@@ -273,7 +273,7 @@ class FolderTest extends TestCase
                         'force_delete' => true,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseMissing('folders', [
             'id' => $folder_1->id,
@@ -326,7 +326,7 @@ class FolderTest extends TestCase
                         'force_delete' => false,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         collect([$file_1, $file_2])
             ->each(function ($file) {
@@ -392,7 +392,7 @@ class FolderTest extends TestCase
                             'force_delete' => $index,
                         ],
                     ],
-                ])->assertStatus(204);
+                ])->assertStatus(200);
             });
 
         $uploaded_files

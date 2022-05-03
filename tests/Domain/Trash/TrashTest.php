@@ -97,7 +97,7 @@ class TrashTest extends TestCase
                     'force_delete' => false,
                 ],
             ],
-        ])->assertStatus(204);
+        ])->assertStatus(200);
 
         $this->deleteJson('/api/trash/dump')
             ->assertStatus(200);

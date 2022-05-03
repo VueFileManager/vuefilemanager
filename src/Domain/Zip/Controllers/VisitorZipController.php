@@ -1,6 +1,9 @@
 <?php
 namespace Domain\Zip\Controllers;
 
+use Domain\Folders\Models\Folder;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use ZipStream\ZipStream;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
@@ -10,12 +13,10 @@ use App\Http\Controllers\Controller;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
-use Domain\Zip\Actions\GetItemsListFromUrlParamAction;
 
 class VisitorZipController extends Controller
 {
     public function __construct(
-        public GetItemsListFromUrlParamAction $getItemsListFromUrlParam,
         public ProtectShareRecordAction $protectShareRecord,
         public VerifyAccessToItemAction $verifyAccessToItem,
         public RecordDownloadAction $recordDownload,
@@ -23,11 +24,38 @@ class VisitorZipController extends Controller
     ) {
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function __invoke(
         Request $request,
         Share $shared,
     ): ZipStream {
-        list($folders, $files) = ($this->getItemsListFromUrlParam)();
+        $items = extractItemsFromGetAttribute($request->get('items'));
+
+        // Validate items GET attribute
+        Validator::make(['items' => $items->toArray()], [
+            'items'        => 'array',
+            'items.*.id'   => 'required|uuid',
+            'items.*.type' => 'required|string',
+        ])->validate();
+
+        // Get list of folders and files from requested url parameter
+        $folderIds = $items
+            ->where('type', 'folder')
+            ->pluck('id');
+
+        $fileIds = $items
+            ->where('type', 'file')
+            ->pluck('id');
+
+        $folders = Folder::query()
+            ->whereIn('id', $folderIds)
+            ->get();
+
+        $files = File::query()
+            ->whereIn('id', $fileIds)
+            ->get();
 
         // Check access to requested folders
         if ($folders->isNotEmpty()) {
@@ -52,8 +80,7 @@ class VisitorZipController extends Controller
         $zip = ($this->zip)($folders, $files, $shared);
 
         ($this->recordDownload)(
-            file_size: $zip->predictZipSize(),
-            user_id: $shared->user_id,
+            $zip->predictZipSize(), $shared->user_id
         );
 
         return $zip;

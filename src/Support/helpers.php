@@ -1178,3 +1178,34 @@ if (! function_exists('replace_occurrence')) {
         }
     }
 }
+
+if (!function_exists('extractItemsFromGetAttribute')) {
+    /**
+     * Extract items from get url attribute
+     */
+    function extractItemsFromGetAttribute(string $string): Collection
+    {
+        return collect(
+            explode(',', $string)
+        )->map(function ($chunk) {
+            // explode single attribute chunk
+            $items = explode('|', $chunk);
+
+            // Abort code if keys doesn't exists
+            if (! array_key_exists(0, $items) || ! array_key_exists(1, $items)) {
+                abort(
+                    response()->json([
+                        'type' => 'error',
+                        'message' => 'Incorrect argument format.',
+                    ], 422)
+                );
+            }
+
+            // return item attributes
+            return [
+                'id'   => $items[0],
+                'type' => $items[1],
+            ];
+        });
+    }
+}
