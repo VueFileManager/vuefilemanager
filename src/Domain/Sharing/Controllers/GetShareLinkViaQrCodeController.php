@@ -28,6 +28,6 @@ class GetShareLinkViaQrCodeController extends Controller
         $qrCode = trim(substr($svg, strpos($svg, "\n") + 1));
 
         // Return qr code
-        return response($qrCode, 201);
+        return response($qrCode);
     }
 }

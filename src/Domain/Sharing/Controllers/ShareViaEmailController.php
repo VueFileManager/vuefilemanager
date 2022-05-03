@@ -2,8 +2,8 @@
 namespace Domain\Sharing\Controllers;
 
 use Auth;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Domain\Sharing\Requests\ShareByEmailRequest;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Sharing\Actions\SendViaEmailAction;
 
@@ -15,15 +15,18 @@ class ShareViaEmailController extends Controller
     }
 
     public function __invoke(
-        Request $request,
+        ShareByEmailRequest $request,
         string $token,
-    ): Response {
+    ): JsonResponse {
         ($this->sendLinkToEmailAction)->onQueue()->execute(
             emails: $request->input('emails'),
             token: $token,
             user: Auth::user(),
         );
 
-        return response('Done.', 204);
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'The share link was shared via email successfully.',
+        ]);
     }
 }

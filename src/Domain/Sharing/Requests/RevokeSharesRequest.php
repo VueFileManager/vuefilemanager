@@ -3,7 +3,7 @@ namespace Domain\Sharing\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateShareRequest extends FormRequest
+class RevokeSharesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,8 @@ class UpdateShareRequest extends FormRequest
     public function rules()
     {
         return [
-            'protected'  => 'required|boolean',
-            'password'   => 'required_if:protected,true|string',
-            'permission' => 'sometimes|string',
-            'expiration' => 'sometimes|integer',
+            'tokens'     => 'required|array',
+            'tokens.*'   => 'string',
         ];
     }
 }

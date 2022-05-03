@@ -1,7 +1,9 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
-use Illuminate\Http\Response;
+use Domain\Folders\Models\Folder;
+use Domain\Sharing\Requests\RevokeSharesRequest;
+use Illuminate\Http\JsonResponse;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -25,34 +27,47 @@ class ShareController extends Controller
     public function update(
         UpdateShareRequest $request,
         Share $share,
-    ): ShareResource {
-        // Update sharing record
+    ): JsonResponse {
+        $item = get_item($share->type, $share->item_id);
+
+        // If sharing folder, check permission attribute
+        if ($item instanceof Folder && $request->missing('permission')) {
+            return response()->json([
+                'type'    => 'error',
+                'message' => 'The permission field for folder is required.',
+            ], 422);
+        }
+
         $share->update([
-            'permission'   => $request->input('permission'),
-            'is_protected' => $request->input('protected'),
             'expire_in'    => $request->input('expiration') ?? null,
-            'password'     => $request->input('password')
+            'permission'   => $request->input('permission'),
+            'is_protected' => $request->boolean('protected'),
+            'password'     => $request->has('password')
                 ? bcrypt($request->input('password'))
                 : $share->password,
         ]);
 
         // Return shared record
-        return new ShareResource($share);
+        return response()->json(new ShareResource($share));
     }
 
     /**
      * Delete sharing item
      */
-    public function destroy(): Response
+    public function destroy(RevokeSharesRequest $request): JsonResponse
     {
-        foreach (request()->input('tokens') as $token) {
+        foreach ($request->input('tokens') as $token) {
             // Delete share record
-            Share::where('token', $token)
+            $record = Share::where('token', $token)
                 ->where('user_id', Auth::id())
-                ->firstOrFail()
-                ->delete();
+                ->first();
+
+            $record?->delete();
         }
 
-        return response('Done.', 204);
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'The share links was revoked successfully.',
+        ]);
     }
 }
