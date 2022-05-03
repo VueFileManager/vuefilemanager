@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Items\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -23,9 +24,10 @@ class DeleteItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'data[*].force_delete' => 'required|boolean',
-            'data[*].type'         => 'required|string',
-            'data[*].id'           => 'required|integer',
+            'items'                => 'array',
+            'items.*.force_delete' => 'required|boolean',
+            'items.*.type'         => 'required|string',
+            'items.*.id'           => 'required|uuid',
         ];
     }
 }

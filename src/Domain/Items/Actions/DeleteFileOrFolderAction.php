@@ -26,6 +26,10 @@ class DeleteFileOrFolderAction
                 ->with('folders')
                 ->find($id);
 
+            if (! $folder) {
+                return;
+            }
+
             Gate::authorize('can-edit', [$folder, $shared]);
 
             // Get folder shared record
@@ -84,6 +88,10 @@ class DeleteFileOrFolderAction
             // Get file
             $file = File::withTrashed()
                 ->find($id);
+
+            if (! $file) {
+                return;
+            }
 
             Gate::authorize('can-edit', [$file, $shared]);
 

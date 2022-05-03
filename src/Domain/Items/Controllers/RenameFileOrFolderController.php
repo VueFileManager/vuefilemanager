@@ -1,8 +1,6 @@
 <?php
 namespace Domain\Items\Controllers;
 
-use Domain\Files\Models\File;
-use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
@@ -29,7 +27,7 @@ class RenameFileOrFolderController extends Controller
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): FileResource | FolderResource | File | Folder | array {
+    ): FileResource|FolderResource {
         if (is_demo_account()) {
             $item = ($this->fakeRenameFileOrFolder)($request, $id);
 

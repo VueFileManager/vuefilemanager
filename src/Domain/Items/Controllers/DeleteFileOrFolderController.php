@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Items\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\Items\Actions\DeleteFileOrFolderAction;
@@ -18,15 +18,20 @@ class DeleteFileOrFolderController extends Controller
      */
     public function __invoke(
         DeleteItemRequest $request,
-    ): Response {
+    ): JsonResponse {
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'Items was successfully deleted.',
+        ];
+
         if (is_demo_account()) {
-            abort(204, 'Done.');
+            return response()->json($successMessage);
         }
 
         foreach ($request->input('items') as $item) {
             ($this->deleteFileOrFolder)($item, $item['id']);
         }
 
-        return response('Done', 204);
+        return response()->json($successMessage);
     }
 }
