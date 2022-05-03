@@ -890,8 +890,8 @@ export default {
 
             // Get route
             let route = this.$store.getters.sharedDetail
-                ? `/api/browse/search/${this.$router.currentRoute.params.token}`
-                : '/api/browse/search'
+                ? `/api/search/${this.$router.currentRoute.params.token}`
+                : '/api/search'
 
             axios
                 .get(`${route}?filter=${this.activeFilter}`, {

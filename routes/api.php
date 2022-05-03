@@ -57,7 +57,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::group(['prefix' => 'browse'], function () {
         Route::get('/folders/{id}', BrowseFolderController::class);
         Route::get('/navigation', NavigationTreeController::class);
-        Route::get('/search', SpotlightSearchController::class);
         Route::get('/latest', BrowseLatestFilesController::class);
         Route::get('/trash/{id}', BrowseTrashContentController::class);
         Route::get('/share', BrowseSharedItemsController::class);
@@ -77,6 +76,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Favourites
     Route::apiResource('/folders/favourites', FavouriteController::class);
+
+    // Search
+    Route::get('/search', SpotlightSearchController::class);
 });
 
 // User master,editor routes

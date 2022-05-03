@@ -40,7 +40,7 @@ class SearchTest extends TestCase
             ->each(
                 fn ($file) => $this
                     ->actingAs($user)
-                    ->getJson('/api/browse/search?query=' . mb_strtolower(mb_substr($file->name, 0, 3)))
+                    ->getJson('/api/search?query=' . mb_strtolower(mb_substr($file->name, 0, 3)))
                     ->assertStatus(200)
                     ->assertJsonFragment([
                         'id'   => $file->id,
@@ -66,7 +66,7 @@ class SearchTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson('/api/browse/search?query=doc')
+            ->getJson('/api/search?query=doc')
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $folder->id,
@@ -115,7 +115,7 @@ class SearchTest extends TestCase
 
         $this
             ->actingAs($member)
-            ->getJson('/api/browse/search?query=ali')
+            ->getJson('/api/search?query=ali')
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $folder->id,
@@ -123,7 +123,7 @@ class SearchTest extends TestCase
 
         $this
             ->actingAs($member)
-            ->getJson('/api/browse/search?query=Fol')
+            ->getJson('/api/search?query=Fol')
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $folder->id,
@@ -131,7 +131,7 @@ class SearchTest extends TestCase
 
         $this
             ->actingAs($member)
-            ->getJson('/api/browse/search?query=doc')
+            ->getJson('/api/search?query=doc')
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $document->id,

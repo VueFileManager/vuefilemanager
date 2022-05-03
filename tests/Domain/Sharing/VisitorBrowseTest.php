@@ -348,7 +348,7 @@ class VisitorBrowseTest extends TestCase
                     ])];
 
                     $this->withUnencryptedCookies($cookie)
-                        ->get("/api/browse/search/$share->token?query=doc")
+                        ->get("/api/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([
                             'id' => $file->id,
@@ -357,7 +357,7 @@ class VisitorBrowseTest extends TestCase
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->getJson("/api/browse/search/$share->token?query=doc")
+                    $this->getJson("/api/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([
                             'id' => $file->id,
@@ -401,14 +401,14 @@ class VisitorBrowseTest extends TestCase
                     ])];
 
                     $this->withUnencryptedCookies($cookie)
-                        ->get("/api/browse/search/$share->token?query=doc")
+                        ->get("/api/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([]);
                 }
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->getJson("/api/browse/search/$share->token?query=doc")
+                    $this->getJson("/api/search/$share->token?query=doc")
                         ->assertStatus(200)
                         ->assertJsonFragment([]);
                 }

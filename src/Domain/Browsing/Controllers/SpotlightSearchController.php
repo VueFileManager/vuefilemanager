@@ -17,7 +17,7 @@ class SpotlightSearchController
 {
     public function __invoke(
         SearchRequest $request
-    ): UsersMinimalCollection|array {
+    ) {
         // Prepare queries
         $query = remove_accents(
             $request->input('query')
@@ -32,7 +32,7 @@ class SpotlightSearchController
         return $this->searchFiles($query);
     }
 
-    private function searchUsers($query): UsersMinimalCollection
+    private function searchUsers($query)
     {
         // Prevent to show non admin user searching
         if (Auth::user()->role !== 'admin') {
@@ -49,7 +49,7 @@ class SpotlightSearchController
         );
     }
 
-    private function searchFiles(string $query): array
+    private function searchFiles(string $query)
     {
         $user_id = Auth::id();
 
