@@ -13,7 +13,6 @@ use Domain\Folders\Resources\FolderCollection;
 class BrowseFolderController
 {
     public function __invoke(
-        Request $request,
         string $id,
     ): array {
         $root_id = Str::isUuid($id) ? $id : null;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Domain\Sharing;
 
 use Tests\TestCase;
@@ -23,7 +24,7 @@ class UserShareTest extends TestCase
         $this
             ->actingAs($user)
             ->get('/api/share/123456789/qr')
-            ->assertCreated();
+            ->assertOk();
     }
 
     /**
@@ -40,12 +41,13 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/share', [
+            ->postJson("/api/share/$file->id", [
                 'isPassword' => false,
                 'permission' => 'editor',
                 'type'       => 'file',
                 'id'         => $file->id,
-            ])->assertStatus(201)->assertJsonFragment([
+            ])->assertStatus(201)
+            ->assertJsonFragment([
                 'item_id' => $file->id,
                 'type'    => 'file',
             ]);
@@ -74,12 +76,13 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/share', [
+            ->postJson("/api/share/$folder->id", [
                 'isPassword' => false,
                 'permission' => 'editor',
                 'type'       => 'folder',
                 'id'         => $folder->id,
-            ])->assertStatus(201)->assertJsonFragment([
+            ])->assertStatus(201)
+            ->assertJsonFragment([
                 'item_id' => $folder->id,
                 'type'    => 'folder',
             ]);
@@ -108,7 +111,7 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/share', [
+            ->postJson("/api/share/$folder->id", [
                 'isPassword' => true,
                 'password'   => 'secret',
                 'permission' => 'editor',
@@ -148,7 +151,7 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/share', [
+            ->postJson("/api/share/$folder->id", [
                 'isPassword' => false,
                 'permission' => 'editor',
                 'type'       => 'folder',
@@ -176,7 +179,7 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/share', [
+            ->postJson("/api/share/$folder->id", [
                 'isPassword' => false,
                 'permission' => 'editor',
                 'type'       => 'folder',
@@ -204,7 +207,7 @@ class UserShareTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $this->postJson('/api/share', [
+        $this->postJson("/api/share/$folder->id", [
             'isPassword' => false,
             'permission' => 'editor',
             'type'       => 'folder',
@@ -216,7 +219,7 @@ class UserShareTest extends TestCase
                 'john@doe.com',
                 'jane@doe.com',
             ],
-        ])->assertStatus(204);
+        ])->assertStatus(200);
 
         Notification::assertTimesSent(2, SharedSendViaEmail::class);
     }
@@ -235,7 +238,7 @@ class UserShareTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $this->postJson('/api/share', [
+        $this->postJson("/api/share/$folder->id", [
             'isPassword' => false,
             'permission' => 'editor',
             'type'       => 'folder',
@@ -246,7 +249,7 @@ class UserShareTest extends TestCase
             'tokens' => [
                 $folder->shared->token,
             ],
-        ])->assertStatus(204);
+        ])->assertStatus(200);
 
         $this->assertDatabaseMissing('shares', [
             'item_id' => $folder->id,

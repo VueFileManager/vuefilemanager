@@ -33,10 +33,10 @@ Route::get('/zip/{shared}', VisitorZipController::class);
 Route::group(['prefix' => 'browse'], function () {
     Route::post('/authenticate/{shared}', VisitorUnlockLockedShareController::class);
     Route::get('/navigation/{shared}', VisitorNavigationFolderTreeController::class);
-    Route::get('/search/{shared}', VisitorSearchFilesAndFoldersController::class);
     Route::get('/folders/{id}/{shared}', VisitorBrowseFolderController::class);
     Route::get('/file/{shared}', VisitorShowFileController::class);
     Route::get('/share/{share}', [ShareController::class, 'show']);
 });
 
+Route::get('/search/{shared}', VisitorSearchFilesAndFoldersController::class);
 Route::get('/og-site/{share}', WebCrawlerOpenGraphController::class);

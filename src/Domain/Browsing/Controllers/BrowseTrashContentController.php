@@ -6,26 +6,31 @@ use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;
 use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderCollection;
+use Str;
 
 class BrowseTrashContentController
 {
     public function __invoke(string $id): array
     {
-        $user_id = Auth::id();
-        $root_id = $id === 'undefined' ? null : $id;
-        $requestedFolder = $root_id ? Folder::withTrashed()->findOrFail($root_id) : null;
+        $userId = Auth::id();
+        $rootId = Str::isUuid($id) ? $id : null;
 
-        if ($root_id) {
+        $requestedFolder = $rootId
+            ? Folder::withTrashed()
+                ->findOrFail($rootId)
+            : null;
+
+        if ($rootId) {
             // Get folders and files
             $folders = Folder::onlyTrashed()
                 ->with('parent')
-                ->where('parent_id', $root_id)
+                ->where('parent_id', $rootId)
                 ->sortable()
                 ->get();
 
             $files = File::onlyTrashed()
                 ->with('parent')
-                ->where('parent_id', $root_id)
+                ->where('parent_id', $rootId)
                 ->sortable()
                 ->get();
 
@@ -40,12 +45,12 @@ class BrowseTrashContentController
         // Get folders and files
         $folders_trashed = Folder::onlyTrashed()
             ->with(['trashedFolders', 'parent'])
-            ->where('user_id', $user_id)
+            ->where('user_id', $userId)
             ->get(['parent_id', 'id', 'name']);
 
         $folders = Folder::onlyTrashed()
             ->with(['parent'])
-            ->where('user_id', $user_id)
+            ->where('user_id', $userId)
             ->whereIn('id', filter_folders_ids($folders_trashed))
             ->sortable()
             ->get();
@@ -53,7 +58,7 @@ class BrowseTrashContentController
         // Get files trashed
         $files_trashed = File::onlyTrashed()
             ->with(['parent'])
-            ->where('user_id', $user_id)
+            ->where('user_id', $userId)
             ->where(function ($query) use ($folders_trashed) {
                 $query->whereNull('parent_id');
                 $query->orWhereNotIn('parent_id', array_values(array_unique(recursiveFind($folders_trashed->toArray(), 'id'))));
