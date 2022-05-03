@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Folders\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Folders\Actions\CreateFolderAction;
@@ -22,11 +22,11 @@ class CreateFolderController extends Controller
      */
     public function __invoke(
         CreateFolderRequest $request,
-    ): Response {
+    ): JsonResponse {
         if (is_demo_account()) {
             $fakeFolder = ($this->fakeCreateFolder)($request);
 
-            return response(new FolderResource($fakeFolder), 201);
+            return response()->json(new FolderResource($fakeFolder), 201);
         }
 
         try {
@@ -34,9 +34,9 @@ class CreateFolderController extends Controller
             $folder = ($this->createFolder)($request);
 
             // Return new folder
-            return response(new FolderResource($folder), 201);
+            return response()->json(new FolderResource($folder), 201);
         } catch (InvalidUserActionException $e) {
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => $e->getMessage(),
             ], 401);
