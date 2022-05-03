@@ -44,7 +44,7 @@ class TrashTest extends TestCase
                         'type' => 'folder',
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('files', [
             'deleted_at' => null,
@@ -100,7 +100,7 @@ class TrashTest extends TestCase
         ])->assertStatus(204);
 
         $this->deleteJson('/api/trash/dump')
-            ->assertStatus(204);
+            ->assertStatus(200);
 
         $this->assertDatabaseMissing('files', [
             'id' => $file->id,
@@ -112,7 +112,9 @@ class TrashTest extends TestCase
 
         $disk = Storage::disk('local');
 
-        $thumbnail_sizes = collect(config('vuefilemanager.image_sizes'))->collapse()->all();
+        $thumbnail_sizes = collect(config('vuefilemanager.image_sizes'))
+            ->collapse()
+            ->all();
 
         $disk->assertMissing(
             "files/$user->id/fake-image.jpg"

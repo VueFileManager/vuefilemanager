@@ -332,7 +332,7 @@ if (! function_exists('get_item')) {
     /**
      * Get folder or file item
      */
-    function get_item(string $type, string $id): Folder | File
+    function get_item(string $type, string $id): File|Folder
     {
         $model = $type === 'folder'
             ? 'folder'
@@ -343,7 +343,15 @@ if (! function_exists('get_item')) {
             'file'   => 'Domain\\Files\\Models\\File',
         };
 
-        return ($namespace)::find($id);
+        // Get item
+        $entry = ($namespace)::withTrashed()
+            ->find($id);
+
+        if (!$entry) {
+            abort(response()->json(entryNotFoundError()), 404);
+        }
+
+        return $entry;
     }
 }
 

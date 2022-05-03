@@ -15,3 +15,11 @@
             'message' => 'This user action is not allowed.',
         ];
     }
+
+    function entryNotFoundError(): array
+    {
+        return [
+            'type'    => 'error',
+            'message' => "The requested entry wasn't found.",
+        ];
+    }
