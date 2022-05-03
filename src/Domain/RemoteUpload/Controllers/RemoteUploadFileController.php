@@ -1,7 +1,7 @@
 <?php
 namespace Domain\RemoteUpload\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
@@ -15,10 +15,15 @@ class RemoteUploadFileController extends Controller
     ) {
     }
 
-    public function __invoke(RemoteUploadRequest $request, ?Share $shared = null): Response|array
+    public function __invoke(RemoteUploadRequest $request, ?Share $shared = null): JsonResponse
     {
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'Files was successfully uploaded.',
+        ];
+
         if (is_demo_account()) {
-            return response('Files were successfully added to the upload queue', 201);
+            return response()->json($successMessage);
         }
 
         // Get user
@@ -28,15 +33,21 @@ class RemoteUploadFileController extends Controller
                 ->user
             : auth()->user();
 
-        // Get content from external sources
-        if (isBroadcasting()) {
-            ($this->getContentFromExternalSource)
-                ->onQueue()
-                ->execute($request->all(), $user);
-        } else {
+        // If it isn't broadcasting, download files immediately in the request
+        if (isNotBroadcasting()) {
             ($this->getContentFromExternalSource)($request->all(), $user);
+
+            return response()->json($successMessage);
         }
 
-        return response('Files were successfully added to the upload queue', 201);
+        // Add links to the upload queue
+        ($this->getContentFromExternalSource)
+            ->onQueue()
+            ->execute($request->all(), $user);
+
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'Files were successfully added to the upload queue.',
+        ]);
     }
 }

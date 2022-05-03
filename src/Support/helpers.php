@@ -48,6 +48,16 @@ if (! function_exists('isBroadcasting')) {
     }
 }
 
+if (! function_exists('isNotBroadcasting')) {
+    /**
+     * Check if cron is running
+     */
+    function isNotBroadcasting(): bool
+    {
+        return config('broadcasting.default') === null;
+    }
+}
+
 if (! function_exists('isRunningCron')) {
     /**
      * Check if cron is running

@@ -23,8 +23,8 @@ class RemoteUploadRequest extends FormRequest
     public function rules()
     {
         return [
-            'urls.*'       => 'required|url',
             'parent_id'    => 'nullable|uuid',
+            'urls.*'       => 'required|url',
         ];
     }
 }
