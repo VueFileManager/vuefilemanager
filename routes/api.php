@@ -1,5 +1,6 @@
 <?php
 
+use Domain\Sharing\Controllers\ShareItemController;
 use Domain\Zip\Controllers\ZipController;
 use Domain\Pages\Controllers\PagesController;
 use Domain\Sharing\Controllers\ShareController;
@@ -72,6 +73,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/share/{token}/qr', GetShareLinkViaQrCodeController::class);
     Route::post('/share/{token}/email', ShareViaEmailController::class);
     Route::apiResource('/share', ShareController::class);
+    Route::post('/share/{id}', ShareItemController::class);
 
     // Favourites
     Route::apiResource('/folders/favourites', FavouriteController::class);

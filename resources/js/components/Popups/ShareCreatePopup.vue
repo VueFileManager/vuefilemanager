@@ -209,15 +209,15 @@ export default {
     },
     data() {
         return {
+			id: undefined,
             isExpiration: false,
             isEmailSharing: false,
             shareOptions: {
-                isPassword: false,
+                isPassword: undefined,
                 expiration: undefined,
                 password: undefined,
                 permission: undefined,
                 type: undefined,
-                id: undefined,
                 emails: undefined,
             },
             pickedItem: undefined,
@@ -244,7 +244,7 @@ export default {
 
             // Send request to get share link
             axios
-                .post(`/api/share`, this.shareOptions)
+                .post(`/api/share/${this.id}`, this.shareOptions)
                 .then((response) => {
                     // End loading
                     this.isGeneratedShared = true
@@ -278,13 +278,14 @@ export default {
             this.pickedItem = args.item
 
             this.shareOptions.type = args.item.data.type
-            this.shareOptions.id = args.item.data.id
+            this.id = args.item.data.id
         })
 
         // Close popup
         events.$on('popup:close', () => {
             // Restore data
             setTimeout(() => {
+				this.id = undefined
                 this.isGeneratedShared = false
                 this.isExpiration = false
                 this.isEmailSharing = false
@@ -294,7 +295,6 @@ export default {
                     password: undefined,
                     permission: undefined,
                     type: undefined,
-                    id: undefined,
                     emails: undefined,
                 }
             }, 150)

@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Sharing\Requests;
 
 use Illuminate\Support\Facades\Auth;
@@ -24,12 +25,12 @@ class CreateShareRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'         => 'required|string',
-            'isPassword' => 'required|boolean',
+            'isPassword' => 'sometimes|boolean',
+            'password'   => 'required_if:isPassword,true',
             'type'       => 'required|string',
-            'expiration' => 'integer|nullable',
-            'permission' => 'string',
-            'password'   => 'string',
+            'expiration' => 'sometimes|integer',
+            'permission' => 'sometimes|string',
+            'emails'     => 'sometimes|array',
             'emails.*'   => 'email',
         ];
     }

@@ -6,8 +6,6 @@ use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Sharing\Resources\ShareResource;
-use Domain\Sharing\Actions\SendViaEmailAction;
-use Domain\Sharing\Requests\CreateShareRequest;
 use Domain\Sharing\Requests\UpdateShareRequest;
 
 class ShareController extends Controller
@@ -19,40 +17,6 @@ class ShareController extends Controller
         Share $share,
     ): ShareResource {
         return new ShareResource($share);
-    }
-
-    /**
-     * Generate file share link
-     */
-    public function store(
-        CreateShareRequest $request,
-        SendViaEmailAction $sendLinkToEmailAction,
-    ): Response {
-        $item = get_item($request->input('type'), $request->input('id'));
-
-        $this->authorize('owner', $item);
-
-        $shared = Share::create([
-            'password'     => $request->has('password') ? bcrypt($request->input('password')) : null,
-            'type'         => $request->input('type') === 'folder' ? 'folder' : 'file',
-            'is_protected' => $request->input('isPassword'),
-            'permission'   => $request->input('permission') ?? null,
-            'expire_in'    => $request->input('expiration') ?? null,
-            'item_id'      => $request->input('id'),
-            'user_id'      => Auth::id(),
-        ]);
-
-        // Send shared link via email
-        if ($request->has('emails')) {
-            $sendLinkToEmailAction->onQueue()->execute(
-                emails: $request->input('emails'),
-                token: $shared->token,
-                user: $shared->user,
-            );
-        }
-
-        // Return created shared record
-        return response(new ShareResource($shared), 201);
     }
 
     /**
