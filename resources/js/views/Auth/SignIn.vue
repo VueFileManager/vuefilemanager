@@ -441,8 +441,7 @@ export default {
 			this.$router.push({name: 'Files'})
 		}
 
-        //if (this.config.isDemo || this.config.isDev) {
-        if (this.config.isDemo) {
+        if (this.config.isDemo || this.config.isDev) {
             this.loginEmail = 'howdy@hi5ve.digital'
             this.loginPassword = 'vuefilemanager'
         }

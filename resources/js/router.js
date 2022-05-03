@@ -2,6 +2,7 @@ import routesMaintenance from './routes/routesMaintenance'
 import routesShared from './routes/routesShared'
 import routesOthers from './routes/routesOthers'
 import routesAdmin from './routes/routesAdmin'
+import routesIndex from './routes/routesIndex'
 import routesAuth from './routes/routesAuth'
 import routesUser from './routes/routesUser'
 import routesFile from './routes/routesFile'
@@ -17,6 +18,7 @@ const router = new Router({
         ...routesMaintenance,
         ...routesShared,
         ...routesOthers,
+        ...routesIndex,
         ...routesAdmin,
         ...routesAuth,
         ...routesUser,
