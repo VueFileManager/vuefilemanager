@@ -37,7 +37,7 @@ class RemoteUploadFileController extends Controller
         if (isNotBroadcasting()) {
             ($this->getContentFromExternalSource)($request->all(), $user);
 
-            return response()->json($successMessage);
+            return response()->json($successMessage, 201);
         }
 
         // Add links to the upload queue
@@ -48,6 +48,6 @@ class RemoteUploadFileController extends Controller
         return response()->json([
             'type'    => 'success',
             'message' => 'Files were successfully added to the upload queue.',
-        ]);
+        ], 201);
     }
 }

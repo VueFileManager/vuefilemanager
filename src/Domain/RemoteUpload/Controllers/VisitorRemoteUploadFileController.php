@@ -1,7 +1,7 @@
 <?php
 namespace Domain\RemoteUpload\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\RemoteUpload\Requests\RemoteUploadRequest;
@@ -18,8 +18,13 @@ class VisitorRemoteUploadFileController extends Controller
     ) {
     }
 
-    public function __invoke(RemoteUploadRequest $request, ?Share $shared = null): Response|array
+    public function __invoke(RemoteUploadRequest $request, ?Share $shared = null): JsonResponse
     {
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'Files was successfully uploaded.',
+        ];
+
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
@@ -31,15 +36,21 @@ class VisitorRemoteUploadFileController extends Controller
         // Check access to requested directory
         ($this->verifyAccessToItem)($request->input('parent_id'), $shared);
 
-        // Get content from external sources
-        if (isBroadcasting()) {
-            ($this->getContentFromExternalSource)
-                ->onQueue()
-                ->execute($request->all(), $shared->user);
-        } else {
+        // If it isn't broadcasting, download files immediately in the request
+        if (isNotBroadcasting()) {
             ($this->getContentFromExternalSource)($request->all(), $shared->user);
+
+            return response()->json($successMessage, 201);
         }
 
-        return response('Files were successfully added to the upload queue', 201);
+        // Add links to the upload queue
+        ($this->getContentFromExternalSource)
+            ->onQueue()
+            ->execute($request->all(), $shared->user);
+
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'Files were successfully added to the upload queue.',
+        ], 201);
     }
 }

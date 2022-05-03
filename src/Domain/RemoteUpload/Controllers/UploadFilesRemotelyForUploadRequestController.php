@@ -15,11 +15,13 @@ class UploadFilesRemotelyForUploadRequestController
     ) {
     }
 
-    /**
-     * @throws FileNotFoundException
-     */
     public function __invoke(RemoteUploadRequest $request, UploadRequest $uploadRequest)
     {
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'Files was successfully uploaded.',
+        ];
+
         // Get upload request root folder query
         $folder = Folder::where('id', $uploadRequest->id);
 
@@ -33,19 +35,25 @@ class UploadFilesRemotelyForUploadRequestController
             $request->merge(['parent_id' => $uploadRequest->id]);
         }
 
-        // Get content from external sources
-        if (isBroadcasting()) {
-            ($this->getContentFromExternalSource)
-                ->onQueue()
-                ->execute($request->all(), $uploadRequest->user);
-        } else {
-            ($this->getContentFromExternalSource)($request->all(), $uploadRequest->user);
-        }
-
         // Set timestamp for auto filling
         cache()->set("auto-filling.$uploadRequest->id", now()->toString());
 
-        return response('Files were successfully added to the upload queue', 201);
+        // If it isn't broadcasting, download files immediately in the request
+        if (isNotBroadcasting()) {
+            ($this->getContentFromExternalSource)($request->all(), $uploadRequest->user);
+
+            return response()->json($successMessage, 201);
+        }
+
+        // Add links to the upload queue
+        ($this->getContentFromExternalSource)
+            ->onQueue()
+            ->execute($request->all(), $uploadRequest->user);
+
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'Files were successfully added to the upload queue.',
+        ], 201);
     }
 
     /**
