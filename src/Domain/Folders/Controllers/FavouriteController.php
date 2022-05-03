@@ -1,54 +1,59 @@
 <?php
 namespace Domain\Folders\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
+use Domain\Folders\Requests\AddFolderToFavouritesRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 class FavouriteController extends Controller
 {
     /**
      * Add folder to user favourites
-     * todo: pridat validator ako AddToFavouritesRequest
      */
-    public function store(Request $request): Response|Collection
+    public function store(AddFolderToFavouritesRequest $request): JsonResponse
     {
-        $user = Auth::user();
+        $successResponse = [
+            'type'    => 'success',
+            'message' => 'Folder was successfully added into your favourites folders',
+        ];
 
-        foreach ($request->input('folders') as $id) {
-            if (is_demo_account()) {
-                return $user->favouriteFolders->makeHidden(['pivot']);
-            }
+        // Return success response for the demo response
+        if (is_demo_account()) {
+            return response()->json($successResponse, 201);
+        }
 
-            // Add folder to user favourites
-            $user
+        // Add folder into user favourites
+        foreach ($request->input('ids') as $id) {
+            Auth::user()
                 ->favouriteFolders()
                 ->syncWithoutDetaching($id);
         }
 
-        // Return updated favourites
-        return response($user->favouriteFolders, 204);
+        // Return success response
+        return response()->json($successResponse, 201);
     }
 
     /**
      * Remove folder from user favourites
      */
-    public function destroy(string $id): Response
+    public function destroy(string $id): JsonResponse
     {
-        $user = Auth::user();
+        $successResponse = [
+            'type'    => 'success',
+            'message' => 'Folder was successfully removed from your favourites folders',
+        ];
 
         if (is_demo_account()) {
-            return $user->favouriteFolders->makeHidden(['pivot']);
+            return response()->json($successResponse, 201);
         }
 
         // Remove folder from user favourites
-        $user
+        Auth::user()
             ->favouriteFolders()
             ->detach($id);
 
         // Return updated favourites
-        return response($user->favouriteFolders, 204);
+        return response()->json($successResponse, 201);
     }
 }

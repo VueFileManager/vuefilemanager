@@ -22,10 +22,10 @@ class FavouriteFolderTest extends TestCase
         $this
             ->actingAs($user)
             ->postJson('/api/folders/favourites', [
-                'folders' => [
+                'ids' => [
                     $folder->id,
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(201);
 
         $this->assertDatabaseHas('favourite_folder', [
             'user_id'   => $user->id,
@@ -52,7 +52,7 @@ class FavouriteFolderTest extends TestCase
         $this
             ->actingAs($user)
             ->deleteJson("/api/folders/favourites/$folder->id")
-            ->assertStatus(204);
+            ->assertStatus(201);
 
         $this->assertDatabaseMissing('favourite_folder', [
             'user_id'   => $user->id,

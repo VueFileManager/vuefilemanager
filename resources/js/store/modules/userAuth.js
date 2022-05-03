@@ -64,43 +64,33 @@ const actions = {
             .catch(() => this.$isSomethingWrong())
     },
     addToFavourites: (context, folder) => {
-        let addFavourites = []
         let items = [folder]
 
         // If dont coming single folder get folders to add to favourites from clipboard
         if (!folder) items = context.getters.clipboard
 
-        items.forEach((item) => {
+        let itemsToFavourites = items.map((item) => {
             if (item.data.type === 'folder') {
-                if (
-                    context.getters.user.data.relationships.favourites.data.find((folder) => folder.id === item.data.id)
-                )
+                if (context.getters.user.data.relationships.favourites.data.find((folder) => folder.id === item.data.id))
                     return
 
-                addFavourites.push({ id: item.data.id })
+                return item.data.id;
             }
         })
-
-        // If dont coming single folder clear the selected folders in clipboard
-        if (!folder) {
-            context.commit('CLIPBOARD_CLEAR')
-        }
-
-        let pushToFavorites = []
 
         // Check is favorites already don't include some of pushed folders
-        items.map((item) => {
+        let favouritesWidget = items.map((item) => {
             if (!context.getters.user.data.relationships.favourites.data.find((folder) => folder.data.id === item.id)) {
-                pushToFavorites.push(item)
+                return item
             }
         })
 
-        // Add to storage
-        context.commit('ADD_TO_FAVOURITES', pushToFavorites)
+        // Add to favourites UI widget
+        context.commit('ADD_TO_FAVOURITES', favouritesWidget)
 
         axios
             .post(context.getters.api + '/folders/favourites', {
-                folders: addFavourites,
+                ids: itemsToFavourites,
             })
             .catch(() => {
                 Vue.prototype.$isSomethingWrong()
