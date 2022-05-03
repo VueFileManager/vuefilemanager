@@ -43,7 +43,6 @@ class MoveFileOrFolderAction
 
             // Process file
             if ($item['type'] !== 'folder') {
-                // Update file
                 $entry->update([
                     'parent_id' => $request->input('to_id'),
                 ]);

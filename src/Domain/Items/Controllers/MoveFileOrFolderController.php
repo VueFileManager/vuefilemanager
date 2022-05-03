@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Items\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Items\Requests\MoveItemRequest;
 use Domain\Items\Actions\MoveFileOrFolderAction;
@@ -18,13 +18,19 @@ class MoveFileOrFolderController extends Controller
      */
     public function __invoke(
         MoveItemRequest $request,
-    ): Response {
+    ): JsonResponse {
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'Items was successfully moved.',
+        ];
+
         if (is_demo_account()) {
-            abort(204, 'Done.');
+            return response()->json($successMessage);
         }
 
+        // Move items
         ($this->moveFileOrFolder)($request);
 
-        return response('Done.', 204);
+        return response()->json($successMessage);
     }
 }
