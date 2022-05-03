@@ -6,7 +6,7 @@
 				description="Just click on the button below."
 			/>
 
-			<a :href="`${$store.getters.config.host}/sign-in`" target="_blank">
+			<a :href="`${$store.getters.config.host}`" target="_blank">
 				<AuthButton
 					class="mb-12 w-full justify-center md:w-min"
 					icon="chevron-right"
