@@ -3,11 +3,11 @@ namespace Domain\UploadRequest\Controllers;
 
 use Auth;
 use Gate;
-use Illuminate\Auth\Access\AuthorizationException;
 use Notification;
-use Illuminate\Http\JsonResponse;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Access\AuthorizationException;
 use Domain\UploadRequest\Requests\StoreUploadRequest;
 use Domain\UploadRequest\Resources\UploadRequestResource;
 use Domain\UploadRequest\Notifications\UploadRequestNotification;

@@ -1,11 +1,12 @@
 <?php
 namespace Domain\Teams\Controllers;
 
-use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Domain\Teams\Models\TeamFolderMember;
-use Illuminate\Contracts\Routing\ResponseFactory;
+use Domain\Folders\Resources\FolderResource;
 use Domain\Teams\Requests\ConvertIntoTeamFolderRequest;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
 use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;
@@ -21,15 +22,18 @@ class ConvertFolderIntoTeamFolderController extends Controller
     public function __invoke(
         ConvertIntoTeamFolderRequest $request,
         Folder $folder
-    ): ResponseFactory|Response {
+    ): JsonResponse {
+        // Authorize action
+        Gate::authorize('owner', [$folder]);
+
         // Abort in demo mode
         if (isDemoAccount()) {
-            return response($folder, 201);
+            return response()->json(new FolderResource($folder), 201);
         }
 
         // Check if user didn't exceed max team members limit
         if (! $folder->user->canInviteTeamMembers($request->input('invitations'))) {
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => 'You exceed your members limit.',
             ], 401);
@@ -37,7 +41,7 @@ class ConvertFolderIntoTeamFolderController extends Controller
 
         // Update root team folder
         $folder->update([
-            'team_folder' => 1,
+            'team_folder' => true,
             'parent_id'   => null,
         ]);
 
@@ -54,6 +58,6 @@ class ConvertFolderIntoTeamFolderController extends Controller
         // Invite team members
         ($this->inviteMembers)($request->input('invitations'), $folder);
 
-        return response($folder, 201);
+        return response()->json(new FolderResource($folder), 201);
     }
 }

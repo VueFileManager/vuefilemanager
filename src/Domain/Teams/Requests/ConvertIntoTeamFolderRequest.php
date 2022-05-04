@@ -23,7 +23,10 @@ class ConvertIntoTeamFolderRequest extends FormRequest
     public function rules()
     {
         return [
-            'invitations' => 'required|array',
+            'invitations'              => 'required|array',
+            'invitations.*.email'      => 'required|email',
+            'invitations.*.permission' => 'required|string',
+            'invitations.*.type'       => 'required|string',
         ];
     }
 }

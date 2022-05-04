@@ -2,11 +2,11 @@
 namespace App\Users\Controllers\Authentication;
 
 use App\Users\DTO\CreateUserData;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Users\Actions\CreateNewUserAction;
 use App\Users\Requests\RegisterUserRequest;
 use Illuminate\Contracts\Auth\StatefulGuard;
-use Illuminate\Http\JsonResponse;
 use VueFileManager\Subscription\Domain\Plans\Exceptions\MeteredBillingPlanDoesntExist;
 
 class RegisterUserController extends Controller

@@ -1,9 +1,9 @@
 <?php
 namespace App\Users\Controllers\Authentication;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -28,7 +28,7 @@ class AccountAccessTokenController extends Controller
     {
         if (isDemoAccount()) {
             return response()->json([
-                'plainTextToken' => Str::random(40)
+                'plainTextToken' => Str::random(40),
             ], 201);
         }
 
@@ -45,7 +45,7 @@ class AccountAccessTokenController extends Controller
     {
         $successMessage = [
             'type'    => 'success',
-            'message' => "The token was successfully deleted.",
+            'message' => 'The token was successfully deleted.',
         ];
 
         if (isDemoAccount()) {
@@ -55,7 +55,7 @@ class AccountAccessTokenController extends Controller
         if (Auth::id() !== $token->tokenable_id) {
             return response()->json([
                 'type'    => 'error',
-                'message' => "You are not entitled to delete this token.",
+                'message' => 'You are not entitled to delete this token.',
             ], 401);
         }
 

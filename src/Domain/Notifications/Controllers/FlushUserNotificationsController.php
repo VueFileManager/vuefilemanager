@@ -9,7 +9,7 @@ class FlushUserNotificationsController extends Controller
     public function __invoke(): JsonResponse
     {
         $successMessage = [
-            'type' => 'success',
+            'type'    => 'success',
             'message' => 'All your notifications was deleted.',
         ];
 

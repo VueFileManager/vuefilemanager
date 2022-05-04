@@ -23,8 +23,11 @@ class CreateTeamFolderRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'        => 'required|string',
-            'invitations' => 'required|array',
+            'name'                     => 'required|string',
+            'invitations'              => 'required|array',
+            'invitations.*.email'      => 'required|email',
+            'invitations.*.permission' => 'required|string',
+            'invitations.*.type'       => 'required|string',
         ];
     }
 }

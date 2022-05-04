@@ -3,8 +3,8 @@ namespace Domain\Teams\Controllers;
 
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +15,6 @@ use Domain\Folders\Resources\FolderResource;
 use Domain\Teams\Actions\UpdateMembersAction;
 use Domain\Folders\Resources\FolderCollection;
 use Domain\Teams\Actions\UpdateInvitationsAction;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Requests\CreateTeamFolderRequest;
 use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
@@ -63,15 +62,20 @@ class TeamFoldersController extends Controller
 
     public function store(
         CreateTeamFolderRequest $request,
-    ): ResponseFactory | Response {
+    ): JsonResponse {
         // Abort in demo mode
-        abort_if(isDemoAccount(), 201, 'Done.');
+        if (isDemoAccount()) {
+            return response()->json([
+                'type'    => 'success',
+                'message' => 'The team folder was created',
+            ], 201);
+        }
 
         $data = CreateTeamFolderData::fromRequest($request);
 
         // Check if user can create team folder
         if (! $request->user()->canCreateTeamFolder()) {
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => 'This user action is not allowed.',
             ], 401);
@@ -79,7 +83,7 @@ class TeamFoldersController extends Controller
 
         // Check if user didn't exceed max team members limit
         if (! $request->user()->canInviteTeamMembers($data->invitations)) {
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => 'You exceed your members limit.',
             ], 401);
@@ -89,7 +93,7 @@ class TeamFoldersController extends Controller
         $folder = Folder::create([
             'user_id'     => $request->user()->id,
             'name'        => $data->name,
-            'team_folder' => 1,
+            'team_folder' => true,
         ]);
 
         // Attach owner into members
@@ -102,7 +106,7 @@ class TeamFoldersController extends Controller
         // Invite team members
         $this->inviteMembers->onQueue()->execute($data->invitations, $folder);
 
-        return response(new FolderResource($folder), 201);
+        return response()->json(new FolderResource($folder), 201);
     }
 
     public function update(
@@ -110,10 +114,10 @@ class TeamFoldersController extends Controller
         Folder $folder,
         UpdateInvitationsAction $updateInvitations,
         UpdateMembersAction $updateMembers,
-    ): ResponseFactory | Response {
+    ): JsonResponse {
         // Abort in demo mode
         if (isDemoAccount()) {
-            return response(new FolderResource($folder), 201);
+            return response()->json(new FolderResource($folder), 201);
         }
 
         // Authorize request
@@ -121,7 +125,7 @@ class TeamFoldersController extends Controller
 
         // Check if user didn't exceed max team members limit
         if (! $request->user()->canInviteTeamMembers($request->input('invitations'))) {
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => 'You exceed your members limit.',
             ], 401);
@@ -137,14 +141,26 @@ class TeamFoldersController extends Controller
             $request->input('members')
         );
 
-        return response(new FolderResource($folder), 201);
+        return response()->json(new FolderResource($folder), 201);
     }
 
-    public function destroy(Folder $folder): ResponseFactory | Response
+    public function destroy(Folder $folder): JsonResponse
     {
+        if (! $folder->team_folder) {
+            return response()->json([
+                'type'    => 'error',
+                'message' => "You're trying to access non-team folder.",
+            ]);
+        }
+
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'The team was dissolved.',
+        ];
+
         // Abort in demo mode
         if (isDemoAccount()) {
-            return response('Done.', 201);
+            return response()->json($successMessage);
         }
 
         $this->authorize('owner', $folder);
@@ -162,9 +178,9 @@ class TeamFoldersController extends Controller
         ($this->setTeamFolderPropertyForAllChildren)($folder, false);
 
         $folder->update([
-            'team_folder' => 0,
+            'team_folder' => false,
         ]);
 
-        return response('Done.', 204);
+        return response()->json($successMessage);
     }
 }

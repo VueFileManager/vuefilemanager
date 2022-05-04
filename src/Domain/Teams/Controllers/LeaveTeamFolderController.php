@@ -2,25 +2,31 @@
 namespace Domain\Teams\Controllers;
 
 use Gate;
-use Illuminate\Http\Response;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 
 class LeaveTeamFolderController extends Controller
 {
-    public function __invoke(Folder $folder): Response|Application|ResponseFactory
+    public function __invoke(Folder $folder): JsonResponse
     {
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'You left the team folder.',
+        ];
+
         // Abort in demo mode
         if (isDemoAccount()) {
-            return response('Done.', 204);
+            return response()->json($successMessage);
         }
 
         // Authorize action
         if (! Gate::any(['can-edit', 'can-view'], [$folder, null])) {
-            abort(403, 'Access Denied');
+            return response()->json([
+                'type'    => 'error',
+                'message' => 'You are not member of this team folder.',
+            ], 403);
         }
 
         // Find and delete attached member from team folder
@@ -29,6 +35,6 @@ class LeaveTeamFolderController extends Controller
             ->where('user_id', auth()->id())
             ->delete();
 
-        return response('Done.', 204);
+        return response()->json($successMessage);
     }
 }

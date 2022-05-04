@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ModelNotFoundException) {
             if (in_array('application/json', $request->getAcceptableContentTypes())) {
                 return response()->json([
-                    'type' => 'error',
+                    'type'    => 'error',
                     'message' => "We couldn't find your requested item.",
                 ], 404);
             }

@@ -3,11 +3,13 @@ namespace Domain\Teams\Controllers;
 
 use Gate;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 
 class NavigationTreeController
 {
-    public function __invoke(Folder $folder): array
+    public function __invoke(Folder $folder): JsonResponse
     {
+        // Get the root team folder
         $teamFolder = $folder->getLatestParent();
 
         if (! Gate::any(['can-edit', 'can-view'], [$teamFolder, null])) {
@@ -19,13 +21,13 @@ class NavigationTreeController
             ->sortable()
             ->get(['id', 'parent_id', 'id', 'name', 'team_folder']);
 
-        return [
+        return response()->json([
             [
                 'name'      => $teamFolder->name,
                 'folders'   => $folders,
                 'isMovable' => true,
                 'isOpen'    => true,
             ],
-        ];
+        ]);
     }
 }

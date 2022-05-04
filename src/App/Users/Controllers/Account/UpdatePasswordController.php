@@ -12,7 +12,7 @@ class UpdatePasswordController extends Controller
     ): JsonResponse {
         $successMessage = [
             'type'    => 'success',
-            'message' => "The password was successfully changed.",
+            'message' => 'The password was successfully changed.',
         ];
 
         if (isDemoAccount()) {

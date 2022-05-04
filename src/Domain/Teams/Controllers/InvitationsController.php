@@ -2,35 +2,53 @@
 namespace Domain\Teams\Controllers;
 
 use App\Users\Models\User;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Teams\Models\TeamFolderMember;
 use Domain\Teams\Models\TeamFolderInvitation;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Teams\Resources\TeamInvitationResource;
 use Domain\Teams\Actions\ClearActionInInvitationNotificationAction;
 
 class InvitationsController extends Controller
 {
-    public function show(TeamFolderInvitation $invitation)
+    public function show(TeamFolderInvitation $invitation): JsonResponse
     {
+        // Check if invitation is not pending
         if ($invitation->status !== 'pending') {
-            abort(410);
+            return response()->json([
+                'type'    => 'error',
+                'message' => 'Invitation was already used.',
+            ], 410);
         }
 
-        return new TeamInvitationResource($invitation);
+        return response()->json(new TeamInvitationResource($invitation));
     }
 
     public function update(
         TeamFolderInvitation $invitation,
         ClearActionInInvitationNotificationAction $clearActionInInvitationNotification,
-    ): ResponseFactory|Response {
+    ): JsonResponse {
+        // Check if invitation has other state than pending
+        if ($invitation->status !== 'pending') {
+            return response()->json([
+                'type'    => 'error',
+                'message' => 'The invitation was previously used.',
+            ], 422);
+        }
+
+        // Prepare success message
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'Invitation was accepted.',
+        ];
+
+        // Get invited user
         $user = User::where('email', $invitation->email)
             ->first();
 
         if ($user) {
             if (isDemoAccount()) {
-                return response('Done', 204);
+                return response()->json($successMessage);
             }
 
             $invitation->accept();
@@ -52,13 +70,27 @@ class InvitationsController extends Controller
             ]);
         }
 
-        return response('Done', 204);
+        return response()->json($successMessage);
     }
 
     public function destroy(
         TeamFolderInvitation $invitation,
         ClearActionInInvitationNotificationAction $clearActionInInvitationNotification,
-    ): ResponseFactory|Response {
+    ): JsonResponse {
+        // Check if invitation has other state than pending
+        if ($invitation->status !== 'pending') {
+            return response()->json([
+                'type'    => 'error',
+                'message' => 'The invitation was previously used.',
+            ], 422);
+        }
+
+        // Prepare success message
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'Invitation was declined.',
+        ];
+
         $invitation->reject();
 
         // Get user from invitation
@@ -68,12 +100,12 @@ class InvitationsController extends Controller
         // Clear action in existing notification
         if ($user) {
             if (isDemoAccount()) {
-                return response('Done', 204);
+                return response()->json($successMessage);
             }
 
             $clearActionInInvitationNotification($user, $invitation);
         }
 
-        return response('Done', 204);
+        return response()->json($successMessage);
     }
 }

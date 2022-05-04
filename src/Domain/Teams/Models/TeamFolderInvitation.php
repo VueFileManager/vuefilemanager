@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property string parent_id
  * @property string email
  * @property string status
+ * @property string permission
  * @property string created_at
  * @property string updated_at
  */

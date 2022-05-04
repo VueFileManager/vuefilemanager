@@ -23,8 +23,13 @@ class UpdateTeamFolderMembersRequest extends FormRequest
     public function rules()
     {
         return [
-            'members'     => 'present|array',
-            'invitations' => 'present|array',
+            'members'                  => 'present|array',
+            'members.*.permission'     => 'required|string',
+            'members.*.id'             => 'required|uuid',
+            'invitations'              => 'present|array',
+            'invitations.*.email'      => 'required|email',
+            'invitations.*.permission' => 'required|string',
+            'invitations.*.type'       => 'required|string',
         ];
     }
 }

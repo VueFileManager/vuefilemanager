@@ -9,7 +9,7 @@ class MarkUserNotificationsAsReadController extends Controller
     public function __invoke(): JsonResponse
     {
         $successMessage = [
-            'type' => 'success',
+            'type'    => 'success',
             'message' => 'All your notifications was marked as read.',
         ];
 
@@ -19,7 +19,7 @@ class MarkUserNotificationsAsReadController extends Controller
 
         // Mark all notifications as read
         auth()->user()->unreadNotifications()->update([
-            'read_at' => now()
+            'read_at' => now(),
         ]);
 
         return response()->json($successMessage);
