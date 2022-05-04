@@ -1,16 +1,15 @@
 <?php
-
 namespace Tests\Domain\RemoteUpload;
 
+use Event;
+use Storage;
+use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
-use Domain\RemoteUpload\Events\RemoteFileCreatedEvent;
-use Event;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
-use Storage;
-use Tests\TestCase;
+use Domain\RemoteUpload\Events\RemoteFileCreatedEvent;
 
 class RemoteUploadTest extends TestCase
 {

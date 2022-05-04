@@ -357,7 +357,7 @@ if (! function_exists('get_item')) {
         $entry = ($namespace)::withTrashed()
             ->find($id);
 
-        if (!$entry) {
+        if (! $entry) {
             abort(response()->json(entryNotFoundError()), 404);
         }
 
@@ -1179,7 +1179,7 @@ if (! function_exists('replace_occurrence')) {
     }
 }
 
-if (!function_exists('extractItemsFromGetAttribute')) {
+if (! function_exists('extractItemsFromGetAttribute')) {
     /**
      * Extract items from get url attribute
      */
@@ -1195,7 +1195,7 @@ if (!function_exists('extractItemsFromGetAttribute')) {
             if (! array_key_exists(0, $items) || ! array_key_exists(1, $items)) {
                 abort(
                     response()->json([
-                        'type' => 'error',
+                        'type'    => 'error',
                         'message' => 'Incorrect argument format.',
                     ], 422)
                 );

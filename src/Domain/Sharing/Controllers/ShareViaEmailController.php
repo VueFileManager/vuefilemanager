@@ -2,10 +2,10 @@
 namespace Domain\Sharing\Controllers;
 
 use Auth;
-use Domain\Sharing\Requests\ShareByEmailRequest;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Sharing\Actions\SendViaEmailAction;
+use Domain\Sharing\Requests\ShareByEmailRequest;
 
 class ShareViaEmailController extends Controller
 {

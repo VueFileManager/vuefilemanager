@@ -1,12 +1,12 @@
 <?php
 namespace Domain\RemoteUpload\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Domain\Sharing\Models\Share;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Domain\RemoteUpload\Requests\RemoteUploadRequest;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
+use Domain\RemoteUpload\Requests\RemoteUploadRequest;
 use Domain\RemoteUpload\Actions\GetContentFromExternalSource;
 
 class VisitorRemoteUploadFileController extends Controller

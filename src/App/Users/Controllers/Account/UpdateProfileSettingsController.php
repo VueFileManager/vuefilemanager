@@ -1,9 +1,10 @@
 <?php
 namespace App\Users\Controllers\Account;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
 use App\Users\Requests\UpdateUserProfileSettingsRequest;
 
 class UpdateProfileSettingsController extends Controller
@@ -11,10 +12,18 @@ class UpdateProfileSettingsController extends Controller
     /**
      * Update user settings
      */
-    public function __invoke(UpdateUserProfileSettingsRequest $request): Response
-    {
+    public function __invoke(
+        UpdateUserProfileSettingsRequest $request
+    ): JsonResponse {
+        $successMessage = [
+            'type'    => 'success',
+            'message' => "The {$request->input('name')} was successfully updated.",
+        ];
+
         // Check if is demo
-        abort_if(is_demo_account(), 204, 'Done.');
+        if (is_demo_account()) {
+            return response()->json($successMessage);
+        }
 
         // Get user
         $user = Auth::user();
@@ -27,15 +36,21 @@ class UpdateProfileSettingsController extends Controller
                     'avatar' => store_avatar($request, 'avatar'),
                 ]);
 
-            return response('Saved!', 204);
+            return response()->json($successMessage);
         }
 
-        $user
-            ->settings()
-            ->update(
-                make_single_input($request)
-            );
+        // Try to store user option
+        try {
+            $user
+                ->settings()
+                ->update(make_single_input($request));
+        } catch (QueryException $e) {
+            return response()->json([
+                'type'    => 'error',
+                'message' => "You typed the invalid '{$request->input('name')}' name parameter.",
+            ], 422);
+        }
 
-        return response('Saved!', 204);
+        return response()->json($successMessage);
     }
 }

@@ -1,15 +1,15 @@
 <?php
 namespace Domain\Zip\Controllers;
 
-use Domain\Folders\Models\Folder;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use ZipStream\ZipStream;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
 use Domain\Zip\Actions\ZipAction;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
@@ -80,7 +80,8 @@ class VisitorZipController extends Controller
         $zip = ($this->zip)($folders, $files, $shared);
 
         ($this->recordDownload)(
-            $zip->predictZipSize(), $shared->user_id
+            $zip->predictZipSize(),
+            $shared->user_id
         );
 
         return $zip;

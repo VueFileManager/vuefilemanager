@@ -1,9 +1,9 @@
 <?php
-namespace Domain\Sharing\Requests;
+namespace App\Users\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShareByEmailRequest extends FormRequest
+class ResendVerificationEmailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,7 @@ class ShareByEmailRequest extends FormRequest
     public function rules()
     {
         return [
-            'emails'     => 'required|array',
-            'emails.*'   => 'email',
+            'email' => 'required|email',
         ];
     }
 }

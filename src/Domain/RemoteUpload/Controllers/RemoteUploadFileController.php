@@ -1,9 +1,9 @@
 <?php
 namespace Domain\RemoteUpload\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\RemoteUpload\Requests\RemoteUploadRequest;
 use Domain\RemoteUpload\Actions\GetContentFromExternalSource;

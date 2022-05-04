@@ -2,7 +2,6 @@
 namespace Domain\Browsing\Controllers;
 
 use Str;
-use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Auth;

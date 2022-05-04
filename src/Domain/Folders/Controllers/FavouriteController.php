@@ -1,10 +1,10 @@
 <?php
 namespace Domain\Folders\Controllers;
 
-use Domain\Folders\Requests\AddFolderToFavouritesRequest;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\JsonResponse;
+use Domain\Folders\Requests\AddFolderToFavouritesRequest;
 
 class FavouriteController extends Controller
 {

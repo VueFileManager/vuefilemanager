@@ -5,12 +5,12 @@ use App\Users\Controllers\Account\UpdatePasswordController;
 use App\Users\Controllers\Account\StorageCapacityController;
 use App\Users\Controllers\Verification\VerifyEmailController;
 use Domain\Transactions\Controllers\GetTransactionsController;
-use App\Users\Controllers\Verification\ResendVerificationEmail;
 use App\Users\Controllers\Authentication\CheckAccountController;
 use App\Users\Controllers\Account\UpdateProfileSettingsController;
 use Domain\Notifications\Controllers\GetUserNotificationsController;
 use App\Users\Controllers\Authentication\AccountAccessTokenController;
 use Domain\Notifications\Controllers\FlushUserNotificationsController;
+use App\Users\Controllers\Verification\ResendVerificationEmailController;
 use Domain\Notifications\Controllers\MarkUserNotificationsAsReadController;
 
 Route::post('/check', CheckAccountController::class);
@@ -19,7 +19,7 @@ Route::post('/check', CheckAccountController::class);
 Route::get('/email/verify/{id}', VerifyEmailController::class)
     ->name('verification.verify');
 
-Route::post('/email/verify/resend', ResendVerificationEmail::class)
+Route::post('/email/verify/resend', ResendVerificationEmailController::class)
     ->name('verification.send');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {

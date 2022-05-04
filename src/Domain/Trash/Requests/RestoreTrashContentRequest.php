@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Trash\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;

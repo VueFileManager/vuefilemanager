@@ -23,7 +23,7 @@ class CheckAccountRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|string|email',
+            'email' => 'required|email',
         ];
     }
 }

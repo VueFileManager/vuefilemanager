@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Sharing\Requests;
 
 use Illuminate\Support\Facades\Auth;

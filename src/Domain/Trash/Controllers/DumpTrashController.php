@@ -2,8 +2,8 @@
 namespace Domain\Trash\Controllers;
 
 use Domain\Files\Models\File;
-use Illuminate\Http\JsonResponse;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
@@ -24,7 +24,7 @@ class DumpTrashController extends Controller
         Folder::onlyTrashed()
             ->where('user_id', auth()->id())
             ->cursor()
-            ->each(fn($folder) => $folder->forceDelete());
+            ->each(fn ($folder) => $folder->forceDelete());
 
         // Delete files
         File::onlyTrashed()

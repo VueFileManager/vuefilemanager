@@ -1,14 +1,14 @@
 <?php
 namespace Domain\Zip\Controllers;
 
-use Domain\Files\Models\File;
-use Domain\Folders\Models\Folder;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use ZipStream\ZipStream;
 use Illuminate\Http\Request;
+use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
 use Domain\Zip\Actions\ZipAction;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 use Domain\Traffic\Actions\RecordDownloadAction;
 
 class ZipController extends Controller
@@ -55,7 +55,8 @@ class ZipController extends Controller
         $zip = ($this->zip)($folders, $files);
 
         ($this->recordDownload)(
-            $zip->predictZipSize(), auth()->id()
+            $zip->predictZipSize(),
+            auth()->id()
         );
 
         return $zip;

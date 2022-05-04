@@ -2,8 +2,7 @@
 namespace App\Users\Controllers\Verification;
 
 use App\Users\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 
@@ -11,10 +10,12 @@ class VerifyEmailController extends Controller
 {
     public function __invoke(
         string $id,
-        Request $request,
-    ): RedirectResponse | Response {
-        if (! $request->hasValidSignature()) {
-            return response('Invalid or expired url provided.', 401);
+    ): RedirectResponse | JsonResponse {
+        if (! request()->hasValidSignature()) {
+            return response()->json([
+                'type'    => 'error',
+                'message' => 'Invalid or expired url provided.',
+            ], 422);
         }
 
         $user = User::find($id);

@@ -23,9 +23,9 @@ class UpdateUserProfileSettingsRequest extends FormRequest
     public function rules()
     {
         return [
+            'name'   => 'required|string',
+            'value'  => 'sometimes|string',
             'avatar' => 'sometimes|file',
-            'name'   => 'string',
-            'value'  => 'string|nullable',
         ];
     }
 }

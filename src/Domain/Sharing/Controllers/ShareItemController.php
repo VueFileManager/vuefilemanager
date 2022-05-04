@@ -1,20 +1,20 @@
 <?php
-
 namespace Domain\Sharing\Controllers;
 
-use App\Http\Controllers\Controller;
-use Domain\Folders\Models\Folder;
-use Domain\Sharing\Actions\SendViaEmailAction;
 use Domain\Sharing\Models\Share;
-use Domain\Sharing\Requests\CreateShareRequest;
-use Domain\Sharing\Resources\ShareResource;
+use Domain\Folders\Models\Folder;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
+use Domain\Sharing\Resources\ShareResource;
+use Domain\Sharing\Actions\SendViaEmailAction;
+use Domain\Sharing\Requests\CreateShareRequest;
 
 class ShareItemController extends Controller
 {
     public function __construct(
         public SendViaEmailAction $sendLinkToEmailAction,
-    ) {}
+    ) {
+    }
 
     /**
      * Generate file share link

@@ -3,9 +3,8 @@ namespace Domain\RemoteUpload\Controllers;
 
 use DB;
 use Domain\Folders\Models\Folder;
-use Domain\RemoteUpload\Requests\RemoteUploadRequest;
 use Domain\UploadRequest\Models\UploadRequest;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Domain\RemoteUpload\Requests\RemoteUploadRequest;
 use Domain\RemoteUpload\Actions\GetContentFromExternalSource;
 
 class UploadFilesRemotelyForUploadRequestController

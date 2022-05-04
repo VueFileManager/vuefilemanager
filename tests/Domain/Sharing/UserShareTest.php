@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Sharing;
 
 use Tests\TestCase;

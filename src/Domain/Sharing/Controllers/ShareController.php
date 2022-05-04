@@ -1,14 +1,14 @@
 <?php
 namespace Domain\Sharing\Controllers;
 
-use Domain\Folders\Models\Folder;
-use Domain\Sharing\Requests\RevokeSharesRequest;
-use Illuminate\Http\JsonResponse;
 use Domain\Sharing\Models\Share;
+use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Sharing\Resources\ShareResource;
 use Domain\Sharing\Requests\UpdateShareRequest;
+use Domain\Sharing\Requests\RevokeSharesRequest;
 
 class ShareController extends Controller
 {

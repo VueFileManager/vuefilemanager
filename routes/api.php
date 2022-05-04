@@ -1,6 +1,5 @@
 <?php
 
-use Domain\Sharing\Controllers\ShareItemController;
 use Domain\Zip\Controllers\ZipController;
 use Domain\Pages\Controllers\PagesController;
 use Domain\Sharing\Controllers\ShareController;
@@ -9,6 +8,7 @@ use App\Users\Controllers\ResetPasswordController;
 use Domain\Files\Controllers\UploadFileController;
 use App\Users\Controllers\ForgotPasswordController;
 use Domain\Folders\Controllers\FavouriteController;
+use Domain\Sharing\Controllers\ShareItemController;
 use Domain\SetupWizard\Controllers\PingAPIController;
 use Domain\Folders\Controllers\CreateFolderController;
 use Domain\Browsing\Controllers\BrowseFolderController;
