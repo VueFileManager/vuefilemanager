@@ -1,22 +1,27 @@
 <?php
 namespace Domain\Notifications\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 
 class MarkUserNotificationsAsReadController extends Controller
 {
-    public function __invoke(): Response|Application|ResponseFactory
+    public function __invoke(): JsonResponse
     {
+        $successMessage = [
+            'type' => 'success',
+            'message' => 'All your notifications was marked as read.',
+        ];
+
         if (isDemoAccount()) {
-            return response('Done', 204);
+            return response()->json($successMessage);
         }
 
         // Mark all notifications as read
-        auth()->user()->unreadNotifications()->update(['read_at' => now()]);
+        auth()->user()->unreadNotifications()->update([
+            'read_at' => now()
+        ]);
 
-        return response('Done', 204);
+        return response()->json($successMessage);
     }
 }
