@@ -21,7 +21,7 @@ class UpdateProfileSettingsController extends Controller
         ];
 
         // Check if is demo
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response()->json($successMessage);
         }
 

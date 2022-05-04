@@ -22,7 +22,7 @@ class RemoteUploadFileController extends Controller
             'message' => 'Files was successfully uploaded.',
         ];
 
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response()->json($successMessage);
         }
 

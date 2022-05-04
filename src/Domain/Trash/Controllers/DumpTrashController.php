@@ -16,7 +16,7 @@ class DumpTrashController extends Controller
             'message' => 'The trash was successfully dumped.',
         ];
 
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response()->json($successMessage);
         }
 

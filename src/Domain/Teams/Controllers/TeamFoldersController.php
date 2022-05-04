@@ -65,7 +65,7 @@ class TeamFoldersController extends Controller
         CreateTeamFolderRequest $request,
     ): ResponseFactory | Response {
         // Abort in demo mode
-        abort_if(is_demo_account(), 201, 'Done.');
+        abort_if(isDemoAccount(), 201, 'Done.');
 
         $data = CreateTeamFolderData::fromRequest($request);
 
@@ -112,7 +112,7 @@ class TeamFoldersController extends Controller
         UpdateMembersAction $updateMembers,
     ): ResponseFactory | Response {
         // Abort in demo mode
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response(new FolderResource($folder), 201);
         }
 
@@ -143,7 +143,7 @@ class TeamFoldersController extends Controller
     public function destroy(Folder $folder): ResponseFactory | Response
     {
         // Abort in demo mode
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response('Done.', 201);
         }
 

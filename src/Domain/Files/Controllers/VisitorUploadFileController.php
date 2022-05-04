@@ -33,7 +33,7 @@ class VisitorUploadFileController extends Controller
         UploadRequest $request,
         Share $shared,
     ) {
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return ($this->fakeUploadFile)($request);
         }
 

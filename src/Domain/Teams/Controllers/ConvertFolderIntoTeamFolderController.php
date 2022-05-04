@@ -23,7 +23,7 @@ class ConvertFolderIntoTeamFolderController extends Controller
         Folder $folder
     ): ResponseFactory|Response {
         // Abort in demo mode
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response($folder, 201);
         }
 

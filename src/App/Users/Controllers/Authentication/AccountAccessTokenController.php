@@ -1,12 +1,13 @@
 <?php
 namespace App\Users\Controllers\Authentication;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Str;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
-use App\Users\Requests\UserCreateAccessTokenRequest;
+use App\Users\Requests\CreateAccessTokenRequest;
 
 class AccountAccessTokenController extends Controller
 {
@@ -16,41 +17,50 @@ class AccountAccessTokenController extends Controller
     public function index(): Response
     {
         return response(
-            Auth::user()->tokens()->get(),
-            200
+            Auth::user()->tokens()->get()
         );
     }
 
     /**
      * Create user tokens
      */
-    public function store(UserCreateAccessTokenRequest $request): Response
+    public function store(CreateAccessTokenRequest $request): JsonResponse
     {
-        if (is_demo_account()) {
-            return response(['plainTextToken' => Str::random(40)], 201);
+        if (isDemoAccount()) {
+            return response()->json([
+                'plainTextToken' => Str::random(40)
+            ], 201);
         }
 
         $token = Auth::user()
-            ->createToken(
-                $request->input('name')
-            );
+            ->createToken($request->input('name'));
 
-        return response($token, 201);
+        return response()->json($token, 201);
     }
 
     /**
      * Delete user token
      */
-    public function destroy(PersonalAccessToken $token): Response
+    public function destroy(PersonalAccessToken $token): JsonResponse
     {
-        abort_if(is_demo_account(), 204, 'Deleted!');
+        $successMessage = [
+            'type'    => 'success',
+            'message' => "The token was successfully deleted.",
+        ];
+
+        if (isDemoAccount()) {
+            return response()->json($successMessage);
+        }
 
         if (Auth::id() !== $token->tokenable_id) {
-            return response('Unauthorized', 401);
+            return response()->json([
+                'type'    => 'error',
+                'message' => "You are not entitled to delete this token.",
+            ], 401);
         }
 
         $token->delete();
 
-        return response('Deleted!', 204);
+        return response()->json($successMessage, 200);
     }
 }

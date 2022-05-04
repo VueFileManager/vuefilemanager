@@ -29,7 +29,7 @@ class VisitorCreateFolderController extends Controller
         CreateFolderRequest $request,
         Share $shared,
     ): Response | array {
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             $fakeFolder = ($this->fakeCreateFolder)($request);
 
             return response(new FolderResource($fakeFolder), 201);

@@ -26,7 +26,7 @@ class UploadFileController extends Controller
      */
     public function __invoke(UploadRequest $request)
     {
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return ($this->fakeUploadFile)($request);
         }
 

@@ -29,7 +29,7 @@ class InvitationsController extends Controller
             ->first();
 
         if ($user) {
-            if (is_demo_account()) {
+            if (isDemoAccount()) {
                 return response('Done', 204);
             }
 
@@ -67,7 +67,7 @@ class InvitationsController extends Controller
 
         // Clear action in existing notification
         if ($user) {
-            if (is_demo_account()) {
+            if (isDemoAccount()) {
                 return response('Done', 204);
             }
 

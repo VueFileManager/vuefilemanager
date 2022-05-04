@@ -14,7 +14,7 @@ class LeaveTeamFolderController extends Controller
     public function __invoke(Folder $folder): Response|Application|ResponseFactory
     {
         // Abort in demo mode
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response('Done.', 204);
         }
 

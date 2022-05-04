@@ -9,7 +9,7 @@ class ClearActionInInvitationNotificationAction
 {
     public function __invoke(User $user, TeamFolderInvitation $invitation): void
     {
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return;
         }
 

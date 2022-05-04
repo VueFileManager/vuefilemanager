@@ -23,7 +23,7 @@ class CreateFolderController extends Controller
     public function __invoke(
         CreateFolderRequest $request,
     ): JsonResponse {
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             $fakeFolder = ($this->fakeCreateFolder)($request);
 
             return response()->json(new FolderResource($fakeFolder), 201);

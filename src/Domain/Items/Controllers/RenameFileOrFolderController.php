@@ -28,7 +28,7 @@ class RenameFileOrFolderController extends Controller
         RenameItemRequest $request,
         string $id,
     ): FileResource|FolderResource {
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             $item = ($this->fakeRenameFileOrFolder)($request, $id);
 
             if ($request->input('type') === 'folder') {

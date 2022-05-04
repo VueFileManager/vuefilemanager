@@ -24,7 +24,7 @@ class MoveFileOrFolderController extends Controller
             'message' => 'Items was successfully moved.',
         ];
 
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response()->json($successMessage);
         }
 

@@ -31,7 +31,7 @@ class VisitorRenameFileOrFolderController extends Controller
         Share $shared,
     ): Response | array {
         // Return fake renamed item in demo
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return ($this->fakeRenameFileOrFolder)($request, $id);
         }
 

@@ -10,7 +10,7 @@ class MarkUserNotificationsAsReadController extends Controller
 {
     public function __invoke(): Response|Application|ResponseFactory
     {
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response('Done', 204);
         }
 

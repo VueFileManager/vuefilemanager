@@ -24,7 +24,7 @@ class VisitorMoveFileOrFolderController extends Controller
         MoveItemRequest $request,
         Share $shared,
     ): Response {
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             abort(204, 'Done.');
         }
 

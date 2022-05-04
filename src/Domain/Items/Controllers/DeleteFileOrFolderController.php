@@ -24,7 +24,7 @@ class DeleteFileOrFolderController extends Controller
             'message' => 'Items was successfully deleted.',
         ];
 
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response()->json($successMessage);
         }
 

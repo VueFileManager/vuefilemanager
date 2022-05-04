@@ -19,7 +19,7 @@ class FavouriteController extends Controller
         ];
 
         // Return success response for the demo response
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response()->json($successResponse, 201);
         }
 
@@ -44,7 +44,7 @@ class FavouriteController extends Controller
             'message' => 'Folder was successfully removed from your favourites folders',
         ];
 
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response()->json($successResponse, 201);
         }
 

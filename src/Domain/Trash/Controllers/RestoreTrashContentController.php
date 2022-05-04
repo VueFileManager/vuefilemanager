@@ -15,7 +15,7 @@ class RestoreTrashContentController extends Controller
             'message' => 'The item was successfully restored.',
         ];
 
-        if (is_demo_account()) {
+        if (isDemoAccount()) {
             return response()->json($successMessage);
         }
 

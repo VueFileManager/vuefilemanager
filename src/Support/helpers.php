@@ -328,11 +328,11 @@ if (! function_exists('is_demo')) {
     }
 }
 
-if (! function_exists('is_demo_account')) {
+if (! function_exists('isDemoAccount')) {
     /**
      * Check if is demo environment
      */
-    function is_demo_account(): bool
+    function isDemoAccount(): bool
     {
         return config('vuefilemanager.is_demo') && auth()->user()->email === 'howdy@hi5ve.digital';
     }
