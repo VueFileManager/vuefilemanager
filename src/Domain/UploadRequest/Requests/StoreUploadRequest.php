@@ -23,10 +23,10 @@ class StoreUploadRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'     => 'sometimes|string|nullable',
-            'notes'     => 'sometimes|string|nullable',
-            'folder_id' => 'sometimes|string',
-            'name'      => 'sometimes|string|nullable',
+            'email'     => 'sometimes|email',
+            'notes'     => 'sometimes|string',
+            'folder_id' => 'sometimes|uuid',
+            'name'      => 'sometimes|string',
         ];
     }
 }
