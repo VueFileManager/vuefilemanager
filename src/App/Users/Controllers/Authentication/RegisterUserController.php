@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Users\Actions\CreateNewUserAction;
 use App\Users\Requests\RegisterUserRequest;
 use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Http\JsonResponse;
 use VueFileManager\Subscription\Domain\Plans\Exceptions\MeteredBillingPlanDoesntExist;
 
 class RegisterUserController extends Controller
@@ -15,12 +16,12 @@ class RegisterUserController extends Controller
         protected StatefulGuard $guard,
     ) {
     }
-    
-    public function __invoke(RegisterUserRequest $request)
+
+    public function __invoke(RegisterUserRequest $request): JsonResponse
     {
         // Check if account registration is enabled
         if (! intval(get_settings('registration'))) {
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => 'User registration is not allowed',
             ], 401);
@@ -37,7 +38,7 @@ class RegisterUserController extends Controller
         try {
             $user = ($this->createNewUser)($data);
         } catch (MeteredBillingPlanDoesntExist $e) {
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => 'User registrations are temporarily disabled',
             ], 409);
@@ -48,6 +49,9 @@ class RegisterUserController extends Controller
             $this->guard->login($user);
         }
 
-        return response('User successfully registered.', 201);
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'User successfully registered.',
+        ], 201);
     }
 }
