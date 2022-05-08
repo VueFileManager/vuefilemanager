@@ -821,7 +821,7 @@ return [
         'allow_homepage'                                 => 'Allow Homepage',
         'allow_homepage_note'                            => 'When this is turned on, your visitors can visit your default homepage.',
         'storage_upload'                                 => 'Storage & Upload',
-        'allow_recaptcha'                                => 'Allow ReCaptcha',
+        'allow_recaptcha'                                => 'Allow ReCaptcha v3',
         'allow_recaptcha_note'                           => 'ReCaptcha will be allowed on Registration and Contact Us forms.',
         'login_and_registration'                         => 'Login & Registration',
         'account'                                        => 'Account',

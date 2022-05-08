@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Localization\Actions;
 
+use Artisan;
 use DB;
 
 class UpdateLanguageTranslationsAction
@@ -14,5 +15,7 @@ class UpdateLanguageTranslationsAction
             ->where('key', $item[1])
             ->update(['value' => $item[0]])
             );
+
+        Artisan::call('cache:clear');
     }
 }

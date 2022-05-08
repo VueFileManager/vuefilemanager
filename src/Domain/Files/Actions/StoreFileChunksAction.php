@@ -18,7 +18,7 @@ class StoreFileChunksAction
         $file = $request->file('file');
 
         // Get chunk name
-        $name = $file->getClientOriginalName() . '.' . $request->input('extension');
+        $name = $file->getClientOriginalName();
 
         // Get chunk file path
         $path = Storage::disk('local')->path("chunks/$name");

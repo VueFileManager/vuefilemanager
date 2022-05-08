@@ -1,3 +1,12 @@
+## Version 2.1.2
+#### Release date: 8. May 2022
+- Fixed issue with chunk uploads (Critical issue affected since 2.1.1)
+- Fixed issue with creating plan with unlimited team members
+
+## Version 2.1.1
+#### Release date: 29. April 2022
+- Fixed issue with reading image upload
+
 ## Version 2.1.0
 #### Release date: 25. April 2022
 - New remote upload function
