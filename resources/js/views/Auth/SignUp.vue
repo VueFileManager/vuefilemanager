@@ -256,6 +256,12 @@ export default {
                                 'Your New Password': error.response.data.errors['password'],
                             })
                         }
+
+                        if (error.response.data.errors['reCaptcha']) {
+							events.$emit('alert:open', {
+								title: error.response.data.message,
+							})
+                        }
                     }
                 })
 				.finally(() => {

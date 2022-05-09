@@ -2,6 +2,7 @@
 #### Release date: 9. May 2022
 - Ability to manually synchronize plans in fixed subscription type
 - Improved sanitization for .env values to prevent crash your app
+- Improved reCaptcha validation error logs
 
 ## Version 2.1.2
 #### Release date: 8. May 2022

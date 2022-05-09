@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a92e9350b2f10161aaed976505d7c360",
+    "content-hash": "9ec812c4e7c97cf3548f9130c95f644b",
     "packages": [
         {
             "name": "amphp/amp",
@@ -4505,11 +4505,17 @@
         },
         {
             "name": "makingcg/subscription",
-            "version": "dev-main",
+            "version": "1.0.6",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:VueFileManager/subscription.git",
+                "reference": "73ef544e3c8f9a27904c4aaa53e39dccca5a8402"
+            },
             "dist": {
-                "type": "path",
-                "url": "../../PhpstormProjects/subscription",
-                "reference": "9e9e137c7e0a99cc40a46a8da64d479041a0105e"
+                "type": "zip",
+                "url": "https://api.github.com/repos/VueFileManager/subscription/zipball/73ef544e3c8f9a27904c4aaa53e39dccca5a8402",
+                "reference": "73ef544e3c8f9a27904c4aaa53e39dccca5a8402",
+                "shasum": ""
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^3.6.0",
@@ -4593,9 +4599,17 @@
                 "laravel",
                 "subscription"
             ],
-            "transport-options": {
-                "relative": true
-            }
+            "support": {
+                "source": "https://github.com/VueFileManager/subscription/tree/1.0.6",
+                "issues": "https://github.com/VueFileManager/subscription/issues"
+            },
+            "funding": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/VueFileManager"
+                }
+            ],
+            "time": "2022-05-09T07:44:28+00:00"
         },
         {
             "name": "matthewbdaly/laravel-azure-storage",
@@ -14807,9 +14821,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "makingcg/subscription": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
