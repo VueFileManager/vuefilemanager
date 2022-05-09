@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Actions;
 
-use Log;
 use Str;
 use Storage;
 use Exception;
@@ -53,8 +52,6 @@ class StoreExifDataAction
                 'latitude_ref'       => $exif->GPSLatitudeRef ?? null,
             ]);
         } catch (Exception $error) {
-            Log::error('Unable to get exif data');
-
             return null;
         }
     }

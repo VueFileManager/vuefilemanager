@@ -1,6 +1,8 @@
 <?php
 namespace Domain\Files\Controllers;
 
+use Storage;
+use Illuminate\Support\Str;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
@@ -42,8 +44,14 @@ class UploadFileController extends Controller
                     ->user
                 : auth()->user();
 
+            // Get file name
+            $name = Str::uuid() . '.' . $request->input('extension');
+
+            // Move file to user directory
+            Storage::disk('local')->move($chunkPath, "files/$user->id/$name");
+
             // Process file
-            $file = ($this->processFie)($request, $user, $chunkPath);
+            $file = ($this->processFie)($request, $user, $name);
 
             return response(new FileResource($file), 201);
         }

@@ -8,6 +8,8 @@ use Domain\Files\Actions\ProcessFileAction;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\Files\Actions\StoreFileChunksAction;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Str;
+use Storage;
 
 class UploadFilesForUploadRequestController
 {
@@ -40,8 +42,14 @@ class UploadFilesForUploadRequestController
 
         // Proceed after last chunk
         if ($request->boolean('is_last')) {
+            // Get file name
+            $name = Str::uuid() . '.' . $request->input('extension');
+
+            // Move file to user directory
+            Storage::disk('local')->move($chunkPath, "files/{$uploadRequest->user->id}/$name");
+
             // Process file
-            $file = ($this->processFie)($request, $uploadRequest->user, $chunkPath);
+            $file = ($this->processFie)($request, $uploadRequest->user, $name);
 
             // Set public access url
             $file->setUploadRequestPublicUrl($uploadRequest->id);

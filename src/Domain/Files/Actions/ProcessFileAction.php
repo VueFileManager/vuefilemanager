@@ -26,15 +26,15 @@ class ProcessFileAction
     public function __invoke(
         UploadRequest $request,
         User $user,
-        string $chunkPath,
+        string $name,
     ) {
         // Get local disk instance
         $localDisk = Storage::disk('local');
+        $filePath = "files/$user->id/$name";
 
         // Get file data
-        $size = $localDisk->size($chunkPath);
-        $mimetype = $localDisk->mimeType($chunkPath);
-        $name = Str::uuid() . '.' . $request->input('extension');
+        $size = $localDisk->size($filePath);
+        $mimetype = $localDisk->mimeType($filePath);
 
         // Get upload limit
         $uploadLimit = get_settings('upload_limit');
@@ -47,26 +47,22 @@ class ProcessFileAction
         // Check if user has enough space to upload file
         if (! $user->canUpload($size)) {
             // Delete file from chunk directory
-            $localDisk->delete($chunkPath);
-
-            // Set up response
-            $response = response([
-                'type'    => 'error',
-                'message' => __t('user_action_not_allowed'),
-            ], 401);
+            $localDisk->delete($filePath);
 
             // Abort code
-            abort($response);
+            abort(
+                response([
+                    'type'    => 'error',
+                    'message' => __t('user_action_not_allowed'),
+                ], 401)
+            );
         }
-
-        // Move file to user directory
-        $localDisk->move($chunkPath, "files/$user->id/$name");
 
         // Create multiple image thumbnails
         ($this->createImageThumbnail)($name, $user->id);
 
         // Store exif data if exists
-        $exif = ($this->storeExifData)("files/$user->id/$name");
+        $exif = ($this->storeExifData)($filePath);
 
         // Move file to external storage
         match (config('filesystems.default')) {
