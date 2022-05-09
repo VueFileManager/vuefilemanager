@@ -15,6 +15,7 @@
 
         <!--ConfirmPopup Popup-->
         <ConfirmPopup />
+		<ProcessingPopup />
 
         <!-- Create language popup -->
         <CreateLanguage />
@@ -88,6 +89,7 @@ import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRe
 import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
 import NotificationsPopup from "../components/Notifications/NotificationsPopup";
 import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
+import ProcessingPopup from "../components/Popups/ProcessingPopup";
 
 export default {
     name: 'Admin',
@@ -192,6 +194,7 @@ export default {
         },
     },
     components: {
+		ProcessingPopup,
 		RemoteUploadPopup,
 		NotificationsPopup,
 		CreateTeamFolderPopup,

@@ -1,3 +1,8 @@
+## Version 2.1.3
+#### Release date: 9. May 2022
+- Ability to manually synchronize plans in fixed subscription type
+- Improved sanitization for .env values to prevent crash your app
+
 ## Version 2.1.2
 #### Release date: 8. May 2022
 - Fixed issue with chunk uploads (Critical issue affected since 2.1.1)
