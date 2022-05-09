@@ -3,6 +3,7 @@
 - Ability to manually synchronize plans in fixed subscription type
 - Improved sanitization for .env values to prevent crash your app
 - Improved reCaptcha validation error logs
+- Fixed issue when upload doesn't start after you drag the file into empty view
 
 ## Version 2.1.2
 #### Release date: 8. May 2022

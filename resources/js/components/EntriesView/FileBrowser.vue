@@ -6,7 +6,7 @@
             'grid-view-sidebar': itemViewType === 'grid' && isVisibleSidebar,
         }"
         class="px-4 lg:h-full lg:w-full lg:overflow-y-auto lg:px-0"
-        @drop.stop.prevent="uploadDroppedItems($event)"
+        @drop.prevent="dragStop($event)"
         @keydown.delete="deleteItems"
         @dragover="dragEnter"
         @dragleave="dragLeave"
@@ -62,9 +62,7 @@ export default {
                 this.$store.dispatch('deleteItem')
             }
         },
-        uploadDroppedItems(event) {
-            this.$uploadDraggedFiles(event, this.currentFolder.data.id)
-
+        dragStop() {
             this.isDragging = false
         },
         dragEnter() {

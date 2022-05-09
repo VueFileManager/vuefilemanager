@@ -177,7 +177,7 @@ const FunctionHelpers = {
 
         Vue.prototype.$uploadDraggedFiles = async function (event, parent_id) {
             // Show alert message when upload is disabled
-            if (!store.getters.user.data.meta.restrictions.canUpload) {
+            if (store.getters.user && !store.getters.user.data.meta.restrictions.canUpload) {
                 Vue.prototype.$temporarilyDisabledUpload()
 
                 return
