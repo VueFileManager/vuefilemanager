@@ -4,10 +4,15 @@ namespace Domain\Settings\Controllers;
 use Artisan;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
+use Domain\Settings\Actions\TestPaystackConnectionAction;
 use Domain\Settings\Requests\StorePaymentServiceCredentialsRequest;
 
 class StorePaymentServiceCredentialsController
 {
+    public function __construct(
+        public TestPaystackConnectionAction $testPaystackConnection,
+    ) {}
+
     /**
      * Configure stripe additionally
      */
@@ -43,6 +48,15 @@ class StorePaymentServiceCredentialsController
 
         // Get and store credentials
         if (! app()->runningUnitTests()) {
+            // Test payment gateway connection
+            match ($request->input('service')) {
+                'paystack' => ($this->testPaystackConnection)([
+                    'key'    => $request->input('key'),
+                    'secret' => $request->input('secret'),
+                ]),
+                default => null
+            };
+
             $credentials = [
                 'stripe'   => [
                     'STRIPE_PUBLIC_KEY'     => $request->input('key'),

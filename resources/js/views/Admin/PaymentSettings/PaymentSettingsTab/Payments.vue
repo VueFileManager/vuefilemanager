@@ -623,10 +623,17 @@ export default {
                     })
                 })
                 .catch((error) => {
-                    if (error.response.status === 500) {
-                        this.isError = true
-                        this.errorMessage = error.response.data.message
-                    }
+					if ([401, 500].includes(error.response.status)) {
+						events.$emit('alert:open', {
+							title: error.response.data.title,
+							message: error.response.data.message,
+						})
+					} else {
+						events.$emit('toaster', {
+							type: 'danger',
+							message: this.$t('popup_error.title'),
+						})
+					}
                 })
                 .finally(() => (this.isLoading = false))
         },
