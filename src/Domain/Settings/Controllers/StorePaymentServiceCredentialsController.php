@@ -4,6 +4,7 @@ namespace Domain\Settings\Controllers;
 use Artisan;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
+use Domain\Settings\Actions\TestStripeConnectionAction;
 use Domain\Settings\Actions\TestPaystackConnectionAction;
 use Domain\Settings\Requests\StorePaymentServiceCredentialsRequest;
 
@@ -11,6 +12,7 @@ class StorePaymentServiceCredentialsController
 {
     public function __construct(
         public TestPaystackConnectionAction $testPaystackConnection,
+        public TestStripeConnectionAction $testStripeConnection,
     ) {}
 
     /**
@@ -53,6 +55,11 @@ class StorePaymentServiceCredentialsController
                 'paystack' => ($this->testPaystackConnection)([
                     'key'    => $request->input('key'),
                     'secret' => $request->input('secret'),
+                ]),
+                'stripe' => ($this->testStripeConnection)([
+                    'key'     => $request->input('key'),
+                    'secret'  => $request->input('secret'),
+                    'webhook' => $request->input('webhook'),
                 ]),
                 default => null
             };
