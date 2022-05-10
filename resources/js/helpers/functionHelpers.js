@@ -427,6 +427,12 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$goToFileView = function (id) {
+            // If user is located in trash, then automatically after click on the navigator go to the Files view
+            if (this.$router.currentRoute.name === 'Trash') {
+                this.$router.push({ name: 'Files', params: { id: id } })
+                return
+            }
+
             let locations = {
                 RequestUpload: {name: 'RequestUpload', params: { token: this.$route.params.token, id: id }},
                 Public: {name: 'Public', params: { token: this.$route.params.token, id: id }},
