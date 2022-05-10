@@ -169,7 +169,7 @@ const FunctionHelpers = {
             })
 
             // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal == 0) this.$handleUploading(store.getters.fileQueue[0])
+            if (store.getters.filesInQueueTotal === 0) this.$handleUploading(store.getters.fileQueue[0])
 
             // Increase total files in upload bar
             store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)

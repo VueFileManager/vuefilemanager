@@ -179,6 +179,8 @@ const actions = {
                     if (response.data.data.id) {
                         commit('PROCESSING_FILE', false)
 
+                        commit('INCREASE_FOLDER_ITEM', response.data.data.attributes.parent_id)
+
                         // Remove first file from file queue
                         commit('SHIFT_FROM_FILE_QUEUE')
 
