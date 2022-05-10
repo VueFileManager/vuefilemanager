@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Localization\Actions;
 
-use Artisan;
 use DB;
+use Artisan;
 
 class UpdateLanguageTranslationsAction
 {
@@ -11,9 +11,9 @@ class UpdateLanguageTranslationsAction
         collect($list)
             ->each(
                 fn (...$item) => DB::table('language_translations')
-            ->where('lang', 'en')
-            ->where('key', $item[1])
-            ->update(['value' => $item[0]])
+                    ->where('lang', 'en')
+                    ->where('key', $item[1])
+                    ->update(['value' => $item[0]])
             );
 
         Artisan::call('cache:clear');

@@ -1,16 +1,16 @@
 <?php
-
 namespace Domain\Settings\Actions;
 
 use ErrorException;
-use VueFileManager\Subscription\Domain\Plans\DTO\CreateFixedPlanData;
 use VueFileManager\Subscription\Support\EngineManager;
+use VueFileManager\Subscription\Domain\Plans\DTO\CreateFixedPlanData;
 
 class TestStripeConnectionAction
 {
     public function __construct(
         public EngineManager $subscription
-    ) {}
+    ) {
+    }
 
     public function __invoke($credentials)
     {
@@ -47,7 +47,6 @@ class TestStripeConnectionAction
             $this->subscription
                 ->driver('stripe')
                 ->deletePlan($plan['id']);
-
         } catch (ErrorException $error) {
             abort(
                 response()->json([

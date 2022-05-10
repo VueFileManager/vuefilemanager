@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Domain\Files\Requests\UploadRequest;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Str;
 
 class StoreFileChunksAction
 {

@@ -1,16 +1,16 @@
 <?php
-
 namespace Domain\Settings\Actions;
 
 use ErrorException;
-use VueFileManager\Subscription\Domain\Plans\DTO\CreateFixedPlanData;
 use VueFileManager\Subscription\Support\EngineManager;
+use VueFileManager\Subscription\Domain\Plans\DTO\CreateFixedPlanData;
 
 class TestPayPalConnectionAction
 {
     public function __construct(
         public EngineManager $subscription
-    ) {}
+    ) {
+    }
 
     public function __invoke($credentials)
     {
@@ -48,7 +48,6 @@ class TestPayPalConnectionAction
             $this->subscription
                 ->driver('paypal')
                 ->deletePlan($plan['id']);
-
         } catch (ErrorException $error) {
             abort(
                 response()->json([

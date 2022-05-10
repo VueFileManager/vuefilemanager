@@ -2,14 +2,14 @@
 namespace Domain\UploadRequest\Controllers;
 
 use DB;
+use Storage;
+use Illuminate\Support\Str;
 use Domain\Folders\Models\Folder;
 use Domain\Files\Resources\FileResource;
 use Domain\Files\Actions\ProcessFileAction;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\Files\Actions\StoreFileChunksAction;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Str;
-use Storage;
 
 class UploadFilesForUploadRequestController
 {
