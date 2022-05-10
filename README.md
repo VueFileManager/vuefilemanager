@@ -11,6 +11,7 @@
   - [Nginx Configuration](#nginx-configuration)
   - [Apache Configuration](#apache-configuration)
   - [Migrating to Another Domain](#migrating-to-another-domain)
+  - [Social Authentication](#social-authentication)
 - [Subscription Configuration](#subscription-configuration)
   - [Configuring Production/Testing Environment](#configuring-productiontesting-environment)
   - [Upgrading From Testing Environment to the Production Mode](#upgrading-from-testing-environment-to-the-production-mode)
@@ -184,6 +185,13 @@ If you move your VueFileManager application into another domain or subdomain, yo
 2. Find `APP_URL` variable and write your new domain location. Don't forget start with defining `https://` protocol.
 3. Find `SANCTUM_STATEFUL_DOMAINS` variable and write your new domain location without http protocol.
 4. Remove your cached config file which is located `/bootstrap/cache/config.php`.
+
+## Social Authentication
+If you'd like to allow your users to authenticate via their social accounts, the setup is pretty convenient. Just don't forget to set up redirect url and required permissions.
+
+#### Required permissions:
+- Name and profile picture
+- Email
 
 # Subscription Configuration
 

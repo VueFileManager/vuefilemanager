@@ -357,6 +357,10 @@ export default {
     },
     methods: {
         getCallbackEndpoint(service) {
+			if (service === 'facebook') {
+            	return `${this.config.host}/socialite/${service}/callback/`
+			}
+
             return `${this.config.host}/socialite/${service}/callback`
         },
         async storeCredentials(service) {
