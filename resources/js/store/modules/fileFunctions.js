@@ -114,7 +114,7 @@ const actions = {
             })
             .catch((error) => {
                 events.$emit('alert:open', {
-                    title: error.response.data.message,
+                    title: error.response.data.message || i18n.t('popup_error.title'),
                     message: i18n.t('popup_error.message'),
                 })
             })
