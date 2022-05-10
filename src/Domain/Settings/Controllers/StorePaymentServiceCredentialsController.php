@@ -5,6 +5,7 @@ use Artisan;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
 use Domain\Settings\Actions\TestStripeConnectionAction;
+use Domain\Settings\Actions\TestPayPalConnectionAction;
 use Domain\Settings\Actions\TestPaystackConnectionAction;
 use Domain\Settings\Requests\StorePaymentServiceCredentialsRequest;
 
@@ -13,6 +14,7 @@ class StorePaymentServiceCredentialsController
     public function __construct(
         public TestPaystackConnectionAction $testPaystackConnection,
         public TestStripeConnectionAction $testStripeConnection,
+        public TestPayPalConnectionAction $testPayPalConnection,
     ) {}
 
     /**
@@ -60,6 +62,12 @@ class StorePaymentServiceCredentialsController
                     'key'     => $request->input('key'),
                     'secret'  => $request->input('secret'),
                     'webhook' => $request->input('webhook'),
+                ]),
+                'paypal' => ($this->testPayPalConnection)([
+                    'key'     => $request->input('key'),
+                    'secret'  => $request->input('secret'),
+                    'webhook' => $request->input('webhook'),
+                    'live'    => $request->has('live') ? (string)$request->input('live') : $PayPalDefaultMode,
                 ]),
                 default => null
             };
