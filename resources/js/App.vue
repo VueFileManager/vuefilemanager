@@ -118,11 +118,6 @@ export default {
                 this.isLoaded = true
             })
         }
-
-		// Go to sign in page if homepage is disabled
-		if (!this.$root.$data.config.allowHomepage && window.location.pathname === '/') {
-			this.$router.push({ name: 'SignIn' })
-		}
     },
     created() {
         if (this.$isWindows()) {
