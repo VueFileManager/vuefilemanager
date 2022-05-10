@@ -9,8 +9,6 @@
                 }"
                 class="chart-wrapper"
             >
-                <!--<DotLabel class="label" :class="{'offset-top': chart.progress < 5}" :color="chart.color" :title="chart.value" />-->
-
                 <!--Only singe line-->
                 <span
                     v-if="data.length === 1"

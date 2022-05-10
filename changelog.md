@@ -6,6 +6,7 @@
 - Fixed issue when upload doesn't start after you drag the file into empty view
 - Fixed issue when homepage flash to sign in screen after the homepage was disabled in admin panel
 - Fixed trash navigator issue
+- Fixed issue when you create plan with 0 team members amount
 
 ## Version 2.1.2
 #### Release date: 8. May 2022
