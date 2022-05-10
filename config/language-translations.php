@@ -462,7 +462,7 @@ return [
         'server'                                         => 'Server',
         'environment'                                    => 'Environment',
         'storage_upload'                                 => 'Storage & Upload',
-        'allow_recaptcha'                                => 'Allow ReCaptcha',
+        'allow_recaptcha'                                => 'Allow ReCaptcha v3',
         'allow_recaptcha_note'                           => 'ReCaptcha will be allowed on Registration and Contact Us forms.',
         'account'                                        => 'Account',
         'search'                                         => 'Search',

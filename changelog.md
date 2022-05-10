@@ -1,3 +1,22 @@
+## Version 2.1.3
+#### Release date: 9. May 2022
+- Ability to manually synchronize plans in fixed subscription type
+- Improved sanitization for .env values to prevent crash your app
+- Improved reCaptcha validation errors
+- Fixed issue when upload doesn't start after you drag the file into empty view
+- Fixed issue when homepage flash to sign in screen after the homepage was disabled in admin panel
+- Fixed trash navigator issue
+- Fixed issue when you create plan with 0 team members amount
+
+## Version 2.1.2
+#### Release date: 8. May 2022
+- Fixed issue with chunk uploads (Critical issue affected since 2.1.1)
+- Fixed issue with creating plan with unlimited team members
+
+## Version 2.1.1
+#### Release date: 29. April 2022
+- Fixed issue with reading image upload
+
 ## Version 2.1.0
 #### Release date: 25. April 2022
 - New remote upload function

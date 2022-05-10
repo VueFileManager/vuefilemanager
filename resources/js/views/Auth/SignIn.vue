@@ -1,5 +1,5 @@
 <template>
-    <AuthContentWrapper ref="auth" class="h-screen">
+    <AuthContentWrapper v-if="isVisible" ref="auth" class="h-screen">
         <!--Log In by Email-->
         <AuthContent name="log-in" :visible="true">
             <Headline :title="$t('welcome_back')" :description="$t('page_login.subtitle')" />
@@ -245,6 +245,7 @@ export default {
     },
     data() {
         return {
+			isVisible: false,
             isLoading: false,
             validSignIn: false,
             checkedAccount: undefined,
@@ -432,14 +433,20 @@ export default {
             }
         },
     },
-    created() {
-        this.$scrollTop()
-        this.$store.commit('PROCESSING_POPUP', undefined)
-
+	mounted() {
 		// Redirect if user is authenticated
 		if (this.$root.$data.config.isAuthenticated) {
 			this.$router.push({name: 'Files'})
 		}
+	},
+	created() {
+		// Show the page when user is not authenticated
+		if (! this.$root.$data.config.isAuthenticated) {
+			this.isVisible = true
+		}
+
+        this.$scrollTop()
+        this.$store.commit('PROCESSING_POPUP', undefined)
 
         if (this.config.isDemo || this.config.isDev) {
             this.loginEmail = 'howdy@hi5ve.digital'

@@ -1,7 +1,6 @@
 <?php
 namespace Domain\Files\Actions;
 
-use Log;
 use Str;
 use Storage;
 use Exception;
@@ -31,7 +30,7 @@ class StoreExifDataAction
             $exif = json_decode(json_encode($exifRaw));
 
             return Exif::create([
-                'file_id'            => Str::uuid(), // TODO: temporary store to prevent crash before app will be successfully upgraded
+                'file_id'            => Str::uuid(),
                 'date_time_original' => $exif->DateTimeOriginal ?? null,
                 'artist'             => $exif->OwnerName ?? null,
                 'width'              => $exif->COMPUTED->Width ?? null,
@@ -53,8 +52,6 @@ class StoreExifDataAction
                 'latitude_ref'       => $exif->GPSLatitudeRef ?? null,
             ]);
         } catch (Exception $error) {
-            Log::error('Unable to get exif data');
-
             return null;
         }
     }

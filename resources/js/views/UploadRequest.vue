@@ -27,7 +27,7 @@
             <MobileUploadRequestToolBar v-if="canShowUI" />
 
             <!--File list & info sidebar-->
-            <div class="flex space-x-3 lg:overflow-hidden grow">
+            <div class="flex space-x-3 lg:overflow-hidden grow" @drop.stop.prevent="uploadDroppedItems($event)" @dragenter.prevent @dragover.prevent>
                 <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
 
                 <InfoSidebarUploadRequest v-if="canShowUI && isVisibleSidebar" />
@@ -73,7 +73,7 @@ export default {
         DragUI,
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'config', 'uploadRequest', 'fileQueue']),
+        ...mapGetters(['isVisibleSidebar', 'config', 'uploadRequest', 'fileQueue', 'currentFolder']),
 		canShowUI() {
 			return (this.uploadRequest && this.uploadRequest.data.attributes.status === 'filling') || this.fileQueue.length > 0
 		}
@@ -84,6 +84,9 @@ export default {
         }
     },
     methods: {
+		uploadDroppedItems(event) {
+			this.$uploadDraggedFiles(event, this.currentFolder?.data.id)
+		},
         contextMenu(event, item) {
             events.$emit('context-menu:show', event, item)
         },

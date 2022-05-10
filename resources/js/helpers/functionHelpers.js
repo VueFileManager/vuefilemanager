@@ -161,7 +161,7 @@ const FunctionHelpers = {
             })
 
             // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal == 0) this.$handleUploading(store.getters.fileQueue[0])
+            if (store.getters.filesInQueueTotal === 0) this.$handleUploading(store.getters.fileQueue[0])
 
             // Increase total files in upload bar
             store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
@@ -169,7 +169,7 @@ const FunctionHelpers = {
 
         Vue.prototype.$uploadDraggedFiles = async function (event, parent_id) {
             // Show alert message when upload is disabled
-            if (!store.getters.user.data.meta.restrictions.canUpload) {
+            if (store.getters.user && !store.getters.user.data.meta.restrictions.canUpload) {
                 Vue.prototype.$temporarilyDisabledUpload()
 
                 return
@@ -330,6 +330,12 @@ const FunctionHelpers = {
         }
 
         Vue.prototype.$goToFileView = function (id) {
+            // If user is located in trash, then automatically after click on the navigator go to the Files view
+            if (this.$router.currentRoute.name === 'Trash') {
+                this.$router.push({ name: 'Files', params: { id: id } })
+                return
+            }
+
             let locations = {
                 Public: {name: 'Public', params: { token: this.$route.params.token, id: id }},
                 MySharedItems: { name: 'Files', params: { id: id } },

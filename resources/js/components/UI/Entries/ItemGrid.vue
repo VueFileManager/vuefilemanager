@@ -4,7 +4,7 @@
             'bg-light-background dark:bg-dark-foreground': isClicked && canHover,
             'dark:hover:bg-dark-foreground lg:hover:bg-light-background': canHover,
         }"
-        class="relative z-0 flex h-48 select-none flex-wrap items-center justify-center rounded-lg border-2 border-dashed border-transparent px-1 pt-2 text-center sm:h-56 lg:h-60"
+        class="relative z-0 flex h-48 select-none flex-wrap items-center justify-center rounded-lg border-2 border-dashed border-transparent px-1 pt-2 text-center sm:h-56 lg:h-60 cursor-pointer"
         :draggable="canDrag"
         spellcheck="false"
     >
@@ -68,7 +68,7 @@
                 <!--Item Title-->
                 <span
                     class="inline-block w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold leading-3 tracking-tight md:px-6"
-                    :class="{ 'hover:underline': canEditName }"
+                    :class="{ 'hover:underline cursor-text': canEditName }"
                     ref="name"
                     @input="renameItem"
                     @keydown.delete.stop

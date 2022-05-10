@@ -1,7 +1,6 @@
 <?php
 namespace Tests\Domain\Files;
 
-use Event;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -10,8 +9,6 @@ use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
-use Illuminate\Support\Facades\Http;
-use Domain\RemoteUpload\Events\RemoteFileCreatedEvent;
 
 class FileTest extends TestCase
 {

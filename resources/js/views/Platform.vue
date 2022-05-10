@@ -37,7 +37,7 @@
             <MobileToolbar />
 
             <!--File list & info sidebar-->
-            <div class="flex space-x-3 lg:overflow-hidden grow">
+            <div class="flex space-x-3 lg:overflow-hidden grow" @drop.stop.prevent="uploadDroppedItems($event)" @dragenter.prevent @dragover.prevent>
                 <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
 
                 <InfoSidebar v-if="isVisibleSidebar" />
@@ -91,7 +91,7 @@ export default {
         DragUI,
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'config']),
+        ...mapGetters(['isVisibleSidebar', 'config', 'currentFolder']),
     },
     data() {
         return {
@@ -99,6 +99,9 @@ export default {
         }
     },
     methods: {
+		uploadDroppedItems(event) {
+			this.$uploadDraggedFiles(event, this.currentFolder?.data.id)
+		},
         contextMenu(event, item) {
             events.$emit('context-menu:show', event, item)
         },
