@@ -93,7 +93,7 @@ const actions = {
         context.commit('ADD_TO_FAVOURITES', favouritesWidget)
 
         axios
-            .post(context.getters.api + '/folders/favourites', {
+            .post(context.getters.api + '/favourites', {
                 ids: itemsToFavourites,
             })
             .catch(() => {
@@ -105,19 +105,19 @@ const actions = {
         commit('REMOVE_ITEM_FROM_FAVOURITES', folder)
 
         axios
-            .post(getters.api + '/folders/favourites/' + folder.data.id, {
+            .post(getters.api + '/favourites/' + folder.data.id, {
                 _method: 'delete',
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
     readAllNotifications: ({ commit }) => {
-        axios.post('/api/user/notifications/read')
+        axios.post('/api/notifications/read')
             .then(() => {
                 commit('UPDATE_NOTIFICATION_COUNT', 0)
             })
     },
     deleteAllNotifications: ({ commit }) => {
-        axios.delete('/api/user/notifications')
+        axios.delete('/api/notifications')
             .then(() => {
                 commit('FLUSH_NOTIFICATIONS')
             })

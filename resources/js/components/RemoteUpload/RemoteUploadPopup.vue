@@ -105,7 +105,7 @@ export default {
 
 			// Get route
 			let route = {
-				RequestUpload: `/api/upload-request/${this.$router.currentRoute.params.token}/upload/remote`,
+				RequestUpload: `/api/file-request/${this.$router.currentRoute.params.token}/upload/remote`,
 				Public: `/api/editor/upload/remote/${this.$router.currentRoute.params.token}`,
 			}[this.$router.currentRoute.name] || '/api/upload/remote'
 

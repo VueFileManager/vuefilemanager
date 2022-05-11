@@ -21,7 +21,7 @@ class CheckAccountController extends Controller
             return response()->json([
                 'type'    => 'error',
                 'message' => __t('user_not_fount'),
-            ]);
+            ], 404);
         }
 
         return response()->json([

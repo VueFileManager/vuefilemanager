@@ -4,14 +4,22 @@ namespace Domain\UploadRequest\Controllers;
 use Illuminate\Support\Arr;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
 use Domain\Items\Requests\DeleteItemRequest;
 use Domain\UploadRequest\Models\UploadRequest;
 
 class DeleteFileOrFolderController
 {
-    public function __invoke(DeleteItemRequest $request, UploadRequest $uploadRequest)
-    {
+    public function __invoke(
+        DeleteItemRequest $request,
+        UploadRequest $uploadRequest
+    ): JsonResponse {
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'Items was successfully deleted.',
+        ];
+
         foreach ($request->input('items') as $file) {
             // Get file or folder item
             $item = get_item($file['type'], $file['id']);
@@ -27,7 +35,7 @@ class DeleteFileOrFolderController
             }
         }
 
-        return response('Done', 204);
+        return response()->json($successMessage);
     }
 
     private function destroyFile(File $file): void

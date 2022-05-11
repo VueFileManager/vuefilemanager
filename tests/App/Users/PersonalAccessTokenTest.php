@@ -46,7 +46,7 @@ class PersonalAccessTokenTest extends TestCase
         $this
             ->actingAs($user)
             ->deleteJson("/api/user/tokens/$token_id")
-            ->assertStatus(204);
+            ->assertStatus(200);
 
         $this->assertDatabaseMissing('personal_access_tokens', [
             'id' => $token_id,

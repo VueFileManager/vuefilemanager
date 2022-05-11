@@ -29,13 +29,12 @@ class FolderUploadTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $file->name,
-                'extension' => 'pdf',
-                'file'      => $file,
-                'path'      => '/',
-                'parent_id' => $folder->id,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $file->name,
+                'extension'       => 'pdf',
+                'chunk'           => $file,
+                'parent_id'       => $folder->id,
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $file = File::first();
@@ -59,24 +58,22 @@ class FolderUploadTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $file->name,
-                'extension' => 'pdf',
-                'file'      => $file,
-                'path'      => "/level_1/level_2/level_3/$file->name",
-                'parent_id' => null,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $file->name,
+                'extension'       => 'pdf',
+                'chunk'           => $file,
+                'path'            => "/level_1/level_2/level_3/$file->name",
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $file->name,
-                'extension' => 'pdf',
-                'file'      => $file,
-                'path'      => "/level_1/level_2/level_3/$file->name",
-                'parent_id' => null,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $file->name,
+                'extension'       => 'pdf',
+                'chunk'           => $file,
+                'path'            => "/level_1/level_2/level_3/$file->name",
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $file = File::first();
@@ -107,7 +104,6 @@ class FolderUploadTest extends TestCase
             ->create([
                 'name'      => 'level_1',
                 'user_id'   => $user->id,
-                'parent_id' => null,
             ]);
 
         $level_2 = Folder::factory()
@@ -129,13 +125,12 @@ class FolderUploadTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $file->name,
-                'extension' => 'pdf',
-                'file'      => $file,
-                'path'      => "/another_folder/level_2/level_3/$file->name",
-                'parent_id' => null,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $file->name,
+                'extension'       => 'pdf',
+                'chunk'           => $file,
+                'path'            => "/another_folder/level_2/level_3/$file->name",
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         // Root folders
@@ -166,24 +161,22 @@ class FolderUploadTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $brother->name,
-                'extension' => 'pdf',
-                'file'      => $brother,
-                'path'      => "/Folder/Brother/$brother->name",
-                'parent_id' => null,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $brother->name,
+                'extension'       => 'pdf',
+                'chunk'           => $brother,
+                'path'            => "/Folder/Brother/$brother->name",
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $sister->name,
-                'extension' => 'pdf',
-                'file'      => $sister,
-                'path'      => "/Folder/Sister/$sister->name",
-                'parent_id' => null,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $sister->name,
+                'extension'       => 'pdf',
+                'chunk'           => $sister,
+                'path'            => "/Folder/Sister/$sister->name",
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $brotherFile = File::where('name', 'brother.pdf')->first();

@@ -109,26 +109,32 @@ class FixedBillingRestrictionsTest extends TestCase
                 'name'        => 'Company Project',
                 'invitations' => [
                     [
+                        'type'       => 'invitation',
                         'email'      => 'test@doe.com',
                         'permission' => 'can-edit',
                     ],
                     [
+                        'type'       => 'invitation',
                         'email'      => 'test2@doe.com',
                         'permission' => 'can-edit',
                     ],
                     [
+                        'type'       => 'invitation',
                         'email'      => 'test3@doe.com',
                         'permission' => 'can-edit',
                     ],
                     [
+                        'type'       => 'invitation',
                         'email'      => 'test4@doe.com',
                         'permission' => 'can-edit',
                     ],
                     [
+                        'type'       => 'invitation',
                         'email'      => 'test5@doe.com',
                         'permission' => 'can-edit',
                     ],
                     [
+                        'type'       => 'invitation',
                         'email'      => 'test6@doe.com',
                         'permission' => 'can-edit',
                     ],
@@ -143,6 +149,7 @@ class FixedBillingRestrictionsTest extends TestCase
                 'name'        => 'Company Project',
                 'invitations' => [
                     [
+                        'type'       => 'invitation',
                         'email'      => $members[0]->email,
                         'permission' => 'can-edit',
                     ],

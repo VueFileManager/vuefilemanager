@@ -43,9 +43,9 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->group(base_path('routes/share.php'));
 
-            Route::prefix('api/upload-request')
+            Route::prefix('api/file-request')
                 ->middleware('api')
-                ->group(base_path('routes/upload-request.php'));
+                ->group(base_path('routes/file-request.php'));
 
             Route::prefix('api/admin')
                 ->middleware(['api', 'auth:sanctum', 'admin'])
@@ -85,5 +85,7 @@ class RouteServiceProvider extends ServiceProvider
                 ? Limit::perMinute(1000)->by($request->user()->id)
                 : Limit::perMinute(100)->by($request->ip());
         });
+
+        RateLimiter::for('login', fn (Request $request) => Limit::perMinute(5)->by($request->ip()));
     }
 }

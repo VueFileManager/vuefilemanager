@@ -3,7 +3,7 @@ namespace Domain\Files\Actions;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Domain\Files\Requests\UploadRequest;
+use Domain\Files\Requests\UploadChunkRequest;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class StoreFileChunksAction
@@ -11,10 +11,10 @@ class StoreFileChunksAction
     /**
      * @throws FileNotFoundException
      */
-    public function __invoke(UploadRequest $request)
+    public function __invoke(UploadChunkRequest $request)
     {
         // Get uploaded file
-        $file = $request->file('file');
+        $file = $request->file('chunk');
 
         // Get chunk name
         $name = $file->getClientOriginalName();
@@ -26,7 +26,7 @@ class StoreFileChunksAction
         File::append($path, $file->get());
 
         // If last chunk, then return file path
-        if ($request->boolean('is_last')) {
+        if ($request->boolean('is_last_chunk')) {
             return "chunks/$name";
         }
     }

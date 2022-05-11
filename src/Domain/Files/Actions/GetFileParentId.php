@@ -3,11 +3,12 @@ namespace Domain\Files\Actions;
 
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
-use Domain\Files\Requests\UploadRequest;
+use Domain\Files\Requests\UploadFileRequest;
+use Domain\Files\Requests\UploadChunkRequest;
 
 class GetFileParentId
 {
-    public function __invoke(UploadRequest $request, string $userId): ?string
+    public function __invoke(UploadChunkRequest|UploadFileRequest $request, string $userId): ?string
     {
         // extract file path
         $directoryPath = collect(

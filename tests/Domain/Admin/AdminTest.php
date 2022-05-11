@@ -278,13 +278,11 @@ class AdminTest extends TestCase
                 $file = UploadedFile::fake()
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
-                $this->postJson('/api/upload', [
-                    'name'      => $file->name,
-                    'extension' => 'pdf',
-                    'file'      => $file,
-                    'parent_id' => null,
-                    'path'      => "/$file->name",
-                    'is_last'   => 'true',
+                $this->postJson('/api/upload/chunks', [
+                    'name'            => $file->name,
+                    'extension'       => 'pdf',
+                    'chunk'           => $file,
+                    'is_last_chunk'   => 1,
                 ])->assertStatus(201);
             });
 
@@ -295,9 +293,9 @@ class AdminTest extends TestCase
         $avatar = UploadedFile::fake()
             ->image('fake-image.jpg');
 
-        $this->patchJson('/api/user/settings', [
+        $this->postJson('/api/user/avatar', [
             'avatar' => $avatar,
-        ])->assertStatus(204);
+        ])->assertStatus(200);
 
         $user = User::whereRole('user')
             ->first();

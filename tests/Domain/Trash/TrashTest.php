@@ -74,12 +74,11 @@ class TrashTest extends TestCase
         $image = UploadedFile::fake()
             ->image('fake-image.jpg');
 
-        $this->postJson('/api/upload', [
-            'name'      => $image->name,
-            'file'      => $image,
-            'parent_id' => null,
-            'path'      => '/' . $image->name,
-            'is_last'   => 'true',
+        $this->postJson('/api/upload/chunks', [
+            'name'           => $image->name,
+            'chunk'          => $image,
+            'is_last_chunk'  => 1,
+            'extension'      => 'jpg',
         ])->assertStatus(201);
 
         $file = File::first();

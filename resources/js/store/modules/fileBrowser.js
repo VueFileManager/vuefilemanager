@@ -19,7 +19,7 @@ const actions = {
         commit('LOADING_STATE', { loading: true, data: [] })
 
         axios
-            .get(`${getters.api}/browse/folders/${id}${getters.sorting.URI}`)
+            .get(`${getters.api}/browse/folders/${id || 'all'}${getters.sorting.URI}`)
             .then((response) => {
                 let folders = response.data.folders.data
                 let files = response.data.files.data
@@ -85,7 +85,7 @@ const actions = {
         commit('LOADING_STATE', { loading: true, data: [] })
 
         axios
-            .get(`${getters.api}/browse/trash/${id}${getters.sorting.URI}`)
+            .get(`${getters.api}/browse/trash/${id || 'all'}${getters.sorting.URI}`)
             .then((response) => {
                 let folders = response.data.folders.data
                 let files = response.data.files.data
@@ -104,7 +104,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             // Get route
             let route = {
-                RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/navigation`,
+                RequestUpload: `/api/file-request/${router.currentRoute.params.token}/navigation`,
                 Public: `/api/browse/navigation/${router.currentRoute.params.token}`,
             }[router.currentRoute.name] || '/api/browse/navigation'
 

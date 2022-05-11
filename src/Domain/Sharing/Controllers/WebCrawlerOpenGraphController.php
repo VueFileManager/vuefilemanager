@@ -30,7 +30,7 @@ class WebCrawlerOpenGraphController extends Controller
         }
 
         return view('vuefilemanager.crawler.og-view')
-            ->with('settings', get_settings_in_json())
+            ->with('settings', getAllSettings())
             ->with('metadata', [
                 'url'          => url('/share', ['token' => $share->token]),
                 'is_protected' => (int) $share->is_protected,

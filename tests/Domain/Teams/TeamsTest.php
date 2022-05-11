@@ -56,10 +56,12 @@ class TeamsTest extends TestCase
                 'name'        => 'Company Project',
                 'invitations' => [
                     [
+                        'type'       => 'invitation',
                         'email'      => 'john@internal.com',
                         'permission' => 'can-edit',
                     ],
                     [
+                        'type'       => 'invitation',
                         'email'      => 'jane@external.com',
                         'permission' => 'can-view',
                     ],
@@ -139,10 +141,12 @@ class TeamsTest extends TestCase
             ->post("/api/teams/folders/{$folder->id}/convert", [
                 'invitations' => [
                     [
+                        'type'       => 'invitation',
                         'email'      => 'john@internal.com',
                         'permission' => 'can-edit',
                     ],
                     [
+                        'type'       => 'invitation',
                         'email'      => 'jane@external.com',
                         'permission' => 'can-view',
                     ],
@@ -282,13 +286,12 @@ class TeamsTest extends TestCase
 
         $this
             ->actingAs($member)
-            ->postJson('/api/upload', [
-                'name'      => $file->name,
-                'extension' => 'pdf',
-                'file'      => $file,
-                'parent_id' => $folder->id,
-                'path'      => "/$file->name",
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $file->name,
+                'extension'       => 'pdf',
+                'chunk'           => $file,
+                'parent_id'       => $folder->id,
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $this->assertDatabaseHas('files', [

@@ -5,9 +5,9 @@ use Str;
 use Storage;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
-use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Resources\FileResource;
 use Domain\Files\Actions\ProcessFileAction;
+use Domain\Files\Requests\UploadChunkRequest;
 use Support\Demo\Actions\FakeUploadFileAction;
 use Domain\Files\Actions\StoreFileChunksAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
@@ -17,7 +17,7 @@ use Illuminate\Contracts\Filesystem\FileNotFoundException;
 /**
  * guest user upload file into shared folder
  */
-class VisitorUploadFileController extends Controller
+class VisitorUploadFileChunksController extends Controller
 {
     public function __construct(
         public ProcessFileAction $processFie,
@@ -32,7 +32,7 @@ class VisitorUploadFileController extends Controller
      * @throws FileNotFoundException
      */
     public function __invoke(
-        UploadRequest $request,
+        UploadChunkRequest $request,
         Share $shared,
     ) {
         if (isDemoAccount()) {
@@ -54,7 +54,7 @@ class VisitorUploadFileController extends Controller
         $chunkPath = ($this->storeFileChunks)($request);
 
         // Proceed after last chunk
-        if ($request->boolean('is_last')) {
+        if ($request->boolean('is_last_chunk')) {
             // Get file name
             $name = Str::uuid() . '.' . $request->input('extension');
 

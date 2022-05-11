@@ -50,7 +50,7 @@ export default {
                 reader.readAsDataURL(file)
 
                 // Update user avatar
-                this.$updateImage('/user/settings', 'avatar', event.target.files[0])
+                this.$updateAvatar(event.target.files[0])
             } else {
                 alert(this.$t('wrong_image_error'))
             }

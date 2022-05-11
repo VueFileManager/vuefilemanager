@@ -329,25 +329,23 @@ class VisitorManipulatingTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->post("/api/editor/upload/$share->token", [
-                            'name'      => $file->name,
-                            'extension' => 'pdf',
-                            'file'      => $file,
-                            'parent_id' => $folder->id,
-                            'path'      => "/$file->name",
-                            'is_last'   => 'true',
+                        ->post("/api/editor/upload/chunks/$share->token", [
+                            'name'            => $file->name,
+                            'extension'       => 'pdf',
+                            'chunk'           => $file,
+                            'parent_id'       => $folder->id,
+                            'is_last_chunk'   => 1,
                         ])->assertStatus(201);
                 }
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->postJson("/api/editor/upload/$share->token", [
-                        'name'      => $file->name,
-                        'extension' => 'pdf',
-                        'file'      => $file,
-                        'parent_id' => $folder->id,
-                        'path'      => "/$file->name",
-                        'is_last'   => 'true',
+                    $this->postJson("/api/editor/upload/chunks/$share->token", [
+                        'name'            => $file->name,
+                        'extension'       => 'pdf',
+                        'chunk'           => $file,
+                        'parent_id'       => $folder->id,
+                        'is_last_chunk'   => 1,
                     ])->assertStatus(201);
                 }
 

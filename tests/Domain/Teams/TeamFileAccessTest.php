@@ -31,13 +31,12 @@ class TeamFileAccessTest extends TestCase
 
                 $this
                     ->actingAs($user)
-                    ->postJson('/api/upload', [
-                        'name'      => $file->name,
-                        'extension' => 'pdf',
-                        'file'      => $file,
-                        'parent_id' => $folder->id,
-                        'path'      => "/$file->name",
-                        'is_last'   => 'true',
+                    ->postJson('/api/upload/chunks', [
+                        'name'            => $file->name,
+                        'extension'       => 'pdf',
+                        'chunk'           => $file,
+                        'parent_id'       => $folder->id,
+                        'is_last_chunk'   => 1,
                     ])->assertStatus(201);
             });
 
@@ -80,13 +79,12 @@ class TeamFileAccessTest extends TestCase
 
                 $this
                     ->actingAs($user)
-                    ->postJson('/api/upload', [
-                        'name'      => $file->name,
-                        'extension' => 'pdf',
-                        'file'      => $file,
-                        'parent_id' => $folder->id,
-                        'path'      => "/$file->name",
-                        'is_last'   => 'true',
+                    ->postJson('/api/upload/chunks', [
+                        'name'            => $file->name,
+                        'extension'       => 'pdf',
+                        'chunk'           => $file,
+                        'parent_id'       => $folder->id,
+                        'is_last_chunk'   => 1,
                     ])->assertStatus(201);
             });
 

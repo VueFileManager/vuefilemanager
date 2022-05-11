@@ -4,7 +4,8 @@ namespace Domain\Files\Actions;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 use Illuminate\Support\Facades\Storage;
-use Domain\Files\Requests\UploadRequest;
+use Domain\Files\Requests\UploadFileRequest;
+use Domain\Files\Requests\UploadChunkRequest;
 use Domain\Traffic\Actions\RecordUploadAction;
 use League\Flysystem\UnableToRetrieveMetadata;
 
@@ -24,7 +25,7 @@ class ProcessFileAction
      * Upload new file
      */
     public function __invoke(
-        UploadRequest $request,
+        UploadChunkRequest|UploadFileRequest $request,
         User $user,
         string $name,
     ): File {
@@ -50,7 +51,7 @@ class ProcessFileAction
         }
 
         // File size handling
-        if ($uploadLimit && $size > format_bytes($uploadLimit)) {
+        if ($uploadLimit && $size > toBytes($uploadLimit)) {
             abort(413);
         }
 

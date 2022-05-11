@@ -13,7 +13,7 @@ const actions = {
 
         return new Promise((resolve, reject) => {
             axios
-                .get(`/api/upload-request/${router.currentRoute.params.token}/browse/${id}${getters.sorting.URI}`)
+                .get(`/api/file-request/${router.currentRoute.params.token}/browse/${id || 'all'}${getters.sorting.URI}`)
                 .then((response) => {
                     let folders = response.data.folders.data
                     let files = response.data.files.data
@@ -37,7 +37,7 @@ const actions = {
     },
     getUploadRequestDetail: ({ commit }) => {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/upload-request/${router.currentRoute.params.token}`)
+            axios.get(`/api/file-request/${router.currentRoute.params.token}`)
                 .then((response) => {
                     resolve(response)
 
@@ -56,7 +56,7 @@ const actions = {
     },
     closeUploadRequest: ({ commit }) => {
         axios
-            .delete(`/api/upload-request/${router.currentRoute.params.token}`)
+            .delete(`/api/file-request/${router.currentRoute.params.token}`)
             .then((response) => {
                 commit('LOADING_STATE', { loading: false, data: [] })
                 commit('SET_UPLOAD_REQUEST', response.data)
