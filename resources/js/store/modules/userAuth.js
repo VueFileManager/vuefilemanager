@@ -32,7 +32,7 @@ const actions = {
                 })
         })
     },
-    logOut: ({ commit }) => {
+    logOut: ({ commit, getters }) => {
 
         let popup = setTimeout(() => {
             commit('PROCESSING_POPUP', {
@@ -50,7 +50,11 @@ const actions = {
                 commit('DESTROY_DATA')
                 commit('SET_AUTHORIZED', false)
 
-                router.push({name: 'Homepage'})
+                // Get redirect location
+                let redirectLocation = getters.config.allowHomepage ? 'Homepage' : 'SignIn'
+
+                // Redirect user
+                router.push({name: redirectLocation})
             })
     },
     socialiteRedirect: ({ commit }, provider) => {

@@ -2,11 +2,11 @@
 namespace Domain\Files\Actions;
 
 use App\Users\Models\User;
-use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Illuminate\Support\Facades\Storage;
 use Domain\Files\Requests\UploadRequest;
 use Domain\Traffic\Actions\RecordUploadAction;
+use League\Flysystem\UnableToRetrieveMetadata;
 
 class ProcessFileAction
 {
@@ -26,18 +26,28 @@ class ProcessFileAction
     public function __invoke(
         UploadRequest $request,
         User $user,
-        string $chunkPath,
-    ) {
+        string $name,
+    ): File {
         // Get local disk instance
         $localDisk = Storage::disk('local');
 
-        // Get file data
-        $size = $localDisk->size($chunkPath);
-        $mimetype = $localDisk->mimeType($chunkPath);
-        $name = Str::uuid() . '.' . $request->input('extension');
+        // Get file path
+        $filePath = "files/$user->id/$name";
 
-        // Get upload limit
+        // Get file size
+        $size = $localDisk->size($filePath);
+
+        // Get upload limit size
         $uploadLimit = get_settings('upload_limit');
+
+        // Get mimetype
+        try {
+            $fileType = getFileType(
+                $localDisk->mimeType($filePath)
+            );
+        } catch (UnableToRetrieveMetadata $e) {
+            $fileType = 'file';
+        }
 
         // File size handling
         if ($uploadLimit && $size > format_bytes($uploadLimit)) {
@@ -47,26 +57,24 @@ class ProcessFileAction
         // Check if user has enough space to upload file
         if (! $user->canUpload($size)) {
             // Delete file from chunk directory
-            $localDisk->delete($chunkPath);
-
-            // Set up response
-            $response = response([
-                'type'    => 'error',
-                'message' => __t('user_action_not_allowed'),
-            ], 401);
+            $localDisk->delete($filePath);
 
             // Abort code
-            abort($response);
+            abort(
+                response([
+                    'type'    => 'error',
+                    'message' => __t('user_action_not_allowed'),
+                ], 401)
+            );
         }
 
-        // Move file to user directory
-        $localDisk->move($chunkPath, "files/$user->id/$name");
+        if ($fileType === 'image') {
+            // Create multiple image thumbnails
+            ($this->createImageThumbnail)($name, $user->id);
 
-        // Create multiple image thumbnails
-        ($this->createImageThumbnail)($name, $user->id);
-
-        // Store exif data if exists
-        $exif = ($this->storeExifData)("files/$user->id/$name");
+            // Store exif data if exists
+            $exif = ($this->storeExifData)($filePath);
+        }
 
         // Move file to external storage
         match (config('filesystems.default')) {
@@ -78,7 +86,7 @@ class ProcessFileAction
         // Create new file
         $file = File::create([
             'mimetype'   => $request->input('extension'),
-            'type'       => getFileType($mimetype),
+            'type'       => $fileType,
             'parent_id'  => ($this->getFileParentId)($request, $user->id),
             'name'       => $request->input('name'),
             'basename'   => $name,
@@ -88,7 +96,10 @@ class ProcessFileAction
         ]);
 
         // Attach file into the exif data
-        $exif?->update(['file_id' => $file->id]);
+
+        if ($fileType === 'image') {
+            $exif?->update(['file_id' => $file->id]);
+        }
 
         // Return new file
         return $file;

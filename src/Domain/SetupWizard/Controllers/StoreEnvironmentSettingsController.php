@@ -92,7 +92,7 @@ class StoreEnvironmentSettingsController extends Controller
                         'PUSHER_APP_CLUSTER' => $request->input('broadcast.cluster'),
                         'PUSHER_APP_HOST'    => '',
                         'PUSHER_APP_PORT'    => '',
-                        'PUSHER_APP_TLS'     => true,
+                        'PUSHER_APP_TLS'     => 'true',
                     ],
                     'native' => [
                         'BROADCAST_DRIVER'   => 'pusher',

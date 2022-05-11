@@ -9,6 +9,9 @@
                         {{ $t('create_plan') }}
                     </MobileActionButton>
                 </router-link>
+				<MobileActionButton @click.native="synchronizePlans" icon="refresh">
+					{{ $t('synchronize_plans') }}
+				</MobileActionButton>
             </div>
 
             <!--Datatable-->
@@ -202,6 +205,7 @@ import ButtonBase from '../../components/UI/Buttons/ButtonBase'
 import ColorLabel from '../../components/UI/Labels/ColorLabel'
 import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
+import {events} from "../../bus";
 
 export default {
     name: 'Plans',
@@ -296,5 +300,36 @@ export default {
             }[this.config.subscriptionType]
         },
     },
+	methods: {
+		synchronizePlans() {
+			let processingPopup = setTimeout(() => {
+				this.$store.commit('PROCESSING_POPUP', {
+					title: this.$t('synchronizing_plans'),
+					message: this.$t('plans_are_synchronizing'),
+				})
+			}, 300)
+
+			axios.get('/api/subscriptions/admin/plans/synchronize')
+				.then(() => {
+					events.$emit('toaster', {
+						type: 'success',
+						message: this.$t('plans_was_synchronized'),
+					})
+				})
+				.catch((error) => {
+					if (error.response.status === 500 && error.response.data.type) {
+						events.$emit('alert:open', {
+							title: error.response.data.title,
+							message: error.response.data.message,
+						})
+					}
+				})
+				.finally(() => {
+					clearTimeout(processingPopup)
+
+					this.$store.commit('PROCESSING_POPUP', undefined)
+				})
+		}
+	}
 }
 </script>

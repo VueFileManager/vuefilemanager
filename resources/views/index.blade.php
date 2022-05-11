@@ -1,7 +1,33 @@
 @php
+    use Monolog\Handler\MissingExtensionException;
     use VueFileManager\Subscription\Domain\Plans\Models\Plan;
     use VueFileManager\Subscription\Domain\Transactions\Models\Transaction;
     use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
+
+    try {
+        // Bcmath Extension
+        $storageDefaultSpaceFormatted = isset($settings->default_max_storage_amount)
+            ? format_gigabytes($settings->default_max_storage_amount)
+            : format_gigabytes(5);
+
+        $uploadLimit = isset($settings->upload_limit)
+            ? format_bytes($settings->upload_limit)
+            : 'undefined';
+
+        $chunkSize = isset($settings->chunk_size)
+            ? format_bytes($settings->chunk_size)
+            : format_bytes(64);
+
+        $uploadLimitFormatted = isset($settings->upload_limit)
+            ? format_megabytes($settings->upload_limit)
+            : null;
+
+    } catch (MissingExtensionException $exception) {
+        $storageDefaultSpaceFormatted = '5GB';
+        $uploadLimit = 'undefined';
+        $uploadLimitFormatted = 5;
+        $chunkSize = 64000000;
+    }
 
     try {
         // Subscription
@@ -98,11 +124,11 @@
 			storageLimit: {{ $settings->storage_limitation ?? 1 }},
 			teamsDefaultMembers: {{ $settings->default_max_team_member ?? 10 }},
 			storageDefaultSpace: {{ $settings->default_max_storage_amount ?? 5 }},
-			storageDefaultSpaceFormatted: '{{ isset($settings->default_max_storage_amount) ? format_gigabytes($settings->default_max_storage_amount) : format_gigabytes(5) }}',
+			storageDefaultSpaceFormatted: '{{ $storageDefaultSpaceFormatted }}',
 			mimetypesBlacklist: '{{ isset($settings->mimetypes_blacklist) ? $settings->mimetypes_blacklist: null}}',
-			uploadLimit: {{ isset($settings->upload_limit) ? format_bytes($settings->upload_limit) : 'undefined' }},
-			uploadLimitFormatted: '{{ isset($settings->upload_limit) ? format_megabytes($settings->upload_limit) : null }}',
-			chunkSize: {{ isset($settings->chunk_size) ? format_bytes($settings->chunk_size) : format_bytes(64) }},
+			uploadLimit: {{ $uploadLimit }},
+			uploadLimitFormatted: '{{ $uploadLimitFormatted }}',
+			chunkSize: {{ $chunkSize }},
 
 			isAuthenticated: {{ $isUser ? 1 : 0 }},
 			isSaaS: {{ $settings && optional($settings)->license === 'extended' ? 1 : 0 }},

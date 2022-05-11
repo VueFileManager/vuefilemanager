@@ -27,7 +27,7 @@ class StoreDatabaseCredentialsController extends Controller
                         'port'     => $request->input('port'),
                         'database' => $request->input('name'),
                         'username' => $request->input('username'),
-                        'password' => $request->input('password'),
+                        'password' => $request->input('password') ?? '',
                     ],
                 ]);
 
@@ -51,7 +51,7 @@ class StoreDatabaseCredentialsController extends Controller
                 'DB_PORT'       => $request->input('port'),
                 'DB_DATABASE'   => $request->input('name'),
                 'DB_USERNAME'   => $request->input('username'),
-                'DB_PASSWORD'   => $request->input('password'),
+                'DB_PASSWORD'   => $request->input('password') ?? '',
             ]);
 
             Artisan::call('config:cache');

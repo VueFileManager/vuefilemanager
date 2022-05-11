@@ -134,7 +134,7 @@
                         v-model="plan.features.max_team_members"
                         :placeholder="$t('add_max_team_members')"
                         type="number"
-                        min="1"
+                        min="-1"
                         max="999999999"
                         :class="{ '!border-rose-600': errors[0] }"
                         class="focus-border-theme input-dark"

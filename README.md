@@ -11,12 +11,13 @@
   - [Nginx Configuration](#nginx-configuration)
   - [Apache Configuration](#apache-configuration)
   - [Migrating to Another Domain](#migrating-to-another-domain)
-- [Broadcasting](#broadcasting)
-  - [About Broadcasting](#about-broadcasting)
-  - [Install Broadcast Server](#install-broadcast-server)
+  - [Social Authentication](#social-authentication)
 - [Subscription Configuration](#subscription-configuration)
   - [Configuring Production/Testing Environment](#configuring-productiontesting-environment)
   - [Upgrading From Testing Environment to the Production Mode](#upgrading-from-testing-environment-to-the-production-mode)
+- [Broadcasting](#broadcasting)
+  - [About Broadcasting](#about-broadcasting)
+  - [Install Broadcast Server](#install-broadcast-server)
 - [Developers](#developers)
   - [Running Environment On Your Localhost](#running-environment-on-your-localhost)
   - [Express Installation](#express-installation)
@@ -185,6 +186,29 @@ If you move your VueFileManager application into another domain or subdomain, yo
 3. Find `SANCTUM_STATEFUL_DOMAINS` variable and write your new domain location without http protocol.
 4. Remove your cached config file which is located `/bootstrap/cache/config.php`.
 
+## Social Authentication
+If you'd like to allow your users to authenticate via their social accounts, the setup is pretty convenient. Just don't forget to set up redirect url and required permissions.
+
+#### Required permissions:
+- Name and profile picture
+- Email
+
+# Subscription Configuration
+
+## Configuring Production/Testing Environment
+To set up your subscription, please follow these steps below.
+1. If you didn't set up your subscription type in Setup Wizard, go to the `Admin / Settings / Application` and find subscription widget. Next set value as `Fixed`.
+2. Go to the `Admin / Billings` and fill the inputs with your billing information.
+3. Go to the `Admin / Payments` and turn on the switch `Allow Subscription Payments`.
+4. Set up credentials for all payment gateway you want. If you set production mode, make sure you fill your credentials with production keys, and vice versa. If needed, don't forget to turn on `live mode` for PayPal.
+5. Set up your webhooks, you can find your webhook url in payment gateway widget.
+6. Go to the `Admin / Plans` and create your first plan. Make sure all payment gateways support the currency you want, especially for Paystack, it supports only `GHS, NGN, USD and ZAR`.
+
+## Upgrading From Testing Environment to the Production Mode
+1. Go to the `Admin / Payments` and set up credentials for all payment gateway you want with production keys type. Don't forget to turn on `live mode` for PayPal.
+2. Go to the `Admin / Plans` and delete all your previously created plans. They will be archived.
+3. Create new production plans you want offer.
+
 # Broadcasting
 ### About Broadcasting
 Broadcasting is responsible for real time app experience. If broadcasting is set, you will be able to get just in time updates in your app. 
@@ -291,23 +315,6 @@ Log in to your VueFileManager admin account and go to `Admin / Settings / Enviro
 Find Broadcasting form and select `VueFileManager` as broadcasting driver. Set your hostname and save the form.
 
 That's all, you are running your own Broadcast server.
-
-
-# Subscription Configuration
-
-## Configuring Production/Testing Environment
-To set up your subscription, please follow these steps below.
-1. If you didn't set up your subscription type in Setup Wizard, go to the `Admin / Settings / Application` and find subscription widget. Next set value as `Fixed`.
-2. Go to the `Admin / Billings` and fill the inputs with your billing information.
-3. Go to the `Admin / Payments` and turn on the switch `Allow Subscription Payments`.
-4. Set up credentials for all payment gateway you want. If you set production mode, make sure you fill your credentials with production keys, and vice versa. If needed, don't forget to turn on `live mode` for PayPal.
-5. Set up your webhooks, you can find your webhook url in payment gateway widget.
-6. Go to the `Admin / Plans` and create your first plan. Make sure all payment gateways support the currency you want, especially for Paystack, it supports only `GHS, NGN, USD and ZAR`.
-
-## Upgrading From Testing Environment to the Production Mode
-1. Go to the `Admin / Payments` and set up credentials for all payment gateway you want with production keys type. Don't forget to turn on `live mode` for PayPal.
-2. Go to the `Admin / Plans` and delete all your previously created plans. They will be archived.
-3. Create new production plans you want offer.
 
 # Developers
 ## Running Environment On Your Localhost

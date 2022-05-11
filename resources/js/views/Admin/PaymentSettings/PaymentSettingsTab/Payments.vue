@@ -12,7 +12,7 @@
                 :is-last="true"
             >
                 <SwitchInput
-                    @input="$updateText('/admin/settings', 'allowed_payments', allowedPayments)"
+                    @input="updateAllowedPayments"
                     v-model="allowedPayments"
                     :state="allowedPayments"
                 />
@@ -280,6 +280,17 @@
                     <FormLabel v-if="!paystack.isConfigured" icon="shield">
                         {{ $t('configure_your_credentials') }}
                     </FormLabel>
+                    <ValidationProvider tag="div" mode="passive" name="Secret Key" rules="required" v-slot="{ errors }">
+                        <AppInputText :title="$t('admin_settings.payments.stripe_sec_key')" :error="errors[0]">
+                            <input
+                                v-model="paystack.credentials.secret"
+                                :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
+                                type="text"
+                                :class="{ '!border-rose-600': errors[0] }"
+                                class="focus-border-theme input-dark"
+                            />
+                        </AppInputText>
+                    </ValidationProvider>
                     <ValidationProvider
                         tag="div"
                         mode="passive"
@@ -291,17 +302,6 @@
                             <input
                                 v-model="paystack.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
-                                type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
-                                class="focus-border-theme input-dark"
-                            />
-                        </AppInputText>
-                    </ValidationProvider>
-                    <ValidationProvider tag="div" mode="passive" name="Secret Key" rules="required" v-slot="{ errors }">
-                        <AppInputText :title="$t('admin_settings.payments.stripe_sec_key')" :error="errors[0]">
-                            <input
-                                v-model="paystack.credentials.secret"
-                                :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
                                 :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
@@ -623,16 +623,33 @@ export default {
                     })
                 })
                 .catch((error) => {
-                    if (error.response.status === 500) {
-                        this.isError = true
-                        this.errorMessage = error.response.data.message
-                    }
+					if ([401, 500].includes(error.response.status)) {
+						events.$emit('alert:open', {
+							title: error.response.data.title,
+							message: error.response.data.message,
+						})
+					} else {
+						events.$emit('toaster', {
+							type: 'danger',
+							message: this.$t('popup_error.title'),
+						})
+					}
                 })
                 .finally(() => (this.isLoading = false))
         },
         getWebhookEndpoint(service) {
             return `${this.config.host}/api/subscriptions/${service}/webhooks`
         },
+		updateAllowedPayments(val) {
+			// Update value
+			this.$updateText('/admin/settings', 'allowed_payments', val)
+
+			// Update config value
+			this.$store.commit('REPLACE_CONFIG_VALUE', {
+				key: 'allowed_payments',
+				value: val,
+			})
+		}
     },
     created() {
         // Set payment description

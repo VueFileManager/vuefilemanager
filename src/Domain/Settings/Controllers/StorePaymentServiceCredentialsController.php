@@ -4,10 +4,20 @@ namespace Domain\Settings\Controllers;
 use Artisan;
 use Illuminate\Http\Response;
 use Domain\Settings\Models\Setting;
+use Domain\Settings\Actions\TestPayPalConnectionAction;
+use Domain\Settings\Actions\TestStripeConnectionAction;
+use Domain\Settings\Actions\TestPaystackConnectionAction;
 use Domain\Settings\Requests\StorePaymentServiceCredentialsRequest;
 
 class StorePaymentServiceCredentialsController
 {
+    public function __construct(
+        public TestPaystackConnectionAction $testPaystackConnection,
+        public TestStripeConnectionAction $testStripeConnection,
+        public TestPayPalConnectionAction $testPayPalConnection,
+    ) {
+    }
+
     /**
      * Configure stripe additionally
      */
@@ -43,6 +53,26 @@ class StorePaymentServiceCredentialsController
 
         // Get and store credentials
         if (! app()->runningUnitTests()) {
+            // Test payment gateway connection
+            match ($request->input('service')) {
+                'paystack' => ($this->testPaystackConnection)([
+                    'key'    => $request->input('key'),
+                    'secret' => $request->input('secret'),
+                ]),
+                'stripe' => ($this->testStripeConnection)([
+                    'key'     => $request->input('key'),
+                    'secret'  => $request->input('secret'),
+                    'webhook' => $request->input('webhook'),
+                ]),
+                'paypal' => ($this->testPayPalConnection)([
+                    'key'     => $request->input('key'),
+                    'secret'  => $request->input('secret'),
+                    'webhook' => $request->input('webhook'),
+                    'live'    => $request->has('live') ? (string) $request->input('live') : $PayPalDefaultMode,
+                ]),
+                default => null
+            };
+
             $credentials = [
                 'stripe'   => [
                     'STRIPE_PUBLIC_KEY'     => $request->input('key'),

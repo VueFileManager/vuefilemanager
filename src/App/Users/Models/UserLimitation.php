@@ -94,10 +94,15 @@ class UserLimitation extends Model
         $totalUsedEmails = $memberEmails->merge($InvitationEmails)
             ->unique();
 
+        // Get usage in percent
+        $percentage = (int) $this->max_team_members === 0
+            ? 100
+            : ($totalUsedEmails->count() / $this->max_team_members) * 100;
+
         return [
             'use'        => $totalUsedEmails->count(),
             'total'      => (int) $this->max_team_members,
-            'percentage' => ($totalUsedEmails->count() / $this->max_team_members) * 100,
+            'percentage' => $percentage,
             'meta'       => [
                 'allowed_emails' => $totalUsedEmails,
             ],

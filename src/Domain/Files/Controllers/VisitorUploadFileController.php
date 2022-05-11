@@ -1,6 +1,8 @@
 <?php
 namespace Domain\Files\Controllers;
 
+use Str;
+use Storage;
 use Domain\Sharing\Models\Share;
 use App\Http\Controllers\Controller;
 use Domain\Files\Requests\UploadRequest;
@@ -53,8 +55,14 @@ class VisitorUploadFileController extends Controller
 
         // Proceed after last chunk
         if ($request->boolean('is_last')) {
+            // Get file name
+            $name = Str::uuid() . '.' . $request->input('extension');
+
+            // Move file to user directory
+            Storage::disk('local')->move($chunkPath, "files/{$shared->user->id}/$name");
+
             // Process file
-            $file = ($this->processFie)($request, $shared->user, $chunkPath);
+            $file = ($this->processFie)($request, $shared->user, $name);
 
             // Set public access url
             $file->setSharedPublicUrl($shared->token);

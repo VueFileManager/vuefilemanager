@@ -23,7 +23,7 @@ class SetupWebsocketEnvironment extends Command
     public function handle(): void
     {
         // Get allowed origins
-        $origins = $this->ask('Type host of which you want to allow incoming requests. If you want to accept multiple hosts, separate them with comma(,)');
+        $origins = $this->ask('Type the host of your VueFileManager front-end application to allow connection with your websocket server. If you want to accept multiple hosts, separate them with comma(,)');
 
         // Store origins to the .env file
         setEnvironmentValue([

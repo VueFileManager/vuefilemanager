@@ -236,9 +236,9 @@ if (! function_exists('setEnvironmentValue')) {
                 if ($keyPosition) {
                     $endOfLinePosition = strpos($str, "\n", $keyPosition);
                     $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
-                    $str = str_replace($oldLine, "{$envKey}={$envValue}", $str);
+                    $str = str_replace($oldLine, "{$envKey}=\"{$envValue}\"", $str);
                 } else {
-                    $str .= "\n$envKey=$envValue";
+                    $str .= "\n$envKey=\"$envValue\"";
                 }
             }
         }

@@ -114,7 +114,7 @@ const actions = {
             })
             .catch((error) => {
                 events.$emit('alert:open', {
-                    title: error.response.data.message,
+                    title: error.response.data.message || i18n.t('popup_error.title'),
                     message: i18n.t('popup_error.message'),
                 })
             })
@@ -178,6 +178,8 @@ const actions = {
                     // Proceed if was returned database record
                     if (response.data.data.id) {
                         commit('PROCESSING_FILE', false)
+
+                        commit('INCREASE_FOLDER_ITEM', response.data.data.attributes.parent_id)
 
                         // Remove first file from file queue
                         commit('SHIFT_FROM_FILE_QUEUE')

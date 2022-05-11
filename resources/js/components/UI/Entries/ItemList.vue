@@ -4,7 +4,7 @@
             'bg-light-background dark:bg-dark-foreground': isClicked && highlight,
             'hover:bg-light-background dark:hover:bg-dark-foreground': highlight,
         }"
-        class="flex select-none items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2"
+        class="flex select-none items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer"
         :draggable="canDrag"
         spellcheck="false"
     >
@@ -55,7 +55,7 @@
             <!--Item Title-->
             <span
                 class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
-                :class="{ 'hover:underline': canEditName }"
+                :class="{ 'hover:underline cursor-text': canEditName }"
                 style="max-width: 240px"
                 ref="name"
                 @input="renameItem"

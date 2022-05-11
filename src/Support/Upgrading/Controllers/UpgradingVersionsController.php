@@ -22,6 +22,13 @@ class UpgradingVersionsController
     ) {
     }
 
+    public function upgrade_to_2_1_2(): void
+    {
+        ($this->updateLanguageStrings)([
+            'allow_recaptcha' => 'Allow ReCaptcha v3',
+        ]);
+    }
+
     public function upgrade_to_2_1_1(): void
     {
         ($this->upgradeDatabase)();
