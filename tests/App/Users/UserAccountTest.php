@@ -74,7 +74,7 @@ class UserAccountTest extends TestCase
                 'current'               => 'secret',
                 'password'              => 'VerySecretPassword',
                 'password_confirmation' => 'VerySecretPassword',
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this
             ->actingAs($user)
@@ -101,7 +101,7 @@ class UserAccountTest extends TestCase
             ->patchJson('/api/user/settings', [
                 'name'  => 'address',
                 'value' => 'Jantar',
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('user_settings', [
             'address' => 'Jantar',
@@ -122,9 +122,13 @@ class UserAccountTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->patchJson('/api/user/settings', [
+            ->postJson('/api/user/avatar', [
                 'avatar' => $avatar,
-            ])->assertStatus(204);
+            ])
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'message' => 'The avatar was successfully updated.',
+            ]);
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
@@ -246,10 +250,10 @@ class UserAccountTest extends TestCase
                 'email_verified_at' => null,
             ]);
 
-        $this->postJson('/api/user/email/verify/resend', [
+        $this->postJson('/api/user/verify', [
             'email' => $user->email,
         ])
-            ->assertStatus(204);
+            ->assertStatus(200);
 
         Notification::assertTimesSent(1, VerifyEmail::class);
     }

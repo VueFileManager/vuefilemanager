@@ -3,7 +3,8 @@ namespace Support\Demo\Actions;
 
 use ByteUnits\Metric;
 use Illuminate\Support\Str;
-use Domain\Files\Requests\UploadRequest;
+use Domain\Files\Requests\UploadFileRequest;
+use Domain\Files\Requests\UploadChunkRequest;
 
 class FakeUploadFileAction
 {
@@ -11,7 +12,7 @@ class FakeUploadFileAction
      * Upload file
      */
     public function __invoke(
-        UploadRequest $request
+        UploadChunkRequest|UploadFileRequest $request
     ): array {
         $file = $request->file('file');
         $thumbnail = 'data:' . $request->file('file')->getMimeType() . ';base64, ' . base64_encode(file_get_contents($request->file('file')));

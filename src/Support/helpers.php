@@ -142,11 +142,11 @@ if (! function_exists('get_settings')) {
     }
 }
 
-if (! function_exists('get_settings_in_json')) {
+if (! function_exists('getAllSettings')) {
     /**
      * Get all app settings and return them as json
      */
-    function get_settings_in_json()
+    function getAllSettings()
     {
         return json_decode(
             Setting::all()
@@ -156,13 +156,13 @@ if (! function_exists('get_settings_in_json')) {
     }
 }
 
-if (! function_exists('get_setup_status')) {
+if (! function_exists('getInstallationStatus')) {
     /**
      * Check if setup wizard was passed
      *
      * @return string
      */
-    function get_setup_status()
+    function getInstallationStatus()
     {
         $setup_success = get_settings('setup_wizard_success');
 
@@ -501,14 +501,14 @@ if (! function_exists('make_single_input')) {
     }
 }
 
-if (! function_exists('format_gigabytes')) {
+if (! function_exists('toGigabytes')) {
     /**
      * Format integer to gigabytes
      *
      * @param $gigabytes
      * @return string
      */
-    function format_gigabytes($gigabytes)
+    function toGigabytes($gigabytes)
     {
         if ($gigabytes >= 1000) {
             return Metric::gigabytes($gigabytes)->format('Tb/');
@@ -518,14 +518,14 @@ if (! function_exists('format_gigabytes')) {
     }
 }
 
-if (! function_exists('format_megabytes')) {
+if (! function_exists('toMegabytes')) {
     /**
      * Format string to formated megabytes string
      *
      * @param $megabytes
      * @return string
      */
-    function format_megabytes($megabytes)
+    function toMegabytes($megabytes)
     {
         if ($megabytes >= 1000) {
             return $megabytes / 1000 . 'GB';
@@ -539,14 +539,14 @@ if (! function_exists('format_megabytes')) {
     }
 }
 
-if (! function_exists('format_bytes')) {
+if (! function_exists('toBytes')) {
     /**
      * Convert megabytes to bytes
      *
      * @param $megabytes
      * @return int|string
      */
-    function format_bytes($megabytes)
+    function toBytes($megabytes)
     {
         return Metric::megabytes($megabytes)->numberOfBytes();
     }

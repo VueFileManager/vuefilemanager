@@ -4,56 +4,43 @@ namespace Domain\Files\Controllers;
 use Storage;
 use Illuminate\Support\Str;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Domain\Files\Requests\UploadRequest;
 use Domain\Files\Resources\FileResource;
 use Domain\Files\Actions\ProcessFileAction;
+use Domain\Files\Requests\UploadFileRequest;
 use Support\Demo\Actions\FakeUploadFileAction;
-use Domain\Files\Actions\StoreFileChunksAction;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class UploadFileController extends Controller
 {
     public function __construct(
         public ProcessFileAction $processFie,
         public FakeUploadFileAction $fakeUploadFile,
-        public StoreFileChunksAction $storeFileChunks,
     ) {
     }
 
-    /**
-     * Upload file for authenticated master|editor user
-     *
-     * @throws FileNotFoundException
-     */
-    public function __invoke(UploadRequest $request)
+    public function __invoke(UploadFileRequest $request): JsonResponse
     {
         if (isDemoAccount()) {
-            return ($this->fakeUploadFile)($request);
+            return response()->json(($this->fakeUploadFile)($request), 201);
         }
 
-        // Store file chunks
-        $chunkPath = ($this->storeFileChunks)($request);
+        // Get user
+        $user = $request->filled('parent_id')
+            ? Folder::find($request->input('parent_id'))
+                ->getLatestParent()
+                ->user
+            : auth()->user();
 
-        // Proceed after last chunk
-        if ($request->boolean('is_last')) {
-            // Get user
-            $user = $request->filled('parent_id')
-                ? Folder::find($request->input('parent_id'))
-                    ->getLatestParent()
-                    ->user
-                : auth()->user();
+        // Get file name
+        $name = Str::uuid() . '.' . $request->input('extension');
 
-            // Get file name
-            $name = Str::uuid() . '.' . $request->input('extension');
+        // Put file to user directory
+        Storage::disk('local')->put("files/$user->id/$name", $request->file('file')->get());
 
-            // Move file to user directory
-            Storage::disk('local')->move($chunkPath, "files/$user->id/$name");
+        // Process file
+        $file = ($this->processFie)($request, $user, $name);
 
-            // Process file
-            $file = ($this->processFie)($request, $user, $name);
-
-            return response(new FileResource($file), 201);
-        }
+        return response()->json(new FileResource($file), 201);
     }
 }

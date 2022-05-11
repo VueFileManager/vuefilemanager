@@ -7,11 +7,12 @@ use Illuminate\Support\Str;
 use Domain\Folders\Models\Folder;
 use Domain\Files\Resources\FileResource;
 use Domain\Files\Actions\ProcessFileAction;
+use Domain\Files\Requests\UploadChunkRequest;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\Files\Actions\StoreFileChunksAction;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
-class UploadFilesForUploadRequestController
+class UploadFileChunksForUploadRequestController
 {
     public function __construct(
         private ProcessFileAction $processFie,
@@ -22,7 +23,7 @@ class UploadFilesForUploadRequestController
     /**
      * @throws FileNotFoundException
      */
-    public function __invoke(\Domain\Files\Requests\UploadRequest $request, UploadRequest $uploadRequest)
+    public function __invoke(UploadChunkRequest $request, UploadRequest $uploadRequest)
     {
         // Get upload request root folder query
         $folder = Folder::where('id', $uploadRequest->id);
@@ -41,7 +42,7 @@ class UploadFilesForUploadRequestController
         $chunkPath = ($this->storeFileChunks)($request);
 
         // Proceed after last chunk
-        if ($request->boolean('is_last')) {
+        if ($request->boolean('is_last_chunk')) {
             // Get file name
             $name = Str::uuid() . '.' . $request->input('extension');
 

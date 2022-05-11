@@ -30,7 +30,7 @@ class UserStorageResource extends JsonResource
                 'type'       => 'storage',
                 'attributes' => [
                     'used'       => Metric::bytes($this->usedCapacity)->format(),
-                    'capacity'   => format_gigabytes($totalCapacity),
+                    'capacity'   => toGigabytes($totalCapacity),
                     'percentage' => (float) get_storage_percentage($this->usedCapacity, $totalCapacity),
                 ],
                 'meta'       => [

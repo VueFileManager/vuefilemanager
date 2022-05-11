@@ -149,9 +149,9 @@ const actions = {
         return new Promise((resolve, reject) => {
             // Get route
             let route = {
-                RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/upload`,
-                Public: `/api/editor/upload/${router.currentRoute.params.token}`,
-            }[router.currentRoute.name] || '/api/upload'
+                RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/upload/chunks`,
+                Public: `/api/editor/upload/chunks/${router.currentRoute.params.token}`,
+            }[router.currentRoute.name] || '/api/upload/chunks'
 
             // Create cancel token for axios cancellation
             const CancelToken = axios.CancelToken,

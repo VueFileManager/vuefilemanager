@@ -36,12 +36,11 @@ class TrafficTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->postJson('/api/upload', [
-                'name'      => $this->file->name,
-                'file'      => $this->file,
-                'parent_id' => null,
-                'path'      => '/' . $this->file->name,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'           => $this->file->name,
+                'chunk'          => $this->file,
+                'is_last_chunk'  => 1,
+                'extension'      => 'jpg',
             ])->assertStatus(201);
 
         $this->assertDatabaseHas('traffic', [
@@ -57,12 +56,11 @@ class TrafficTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->postJson('/api/upload', [
-                'name'      => $this->file->name,
-                'file'      => $this->file,
-                'parent_id' => null,
-                'path'      => '/' . $this->file->name,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'           => $this->file->name,
+                'chunk'          => $this->file,
+                'is_last_chunk'  => 1,
+                'extension'      => 'jpg',
             ])->assertStatus(201);
 
         $this->assertDatabaseHas('traffic', [
@@ -78,12 +76,11 @@ class TrafficTest extends TestCase
 
         $this
             ->actingAs($this->user)
-            ->postJson('/api/upload', [
-                'name'      => $secondFile->name,
-                'file'      => $secondFile,
-                'parent_id' => null,
-                'path'      => '/' . $secondFile->name,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $secondFile->name,
+                'chunk'           => $secondFile,
+                'is_last_chunk'   => 1,
+                'extension'       => 'jpg',
             ])->assertStatus(201);
 
         $this->assertDatabaseHas('traffic', [
@@ -116,12 +113,12 @@ class TrafficTest extends TestCase
             ]);
 
         // Check public shared item
-        $this->postJson("/api/editor/upload/$share->token", [
-            'name'      => $this->file->name,
-            'file'      => $this->file,
-            'parent_id' => $folder->id,
-            'path'      => '/' . $this->file->name,
-            'is_last'   => 'true',
+        $this->postJson("/api/editor/upload/chunks/$share->token", [
+            'name'            => $this->file->name,
+            'chunk'           => $this->file,
+            'parent_id'       => $folder->id,
+            'extension'       => 'jpg',
+            'is_last_chunk'   => 1,
         ])->assertStatus(201);
 
         $this->assertDatabaseHas('traffic', [

@@ -30,7 +30,7 @@ class UserSubscription extends JsonResource
                     'canceled'           => $this->subscription('main')->cancelled(),
                     'name'               => $subscription['product']['name'],
                     'capacity'           => (int) $subscription['product']['metadata']['capacity'],
-                    'capacity_formatted' => format_gigabytes($subscription['product']['metadata']['capacity']),
+                    'capacity_formatted' => toGigabytes($subscription['product']['metadata']['capacity']),
                     'slug'               => $subscription['plan']['id'],
                     'canceled_at'        => format_date($active_subscription['canceled_at'], 'd. M. Y'),
                     'created_at'         => format_date($active_subscription['current_period_start'], 'd. M. Y'),

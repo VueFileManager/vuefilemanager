@@ -3,7 +3,6 @@ namespace App\Users\Controllers\Account;
 
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
 use App\Users\Requests\UpdateUserProfileSettingsRequest;
 
@@ -25,23 +24,10 @@ class UpdateProfileSettingsController extends Controller
             return response()->json($successMessage);
         }
 
-        // Get user
-        $user = Auth::user();
-
-        // Update avatar
-        if ($request->hasFile('avatar')) {
-            $user
-                ->settings()
-                ->update([
-                    'avatar' => store_avatar($request, 'avatar'),
-                ]);
-
-            return response()->json($successMessage);
-        }
-
         // Try to store user option
         try {
-            $user
+            $request
+                ->user()
                 ->settings()
                 ->update(make_single_input($request));
         } catch (QueryException $e) {

@@ -86,7 +86,7 @@ class TeamManagementTest extends TestCase
         $this
             ->actingAs($member)
             ->putJson("/api/teams/invitations/{$invitation->id}")
-            ->assertNoContent();
+            ->assertOk();
 
         // Get notification
         $notification = json_decode(DB::table('notifications')->first()->data);
@@ -124,7 +124,7 @@ class TeamManagementTest extends TestCase
 
         $this
             ->putJson("/api/teams/invitations/{$invitation->id}")
-            ->assertNoContent();
+            ->assertOk();
 
         $this
             ->assertDatabaseHas('team_folder_invitations', [
@@ -228,7 +228,7 @@ class TeamManagementTest extends TestCase
         $this
             ->actingAs($member)
             ->deleteJson("/api/teams/invitations/{$invitation->id}")
-            ->assertNoContent();
+            ->assertOk();
 
         // Get notification
         $notification = json_decode(DB::table('notifications')->first()->data);
@@ -300,11 +300,13 @@ class TeamManagementTest extends TestCase
                 ],
                 'invitations' => [
                     [
+                        'type'       => 'invitation',
                         'id'         => null,
                         'email'      => 'existing@member.com',
                         'permission' => 'can-edit',
                     ],
                     [
+                        'type'       => 'invitation',
                         'id'         => null,
                         'email'      => 'added@member.com',
                         'permission' => 'can-view',
@@ -385,6 +387,7 @@ class TeamManagementTest extends TestCase
                 ],
                 'invitations' => [
                     [
+                        'type'       => 'invitation',
                         'id'         => null,
                         'email'      => 'existing@member.com',
                         'permission' => 'can-view',
@@ -482,6 +485,7 @@ class TeamManagementTest extends TestCase
                 'members'     => [],
                 'invitations' => [
                     [
+                        'type'       => 'invitation',
                         'id'         => null,
                         'email'      => 'existing@member.com',
                         'permission' => 'can-edit',
@@ -654,7 +658,7 @@ class TeamManagementTest extends TestCase
         $this
             ->actingAs($user)
             ->deleteJson("/api/teams/folders/{$folder->id}")
-            ->assertNoContent();
+            ->assertOk();
 
         $this
             ->assertDatabaseCount('team_folder_members', 0)
@@ -698,7 +702,7 @@ class TeamManagementTest extends TestCase
         $this
             ->actingAs($member)
             ->deleteJson("/api/teams/folders/{$folder->id}/leave")
-            ->assertNoContent();
+            ->assertOk();
 
         $this
             ->assertDatabaseMissing('team_folder_members', [

@@ -63,6 +63,27 @@ const FunctionHelpers = {
                 })
         }
 
+        Vue.prototype.$updateAvatar = function (image) {
+            // Create form
+            let formData = new FormData()
+
+            // Add image to form
+            formData.append('avatar', image)
+
+            axios
+                .post(`${store.getters.api}/user/avatar`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                })
+                .catch(() => {
+                    events.$emit('alert:open', {
+                        title: this.$t('popup_error.title'),
+                        message: this.$t('popup_error.message'),
+                    })
+                })
+        }
+
         Vue.prototype.$scrollTop = function () {
             const container = document.getElementsByTagName('html')[0]
 
@@ -226,17 +247,21 @@ const FunctionHelpers = {
                     '.part'
 
             do {
-                let isLast = chunks.length === 1,
+                let isLastChunk = chunks.length === 1 ? 1 : 0,
                     chunk = chunks.shift(),
                     attempts = 0
 
                 // Set form data
                 formData.set('name', item.file.name)
-                formData.set('file', chunk, source_name)
-                formData.set('path', item.path)
-                formData.set('parent_id', item.parent_id)
+                formData.set('chunk', chunk, source_name)
                 formData.set('extension', item.file.name.split('.').pop())
-                formData.set('is_last', isLast)
+                formData.set('is_last_chunk', isLastChunk)
+
+                if (item.path && item.path !== '/')
+                    formData.set('path', item.path)
+
+                if (item.parent_id)
+                    formData.set('parent_id', item.parent_id)
 
                 // Upload chunks
                 do {

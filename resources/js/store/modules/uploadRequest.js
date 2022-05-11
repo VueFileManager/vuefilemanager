@@ -13,7 +13,7 @@ const actions = {
 
         return new Promise((resolve, reject) => {
             axios
-                .get(`/api/upload-request/${router.currentRoute.params.token}/browse/${id}${getters.sorting.URI}`)
+                .get(`/api/upload-request/${router.currentRoute.params.token}/browse/${id || 'all'}${getters.sorting.URI}`)
                 .then((response) => {
                     let folders = response.data.folders.data
                     let files = response.data.files.data

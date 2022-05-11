@@ -6,6 +6,7 @@ use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
+use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 use Domain\UploadRequest\Models\UploadRequest;
 use Support\Scheduler\Actions\ExpireUnfilledUploadRequestAction;
@@ -34,17 +35,22 @@ class UploadRequestTest extends TestCase
             ->hasSettings()
             ->create();
 
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+            ]);
+
         $this
             ->actingAs($user)
             ->postJson('/api/upload-request', [
-                'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+                'folder_id' => $folder->id,
                 'email'     => 'howdy@hi5ve.digital',
                 'notes'     => 'Please send me your files...',
             ])
             ->assertCreated();
 
         $this->assertDatabasehas('upload_requests', [
-            'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+            'folder_id' => $folder->id,
             'email'     => 'howdy@hi5ve.digital',
             'notes'     => 'Please send me your files...',
         ]);
@@ -61,16 +67,21 @@ class UploadRequestTest extends TestCase
             ->hasSettings()
             ->create();
 
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+            ]);
+
         $this
             ->actingAs($user)
             ->postJson('/api/upload-request', [
-                'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+                'folder_id' => $folder->id,
                 'notes'     => 'Please send me your files...',
             ])
             ->assertCreated();
 
         $this->assertDatabasehas('upload_requests', [
-            'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+            'folder_id' => $folder->id,
             'notes'     => 'Please send me your files...',
             'email'     => null,
         ]);
@@ -87,17 +98,22 @@ class UploadRequestTest extends TestCase
             ->hasSettings()
             ->create();
 
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+            ]);
+
         $this
             ->actingAs($user)
             ->postJson('/api/upload-request', [
-                'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+                'folder_id' => $folder->id,
                 'notes'     => 'Please send me your files...',
                 'name'      => 'My name',
             ])
             ->assertCreated();
 
         $this->assertDatabasehas('upload_requests', [
-            'folder_id' => '00cacdb9-1d09-4a32-8ad7-c0d45d66b758',
+            'folder_id' => $folder->id,
             'notes'     => 'Please send me your files...',
             'email'     => null,
             'name'      => 'My name',
@@ -149,13 +165,11 @@ class UploadRequestTest extends TestCase
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/upload", [
-                'name'      => $file->name,
-                'extension' => 'pdf',
-                'file'      => $file,
-                'parent_id' => null,
-                'path'      => "/$file->name",
-                'is_last'   => 'true',
+            ->postJson("/api/upload-request/$uploadRequest->id/upload/chunks", [
+                'name'            => $file->name,
+                'extension'       => 'pdf',
+                'chunk'           => $file,
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $this
@@ -195,13 +209,11 @@ class UploadRequestTest extends TestCase
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/upload", [
-                'name'      => $file->name,
-                'extension' => 'pdf',
-                'file'      => $file,
-                'parent_id' => null,
-                'path'      => "/$file->name",
-                'is_last'   => 'true',
+            ->postJson("/api/upload-request/$uploadRequest->id/upload/chunks", [
+                'name'            => $file->name,
+                'extension'       => 'pdf',
+                'chunk'           => $file,
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $this
@@ -240,12 +252,10 @@ class UploadRequestTest extends TestCase
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/upload", [
-                'name'      => $file->name,
-                'file'      => $file,
-                'parent_id' => null,
-                'path'      => "/$file->name",
-                'is_last'   => 'true',
+            ->postJson("/api/upload-request/$uploadRequest->id/upload/chunks", [
+                'name'            => $file->name,
+                'file'            => $file,
+                'is_last_chunk'   => 1,
             ])->assertStatus(410);
     }
 
@@ -313,13 +323,11 @@ class UploadRequestTest extends TestCase
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/upload", [
-                'name'      => $file->name,
-                'extension' => 'pdf',
-                'file'      => $file,
-                'parent_id' => null,
-                'path'      => "/$file->name",
-                'is_last'   => 'true',
+            ->postJson("/api/upload-request/$uploadRequest->id/upload/chunks", [
+                'name'            => $file->name,
+                'extension'       => 'pdf',
+                'chunk'           => $file,
+                'is_last_chunk'   => 1,
             ])->assertCreated();
 
         $this->travel(3)->hours();

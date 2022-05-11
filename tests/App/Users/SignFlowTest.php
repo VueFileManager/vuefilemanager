@@ -309,7 +309,7 @@ class SignFlowTest extends TestCase
         $user = User::factory()
             ->create(['email' => 'john@doe.com']);
 
-        $this->postJson('/api/password/email', [
+        $this->postJson('/api/password/recover', [
             'email' => $user->email,
         ])->assertStatus(200);
 

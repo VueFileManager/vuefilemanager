@@ -109,7 +109,7 @@ class User extends Authenticatable implements MustVerifyEmail
             'used'               => (float) get_storage_percentage($this->usedCapacity, $this->limitations->max_storage_amount),
             'used_formatted'     => get_storage_percentage($this->usedCapacity, $this->limitations->max_storage_amount) . '%',
             'capacity'           => $this->limitations->max_storage_amount,
-            'capacity_formatted' => format_gigabytes($this->limitations->max_storage_amount),
+            'capacity_formatted' => toGigabytes($this->limitations->max_storage_amount),
         ];
     }
 

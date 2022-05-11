@@ -39,13 +39,11 @@ class FileTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $file->name,
-                'extension' => '.jpg',
-                'file'      => $file,
-                'parent_id' => null,
-                'path'      => "/$file->name",
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $file->name,
+                'extension'       => '.jpg',
+                'chunk'           => $file,
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $file = File::first();
@@ -80,13 +78,11 @@ class FileTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $file->name,
-                'extension' => 'pdf',
-                'file'      => $file,
-                'parent_id' => null,
-                'path'      => "/$file->name",
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $file->name,
+                'extension'       => 'pdf',
+                'chunk'           => $file,
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $disk = Storage::disk('local');
@@ -126,13 +122,11 @@ class FileTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $file->name,
-                'extension' => 'jpeg',
-                'file'      => $file,
-                'parent_id' => null,
-                'path'      => "/$file->name",
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $file->name,
+                'extension'       => 'jpeg',
+                'chunk'           => $file,
+                'is_last_chunk'   => 1,
             ])->assertStatus(401);
 
         Storage::disk('local')->assertMissing(
@@ -159,12 +153,10 @@ class FileTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'file'      => $file,
-                'extension' => 'pdf',
-                'parent_id' => null,
-                'path'      => "/$file->name",
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'chunk'           => $file,
+                'extension'       => 'pdf',
+                'is_last_chunk'   => 1,
             ])->assertStatus(422);
 
         Storage::disk('local')
@@ -351,13 +343,11 @@ class FileTest extends TestCase
                 $file = UploadedFile::fake()
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
-                $this->postJson('/api/upload', [
-                    'name'      => $file->name,
-                    'extension' => 'pdf',
-                    'file'      => $file,
-                    'parent_id' => null,
-                    'path'      => "/$file->name",
-                    'is_last'   => 'true',
+                $this->postJson('/api/upload/chunks', [
+                    'name'            => $file->name,
+                    'extension'       => 'pdf',
+                    'chunk'           => $file,
+                    'is_last_chunk'   => 1,
                 ])->assertStatus(201);
             });
 
@@ -405,13 +395,11 @@ class FileTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload', [
-                'name'      => $file->name,
-                'extension' => 'jpg',
-                'file'      => $file,
-                'parent_id' => null,
-                'path'      => '/' . $file->name,
-                'is_last'   => 'true',
+            ->postJson('/api/upload/chunks', [
+                'name'            => $file->name,
+                'extension'       => 'jpg',
+                'chunk'           => $file,
+                'is_last_chunk'   => 1,
             ])->assertStatus(201);
 
         $file = File::first();

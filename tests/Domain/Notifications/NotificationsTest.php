@@ -42,7 +42,7 @@ class NotificationsTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson('/api/user/notifications')
+            ->getJson('/api/notifications')
             ->assertJsonFragment([
                 'category' => 'file-request',
             ])
@@ -83,8 +83,8 @@ class NotificationsTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/user/notifications/read')
-            ->assertStatus(204);
+            ->postJson('/api/notifications/read')
+            ->assertStatus(200);
 
         $this->assertDatabaseHas('notifications', [
             'read_at' => now(),
@@ -125,8 +125,8 @@ class NotificationsTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->deleteJson('/api/user/notifications')
-            ->assertStatus(204);
+            ->deleteJson('/api/notifications')
+            ->assertStatus(200);
 
         $this->assertDatabaseCount('notifications', 0);
     }

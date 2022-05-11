@@ -1,5 +1,6 @@
 <?php
 
+use Domain\Settings\Controllers\GetConfigController;
 use Domain\Zip\Controllers\ZipController;
 use Domain\Pages\Controllers\PagesController;
 use Domain\Sharing\Controllers\ShareController;
@@ -13,6 +14,7 @@ use Domain\SetupWizard\Controllers\PingAPIController;
 use Domain\Folders\Controllers\CreateFolderController;
 use Domain\Browsing\Controllers\BrowseFolderController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
+use Domain\Files\Controllers\UploadFileChunksController;
 use Domain\Folders\Controllers\NavigationTreeController;
 use Domain\Items\Controllers\MoveFileOrFolderController;
 use App\Socialite\Controllers\SocialiteRedirectController;
@@ -28,9 +30,13 @@ use Domain\Homepage\Controllers\SendContactMessageController;
 use Domain\RemoteUpload\Controllers\RemoteUploadFileController;
 use Domain\Sharing\Controllers\GetShareLinkViaQrCodeController;
 use App\Users\Controllers\Authentication\RegisterUserController;
+use Domain\Notifications\Controllers\GetUserNotificationsController;
+use Domain\Notifications\Controllers\FlushUserNotificationsController;
+use Domain\Notifications\Controllers\MarkUserNotificationsAsReadController;
 
 // Ping Pong
 Route::get('/ping', PingAPIController::class);
+Route::get('/config', GetConfigController::class);
 
 // Pages
 Route::apiResource('/page', PagesController::class);
@@ -47,7 +53,7 @@ Route::get('/socialite/{provider}/redirect', SocialiteRedirectController::class)
 
 // Password reset
 Route::group(['prefix' => 'password'], function () {
-    Route::post('/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+    Route::post('/recover', [ForgotPasswordController::class, 'sendResetLinkEmail']);
     Route::post('/reset', [ResetPasswordController::class, 'reset']);
 });
 
@@ -74,8 +80,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('/share', ShareController::class);
     Route::post('/share/{id}', ShareItemController::class);
 
+    // Notifications
+    Route::post('/notifications/read', MarkUserNotificationsAsReadController::class);
+    Route::delete('/notifications', FlushUserNotificationsController::class);
+    Route::get('/notifications', GetUserNotificationsController::class);
+
     // Favourites
-    Route::apiResource('/folders/favourites', FavouriteController::class);
+    Route::apiResource('/favourites', FavouriteController::class);
 
     // Search
     Route::get('/search', SpotlightSearchController::class);
@@ -84,8 +95,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 // User master,editor routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/upload/remote', RemoteUploadFileController::class);
-    Route::post('/create-folder', CreateFolderController::class);
+    Route::post('/upload/chunks', UploadFileChunksController::class);
     Route::post('/upload', UploadFileController::class);
+
+    Route::post('/create-folder', CreateFolderController::class);
 
     Route::patch('/rename/{id}', RenameFileOrFolderController::class);
     Route::post('/remove', DeleteFileOrFolderController::class);

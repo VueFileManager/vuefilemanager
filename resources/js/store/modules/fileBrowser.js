@@ -19,7 +19,7 @@ const actions = {
         commit('LOADING_STATE', { loading: true, data: [] })
 
         axios
-            .get(`${getters.api}/browse/folders/${id}${getters.sorting.URI}`)
+            .get(`${getters.api}/browse/folders/${id || 'all'}${getters.sorting.URI}`)
             .then((response) => {
                 let folders = response.data.folders.data
                 let files = response.data.files.data
@@ -85,7 +85,7 @@ const actions = {
         commit('LOADING_STATE', { loading: true, data: [] })
 
         axios
-            .get(`${getters.api}/browse/trash/${id}${getters.sorting.URI}`)
+            .get(`${getters.api}/browse/trash/${id || 'all'}${getters.sorting.URI}`)
             .then((response) => {
                 let folders = response.data.folders.data
                 let files = response.data.files.data

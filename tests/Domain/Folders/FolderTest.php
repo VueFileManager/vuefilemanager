@@ -370,13 +370,12 @@ class FolderTest extends TestCase
                 $file = UploadedFile::fake()
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
-                $this->postJson('/api/upload', [
-                    'name'      => $file->name,
-                    'extension' => 'pdf',
-                    'file'      => $file,
-                    'parent_id' => $folder->id,
-                    'path'      => "/$file->name",
-                    'is_last'   => 'true',
+                $this->postJson('/api/upload/chunks', [
+                    'name'            => $file->name,
+                    'extension'       => 'pdf',
+                    'chunk'           => $file,
+                    'parent_id'       => $folder->id,
+                    'is_last_chunk'   => 1,
                 ])->assertStatus(201);
             });
 

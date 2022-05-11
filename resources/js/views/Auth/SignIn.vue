@@ -275,7 +275,7 @@ export default {
         },
         resendEmail() {
             axios
-                .post('/api/user/email/verify/resend', {
+                .post('/api/user/verify', {
                     email: this.loginEmail,
                 })
                 .then(() => {

@@ -116,11 +116,8 @@ export default {
             config: this.$root.$data.config,
         })
 
-        // Get installation state
-        let installation = this.$root.$data.config.installation
-
         // Redirect to setup wizard
-        if (installation === 'installation-needed') {
+        if (this.$root.$data.config.installation === 'installation-needed') {
             this.isLoaded = true
 
             if (window.location.pathname.split('/')[1] !== 'setup-wizard') {

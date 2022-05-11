@@ -119,7 +119,7 @@ export default {
 
             // Send request to get user reset link
             axios
-                .post('/api/password/email', {
+                .post('/api/password/recover', {
                     email: this.recoverEmail,
                 })
                 .then(() => {
