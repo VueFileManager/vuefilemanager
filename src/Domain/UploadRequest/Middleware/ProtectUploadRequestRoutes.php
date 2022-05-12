@@ -16,7 +16,10 @@ class ProtectUploadRequestRoutes
 
         // Check if upload request is active
         if (! in_array($uploadRequest->status, ['active', 'filling'])) {
-            return response('Gone', 410);
+            return response()->json([
+                'type'    => 'gone',
+                'message' => 'The file request is not active anymore',
+            ], 410);
         }
 
         return $next($request);

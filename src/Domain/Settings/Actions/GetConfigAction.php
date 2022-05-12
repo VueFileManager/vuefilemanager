@@ -1,21 +1,21 @@
 <?php
-
 namespace Domain\Settings\Actions;
 
 use DB;
-use Domain\Pages\Models\Page;
-use Domain\Settings\Controllers\GetServerStatusController;
-use Monolog\Handler\MissingExtensionException;
 use PDOException;
+use Domain\Pages\Models\Page;
+use Monolog\Handler\MissingExtensionException;
 use VueFileManager\Subscription\Domain\Plans\Models\Plan;
-use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
+use Domain\Settings\Controllers\GetServerStatusController;
 use VueFileManager\Subscription\Domain\Transactions\Models\Transaction;
+use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class GetConfigAction
 {
     public function __construct(
         public GetServerStatusController $getServerSetupStatus,
-    ) {}
+    ) {
+    }
 
     public function __invoke(): array
     {
@@ -80,7 +80,6 @@ class GetConfigAction
             $uploadLimitFormatted = isset($settings->upload_limit)
                 ? toMegabytes($settings->upload_limit)
                 : null;
-
         } catch (MissingExtensionException $e) {
             $storageDefaultSpaceFormatted = '5GB';
             $uploadLimit = 'undefined';

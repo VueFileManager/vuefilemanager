@@ -1,16 +1,13 @@
 <?php
 namespace Domain\UploadRequest\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\UploadRequest\Models\UploadRequest;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
-use Domain\UploadRequest\Resources\UploadRequestResource;
 use Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification;
 
 class SetUploadRequestAsFilledController
 {
-    public function __invoke(UploadRequest $uploadRequest): Response|Application|ResponseFactory
+    public function __invoke(UploadRequest $uploadRequest): JsonResponse
     {
         $uploadRequest->update([
             'status' => 'filled',
@@ -21,6 +18,9 @@ class SetUploadRequestAsFilledController
             $uploadRequest->user->notify(new UploadRequestFulfilledNotification($uploadRequest));
         }
 
-        return response(new UploadRequestResource($uploadRequest), 201);
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'File request was successfully set as filled',
+        ]);
     }
 }

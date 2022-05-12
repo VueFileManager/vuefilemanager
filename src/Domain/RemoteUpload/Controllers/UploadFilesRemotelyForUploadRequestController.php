@@ -1,16 +1,17 @@
 <?php
 namespace Domain\RemoteUpload\Controllers;
 
-use DB;
 use Domain\Folders\Models\Folder;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\RemoteUpload\Requests\RemoteUploadRequest;
 use Domain\RemoteUpload\Actions\GetContentFromExternalSource;
+use Domain\UploadRequest\Actions\CreateUploadRequestRootFolderAction;
 
 class UploadFilesRemotelyForUploadRequestController
 {
     public function __construct(
-        private GetContentFromExternalSource $getContentFromExternalSource,
+        public GetContentFromExternalSource $getContentFromExternalSource,
+        public CreateUploadRequestRootFolderAction $createUploadRequestRootFolder,
     ) {
     }
 
@@ -26,7 +27,7 @@ class UploadFilesRemotelyForUploadRequestController
 
         // Create folder if not exist
         if ($folder->doesntExist()) {
-            $this->createFolder($uploadRequest);
+            ($this->createUploadRequestRootFolder)($uploadRequest);
         }
 
         // Set default parent_id for uploaded file
@@ -53,29 +54,5 @@ class UploadFilesRemotelyForUploadRequestController
             'type'    => 'success',
             'message' => 'Files were successfully added to the upload queue.',
         ], 201);
-    }
-
-    /**
-     * Create root Upload Request folder
-     */
-    private function createFolder(UploadRequest $uploadRequest): void
-    {
-        // Format timestamp
-        $timestamp = format_date($uploadRequest->created_at, 'd. M. Y');
-
-        // Create folder
-        DB::table('folders')->insert([
-            'id'         => $uploadRequest->id,
-            'parent_id'  => $uploadRequest->folder_id ?? null,
-            'user_id'    => $uploadRequest->user_id,
-            'name'       => $uploadRequest->name ?? __t('upload_request_default_folder', ['timestamp' => $timestamp]),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        // Update upload request status
-        $uploadRequest->update([
-            'status' => 'filling',
-        ]);
     }
 }

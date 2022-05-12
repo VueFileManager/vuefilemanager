@@ -42,7 +42,7 @@ class UploadRequestTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload-request', [
+            ->postJson('/api/file-request', [
                 'folder_id' => $folder->id,
                 'email'     => 'howdy@hi5ve.digital',
                 'notes'     => 'Please send me your files...',
@@ -74,7 +74,7 @@ class UploadRequestTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload-request', [
+            ->postJson('/api/file-request', [
                 'folder_id' => $folder->id,
                 'notes'     => 'Please send me your files...',
             ])
@@ -105,7 +105,7 @@ class UploadRequestTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson('/api/upload-request', [
+            ->postJson('/api/file-request', [
                 'folder_id' => $folder->id,
                 'notes'     => 'Please send me your files...',
                 'name'      => 'My name',
@@ -137,7 +137,7 @@ class UploadRequestTest extends TestCase
                 'user_id' => $user->id,
             ]);
 
-        $this->getJson("/api/upload-request/$uploadRequest->id")
+        $this->getJson("/api/file-request/$uploadRequest->id")
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $uploadRequest->id,
@@ -165,7 +165,7 @@ class UploadRequestTest extends TestCase
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/upload/chunks", [
+            ->postJson("/api/file-request/$uploadRequest->id/upload/chunks", [
                 'name'            => $file->name,
                 'extension'       => 'pdf',
                 'chunk'           => $file,
@@ -209,7 +209,7 @@ class UploadRequestTest extends TestCase
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/upload/chunks", [
+            ->postJson("/api/file-request/$uploadRequest->id/upload/chunks", [
                 'name'            => $file->name,
                 'extension'       => 'pdf',
                 'chunk'           => $file,
@@ -252,7 +252,7 @@ class UploadRequestTest extends TestCase
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/upload/chunks", [
+            ->postJson("/api/file-request/$uploadRequest->id/upload/chunks", [
                 'name'            => $file->name,
                 'file'            => $file,
                 'is_last_chunk'   => 1,
@@ -275,12 +275,8 @@ class UploadRequestTest extends TestCase
             ]);
 
         $this
-            ->deleteJson("/api/upload-request/$uploadRequest->id")
-            ->assertStatus(201)
-            ->assertJsonFragment([
-                'id'     => $uploadRequest->id,
-                'status' => 'filled',
-            ]);
+            ->deleteJson("/api/file-request/$uploadRequest->id")
+            ->assertStatus(200);
 
         Notification::assertSentTo($user, UploadRequestFulfilledNotification::class);
     }
@@ -323,7 +319,7 @@ class UploadRequestTest extends TestCase
             ->create('fake-file.pdf', 12000000, 'application/pdf');
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/upload/chunks", [
+            ->postJson("/api/file-request/$uploadRequest->id/upload/chunks", [
                 'name'            => $file->name,
                 'extension'       => 'pdf',
                 'chunk'           => $file,

@@ -104,7 +104,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             // Get route
             let route = {
-                RequestUpload: `/api/upload-request/${router.currentRoute.params.token}/navigation`,
+                RequestUpload: `/api/file-request/${router.currentRoute.params.token}/navigation`,
                 Public: `/api/browse/navigation/${router.currentRoute.params.token}`,
             }[router.currentRoute.name] || '/api/browse/navigation'
 

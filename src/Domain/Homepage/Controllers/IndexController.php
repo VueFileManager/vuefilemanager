@@ -1,14 +1,15 @@
 <?php
 namespace Domain\Homepage\Controllers;
 
-use Domain\Settings\Actions\GetConfigAction;
 use Illuminate\Contracts\View\View;
+use Domain\Settings\Actions\GetConfigAction;
 
 class IndexController
 {
     public function __construct(
         public GetConfigAction $getConfig,
-    ) {}
+    ) {
+    }
 
     /**
      * Show index page

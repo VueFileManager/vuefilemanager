@@ -1,6 +1,5 @@
 <?php
 
-use Domain\Settings\Controllers\GetConfigController;
 use Domain\Zip\Controllers\ZipController;
 use Domain\Pages\Controllers\PagesController;
 use Domain\Sharing\Controllers\ShareController;
@@ -10,6 +9,7 @@ use Domain\Files\Controllers\UploadFileController;
 use App\Users\Controllers\ForgotPasswordController;
 use Domain\Folders\Controllers\FavouriteController;
 use Domain\Sharing\Controllers\ShareItemController;
+use Domain\Settings\Controllers\GetConfigController;
 use Domain\SetupWizard\Controllers\PingAPIController;
 use Domain\Folders\Controllers\CreateFolderController;
 use Domain\Browsing\Controllers\BrowseFolderController;
@@ -33,6 +33,8 @@ use App\Users\Controllers\Authentication\RegisterUserController;
 use Domain\Notifications\Controllers\GetUserNotificationsController;
 use Domain\Notifications\Controllers\FlushUserNotificationsController;
 use Domain\Notifications\Controllers\MarkUserNotificationsAsReadController;
+use App\Users\Controllers\Authentication\DestroyActiveBearerTokenController;
+use App\Users\Controllers\Authentication\AuthenticateAndReturnBearerTokenController;
 
 // Ping Pong
 Route::get('/ping', PingAPIController::class);
@@ -45,8 +47,11 @@ Route::apiResource('/page', PagesController::class);
 Route::post('/contact', SendContactMessageController::class);
 Route::get('/settings', GetSettingsValueController::class);
 
-// Register user
+// Register/login user
 Route::post('/register', RegisterUserController::class);
+Route::post('/login', AuthenticateAndReturnBearerTokenController::class)
+    ->middleware('throttle:login');
+Route::post('/logout', DestroyActiveBearerTokenController::class);
 
 // Socialite
 Route::get('/socialite/{provider}/redirect', SocialiteRedirectController::class);

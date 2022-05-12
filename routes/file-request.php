@@ -8,6 +8,7 @@ use Domain\UploadRequest\Controllers\BrowseUploadRequestController;
 use Domain\UploadRequest\Controllers\CreateUploadRequestController;
 use Domain\UploadRequest\Controllers\MoveItemInUploadRequestController;
 use Domain\UploadRequest\Controllers\SetUploadRequestAsFilledController;
+use Domain\UploadRequest\Controllers\UploadFileForUploadRequestController;
 use Domain\UploadRequest\Controllers\GetFolderTreeForUploadRequestController;
 use Domain\UploadRequest\Controllers\UploadFileChunksForUploadRequestController;
 use Domain\RemoteUpload\Controllers\UploadFilesRemotelyForUploadRequestController;
@@ -22,6 +23,8 @@ Route::group(['middleware' => 'upload-request'], function () {
     // Edit
     Route::post('/{uploadRequest}/upload/remote', UploadFilesRemotelyForUploadRequestController::class);
     Route::post('/{uploadRequest}/upload/chunks', UploadFileChunksForUploadRequestController::class);
+    Route::post('/{uploadRequest}/upload', UploadFileForUploadRequestController::class);
+    Route::post('/{uploadRequest}/move', MoveItemInUploadRequestController::class);
 
     Route::patch('/{uploadRequest}/rename/{id}', RenameFileOrFolderController::class);
     Route::post('/{uploadRequest}/create-folder', CreateFolderController::class);
@@ -30,7 +33,6 @@ Route::group(['middleware' => 'upload-request'], function () {
     // Browsing
     Route::get('/{uploadRequest}/navigation', GetFolderTreeForUploadRequestController::class);
     Route::get('/{uploadRequest}/browse/{folder?}', BrowseUploadRequestController::class);
-    Route::post('/{uploadRequest}/move', MoveItemInUploadRequestController::class);
 });
 
 // User functionality

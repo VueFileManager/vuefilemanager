@@ -1,7 +1,6 @@
 <?php
 namespace Domain\UploadRequest\Controllers;
 
-use DB;
 use Storage;
 use Illuminate\Support\Str;
 use Domain\Folders\Models\Folder;
@@ -11,12 +10,14 @@ use Domain\Files\Requests\UploadChunkRequest;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\Files\Actions\StoreFileChunksAction;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Domain\UploadRequest\Actions\CreateUploadRequestRootFolderAction;
 
 class UploadFileChunksForUploadRequestController
 {
     public function __construct(
-        private ProcessFileAction $processFie,
-        private StoreFileChunksAction $storeFileChunks,
+        public ProcessFileAction $processFie,
+        public StoreFileChunksAction $storeFileChunks,
+        public CreateUploadRequestRootFolderAction $createUploadRequestRootFolder,
     ) {
     }
 
@@ -30,7 +31,7 @@ class UploadFileChunksForUploadRequestController
 
         // Create folder if not exist
         if ($folder->doesntExist()) {
-            $this->createFolder($uploadRequest);
+            ($this->createUploadRequestRootFolder)($uploadRequest);
         }
 
         // Set default parent_id for uploaded file
@@ -60,29 +61,5 @@ class UploadFileChunksForUploadRequestController
 
             return response(new FileResource($file), 201);
         }
-    }
-
-    /**
-     * Create root Upload Request folder
-     */
-    private function createFolder(UploadRequest $uploadRequest): void
-    {
-        // Format timestamp
-        $timestamp = format_date($uploadRequest->created_at, 'd. M. Y');
-
-        // Create folder
-        DB::table('folders')->insert([
-            'id'         => $uploadRequest->id,
-            'parent_id'  => $uploadRequest->folder_id ?? null,
-            'user_id'    => $uploadRequest->user_id,
-            'name'       => $uploadRequest->name ?? __t('upload_request_default_folder', ['timestamp' => $timestamp]),
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        // Update upload request status
-        $uploadRequest->update([
-            'status' => 'filling',
-        ]);
     }
 }

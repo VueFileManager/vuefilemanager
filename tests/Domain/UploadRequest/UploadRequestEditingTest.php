@@ -34,7 +34,7 @@ class UploadRequestEditingTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->patchJson("/api/upload-request/$uploadRequest->id/rename/$folder->id", [
+            ->patchJson("/api/file-request/$uploadRequest->id/rename/$folder->id", [
                 'name' => 'Renamed Folder',
                 'type' => 'folder',
             ])
@@ -71,7 +71,7 @@ class UploadRequestEditingTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->patchJson("/api/upload-request/$uploadRequest->id/rename/$file->id", [
+            ->patchJson("/api/file-request/$uploadRequest->id/rename/$file->id", [
                 'name' => 'Renamed File',
                 'type' => 'file',
             ])
@@ -102,7 +102,7 @@ class UploadRequestEditingTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/upload-request/$uploadRequest->id/create-folder", [
+            ->postJson("/api/file-request/$uploadRequest->id/create-folder", [
                 'name'      => 'New Folder',
                 'parent_id' => $uploadRequest->id,
             ])
@@ -162,7 +162,7 @@ class UploadRequestEditingTest extends TestCase
             });
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/remove", [
+            ->postJson("/api/file-request/$uploadRequest->id/remove", [
                 'items' => [
                     [
                         'id'           => $image->id,
@@ -170,7 +170,7 @@ class UploadRequestEditingTest extends TestCase
                         'force_delete' => true,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         // Assert primary file was deleted
         Storage::assertMissing("files/$user->id/fake-image.jpeg");
@@ -209,7 +209,7 @@ class UploadRequestEditingTest extends TestCase
         Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/remove", [
+            ->postJson("/api/file-request/$uploadRequest->id/remove", [
                 'items' => [
                     [
                         'id'           => $file->id,
@@ -217,7 +217,7 @@ class UploadRequestEditingTest extends TestCase
                         'force_delete' => true,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         // Assert primary file was deleted
         Storage::assertMissing("files/$user->id/fake-file.pdf");
@@ -264,7 +264,7 @@ class UploadRequestEditingTest extends TestCase
         Storage::putFileAs("files/$user->id", $fakeFile, $fakeFile->name);
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/remove", [
+            ->postJson("/api/file-request/$uploadRequest->id/remove", [
                 'items' => [
                     [
                         'id'           => $folder->id,
@@ -272,7 +272,7 @@ class UploadRequestEditingTest extends TestCase
                         'force_delete' => true,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this
             ->assertDatabaseMissing('folders', [
@@ -317,7 +317,7 @@ class UploadRequestEditingTest extends TestCase
             ]);
 
         $this
-            ->postJson("/api/upload-request/$uploadRequest->id/move", [
+            ->postJson("/api/file-request/$uploadRequest->id/move", [
                 'to_id' => $folder->id,
                 'items' => [
                     [
@@ -325,7 +325,7 @@ class UploadRequestEditingTest extends TestCase
                         'id'   => $file->id,
                     ],
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('files', [
             'id'        => $file->id,

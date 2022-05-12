@@ -47,7 +47,7 @@ class UploadRequestBrowsingTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson("/api/upload-request/$uploadRequest->id/navigation")
+            ->getJson("/api/file-request/$uploadRequest->id/navigation")
             ->assertStatus(200)
             ->assertExactJson([
                 [
@@ -115,7 +115,7 @@ class UploadRequestBrowsingTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson("/api/upload-request/$uploadRequest->id/browse/$root->id")
+            ->getJson("/api/file-request/$uploadRequest->id/browse/$root->id")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $root->id,
@@ -165,7 +165,7 @@ class UploadRequestBrowsingTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson("/api/upload-request/$uploadRequest->id/browse/$root->id")
+            ->getJson("/api/file-request/$uploadRequest->id/browse/$root->id")
             ->assertStatus(200)
             ->assertJsonFragment([
                 'id' => $root->id,

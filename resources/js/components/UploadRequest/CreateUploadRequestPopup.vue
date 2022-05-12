@@ -164,7 +164,7 @@ export default {
 
 			// Send request to get share link
 			axios
-				.post(`/api/upload-request`, this.form)
+				.post(`/api/file-request`, this.form)
 				.then((response) => {
 					this.generatedUploadRequest = response.data
 				})

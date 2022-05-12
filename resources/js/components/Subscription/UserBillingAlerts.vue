@@ -152,7 +152,7 @@ export default {
             this.isSendingBillingAlert = true
 
             axios
-                .patch(`/api/subscriptions/billing-alerts/${this.user.data.relationships.alert.data.id}`, {
+                .put('/api/subscriptions/billing-alert', {
                     amount: this.billingAlertAmount,
                 })
                 .then(() => {
@@ -184,7 +184,7 @@ export default {
             this.isSendingBillingAlert = true
 
             axios
-                .post('/api/subscriptions/billing-alerts', {
+                .post('/api/subscriptions/billing-alert', {
                     amount: this.billingAlertAmount,
                 })
                 .then(() => {
@@ -222,7 +222,7 @@ export default {
         events.$on('action:confirmed', (data) => {
             if (data.operation === 'delete-billing-alert')
                 axios
-                    .delete(`/api/subscriptions/billing-alerts/${this.user.data.relationships.alert.data.id}`)
+                    .delete('/api/subscriptions/billing-alert')
                     .then(() => {
                         this.$store.dispatch('getAppData')
 

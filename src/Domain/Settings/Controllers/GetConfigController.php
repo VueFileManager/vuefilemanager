@@ -1,17 +1,16 @@
 <?php
-
 namespace Domain\Settings\Controllers;
 
-use Domain\Settings\Actions\GetConfigAction;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
-
+use App\Http\Controllers\Controller;
+use Domain\Settings\Actions\GetConfigAction;
 
 class GetConfigController extends Controller
 {
     public function __construct(
         public GetConfigAction $getConfigAction,
-    ) {}
+    ) {
+    }
 
     public function __invoke(): JsonResponse
     {
