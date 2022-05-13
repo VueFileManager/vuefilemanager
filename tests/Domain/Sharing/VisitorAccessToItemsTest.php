@@ -138,7 +138,7 @@ class VisitorAccessToItemsTest extends TestCase
             ]);
 
         // Get share record
-        $this->get("/api/browse/file/$share->token")
+        $this->get("/api/sharing/file/$share->token")
             ->assertStatus(403);
     }
 

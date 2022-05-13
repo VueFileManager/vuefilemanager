@@ -78,7 +78,7 @@ export default {
 
             // Send request to get verify account
             axios
-                .post('/api/browse/authenticate/' + this.$route.params.token, {
+                .post('/api/sharing/authenticate/' + this.$route.params.token, {
                     password: this.password,
                 })
                 .then((response) => {

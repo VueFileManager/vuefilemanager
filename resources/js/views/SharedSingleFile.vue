@@ -108,7 +108,7 @@ export default {
     },
     mounted() {
         axios
-            .get(`/api/browse/file/${this.$router.currentRoute.params.token}`)
+            .get(`/api/sharing/file/${this.$router.currentRoute.params.token}`)
             .then((response) => {
                 this.file = response.data
             })

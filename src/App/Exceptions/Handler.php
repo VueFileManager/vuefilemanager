@@ -51,9 +51,12 @@ class Handler extends ExceptionHandler
     {
         if ($exception instanceof ModelNotFoundException) {
             if (in_array('application/json', $request->getAcceptableContentTypes())) {
+                // Get ids
+                $ids = implode(', ', $exception->getIds());
+
                 return response()->json([
                     'type'    => 'error',
-                    'message' => "We couldn't find your requested item.",
+                    'message' => "We couldn't find the resource you requested with id $ids",
                 ], 404);
             }
 

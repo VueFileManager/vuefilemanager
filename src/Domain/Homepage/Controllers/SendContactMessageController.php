@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Homepage\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Domain\Homepage\Mail\SendContactMessage;
@@ -14,17 +14,22 @@ class SendContactMessageController extends Controller
      */
     public function __invoke(
         SendContactMessageRequest $request
-    ): Response {
-        // Abort in demo mode
-        abort_if(is_demo(), 201, 'Done');
+    ): JsonResponse {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The message was successfully send',
+        ];
 
-        $contactEmail = get_settings('contact_email');
-
-        if ($contactEmail) {
-            Mail::to($contactEmail)
-                ->send(new SendContactMessage($request->all()));
+        // Return success in demo mode
+        if (is_demo()) {
+            return response()->json($message);
         }
 
-        return response('Done', 201);
+        // Get contact mail
+        if ($contactEmail = get_settings('contact_email')) {
+            Mail::to($contactEmail)->send(new SendContactMessage($request->all()));
+        }
+
+        return response()->json($message);
     }
 }

@@ -105,7 +105,7 @@ const actions = {
             // Get route
             let route = {
                 RequestUpload: `/api/file-request/${router.currentRoute.params.token}/navigation`,
-                Public: `/api/browse/navigation/${router.currentRoute.params.token}`,
+                Public: `/api/sharing/navigation/${router.currentRoute.params.token}`,
             }[router.currentRoute.name] || '/api/browse/navigation'
 
             axios

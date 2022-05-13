@@ -81,7 +81,7 @@ class GateTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->patch("/api/editor/rename/{$children->id}/$share->token", [
+                        ->patch("/api/sharing/rename/{$children->id}/$share->token", [
                             'name' => 'Renamed Folder',
                             'type' => 'folder',
                         ])
@@ -93,7 +93,7 @@ class GateTest extends TestCase
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->patchJson("/api/editor/rename/{$children->id}/$share->token", [
+                    $this->patchJson("/api/sharing/rename/{$children->id}/$share->token", [
                         'name' => 'Renamed Folder',
                         'type' => 'folder',
                     ])

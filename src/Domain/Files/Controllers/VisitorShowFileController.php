@@ -3,8 +3,8 @@ namespace Domain\Files\Controllers;
 
 use Gate;
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
+use Illuminate\Http\JsonResponse;
 use Domain\Files\Resources\FileResource;
 
 /**
@@ -14,7 +14,7 @@ class VisitorShowFileController
 {
     public function __invoke(
         Share $shared
-    ): Response {
+    ): JsonResponse {
         $file = File::whereUserId($shared->user_id)
             ->whereId($shared->item_id)
             ->firstOrFail();
@@ -24,6 +24,6 @@ class VisitorShowFileController
         // Set access urls
         $file->setSharedPublicUrl($shared->token);
 
-        return response(new FileResource($file), 200);
+        return response()->json(new FileResource($file));
     }
 }

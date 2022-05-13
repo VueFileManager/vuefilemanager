@@ -4,6 +4,7 @@ namespace Domain\Browsing\Controllers;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Folders\Resources\FolderCollection;
@@ -24,7 +25,7 @@ class VisitorBrowseFolderController
     public function __invoke(
         string $id,
         Share $shared,
-    ): array {
+    ): JsonResponse {
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
@@ -48,10 +49,10 @@ class VisitorBrowseFolderController
         // Set thumbnail links for public files
         $files->map(fn ($file) => $file->setSharedPublicUrl($shared->token));
 
-        return [
+        return response()->json([
             'folders' => new FolderCollection($folders),
             'files'   => new FilesCollection($files),
             'root'    => new FolderResource($requestedFolder),
-        ];
+        ]);
     }
 }

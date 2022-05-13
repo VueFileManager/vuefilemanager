@@ -69,7 +69,7 @@ class HomepageTest extends TestCase
             ]);
 
         $this
-            ->get("/api/og-site/$share->token")
+            ->get("/api/sharing/og-site/$share->token")
             ->assertStatus(200)
             ->assertSee('Folder Title');
     }
@@ -100,7 +100,7 @@ class HomepageTest extends TestCase
             ]);
 
         $this
-            ->get("/api/og-site/$share->token")
+            ->get("/api/sharing/og-site/$share->token")
             ->assertStatus(200)
             ->assertSee('Fake Image')
             ->assertSee('lg-fake-image.jpg');
@@ -132,7 +132,7 @@ class HomepageTest extends TestCase
             ]);
 
         $this
-            ->get("/api/og-site/$share->token")
+            ->get("/api/sharing/og-site/$share->token")
             ->assertStatus(200)
             ->assertSee('This link is protected by password');
     }
@@ -153,7 +153,7 @@ class HomepageTest extends TestCase
             'email'   => 'john@doe.com',
             'message' => 'Whaats is up!',
         ])
-            ->assertStatus(201);
+            ->assertStatus(200);
 
         Mail::assertSent(SendContactMessage::class);
     }

@@ -3,6 +3,7 @@ namespace Domain\Folders\Controllers;
 
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
@@ -20,7 +21,7 @@ class VisitorNavigationFolderTreeController extends Controller
 
     public function __invoke(
         Share $shared,
-    ): array {
+    ): JsonResponse {
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
@@ -34,7 +35,7 @@ class VisitorNavigationFolderTreeController extends Controller
             ->sortable()
             ->get(['id', 'parent_id', 'id', 'name']);
 
-        return [
+        return response()->json([
             [
                 'name'      => __t('home'),
                 'location'  => 'public',
@@ -42,6 +43,6 @@ class VisitorNavigationFolderTreeController extends Controller
                 'isMovable' => true,
                 'isOpen'    => true,
             ],
-        ];
+        ]);
     }
 }

@@ -17,8 +17,8 @@ class ShareController extends Controller
      */
     public function show(
         Share $share,
-    ): ShareResource {
-        return new ShareResource($share);
+    ): JsonResponse {
+        return response()->json(new ShareResource($share));
     }
 
     /**

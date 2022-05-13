@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Items\Controllers;
 
-use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
@@ -29,15 +29,15 @@ class VisitorRenameFileOrFolderController extends Controller
         RenameItemRequest $request,
         string $id,
         Share $shared,
-    ): Response | array {
+    ): JsonResponse {
         // Return fake renamed item in demo
         if (isDemoAccount()) {
-            return ($this->fakeRenameFileOrFolder)($request, $id);
+            return response()->json(($this->fakeRenameFileOrFolder)($request, $id));
         }
 
         // Check shared permission
         if (is_visitor($shared)) {
-            abort(403);
+            return response()->json(accessDeniedError(), 403);
         }
 
         // Get file|folder item
@@ -64,10 +64,10 @@ class VisitorRenameFileOrFolderController extends Controller
         }
 
         if ($request->input('type') === 'folder') {
-            return response(new FolderResource($item), 201);
+            return response()->json(new FolderResource($item), 201);
         }
 
         // Return updated item
-        return response(new FileResource($item), 201);
+        return response()->json(new FileResource($item), 201);
     }
 }

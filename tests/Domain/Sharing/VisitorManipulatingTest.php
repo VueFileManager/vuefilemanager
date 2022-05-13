@@ -52,7 +52,7 @@ class VisitorManipulatingTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->patch("/api/editor/rename/{$file->id}/$share->token", [
+                        ->patch("/api/sharing/rename/{$file->id}/$share->token", [
                             'name' => 'Renamed Item',
                             'type' => 'file',
                         ])
@@ -64,7 +64,7 @@ class VisitorManipulatingTest extends TestCase
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->patchJson("/api/editor/rename/{$file->id}/$share->token", [
+                    $this->patchJson("/api/sharing/rename/{$file->id}/$share->token", [
                         'name' => 'Renamed Item',
                         'type' => 'file',
                     ])
@@ -122,7 +122,7 @@ class VisitorManipulatingTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->patch("/api/editor/rename/{$children->id}/$share->token", [
+                        ->patch("/api/sharing/rename/{$children->id}/$share->token", [
                             'name' => 'Renamed Folder',
                             'type' => 'folder',
                         ])
@@ -134,7 +134,7 @@ class VisitorManipulatingTest extends TestCase
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->patchJson("/api/editor/rename/{$children->id}/$share->token", [
+                    $this->patchJson("/api/sharing/rename/{$children->id}/$share->token", [
                         'name' => 'Renamed Folder',
                         'type' => 'folder',
                     ])
@@ -186,7 +186,7 @@ class VisitorManipulatingTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->post("/api/editor/create-folder/$share->token", [
+                        ->post("/api/sharing/create-folder/$share->token", [
                             'name'      => 'Awesome New Folder',
                             'parent_id' => $folder->id,
                         ])
@@ -198,7 +198,7 @@ class VisitorManipulatingTest extends TestCase
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->postJson("/api/editor/create-folder/$share->token", [
+                    $this->postJson("/api/sharing/create-folder/$share->token", [
                         'name'      => 'Awesome New Folder',
                         'parent_id' => $folder->id,
                     ])
@@ -272,13 +272,13 @@ class VisitorManipulatingTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->post("/api/editor/remove/$share->token", $payload)
+                        ->post("/api/sharing/remove/$share->token", $payload)
                         ->assertStatus(204);
                 }
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->postJson("/api/editor/remove/$share->token", $payload)
+                    $this->postJson("/api/sharing/remove/$share->token", $payload)
                         ->assertStatus(204);
                 }
 
@@ -329,7 +329,7 @@ class VisitorManipulatingTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->post("/api/editor/upload/chunks/$share->token", [
+                        ->post("/api/sharing/upload/chunks/$share->token", [
                             'name'            => $file->name,
                             'extension'       => 'pdf',
                             'chunk'           => $file,
@@ -340,7 +340,7 @@ class VisitorManipulatingTest extends TestCase
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->postJson("/api/editor/upload/chunks/$share->token", [
+                    $this->postJson("/api/sharing/upload/chunks/$share->token", [
                         'name'            => $file->name,
                         'extension'       => 'pdf',
                         'chunk'           => $file,
@@ -414,14 +414,14 @@ class VisitorManipulatingTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->post("/api/editor/move/$share->token", $payload)
-                        ->assertStatus(204);
+                        ->post("/api/sharing/move/$share->token", $payload)
+                        ->assertStatus(200);
                 }
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->postJson("/api/editor/move/$share->token", $payload)
-                        ->assertStatus(204);
+                    $this->postJson("/api/sharing/move/$share->token", $payload)
+                        ->assertStatus(200);
                 }
 
                 $this->assertDatabaseHas('files', [
@@ -487,14 +487,14 @@ class VisitorManipulatingTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->post("/api/editor/move/$share->token", $payload)
-                        ->assertStatus(204);
+                        ->post("/api/sharing/move/$share->token", $payload)
+                        ->assertStatus(200);
                 }
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->postJson("/api/editor/move/$share->token", $payload)
-                        ->assertStatus(204);
+                    $this->postJson("/api/sharing/move/$share->token", $payload)
+                        ->assertStatus(200);
                 }
 
                 $this->assertDatabaseHas('folders', [

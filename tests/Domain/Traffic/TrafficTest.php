@@ -113,7 +113,7 @@ class TrafficTest extends TestCase
             ]);
 
         // Check public shared item
-        $this->postJson("/api/editor/upload/chunks/$share->token", [
+        $this->postJson("/api/sharing/upload/chunks/$share->token", [
             'name'            => $this->file->name,
             'chunk'           => $this->file,
             'parent_id'       => $folder->id,

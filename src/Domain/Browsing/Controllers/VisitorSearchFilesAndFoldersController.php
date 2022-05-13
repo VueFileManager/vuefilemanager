@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderCollection;
@@ -24,7 +25,7 @@ class VisitorSearchFilesAndFoldersController extends Controller
     public function __invoke(
         Request $request,
         Share $shared,
-    ): array {
+    ): JsonResponse {
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
@@ -70,9 +71,9 @@ class VisitorSearchFilesAndFoldersController extends Controller
             ->take(3);
 
         // Collect folders and files to single array
-        return [
+        return response()->json([
             'folders' => new FolderCollection($folders),
             'files'   => new FilesCollection($files),
-        ];
+        ]);
     }
 }

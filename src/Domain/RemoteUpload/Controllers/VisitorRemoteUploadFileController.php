@@ -18,8 +18,10 @@ class VisitorRemoteUploadFileController extends Controller
     ) {
     }
 
-    public function __invoke(RemoteUploadRequest $request, ?Share $shared = null): JsonResponse
-    {
+    public function __invoke(
+        RemoteUploadRequest $request,
+        ?Share $shared = null,
+    ): JsonResponse {
         $successMessage = [
             'type'    => 'success',
             'message' => 'Files was successfully uploaded.',
@@ -30,7 +32,12 @@ class VisitorRemoteUploadFileController extends Controller
 
         // Check shared permission
         if (is_visitor($shared)) {
-            abort(403, "You don't have access to this item");
+            return response()->json(accessDeniedError(), 403);
+        }
+
+        // Add default parent id if missing
+        if ($request->missing('parent_id')) {
+            $request->merge(['parent_id' => $shared->item_id]);
         }
 
         // Check access to requested directory

@@ -25,7 +25,7 @@ const actions = {
 
         return new Promise((resolve, reject) => {
             axios
-                .get(`/api/browse/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
+                .get(`/api/sharing/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}`)
                 .then((response) => {
                     let folders = response.data.folders.data
                     let files = response.data.files.data
@@ -50,7 +50,7 @@ const actions = {
     getShareDetail: ({ commit, state }, token) => {
         return new Promise((resolve, reject) => {
             axios
-                .get(`/api/browse/share/${token}`)
+                .get(`/api/sharing/share/${token}`)
                 .then((response) => {
                     resolve(response)
 

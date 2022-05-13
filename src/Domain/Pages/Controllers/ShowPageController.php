@@ -2,16 +2,17 @@
 namespace Domain\Pages\Controllers;
 
 use Domain\Pages\Models\Page;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Pages\Resources\PageResource;
 
-class PagesController extends Controller
+class ShowPageController extends Controller
 {
     /**
      * Get single page content
      */
-    public function show(Page $page): PageResource
+    public function __invoke(Page $page): JsonResponse
     {
-        return new PageResource($page);
+        return response()->json(new PageResource($page));
     }
 }

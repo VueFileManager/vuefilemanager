@@ -2,8 +2,8 @@
 namespace Domain\Items\Controllers;
 
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Items\Requests\MoveItemRequest;
 use Domain\Items\Actions\MoveFileOrFolderAction;
@@ -23,14 +23,24 @@ class VisitorMoveFileOrFolderController extends Controller
     public function __invoke(
         MoveItemRequest $request,
         Share $shared,
-    ): Response {
+    ): JsonResponse {
+        $successMessage = [
+            'type'    => 'success',
+            'message' => 'Items was successfully moved.',
+        ];
+
         if (isDemoAccount()) {
-            abort(204, 'Done.');
+            return response()->json($successMessage);
         }
 
         // Check shared permission
         if (is_visitor($shared)) {
-            abort(403);
+            return response()->json(accessDeniedError(), 403);
+        }
+
+        // Add default parent id if missing
+        if ($request->missing('to_id')) {
+            $request->merge(['to_id' => $shared->item_id]);
         }
 
         foreach ($request->input('items') as $item) {
@@ -53,6 +63,6 @@ class VisitorMoveFileOrFolderController extends Controller
 
         ($this->moveFileOrFolder)($request, $shared);
 
-        return response('Done.', 204);
+        return response()->json($successMessage);
     }
 }

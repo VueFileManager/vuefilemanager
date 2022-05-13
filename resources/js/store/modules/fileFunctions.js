@@ -34,7 +34,7 @@ const actions = {
 
         // Get route
         let route = getters.sharedDetail
-            ? `/api/zip/${router.currentRoute.params.token}?items=${files.join(',')}`
+            ? `/api/sharing/zip/${router.currentRoute.params.token}?items=${files.join(',')}`
             : `/api/zip?items=${files.join(',')}`
 
         // Download zip
@@ -60,14 +60,14 @@ const actions = {
         // Get route
         let route = {
             RequestUpload: `/api/file-request/${router.currentRoute.params.token}/move`,
-            Public: `/api/editor/move/${router.currentRoute.params.token}`,
+            Public: `/api/sharing/move/${router.currentRoute.params.token}`,
         }[router.currentRoute.name] || '/api/move'
 
         let moveToId = to_item.data ? to_item.data.id : to_item.id
 
         axios
             .post(route, {
-                to_id: moveToId || null,
+                to_id: moveToId || undefined,
                 items: itemsToMove,
             })
             .then(() => {
@@ -88,7 +88,7 @@ const actions = {
         // Get route
         let route = {
             RequestUpload: `/api/file-request/${router.currentRoute.params.token}/create-folder`,
-            Public: `/api/editor/create-folder/${router.currentRoute.params.token}`,
+            Public: `/api/sharing/create-folder/${router.currentRoute.params.token}`,
         }[router.currentRoute.name] || '/api/create-folder'
 
         axios
@@ -127,7 +127,7 @@ const actions = {
         // Get route
         let route = {
             RequestUpload: `/api/file-request/${router.currentRoute.params.token}/rename/${data.id}`,
-            Public: `/api/editor/rename/${data.id}/${router.currentRoute.params.token}`,
+            Public: `/api/sharing/rename/${data.id}/${router.currentRoute.params.token}`,
         }[router.currentRoute.name] || `/api/rename/${data.id}`
 
         axios
@@ -150,7 +150,7 @@ const actions = {
             // Get route
             let route = {
                 RequestUpload: `/api/file-request/${router.currentRoute.params.token}/upload/chunks`,
-                Public: `/api/editor/upload/chunks/${router.currentRoute.params.token}`,
+                Public: `/api/sharing/upload/chunks/${router.currentRoute.params.token}`,
             }[router.currentRoute.name] || '/api/upload/chunks'
 
             // Create cancel token for axios cancellation
@@ -320,7 +320,7 @@ const actions = {
         // Get route
         let route = {
             RequestUpload: `/api/file-request/${router.currentRoute.params.token}/remove`,
-            Public: `/api/editor/remove/${router.currentRoute.params.token}`,
+            Public: `/api/sharing/remove/${router.currentRoute.params.token}`,
         }[router.currentRoute.name] || '/api/remove'
 
         axios

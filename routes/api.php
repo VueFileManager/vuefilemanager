@@ -1,8 +1,8 @@
 <?php
 
 use Domain\Zip\Controllers\ZipController;
-use Domain\Pages\Controllers\PagesController;
 use Domain\Sharing\Controllers\ShareController;
+use Domain\Pages\Controllers\ShowPageController;
 use Domain\Trash\Controllers\DumpTrashController;
 use App\Users\Controllers\ResetPasswordController;
 use Domain\Files\Controllers\UploadFileController;
@@ -41,7 +41,7 @@ Route::get('/ping', PingAPIController::class);
 Route::get('/config', GetConfigController::class);
 
 // Pages
-Route::apiResource('/page', PagesController::class);
+Route::get('/page/{page}', ShowPageController::class);
 
 // Homepage
 Route::post('/contact', SendContactMessageController::class);

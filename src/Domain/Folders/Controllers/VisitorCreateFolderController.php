@@ -1,8 +1,8 @@
 <?php
 namespace Domain\Folders\Controllers;
 
-use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Folders\Actions\CreateFolderAction;
@@ -28,11 +28,11 @@ class VisitorCreateFolderController extends Controller
     public function __invoke(
         CreateFolderRequest $request,
         Share $shared,
-    ): Response | array {
+    ): JsonResponse {
         if (isDemoAccount()) {
             $fakeFolder = ($this->fakeCreateFolder)($request);
 
-            return response(new FolderResource($fakeFolder), 201);
+            return response()->json(new FolderResource($fakeFolder), 201);
         }
 
         // Check ability to access protected share record
@@ -40,21 +40,26 @@ class VisitorCreateFolderController extends Controller
 
         // Check shared permission
         if (is_visitor($shared)) {
-            abort(403);
+            return response()->json(accessDeniedError(), 403);
+        }
+
+        // Add default parent id if missing
+        if ($request->missing('parent_id')) {
+            $request->merge(['parent_id' => $shared->item_id]);
         }
 
         // Check access to requested directory
-        ($this->verifyAccessToItem)($request->parent_id, $shared);
+        ($this->verifyAccessToItem)($request->input('parent_id'), $shared);
 
         try {
             // Create new folder
             $folder = ($this->createFolder)($request, $shared);
 
             // Return new folder
-            return response(new FolderResource($folder), 201);
+            return response()->json(new FolderResource($folder), 201);
         } catch (InvalidUserActionException $e) {
             // Return error response
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => $e->getMessage(),
             ], 401);
