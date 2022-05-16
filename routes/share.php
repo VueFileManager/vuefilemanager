@@ -3,6 +3,7 @@
 use Domain\Sharing\Controllers\ShareController;
 use Domain\Zip\Controllers\VisitorZipController;
 use Domain\Files\Controllers\VisitorShowFileController;
+use Domain\Files\Controllers\VisitorUploadFileController;
 use Domain\Folders\Controllers\VisitorCreateFolderController;
 use Domain\Sharing\Controllers\WebCrawlerOpenGraphController;
 use Domain\Browsing\Controllers\VisitorBrowseFolderController;
@@ -32,7 +33,7 @@ Route::post('/authenticate/{shared}', VisitorUnlockLockedShareController::class)
 Route::get('/navigation/{shared}', VisitorNavigationFolderTreeController::class);
 Route::get('/folders/{id}/{shared}', VisitorBrowseFolderController::class);
 Route::get('/file/{shared}', VisitorShowFileController::class);
-Route::get('/share/{share}', [ShareController::class, 'show']);
+Route::get('/{share}', [ShareController::class, 'show']);
 
 // Others
 Route::get('/search/{shared}', VisitorSearchFilesAndFoldersController::class);

@@ -19,7 +19,7 @@ class VisitorBrowseTest extends TestCase
                 'is_protected' => 0,
             ]);
 
-        $this->get("/api/browse/share/$share->token")
+        $this->get("/api/sharing/$share->token")
             ->assertStatus(200)
             ->assertExactJson([
                 'data' => [
@@ -63,7 +63,7 @@ class VisitorBrowseTest extends TestCase
      */
     public function it_try_to_get_deleted_share_record()
     {
-        $this->get('/api/browse/share/19ZMPNiass4ZqWwQ')
+        $this->get('/api/sharing/19ZMPNiass4ZqWwQ')
             ->assertNotFound();
     }
 
@@ -180,7 +180,7 @@ class VisitorBrowseTest extends TestCase
 
                     $this
                         ->withUnencryptedCookies($cookie)
-                        ->get("/api/browse/folders/$root->id/$share->token")
+                        ->get("/api/sharing/folders/$root->id/$share->token")
                         ->assertStatus(200)
                         ->assertJsonFragment([
                             'id' => $file->id,
@@ -192,7 +192,7 @@ class VisitorBrowseTest extends TestCase
 
                 // Check public shared item
                 if (! $is_protected) {
-                    $this->getJson("/api/browse/folders/$root->id/$share->token")
+                    $this->getJson("/api/sharing/folders/$root->id/$share->token")
                         ->assertStatus(200)
                         ->assertJsonFragment([
                             'id' => $file->id,

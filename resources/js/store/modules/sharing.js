@@ -50,7 +50,7 @@ const actions = {
     getShareDetail: ({ commit, state }, token) => {
         return new Promise((resolve, reject) => {
             axios
-                .get(`/api/sharing/share/${token}`)
+                .get(`/api/sharing/${token}`)
                 .then((response) => {
                     resolve(response)
 
