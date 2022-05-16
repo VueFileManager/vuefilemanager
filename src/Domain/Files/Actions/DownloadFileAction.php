@@ -6,11 +6,13 @@ use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class DownloadFileAction
 {
     /**
      * Call and download file
+     * @throws FileNotFoundException
      */
     public function __invoke(File $file): Response|StreamedResponse|RedirectResponse
     {
@@ -21,7 +23,9 @@ class DownloadFileAction
         $fileName = getPrettyName($file);
 
         // Check if file exist
-        abort_if(Storage::missing($filePath), 404, 'The file not found.');
+        if (Storage::missing($filePath)) {
+            throw new FileNotFoundException();
+        }
 
         // Format response header
         $header = [

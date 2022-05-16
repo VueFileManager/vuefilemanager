@@ -1,15 +1,15 @@
 <?php
 namespace App\Users\Controllers\Account;
 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use App\Users\Resources\UserStorageResource;
 
 class StorageCapacityController
 {
-    public function __invoke(): UserStorageResource
+    public function __invoke(): JsonResponse
     {
-        return new UserStorageResource(
-            Auth::user()
+        return response()->json(
+            new UserStorageResource(auth()->user())
         );
     }
 }

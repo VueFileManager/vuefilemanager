@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Localization\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Localization\Models\Language;
 use Domain\Localization\Requests\UpdateStringRequest;
@@ -14,9 +14,15 @@ class UpdateLanguageStringController extends Controller
     public function __invoke(
         UpdateStringRequest $request,
         Language $language,
-    ): Response {
-        // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+    ): JsonResponse {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The language strings was successfully updated',
+        ];
+
+        if (is_demo()) {
+            return response()->json($message);
+        }
 
         $language
             ->languageTranslations()
@@ -27,9 +33,6 @@ class UpdateLanguageStringController extends Controller
 
         cache()->forget("language-translations-{$language->locale}");
 
-        return response(
-            'Done',
-            204
-        );
+        return response()->json($message);
     }
 }

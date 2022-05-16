@@ -2,7 +2,7 @@
 namespace Domain\Sharing\Controllers;
 
 use BaconQrCode\Writer;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use BaconQrCode\Renderer\Color\Rgb;
 use App\Http\Controllers\Controller;
 use BaconQrCode\Renderer\ImageRenderer;
@@ -12,8 +12,9 @@ use BaconQrCode\Renderer\RendererStyle\RendererStyle;
 
 class GetShareLinkViaQrCodeController extends Controller
 {
-    public function __invoke($token): Response
-    {
+    public function __invoke(
+        $token
+    ): JsonResponse {
         // Get share url
         $url = url('/share', ['token' => $token]);
 
@@ -28,6 +29,12 @@ class GetShareLinkViaQrCodeController extends Controller
         $qrCode = trim(substr($svg, strpos($svg, "\n") + 1));
 
         // Return qr code
-        return response($qrCode);
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'QR code successfully generated',
+            'data'    => [
+                'svg' => $qrCode,
+            ],
+        ]);
     }
 }

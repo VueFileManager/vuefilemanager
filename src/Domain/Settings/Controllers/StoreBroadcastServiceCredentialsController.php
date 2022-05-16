@@ -2,7 +2,7 @@
 namespace Domain\Settings\Controllers;
 
 use Artisan;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Settings\Requests\StoreBroadcastServiceCredentialsRequest;
 
 class StoreBroadcastServiceCredentialsController
@@ -10,10 +10,17 @@ class StoreBroadcastServiceCredentialsController
     /**
      * Configure stripe additionally
      */
-    public function __invoke(StoreBroadcastServiceCredentialsRequest $request): Response
-    {
-        // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+    public function __invoke(
+        StoreBroadcastServiceCredentialsRequest $request
+    ): JsonResponse {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The 3rd part authentication credentials was successfully set',
+        ];
+
+        if (is_demo()) {
+            return response()->json($message);
+        }
 
         // Get and store credentials
         if (! app()->runningUnitTests()) {
@@ -54,6 +61,6 @@ class StoreBroadcastServiceCredentialsController
             }
         }
 
-        return response('Done', 204);
+        return response()->json($message);
     }
 }

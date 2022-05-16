@@ -2,6 +2,7 @@
 namespace Domain\Settings\Controllers;
 
 use Storage;
+use Illuminate\Http\JsonResponse;
 use Support\Status\Actions\GetServerSetupStatusAction;
 
 class GetServerStatusController
@@ -11,7 +12,7 @@ class GetServerStatusController
     ) {
     }
 
-    public function __invoke(): array
+    public function __invoke(): JsonResponse
     {
         // Get server data
         $status = ($this->getServerSetupStatus)();
@@ -32,6 +33,6 @@ class GetServerStatusController
             'lastUpdate' => isRunningCron() ? format_date(cache()->get('latest_cron_update')) : null,
         ];
 
-        return $status;
+        return response()->json($status);
     }
 }

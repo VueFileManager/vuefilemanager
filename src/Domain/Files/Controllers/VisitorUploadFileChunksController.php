@@ -72,7 +72,7 @@ class VisitorUploadFileChunksController extends Controller
             // Set public access url
             $file->setSharedPublicUrl($shared->token);
 
-            return response(new FileResource($file), 201);
+            return response()->json(new FileResource($file), 201);
         }
     }
 }

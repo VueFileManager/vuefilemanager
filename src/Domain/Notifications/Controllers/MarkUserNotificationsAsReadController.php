@@ -18,9 +18,12 @@ class MarkUserNotificationsAsReadController extends Controller
         }
 
         // Mark all notifications as read
-        auth()->user()->unreadNotifications()->update([
-            'read_at' => now(),
-        ]);
+        auth()
+            ->user()
+            ->unreadNotifications()
+            ->update([
+                'read_at' => now(),
+            ]);
 
         return response()->json($successMessage);
     }

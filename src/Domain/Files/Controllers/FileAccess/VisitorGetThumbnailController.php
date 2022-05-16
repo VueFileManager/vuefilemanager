@@ -9,6 +9,7 @@ use Domain\Files\Actions\DownloadThumbnailAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Domain\Sharing\Actions\VerifyAccessToItemWithinAction;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 /**
  * Get public image thumbnail
@@ -23,6 +24,9 @@ class VisitorGetThumbnailController extends Controller
     ) {
     }
 
+    /**
+     * @throws FileNotFoundException
+     */
     public function __invoke(
         $filename,
         Share $shared,

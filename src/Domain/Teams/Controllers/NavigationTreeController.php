@@ -7,13 +7,14 @@ use Illuminate\Http\JsonResponse;
 
 class NavigationTreeController
 {
-    public function __invoke(Folder $folder): JsonResponse
-    {
+    public function __invoke(
+        Folder $folder
+    ): JsonResponse {
         // Get the root team folder
         $teamFolder = $folder->getLatestParent();
 
         if (! Gate::any(['can-edit', 'can-view'], [$teamFolder, null])) {
-            abort(403, 'Access Denied');
+            return response()->json(accessDeniedError(), 403);
         }
 
         $folders = Folder::with('folders:id,parent_id,id,name,team_folder')

@@ -1,25 +1,24 @@
 <?php
 namespace Domain\UploadRequest\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Folders\Models\Folder;
 use App\Http\Controllers\Controller;
 use Domain\UploadRequest\Models\UploadRequest;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 
 class GetFolderTreeForUploadRequestController extends Controller
 {
-    public function __invoke(UploadRequest $uploadRequest): Application|ResponseFactory|Response|array
-    {
+    public function __invoke(
+        UploadRequest $uploadRequest
+    ): JsonResponse {
         // Get folders
         $folders = Folder::with('folders:id,parent_id,name')
-            ->whereParentId($uploadRequest->id)
-            ->whereUserId($uploadRequest->user_id)
+            ->where('parent_id', $uploadRequest->id)
+            ->where('user_id', $uploadRequest->user_id)
             ->sortable()
             ->get(['id', 'parent_id', 'id', 'name']);
 
-        return [
+        return response()->json([
             [
                 'name'      => __t('upload_request'),
                 'location'  => 'upload-request',
@@ -27,6 +26,6 @@ class GetFolderTreeForUploadRequestController extends Controller
                 'isMovable' => true,
                 'isOpen'    => true,
             ],
-        ];
+        ]);
     }
 }

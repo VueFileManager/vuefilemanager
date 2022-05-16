@@ -85,7 +85,7 @@ class AdminLanguageTranslatorTest extends TestCase
         $this
             ->actingAs($admin)
             ->deleteJson("/api/admin/languages/$language->id")
-            ->assertStatus(204);
+            ->assertStatus(200);
 
         $this->assertDatabaseMissing('languages', [
             'name'   => 'Slovenčina',
@@ -114,7 +114,7 @@ class AdminLanguageTranslatorTest extends TestCase
         $this
             ->actingAs($admin)
             ->deleteJson("/api/admin/languages/$language->id")
-            ->assertStatus(401);
+            ->assertStatus(422);
     }
 
     /**

@@ -19,8 +19,9 @@ class UploadFileController extends Controller
     ) {
     }
 
-    public function __invoke(UploadFileRequest $request): JsonResponse
-    {
+    public function __invoke(
+        UploadFileRequest $request
+    ): JsonResponse {
         if (isDemoAccount()) {
             return response()->json(($this->fakeUploadFile)($request), 201);
         }

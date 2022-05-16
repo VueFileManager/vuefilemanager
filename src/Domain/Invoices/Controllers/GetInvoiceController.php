@@ -16,8 +16,9 @@ class GetInvoiceController extends Controller
     ) {
     }
 
-    public function __invoke(Transaction $invoice): View|Factory|Application
-    {
+    public function __invoke(
+        Transaction $invoice
+    ): View {
         // Get app settings
         $settings = json_decode(
             Setting::all()

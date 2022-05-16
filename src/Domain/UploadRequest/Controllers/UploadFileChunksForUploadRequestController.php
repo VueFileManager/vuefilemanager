@@ -24,8 +24,10 @@ class UploadFileChunksForUploadRequestController
     /**
      * @throws FileNotFoundException
      */
-    public function __invoke(UploadChunkRequest $request, UploadRequest $uploadRequest)
-    {
+    public function __invoke(
+        UploadChunkRequest $request,
+        UploadRequest $uploadRequest,
+    ) {
         // Get upload request root folder query
         $folder = Folder::where('id', $uploadRequest->id);
 

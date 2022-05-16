@@ -4,6 +4,8 @@ namespace App\Socialite\Controllers;
 use App\Users\Models\User;
 use App\Users\DTO\CreateUserData;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 use App\Users\Actions\CreateNewUserAction;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -21,8 +23,9 @@ class SocialiteCallbackController extends Controller
     /**
      * @throws MeteredBillingPlanDoesntExist
      */
-    public function __invoke($provider)
-    {
+    public function __invoke(
+        $provider
+    ): JsonResponse|RedirectResponse {
         $isAllowedRegistration = intval(get_settings('registration'));
 
         // Get socialite user
@@ -52,7 +55,7 @@ class SocialiteCallbackController extends Controller
 
             // TODO: redirect to the error page
             if ($plan->doesntExist()) {
-                return response([
+                return response()->json([
                     'type'    => 'error',
                     'message' => 'User registrations are temporarily disabled',
                 ], 409);
@@ -61,7 +64,7 @@ class SocialiteCallbackController extends Controller
 
         // Check if account registration is enabled
         if (! $isAllowedRegistration) {
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => 'User registration is not allowed',
             ], 401);

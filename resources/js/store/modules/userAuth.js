@@ -61,8 +61,8 @@ const actions = {
         axios
             .get(`/api/socialite/${provider}/redirect`)
             .then((response) => {
-                if (response.data.url) {
-                    window.location.href = response.data.url
+                if (response.data.data.url) {
+                    window.location.href = response.data.data.url
                 }
             })
             .catch(() => this.$isSomethingWrong())

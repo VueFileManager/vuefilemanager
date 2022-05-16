@@ -2,6 +2,7 @@
 namespace Domain\Teams\Controllers;
 
 use Domain\Folders\Models\Folder;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
@@ -19,6 +20,9 @@ class ConvertFolderIntoTeamFolderController extends Controller
     ) {
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function __invoke(
         ConvertIntoTeamFolderRequest $request,
         Folder $folder

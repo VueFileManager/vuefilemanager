@@ -2,6 +2,7 @@
 namespace Domain\Admin\Controllers\Users;
 
 use App\Users\Models\User;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Users\Resources\UserStorageResource;
 use Domain\Admin\Requests\ChangeStorageCapacityRequest;
@@ -14,10 +15,10 @@ class ChangeUserStorageCapacityController extends Controller
     public function __invoke(
         ChangeStorageCapacityRequest $request,
         User $user,
-    ): UserStorageResource {
+    ): JsonResponse {
         // Abort in demo mode
         if (isDemoAccount()) {
-            return new UserStorageResource($user);
+            return response()->json(new UserStorageResource($user));
         }
 
         $user
@@ -26,6 +27,6 @@ class ChangeUserStorageCapacityController extends Controller
                 $request->input('attributes')
             );
 
-        return new UserStorageResource($user);
+        return response()->json(new UserStorageResource($user));
     }
 }

@@ -7,8 +7,9 @@ use Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification;
 
 class SetUploadRequestAsFilledController
 {
-    public function __invoke(UploadRequest $uploadRequest): JsonResponse
-    {
+    public function __invoke(
+        UploadRequest $uploadRequest
+    ): JsonResponse {
         $uploadRequest->update([
             'status' => 'filled',
         ]);

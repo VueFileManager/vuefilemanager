@@ -2,13 +2,10 @@
 namespace Domain\UploadRequest\Controllers\FileAccess;
 
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\Traffic\Actions\RecordDownloadAction;
-use Illuminate\Contracts\Foundation\Application;
 use Domain\Files\Actions\DownloadThumbnailAction;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
@@ -22,10 +19,13 @@ class GetThumbnailFromUploadRequestController extends Controller
     ) {
     }
 
+    /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     public function __invoke(
         string $filename,
         UploadRequest $uploadRequest
-    ): Application|ResponseFactory|Response|StreamedResponse {
+    ): StreamedResponse {
         // Get file
         $file = File::where('user_id', $uploadRequest->user_id)
             ->where('basename', substr($filename, 3))

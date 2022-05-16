@@ -2,7 +2,7 @@
 namespace Domain\Admin\Controllers\Users;
 
 use App\Users\Models\User;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Admin\Requests\DeleteUserRequest;
@@ -17,21 +17,39 @@ class DeleteUserController extends Controller
         DeleteUserRequest $request,
         User $user,
         DeleteUserDataAction $deleteUserData,
-    ): Response {
+    ): JsonResponse {
         if (is_demo()) {
-            return response('Done.', 204);
+            return response()->json([
+                'type'    => 'success',
+                'message' => 'The user was successfully deleted',
+            ]);
         }
 
         if ($user->subscription && $user->subscription->active()) {
-            abort(202, "You can\'t delete this account since user has active subscription.");
+            abort(
+                response()->json([
+                    'type'    => 'error',
+                    'message' => "You can\'t delete this account since user has active subscription.",
+                ], 202)
+            );
         }
 
         if ($user->id === Auth::id()) {
-            abort(406, "You can\'t delete your account");
+            abort(
+                response()->json([
+                    'type'    => 'error',
+                    'message' => "You can\'t delete your account",
+                ], 406)
+            );
         }
 
         if (trim($user->settings->name) !== $request->input('name')) {
-            abort(403, 'The name you typed is wrong!');
+            abort(
+                response()->json([
+                    'type'    => 'error',
+                    'message' => 'The name you typed is wrong!',
+                ], 403)
+            );
         }
 
         $user->delete();
@@ -39,6 +57,9 @@ class DeleteUserController extends Controller
         // Delete all user data
         ($deleteUserData)($user);
 
-        return response('Done.', 204);
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'The user was successfully deleted',
+        ]);
     }
 }

@@ -18,7 +18,10 @@ class FlushUserNotificationsController extends Controller
         }
 
         // Delete all notifications
-        auth()->user()->notifications()->delete();
+        auth()
+            ->user()
+            ->notifications()
+            ->delete();
 
         return response()->json($successMessage);
     }

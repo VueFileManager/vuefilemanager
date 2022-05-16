@@ -2,7 +2,7 @@
 namespace Domain\Settings\Controllers;
 
 use Artisan;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 
 class FlushCacheController extends Controller
@@ -10,10 +10,17 @@ class FlushCacheController extends Controller
     /**
      * Clear application cache
      */
-    public function __invoke(): Response
+    public function __invoke(): JsonResponse
     {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The cache was successfully flushed',
+        ];
+
         // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+        if (is_demo()) {
+            return response()->json($message);
+        }
 
         if (! app()->runningUnitTests()) {
             Artisan::call('cache:clear');
@@ -21,6 +28,6 @@ class FlushCacheController extends Controller
             Artisan::call('config:cache');
         }
 
-        return response('Done', 204);
+        return response()->json($message);
     }
 }

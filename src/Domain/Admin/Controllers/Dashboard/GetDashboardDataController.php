@@ -13,7 +13,7 @@ class GetDashboardDataController extends Controller
     public function __invoke(): JsonResponse
     {
         // Get bandwidth data
-        list($upload, $download, $uploadTotal, $downloadTotal, $storageUsage) = $this->getDiskData();
+        [$upload, $download, $uploadTotal, $downloadTotal, $storageUsage] = $this->getDiskData();
 
         // Get total earnings from transactions
         $totalEarnings = DB::table('transactions')

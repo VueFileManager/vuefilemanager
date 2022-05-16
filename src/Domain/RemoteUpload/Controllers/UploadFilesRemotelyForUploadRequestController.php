@@ -6,6 +6,7 @@ use Domain\UploadRequest\Models\UploadRequest;
 use Domain\RemoteUpload\Requests\RemoteUploadRequest;
 use Domain\RemoteUpload\Actions\GetContentFromExternalSource;
 use Domain\UploadRequest\Actions\CreateUploadRequestRootFolderAction;
+use Illuminate\Http\JsonResponse;
 
 class UploadFilesRemotelyForUploadRequestController
 {
@@ -15,8 +16,10 @@ class UploadFilesRemotelyForUploadRequestController
     ) {
     }
 
-    public function __invoke(RemoteUploadRequest $request, UploadRequest $uploadRequest)
-    {
+    public function __invoke(
+        RemoteUploadRequest $request,
+        UploadRequest $uploadRequest
+    ): JsonResponse {
         $successMessage = [
             'type'    => 'success',
             'message' => 'Files was successfully uploaded.',

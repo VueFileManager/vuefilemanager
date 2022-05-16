@@ -4,6 +4,7 @@ namespace Domain\Files\Controllers;
 use Gate;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Domain\Files\Resources\FileResource;
 
@@ -12,6 +13,9 @@ use Domain\Files\Resources\FileResource;
  */
 class VisitorShowFileController
 {
+    /**
+     * @throws AuthorizationException
+     */
     public function __invoke(
         Share $shared
     ): JsonResponse {

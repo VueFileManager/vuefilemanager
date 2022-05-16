@@ -2,7 +2,7 @@
 namespace Domain\Settings\Controllers;
 
 use Artisan;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Settings\Models\Setting;
 use Domain\Settings\Requests\StoreSocialServiceCredentialsRequest;
 
@@ -11,10 +11,17 @@ class StoreSocialServiceCredentialsController
     /**
      * Configure stripe additionally
      */
-    public function __invoke(StoreSocialServiceCredentialsRequest $request): Response
-    {
-        // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+    public function __invoke(
+        StoreSocialServiceCredentialsRequest $request
+    ): JsonResponse {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The 3rd part authentication credentials was successfully set',
+        ];
+
+        if (is_demo()) {
+            return response()->json($message);
+        }
 
         // Set on social login
         Setting::updateOrCreate([
@@ -55,6 +62,6 @@ class StoreSocialServiceCredentialsController
             }
         }
 
-        return response('Done', 204);
+        return response()->json($message);
     }
 }

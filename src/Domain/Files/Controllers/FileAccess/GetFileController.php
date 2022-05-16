@@ -3,7 +3,7 @@ namespace Domain\Files\Controllers\FileAccess;
 
 use Gate;
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Domain\Files\Actions\DownloadFileAction;
@@ -20,7 +20,7 @@ class GetFileController extends Controller
 
     public function __invoke(
         string $filename,
-    ): Response|RedirectResponse|StreamedResponse {
+    ): JsonResponse|RedirectResponse|StreamedResponse {
         // Get requested file
         $file = File::withTrashed()
             ->where('basename', $filename)
@@ -28,12 +28,12 @@ class GetFileController extends Controller
 
         // Check if user can download file
         if (! $file->user->canDownload()) {
-            return response(userActionNotAllowedError(), 401);
+            return response()->json(userActionNotAllowedError(), 401);
         }
 
         // Check if user has privileges to download file
         if (! Gate::any(['can-edit', 'can-view'], [$file, null])) {
-            return response(accessDeniedError(), 403);
+            return response()->json(accessDeniedError(), 403);
         }
 
         // TODO: resolve video buffering

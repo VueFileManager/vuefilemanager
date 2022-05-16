@@ -9,8 +9,9 @@ use App\Http\Controllers\Controller;
 
 class LeaveTeamFolderController extends Controller
 {
-    public function __invoke(Folder $folder): JsonResponse
-    {
+    public function __invoke(
+        Folder $folder
+    ): JsonResponse {
         $successMessage = [
             'type'    => 'success',
             'message' => 'You left the team folder.',

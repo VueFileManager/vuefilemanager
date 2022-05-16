@@ -14,9 +14,9 @@ class AccountAccessTokenController extends Controller
     /**
      * Get all user tokens
      */
-    public function index(): Response
+    public function index(): JsonResponse
     {
-        return response(
+        return response()->json(
             Auth::user()->tokens()->get()
         );
     }
@@ -24,8 +24,9 @@ class AccountAccessTokenController extends Controller
     /**
      * Create user tokens
      */
-    public function store(CreateAccessTokenRequest $request): JsonResponse
-    {
+    public function store(
+        CreateAccessTokenRequest $request
+    ): JsonResponse {
         if (isDemoAccount()) {
             return response()->json([
                 'plainTextToken' => Str::random(40),
@@ -41,8 +42,9 @@ class AccountAccessTokenController extends Controller
     /**
      * Delete user token
      */
-    public function destroy(PersonalAccessToken $token): JsonResponse
-    {
+    public function destroy(
+        PersonalAccessToken $token
+    ): JsonResponse {
         $successMessage = [
             'type'    => 'success',
             'message' => 'The token was successfully deleted.',
@@ -61,6 +63,6 @@ class AccountAccessTokenController extends Controller
 
         $token->delete();
 
-        return response()->json($successMessage, 200);
+        return response()->json($successMessage);
     }
 }

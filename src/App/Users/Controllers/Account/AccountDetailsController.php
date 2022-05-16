@@ -1,8 +1,8 @@
 <?php
 namespace App\Users\Controllers\Account;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Users\Resources\UserResource;
 
 class AccountDetailsController extends Controller
@@ -10,10 +10,8 @@ class AccountDetailsController extends Controller
     /**
      * Get all user data for frontend
      */
-    public function __invoke(): UserResource
+    public function __invoke(): JsonResponse
     {
-        return new UserResource(
-            Auth::user()
-        );
+        return response()->json(new UserResource(auth()->user()));
     }
 }

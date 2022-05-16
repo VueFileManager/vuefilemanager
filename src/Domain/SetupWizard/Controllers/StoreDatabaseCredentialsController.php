@@ -3,6 +3,7 @@ namespace Domain\SetupWizard\Controllers;
 
 use DB;
 use Artisan;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Doctrine\DBAL\Driver\PDOException;
@@ -16,7 +17,7 @@ class StoreDatabaseCredentialsController extends Controller
      */
     public function __invoke(
         StoreDatabaseCredentialsRequest $request
-    ): Response {
+    ): JsonResponse {
         if (! app()->runningUnitTests()) {
             try {
                 // Set temporary database connection
@@ -57,6 +58,9 @@ class StoreDatabaseCredentialsController extends Controller
             Artisan::call('config:cache');
         }
 
-        return response('Done', 204);
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'The database was set successfully',
+        ]);
     }
 }

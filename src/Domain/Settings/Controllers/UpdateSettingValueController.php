@@ -2,7 +2,7 @@
 namespace Domain\Settings\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Artisan;
@@ -12,10 +12,17 @@ class UpdateSettingValueController extends Controller
     /**
      * Update setting item.
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): JsonResponse
     {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The value was successfully updated',
+        ];
+
         // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+        if (is_demo()) {
+            return response()->json($message);
+        }
 
         // Store image if exist
         if ($request->hasFile($request->input('name'))) {
@@ -26,7 +33,7 @@ class UpdateSettingValueController extends Controller
                 'value' => store_system_image($request, $request->input('name')),
             ]);
 
-            return response('Done', 204);
+            return response()->json($message);
         }
 
         // Set paypal live option
@@ -41,7 +48,7 @@ class UpdateSettingValueController extends Controller
                 Artisan::call('config:cache');
             }
 
-            return response('Done', 204);
+            return response()->json($message);
         }
 
         // Find and update variable
@@ -50,6 +57,6 @@ class UpdateSettingValueController extends Controller
             ['value' => $request->input('value')]
         );
 
-        return response('Done', 204);
+        return response()->json($message);
     }
 }

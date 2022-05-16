@@ -15,11 +15,6 @@ class DeleteFileOrFolderController
         DeleteItemRequest $request,
         UploadRequest $uploadRequest
     ): JsonResponse {
-        $successMessage = [
-            'type'    => 'success',
-            'message' => 'Items was successfully deleted.',
-        ];
-
         foreach ($request->input('items') as $file) {
             // Get file or folder item
             $item = get_item($file['type'], $file['id']);
@@ -35,7 +30,10 @@ class DeleteFileOrFolderController
             }
         }
 
-        return response()->json($successMessage);
+        return response()->json([
+            'type'    => 'success',
+            'message' => 'Items was successfully deleted.',
+        ]);
     }
 
     private function destroyFile(File $file): void

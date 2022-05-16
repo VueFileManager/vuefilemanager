@@ -64,7 +64,7 @@ class AdminPagesTest extends TestCase
             ->patchJson('/api/admin/pages/terms-of-service', [
                 'name'  => 'title',
                 'value' => 'New Title',
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('pages', [
             'title' => 'New Title',

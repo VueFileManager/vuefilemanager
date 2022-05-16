@@ -26,8 +26,9 @@ class UploadFileChunksController extends Controller
      *
      * @throws FileNotFoundException
      */
-    public function __invoke(UploadChunkRequest $request)
-    {
+    public function __invoke(
+        UploadChunkRequest $request
+    ) {
         if (isDemoAccount()) {
             return ($this->fakeUploadFile)($request);
         }

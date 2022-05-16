@@ -17,8 +17,9 @@ class CreateUploadRequestController extends Controller
     /**
      * @throws AuthorizationException
      */
-    public function __invoke(StoreUploadRequest $request): JsonResponse
-    {
+    public function __invoke(
+        StoreUploadRequest $request
+    ): JsonResponse {
         // Check if user is owner of the file
         if ($request->has('folder_id')) {
             $folder = Folder::findOrFail($request->input('folder_id'));

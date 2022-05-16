@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Domain\Files\Models\File;
 use App\Users\Models\UserSetting;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Domain\Items\Requests\SearchRequest;
 use Domain\Files\Resources\FilesCollection;
@@ -17,7 +18,7 @@ class SpotlightSearchController
 {
     public function __invoke(
         SearchRequest $request
-    ) {
+    ): JsonResponse {
         // Prepare queries
         $query = remove_accents(
             $request->input('query')
@@ -32,11 +33,12 @@ class SpotlightSearchController
         return $this->searchFiles($query);
     }
 
-    private function searchUsers($query)
-    {
+    private function searchUsers(
+        string $query
+    ): JsonResponse {
         // Prevent to show non admin user searching
         if (Auth::user()->role !== 'admin') {
-            abort(401);
+            abort(response()->json(accessDeniedError()), 403);
         }
 
         // Get user ids
@@ -44,13 +46,16 @@ class SpotlightSearchController
             ->get()
             ->pluck('user_id');
 
-        return new UsersMinimalCollection(
+        $users = new UsersMinimalCollection(
             User::find($results)
         );
+
+        return response()->json($users);
     }
 
-    private function searchFiles(string $query)
-    {
+    private function searchFiles(
+        string $query
+    ): JsonResponse {
         $user_id = Auth::id();
 
         // Get "shared with me" folders
@@ -92,9 +97,9 @@ class SpotlightSearchController
             ->take(3);
 
         // Collect folders and files to single array
-        return [
+        return response()->json([
             'folders' => new FolderCollection($folders),
             'files'   => new FilesCollection($files),
-        ];
+        ]);
     }
 }

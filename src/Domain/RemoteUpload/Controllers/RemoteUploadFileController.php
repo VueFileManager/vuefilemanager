@@ -15,8 +15,10 @@ class RemoteUploadFileController extends Controller
     ) {
     }
 
-    public function __invoke(RemoteUploadRequest $request, ?Share $shared = null): JsonResponse
-    {
+    public function __invoke(
+        RemoteUploadRequest $request,
+        ?Share $shared = null,
+    ): JsonResponse {
         $successMessage = [
             'type'    => 'success',
             'message' => 'Files was successfully uploaded.',

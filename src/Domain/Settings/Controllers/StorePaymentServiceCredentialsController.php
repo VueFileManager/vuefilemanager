@@ -2,7 +2,7 @@
 namespace Domain\Settings\Controllers;
 
 use Artisan;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Settings\Models\Setting;
 use Domain\Settings\Actions\TestPayPalConnectionAction;
 use Domain\Settings\Actions\TestStripeConnectionAction;
@@ -21,10 +21,17 @@ class StorePaymentServiceCredentialsController
     /**
      * Configure stripe additionally
      */
-    public function __invoke(StorePaymentServiceCredentialsRequest $request): Response
-    {
-        // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+    public function __invoke(
+        StorePaymentServiceCredentialsRequest $request
+    ): JsonResponse {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The payment credentials was successfully set',
+        ];
+
+        if (is_demo()) {
+            return response()->json($message);
+        }
 
         $options = [
             'stripe'   => [
@@ -105,6 +112,6 @@ class StorePaymentServiceCredentialsController
             }
         }
 
-        return response('Done', 204);
+        return response()->json($message);
     }
 }

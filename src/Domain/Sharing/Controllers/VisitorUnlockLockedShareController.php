@@ -28,7 +28,7 @@ class VisitorUnlockLockedShareController extends Controller
             ]);
 
             // Return authorize token with shared options
-            return response(new ShareResource($shared), 200)
+            return response(new ShareResource($shared))
                 ->cookie('share_session', $cookie, 43200);
         }
 

@@ -84,7 +84,7 @@ class SettingsTest extends TestCase
             ->patchJson('/api/admin/settings', [
                 'name'  => 'header_title',
                 'value' => 'New Header Title',
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('settings', [
             'value' => 'New Header Title',
@@ -112,7 +112,7 @@ class SettingsTest extends TestCase
             ->patchJson('/api/admin/settings', [
                 'name'     => 'app_logo',
                 'app_logo' => $logo,
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseMissing('settings', [
             'app_logo' => null,
@@ -134,7 +134,7 @@ class SettingsTest extends TestCase
         $this
             ->actingAs($admin)
             ->getJson('/api/admin/settings/flush-cache')
-            ->assertStatus(204);
+            ->assertStatus(200);
     }
 
     /**
@@ -151,7 +151,7 @@ class SettingsTest extends TestCase
                 'service' => 'stripe',
                 'key'     => '123456789',
                 'secret'  => '123456789',
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('settings', [
             'name'  => 'allowed_stripe',
@@ -173,7 +173,7 @@ class SettingsTest extends TestCase
                 'client_id'     => '123456789',
                 'client_secret' => '123456789',
                 'service'       => 'facebook',
-            ])->assertStatus(204);
+            ])->assertStatus(200);
 
         $this->assertDatabaseHas('settings', [
             'name'  => 'allowed_facebook',
@@ -198,7 +198,7 @@ class SettingsTest extends TestCase
                 'smtp.username'   => 'john@doe.com',
                 'smtp.password'   => 'secret',
                 'smtp.encryption' => 'tls',
-            ])->assertStatus(204);
+            ])->assertStatus(200);
     }
 
     /**
@@ -220,7 +220,7 @@ class SettingsTest extends TestCase
                     'bucket'   => 'cloud',
                     'endpoint' => 'https://cloud.frankfurt.storage.com',
                 ],
-            ])->assertStatus(204);
+            ])->assertStatus(200);
     }
 
     /**
@@ -241,7 +241,7 @@ class SettingsTest extends TestCase
                 'cluster' => 'eu',
                 'port'    => null,
                 'host'    => null,
-            ])->assertStatus(204);
+            ])->assertStatus(200);
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Items\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
@@ -27,15 +28,15 @@ class RenameFileOrFolderController extends Controller
     public function __invoke(
         RenameItemRequest $request,
         string $id,
-    ): FileResource|FolderResource {
+    ): JsonResponse {
         if (isDemoAccount()) {
             $item = ($this->fakeRenameFileOrFolder)($request, $id);
 
             if ($request->input('type') === 'folder') {
-                return new FolderResource($item);
+                return response()->json(new FolderResource($item));
             }
 
-            return new FileResource($item);
+            return response()->json(new FileResource($item));
         }
 
         // If request contain icon or color, then change it
@@ -47,9 +48,9 @@ class RenameFileOrFolderController extends Controller
         $item = ($this->renameFileOrFolder)($request, $id);
 
         if ($request->input('type') === 'folder') {
-            return new FolderResource($item);
+            return response()->json(new FolderResource($item));
         }
 
-        return new FileResource($item);
+        return response()->json(new FileResource($item));
     }
 }

@@ -2,18 +2,19 @@
 namespace Domain\Transactions\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Domain\Transactions\Resources\TransactionCollection;
 
 class GetTransactionsController extends Controller
 {
-    public function __invoke()
+    public function __invoke(): JsonResponse
     {
         $transactions = Auth::user()
             ->transactions()
             ->sortable(['created_at' => 'desc'])
             ->paginate(15);
 
-        return new TransactionCollection($transactions);
+        return response()->json(new TransactionCollection($transactions));
     }
 }

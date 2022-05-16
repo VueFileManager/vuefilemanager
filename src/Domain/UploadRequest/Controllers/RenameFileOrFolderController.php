@@ -7,6 +7,7 @@ use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\Folders\Actions\UpdateFolderPropertyAction;
+use Illuminate\Http\JsonResponse;
 use Support\Demo\Actions\FakeRenameFileOrFolderAction;
 
 class RenameFileOrFolderController extends Controller
@@ -17,14 +18,17 @@ class RenameFileOrFolderController extends Controller
     ) {
     }
 
-    public function __invoke(UploadRequest $uploadRequest, string $id, RenameItemRequest $request)
-    {
+    public function __invoke(
+        UploadRequest $uploadRequest,
+        string $id,
+        RenameItemRequest $request,
+    ): JsonResponse {
         // Get item
         $item = get_item($request->input('type'), $id);
 
         // Check privileges
         if (! in_array($item->parent_id, getChildrenFolderIds($uploadRequest->id))) {
-            return response('Access Denied', 403);
+            return response()->json(accessDeniedError(), 403);
         }
 
         // If request contain icon or color, then change it
@@ -36,9 +40,9 @@ class RenameFileOrFolderController extends Controller
         $item->update(['name' => $request->input('name')]);
 
         if ($request->input('type') === 'folder') {
-            return new FolderResource($item);
+            return response()->json(new FolderResource($item));
         }
 
-        return new FileResource($item);
+        return response()->json(new FileResource($item));
     }
 }

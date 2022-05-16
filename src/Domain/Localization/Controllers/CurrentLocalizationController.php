@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Localization\Controllers;
 
-use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Database\QueryException;
 use Domain\Localization\Models\Language;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -13,7 +13,7 @@ class CurrentLocalizationController
      */
     public function __invoke(
         string $lang
-    ): Collection {
+    ): JsonResponse {
         $translations = cache()
             ->rememberForever("language-translations-$lang", function () use ($lang) {
                 try {
@@ -25,8 +25,10 @@ class CurrentLocalizationController
                 }
             });
 
-        return $translations
+        $appTranslations = $translations
             ? map_language_translations($translations)
             : get_default_language_translations();
+
+        return response()->json($appTranslations);
     }
 }

@@ -22,10 +22,18 @@ class StoreEmailCredentialsController
     /**
      * Set new email credentials to .env file
      */
-    public function __invoke(StoreEmailCredentialsRequest $request): JsonResponse
-    {
+    public function __invoke(
+        StoreEmailCredentialsRequest $request
+    ): JsonResponse {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The email credentials was successfully set',
+        ];
+
         // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+        if (is_demo()) {
+            return response()->json($message);
+        }
 
         if (! app()->runningUnitTests()) {
             // Test email connection
@@ -107,6 +115,6 @@ class StoreEmailCredentialsController
             Artisan::call('config:cache');
         }
 
-        return response()->json('Done', 204);
+        return response()->json($message);
     }
 }

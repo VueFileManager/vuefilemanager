@@ -2,8 +2,8 @@
 namespace Domain\Files\Controllers\FileAccess;
 
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use Domain\Sharing\Models\Share;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Domain\Files\Actions\DownloadFileAction;
@@ -11,6 +11,7 @@ use Domain\Traffic\Actions\RecordDownloadAction;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Domain\Sharing\Actions\VerifyAccessToItemWithinAction;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 /**
  * Get file public
@@ -25,13 +26,16 @@ class VisitorGetFileController extends Controller
     ) {
     }
 
+    /**
+     * @throws FileNotFoundException
+     */
     public function __invoke(
         $filename,
         Share $shared,
-    ): StreamedResponse|RedirectResponse|Response {
+    ): StreamedResponse|RedirectResponse|JsonResponse {
         // Check if user can download file
         if (! $shared->user->canDownload()) {
-            return response(userActionNotAllowedError(), 401);
+            return response()->json(userActionNotAllowedError(), 401);
         }
 
         // Check ability to access protected share files

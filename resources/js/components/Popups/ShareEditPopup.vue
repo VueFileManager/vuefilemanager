@@ -277,7 +277,7 @@ export default {
             axios
                 .get(`/api/share/${this.shareOptions.token}/qr`)
                 .then((response) => {
-                    this.qrCode = response.data
+                    this.qrCode = response.data.data.svg
                 })
                 .catch(() => this.$isSomethingWrong())
         },

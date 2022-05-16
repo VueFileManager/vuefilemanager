@@ -2,7 +2,7 @@
 namespace Domain\SetupWizard\Controllers;
 
 use Illuminate\Support\Str;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Domain\SetupWizard\Requests\StoreAppSetupRequest;
@@ -14,7 +14,7 @@ class StoreAppSettingsController extends Controller
      */
     public function __invoke(
         StoreAppSetupRequest $request
-    ): Response {
+    ): JsonResponse {
         collect([
             [
                 'name'  => 'subscription_type',
@@ -102,6 +102,9 @@ class StoreAppSettingsController extends Controller
             ]);
         }
 
-        return response('Done', 204);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'The app settings was set successfully',
+        ]);
     }
 }

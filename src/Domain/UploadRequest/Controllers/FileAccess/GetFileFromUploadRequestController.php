@@ -2,7 +2,6 @@
 namespace Domain\UploadRequest\Controllers\FileAccess;
 
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use Illuminate\Http\RedirectResponse;
 use Domain\Files\Actions\DownloadFileAction;
 use Domain\UploadRequest\Models\UploadRequest;
@@ -20,10 +19,13 @@ class GetFileFromUploadRequestController
     ) {
     }
 
+    /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
     public function __invoke(
         string $filename,
-        UploadRequest $uploadRequest
-    ): StreamedResponse|RedirectResponse|Response {
+        UploadRequest $uploadRequest,
+    ): StreamedResponse|RedirectResponse {
         // Get file
         $file = File::where('user_id', $uploadRequest->user_id)
             ->where('basename', $filename)

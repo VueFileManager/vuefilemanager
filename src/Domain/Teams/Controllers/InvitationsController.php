@@ -11,8 +11,9 @@ use Domain\Teams\Actions\ClearActionInInvitationNotificationAction;
 
 class InvitationsController extends Controller
 {
-    public function show(TeamFolderInvitation $invitation): JsonResponse
-    {
+    public function show(
+        TeamFolderInvitation $invitation
+    ): JsonResponse {
         // Check if invitation is not pending
         if ($invitation->status !== 'pending') {
             return response()->json([

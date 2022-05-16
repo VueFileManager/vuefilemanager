@@ -17,8 +17,9 @@ class RegisterUserController extends Controller
     ) {
     }
 
-    public function __invoke(RegisterUserRequest $request): JsonResponse
-    {
+    public function __invoke(
+        RegisterUserRequest $request
+    ): JsonResponse {
         // Check if account registration is enabled
         if (! intval(get_settings('registration'))) {
             return response()->json([

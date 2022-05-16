@@ -2,19 +2,21 @@
 namespace Domain\Files\Actions;
 
 use Domain\Files\Models\File;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class DownloadThumbnailAction
 {
     /**
      * Get image thumbnail for browser
+     *
+     * @throws FileNotFoundException
      */
     public function __invoke(
         string $filename,
         File $file
-    ): StreamedResponse|Response {
+    ): StreamedResponse {
         // Get file path
         $filePath = "/files/$file->user_id/$filename";
 
@@ -25,7 +27,7 @@ class DownloadThumbnailAction
 
             // Check if original file exist
             if (! Storage::exists($substituteFilePath)) {
-                return response('File not found', 404);
+                throw new FileNotFoundException();
             }
 
             // Return image thumbnail

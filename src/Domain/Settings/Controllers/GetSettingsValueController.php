@@ -2,7 +2,7 @@
 namespace Domain\Settings\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Http\JsonResponse;
 use Domain\Settings\Models\Setting;
 
 class GetSettingsValueController
@@ -17,24 +17,32 @@ class GetSettingsValueController
      */
     public function __invoke(
         Request $request
-    ): Collection {
+    ): JsonResponse {
         if (str_contains($request->get('column'), '|')) {
             $columns = collect(explode('|', $request->get('column')))
                 ->each(function ($column) {
                     if (in_array($column, $this->blacklist)) {
-                        abort(401);
+                        abort(
+                            response()->json(accessDeniedError(), 401)
+                        );
                     }
                 });
 
-            return Setting::whereIn('name', $columns)
+            $settings = Setting::whereIn('name', $columns)
                 ->pluck('value', 'name');
+
+            return response()->json($settings);
         }
 
         if (in_array($request->get('column'), $this->blacklist)) {
-            abort(401);
+            abort(
+                response()->json(accessDeniedError(), 401)
+            );
         }
 
-        return Setting::where('name', $request->get('column'))
+        $settings = Setting::where('name', $request->get('column'))
             ->pluck('value', 'name');
+
+        return response()->json($settings);
     }
 }

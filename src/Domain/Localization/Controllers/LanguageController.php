@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Localization\Controllers;
 
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Domain\Localization\Models\Language;
@@ -15,41 +15,48 @@ class LanguageController extends Controller
     /**
      * Get all languages for admin translate
      */
-    public function index(): Response
+    public function index(): JsonResponse
     {
-        return response(
+        return response()->json(
             new LanguageCollection(
                 Language::sortable(['created_at', 'DESC'])->get()
-            ),
-            200
+            )
         );
     }
 
     /**
      * Get all language strings for admin translate
      */
-    public function show(Language $language): Response
-    {
-        return response(
-            new LanguageResource($language),
-            200
-        );
+    public function show(
+        Language $language
+    ): JsonResponse {
+        return response()->json(new LanguageResource($language));
     }
 
     /**
      * Create new language
      */
-    public function store(CreateLanguageRequest $request): Response
-    {
+    public function store(
+        CreateLanguageRequest $request
+    ): JsonResponse {
         // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+        if (is_demo()) {
+            $language = Language::query()
+                ->where('locale', 'en')
+                ->first();
+
+            return response()->json(
+                new LanguageResource($language),
+                201
+            );
+        }
 
         $language = Language::create([
             'name'   => $request->input('name'),
             'locale' => $request->input('locale'),
         ]);
 
-        return response(
+        return response()->json(
             new LanguageResource($language),
             201
         );
@@ -61,15 +68,20 @@ class LanguageController extends Controller
     public function update(
         UpdateLanguageRequest $request,
         Language $language
-    ): Response {
+    ): JsonResponse {
         // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+        if (is_demo()) {
+            return response()->json(
+                new LanguageResource($language),
+                201
+            );
+        }
 
         $language->update(
             make_single_input($request)
         );
 
-        return response(
+        return response()->json(
             new LanguageResource($language),
             201
         );
@@ -78,13 +90,23 @@ class LanguageController extends Controller
     /**
      * Delete the language with all children strings
      */
-    public function destroy(Language $language): Response
-    {
-        // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+    public function destroy(
+        Language $language
+    ): JsonResponse {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The language was successfully deleted',
+        ];
+
+        if (is_demo()) {
+            return response()->json($message);
+        }
 
         if ($language->locale === 'en') {
-            return response("Sorry, you can't delete default language.", 401);
+            return response()->json([
+                'type'    => 'error',
+                'message' => "Sorry, you can't delete default language.",
+            ], 422);
         }
 
         // If user try to delete language used as default,
@@ -96,9 +118,6 @@ class LanguageController extends Controller
 
         $language->delete();
 
-        return response(
-            'Done',
-            204
-        );
+        return response()->json($message);
     }
 }

@@ -142,7 +142,7 @@ class AdminTest extends TestCase
         $this
             ->actingAs($admin)
             ->postJson("/api/admin/users/$user->id/reset-password")
-            ->assertStatus(204);
+            ->assertStatus(200);
 
         Notification::assertTimesSent(1, ResetPassword::class);
     }
@@ -310,7 +310,7 @@ class AdminTest extends TestCase
         $this->deleteJson("/api/admin/users/$user->id/delete", [
             'name' => $user->settings->name,
         ])
-            ->assertStatus(204);
+            ->assertStatus(200);
 
         $this->assertDatabaseMissing('user_settings', [
             'user_id' => $user->id,

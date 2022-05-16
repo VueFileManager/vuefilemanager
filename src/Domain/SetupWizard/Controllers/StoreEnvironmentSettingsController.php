@@ -194,6 +194,9 @@ class StoreEnvironmentSettingsController extends Controller
             Artisan::call('config:cache');
         }
 
-        return response()->json('Done', 204);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'The environment was set successfully',
+        ]);
     }
 }

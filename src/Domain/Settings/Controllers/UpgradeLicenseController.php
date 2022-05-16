@@ -3,19 +3,18 @@ namespace Domain\Settings\Controllers;
 
 use DB;
 use Artisan;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Settings\Models\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Domain\Localization\Models\Language;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Routing\ResponseFactory;
 use Domain\Settings\Requests\UpgradeLicenseRequest;
 
 class UpgradeLicenseController extends Controller
 {
-    public function __invoke(UpgradeLicenseRequest $request): Response|Application|ResponseFactory
-    {
+    public function __invoke(
+        UpgradeLicenseRequest $request
+    ): JsonResponse {
         // Verify purchase code
         $response = Http::get("https://verify.vuefilemanager.com/api/verify-code/{$request->input('purchaseCode')}");
 
@@ -94,9 +93,15 @@ class UpgradeLicenseController extends Controller
             Artisan::call('config:clear');
             Artisan::call('cache:clear');
 
-            return response('Your license was successfully upgraded', 201);
+            return response()->json([
+                'status'  => 'success',
+                'message' => 'Your license was successfully upgraded',
+            ], 201);
         }
 
-        return response('Purchase code is invalid or is not Extended License.', 400);
+        return response()->json([
+            'status'  => 'error',
+            'message' => 'Purchase code is invalid or is not Extended License.',
+        ], 400);
     }
 }

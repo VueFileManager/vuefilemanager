@@ -13,8 +13,9 @@ class AuthenticateAndReturnBearerTokenController extends Controller
     /**
      * @throws ValidationException
      */
-    public function __invoke(LoginUserRequest $request): JsonResponse
-    {
+    public function __invoke(
+        LoginUserRequest $request
+    ): JsonResponse {
         // Get user
         $user = User::where('email', $request->input('email'))
             ->firstOrFail();

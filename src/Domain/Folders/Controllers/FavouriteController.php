@@ -11,8 +11,9 @@ class FavouriteController extends Controller
     /**
      * Add folder to user favourites
      */
-    public function store(AddFolderToFavouritesRequest $request): JsonResponse
-    {
+    public function store(
+        AddFolderToFavouritesRequest $request
+    ): JsonResponse {
         $successResponse = [
             'type'    => 'success',
             'message' => 'Folder was successfully added into your favourites folders',
@@ -37,8 +38,9 @@ class FavouriteController extends Controller
     /**
      * Remove folder from user favourites
      */
-    public function destroy(string $id): JsonResponse
-    {
+    public function destroy(
+        string $id
+    ): JsonResponse {
         $successResponse = [
             'type'    => 'success',
             'message' => 'Folder was successfully removed from your favourites folders',

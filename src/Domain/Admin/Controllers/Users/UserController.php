@@ -2,8 +2,8 @@
 namespace Domain\Admin\Controllers\Users;
 
 use App\Users\Models\User;
-use Illuminate\Http\Response;
 use App\Users\DTO\CreateUserData;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Users\Resources\UserResource;
 use App\Users\Resources\UsersCollection;
@@ -21,26 +21,26 @@ class UserController extends Controller
     /**
      * Get all users
      */
-    public function index(): UsersCollection
+    public function index(): JsonResponse
     {
         $users = User::sortable(['created_at', 'DESC'])
             ->paginate(15);
 
-        return new UsersCollection($users);
+        return response()->json(new UsersCollection($users));
     }
 
     /**
      * Get user details
      */
-    public function show(User $user): UserResource
+    public function show(User $user): JsonResponse
     {
-        return new UserResource($user);
+        return response()->json(new UserResource($user));
     }
 
     /**
      * Create new user by admin
      */
-    public function store(CreateUserByAdmin $request): Response
+    public function store(CreateUserByAdmin $request): JsonResponse
     {
         // Map user data
         $data = CreateUserData::fromArray([
@@ -55,7 +55,7 @@ class UserController extends Controller
         try {
             $user = ($this->createNewUser)($data);
         } catch (MeteredBillingPlanDoesntExist $e) {
-            return response([
+            return response()->json([
                 'type'    => 'error',
                 'message' => 'User registrations are temporarily disabled',
             ], 409);
@@ -67,6 +67,6 @@ class UserController extends Controller
 
         $user->save();
 
-        return response(new UserResource($user), 201);
+        return response()->json(new UserResource($user), 201);
     }
 }

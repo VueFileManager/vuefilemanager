@@ -2,7 +2,7 @@
 namespace Domain\Settings\Controllers;
 
 use Artisan;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Domain\Settings\DTO\S3CredentialsData;
 use Domain\Settings\Actions\TestS3ConnectionAction;
 use Domain\Settings\Actions\TestFTPConnectionAction;
@@ -19,10 +19,17 @@ class StoreStorageCredentialsController
     /**
      * Set new email credentials to .env file
      */
-    public function __invoke(StoreStorageCredentialsRequest $request): Response
-    {
-        // Abort in demo mode
-        abort_if(is_demo(), 204, 'Done.');
+    public function __invoke(
+        StoreStorageCredentialsRequest $request
+    ): JsonResponse {
+        $message = [
+            'type'    => 'success',
+            'message' => 'The storage credentials was successfully set',
+        ];
+
+        if (is_demo()) {
+            return response()->json($message);
+        }
 
         // Get storage driver from request
         $driver = match ($request->input('storage.driver')) {
@@ -72,6 +79,6 @@ class StoreStorageCredentialsController
             Artisan::call('config:cache');
         }
 
-        return response('Done', 204);
+        return response()->json($message);
     }
 }
