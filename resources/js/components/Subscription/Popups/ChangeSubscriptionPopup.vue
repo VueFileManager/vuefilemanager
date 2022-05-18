@@ -139,7 +139,7 @@ export default {
 						planCode: this.selectedPlan.data.meta.driver_plan_id.stripe,
 					})
 					.then((response) => {
-						window.location = response.data.url
+						window.location = response.data.data.url
 					})
 					.catch((error) => {
 						if (error.response.status === 500 && error.response.data.type) {

@@ -171,7 +171,7 @@ export default {
                 .then((response) => {
                     // Set up Stripe.js and Elements to use in checkout form, passing the client secret obtained in step 2
                     elements = stripe.elements({
-                        clientSecret: response.data.client_secret,
+                        clientSecret: response.data.data.client_secret,
                         appearance: {
                             theme: 'stripe',
                             variables: {
