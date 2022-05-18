@@ -75,9 +75,7 @@
 							v-model="plan.features.bandwidth.per_unit"
 							:placeholder="$t('type_bandwidth_price')"
 							type="number"
-							step="0.01"
-							min="0.01"
-							max="999999999999"
+							step=".001"
 							:class="{ '!border-rose-600': errors[0] }"
 							class="focus-border-theme input-dark"
 						/>
@@ -113,9 +111,7 @@
 						v-model="plan.features.storage.per_unit"
 						:placeholder="$t('type_storage_price')"
 						type="number"
-						step="0.01"
-						min="0.01"
-						max="999999999999"
+						step=".001"
 						:class="{ '!border-rose-600': errors[0] }"
 						class="focus-border-theme input-dark"
 					/>
@@ -150,9 +146,7 @@
 						v-model="plan.features.member.per_unit"
 						:placeholder="$t('type_member_price')"
 						type="number"
-						step="0.01"
-						min="0.01"
-						max="999999999999"
+						step=".001"
 						:class="{ '!border-rose-600': errors[0] }"
 						class="focus-border-theme input-dark"
 					/>
@@ -187,9 +181,7 @@
 							v-model="plan.features.flatFee.per_unit"
 							:placeholder="$t('type_flat_fee_price')"
 							type="number"
-							step="0.01"
-							min="0.01"
-							max="999999999999"
+							step=".001"
 							:class="{ '!border-rose-600': errors[0] }"
 							class="focus-border-theme input-dark"
 						/>

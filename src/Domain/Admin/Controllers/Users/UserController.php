@@ -21,12 +21,12 @@ class UserController extends Controller
     /**
      * Get all users
      */
-    public function index(): JsonResponse
+    public function index(): UsersCollection
     {
         $users = User::sortable(['created_at', 'DESC'])
             ->paginate(15);
 
-        return response()->json(new UsersCollection($users));
+        return new UsersCollection($users);
     }
 
     /**

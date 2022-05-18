@@ -8,13 +8,13 @@ use Domain\Transactions\Resources\TransactionCollection;
 
 class GetTransactionsController extends Controller
 {
-    public function __invoke(): JsonResponse
+    public function __invoke(): TransactionCollection
     {
         $transactions = Auth::user()
             ->transactions()
             ->sortable(['created_at' => 'desc'])
             ->paginate(15);
 
-        return response()->json(new TransactionCollection($transactions));
+        return new TransactionCollection($transactions);
     }
 }

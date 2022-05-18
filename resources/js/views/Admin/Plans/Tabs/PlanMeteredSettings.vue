@@ -148,6 +148,7 @@ export default {
             let formatter = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: currency,
+				maximumFractionDigits: 4,
             })
 
             return formatter.format(amount)

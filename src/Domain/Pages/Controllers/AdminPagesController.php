@@ -13,12 +13,12 @@ class AdminPagesController extends Controller
     /**
      * Get all pages
      */
-    public function index(): JsonResponse
+    public function index(): PageCollection
     {
-        return response()->json(new PageCollection(
+        return new PageCollection(
             Page::sortable()
                 ->paginate(10)
-        ));
+        );
     }
 
     /**
