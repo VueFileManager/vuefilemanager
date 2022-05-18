@@ -159,26 +159,13 @@ return [
          */
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
-        /*'mail' => [
-            'to' => 'your@example.com',
+        'mail' => [
+            'to' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
                 'name' => env('MAIL_FROM_NAME', 'Example'),
             ],
-        ],*/
-
-        'slack' => [
-            'webhook_url' => '',
-
-            /*
-             * If this is set to null the default channel of the webhook will be used.
-             */
-            'channel' => null,
-
-            'username' => null,
-
-            'icon' => null,
         ],
     ],
 
@@ -189,8 +176,10 @@ return [
      */
     'monitor_backups' => [
         [
-            'name'          => env('APP_NAME', 'laravel-backup'),
-            'disks'         => ['local'],
+            'name'          => env('APP_NAME', 'vuefilemanager-backup'),
+            'disks'         => [
+                env('FILESYSTEM_DISK', 'local')
+            ],
             'health_checks' => [
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class          => 1,
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
