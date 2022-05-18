@@ -43,10 +43,15 @@ const actions = {
 
         axios
             .post('/logout')
-            .catch(() => this.$isSomethingWrong())
+            .catch((error) => {
+                if (error.response.status === 500) {
+                    Vue.prototype.$isSomethingWrong()
+                }
+            })
             .finally(() => {
                 clearTimeout(popup)
 
+                commit('PROCESSING_POPUP', undefined)
                 commit('DESTROY_DATA')
                 commit('SET_AUTHORIZED', false)
 
@@ -65,7 +70,7 @@ const actions = {
                     window.location.href = response.data.data.url
                 }
             })
-            .catch(() => this.$isSomethingWrong())
+            .catch(() => Vue.prototype.$isSomethingWrong())
     },
     addToFavourites: (context, folder) => {
         let items = [folder]
