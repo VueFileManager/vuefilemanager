@@ -82,6 +82,20 @@
                 </span>
                 <chevron-right-icon size="16" class="text-theme vue-feather" />
             </router-link>
+
+            <!--Open Link-->
+            <a
+                @click.native="closeCenter"
+                v-if="action && action.type === 'url'"
+				:target="action.params.target === 'blank' ? '_blank' : '_self'"
+                :href="action.params.url"
+                class="mt-4 flex items-center"
+            >
+                <span class="mr-2 whitespace-nowrap text-xs font-bold">
+                    {{ action.params.button }}
+                </span>
+                <chevron-right-icon size="16" class="text-theme vue-feather" />
+            </a>
         </div>
     </article>
 </template>

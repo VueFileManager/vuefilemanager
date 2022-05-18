@@ -61,6 +61,36 @@ class UploadRequestTest extends TestCase
     /**
      * @test
      */
+    public function user_create_upload_request_with_native_user_email()
+    {
+        $user = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $recipient = User::factory()
+            ->hasSettings()
+            ->create();
+
+        $folder = Folder::factory()
+            ->create([
+                'user_id'     => $user->id,
+            ]);
+
+        $this
+            ->actingAs($user)
+            ->postJson('/api/file-request', [
+                'folder_id' => $folder->id,
+                'email'     => $recipient->email,
+                'notes'     => 'Please send me your files...',
+            ])
+            ->assertCreated();
+
+        Notification::assertSentTo($recipient, UploadRequestNotification::class);
+    }
+
+    /**
+     * @test
+     */
     public function user_create_upload_request_without_email()
     {
         $user = User::factory()

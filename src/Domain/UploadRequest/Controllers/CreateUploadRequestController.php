@@ -1,7 +1,7 @@
 <?php
 namespace Domain\UploadRequest\Controllers;
 
-use Auth;
+use App\Users\Models\User;
 use Gate;
 use Notification;
 use Domain\Folders\Models\Folder;
@@ -28,7 +28,7 @@ class CreateUploadRequestController extends Controller
         }
 
         // Create upload request
-        $uploadRequest = Auth::user()->uploadRequest()->create([
+        $uploadRequest = auth()->user()->uploadRequest()->create([
             'folder_id' => $request->input('folder_id'),
             'email'     => $request->input('email'),
             'notes'     => $request->input('notes'),
@@ -37,8 +37,16 @@ class CreateUploadRequestController extends Controller
 
         // If user type email, notify by email
         if ($request->has('email')) {
-            Notification::route('mail', $uploadRequest->email)
-                ->notify(new UploadRequestNotification($uploadRequest));
+            // Check if user exists
+            $user = User::where('email', $uploadRequest->email)
+                ->first();
+
+            if ($user) {
+                $user->notify(new UploadRequestNotification($uploadRequest));
+            } else {
+                Notification::route('mail', $uploadRequest->email)
+                    ->notify(new UploadRequestNotification($uploadRequest));
+            }
         }
 
         return response()->json(new UploadRequestResource($uploadRequest), 201);

@@ -954,5 +954,6 @@ return [
         'remote_download_finished'                       => 'Remote upload was successfully finished',
         'remote_upload_progress'                         => 'Uploading Remotely - {processed} / {total}',
         'remote_upload_failed_count'                     => 'Failed: {count}',
+        'file_request_notify_center_description'         => 'Please click on the link below and upload your files for :name.',
     ],
 ];

@@ -59,7 +59,7 @@ const actions = {
             .delete(`/api/file-request/${router.currentRoute.params.token}`)
             .then((response) => {
                 commit('LOADING_STATE', { loading: false, data: [] })
-                commit('SET_UPLOAD_REQUEST', response.data)
+                commit('SET_UPLOAD_REQUEST_AS_FILLED')
             })
             .catch(() => this.$isSomethingWrong())
     },
@@ -68,6 +68,9 @@ const actions = {
 const mutations = {
     SET_UPLOAD_REQUEST(state, payload) {
         state.uploadRequest = payload
+    },
+    SET_UPLOAD_REQUEST_AS_FILLED(state) {
+        state.uploadRequest.data.attributes.status = 'filled'
     },
 }
 

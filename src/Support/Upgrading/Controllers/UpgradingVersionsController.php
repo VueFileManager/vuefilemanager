@@ -22,6 +22,13 @@ class UpgradingVersionsController
     ) {
     }
 
+    public function upgrade_to_2_2_0(): void
+    {
+        setEnvironmentValue([
+            'DB_MYSQLDUMP_PATH' => '/usr/bin',
+        ]);
+    }
+
     public function upgrade_to_2_1_2(): void
     {
         ($this->updateLanguageStrings)([

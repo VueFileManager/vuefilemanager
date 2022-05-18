@@ -29,7 +29,7 @@ class UploadRequestNotification extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -56,13 +56,21 @@ class UploadRequestNotification extends Notification implements ShouldQueue
 
     /**
      * Get the array representation of the notification.
-     *
-     * @param mixed $notifiable
-     * @return array
      */
-    public function toArray($notifiable)
+    public function toArray(mixed $notifiable): array
     {
         return [
+            'category'    => 'file-request',
+            'title'       => __t('file_request_notify_title', ['name' => $this->uploadRequest->user->settings->first_name]),
+            'description' => __t('file_request_notify_center_description', ['name' => $this->uploadRequest->user->settings->first_name]),
+            'action'      => [
+                'type'   => 'url',
+                'params' => [
+                    'target' => 'blank',
+                    'url'  => url("/request/{$this->uploadRequest->id}/upload"),
+                    'button' => __t('upload_files'),
+                ],
+            ],
         ];
     }
 }
