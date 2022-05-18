@@ -34,7 +34,9 @@ class InvitationIntoTeamFolder extends Notification implements ShouldQueue
     {
         $appTitle = get_settings('app_title') ?? 'VueFileManager';
 
-        $user = User::find($this->invitation->email);
+        // Try to find the user via email
+        $user = User::where('email', $this->invitation->email)
+            ->first();
 
         if ($user) {
             return (new MailMessage)
