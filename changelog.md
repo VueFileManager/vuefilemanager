@@ -1,3 +1,11 @@
+## Version 2.2
+#### Release date: 18. May 2022
+- Solved issue with database backup notifications
+- Solved issue where after team member was invited into team folder, email with urging the recipient to create new account was sent
+- You are now allowed to set price for metered billing in 3 decimal places
+- Solved UI issue with empty notification popup
+- If you send file request for native user via email option, the push notification will be send to the user
+
 ## Version 2.1.3
 #### Release date: 10. May 2022
 - Ability to manually synchronize plans in fixed subscription type
