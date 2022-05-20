@@ -6,6 +6,7 @@
 - Solved UI issue with empty notification popup
 - If you send file request for native user via email option, the push notification will be sent to the user
 - Ability to test your websocket (Broadcasting) connection via Admin / Server / Broadcasting tab
+- Plans in fixed subscription are now automatically sorted from lower to higher price
 
 ## Version 2.1.3
 #### Release date: 10. May 2022
