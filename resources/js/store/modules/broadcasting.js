@@ -1,16 +1,52 @@
 import { events } from '../../bus'
 import i18n from "../../i18n"
+import axios from "axios";
 
 const defaultState = {
     remoteUploadQueue: undefined,
+    isTestingConnection: false,
     isBroadcasting: false,
 }
 
 const actions = {
+    testConnection: ({ commit, getters }) => {
+        commit('SET_TESTING_CONNECTION', true)
+
+        commit('PROCESSING_POPUP', {
+            title: 'Testing Connection',
+            message: 'We are testing your websocket connection, please wait a minute...',
+        })
+
+        setTimeout(() => {
+            axios.post('/api/admin/test-websockets')
+        },1500)
+
+        // In case if connection wasn't established
+        setTimeout(() => {
+            if (getters.isTestingConnection) {
+                events.$emit('toaster', {
+                    type: 'danger',
+                    message: "Your websocket connection wasn't established",
+                })
+
+                commit('PROCESSING_POPUP', undefined)
+                commit('SET_TESTING_CONNECTION', false)
+            }
+        }, 10000)
+    },
     runConnection: ({ commit, getters, dispatch }) => {
         commit('SET_RUNNING_COMMUNICATION')
 
         Echo.private(`App.Users.Models.User.${getters.user.data.id}`)
+            .listen('.TestWebsocketConnection', () => {
+                commit('PROCESSING_POPUP', undefined)
+                commit('SET_TESTING_CONNECTION', false)
+
+                events.$emit('toaster', {
+                    type: 'success',
+                    message: 'Your websocket connection was successfully established',
+                })
+            })
             .listen('.RemoteFile.Created', (event) => {
                 commit('UPDATE_REMOTE_UPLOAD_QUEUE', event.payload)
 
@@ -59,6 +95,9 @@ const mutations = {
     SET_RUNNING_COMMUNICATION(state) {
         state.isBroadcasting = true
     },
+    SET_TESTING_CONNECTION(state, val) {
+        state.isTestingConnection = val
+    },
     UPDATE_REMOTE_UPLOAD_QUEUE(state, payload) {
         if (payload.progress.total !== payload.progress.processed) {
             state.remoteUploadQueue = {
@@ -72,6 +111,7 @@ const mutations = {
 }
 
 const getters = {
+    isTestingConnection: (state) => state.isTestingConnection,
     remoteUploadQueue: (state) => state.remoteUploadQueue,
     isBroadcasting: (state) => state.isBroadcasting,
 }

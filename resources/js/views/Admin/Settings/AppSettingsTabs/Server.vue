@@ -28,6 +28,25 @@
             </div>
         </div>
 
+		<!--Broadcasting-->
+        <div class="card shadow-card">
+            <FormLabel icon="info">Broadcasting</FormLabel>
+
+            <div class="lg:flex lg:space-y-0 space-y-3 items-center justify-between">
+                <div class="text-left">
+                    <b class="block text-sm font-bold">Websocket connection</b>
+                    <small class="text-xs text-gray-600 pt-1 block leading-normal">
+                        Here you can test websocket connection by sending test event.
+                    </small>
+                </div>
+                <div class="flex items-center">
+                    <ButtonBase @click.native="testWebsocketConnection" class="w-full sm:w-auto" button-style="theme">
+                        {{ $t('Send Test Event') }}
+                    </ButtonBase>
+                </div>
+            </div>
+        </div>
+
         <!--Logs-->
         <div class="card shadow-card">
             <FormLabel icon="list">Latest Server Logs</FormLabel>
@@ -204,10 +223,12 @@ import PageTab from '../../../../components/Layout/PageTab'
 import InfoBox from '../../../../components/UI/Others/InfoBox'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
+import ButtonBase from "../../../../components/UI/Buttons/ButtonBase";
 
 export default {
     name: 'Server',
     components: {
+		ButtonBase,
         FormLabel,
         InfoBox,
         PageTab,
@@ -235,6 +256,9 @@ export default {
         }
     },
 	methods: {
+		testWebsocketConnection() {
+			this.$store.dispatch('testConnection')
+		},
 		downloadLog(log) {
 
 			let anchor = document.createElement('a')

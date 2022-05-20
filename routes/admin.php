@@ -5,6 +5,7 @@ use Domain\Pages\Controllers\AdminPagesController;
 use Domain\Settings\Controllers\FlushCacheController;
 use Domain\Localization\Controllers\LanguageController;
 use Domain\Admin\Controllers\Users\DeleteUserController;
+use Domain\Settings\Controllers\TestWebsocketConnectionController;
 use Domain\Settings\Controllers\UpgradeLicenseController;
 use Domain\Settings\Controllers\GetServerStatusController;
 use Domain\Settings\Controllers\GetSettingsValueController;
@@ -64,7 +65,7 @@ Route::group(['prefix' => 'settings'], function () {
 Route::patch('/languages/{language}/strings', UpdateLanguageStringController::class);
 Route::apiResource('/languages', LanguageController::class);
 
-// Server Status
+// Miscellaneous
 Route::get('/status', GetServerStatusController::class);
-
 Route::post('/upgrade-license', UpgradeLicenseController::class);
+Route::post('/test-websockets', TestWebsocketConnectionController::class);
