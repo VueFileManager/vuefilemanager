@@ -164,7 +164,7 @@ return [
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name' => env('MAIL_FROM_NAME', 'Example'),
+                'name'    => env('MAIL_FROM_NAME', 'Example'),
             ],
         ],
     ],
@@ -178,7 +178,7 @@ return [
         [
             'name'          => env('APP_NAME', 'vuefilemanager-backup'),
             'disks'         => [
-                env('FILESYSTEM_DISK', 'local')
+                env('FILESYSTEM_DISK', 'local'),
             ],
             'health_checks' => [
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class          => 1,

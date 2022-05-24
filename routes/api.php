@@ -11,8 +11,10 @@ use Domain\Folders\Controllers\FavouriteController;
 use Domain\Sharing\Controllers\ShareItemController;
 use Domain\Settings\Controllers\GetConfigController;
 use Domain\SetupWizard\Controllers\PingAPIController;
+use Domain\Browsing\Controllers\BrowseTrashController;
 use Domain\Folders\Controllers\CreateFolderController;
 use Domain\Browsing\Controllers\BrowseFolderController;
+use Domain\Browsing\Controllers\BrowseSharedController;
 use Domain\Sharing\Controllers\ShareViaEmailController;
 use Domain\Files\Controllers\UploadFileChunksController;
 use Domain\Folders\Controllers\NavigationTreeController;
@@ -24,8 +26,6 @@ use Domain\Items\Controllers\RenameFileOrFolderController;
 use Domain\Settings\Controllers\GetSettingsValueController;
 use Domain\Trash\Controllers\RestoreTrashContentController;
 use Domain\Browsing\Controllers\BrowseLatestFilesController;
-use Domain\Browsing\Controllers\BrowseSharedItemsController;
-use Domain\Browsing\Controllers\BrowseTrashContentController;
 use Domain\Homepage\Controllers\SendContactMessageController;
 use Domain\RemoteUpload\Controllers\RemoteUploadFileController;
 use Domain\Sharing\Controllers\GetShareLinkViaQrCodeController;
@@ -69,8 +69,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/folders/{id}', BrowseFolderController::class);
         Route::get('/navigation', NavigationTreeController::class);
         Route::get('/latest', BrowseLatestFilesController::class);
-        Route::get('/trash/{id}', BrowseTrashContentController::class);
-        Route::get('/share', BrowseSharedItemsController::class);
+        Route::get('/trash/{id}', BrowseTrashController::class);
+        Route::get('/share', BrowseSharedController::class);
     });
 
     // Trash

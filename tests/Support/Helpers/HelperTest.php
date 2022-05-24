@@ -53,17 +53,18 @@ class HelperTest extends TestCase
                 'parent_id' => null,
             ]);
 
-        $folderQuery = [
-            'parent_id'   => null,
-            'team_folder' => false,
-            'user_id'     => $user->id,
-            'deleted_at'  => null,
-        ];
-
-        $fileQuery = [
-            'parent_id'   => null,
-            'user_id'     => $user->id,
-            'deleted_at'  => null,
+        $query = [
+            'folder' => [
+                'parent_id'   => null,
+                'team_folder' => false,
+                'user_id'     => $user->id,
+                'deleted_at'  => null,
+            ],
+            'file' => [
+                'parent_id'   => null,
+                'user_id'     => $user->id,
+                'deleted_at'  => null,
+            ],
         ];
 
         Config::set('vuefilemanager.paginate.perPage', 5);
@@ -71,15 +72,15 @@ class HelperTest extends TestCase
         // getRecordsCunt returned array [foldersTake, foldersSkip, filesTake, filesSkip, totalItemsCount]
 
         // Get folders page
-        $this->assertEquals([5, 0, 0, 0, 25], getRecordsCount($folderQuery, $fileQuery, '1'));
+        $this->assertEquals([5, 0, 0, 0, 25], getRecordsCount($query, 1));
 
         // Get mixed page
-        $this->assertEquals([2, 10, 3, 0, 25], getRecordsCount($folderQuery, $fileQuery, '3'));
+        $this->assertEquals([2, 10, 3, 0, 25], getRecordsCount($query, 3));
 
         // Get files page
-        $this->assertEquals([0, 0, 5, 8, 25], getRecordsCount($folderQuery, $fileQuery, '5'));
+        $this->assertEquals([0, 0, 5, 8, 25], getRecordsCount($query, 5));
 
         // Get all pages
-        $this->assertEquals([12, 0, 13, 0, 25], getRecordsCount($folderQuery, $fileQuery, 'all'));
+        $this->assertEquals([12, 0, 13, 0, 25], getRecordsCount($query));
     }
 }

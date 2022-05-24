@@ -50,7 +50,7 @@ class SetupWizardTest extends TestCase
             'name'       => 'database/test.sqlite',
             'username'   => 'null',
             'password'   => 'null',
-        ])->assertStatus(204);
+        ])->assertStatus(200);
     }
 
     /**
@@ -76,7 +76,7 @@ class SetupWizardTest extends TestCase
             'logo_horizontal'        => UploadedFile::fake()->image('fake-logo-horizontal.jpg'),
             'logo_horizontal_dark'   => UploadedFile::fake()->image('fake-logo-horizontal-dark.jpg'),
             'favicon'                => UploadedFile::fake()->image('fake-favicon.jpg'),
-        ])->assertStatus(204);
+        ])->assertStatus(200);
 
         $this
             ->assertDatabaseHas('settings', [

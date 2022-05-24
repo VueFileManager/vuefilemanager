@@ -18,19 +18,16 @@ const defaultState = {
 const actions = {
     getFolder: ({ commit, getters },{page, id}) => {
         return new Promise ((resolve, reject) => {
-            if(! page)
-                commit('LOADING_STATE', { loading: true, data: [] })
+            if(page === 1)
+                commit('START_LOADING_VIEW')
 
             axios
-                .get(`${getters.api}/browse/folders/${id || 'all'}${getters.sorting.URI}&page=${currentPage}`)
+                .get(`${getters.api}/browse/folders/${id || 'all'}${getters.sorting.URI}&page=${page}`)
                 .then((response) => {
-                    commit('SET_PAGINATE', response.data.meta.paginate)
-
-                    commit('LOADING_STATE', {
-                        loading: false,
-                        data: response.data.data,
-                    })
                     commit('SET_CURRENT_FOLDER', response.data.meta.root)
+                    commit('SET_PAGINATOR', response.data.meta.paginate)
+                    commit('STOP_LOADING_VIEW')
+                    commit('ADD_NEW_ITEMS', response.data.data)
 
                     events.$emit('scrollTop')
 
@@ -48,62 +45,74 @@ const actions = {
                             message: i18n.t('popup_error.message'),
                         })
                     }
+
+                    reject(error);
                 })
         })
     },
-    getRecentUploads: ({ commit, getters }) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
+    getRecentUploads: ({commit, getters}, page) => {
+        return new Promise((resolve, reject) => {
+            if (page === 1)
+                commit('START_LOADING_VIEW')
 
-        axios
-            .get(getters.api + '/browse/latest')
-            .then((response) => {
-                commit('LOADING_STATE', {
-                    loading: false,
-                    data: response.data.files.data,
+            axios
+                .get(`${getters.api}/browse/latest?page=${page}`)
+                .then((response) => {
+                    commit('SET_PAGINATOR', response.data.meta.paginate)
+                    commit('SET_CURRENT_FOLDER', undefined)
+                    commit('STOP_LOADING_VIEW')
+                    commit('ADD_NEW_ITEMS', response.data.data)
+
+                    events.$emit('scrollTop')
+
+                    resolve(response)
                 })
-                commit('SET_CURRENT_FOLDER', undefined)
-
-                events.$emit('scrollTop')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+                .catch(() => Vue.prototype.$isSomethingWrong())
+        })
     },
-    getMySharedItems: ({ commit, getters }) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
+    getMySharedItems: ({ commit, getters }, page) => {
+        return new Promise((resolve, reject) => {
+            if (page === 1)
+                commit('START_LOADING_VIEW')
 
-        axios
-            .get(getters.api + '/browse/share' + getters.sorting.URI)
-            .then((response) => {
-                let folders = response.data.folders.data
-                let files = response.data.files.data
+            axios
+                .get(`${getters.api}/browse/share${getters.sorting.URI}&page=${page}`)
+                .then((response) => {
+                    commit('SET_PAGINATOR', response.data.meta.paginate)
+                    commit('SET_CURRENT_FOLDER', undefined)
+                    commit('STOP_LOADING_VIEW')
+                    commit('ADD_NEW_ITEMS', response.data.data)
 
-                commit('LOADING_STATE', {
-                    loading: false,
-                    data: folders.concat(files),
+                    events.$emit('scrollTop')
+
+                    resolve(response)
                 })
-                commit('SET_CURRENT_FOLDER', undefined)
-
-                events.$emit('scrollTop')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+                .catch(() => Vue.prototype.$isSomethingWrong())
+        })
     },
-    getTrash: ({ commit, getters }, id) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
+    getTrash: ({ commit, getters }, {page, id}) => {
+        return new Promise((resolve, reject) => {
+            if (page === 1)
+                commit('START_LOADING_VIEW')
 
-        axios
-            .get(`${getters.api}/browse/trash/${id || 'all'}${getters.sorting.URI}`)
-            .then((response) => {
-                let folders = response.data.folders.data
-                let files = response.data.files.data
+            axios
+                .get(`${getters.api}/browse/trash/${id || 'all'}${getters.sorting.URI}&page=${page}`)
+                .then((response) => {
+                    commit('SET_PAGINATOR', response.data.meta.paginate)
+                    commit('SET_CURRENT_FOLDER', response.data.meta.root)
+                    commit('STOP_LOADING_VIEW')
+                    commit('ADD_NEW_ITEMS', response.data.data)
 
-                commit('LOADING_STATE', {
-                    loading: false,
-                    data: folders.concat(files),
+                    events.$emit('scrollTop')
+
+                    resolve(response)
                 })
-                commit('SET_CURRENT_FOLDER', response.data.root)
+                .catch((error) => {
+                    Vue.prototype.$isSomethingWrong()
 
-                events.$emit('scrollTop')
-            })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+                    reject(error);
+                })
+        })
     },
     getFolderTree: ({ commit, getters }) => {
         return new Promise((resolve, reject) => {
@@ -130,16 +139,15 @@ const actions = {
 }
 
 const mutations = {
-    SET_PAGINATE(state, payload) {
+    SET_PAGINATOR(state, payload) {
         state.paginate = payload
     },
-    LOADING_STATE(state, payload) {
-        if(payload.data.length === 0) {
-            state.entries = []
-        } else {
-            state.entries.push(...payload.data)
-        }
-        state.isLoading = payload.loading
+    START_LOADING_VIEW(state) {
+        state.entries = []
+        state.isLoading = true
+    },
+    STOP_LOADING_VIEW(state) {
+        state.isLoading = false
     },
     SET_CURRENT_FOLDER(state, folder) {
         state.currentFolder = folder

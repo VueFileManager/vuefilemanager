@@ -3,8 +3,8 @@ namespace App\Socialite\Controllers;
 
 use App\Users\Models\User;
 use App\Users\DTO\CreateUserData;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
 use App\Users\Actions\CreateNewUserAction;

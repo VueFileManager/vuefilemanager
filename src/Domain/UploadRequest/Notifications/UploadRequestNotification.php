@@ -67,7 +67,7 @@ class UploadRequestNotification extends Notification implements ShouldQueue
                 'type'   => 'url',
                 'params' => [
                     'target' => 'blank',
-                    'url'  => url("/request/{$this->uploadRequest->id}/upload"),
+                    'url'    => url("/request/{$this->uploadRequest->id}/upload"),
                     'button' => __t('upload_files'),
                 ],
             ],

@@ -1,9 +1,9 @@
 <?php
 namespace Domain\UploadRequest\Controllers;
 
-use App\Users\Models\User;
 use Gate;
 use Notification;
+use App\Users\Models\User;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;

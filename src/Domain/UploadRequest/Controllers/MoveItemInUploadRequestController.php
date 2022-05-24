@@ -21,7 +21,7 @@ class MoveItemInUploadRequestController extends Controller
             }
 
             $item->update([
-                'parent_id' => $request->input('to_id') ?? $uploadRequest->id
+                'parent_id' => $request->input('to_id') ?? $uploadRequest->id,
             ]);
         }
 

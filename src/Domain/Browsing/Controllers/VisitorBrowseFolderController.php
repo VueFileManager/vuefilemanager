@@ -35,24 +35,57 @@ class VisitorBrowseFolderController
         // Get requested folder
         $requestedFolder = Folder::findOrFail($id);
 
-        // Get files and folders
-        $folders = Folder::where('user_id', $shared->user_id)
-            ->where('parent_id', $id)
+        $page = request()->has('page')
+            ? request()->input('page')
+            : 'all';
+
+        // Prepare folder & file db query
+        $query = [
+            'folder' => [
+                'where' => [
+                    'parent_id'   => $id,
+                    'user_id'     => $shared->user_id,
+                ],
+            ],
+            'file' => [
+                'where' => [
+                    'parent_id'   => $id,
+                    'user_id'     => $shared->user_id,
+                ],
+            ],
+        ];
+
+        [$foldersTake, $foldersSkip, $filesTake, $filesSkip, $totalEntries] = getRecordsCount($query, $page);
+
+        $folders = Folder::where($query['folder']['where'])
             ->sortable()
+            ->skip($foldersSkip)
+            ->take($foldersTake)
             ->get();
 
-        $files = File::where('user_id', $shared->user_id)
-            ->where('parent_id', $id)
+        $files = File::where($query['file']['where'])
             ->sortable()
+            ->skip($filesSkip)
+            ->take($filesTake)
             ->get();
 
         // Set thumbnail links for public files
         $files->map(fn ($file) => $file->setSharedPublicUrl($shared->token));
 
+        $entries = collect([
+            $folders ? json_decode((new FolderCollection($folders))->toJson(), true) : null,
+            $files ? json_decode((new FilesCollection($files))->toJson(), true) : null,
+        ])->collapse();
+
+        [$paginate, $links] = formatPaginatorMetadata($totalEntries);
+
         return response()->json([
-            'folders' => new FolderCollection($folders),
-            'files'   => new FilesCollection($files),
-            'root'    => new FolderResource($requestedFolder),
+            'data'  => $entries,
+            'links' => $links,
+            'meta'  => [
+                'paginate' => $paginate,
+                'root'     => new FolderResource($requestedFolder),
+            ],
         ]);
     }
 }

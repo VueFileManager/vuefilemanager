@@ -242,7 +242,7 @@ export default {
         },
     },
     mounted() {
-        this.$store.dispatch('getSharedWithMeFolder',{page:null, id:this.$route.params.id})
+        this.$store.dispatch('getSharedWithMeFolder',{page: 1, id:this.$route.params.id})
 
         events.$on('context-menu:show', (event, item) => (this.item = item))
         events.$on('mobile-context-menu:show', (item) => (this.item = item))
@@ -257,7 +257,7 @@ export default {
                         if (this.$route.params.id) {
                             this.$router.push({ name: 'SharedWithMe' })
                         } else {
-                            this.$store.dispatch('getSharedWithMeFolder',{page:null, id:undefined})
+                            this.$store.dispatch('getSharedWithMeFolder',{page: 1, id:undefined})
                         }
 
                         events.$emit('toaster', {

@@ -4,9 +4,9 @@ namespace Domain\Files\Controllers;
 use Gate;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Domain\Files\Resources\FileResource;
+use Illuminate\Auth\Access\AuthorizationException;
 
 /**
  * Get shared file record

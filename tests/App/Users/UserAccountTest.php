@@ -203,9 +203,7 @@ class UserAccountTest extends TestCase
                                 ],
                             ],
                         ],
-                        'favourites'  => [
-                            'data' => [],
-                        ],
+                        'favourites'         => [],
                         'readNotifications'  => [
                             'data' => [],
                         ],

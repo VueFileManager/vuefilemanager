@@ -103,7 +103,7 @@ class StoreAppSettingsController extends Controller
         }
 
         return response()->json([
-            'type' => 'success',
+            'type'    => 'success',
             'message' => 'The app settings was set successfully',
         ]);
     }

@@ -9,20 +9,16 @@ const defaultState = {
 
 const actions = {
     getUploadRequestFolder: ({ commit, getters }, id) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
+        commit('START_LOADING_VIEW')
 
         return new Promise((resolve, reject) => {
             axios
                 .get(`/api/file-request/${router.currentRoute.params.token}/browse/${id || 'all'}${getters.sorting.URI}`)
                 .then((response) => {
-                    let folders = response.data.folders
-                    let files = response.data.files
-
-                    commit('LOADING_STATE', {
-                        loading: false,
-                        data: folders.concat(files),
-                    })
-                    commit('SET_CURRENT_FOLDER', response.data.root)
+                    commit('SET_CURRENT_FOLDER', response.data.meta.root)
+                    commit('SET_PAGINATOR', response.data.meta.paginate)
+                    commit('STOP_LOADING_VIEW')
+                    commit('ADD_NEW_ITEMS', response.data.data)
 
                     events.$emit('scrollTop')
 
@@ -43,7 +39,7 @@ const actions = {
 
                     // Stop loading spinner
                     if (['active', 'filled', 'expired'].includes(response.data.data.attributes.status) )
-                        commit('LOADING_STATE', { loading: false, data: [] })
+                        commit('STOP_LOADING_VIEW')
 
                     commit('SET_UPLOAD_REQUEST', response.data)
 
@@ -63,7 +59,8 @@ const actions = {
         axios
             .delete(`/api/file-request/${router.currentRoute.params.token}`)
             .then((response) => {
-                commit('LOADING_STATE', { loading: false, data: [] })
+                commit('START_LOADING_VIEW')
+                commit('STOP_LOADING_VIEW')
                 commit('SET_UPLOAD_REQUEST_AS_FILLED')
             })
             .catch(() => this.$isSomethingWrong())

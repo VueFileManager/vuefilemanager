@@ -266,7 +266,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('getFolder', {page:null, id:this.$route.params.id})
+        this.$store.dispatch('getFolder', {page: 1, id:this.$route.params.id})
 
         events.$on('context-menu:show', (event, item) => (this.item = item))
         events.$on('context-menu:current-folder', (folder) => (this.item = folder))

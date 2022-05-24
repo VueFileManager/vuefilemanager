@@ -1,29 +1,58 @@
 <?php
 namespace Domain\Browsing\Controllers;
 
-use App\Users\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use DB;
+use Domain\Files\Models\File;
+use Illuminate\Http\JsonResponse;
+use Domain\Files\Resources\FilesCollection;
 
 class BrowseLatestFilesController
 {
-    public function __invoke(Request $request): array
+    public function __invoke(): JsonResponse
     {
-        $user = User::with([
-            'latestUploads' => fn ($query) => $query->sortable(['created_at' => 'desc']),
-        ])
-            ->where('id', Auth::id())
-            ->first();
+        $entriesPerPage = config('vuefilemanager.paginate.perPage');
 
-        list($data, $paginate, $links) = groupPaginate($request, null, $user->latestUploads);
+        $page = request()->has('page')
+            ? request()->input('page')
+            : 'all';
 
-        return [
-            'data'  => $data,
+        $totalFiles = DB::table('files')
+            ->where('user_id', auth()->id())
+            ->whereNull('deleted_at')
+            ->count();
+
+        $getWith = [
+            'parent:id,name',
+            'shared:token,id,item_id,permission,is_protected,expire_in',
+        ];
+
+        // Get paginator data
+        [$paginate, $links] = formatPaginatorMetadata($totalFiles);
+
+        // Get all files
+        if ($page === 'all') {
+            $files = File::with($getWith)
+                ->where('user_id', auth()->id())
+                ->sortable(['created_at' => 'desc'])
+                ->get();
+        }
+
+        // Get certain page
+        if ($page !== 'all') {
+            $files = File::with($getWith)
+                ->where('user_id', auth()->id())
+                ->sortable(['created_at' => 'desc'])
+                ->skip($entriesPerPage * ($page - 1))
+                ->take($entriesPerPage)
+                ->get();
+        }
+
+        return response()->json([
+            'data'  => new FilesCollection($files),
             'links' => $links,
             'meta'  => [
                 'paginate' => $paginate,
-                'root'     => null,
             ],
-        ];
+        ]);
     }
 }

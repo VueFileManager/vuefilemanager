@@ -2,12 +2,12 @@
 namespace Domain\Teams\Controllers;
 
 use Domain\Folders\Models\Folder;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
 use Domain\Teams\Models\TeamFolderMember;
 use Domain\Folders\Resources\FolderResource;
+use Illuminate\Auth\Access\AuthorizationException;
 use Domain\Teams\Requests\ConvertIntoTeamFolderRequest;
 use Domain\Teams\Actions\InviteMembersIntoTeamFolderAction;
 use Domain\Teams\Actions\SetTeamFolderPropertyForAllChildrenAction;

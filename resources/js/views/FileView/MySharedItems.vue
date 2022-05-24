@@ -169,7 +169,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('getMySharedItems')
+        this.$store.dispatch('getMySharedItems', 1)
 
         events.$on('context-menu:show', (event, item) => (this.item = item))
         events.$on('mobile-context-menu:show', (item) => (this.item = item))

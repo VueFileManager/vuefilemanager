@@ -2,7 +2,6 @@
 namespace App\Users\Controllers\Authentication;
 
 use Illuminate\Support\Str;
-use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;

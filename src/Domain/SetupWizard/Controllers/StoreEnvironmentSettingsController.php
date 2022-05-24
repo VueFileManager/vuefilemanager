@@ -195,7 +195,7 @@ class StoreEnvironmentSettingsController extends Controller
         }
 
         return response()->json([
-            'type' => 'success',
+            'type'    => 'success',
             'message' => 'The environment was set successfully',
         ]);
     }

@@ -1,8 +1,8 @@
 <?php
 namespace Domain\UploadRequest\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\UploadRequest\Models\UploadRequest;
 

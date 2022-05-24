@@ -80,7 +80,7 @@ const actions = {
 
         let itemsToFavourites = items.map((item) => {
             if (item.data.type === 'folder') {
-                if (context.getters.user.data.relationships.favourites.data.find((folder) => folder.id === item.data.id))
+                if (context.getters.user.data.relationships.favourites.find((folder) => folder.id === item.data.id))
                     return
 
                 return item.data.id;
@@ -89,7 +89,7 @@ const actions = {
 
         // Check is favorites already don't include some of pushed folders
         let favouritesWidget = items.map((item) => {
-            if (!context.getters.user.data.relationships.favourites.data.find((folder) => folder.data.id === item.id)) {
+            if (!context.getters.user.data.relationships.favourites.find((folder) => folder.data.id === item.id)) {
                 return item
             }
         })
@@ -149,7 +149,7 @@ const mutations = {
     },
     ADD_TO_FAVOURITES(state, folder) {
         folder.forEach((item) => {
-            state.user.data.relationships.favourites.data.push(item)
+            state.user.data.relationships.favourites.push(item)
         })
     },
     UPDATE_FIRST_NAME(state, name) {
@@ -166,12 +166,12 @@ const mutations = {
         }
     },
     REMOVE_ITEM_FROM_FAVOURITES(state, item) {
-        state.user.data.relationships.favourites.data = state.user.data.relationships.favourites.data.filter(
+        state.user.data.relationships.favourites.data = state.user.data.relationships.favourites.filter(
             (folder) => folder.data.id !== item.data.id
         )
     },
     UPDATE_NAME_IN_FAVOURITES(state, data) {
-        state.user.data.relationships.favourites.data.find((folder) => {
+        state.user.data.relationships.favourites.find((folder) => {
             if (folder.id === data.id) {
                 folder.name = data.name
             }

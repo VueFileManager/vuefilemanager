@@ -4,8 +4,6 @@ namespace Domain\Invoices\Controllers;
 use Domain\Settings\Models\Setting;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\Foundation\Application;
 use App\Users\Actions\FormatUsageEstimatesAction;
 use VueFileManager\Subscription\Domain\Transactions\Models\Transaction;
 

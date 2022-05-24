@@ -204,7 +204,7 @@ export default {
         goToFiles() {
             if (this.$route.name !== 'Files') this.$router.push({ name: 'Files' })
 
-            this.$store.dispatch('getFolder')
+            this.$store.dispatch('getFolder', {page: 1})
         },
         logOut() {
             this.$store.dispatch('logOut')

@@ -1,5 +1,4 @@
 <?php
-
 namespace Domain\Settings\Controllers;
 
 use Illuminate\Http\JsonResponse;

@@ -342,14 +342,14 @@ const actions = {
     },
     emptyTrash: ({ commit, getters }) => {
         // Clear file browser
-        commit('LOADING_STATE', { loading: true, data: [] })
+        commit('START_LOADING_VIEW')
 
         axios
             .post(getters.api + '/trash/dump', {
                 _method: 'delete',
             })
             .then(() => {
-                commit('LOADING_STATE', { loading: false, data: [] })
+                commit('STOP_LOADING_VIEW')
                 events.$emit('scrollTop')
 
                 commit('CLIPBOARD_CLEAR')
@@ -363,7 +363,7 @@ const actions = {
             })
             .then(() => {
                 if (router.currentRoute.name === 'Trash') {
-                    commit('LOADING_STATE', { loading: false, data: [] })
+                    commit('STOP_LOADING_VIEW')
                 }
 
                 events.$emit('toaster', {

@@ -293,7 +293,7 @@ export default {
         }
     },
     mounted() {
-        this.$store.dispatch('getTeamFolder', {page:null, id:this.$route.params.id})
+        this.$store.dispatch('getTeamFolder', {page: 1, id:this.$route.params.id})
 
         events.$on('context-menu:show', (event, item) => (this.item = item))
         events.$on('mobile-context-menu:show', (item) => (this.item = item))

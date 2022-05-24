@@ -41,7 +41,7 @@
 import ItemHandler from './ItemHandler'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
-import Spinner from './Spinner'
+import Spinner from "../UI/Others/Spinner";
 import { debounce } from 'lodash'
 
 export default {
