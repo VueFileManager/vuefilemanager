@@ -7,6 +7,16 @@ import App from './App.vue'
 import store from './store'
 import { events } from './bus'
 
+import Adsense from 'vue-google-adsense/dist/Adsense.min.js'
+import InArticleAdsense from 'vue-google-adsense/dist/InArticleAdsense.min.js'
+import InFeedAdsense from 'vue-google-adsense/dist/InFeedAdsense.min.js'
+
+Vue.use(require('vue-script2'))
+
+Vue.use(Adsense)
+Vue.use(InArticleAdsense)
+Vue.use(InFeedAdsense)
+
 import SubscriptionHelpers from './helpers/SubscriptionHelpers'
 import ValidatorHelpers from './helpers/ValidatorHelpers'
 import functionHelpers from './helpers/functionHelpers'

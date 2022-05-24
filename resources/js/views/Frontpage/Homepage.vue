@@ -10,6 +10,13 @@
             <!--VueFileManager ScreenShot-->
             <HeroScreenshot />
 
+			<InFeedAdsense
+				data-ad-test
+				data-ad-layout-key="-gw-3+1f-3d+2z"
+				data-ad-client="ca-pub-8058330732865164"
+				data-ad-slot="2395328892">
+			</InFeedAdsense>
+
             <!--Google Adsense banner-->
             <div v-if="config.allowedAdsense && config.adsenseBanner03" v-html="config.adsenseBanner03" class="mb-5 min-h-[120px]"></div>
 
