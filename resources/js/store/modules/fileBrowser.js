@@ -19,7 +19,7 @@ const actions = {
     getFolder: ({ commit, getters },{page, id}) => {
         return new Promise ((resolve, reject) => {
 
-            if( !page)
+            if(!page)
                 commit('LOADING_STATE', { loading: true, data: [] })
 
             let currentPage = page || 1
@@ -27,9 +27,7 @@ const actions = {
             axios
                 .get(`${getters.api}/browse/folders/${id}/${getters.sorting.URI}&page=${currentPage}`)
                 .then((response) => {
-                    commit('SET_PAGINATE', {
-                        paginate: response.data.meta.paginate
-                    })
+                    commit('SET_PAGINATE', response.data.meta.paginate)
 
                     commit('LOADING_STATE', {
                         loading: false,
@@ -70,9 +68,7 @@ const actions = {
                 .get(getters.api + `/browse/latest?page=${currentPage}`)
                 .then((response) => {
     
-                    commit('SET_PAGINATE', {
-                        paginate: response.data.meta.paginate
-                    })
+                    commit('SET_PAGINATE', response.data.meta.paginate)
     
                     commit('LOADING_STATE', {
                         loading: false,
@@ -103,9 +99,7 @@ const actions = {
                 .get(`${getters.api}/browse/share${getters.sorting.URI}&page=${currentPage}`)
                 .then((response) => {
                    
-                    commit('SET_PAGINATE', {
-                        paginate: response.data.meta.paginate
-                    })
+                    commit('SET_PAGINATE', response.data.meta.paginate)
     
                     commit('LOADING_STATE', {
                         loading: false,
@@ -136,9 +130,7 @@ const actions = {
                 .get(`${getters.api}/browse/trash/${id}/${getters.sorting.URI}&page=${currentPage}`)
                 .then((response) => {
 
-                    commit('SET_PAGINATE', {
-                        paginate: response.data.meta.paginate
-                    })
+                    commit('SET_PAGINATE', response.data.meta.paginate)
     
                     commit('LOADING_STATE', {
                         loading: false,

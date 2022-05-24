@@ -1174,7 +1174,7 @@ if (! function_exists('replace_occurrence')) {
                     'total'         => $totalItemsCount,
                 ],
                 [
-                    'first'         => $uri . '&page=' . 1,
+                    'first'         => $uri . '&page=1',
                     'last'          => $uri . '&page=' . $lastPage,
                     'next'          => $currentPage == $lastPage ? null : $uri . '&page=' . $currentPage + 1,
                     'prev'          => $currentPage == 1 ? null : $uri . '&page=' . $currentPage - 1,

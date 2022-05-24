@@ -24,9 +24,7 @@ const actions = {
             axios
                 .get(`${getters.api}/teams/folders/${id}/${getters.sorting.URI}&page=${currentPage}`)
                 .then((response) => {
-                    commit('SET_PAGINATE', {
-                        paginate: response.data.meta.paginate
-                    })
+                    commit('SET_PAGINATE', response.data.meta.paginate)
 
                     commit('LOADING_STATE', {
                         loading: false,
@@ -77,9 +75,7 @@ const actions = {
             axios
                 .get(`${getters.api}/teams/shared-with-me/${id}/${getters.sorting.URI}&page=${currentPage}`)
                 .then((response) => {
-                    commit('SET_PAGINATE', {
-                        paginate: response.data.meta.paginate
-                    })
+                    commit('SET_PAGINATE', response.data.meta.paginate)
                    
                     commit('LOADING_STATE', {
                         loading: false,

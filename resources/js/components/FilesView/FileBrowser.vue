@@ -25,13 +25,14 @@
             :key="item.data.id"
             :item="item"
         />
-        
+
         <!-- Infinite Loader Element -->
-        <div 
-            class="relative h-16"
-            v-if="showInfiniteLoadSpinner" 
-            id='infinite-loader'>
-            <Spinner/>
+        <div
+            v-show="showInfiniteLoadSpinner"
+            class="relative h-16 md:my-0 my-4"
+			ref="infinityLoader"
+		>
+            <Spinner />
         </div>
     </div>
 </template>
@@ -41,6 +42,7 @@ import ItemHandler from './ItemHandler'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 import Spinner from './Spinner'
+import { debounce } from 'lodash'
 
 export default {
     name: 'FileBrowser',
@@ -60,38 +62,31 @@ export default {
                 return this.clipboard
             }
         },
-        continueInfiniteScroll() {
-            if(this.paginate)
-                return  this.paginate.paginate.currentPage !== this.paginate.paginate.lastPage
+        canLoadMoreEntries() {
+			return this.paginate?.currentPage !== this.paginate?.lastPage
         },
         showInfiniteLoadSpinner() {
-            return this.continueInfiniteScroll && this.entries.length !== 0 && this.paginate.paginate.perPage <= this.entries.length
+            return this.canLoadMoreEntries && this.entries.length !== 0 && this.paginate.perPage <= this.entries.length
         },
     },
     data() {
         return {
             draggingId: undefined,
             isDragging: false,
-            infiniteScrollLoad: false,
+            isLoadingNewEntries: false,
         }
     },
     methods: {
-        infiniteScroll() {
-            
-            if( this.continueInfiniteScroll && this.elementInViewport() ) {
-                
-                if(! this.infiniteScrollLoad) {
-                    this.infiniteScrollLoad = true
-                     
-                    this.$getDataByLocation(this.paginate.paginate.currentPage + 1).then(() => {
-                        this.infiniteScrollLoad = false
-                    })
-                }
-            }
-        },
-        elementInViewport() {
-            var item = document.getElementById('infinite-loader')
-            var rect = item.getBoundingClientRect()
+		infiniteScroll: debounce(function () {
+			if (this.isInfinityLoaderAtBottomPage() && this.canLoadMoreEntries && !this.isLoadingNewEntries) {
+				this.isLoadingNewEntries = true
+
+				this.$getDataByLocation(this.paginate.currentPage + 1)
+					.then(() => this.isLoadingNewEntries = false)
+			}
+		}, 150),
+        isInfinityLoaderAtBottomPage() {
+            let rect = this.$refs.infinityLoader.getBoundingClientRect()
 
             return (
                 rect.bottom > 0 &&
@@ -126,7 +121,7 @@ export default {
             // Store dragged folder
             this.draggingId = data
 
-            // TODO: founded issue on firefox
+            // TODO: found issue on firefox
         },
         dragFinish(data, event) {
             if (event.dataTransfer.items.length === 0) {
@@ -176,8 +171,10 @@ export default {
         },
     },
     created() {
-        if(this.$isMobile())
-            document.addEventListener('scroll', this.infiniteScroll, true)
+		// Track document scrolling to load new entries if needed
+		if (window.innerWidth <= 1024) {
+			document.addEventListener('scroll', this.infiniteScroll)
+		}
 
         events.$on('drop', () => {
             this.isDragging = false

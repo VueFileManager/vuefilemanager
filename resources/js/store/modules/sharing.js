@@ -31,9 +31,7 @@ const actions = {
             axios
                 .get(`/api/browse/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}&page=${currentPage}`)
                 .then((response) => {
-                    commit('SET_PAGINATE', {
-                        paginate: response.data.meta.paginate
-                    })
+                    commit('SET_PAGINATE', response.data.meta.paginate)
 
                     commit('LOADING_STATE', {
                         loading: false,
