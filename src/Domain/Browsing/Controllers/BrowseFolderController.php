@@ -16,24 +16,49 @@ class BrowseFolderController
     ): array {
         $root_id = Str::isUuid($id) ? $id : null;
 
+        $folderQuery = [
+            'parent_id'   => $root_id,
+            'team_folder' => false,
+            'user_id'     => Auth::id(),
+            'deleted_at'  => null,
+        ];
+
+        $fileQuery = [
+            'parent_id'   => $root_id,
+            'user_id'     => Auth::id(),
+            'deleted_at'  => null,
+        ];
+
+        list($foldersTake, $foldersSkip, $filesTake, $filesSkip, $totalItemsCount) = getRecordsCount($folderQuery, $fileQuery, request()->input('page'));
+
         $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id', $root_id)
-            ->where('team_folder', false)
-            ->where('user_id', Auth::id())
+            ->where($folderQuery)
             ->sortable()
+            ->skip($foldersSkip)
+            ->take($foldersTake)
             ->get();
-
+            
         $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id', $root_id)
-            ->where('user_id', Auth::id())
+            ->where($fileQuery)
             ->sortable()
+            ->skip($filesSkip)
+            ->take($filesTake)
             ->get();
+        
+        $entries = collect([
+            $folders ? json_decode((new FolderCollection($folders))->toJson(), true) : null,
+            $files ? json_decode((new FilesCollection($files))->toJson(), true) : null,
+        ])->collapse();
+            
+        list($paginate, $links) = generatePaginationCounts($totalItemsCount);
 
-        // Collect folders and files to single array
         return [
-            'folders' => new FolderCollection($folders),
-            'files'   => new FilesCollection($files),
-            'root'    => $root_id ? new FolderResource(Folder::findOrFail($root_id)) : null,
+            'data'  => $entries,
+            'links' => $links,
+            'meta'  => [
+                'paginate' => $paginate,
+                'root'     => $root_id ? new FolderResource(Folder::findOrFail($root_id)) : null,
+            ],
         ];
     }
 }

@@ -2,6 +2,7 @@
 namespace Domain\Teams\Controllers;
 
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\JsonResponse;
@@ -10,10 +11,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Domain\Teams\Models\TeamFolderMember;
 use Domain\Teams\DTO\CreateTeamFolderData;
-use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Teams\Actions\UpdateMembersAction;
-use Domain\Folders\Resources\FolderCollection;
 use Domain\Teams\Actions\UpdateInvitationsAction;
 use Domain\Teams\Requests\CreateTeamFolderRequest;
 use Domain\Teams\Requests\UpdateTeamFolderMembersRequest;
@@ -28,7 +27,7 @@ class TeamFoldersController extends Controller
     ) {
     }
 
-    public function show($id): array
+    public function show(Request $request, $id): array
     {
         $id = Str::isUuid($id) ? $id : null;
 
@@ -51,12 +50,17 @@ class TeamFoldersController extends Controller
                 ->get();
         }
 
+        list($data, $paginate, $links) = groupPaginate($request, $folders, $files ?? null);
+
         // Collect folders and files to single array
         return [
-            'folders'    => new FolderCollection($folders),
-            'files'      => isset($files) ? new FilesCollection($files) : new FilesCollection([]),
-            'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
+            'data'       => $data,
             'teamFolder' => $id ? new FolderResource(Folder::findOrFail($id)->getLatestParent()) : null,
+            'links'      => $links,
+            'meta'       => [
+                'paginate'   => $paginate,
+                'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
+            ],
         ];
     }
 

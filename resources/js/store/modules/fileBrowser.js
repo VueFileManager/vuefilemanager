@@ -6,45 +6,50 @@ import i18n from '../../i18n'
 
 const defaultState = {
     currentFolder: undefined,
+    isMultiSelectMode: false,
     fastPreview: undefined,
     navigation: undefined,
-    isMultiSelectMode: false,
+    paginate: undefined,
     isLoading: true,
     clipboard: [],
     entries: [],
 }
 
 const actions = {
-    getFolder: ({ commit, getters }, id) => {
-        commit('LOADING_STATE', { loading: true, data: [] })
+    getFolder: ({ commit, getters },{page, id}) => {
+        return new Promise ((resolve, reject) => {
+            if(! page)
+                commit('LOADING_STATE', { loading: true, data: [] })
 
-        axios
-            .get(`${getters.api}/browse/folders/${id || 'all'}${getters.sorting.URI}`)
-            .then((response) => {
-                let folders = response.data.folders.data
-                let files = response.data.files.data
+            axios
+                .get(`${getters.api}/browse/folders/${id || 'all'}${getters.sorting.URI}&page=${currentPage}`)
+                .then((response) => {
+                    commit('SET_PAGINATE', response.data.meta.paginate)
 
-                commit('LOADING_STATE', {
-                    loading: false,
-                    data: folders.concat(files),
-                })
-                commit('SET_CURRENT_FOLDER', response.data.root)
-
-                events.$emit('scrollTop')
-            })
-            .catch((error) => {
-                // Redirect if unauthenticated
-                if ([401, 403].includes(error.response.status)) {
-                    commit('SET_AUTHORIZED', false)
-                    router.push({ name: 'SignIn' })
-                } else {
-                    // Show error message
-                    events.$emit('alert:open', {
-                        title: i18n.t('popup_error.title'),
-                        message: i18n.t('popup_error.message'),
+                    commit('LOADING_STATE', {
+                        loading: false,
+                        data: response.data.data,
                     })
-                }
-            })
+                    commit('SET_CURRENT_FOLDER', response.data.meta.root)
+
+                    events.$emit('scrollTop')
+
+                    resolve(response);
+                })
+                .catch((error) => {
+                    // Redirect if unauthenticated
+                    if ([401, 403].includes(error.response.status)) {
+                        commit('SET_AUTHORIZED', false)
+                        router.push({ name: 'SignIn' })
+                    } else {
+                        // Show error message
+                        events.$emit('alert:open', {
+                            title: i18n.t('popup_error.title'),
+                            message: i18n.t('popup_error.message'),
+                        })
+                    }
+                })
+        })
     },
     getRecentUploads: ({ commit, getters }) => {
         commit('LOADING_STATE', { loading: true, data: [] })
@@ -125,8 +130,15 @@ const actions = {
 }
 
 const mutations = {
+    SET_PAGINATE(state, payload) {
+        state.paginate = payload
+    },
     LOADING_STATE(state, payload) {
-        state.entries = payload.data
+        if(payload.data.length === 0) {
+            state.entries = []
+        } else {
+            state.entries.push(...payload.data)
+        }
         state.isLoading = payload.loading
     },
     SET_CURRENT_FOLDER(state, folder) {
@@ -220,6 +232,7 @@ const getters = {
     navigation: (state) => state.navigation,
     clipboard: (state) => state.clipboard,
     isLoading: (state) => state.isLoading,
+    paginate: (state) => state.paginate,
     entries: (state) => state.entries,
 }
 

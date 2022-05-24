@@ -15,8 +15,8 @@ const actions = {
             axios
                 .get(`/api/file-request/${router.currentRoute.params.token}/browse/${id || 'all'}${getters.sorting.URI}`)
                 .then((response) => {
-                    let folders = response.data.folders.data
-                    let files = response.data.files.data
+                    let folders = response.data.folders
+                    let files = response.data.files
 
                     commit('LOADING_STATE', {
                         loading: false,
@@ -51,6 +51,11 @@ const actions = {
                     if (! router.currentRoute.params.id) {
                         commit('SET_CURRENT_FOLDER', response.data.data.relationships.folder)
                     }
+                })
+                .catch((error) => {
+                    Vue.prototype.$isSomethingWrong()
+
+                    reject(error)
                 })
         })
     },

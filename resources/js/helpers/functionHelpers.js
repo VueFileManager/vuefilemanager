@@ -350,19 +350,19 @@ const FunctionHelpers = {
             }[this.$router.currentRoute.name]
         }
 
-        Vue.prototype.$getDataByLocation = function () {
+        Vue.prototype.$getDataByLocation = async function (page) {
             let routes = {
-                RequestUpload: ['getUploadRequestFolder', router.currentRoute.params.id || undefined ],
-                Public: ['getSharedFolder', router.currentRoute.params.id || undefined],
-                Files: ['getFolder', router.currentRoute.params.id || undefined],
-                RecentUploads: ['getRecentUploads'],
-                MySharedItems: ['getMySharedItems'],
-                Trash: ['getTrash', router.currentRoute.params.id || undefined],
-                TeamFolders: ['getTeamFolder', router.currentRoute.params.id || undefined],
-                SharedWithMe: ['getSharedWithMeFolder', router.currentRoute.params.id || undefined],
+                RequestUpload: ['getUploadRequestFolder', {page:page, id:router.currentRoute.params.id || undefined} ],
+                Public: ['getSharedFolder', {page:page, id:router.currentRoute.params.id || undefined}],
+                Files: ['getFolder', {page:page, id:router.currentRoute.params.id || undefined}],
+                RecentUploads: ['getRecentUploads', page],
+                MySharedItems: ['getMySharedItems', page],
+                Trash: ['getTrash', {page:page , id:router.currentRoute.params.id || undefined}],
+                TeamFolders: ['getTeamFolder',{page:page, id:router.currentRoute.params.id || undefined}],
+                SharedWithMe: ['getSharedWithMeFolder',{page:page, id:router.currentRoute.params.id || undefined}],
             }
 
-            store.dispatch(...routes[router.currentRoute.name])
+            await store.dispatch(...routes[router.currentRoute.name])
         }
 
         Vue.prototype.$getPaymentLogo = function (driver) {

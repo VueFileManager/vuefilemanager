@@ -2,12 +2,12 @@
 namespace Domain\Browsing\Controllers;
 
 use App\Users\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Domain\Files\Resources\FilesCollection;
 
 class BrowseLatestFilesController
 {
-    public function __invoke(): array
+    public function __invoke(Request $request): array
     {
         $user = User::with([
             'latestUploads' => fn ($query) => $query->sortable(['created_at' => 'desc']),
@@ -15,9 +15,15 @@ class BrowseLatestFilesController
             ->where('id', Auth::id())
             ->first();
 
+        list($data, $paginate, $links) = groupPaginate($request, null, $user->latestUploads);
+
         return [
-            'files'   => new FilesCollection($user->latestUploads),
-            'root'    => null,
+            'data'  => $data,
+            'links' => $links,
+            'meta'  => [
+                'paginate' => $paginate,
+                'root'     => null,
+            ],
         ];
     }
 }

@@ -11,6 +11,7 @@
         @dragover="dragEnter"
         @dragleave="dragLeave"
         @dragover.prevent
+        @scroll="infiniteScroll"
         tabindex="-1"
         @click.self="deselect"
     >
@@ -24,6 +25,15 @@
             :key="item.data.id"
             :item="item"
         />
+
+        <!-- Infinite Loader Element -->
+        <div
+            v-show="showInfiniteLoadSpinner"
+            class="relative h-16 md:my-0 my-4"
+			ref="infinityLoader"
+		>
+            <Spinner />
+        </div>
     </div>
 </template>
 
@@ -31,14 +41,17 @@
 import ItemHandler from './ItemHandler'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
+import Spinner from './Spinner'
+import { debounce } from 'lodash'
 
 export default {
     name: 'FileBrowser',
     components: {
         ItemHandler,
+        Spinner
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'currentFolder', 'itemViewType', 'clipboard', 'entries', 'config']),
+        ...mapGetters(['isVisibleSidebar', 'currentFolder', 'itemViewType', 'clipboard', 'entries', 'config', 'paginate']),
         draggedItems() {
             // Set opacity for dragged items
             if (!this.clipboard.includes(this.draggingId)) {
@@ -49,14 +62,39 @@ export default {
                 return this.clipboard
             }
         },
+        canLoadMoreEntries() {
+			return this.paginate?.currentPage !== this.paginate?.lastPage
+        },
+        showInfiniteLoadSpinner() {
+            return this.canLoadMoreEntries && this.entries.length !== 0 && this.paginate.perPage <= this.entries.length
+        },
     },
     data() {
         return {
             draggingId: undefined,
             isDragging: false,
+            isLoadingNewEntries: false,
         }
     },
     methods: {
+		infiniteScroll: debounce(function () {
+			if (this.isInfinityLoaderAtBottomPage() && this.canLoadMoreEntries && !this.isLoadingNewEntries) {
+				this.isLoadingNewEntries = true
+
+				this.$getDataByLocation(this.paginate.currentPage + 1)
+					.then(() => this.isLoadingNewEntries = false)
+			}
+		}, 150),
+        isInfinityLoaderAtBottomPage() {
+            let rect = this.$refs.infinityLoader.getBoundingClientRect()
+
+            return (
+                rect.bottom > 0 &&
+                rect.right > 0 &&
+                rect.left < (window.innerWidth || document.documentElement.clientWidth) &&
+                rect.top < (window.innerHeight || document.documentElement.clientHeight)
+            );
+        },
         deleteItems() {
             if ((this.clipboard.length > 0 && this.$checkPermission('master')) || this.$checkPermission('editor')) {
                 this.$store.dispatch('deleteItem')
@@ -81,7 +119,7 @@ export default {
             // Store dragged folder
             this.draggingId = data
 
-            // TODO: founded issue on firefox
+            // TODO: found issue on firefox
         },
         dragFinish(data, event) {
             if (event.dataTransfer.items.length === 0) {
@@ -131,6 +169,11 @@ export default {
         },
     },
     created() {
+		// Track document scrolling to load new entries if needed
+		if (window.innerWidth <= 1024) {
+			document.addEventListener('scroll', this.infiniteScroll)
+		}
+
         events.$on('drop', () => {
             this.isDragging = false
 

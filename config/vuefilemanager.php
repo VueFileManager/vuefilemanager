@@ -61,6 +61,10 @@ return [
         ],
     ],
 
+    'paginate' => [
+        'perPage' => 8,
+    ],
+
     // The update versions which need to run upgrade process
     'updates' => [
         '2_0_10',
