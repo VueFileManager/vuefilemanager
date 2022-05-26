@@ -1,12 +1,18 @@
 ## Version 2.2
 #### Release date: 18. May 2022
+
+### Fixes
 - Solved issue with database backup notifications
 - Solved issue where after team member was invited into team folder, email with urging the recipient to create new account was sent
 - You are now allowed to set price for metered billing in 3 decimal places
 - Solved UI issue with empty notification popup
+- Plans in fixed subscription are now automatically sorted from lower to higher price
+
+### New Features
+- API version 1 released
+- Paginated records loading with infinity scroller
 - If you send file request for native user via email option, the push notification will be sent to the user
 - Ability to test your websocket (Broadcasting) connection via Admin / Server / Broadcasting tab
-- Plans in fixed subscription are now automatically sorted from lower to higher price
 
 ## Version 2.1.3
 #### Release date: 10. May 2022

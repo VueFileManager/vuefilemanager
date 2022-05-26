@@ -179,7 +179,7 @@ export default {
 
                         // Add created team folder into Team Folder homepage view
                     } else if (isTeamFoldersLocation && !this.$route.params.id) {
-                        this.$store.commit('ADD_NEW_FOLDER', response.data)
+                        this.$store.commit('ADD_NEW_ITEM', response.data)
 
                         // Redirect to Team Folders after converting simple folder
                     } else if (!isTeamFoldersLocation) {

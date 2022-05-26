@@ -184,7 +184,7 @@ const mutations = {
             if (item.data.id === data.data.id) item.data = data.data
         })
     },
-    ADD_NEW_FOLDER(state, folder) {
+    ADD_NEW_ITEM(state, folder) {
         state.entries.unshift(folder)
     },
     ADD_NEW_ITEMS(state, items) {

@@ -62,7 +62,7 @@ return [
     ],
 
     'paginate' => [
-        'perPage' => env('PAGINATE_RECORDS_PER_PAGE', 25),
+        'perPage' => env('PAGINATE_RECORDS_PER_PAGE', 50),
     ],
 
     // The update versions which need to run upgrade process

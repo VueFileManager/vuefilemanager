@@ -98,7 +98,7 @@ const actions = {
                 parent_id: getters.currentFolder?.data.id,
             })
             .then((response) => {
-                commit('ADD_NEW_FOLDER', response.data)
+                commit('ADD_NEW_ITEM', response.data)
 
                 events.$emit('scrollTop')
 
@@ -196,7 +196,7 @@ const actions = {
                                 response.data.data.attributes.parent_id === getters.currentFolder.data.id)
                         ) {
                             // Add uploaded item into view
-                            commit('ADD_NEW_ITEMS', response.data)
+                            commit('ADD_NEW_ITEM', response.data)
                         }
 
                         // Reset file progress

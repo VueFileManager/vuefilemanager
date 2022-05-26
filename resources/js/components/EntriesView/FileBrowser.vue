@@ -28,8 +28,8 @@
 
         <!-- Infinite Loader Element -->
         <div
-            v-show="showInfiniteLoadSpinner"
-            class="relative h-16 md:my-0 my-4"
+			v-show="showInfiniteLoadSpinner"
+            class="relative h-8 md:mt-0 md:mb-4 my-4 col-span-full scale-50"
 			ref="infinityLoader"
 		>
             <Spinner />
