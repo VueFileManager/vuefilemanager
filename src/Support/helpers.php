@@ -1218,7 +1218,7 @@ if (! function_exists('extractItemsFromGetAttribute')) {
             int $totalEntries
         ): array {
             $uri = request()->fullUrl();
-            $perPage = config('vuefilemanager.paginate.perPage');
+            $perPage = intval(config('vuefilemanager.paginate.perPage'));
             $lastPage = ceil($totalEntries / $perPage);
             $currentPage = request()->input('page') === 'all'
                 ? 1
