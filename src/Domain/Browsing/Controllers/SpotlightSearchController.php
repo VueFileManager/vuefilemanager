@@ -96,10 +96,14 @@ class SpotlightSearchController
             ->get()
             ->take(3);
 
+        $entries = collect([
+            $folders ? json_decode((new FolderCollection($folders))->toJson(), true) : null,
+            $files ? json_decode((new FilesCollection($files))->toJson(), true) : null,
+        ])->collapse();
+
         // Collect folders and files to single array
         return response()->json([
-            'folders' => new FolderCollection($folders),
-            'files'   => new FilesCollection($files),
+            'data' => $entries,
         ]);
     }
 }

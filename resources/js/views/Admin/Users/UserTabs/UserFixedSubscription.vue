@@ -73,7 +73,7 @@ export default {
 
             this.limitations.push({
                 message: payload.message[key],
-				isVisibleBar: item.total === -1,
+				isVisibleBar: item.total !== -1 && item.total !== 0,
                 distribution: [
                     {
                         progress: item.percentage,

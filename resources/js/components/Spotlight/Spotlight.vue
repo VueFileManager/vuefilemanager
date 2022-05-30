@@ -898,18 +898,7 @@ export default {
                     params: { query: value },
                 })
                 .then((response) => {
-                    // Show user result
-                    if (this.activeFilter === 'users') {
-                        this.results = response.data
-                    }
-
-                    // Show file result
-                    if (!this.activeFilter) {
-                        let files = response.data.files
-                        let folders = response.data.folders
-
-                        this.results = folders.concat(files)
-                    }
+					this.results = response.data.data
                 })
                 .catch(() => this.$isSomethingWrong())
                 .finally(() => (this.isLoading = false))
