@@ -107,6 +107,7 @@ class GetConfigAction
                 'isSetupWizardDemo'        => config('vuefilemanager.is_setup_wizard_demo') ? 1 : 0,
                 'isSetupWizardDebug'       => config('vuefilemanager.is_setup_wizard_debug') ? 1 : 0,
                 'isAdminVueFileManagerBar' => config('vuefilemanager.is_admin_vuefilemanager_bar', 1) ? 1 : 0,
+                'isPrefilledUsers'         => config('vuefilemanager.is_prefilled_users') ? 1 : 0,
                 'statusCheck'              => json_encode($serverInfo) ?? 'undefined',
             ],
             'broadcasting'        => [

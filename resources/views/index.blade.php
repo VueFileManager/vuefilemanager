@@ -85,6 +85,7 @@
 			statusCheck: {!! $config->debug->statusCheck !!},
 			isSetupWizardDemo: {{ $config->debug->isSetupWizardDemo }},
 			isSetupWizardDebug: {{ $config->debug->isSetupWizardDebug }},
+			isPrefilledUsers: {{ $config->debug->isPrefilledUsers }},
 
 			// States
 			isEmptyPlans: {{ $config->payments->isEmptyPlans }},
