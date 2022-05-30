@@ -28,7 +28,7 @@
                 background: member.data.attributes.color ? member.data.attributes.color : '',
             }"
         >
-            <span :class="fontSize" class="font-extrabold uppercase text-white">
+            <span :class="fontSize" class="font-extrabold uppercase text-white dark:text-gray-900">
                 {{ letter }}
             </span>
         </div>
