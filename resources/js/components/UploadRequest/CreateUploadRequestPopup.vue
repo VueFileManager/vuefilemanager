@@ -10,7 +10,7 @@
 
 			<!--Form to set upload request-->
             <ValidationObserver
-				v-if="!generatedUploadRequest"
+				v-if="!uploadRequest"
 				@submit.prevent="createUploadRequest"
 				ref="createForm"
 				v-slot="{ invalid }"
@@ -82,13 +82,13 @@
             </ValidationObserver>
 
 			<!--Copy generated link-->
-            <AppInputText v-if="generatedUploadRequest" :title="$t('copy_upload_request_link')" :is-last="true">
-                <CopyInput :str="generatedUploadRequest.data.attributes.url" />
+            <AppInputText v-if="uploadRequest" :title="$t('copy_upload_request_link')" :is-last="true">
+                <CopyInput :str="uploadRequestURL" />
             </AppInputText>
         </PopupContent>
 
 		<!--Actions-->
-        <PopupActions v-if="!generatedUploadRequest">
+        <PopupActions v-if="!uploadRequest">
             <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
 			>{{ $t('cancel') }}
             </ButtonBase>
@@ -98,7 +98,7 @@
         </PopupActions>
 
 		<!--Actions-->
-        <PopupActions v-if="generatedUploadRequest">
+        <PopupActions v-if="uploadRequest">
             <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme"
 			>{{ $t('awesome_iam_done') }}
             </ButtonBase>
@@ -147,7 +147,8 @@ export default {
 				folder_id: undefined,
 				name: undefined,
 			},
-			generatedUploadRequest: undefined,
+			uploadRequest: undefined,
+			uploadRequestURL: undefined,
 			shareViaEmail: false,
 			pickedItem: undefined,
 			isLoading: false,
@@ -166,7 +167,10 @@ export default {
 			axios
 				.post(`/api/file-request`, this.form)
 				.then((response) => {
-					this.generatedUploadRequest = response.data
+					this.uploadRequest = response.data
+
+					// Format upload request url
+					this.uploadRequestURL = `${this.$store.getters.config.host}/request/${response.data.data.id}/upload`
 				})
 				.catch(() => {
 					events.$emit('alert:open', {
@@ -192,7 +196,7 @@ export default {
 
 			// Restore data
 			setTimeout(() => {
-				this.generatedUploadRequest = undefined
+				this.uploadRequest = undefined
 				this.pickedItem = undefined
 
 				this.shareViaEmail = false
