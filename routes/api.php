@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/share/{token}/qr', GetShareLinkViaQrCodeController::class);
     Route::post('/share/{token}/email', ShareViaEmailController::class);
     Route::apiResource('/share', ShareController::class);
-    Route::post('/share/{id}', ShareItemController::class);
+    Route::post('/share', ShareItemController::class);
 
     // Notifications
     Route::post('/notifications/read', MarkUserNotificationsAsReadController::class);

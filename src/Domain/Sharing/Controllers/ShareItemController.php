@@ -21,9 +21,8 @@ class ShareItemController extends Controller
      */
     public function __invoke(
         CreateShareRequest $request,
-        string $id,
     ): JsonResponse {
-        $item = get_item($request->input('type'), $id);
+        $item = get_item($request->input('type'), $request->input('id'));
 
         // Check if item is currently shared
         if ($item->shared()->exists()) {

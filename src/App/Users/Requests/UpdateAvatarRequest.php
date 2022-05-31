@@ -23,7 +23,7 @@ class UpdateAvatarRequest extends FormRequest
     public function rules()
     {
         return [
-            'avatar' => 'required|file',
+            'avatar' => 'required|file|mimes:jpg,jpeg,png',
         ];
     }
 }

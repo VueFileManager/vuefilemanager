@@ -38,7 +38,10 @@ class SpotlightSearchController
     ): JsonResponse {
         // Prevent to show non admin user searching
         if (Auth::user()->role !== 'admin') {
-            abort(response()->json(accessDeniedError()), 403);
+            abort(response()->json([
+                'type'    => 'error',
+                'message' => 'Access denied. You need administrator privileges to search the users.',
+            ]), 403);
         }
 
         // Get user ids

@@ -10,6 +10,7 @@ use Domain\Folders\Resources\FolderResource;
 use Domain\Folders\Resources\FolderCollection;
 use Domain\Sharing\Actions\ProtectShareRecordAction;
 use Domain\Sharing\Actions\VerifyAccessToItemAction;
+use Str;
 
 /**
  * Browse shared folder
@@ -26,14 +27,19 @@ class VisitorBrowseFolderController
         string $id,
         Share $shared,
     ): JsonResponse {
+
+        $folderId = Str::isUuid($id)
+            ? $id
+            : $shared->item_id;
+
         // Check ability to access protected share record
         ($this->protectShareRecord)($shared);
 
         // Check if user can get directory
-        ($this->verifyAccessToItem)($id, $shared);
+        ($this->verifyAccessToItem)($folderId, $shared);
 
         // Get requested folder
-        $requestedFolder = Folder::findOrFail($id);
+        $requestedFolder = Folder::findOrFail($folderId);
 
         $page = request()->has('page')
             ? request()->input('page')
@@ -43,13 +49,13 @@ class VisitorBrowseFolderController
         $query = [
             'folder' => [
                 'where' => [
-                    'parent_id'   => $id,
+                    'parent_id'   => $folderId,
                     'user_id'     => $shared->user_id,
                 ],
             ],
             'file' => [
                 'where' => [
-                    'parent_id'   => $id,
+                    'parent_id'   => $folderId,
                     'user_id'     => $shared->user_id,
                 ],
             ],

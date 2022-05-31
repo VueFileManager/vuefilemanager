@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Teams\Controllers;
 
+use Gate;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
@@ -41,9 +42,16 @@ class TeamFoldersController extends Controller
 
         $entriesPerPage = config('vuefilemanager.paginate.perPage');
 
-        // TODO: check privileges
-
         if ($id) {
+            // Get team folder
+            $teamFolder = Folder::findOrFail($id)
+                ->getLatestParent();
+
+            // Check privileges
+            if (! Gate::any(['can-edit', 'can-view'], [$teamFolder, null])) {
+                return response()->json(accessDeniedError(), 403);
+            }
+
             $query = [
                 'folder' => [
                     'where' => [
@@ -111,7 +119,7 @@ class TeamFoldersController extends Controller
             'meta'       => [
                 'paginate'   => $paginate,
                 'teamFolder' => $id
-                    ? new FolderResource(Folder::findOrFail($id)->getLatestParent())
+                    ? new FolderResource($teamFolder)
                     : null,
                 'root'       => $id
                     ? new FolderResource(Folder::findOrFail($id))
