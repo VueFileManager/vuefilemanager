@@ -12,8 +12,8 @@ class ResetPassword extends Notification
     /**
      * Create a new notification instance.
      */
-    private function __construct(
-        private string $token
+    public function __construct(
+        public string $token
     ) {}
 
     /**
