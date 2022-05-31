@@ -30,7 +30,7 @@
                             class="focus-border-theme input-dark"
                             :class="{ '!border-rose-600': errors[0] }"
                         />
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                        <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
@@ -44,7 +44,7 @@
                             class="focus-border-theme input-dark"
                             :class="{ '!border-rose-600': errors[0] }"
                         ></textarea>
-                        <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                        <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 

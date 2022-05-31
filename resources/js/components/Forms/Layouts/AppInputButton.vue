@@ -11,7 +11,7 @@
             <span v-if="description" class="block text-xs leading-4 dark:text-gray-500 text-gray-500" v-html="description"></span>
 
             <!--Input Description-->
-            <span v-if="error" class="error-message">
+            <span v-if="error" class="text-left text-xs text-red-600">
                 {{ error }}
             </span>
         </div>

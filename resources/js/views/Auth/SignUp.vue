@@ -1,7 +1,7 @@
 <template>
-    <AuthContentWrapper ref="auth">
+    <AuthContentWrapper ref="auth" class="h-screen">
         <!--Registration-->
-        <AuthContent name="sign-up" :visible="true" class="mt-4 mb-12">
+        <AuthContent name="sign-up" :visible="true">
             <Headline :title="$t('page_registration.title')" :description="$t('page_registration.subtitle')" />
 
             <ValidationObserver

@@ -45,7 +45,7 @@
                                 :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
 
@@ -65,7 +65,7 @@
                                 :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             ></textarea>
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
 
@@ -133,7 +133,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                     </div>
@@ -185,7 +185,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
@@ -210,7 +210,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
@@ -229,7 +229,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
@@ -254,7 +254,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
@@ -273,7 +273,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                         <div class="block-wrapper">
@@ -298,7 +298,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                     </div>
@@ -354,7 +354,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
 
@@ -376,7 +376,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                     </div>
@@ -428,7 +428,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
 
@@ -454,7 +454,7 @@
                                     :class="{ '!border-rose-600': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
-                                <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                                <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                             </ValidationProvider>
                         </div>
                     </div>
@@ -480,7 +480,7 @@
                                 :class="{ '!border-rose-600': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
-                            <span class="error-message" v-if="errors[0]">{{ errors[0] }}</span>
+                            <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                         </ValidationProvider>
                     </div>
                 </div>
