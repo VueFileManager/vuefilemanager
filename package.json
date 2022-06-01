@@ -14,7 +14,7 @@
         "axios": "^0.21.4",
         "cross-env": "^5.1",
         "laravel-echo": "^1.11.7",
-        "laravel-mix": "^6.0.43",
+        "laravel-mix": "^6.0.44",
         "postcss": "^8.4.14",
         "prettier": "^2.6.2",
         "prettier-plugin-import-sort": "0.0.7",
