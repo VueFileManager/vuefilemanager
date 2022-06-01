@@ -21,7 +21,7 @@
 
         <div
             @contextmenu.prevent.capture="contextMenu($event, undefined)"
-            class="lg:flex lg:flex-col lg:w-full lg:px-3.5"
+            class="lg:flex lg:flex-col lg:w-full lg:px-3.5 min-w-0"
         >
             <DesktopUploadRequestToolbar v-if="canShowUI" />
             <MobileUploadRequestToolBar v-if="canShowUI" />
@@ -31,7 +31,7 @@
 
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden grow" @drop.stop.prevent="uploadDroppedItems($event)" @dragenter.prevent @dragover.prevent>
-                <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
+                <router-view id="file-view" class="relative w-full min-w-0" :key="$route.fullPath" />
 
                 <InfoSidebarUploadRequest v-if="canShowUI && isVisibleSidebar" />
             </div>

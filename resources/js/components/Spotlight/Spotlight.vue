@@ -1,5 +1,6 @@
 <template>
     <div
+		id="spotlight"
         v-if="isVisible"
         @keyup.esc="exitSpotlight"
         @click.exact.self="exitSpotlight"
@@ -959,3 +960,9 @@ export default {
     },
 }
 </script>
+
+<style lang="scss">
+	#spotlight .item-name {
+		padding-right: 35px;
+	}
+</style>

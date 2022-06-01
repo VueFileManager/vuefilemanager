@@ -2,6 +2,7 @@
 namespace App\Users\Controllers\Authentication;
 
 use App\Users\DTO\CreateUserData;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Users\Actions\CreateNewUserAction;
@@ -44,6 +45,8 @@ class RegisterUserController extends Controller
                 'message' => 'User registrations are temporarily disabled',
             ], 409);
         }
+
+        event(new Registered($user));
 
         // Log in if verification is disabled
         if (! $user->password || ! intval(get_settings('user_verification'))) {

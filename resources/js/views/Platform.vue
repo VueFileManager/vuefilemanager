@@ -36,7 +36,7 @@
 
         <div
             @contextmenu.prevent.capture="contextMenu($event, undefined)"
-            class="lg:flex lg:flex-col lg:w-full lg:px-3.5"
+            class="lg:flex lg:flex-col lg:w-full lg:px-3.5 min-w-0"
         >
             <DesktopToolbar />
 
@@ -47,7 +47,7 @@
 
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden grow" @drop.stop.prevent="uploadDroppedItems($event)" @dragenter.prevent @dragover.prevent>
-                <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
+                <router-view id="file-view" class="relative w-full min-w-0" :key="$route.fullPath" />
 
                 <InfoSidebar v-if="isVisibleSidebar" />
             </div>

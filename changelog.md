@@ -7,6 +7,8 @@
 - You are now allowed to set price for metered billing in 3 decimal places
 - Solved UI issue with empty notification popup
 - Plans in fixed subscription are now automatically sorted from lower to higher price
+- When new user was created via admin, the verification email was send
+- Item name in list view type is now extended on the full page width
 
 ### New Features
 - API version 1 released

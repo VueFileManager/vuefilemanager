@@ -40,12 +40,13 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/{user}/transactions', GetUserTransactionsController::class);
     Route::get('/{user}/storage', ShowUserStorageCapacityController::class);
     Route::patch('/{user}/role', ChangeUserRoleController::class);
-    Route::delete('/{user}/delete', DeleteUserController::class);
+    Route::delete('/{user}', DeleteUserController::class);
 });
 
 Route::get('/transactions', GetAllTransactionsController::class);
 Route::apiResource('/pages', AdminPagesController::class);
-Route::apiResource('/users', UserController::class);
+Route::apiResource('/users', UserController::class)
+    ->only(['index', 'show', 'store']);
 
 // Settings
 Route::group(['prefix' => 'settings'], function () {

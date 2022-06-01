@@ -91,7 +91,7 @@ export default {
             this.isSendingRequest = true
 
             axios
-                .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id + '/delete', {
+                .post(this.$store.getters.api + '/admin/users/' + this.$route.params.id, {
                     name: this.userName,
                     _method: 'delete',
                 })
@@ -104,7 +104,7 @@ export default {
                         })
                     }
 
-                    if (response.status === 204) {
+                    if (response.status === 200) {
                         events.$emit('success:open', {
                             emoji: '👍',
                             title: this.$t('popup_deleted_user.title'),
