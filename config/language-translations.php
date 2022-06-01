@@ -910,7 +910,7 @@ return [
         'new_team_invitation'                            => 'New Team Invitation',
         'x_invite_to_join_team'                          => ':name invite you to join into Team Folder.',
         'team_invitation_notify_title'                   => 'You are invited to collaboration with team folder in :app',
-        'team_invitation_notify_desc'                    => 'You are invited to collaboration with team folder',
+        'team_invitation_notify_desc'                    => 'You are invited to collaboration with team folder.',
         'team_invitation_notify_desc_without_account'    => 'You are invited to collaboration with team folder. But at first, you have to create an account to proceed into team folder.',
         'join_into_team_folder'                          => 'Join into Team Folder',
         'join_and_create_account'                        => 'Join & Create an Account',

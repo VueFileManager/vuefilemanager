@@ -305,7 +305,7 @@
                 </div>
 
                 <!--Pricing Content-->
-                <div v-if="config.isSaaS" class="card shadow-card">
+                <div v-if="config.subscriptionType === 'fixed'" class="card shadow-card">
                     <FormLabel>Pricing Content</FormLabel>
 
                     <div class="block-wrapper">
@@ -540,7 +540,7 @@ export default {
             })
             .then((response) => {
                 this.app = {
-                    allow_homepage: parseInt(response.data.allow_homepage),
+                    allow_homepage: parseInt(response.data.allow_homepage || 1),
                     section_features: parseInt(response.data.section_features),
                     section_feature_boxes: parseInt(response.data.section_feature_boxes),
                     section_pricing_content: parseInt(response.data.section_pricing_content),
