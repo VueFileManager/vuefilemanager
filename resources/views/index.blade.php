@@ -9,7 +9,7 @@
     <meta name="description" content="{{ $config->app->description ?? __t('app_description') }}">
 
     <title>
-        {{ $config->app->title ?? 'VueFileManager' }} | {{ $config->app->description ?? __t('app_description') }}
+        {{ $config->app->name ?? 'VueFileManager' }} | {{ $config->app->description ?? __t('app_description') }}
     </title>
 
     {{--StyleSheet--}}
@@ -18,14 +18,14 @@
 
     {{--OG items--}}
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="{{ $config->app->title ?? 'VueFileManager' }} | {{ $config->app->description ?? __t('app_description') }}">
+    <meta property="og:title" content="{{ $config->app->name ?? 'VueFileManager' }} | {{ $config->app->description ?? __t('app_description') }}">
     <meta property="og:description" content="{{ $config->app->description ?? __t('app_description') }}">
     <meta property="og:image" content="{{ isset($config->logos->og_image) ? url($config->logos->og_image) : '' }}">
 
     {{-- Apple Mobile Web App--}}
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
-    <meta name="apple-mobile-web-app-title" content="{{ $config->app->title ?? 'VueFileManager' }}">
+    <meta name="apple-mobile-web-app-title" content="{{ $config->app->name ?? 'VueFileManager' }}">
 
     {{--Icons--}}
     <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ isset($config->logos->touch_icon) ? url($config->logos->touch_icon) : '' }}">
