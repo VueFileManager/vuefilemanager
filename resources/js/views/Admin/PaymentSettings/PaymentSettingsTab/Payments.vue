@@ -75,6 +75,48 @@
             </AppInputButton>
         </div>
 
+		<!--Fraud Prevention Mechanism Rules-->
+        <div v-if="config.subscriptionType === 'metered' && allowedPayments" class="card shadow-card">
+            <FormLabel icon="shield">
+                {{ $t('Fraud Prevention Mechanism Rules') }}
+            </FormLabel>
+
+            <AppInputSwitch
+                :title="$t('Allow limiting max usage before users will be forced to increase balance in first month of account existence')"
+                :description="$t('allow_registration_bonus_description')"
+            >
+                <SwitchInput
+                    @input="$updateText('/admin/settings', 'allowed_registration_bonus', allowedRegistrationBonus)"
+                    v-model="allowedRegistrationBonus"
+                    :state="false"
+                />
+            </AppInputSwitch>
+
+			<AppInputText
+				v-if="true"
+				class="-mt-3"
+			>
+                <input
+					@input="$updateText('/admin/settings', 'registration_bonus_amount', registrationBonusAmount)"
+					:placeholder="$t('Max Usage Amount...')"
+					type="number"
+					class="focus-border-theme input-dark"
+				/>
+            </AppInputText>
+
+            <AppInputSwitch
+                :title="$t('Force users to increase balance when usage is bigger than their current balance')"
+                :description="$t('allow_registration_bonus_description')"
+				:is-last="true"
+            >
+                <SwitchInput
+                    @input="$updateText('/admin/settings', 'allowed_registration_bonus', allowedRegistrationBonus)"
+                    v-model="allowedRegistrationBonus"
+                    :state="false"
+                />
+            </AppInputSwitch>
+        </div>
+
         <!--Stripe method configuration-->
         <div v-if="allowedPayments" class="card shadow-card">
             <img :src="$getPaymentLogo('stripe')" alt="Stripe" class="mb-8 h-8" />
