@@ -86,18 +86,19 @@
                 :description="$t('allow_registration_bonus_description')"
             >
                 <SwitchInput
-                    @input="$updateText('/admin/settings', 'allowed_registration_bonus', allowedRegistrationBonus)"
-                    v-model="allowedRegistrationBonus"
-                    :state="false"
+                    @input="$updateText('/admin/settings', 'limit_usage_in_new_accounts', settings.limitUsageInNewAccounts)"
+                    v-model="settings.limitUsageInNewAccounts"
+                    :state="settings.limitUsageInNewAccounts"
                 />
             </AppInputSwitch>
 
 			<AppInputText
-				v-if="true"
+				v-if="settings.limitUsageInNewAccounts"
 				class="-mt-3"
 			>
                 <input
-					@input="$updateText('/admin/settings', 'registration_bonus_amount', registrationBonusAmount)"
+					@input="$updateText('/admin/settings', 'limit_usage_in_new_accounts_amount', settings.limitUsageInNewAccountsAmount)"
+					v-model="settings.limitUsageInNewAccountsAmount"
 					:placeholder="$t('Max Usage Amount...')"
 					type="number"
 					class="focus-border-theme input-dark"
@@ -110,9 +111,9 @@
 				:is-last="true"
             >
                 <SwitchInput
-                    @input="$updateText('/admin/settings', 'allowed_registration_bonus', allowedRegistrationBonus)"
-                    v-model="allowedRegistrationBonus"
-                    :state="false"
+                    @input="$updateText('/admin/settings', 'usage_bigger_than_balance', settings.usageBiggerThanBalance)"
+                    v-model="settings.usageBiggerThanBalance"
+                    :state="settings.usageBiggerThanBalance"
                 />
             </AppInputSwitch>
         </div>
@@ -550,10 +551,13 @@ export default {
         InfoBox,
     },
     computed: {
-        ...mapGetters(['config']),
+        ...mapGetters([
+			'config'
+		]),
     },
     data() {
         return {
+			settings: undefined,
             allowedRegistrationBonus: true,
             registrationBonusAmount: undefined,
 
@@ -693,6 +697,23 @@ export default {
 			})
 		}
     },
+	mounted() {
+		axios
+			.get('/api/admin/settings', {
+				params: {
+					column: 'limit_usage_in_new_accounts|limit_usage_in_new_accounts_amount|usage_bigger_than_balance',
+				},
+			})
+			.then((response) => {
+				this.isLoading = false
+
+				this.settings = {
+					limitUsageInNewAccounts: parseInt(response.data.limit_usage_in_new_accounts),
+					limitUsageInNewAccountsAmount: parseInt(response.data.limit_usage_in_new_accounts_amount),
+					usageBiggerThanBalance: parseInt(response.data.usage_bigger_than_balance),
+				}
+			})
+	},
     created() {
         // Set payment description
         this.stripe.paymentDescription = this.config.stripe_payment_description
