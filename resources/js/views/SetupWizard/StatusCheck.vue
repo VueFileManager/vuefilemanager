@@ -256,7 +256,7 @@ export default {
             axios
                 .get('/api/ping')
                 .then((response) => {
-                    this.apiRunning = response.data === 'pong'
+                    this.apiRunning = response.data.message === 'pong'
                 })
                 .catch(() => {
                     this.apiRunning = false

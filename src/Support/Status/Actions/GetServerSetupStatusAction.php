@@ -3,14 +3,14 @@ namespace Support\Status\Actions;
 
 class GetServerSetupStatusAction
 {
-    public function __invoke()
+    public function __invoke(): array
     {
         // Required parameters
         $upload_max_filesize = 128;
         $post_max_size = 128;
         $memory_limit = 512;
         $max_execution_time = 180;
-        $php_version = '8.0';
+        $php_version = '8.1';
 
         // Writable
         $storageDirectory = dirname(storage_path('/storage'));
