@@ -1,7 +1,6 @@
 <?php
 namespace App\Providers;
 
-use Domain\Settings\Models\Setting;
 use Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,10 +32,6 @@ class AppServiceProvider extends ServiceProvider
 
         // Get all migrations with all directories
         $this->setMigrations();
-
-        dd(
-            config('subscription.metered_billing')
-        );
     }
 
     private function setMigrations(): void
