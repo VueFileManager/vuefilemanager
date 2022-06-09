@@ -19,7 +19,7 @@
             class="vue-feather text-theme shrink-0"
         />
         <alert-triangle-icon
-            v-if="['billing-alert', 'insufficient-balance'].includes(notification.data.attributes.category)"
+            v-if="['billing-alert', 'insufficient-balance', 'payment-alert'].includes(notification.data.attributes.category)"
             size="22"
             class="vue-feather text-theme shrink-0"
         />
