@@ -46,6 +46,10 @@ class AppServiceProvider extends ServiceProvider
 
     private function setSubscriptionConfig(): void
     {
+        if (app()->runningUnitTests()) {
+            return;
+        }
+
         $settings = getAllSettings();
 
         config([

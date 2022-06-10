@@ -307,7 +307,7 @@ class AdminTest extends TestCase
         Sanctum::actingAs($admin);
 
         // Delete user
-        $this->deleteJson("/api/admin/users/$user->id/delete", [
+        $this->deleteJson("/api/admin/users/$user->id", [
             'name' => $user->settings->name,
         ])
             ->assertStatus(200);
