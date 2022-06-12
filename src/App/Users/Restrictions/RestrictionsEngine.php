@@ -16,4 +16,6 @@ interface RestrictionsEngine
     public function canInviteTeamMembers(User $user, array $newInvites = []): bool;
 
     public function canVisitShared(User $user): bool;
+
+    public function getRestrictionReason(User $user): string|null;
 }

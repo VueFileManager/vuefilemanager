@@ -196,7 +196,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function __call($method, $parameters)
     {
-        if (str_starts_with($method, 'can')) {
+        if (str_starts_with($method, 'can') || str_starts_with($method, 'get')) {
             return resolve(RestrictionsManager::class)
                 ->driver()
                 ->$method($this, ...$parameters);

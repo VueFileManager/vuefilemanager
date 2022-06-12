@@ -66,6 +66,22 @@ class MeteredBillingRestrictionsEngine implements RestrictionsEngine
         return $this->checkFailedPayments($user);
     }
 
+    public function getRestrictionReason(User $user): string|null
+    {
+        if ($this->getDunningSequenceCount($user) === 3) {
+            return match ($user->dunning->type) {
+                'limit_usage_in_new_accounts' => 'Please make your first payment.',
+                'usage_bigger_than_balance' => 'Please increase your account balance.',
+            };
+        }
+
+        if (! $this->checkFailedPayments($user)) {
+            return 'Please update your credit card.';
+        }
+
+        return null;
+    }
+
     private function getDunningSequenceCount(User $user): int
     {
         return cache()->remember("dunning-count.$user->id", 3600, fn () => $user?->dunning->sequence ?? 0);
