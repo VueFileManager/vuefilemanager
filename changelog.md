@@ -1,3 +1,7 @@
+## Version 2.2.0.5
+#### Release date: 18. May 2022
+- Solved issue with showing trash content (Affected since 2.2.0)
+
 ## Version 2.2
 #### Release date: 18. May 2022
 
