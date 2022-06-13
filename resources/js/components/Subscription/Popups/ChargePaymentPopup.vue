@@ -15,7 +15,7 @@
                 }"
             >
                 <PaymentMethod
-                    @click.native="payByPayPal"
+                    @click.native.once="payByPayPal"
                     driver="paypal"
                     :description="config.paypal_payment_description"
                 >
