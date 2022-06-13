@@ -1,6 +1,7 @@
 ## Version 2.2.0.6
 #### Release date: 13. Jun 2022
 - Solved issue when user wasn't redirected into stripe checkout
+- Solved issue when you click on the PayPal logo it makes the new copy of the payment buttons
 
 ## Version 2.2.0.5
 #### Release date: 12. Jun 2022
