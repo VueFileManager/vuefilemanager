@@ -29,7 +29,7 @@
         </div>
 
 		<!--Broadcasting-->
-        <div class="card shadow-card">
+        <div v-if="config.broadcasting" class="card shadow-card">
             <FormLabel icon="info">Broadcasting</FormLabel>
 
             <div class="lg:flex lg:space-y-0 space-y-3 items-center justify-between">

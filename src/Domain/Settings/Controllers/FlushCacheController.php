@@ -23,6 +23,7 @@ class FlushCacheController extends Controller
         }
 
         if (! app()->runningUnitTests()) {
+            Artisan::call('view:clear');
             Artisan::call('cache:clear');
             Artisan::call('config:clear');
             Artisan::call('config:cache');

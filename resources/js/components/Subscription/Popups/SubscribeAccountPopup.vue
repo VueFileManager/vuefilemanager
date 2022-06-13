@@ -256,23 +256,16 @@ export default {
                     planCode: this.selectedPlan.data.meta.driver_plan_id.stripe,
                 })
                 .then((response) => {
-                    window.location = response.data.data.url
+                    window.location = response.data.url
                 })
 				.catch((error) => {
 					this.$closePopup()
 
 					setTimeout(() => {
-						if (error.response.status === 500 && error.response.data.type) {
-							events.$emit('alert:open', {
-								title: error.response.data.title,
-								message: error.response.data.message,
-							})
-						} else {
-							events.$emit('alert:open', {
-								title: this.$t('popup_error.title'),
-								message: this.$t('popup_error.message'),
-							})
-						}
+						events.$emit('alert:open', {
+							title: error.response.data.title || this.$t('popup_error.title'),
+							message: error.response.data.message || this.$t('popup_error.message'),
+						})
 					}, 100)
 				})
 				.finally(() => {
