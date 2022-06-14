@@ -17,7 +17,7 @@
   - [Upgrading From Testing Environment to the Production Mode](#upgrading-from-testing-environment-to-the-production-mode)
 - [Broadcasting](#broadcasting)
   - [About Broadcasting](#about-broadcasting)
-  - [Install Broadcast Server](#install-broadcast-server)
+  - [Install VueFileManager Broadcast Server](#install-vuefilemanager-broadcast-server)
 - [Developers](#developers)
   - [Running Environment On Your Localhost](#running-environment-on-your-localhost)
   - [Express Installation](#express-installation)
@@ -36,12 +36,13 @@
 
 **For running app make sure you have:**
 
-- PHP >= 8.0.2 version (8.1+ recommended)
+- PHP >= 8.1
 - MySQL 5.6+
 - Nginx or Apache (Nginx recommended)
 
 **These PHP Extensions are require:**
 
+- finfo
 - Intl
 - GD
 - BCMath
@@ -221,7 +222,7 @@ VueFileManager support 2 types of connections:
 1. [Pusher](https://pusher.com/) - Suitable for all users and all hosting platforms
 2. VueFileManager Broadcast Server - Free of charge, suitable for experienced users, limited for VPS servers
 
-## Install Broadcast Server
+## Install VueFileManager Broadcast Server
 We strongly recommend only for experienced users to set up and running VueFileManager broadcast server. For others, we recommend to use Pusher service to easy set up and host broadcasting service.
 
 ### Server Requirements
