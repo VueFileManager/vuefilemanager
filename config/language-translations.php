@@ -108,7 +108,7 @@ return [
         'want_to_delete_card_description'             => 'We will no longer settle your payments automatically and you will have to fund your account for the next payments.',
         'credit_card_deleted'                         => 'Your credit card was deleted.',
         'billed_annually'                             => 'Billed Annually',
-        'restricted_account_warning'                  => 'Your functionality is restricted. Please review your billing settings.',
+        'restricted_account_warning'                  => 'Your functionality is restricted.',
         'subscription_type'                           => 'Subscription Type',
         'subscription_type_note'                      => 'Please do not change in production environment.',
         'select_subscription_type'                    => 'Select your subscription type',
