@@ -14,6 +14,7 @@
                 <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
                     <td class="py-5 pr-3 md:pr-1">
                         <router-link
+							v-if="row.data.relationships.user"
                             class="flex items-center"
                             :to="{
                                 name: 'UserDetail',
@@ -35,6 +36,9 @@
                                 </span>
                             </div>
                         </router-link>
+						<span v-else class="text-sm font-bold">
+                            -
+                        </span>
                     </td>
                     <td class="px-3 md:px-1">
                         <ColorLabel :color="$getSubscriptionStatusColor(row.data.attributes.status)">
@@ -53,12 +57,7 @@
                     </td>
                     <td class="px-3 md:px-1">
                         <span class="text-sm font-bold">
-                            <!--todo: update renew attribute-->
-                            {{
-                                row.data.attributes.renews_at
-                                    ? row.data.attributes.renews_at
-                                    : row.data.attributes.created_at
-                            }}
+                            {{ row.data.attributes.renews_at }}
                         </span>
                     </td>
                     <td class="px-3 md:px-1">
