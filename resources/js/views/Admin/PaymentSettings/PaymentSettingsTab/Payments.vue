@@ -348,7 +348,7 @@
 				</AppInputText>
 
                 <div v-if="paypal.isConfigured">
-                    <AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle between live and sandbox mode')">
+                    <AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle between sandbox and live mode')">
                         <SwitchInput
                             @input="$updateText('/admin/settings', 'paypal_live', config.isPayPalLive)"
                             v-model="config.isPayPalLive"
@@ -404,7 +404,7 @@
                     </FormLabel>
 
 					<ValidationProvider>
-						<AppInputSwitch v-if="! paypal.isConfigured" :title="$t('Live Mode')" :description="$t('Toggle between live and sandbox mode')">
+						<AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle between sandbox and live mode')">
 							<SwitchInput v-model="paypal.credentials.live" :state="paypal.credentials.live" />
 						</AppInputSwitch>
 					</ValidationProvider>
@@ -507,6 +507,16 @@ export default {
         PageTab,
         InfoBox,
     },
+	watch: {
+		'paypal.credentials.live': function (val) {
+			this.$updateText('/admin/settings', 'paypal_live', val)
+
+			this.$store.commit('REPLACE_CONFIG_VALUE', {
+				key: 'isPayPalLive',
+				value: val,
+			})
+		}
+	},
     computed: {
         ...mapGetters(['config']),
     },
@@ -550,7 +560,7 @@ export default {
                     key: undefined,
                     secret: undefined,
                     webhook: undefined,
-					live: undefined,
+					live: false,
                 },
             },
             columns: [
