@@ -88,6 +88,8 @@ export default {
                 })
             )
 
+            this.$store.commit('START_LOADING_VIEW')
+
             // Update sorting state in vuex
             this.$store.commit('UPDATE_SORTING')
 
@@ -97,7 +99,7 @@ export default {
             // Get data of Navigator tree
             this.$store.dispatch('getFolderTree')
 
-            this.$getDataByLocation()
+            this.$getDataByLocation(1)
         },
         changePreview(previewType) {
             this.$store.dispatch('togglePreviewType', previewType)
