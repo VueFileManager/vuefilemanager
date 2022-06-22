@@ -29,7 +29,7 @@
         "laravel/ui": "^3.4.2",
         "league/flysystem-aws-s3-v3": "^3.0.9",
         "league/flysystem-ftp": "^3.0",
-        "makingcg/subscription": "dev-master",
+        "makingcg/subscription": "dev-main",
         "matthewbdaly/laravel-azure-storage": "^2.0",
         "pusher/pusher-php-server": "^7.0",
         "spatie/data-transfer-object": "^3.7.3",
