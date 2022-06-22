@@ -1,4 +1,5 @@
 <?php
+
 namespace Domain\Admin\Actions;
 
 use DB;
@@ -22,15 +23,27 @@ class DeleteUserDataAction
         Storage::deleteDirectory("files/$user->id");
 
         // Delete user subscriptions
-        if ($user->subscription) {
-            $user->subscription->delete();
-        }
+        $user->subscription?->delete();
 
         // Delete all user records in database
-        collect(['folders', 'files', 'user_settings', 'shares', 'favourite_folder', 'traffic'])
+        collect([
+            'team_folder_members',
+            'favourite_folder',
+            'user_limitations',
+            'upload_requests',
+            'billing_alerts',
+            'user_settings',
+            'credit_cards',
+            'customers',
+            //'dunnings',
+            'folders',
+            'traffic',
+            'shares',
+            'files',
+        ])
             ->each(function ($table) use ($user) {
                 DB::table($table)
-                    ->whereUserId($user->id)
+                    ->where('user_id', $user->id)
                     ->delete();
             });
     }

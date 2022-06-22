@@ -1,3 +1,8 @@
+## Version 2.2.0.9
+#### Release date: 22. Jun 2022
+- Set sandbox/live mode in PayPal key configuration setup form
+- Fixed issue when after deleting user, the related subscription wasn't deleted
+
 ## Version 2.2.0.6
 #### Release date: 13. Jun 2022
 - Solved issue when user wasn't redirected into stripe checkout

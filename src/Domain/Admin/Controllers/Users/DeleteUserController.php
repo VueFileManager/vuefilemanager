@@ -25,7 +25,7 @@ class DeleteUserController extends Controller
             ]);
         }
 
-        if ($user->subscription && $user->subscription->active()) {
+        if ($user->subscription && $user->subscription->type === 'fixed' && $user->subscription->active()) {
             abort(
                 response()->json([
                     'type'    => 'error',
