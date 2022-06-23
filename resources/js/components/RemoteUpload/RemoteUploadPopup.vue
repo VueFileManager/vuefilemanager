@@ -121,8 +121,10 @@ export default {
 				.then(() => {
 					// If broadcasting is not set
 					if (!this.$store.getters.isBroadcasting) {
+						this.$store.commit('START_LOADING_VIEW')
+
 						// Reload data
-						this.$getDataByLocation()
+						this.$getDataByLocation(1)
 
 						events.$emit('toaster', {
 							type: 'success',

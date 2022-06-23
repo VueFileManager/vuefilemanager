@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
 import FileSortingMobile from '../components/Menus/FileSortingMobile'
 import SidebarNavigation from '../components/Sidebar/SidebarNavigation'
 import FileFilterMobile from '../components/Menus/FileFilterMobile'
@@ -118,8 +119,14 @@ export default {
         }
     },
     methods: {
-		uploadDroppedItems(event) {
-			this.$uploadDraggedFiles(event, this.currentFolder?.data.id)
+		async uploadDroppedItems(event) {
+			// Check if user dropped folder with files
+			let files = await getFilesFromDataTransferItems(event.dataTransfer.items)
+
+			if (files.length !== 0) {
+				// Upload folder with files
+				this.$uploadDraggedFolderOrFile(files, this.currentFolder?.data.id)
+			}
 		},
         contextMenu(event, item) {
             events.$emit('context-menu:show', event, item)

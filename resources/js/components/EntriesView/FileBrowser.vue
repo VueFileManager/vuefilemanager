@@ -38,10 +38,11 @@
 </template>
 
 <script>
+import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
+import Spinner from '../UI/Others/Spinner'
 import ItemHandler from './ItemHandler'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
-import Spinner from "../UI/Others/Spinner";
 import { debounce } from 'lodash'
 
 export default {
@@ -121,8 +122,19 @@ export default {
 
             // TODO: found issue on firefox
         },
-        dragFinish(data, event) {
-            if (event.dataTransfer.items.length === 0) {
+        async dragFinish(data, event) {
+
+			if (event.dataTransfer.files.length) {
+				// Check if user dropped folder with files
+				let files = await getFilesFromDataTransferItems(event.dataTransfer.items)
+
+				if (files.length !== 0 && event.dataTransfer.items.length === 0) {
+					const id = data.data.type !== 'folder' ? this.currentFolder?.data.id : data.data.id
+
+					// Upload folder with files
+					this.$uploadDraggedFolderOrFile(files, id)
+				}
+			} else {
                 // Prevent to drop on file or image
                 if (data.data.type !== 'folder' || this.draggingId === data) return
 
@@ -144,13 +156,7 @@ export default {
                         item: null,
                     })
                 }
-            } else {
-                // Get id from current folder
-                const id = data.data.type !== 'folder' ? this.currentFolder?.data.id : data.data.id
-
-                // Upload external file
-                this.$uploadDraggedFiles(event, id)
-            }
+			}
 
             this.isDragging = false
         },

@@ -216,8 +216,10 @@ const actions = {
 
                             // Reload File data after folder uploading is finished
                             if (getters.isUploadingFolder) {
-                                // Reload files after upload is done
-                                Vue.prototype.$getDataByLocation()
+                                commit('START_LOADING_VIEW')
+
+                                // Reload files after folder upload is done
+                                Vue.prototype.$getDataByLocation(1)
 
                                 // Reload folder tree
                                 dispatch('getFolderTree')

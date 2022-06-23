@@ -190,7 +190,38 @@ const FunctionHelpers = {
             })
 
             // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal === 0) this.$handleUploading(store.getters.fileQueue[0])
+            if (store.getters.filesInQueueTotal === 0) {
+                this.$handleUploading(store.getters.fileQueue[0])
+            }
+
+            // Increase total files in upload bar
+            store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
+        }
+
+        Vue.prototype.$uploadDraggedFolderOrFile = async function (files, parent_id) {
+            files.map((file) => {
+                // Get file path
+                let filePath = file.filepath ? '/' + file.filepath : undefined
+
+                // Determine if we are uploading folder or file
+                if (filePath.split('/').length > 2) {
+                    store.commit('UPDATE_UPLOADING_FOLDER_STATE', true)
+                }
+
+                // Push file to the upload queue
+                if (file.name !== '.DS_Store') {
+                    store.commit('ADD_FILES_TO_QUEUE', {
+                        parent_id: parent_id || '',
+                        path: filePath,
+                        file: file,
+                    })
+                }
+            })
+
+            // Start uploading if uploading process isn't running
+            if (store.getters.filesInQueueTotal === 0) {
+                this.$handleUploading(store.getters.fileQueue[0])
+            }
 
             // Increase total files in upload bar
             store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
@@ -208,7 +239,7 @@ const FunctionHelpers = {
             if (event.dataTransfer.items.length === 0) return // Push items to file queue
             ;[...event.dataTransfer.items].map((item) => {
                 store.commit('ADD_FILES_TO_QUEUE', {
-                    parent_id: parent_id ? parent_id : '',
+                    parent_id: parent_id || '',
                     file: item.getAsFile(),
                 })
             })

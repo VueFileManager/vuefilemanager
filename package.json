@@ -31,6 +31,7 @@
     "dependencies": {
         "@paypal/paypal-js": "^4.2.2",
         "@stripe/stripe-js": "^1.29.0",
+        "datatransfer-files-promise": "^1.3.1",
         "lodash": "^4.17.21",
         "node-sass": "^4.14.1",
         "pdfvuer": "^1.9.2",
