@@ -375,6 +375,28 @@ const actions = {
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
+    pushFileToTheUploadQueue: ({commit, getters}, item) => {
+        // Prevent to upload file with 0kb file size
+        if (item.file.size === 0) {
+            events.$emit('toaster', {
+                type: 'danger',
+                message: `The file ${item.file.name} can't be uploaded`,
+            })
+        }
+
+        if (item.file.size !== 0 && item.file.name !== '.DS_Store') {
+            // commit file to the upload queue
+            commit('ADD_FILES_TO_QUEUE', item)
+
+            // Start uploading if uploading process isn't running
+            if (getters.filesInQueueTotal === 0) {
+                Vue.prototype.$handleUploading(getters.fileQueue[0])
+            }
+
+            // Increase total files in upload bar
+            commit('INCREASE_FILES_IN_QUEUES_TOTAL')
+        }
+    }
 }
 
 const mutations = {
@@ -396,8 +418,8 @@ const mutations = {
     UPLOADING_FILE_PROGRESS(state, percentage) {
         state.uploadingProgress = percentage
     },
-    INCREASE_FILES_IN_QUEUES_TOTAL(state, count) {
-        state.filesInQueueTotal += count
+    INCREASE_FILES_IN_QUEUES_TOTAL(state) {
+        state.filesInQueueTotal += 1
     },
     INCREASE_FILES_IN_QUEUE_UPLOADED(state) {
         state.filesInQueueUploaded++

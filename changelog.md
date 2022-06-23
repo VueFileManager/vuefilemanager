@@ -6,6 +6,7 @@
 - Fixed issue when you perform composer update with private repository
 - Fixed issue where change in sorting option will duplicate the content in file view
 - Fixed issue where Dragged & Dropped folder from desktop didn't start uploading
+- Fixed issue when you upload empty .txt file, it stops the upload process
 
 ## Version 2.2.0.6
 #### Release date: 13. Jun 2022

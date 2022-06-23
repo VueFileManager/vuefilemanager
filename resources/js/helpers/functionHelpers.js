@@ -178,24 +178,22 @@ const FunctionHelpers = {
                 return
             }
 
-            if (files.length === 0) return
+            if (files.length === 0) {
+                return
+            }
 
-            if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return // Push items to file queue
-            ;[...files].map((item) => {
-                store.commit('ADD_FILES_TO_QUEUE', {
+            if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) {
+                return
+            }
+
+            // Push items to file queue
+            [...files].map((item) => {
+                store.dispatch('pushFileToTheUploadQueue', {
                     parent_id: store.getters.currentFolder ? store.getters.currentFolder.data.id : '',
                     file: item,
                     path: '/' + item.webkitRelativePath,
                 })
             })
-
-            // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal === 0) {
-                this.$handleUploading(store.getters.fileQueue[0])
-            }
-
-            // Increase total files in upload bar
-            store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
         }
 
         Vue.prototype.$uploadDraggedFolderOrFile = async function (files, parent_id) {
@@ -209,46 +207,12 @@ const FunctionHelpers = {
                 }
 
                 // Push file to the upload queue
-                if (file.name !== '.DS_Store') {
-                    store.commit('ADD_FILES_TO_QUEUE', {
-                        parent_id: parent_id || '',
-                        path: filePath,
-                        file: file,
-                    })
-                }
-            })
-
-            // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal === 0) {
-                this.$handleUploading(store.getters.fileQueue[0])
-            }
-
-            // Increase total files in upload bar
-            store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
-        }
-
-        Vue.prototype.$uploadDraggedFiles = async function (event, parent_id) {
-            // Show alert message when upload is disabled
-            if (store.getters.user && !store.getters.user.data.meta.restrictions.canUpload) {
-                Vue.prototype.$temporarilyDisabledUpload()
-
-                return
-            }
-
-            // Prevent submit empty files
-            if (event.dataTransfer.items.length === 0) return // Push items to file queue
-            ;[...event.dataTransfer.items].map((item) => {
-                store.commit('ADD_FILES_TO_QUEUE', {
+                store.dispatch('pushFileToTheUploadQueue', {
                     parent_id: parent_id || '',
-                    file: item.getAsFile(),
+                    path: filePath,
+                    file: file,
                 })
             })
-
-            // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal == 0) this.$handleUploading(store.getters.fileQueue[0])
-
-            // Increase total files in upload bar
-            store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', [...event.dataTransfer.items].length)
         }
 
         Vue.prototype.$handleUploading = async function (item) {
