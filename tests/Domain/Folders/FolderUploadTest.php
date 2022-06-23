@@ -53,6 +53,29 @@ class FolderUploadTest extends TestCase
             ->hasSettings()
             ->create();
 
+        $otherUser = User::factory()
+            ->hasSettings()
+            ->create();
+
+        // Make same folders for other user
+        Folder::factory()
+            ->create([
+                'name'    => 'level_1',
+                'user_id' => $otherUser->id,
+            ]);
+
+        Folder::factory()
+            ->create([
+                'name'    => 'level_2',
+                'user_id' => $otherUser->id,
+            ]);
+
+        Folder::factory()
+            ->create([
+                'name'    => 'level_3',
+                'user_id' => $otherUser->id,
+            ]);
+
         $file = UploadedFile::fake()
             ->create('fake-file_1.pdf', 120000, 'application/pdf');
 
@@ -78,9 +101,16 @@ class FolderUploadTest extends TestCase
 
         $file = File::first();
 
-        $level_1 = Folder::where('name', 'level_1')->first();
-        $level_2 = Folder::where('name', 'level_2')->first();
-        $level_3 = Folder::where('name', 'level_3')->first();
+        // Get created folders by upload
+        $level_1 = Folder::where('name', 'level_1')
+            ->where('user_id', $user->id)
+            ->first();
+        $level_2 = Folder::where('name', 'level_2')
+            ->where('user_id', $user->id)
+            ->first();
+        $level_3 = Folder::where('name', 'level_3')
+            ->where('user_id', $user->id)
+            ->first();
 
         $this->assertEquals(null, $level_1->parent_id);
         $this->assertEquals($level_2->parent_id, $level_1->id);
@@ -88,7 +118,7 @@ class FolderUploadTest extends TestCase
 
         $this->assertEquals($level_3->id, $file->parent_id);
 
-        $this->assertDatabaseCount('folders', 3);
+        $this->assertDatabaseCount('folders', 6);
     }
 
     /**
