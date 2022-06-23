@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "18240960111d643ea5d9d799fdb93001",
+    "content-hash": "a92e9350b2f10161aaed976505d7c360",
     "packages": [
         {
             "name": "amphp/amp",
@@ -280,16 +280,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.228.0",
+            "version": "3.228.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "4ff51d01da43aa3bd36eef921a9cd4e0ff843fab"
+                "reference": "53b7f43945b19bb0700c75d4c5f130055096e817"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/4ff51d01da43aa3bd36eef921a9cd4e0ff843fab",
-                "reference": "4ff51d01da43aa3bd36eef921a9cd4e0ff843fab",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/53b7f43945b19bb0700c75d4c5f130055096e817",
+                "reference": "53b7f43945b19bb0700c75d4c5f130055096e817",
                 "shasum": ""
             },
             "require": {
@@ -365,9 +365,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.228.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.228.1"
             },
-            "time": "2022-06-21T18:13:25+00:00"
+            "time": "2022-06-22T18:16:48+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -4501,11 +4501,11 @@
         },
         {
             "name": "makingcg/subscription",
-            "version": "dev-master",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
-                "url": "packages/subscription",
-                "reference": "1e053dd09fe34542ab2ac6dd122db634b3123166"
+                "url": "../../PhpstormProjects/subscription",
+                "reference": "973da45512a2703620ff4bca7ee792326033c1cf"
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^3.6.0",
