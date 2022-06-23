@@ -1,5 +1,5 @@
 ## Version 2.2.0.9
-#### Release date: 22. Jun 2022
+#### Release date: 23. Jun 2022
 - Added spinner when pdf is loading
 - Set sandbox/live mode in PayPal key configuration setup form
 - Fixed issue when after deleting user, the related subscription wasn't deleted
