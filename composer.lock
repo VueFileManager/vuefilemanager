@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6c5bd6b425c483acb2c29e9cb4794fdf",
+    "content-hash": "05544f92a4ec73284d9a0042968129a9",
     "packages": [
         {
             "name": "amphp/amp",
@@ -4562,17 +4562,11 @@
         },
         {
             "name": "makingcg/subscription",
-            "version": "dev-main",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/gvidas/subcription.git",
-                "reference": "f1777b8ecc8bdf7dac813ff33876f6edb7df9b7b"
-            },
+            "version": "dev-master",
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gvidas/subcription/zipball/f1777b8ecc8bdf7dac813ff33876f6edb7df9b7b",
-                "reference": "f1777b8ecc8bdf7dac813ff33876f6edb7df9b7b",
-                "shasum": ""
+                "type": "path",
+                "url": "packages/subscription",
+                "reference": "16c29a065079db3bcbe51eb9c1b720c48d9dd940"
             },
             "require": {
                 "friendsofphp/php-cs-fixer": "^3.6.0",
@@ -4594,7 +4588,6 @@
                 "phpunit/phpunit": "^9.5.16",
                 "spatie/laravel-ray": "^1.29.4"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "laravel": {
@@ -4607,18 +4600,39 @@
                 }
             },
             "autoload": {
+                "psr-4": {
+                    "VueFileManager\\Subscription\\": "src",
+                    "VueFileManager\\Subscription\\Database\\Factories\\": "database/factories"
+                },
                 "files": [
                     "src/Support/helpers.php",
                     "src/Support/PayPalHelpers.php",
                     "src/Support/PaystackHelpers.php",
                     "src/Support/StripeHelpers.php"
-                ],
+                ]
+            },
+            "autoload-dev": {
                 "psr-4": {
-                    "VueFileManager\\Subscription\\": "src",
-                    "VueFileManager\\Subscription\\Database\\Factories\\": "database/factories"
+                    "App\\": "src/App/",
+                    "Domain\\": "src/Domain/",
+                    "Support\\": "src/Support/",
+                    "Tests\\": "tests"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "scripts": {
+                "psalm": [
+                    "vendor/bin/psalm"
+                ],
+                "format": [
+                    "vendor/bin/php-cs-fixer fix --allow-risky=yes"
+                ],
+                "test": [
+                    "./vendor/bin/testbench package:test --parallel --no-coverage"
+                ],
+                "test-coverage": [
+                    "vendor/bin/phpunit --coverage-html coverage"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -4636,11 +4650,10 @@
                 "laravel",
                 "subscription"
             ],
-            "support": {
-                "issues": "https://github.com/gvidas/subcription/issues",
-                "source": "https://github.com/gvidas/subcription/tree/main"
-            },
-            "time": "2022-04-03T12:11:09+00:00"
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "matthewbdaly/laravel-azure-storage",
@@ -14888,9 +14901,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "makingcg/subscription": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

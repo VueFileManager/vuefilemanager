@@ -29,7 +29,7 @@ class TestPayPalConnectionAction
             $data = CreateFixedPlanData::fromArray([
                 'type'        => 'fixed',
                 'name'        => 'Test Plan',
-                'description' => null,
+                'description' => 'Test plan description...',
                 'features'    => [
                     'max_storage_amount' => 200,
                     'max_team_members'   => 20,
