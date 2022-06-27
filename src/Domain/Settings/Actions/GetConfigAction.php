@@ -200,6 +200,7 @@ class GetConfigAction
             'allowHomepage'       => intval($settings->allow_homepage ?? 1),
             'teamsDefaultMembers' => intval($settings->default_max_team_member ?? 10),
             'legal'               => $pages ? json_encode($pages) : 'undefined',
+            'google_analytics'    => optional($settings)->google_analytics ?? null,
         ];
     }
 }

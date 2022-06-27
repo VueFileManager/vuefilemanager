@@ -159,7 +159,7 @@
         <script src="{{ asset('js/main.js') }}?v={{ get_version() }}"></script>
 
         {{--Global site tag (gtag.js) - Google Analytics--}}
-        @if(isset($config->google_analytics) && $config->google_analytics)
+        @if($config->google_analytics)
             <script async src="https://www.googletagmanager.com/gtag/js?id={{ $config->google_analytics }}"></script>
             <script>
                 window.dataLayer = window.dataLayer || [];
