@@ -33,7 +33,7 @@ class DownloadFileAction
             'ResponseContentType'        => Storage::mimeType($filePath),
             'ResponseContentLength'      => Storage::size($filePath),
             'ResponseContentRange'       => 'bytes 0-600/' . Storage::size($filePath),
-            'ResponseContentDisposition' => "attachment; filename=$fileName",
+            'ResponseContentDisposition' => 'attachment; filename="' . $fileName . '"',
         ];
 
         // If s3 redirect to temporary download url

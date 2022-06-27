@@ -1,3 +1,8 @@
+## Version 2.2.0.10
+#### Release date: 27. Jun 2022
+- Fixed issue with downloading certain file types when you are using Backblaze storage driver
+- Fixed issue when Google Analytics doesn't record visitors
+
 ## Version 2.2.0.9
 #### Release date: 23. Jun 2022
 - Added spinner when pdf is loading
