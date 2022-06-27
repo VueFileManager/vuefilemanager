@@ -1,6 +1,6 @@
 <template>
     <div
-		class="mb-6 flex cursor-pointer items-center rounded-xl p-5 shadow-card"
+		class="mb-6 flex items-center rounded-xl p-5 shadow-card"
 		:class="{
 			'dark:bg-green-700/30 bg-green-200': color === 'green',
 			'dark:bg-rose-700/30 bg-rose-200': color === 'rose',
@@ -25,7 +25,7 @@
 			}"
 		/>
         <p
-			class="text-sm text-green-700 dark:text-green-500"
+			class="text-sm"
 			:class="{
 				'text-green-700 dark:text-green-500': color === 'green',
 				'text-rose-700 dark:text-rose-500': color === 'rose',

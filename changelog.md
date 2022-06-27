@@ -1,4 +1,7 @@
-## Version 2.2.0.10
+## Version 2.2.0.11
+#### Release date: 27. Jun 2022
+- Added hint to set cron command in dashboard panel when cron is not set correctly
+
 #### Release date: 27. Jun 2022
 - Fixed issue with downloading certain file types when you are using Backblaze storage driver
 - Fixed issue when Google Analytics doesn't record visitors

@@ -38,7 +38,13 @@ class GetDashboardDataController extends Controller
                 ],
             ],
             'app'   => [
-                'isRunningCron'             => isRunningCron(),
+                'cron' => [
+                    'isRunning' => isRunningCron(),
+                    'command'   => [
+                        'shared' => PHP_BINARY . ' ' . base_path() . '/artisan schedule:run >> /dev/null 2>&1',
+                        'vps'    => '* * * * *  cd ' . base_path() . ' && ' . PHP_BINARY . ' artisan schedule:run >> /dev/null 2>&1',
+                    ],
+                ],
                 'license'                   => get_settings('license'),
                 'version'                   => config('vuefilemanager.version'),
                 'earnings'                  => format_currency($totalEarnings, 'USD'), // todo: refactor currency to global setup or plan currency
