@@ -50,6 +50,6 @@ class DefaultRestrictionsEngine implements RestrictionsEngine
 
     public function getRestrictionReason(User $user): string|null
     {
-        // TODO: Implement getRestrictionReason() method.
+        return null;
     }
 }
