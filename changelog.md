@@ -1,4 +1,7 @@
-## Version 2.2.0.11
+## Version 2.2.0.12
+#### Release date: 28. Jun 2022
+- Fixed paystack transaction issue
+
 #### Release date: 27. Jun 2022
 - Added hint to set cron command in dashboard panel when cron is not set correctly
 
