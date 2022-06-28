@@ -45,15 +45,16 @@
         "vimeo/psalm": "^4.19.0"
     },
     "require-dev": {
+        "ext-json": "*",
         "barryvdh/laravel-ide-helper": "^2.12.1",
-        "friendsofphp/php-cs-fixer": "^3.5.0",
-        "spatie/laravel-ignition": "^1.0",
-        "nunomaduro/larastan": "^0.7.15",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.5.16",
-        "mockery/mockery": "^1.5.0",
         "fakerphp/faker": "^1.19.0",
-        "ext-json": "*"
+        "friendsofphp/php-cs-fixer": "^3.5.0",
+        "laravel/sail": "^1.15",
+        "mockery/mockery": "^1.5.0",
+        "nunomaduro/collision": "^6.1",
+        "nunomaduro/larastan": "^0.7.15",
+        "phpunit/phpunit": "^9.5.16",
+        "spatie/laravel-ignition": "^1.0"
     },
     "repositories": {
         "makingcg/subscription": {
