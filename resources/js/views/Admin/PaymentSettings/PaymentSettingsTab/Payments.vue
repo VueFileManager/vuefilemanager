@@ -82,8 +82,8 @@
             </FormLabel>
 
             <AppInputSwitch
-                :title="$t('Allow limiting max usage before users will be forced to increase balance in first month of account existence')"
-                :description="$t('allow_registration_bonus_description')"
+                :title="$t('allow_limit_usage_in_new_accounts')"
+                :description="$t('limit_usage_description_for_restrictions')"
             >
                 <SwitchInput
                     @input="$updateText('/admin/settings', 'limit_usage_in_new_accounts', settings.limitUsageInNewAccounts)"
@@ -106,8 +106,8 @@
             </AppInputText>
 
             <AppInputSwitch
-                :title="$t('Force users to increase balance when usage is bigger than their current balance')"
-                :description="$t('allow_registration_bonus_description')"
+                :title="$t('allow_limit_usage_bigger_than_balance')"
+                :description="$t('limit_usage_description_for_restrictions')"
 				:is-last="true"
             >
                 <SwitchInput

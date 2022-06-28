@@ -280,6 +280,9 @@ return [
         'usage_bigger_than_balance_3_subject'         => '‼️ Uh-oh! Your functionality was restricted. Please increase your funds for your account balance to cover your usage',
         'usage_bigger_than_balance_3_line'            => 'We are sorry for the inconvenience with using our service. To continue to using our service, please increase your funds for your account balance to cover your usage and your functionality will be allowed as soon as possible.',
         'dunning_notification_description'            => 'Please resolve your billing as soon as possible. Your functions can be restricted.',
+        'allow_limit_usage_in_new_accounts'           => 'Allow limiting max usage before users will be forced to increase balance in first month of account existence',
+        'allow_limit_usage_bigger_than_balance'       => 'Force users to increase balance when usage is bigger than their current balance',
+        'limit_usage_description_for_restrictions'    => 'If user does not increase his balance or store his credit card, after third notification user account functionality will be restricted.',
     ],
     'regular'  => [
         'type'                                           => 'Type',
