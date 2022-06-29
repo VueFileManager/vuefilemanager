@@ -24,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
+        // TODO: temporary
+        config()->set('session.lifetime', 15120);
+
         try {
             $app_locale = get_settings('language') ?? 'en';
         } catch (\PDOException $e) {

@@ -22,6 +22,15 @@ class UpgradingVersionsController
     ) {
     }
 
+    public function upgrade_to_2_2_0_13(): void
+    {
+        setEnvironmentValue([
+            'SESSION_LIFETIME' => 15120,
+        ]);
+
+        Artisan::call('config:clear');
+    }
+
     public function upgrade_to_2_2_0(): void
     {
         setEnvironmentValue([

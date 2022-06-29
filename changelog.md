@@ -1,4 +1,8 @@
-## Version 2.2.0.12
+## Version 2.2.0.13
+#### Release date: 29. Jun 2022
+- Extended login time up to 3 months
+
+- ## Version 2.2.0.12
 #### Release date: 28. Jun 2022
 - Fixed paystack transaction issue
 
