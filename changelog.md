@@ -1,3 +1,7 @@
+## Version 2.2.0.14
+#### Release date: 29. Jun 2022
+- Fixed reCaptcha for the contact form
+
 ## Version 2.2.0.13
 #### Release date: 29. Jun 2022
 - Extended login time up to 3 months

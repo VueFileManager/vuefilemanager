@@ -121,11 +121,10 @@ export default {
             this.isLoading = true
 
             // Get ReCaptcha token
-            if (config.allowedRecaptcha) {
-                this.register.reCaptcha = await this.$reCaptchaToken('register').then((response) => {
-                    return response
-                })
-            }
+			if (this.config.allowedRecaptcha) {
+				this.contact.reCaptcha = await this.$reCaptchaToken('register')
+					.then((response) => response)
+			}
 
             // Send request to get user token
             axios
