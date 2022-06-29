@@ -179,13 +179,13 @@ export default {
         isFolder() {
             return this.entry.data.type === 'folder'
         },
-        timeStamp() {
-            return this.entry.data.attributes.deleted_at
-                ? this.$t('entry_thumbnail.deleted_at', {
-                      time: this.entry.data.attributes.deleted_at,
-                  })
-                : this.entry.data.attributes.created_at
-        },
+		timeStamp() {
+			return this.entry.data.attributes.deleted_at
+				? this.$t('item_thumbnail.deleted_at', {
+					time: this.entry.data.attributes.deleted_at,
+				})
+				: this.entry.data.attributes.created_at
+		},
         canEditName() {
             return (
                 !this.$isMobile() &&

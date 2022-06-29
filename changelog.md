@@ -1,6 +1,7 @@
 ## Version 2.2.0.13
 #### Release date: 29. Jun 2022
 - Extended login time up to 3 months
+- Fixed deleted at language string in grid view browsed in trash section
 
 - ## Version 2.2.0.12
 #### Release date: 28. Jun 2022
