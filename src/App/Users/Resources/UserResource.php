@@ -69,6 +69,7 @@ class UserResource extends JsonResource
                         'canCreateFolder'      => $this->canCreateFolder(),
                         'canCreateTeamFolder'  => $this->canCreateTeamFolder(),
                         'canInviteTeamMembers' => $this->canInviteTeamMembers(),
+                        'reason'               => $this->getRestrictionReason(),
                     ],
                     $this->mergeWhen($isFixedSubscription, fn () => [
                         'limitations' => $this->limitations->summary(),

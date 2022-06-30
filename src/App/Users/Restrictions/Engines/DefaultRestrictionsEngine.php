@@ -47,4 +47,9 @@ class DefaultRestrictionsEngine implements RestrictionsEngine
     {
         return true;
     }
+
+    public function getRestrictionReason(User $user): string|null
+    {
+        return null;
+    }
 }

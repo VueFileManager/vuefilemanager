@@ -1,5 +1,4 @@
 <?php
-
 namespace Tests\Domain\Admin;
 
 use Storage;
@@ -46,7 +45,8 @@ class AdminTest extends TestCase
             ->create(['role' => 'admin']);
 
         $users->each(
-            fn($user) => $this
+            fn ($user) =>
+            $this
                 ->actingAs($admin)
                 ->getJson('/api/admin/users?page=1')
                 ->assertStatus(200)
@@ -170,7 +170,7 @@ class AdminTest extends TestCase
             ])->assertStatus(200);
 
         $this->assertDatabaseHas('user_settings', [
-            'user_id' => $user->id,
+            'user_id'            => $user->id,
         ])->assertDatabaseHas('user_limitations', [
             'max_storage_amount' => 10,
         ]);
@@ -215,13 +215,13 @@ class AdminTest extends TestCase
         $this
             ->actingAs($admin)
             ->postJson('/api/admin/users', [
-                'name'                  => 'John Doe',
-                'role'                  => 'user',
-                'email'                 => 'john@doe.com',
-                'password'              => 'VerySecretPassword',
-                'max_storage_amount'    => 15,
-                'password_confirmation' => 'VerySecretPassword',
-                'avatar'                => $avatar,
+                'name'                    => 'John Doe',
+                'role'                    => 'user',
+                'email'                   => 'john@doe.com',
+                'password'                => 'VerySecretPassword',
+                'max_storage_amount'      => 15,
+                'password_confirmation'   => 'VerySecretPassword',
+                'avatar'                  => $avatar,
             ])->assertStatus(201);
 
         $this->assertDatabaseHas('users', [
@@ -292,10 +292,10 @@ class AdminTest extends TestCase
                     ->create("fake-file-$index.pdf", 1200, 'application/pdf');
 
                 $this->postJson('/api/upload/chunks', [
-                    'name'          => $file->name,
-                    'extension'     => 'pdf',
-                    'chunk'         => $file,
-                    'is_last_chunk' => 1,
+                    'name'            => $file->name,
+                    'extension'       => 'pdf',
+                    'chunk'           => $file,
+                    'is_last_chunk'   => 1,
                 ])->assertStatus(201);
             });
 
@@ -316,6 +316,8 @@ class AdminTest extends TestCase
         // Create and login admin
         $admin = User::factory()
             ->create(['role' => 'admin']);
+
+        Sanctum::actingAs($admin);
 
         // Delete user
         $this
@@ -359,6 +361,6 @@ class AdminTest extends TestCase
             });
 
         Storage::disk('local')
-            ->assertMissing($user->settings->avatar);
+            ->assertMissing($user->settings->getRawOriginal('avatar'));
     }
 }

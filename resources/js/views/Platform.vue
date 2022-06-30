@@ -111,7 +111,7 @@ export default {
         DragUI,
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'isLimitedUser', 'config', 'currentFolder']),
+        ...mapGetters(['isVisibleSidebar', 'config', 'currentFolder']),
     },
     data() {
         return {
