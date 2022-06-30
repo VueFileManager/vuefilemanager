@@ -24,21 +24,24 @@ class DunningEmailToCoverAccountUsageNotification extends Notification implement
     public function toMail(): MailMessage
     {
         $message = $this->dunningMessages();
+        $index = $this->dunning->sequence - 1;
 
         return (new MailMessage)
-            ->subject($message[$this->dunning->type][$this->dunning->sequence]['subject'])
+            ->subject($message[$this->dunning->type][$index]['subject'])
             ->greeting(__('Hi there'))
-            ->line($message[$this->dunning->type][$this->dunning->sequence]['line'])
+            ->line($message[$this->dunning->type][$index]['line'])
+            ->action(__t('show_billing'), url('/user/settings/billing'))
             ->salutation(__('Regards'));
     }
 
     public function toArray(): array
     {
         $message = $this->dunningMessages();
+        $index = $this->dunning->sequence - 1;
 
         return [
             'category'    => 'payment-alert',
-            'title'       => $message[$this->dunning->type][$this->dunning->sequence]['subject'],
+            'title'       => $message[$this->dunning->type][$index]['subject'],
             'description' => __t('dunning_notification_description'),
             'action'      => [
                 'type'   => 'route',
