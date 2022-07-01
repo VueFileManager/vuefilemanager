@@ -2,6 +2,7 @@
 namespace App\Users\Restrictions\Engines;
 
 use App\Users\Models\User;
+use Illuminate\Support\Facades\Schema;
 use App\Users\Restrictions\RestrictionsEngine;
 
 class MeteredBillingRestrictionsEngine implements RestrictionsEngine
@@ -84,7 +85,11 @@ class MeteredBillingRestrictionsEngine implements RestrictionsEngine
 
     private function getDunningSequenceCount(User $user): int
     {
-        return cache()->remember("dunning-count.$user->id", 3600, fn () => $user?->dunning->sequence ?? 0);
+        if (Schema::hasTable('dunnings')) {
+            return cache()->remember("dunning-count.$user->id", 3600, fn () => $user?->dunning->sequence ?? 0);
+        }
+
+        return 0;
     }
 
     private function checkFailedPayments(User $user): bool

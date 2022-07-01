@@ -22,6 +22,11 @@ class UpgradingVersionsController
     ) {
     }
 
+    public function upgrade_to_2_2_1(): void
+    {
+        ($this->upgradeDatabase)();
+    }
+
     public function upgrade_to_2_2_0_13(): void
     {
         setEnvironmentValue([
