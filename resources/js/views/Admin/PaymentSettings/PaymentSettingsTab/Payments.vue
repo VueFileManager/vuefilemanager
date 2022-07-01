@@ -78,7 +78,7 @@
 		<!--Fraud Prevention Mechanism Rules-->
         <div v-if="config.subscriptionType === 'metered' && allowedPayments" class="card shadow-card">
             <FormLabel icon="shield">
-                {{ $t('Fraud Prevention Mechanism Rules') }}
+                {{ $t('Usage Restriction Rules for User Accounts') }}
             </FormLabel>
 
             <AppInputSwitch

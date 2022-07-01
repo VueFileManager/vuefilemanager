@@ -1,4 +1,9 @@
-## Version 2.2.0.14
+## Version 2.2.1
+#### Release date: 1. July 2022
+### New Usage Restriction Rules for User Accounts for Metered Billing
+- Allow limiting max usage before users will be forced to increase balance in first month of account existence
+- Force users to increase balance when usage is bigger than their current balance
+
 #### Release date: 29. Jun 2022
 - Fixed reCaptcha for the contact form
 
