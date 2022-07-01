@@ -49,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
 
     private function setSubscriptionConfig(): void
     {
-        if (app()->runningUnitTests()) {
+        if (app()->runningUnitTests() || app()->runningInConsole()) {
             return;
         }
 
