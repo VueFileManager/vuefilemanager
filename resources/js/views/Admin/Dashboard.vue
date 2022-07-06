@@ -14,8 +14,8 @@
             <!--Cron Alert-->
 			<AlertBox v-if="!data.app.cron.isRunning && !config.isDev" color="rose">
 				<p class="text-sm text-rose-700 dark:text-rose-500">We detect your cron jobs probably doesn't work correctly, please check it, you need it for running app correctly. If you set your cron job, please get back one minute later.</p>
-				<p class="text-sm text-rose-700 dark:text-rose-500 mt-4 font-bold">Command for Shared Web Hosting: <br/> {{ data.app.cron.command.shared }}</p>
-				<p class="text-sm text-rose-700 dark:text-rose-500 mt-4 font-bold">Command for VPS Crontab: <br/> {{ data.app.cron.command.vps }}</p>
+				<p class="text-sm text-rose-700 dark:text-rose-500 mt-4 font-bold">Command for Shared Web Hosting (Cpanel, Plesk, etc...): <br/> {{ data.app.cron.command.shared }}</p>
+				<p class="text-sm text-rose-700 dark:text-rose-500 mt-4 font-bold">Command for crontab: <br/> {{ data.app.cron.command.vps }}</p>
 			</AlertBox>
 
             <!--Metric widgets-->
