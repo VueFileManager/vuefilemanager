@@ -1,6 +1,7 @@
 <?php
 namespace App\Providers;
 
+use PDOException;
 use Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -53,19 +54,22 @@ class AppServiceProvider extends ServiceProvider
             return;
         }
 
-        $settings = getAllSettings();
+        // Try to set settings for fraud prevention mechanism
+        try {
+            $settings = getAllSettings();
 
-        config([
-            'subscription.metered_billing.fraud_prevention_mechanism' => [
-                'usage_bigger_than_balance'   => [
-                    'active' => isset($settings->usage_bigger_than_balance) ? intval($settings->usage_bigger_than_balance) : true,
-                ],
-                'limit_usage_in_new_accounts' => [
-                    'active' => isset($settings->limit_usage_in_new_accounts) ? intval($settings->limit_usage_in_new_accounts) : true,
-                    'amount' => isset($settings->limit_usage_in_new_accounts_amount) ? intval($settings->limit_usage_in_new_accounts_amount) : 20,
-                ],
-            ]
-        ]);
+            config([
+                'subscription.metered_billing.fraud_prevention_mechanism' => [
+                    'usage_bigger_than_balance'   => [
+                        'active' => isset($settings->usage_bigger_than_balance) ? intval($settings->usage_bigger_than_balance) : true,
+                    ],
+                    'limit_usage_in_new_accounts' => [
+                        'active' => isset($settings->limit_usage_in_new_accounts) ? intval($settings->limit_usage_in_new_accounts) : true,
+                        'amount' => isset($settings->limit_usage_in_new_accounts_amount) ? intval($settings->limit_usage_in_new_accounts_amount) : 20,
+                    ],
+                ]
+            ]);
+        } catch (PDOException $e) {}
     }
 
     private function setLocale(): void
