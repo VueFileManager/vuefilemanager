@@ -178,6 +178,7 @@ class UserAccountTest extends TestCase
                             'canDownload'          => true,
                             'canInviteTeamMembers' => true,
                             'canUpload'            => true,
+                            'reason' => null,
                         ],
                     ],
                     'relationships' => [
@@ -235,7 +236,7 @@ class UserAccountTest extends TestCase
             ->getJson($verificationUrl)
             ->assertRedirect('successfully-verified');
 
-        $this->assertNotNull(User::find($user->id)->get('email_verified_at'));
+        $this->assertNotNull(User::find($user->id)->email_verified_at);
     }
 
     /**

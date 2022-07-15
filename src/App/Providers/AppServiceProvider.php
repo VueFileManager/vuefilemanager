@@ -75,15 +75,15 @@ class AppServiceProvider extends ServiceProvider
     private function setLocale(): void
     {
         try {
-            $app_locale = get_settings('language') ?? 'en';
+            $appLocale = get_settings('language') ?? 'en';
         } catch (\PDOException $e) {
-            $app_locale = 'en';
+            $appLocale = 'en';
         }
 
         // Set locale for application
-        app()->setLocale($app_locale);
+        app()->setLocale($appLocale);
 
         // Set locale for carbon dates
-        setlocale(LC_TIME, $app_locale . '_' . mb_strtoupper($app_locale));
+        setlocale(LC_TIME, $appLocale . '_' . mb_strtoupper($appLocale));
     }
 }

@@ -19,25 +19,27 @@ class UpdateSettingValueController extends Controller
             'message' => 'The value was successfully updated',
         ];
 
+        $inputName = $request->input('name');
+
         // Abort in demo mode
         if (is_demo()) {
             return response()->json($message);
         }
 
         // Store image if exist
-        if ($request->hasFile($request->input('name'))) {
+        if ($request->hasFile($inputName)) {
             // Find and update image path
             Setting::updateOrCreate([
-                'name' => $request->input('name'),
+                'name' => $inputName,
             ], [
-                'value' => store_system_image($request, $request->input('name')),
+                'value' => store_system_image($request, $inputName),
             ]);
 
             return response()->json($message);
         }
 
         // Set paypal live option
-        if ($request->input('name') === 'paypal_live') {
+        if ($inputName === 'paypal_live') {
             setEnvironmentValue([
                 'PAYPAL_IS_LIVE' => $request->input('value') ? 'true' : 'false',
             ]);
@@ -51,9 +53,14 @@ class UpdateSettingValueController extends Controller
             return response()->json($message);
         }
 
+        // Clear language cache
+        if ($inputName === 'language') {
+            cache()->forget('language');
+        }
+
         // Find and update variable
         Setting::updateOrCreate(
-            ['name' => $request->input('name')],
+            ['name' => $inputName],
             ['value' => $request->input('value')]
         );
 

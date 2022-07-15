@@ -92,6 +92,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return UserFactory::new();
     }
 
+    public function preferredLocale(): string
+    {
+        return get_settings('language') ?? 'en';
+    }
+
     /**
      * Get user used storage details
      */

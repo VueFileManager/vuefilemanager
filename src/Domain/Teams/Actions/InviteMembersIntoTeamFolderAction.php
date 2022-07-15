@@ -36,8 +36,13 @@ class InviteMembersIntoTeamFolderAction
 
                 // Invite guest
                 if (! $user) {
+                    // Get default app locale
+                    $appLocale = get_settings('language') ?? 'en';
+
                     Notification::route('mail', $member['email'])
-                        ->notify(new InvitationIntoTeamFolder($folder, $invitation));
+                        ->notify(
+                            (new InvitationIntoTeamFolder($folder, $invitation))->locale($appLocale)
+                        );
                 }
             });
     }

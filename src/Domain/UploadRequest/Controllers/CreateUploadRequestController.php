@@ -44,8 +44,13 @@ class CreateUploadRequestController extends Controller
             if ($user) {
                 $user->notify(new UploadRequestNotification($uploadRequest));
             } else {
+                // Get default app locale
+                $appLocale = get_settings('language') ?? 'en';
+
                 Notification::route('mail', $uploadRequest->email)
-                    ->notify(new UploadRequestNotification($uploadRequest));
+                    ->notify(
+                        (new UploadRequestNotification($uploadRequest))->locale($appLocale)
+                    );
             }
         }
 
