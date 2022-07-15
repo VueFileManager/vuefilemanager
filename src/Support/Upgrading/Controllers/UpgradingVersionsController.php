@@ -22,6 +22,15 @@ class UpgradingVersionsController
     ) {
     }
 
+    public function upgrade_to_2_2_2(): void
+    {
+        ($this->upgradeDatabase)();
+
+        ($this->updateLanguageStrings)([
+            'preview_sorting.sort_alphabet' => 'Sort By Alphabet',
+        ]);
+    }
+
     public function upgrade_to_2_2_1(): void
     {
         ($this->upgradeDatabase)();
