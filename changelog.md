@@ -1,3 +1,8 @@
+## Version 2.2.2
+#### Release date: 16. July 2022
+- Fixed issue when email wasn't sent in active app language
+- Fixed issue with subscription module loading
+
 ## Version 2.2.1
 #### Release date: 1. July 2022
 ### New Usage Restriction Rules for User Accounts for Metered Billing
