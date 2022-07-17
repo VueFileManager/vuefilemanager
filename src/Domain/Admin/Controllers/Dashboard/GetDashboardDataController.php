@@ -21,6 +21,7 @@ class GetDashboardDataController extends Controller
             ->where('type', 'charge')
             ->sum('amount');
 
+        // TODO: PHP_BINDIR constant if PHP_BINARY is not available
         return response()->json([
             'users' => [
                 'total'             => User::count(),
