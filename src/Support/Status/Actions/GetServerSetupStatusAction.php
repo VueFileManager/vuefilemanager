@@ -9,7 +9,7 @@ class GetServerSetupStatusAction
         $upload_max_filesize = 128;
         $post_max_size = 128;
         $memory_limit = 512;
-        $max_execution_time = 180;
+        $max_execution_time = 120;
         $php_version = '8.1';
 
         // Writable
