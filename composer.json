@@ -29,7 +29,7 @@
         "laravel/ui": "^3.4.2",
         "league/flysystem-aws-s3-v3": "^3.0.9",
         "league/flysystem-ftp": "^3.0",
-        "vuefilemanager/subscription": "^1.0",
+        "makingcg/saas-billing": "^1.0",
         "matthewbdaly/laravel-azure-storage": "^2.0",
         "pusher/pusher-php-server": "^7.0",
         "spatie/data-transfer-object": "^3.7.3",
@@ -55,6 +55,12 @@
         "fakerphp/faker": "^1.19.0",
         "ext-json": "*"
     },
+    "repositories":[
+        {
+            "type": "github",
+            "url": "https://github.com/makingcg/saas-billing.git"
+        }
+    ],
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",

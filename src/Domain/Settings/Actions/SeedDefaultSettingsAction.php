@@ -14,7 +14,7 @@ class SeedDefaultSettingsAction
     ): void {
         // Set default settings
         collect(
-            config('content.content.' . strtolower($license))
+            config('content.content')
         )->each(fn ($content) => Setting::updateOrCreate([
             'name' => $content['name'],
         ], [
