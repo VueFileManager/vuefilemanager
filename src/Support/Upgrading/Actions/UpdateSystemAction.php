@@ -57,19 +57,13 @@ class UpdateSystemAction extends UpgradingVersionsController
 
     private function shouldUpdateTranslations(): bool
     {
-        $default_translations = [
-            'extended' => collect([
-                config('language-translations.extended'),
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-            'regular'  => collect([
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-        ];
+        $default_translations = collect([
+            config('language-translations.extended'),
+            config('language-translations.regular'),
+            config('custom-language-translations'),
+        ])->collapse();
 
-        $originalTranslationCount = count($default_translations[get_settings('license')]);
+        $originalTranslationCount = count($default_translations);
 
         $activeTranslationsCount = DB::table('language_translations')
             ->where('lang', 'en')

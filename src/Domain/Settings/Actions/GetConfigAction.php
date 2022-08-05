@@ -94,7 +94,6 @@ class GetConfigAction
                 'locale'          => app()->getLocale(),
                 'isDev'           => is_dev() ? 1 : 0,
                 'isDemo'          => config('vuefilemanager.is_demo') ? 1 : 0,
-                'isSaaS'          => $settings && optional($settings)->license === 'extended' ? 1 : 0,
                 'isAuthenticated' => $isUser ? 1 : 0,
                 'installation'    => $setupStatus ?? 'initial',
                 'name'            => $settings->app_title ?? 'VueFileManager',

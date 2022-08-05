@@ -6,7 +6,6 @@ use DB;
 class SeedDefaultLanguageTranslationsAction
 {
     public function __invoke(
-        string $license,
         string $locale
     ): void {
         $translations = collect([

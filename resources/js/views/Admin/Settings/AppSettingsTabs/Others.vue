@@ -1,6 +1,22 @@
 <template>
     <PageTab :is-loading="isLoading">
 
+		<!-- Subscription -->
+        <div v-if="app" class="card shadow-card">
+            <FormLabel icon="credit-card">
+                {{ $t('subscription') }}
+            </FormLabel>
+
+            <AppInputText :description="$t('subscription_type_note')" :is-last="true" :title="$t('subscription_type')">
+                <SelectInput
+					:default="app.subscriptionType"
+					:options="subscriptionTypes"
+					:placeholder="$t('select_subscription_type')"
+					@change="subscriptionTypeChange"
+				/>
+            </AppInputText>
+        </div>
+
 		<div v-if="app" class="card shadow-card">
 			<FormLabel>
                 {{ $t('upload_settings') }}
@@ -217,63 +233,6 @@
 				/>
             </AppInputText>
         </div>
-
-		<!--Upgrade License-->
-		<div v-if="app && !config.isSaaS" class="card shadow-card">
-			<FormLabel icon="trending-up">
-				{{ $t('Upgrade your License') }}
-			</FormLabel>
-
-			<ValidationObserver
-				ref="upgradeLicense"
-				v-slot="{ invalid }"
-				class="mt-6"
-				tag="form"
-				@submit.prevent="upgradeLicense"
-			>
-				<ValidationProvider
-					v-slot="{ errors }"
-					mode="passive"
-					name="Purchase Code"
-					rules="required"
-					tag="div"
-				>
-					<AppInputText
-						:error="errors[0]"
-						:is-last="true"
-					>
-						<div class="space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
-							<input
-								v-model="purchaseCode"
-								:class="{ '!border-rose-600': errors[0] }"
-								:placeholder="$t('Paste your Purchase code here...')"
-								class="focus-border-theme input-dark"
-								type="text"
-							/>
-							<ButtonBase :loading="isLoadingUpgradingButton" button-style="theme" class="w-full sm:w-auto" type="submit">
-								{{ $t('Upgrade') }}
-							</ButtonBase>
-						</div>
-					</AppInputText>
-				</ValidationProvider>
-			</ValidationObserver>
-    	</div>
-
-		<!-- Subscription -->
-        <div v-if="app && config.isSaaS" class="card shadow-card">
-            <FormLabel icon="credit-card">
-                {{ $t('subscription') }}
-            </FormLabel>
-
-            <AppInputText :description="$t('subscription_type_note')" :is-last="true" :title="$t('subscription_type')">
-                <SelectInput
-					:default="app.subscriptionType"
-					:options="subscriptionTypes"
-					:placeholder="$t('select_subscription_type')"
-					@change="subscriptionTypeChange"
-				/>
-            </AppInputText>
-        </div>
     </PageTab>
 </template>
 
@@ -330,45 +289,6 @@ export default {
 		}
 	},
 	methods: {
-		async upgradeLicense() {
-			this.isLoadingUpgradingButton = true
-			// Validate fields
-			const isValid = await this.$refs.upgradeLicense.validate()
-
-			if (!isValid) return
-
-			axios.post('/api/admin/upgrade-license', {
-					purchaseCode: this.purchaseCode
-				})
-				.then((response) => {
-					this.$store.dispatch('getLanguageTranslations', this.config.locale)
-
-					this.$store.commit('REPLACE_CONFIG_VALUE', {
-						key: 'isSaaS',
-						value: true,
-					})
-
-					events.$emit('toaster', {
-						type: 'success',
-						message: this.$t('Your license was successfully upgraded'),
-					})
-				})
-				.catch((error) => {
-					if (error.response.status === 400) {
-						events.$emit('alert:open', {
-							title: this.$t('Purchase code is invalid or is not Extended License'),
-						})
-					} else {
-						events.$emit('alert:open', {
-							title: this.$t('popup_error.title'),
-							message: this.$t('popup_error.message'),
-						})
-					}
-				})
-				.finally(() => {
-					this.isLoadingUpgradingButton = false
-				})
-		},
 		subscriptionTypeChange(type) {
 			events.$emit('confirm:open', {
 				title: this.$t('subscription_type_change_warn'),

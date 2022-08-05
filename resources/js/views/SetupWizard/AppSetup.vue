@@ -194,7 +194,7 @@
                     </ValidationProvider>
 				</div>
 
-                <div v-if="isExtended" class="card text-left shadow-card">
+                <div class="card text-left shadow-card">
                     <FormLabel>Subscription</FormLabel>
 
                     <ValidationProvider
@@ -275,7 +275,6 @@ export default {
     data() {
         return {
             isLoading: false,
-            isExtended: undefined,
             app: {
                 color: '#00BC7E',
                 subscriptionType: undefined,
@@ -356,8 +355,6 @@ export default {
     },
     created() {
         this.$scrollTop()
-
-        this.isExtended = localStorage.getItem('license') === 'Extended'
 
         if (this.$root.$data.config.isSetupWizardDebug) {
             this.app.subscriptionType = 'metered'

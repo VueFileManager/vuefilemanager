@@ -114,7 +114,7 @@
                         {{ $t(row.data.attributes.role) }}
                     </ColorLabel>
                 </td>
-                <td class="px-3 md:px-1" v-if="config.isSaaS">
+                <td class="px-3 md:px-1" v-if="config.subscriptionType === 'fixed'">
                     <span class="text-sm font-bold">
                         {{ row.data.relationships.subscription ? $t('premium') : $t('free') }}
                     </span>

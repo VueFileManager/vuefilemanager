@@ -74,7 +74,6 @@
 			chunkSize: {{ $config->upload->chunkSize }},
 
 			isAuthenticated: {{ $config->app->isAuthenticated }},
-			isSaaS: {{ $config->app->isSaaS }},
 
 			isDev: {{ $config->app->isDev }},
 			isDemo: {{ $config->app->isDemo }},

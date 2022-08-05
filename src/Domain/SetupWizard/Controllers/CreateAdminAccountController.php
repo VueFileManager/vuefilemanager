@@ -80,7 +80,7 @@ class CreateAdminAccountController extends Controller
 
         // Set up application
         ($this->seedDefaultPages)();
-        ($this->seedDefaultSettingsAction)($request->input('license'));
+        ($this->seedDefaultSettingsAction)();
         ($this->seedDefaultLanguage)();
 
         return response('Registration was successful', 204);

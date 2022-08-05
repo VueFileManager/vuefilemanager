@@ -25,7 +25,7 @@ class SetupDevEnvironment extends Command
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'setup:dev {license=extended}';
+    protected $signature = 'setup:dev';
 
     /**
      * The console command description.
@@ -57,7 +57,7 @@ class SetupDevEnvironment extends Command
 
         $this->info('Storing default settings and content...');
         ($this->seedDefaultPages)();
-        ($this->seedDefaultSettings)($this->argument('license'));
+        ($this->seedDefaultSettings)();
         ($this->seedDefaultLanguage)();
         $this->store_default_settings();
 
@@ -1476,7 +1476,7 @@ class SetupDevEnvironment extends Command
             ],
             [
                 'name'  => 'license',
-                'value' => $this->argument('license'),
+                'value' => 'regular',
             ],
             [
                 'name'  => 'purchase_code',
@@ -1555,6 +1555,18 @@ class SetupDevEnvironment extends Command
             ->each(function ($file) {
                 Storage::putFileAs('system', storage_path("demo/app/$file"), $file, 'private');
             });
+
+        $choice = $this->choice('Choose subscription type', [
+            'metered' => 'Metered',
+            'fixed'   => 'Fixed',
+            'none'    => 'None',
+        ]);
+
+        Setting::updateOrCreate([
+            'name'  => 'subscription_type',
+        ], [
+            'value' => $choice,
+        ]);
     }
 
     /**

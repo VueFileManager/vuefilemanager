@@ -6,9 +6,7 @@ use Tests\TestCase;
 use App\Users\Models\User;
 use Illuminate\Http\UploadedFile;
 use Domain\Settings\Models\Setting;
-use Illuminate\Support\Facades\Http;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
-use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
 class SettingsTest extends TestCase
 {
@@ -40,7 +38,7 @@ class SettingsTest extends TestCase
      */
     public function it_get_admin_settings()
     {
-        resolve(SeedDefaultSettingsAction::class)('Extended');
+        resolve(SeedDefaultSettingsAction::class)();
 
         $admin = User::factory()
             ->create(['role' => 'admin']);
@@ -74,7 +72,7 @@ class SettingsTest extends TestCase
      */
     public function it_update_settings()
     {
-        resolve(SeedDefaultSettingsAction::class)('Extended');
+        resolve(SeedDefaultSettingsAction::class)();
 
         $admin = User::factory()
             ->create(['role' => 'admin']);
@@ -242,65 +240,5 @@ class SettingsTest extends TestCase
                 'port'    => null,
                 'host'    => null,
             ])->assertStatus(200);
-    }
-
-    /**
-     * @test
-     */
-    public function it_upgrade_license()
-    {
-        Http::fake([
-            'https://verify.vuefilemanager.com/api/verify-code/*' => Http::response('b6896a44017217c36f4a6fdc56699728'),
-        ]);
-
-        collect([
-            [
-                'name'  => 'license',
-                'value' => 'regular',
-            ],
-            [
-                'name'  => 'purchase_code',
-                'value' => '22b28b36-6d84-41b2-a920-a884b2bf63b6',
-            ],
-        ])->each(function ($col) {
-            Setting::updateOrCreate([
-                'name' => $col['name'],
-            ], [
-                'value' => $col['value'],
-            ]);
-        });
-
-        resolve(SeedDefaultLanguageAction::class)();
-
-        $admin = User::factory()
-            ->create(['role' => 'admin']);
-
-        $this
-            ->actingAs($admin)
-            ->postJson('/api/admin/upgrade-license', [
-                'purchaseCode' => '6ab28b36-6d84-41b2-a920-a884b2bf63b6',
-            ])->assertStatus(201);
-
-        collect([
-            [
-                'name'  => 'license',
-                'value' => 'extended',
-            ],
-            [
-                'name'  => 'purchase_code',
-                'value' => '6ab28b36-6d84-41b2-a920-a884b2bf63b6',
-            ],
-        ])->each(function ($col) {
-            $this->assertDatabaseHas('settings', [
-                'name'  => $col['name'],
-                'value' => $col['value'],
-            ]);
-        });
-
-        $this->assertDatabaseHas('language_translations', [
-            'key'   => 'go_to_subscription',
-            'value' => 'Go to Subscription',
-            'lang'  => 'en',
-        ]);
     }
 }

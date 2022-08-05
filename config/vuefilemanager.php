@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'version' => '2.2.2',
+    'version' => '2.2.3',
 
     'is_demo' => env('APP_DEMO', false),
 
@@ -78,5 +78,6 @@ return [
         '2_2_0_13',
         '2_2_1',
         '2_2_2',
+        '2_2_3',
     ],
 ];

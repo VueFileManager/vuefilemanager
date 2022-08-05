@@ -68,5 +68,4 @@ Route::apiResource('/languages', LanguageController::class);
 
 // Miscellaneous
 Route::get('/status', GetServerStatusController::class);
-Route::post('/upgrade-license', UpgradeLicenseController::class);
 Route::post('/test-websockets', TestWebsocketConnectionController::class);

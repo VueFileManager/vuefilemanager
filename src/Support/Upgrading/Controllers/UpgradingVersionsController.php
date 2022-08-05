@@ -3,6 +3,8 @@ namespace Support\Upgrading\Controllers;
 
 use DB;
 use Artisan;
+use Domain\Localization\Models\Language;
+use Domain\Settings\Models\Setting;
 use Storage;
 use App\Users\Models\User;
 use Illuminate\Support\Arr;
@@ -20,6 +22,80 @@ class UpgradingVersionsController
         public DeleteLanguageTranslationsAction $deleteLanguageStrings,
         public UpdateLanguageTranslationsAction $updateLanguageStrings,
     ) {
+    }
+
+    public function upgrade_to_2_2_3(): void
+    {
+        ($this->upgradeDatabase)();
+
+        // Apply only for regular licenses
+        if (get_settings('license') === 'regular') {
+            // Store default settings for extended version
+            collect([
+                [
+                    'name'  => 'section_pricing_content',
+                    'value' => 1,
+                ],
+                [
+                    'name'  => 'paypal_payment_description',
+                    'value' => 'Available PayPal Credit, Debit or Credit Card.',
+                ],
+                [
+                    'name'  => 'paystack_payment_description',
+                    'value' => 'Available Bank Account, USSD, Mobile Money, Apple Pay.',
+                ],
+                [
+                    'name'  => 'stripe_payment_description',
+                    'value' => 'Available credit card or Apple Pay.',
+                ],
+                [
+                    'name'  => 'allowed_registration_bonus',
+                    'value' => 0,
+                ],
+                [
+                    'name'  => 'registration_bonus_amount',
+                    'value' => 0,
+                ],
+                [
+                    'name'  => 'pricing_title',
+                    'value' => 'Pick the <span class="text-theme">Best Plan</span> For Your Needs',
+                ],
+                [
+                    'name'  => 'pricing_description',
+                    'value' => 'Your private cloud storage software build on Laravel & Vue.js. No limits & no monthly fees. Truly freedom.',
+                ],
+            ])->each(function ($col) {
+                Setting::updateOrCreate([
+                    'name' => $col['name'],
+                ], [
+                    'value' => $col['value'],
+                ]);
+            });
+
+            // Seed translations for extended version
+            Language::all()
+                ->each(function ($lang) {
+                    $translations = collect(
+                        config('language-translations.extended')
+                    )
+                        ->map(fn ($value, $key) => [
+                            'lang'  => $lang->locale,
+                            'value' => $value,
+                            'key'   => $key,
+                        ])->toArray();
+
+                    $chunks = array_chunk($translations, 100);
+
+                    foreach ($chunks as $chunk) {
+                        DB::table('language_translations')
+                            ->insert($chunk);
+                    }
+                });
+
+            // Clear config and cache
+            Artisan::call('config:clear');
+            Artisan::call('cache:clear');
+        }
     }
 
     public function upgrade_to_2_2_2(): void

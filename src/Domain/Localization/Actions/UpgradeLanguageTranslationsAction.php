@@ -21,23 +21,16 @@ class UpgradeLanguageTranslationsAction
         $translations = LanguageTranslation::whereLang('en')
             ->get();
 
-        $default_translations = [
-            'extended' => collect([
-                config('language-translations.extended'),
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-            'regular' => collect([
-                config('language-translations.regular'),
-                config('custom-language-translations'),
-            ])->collapse(),
-        ];
-
-        $license = strtolower(get_settings('license'));
-
         // Find new translations in default translations
-        $newbies = $default_translations[$license]
-            ->diffKeys(map_language_translations($translations));
+        $newbies = collect([
+            config('language-translations.extended'),
+            config('language-translations.regular'),
+            config('custom-language-translations'),
+        ])
+            ->collapse()
+            ->diffKeys(
+                map_language_translations($translations)
+            );
 
         // Store new translations for every language
         $locales->each(function ($locale) use ($newbies) {
