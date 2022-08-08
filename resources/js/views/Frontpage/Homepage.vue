@@ -11,10 +11,8 @@
             <HeroScreenshot />
 
 			<InFeedAdsense
-				data-ad-test
-				data-ad-layout-key="-gw-3+1f-3d+2z"
 				data-ad-client="ca-pub-8058330732865164"
-				data-ad-slot="2395328892">
+				data-ad-slot="2845132832">
 			</InFeedAdsense>
 
             <!--Google Adsense banner-->
