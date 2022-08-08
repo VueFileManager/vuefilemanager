@@ -1,7 +1,7 @@
 <template>
     <div class="flex select-none items-center rounded-xl" spellcheck="false">
         <!--Item thumbnail-->
-        <div class="relative w-16">
+        <div class="relative w-16 shrink-0">
             <!--Member thumbnail for team folders-->
             <MemberAvatar
                 v-if="user && canShowAuthor"
@@ -39,12 +39,9 @@
         </div>
 
         <!--Item Info-->
-        <div class="pl-2">
+        <div class="pl-2 min-w-0">
             <!--Item Title-->
-            <b
-                class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm hover:underline"
-                style="max-width: 240px"
-            >
+            <b class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm hover:underline">
                 {{ item.data.attributes.name }}
             </b>
 

@@ -1,13 +1,13 @@
 <?php
 namespace Domain\UploadRequest\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Domain\Files\Resources\FileResource;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Items\Requests\RenameItemRequest;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\Folders\Actions\UpdateFolderPropertyAction;
-use Illuminate\Http\JsonResponse;
 use Support\Demo\Actions\FakeRenameFileOrFolderAction;
 
 class RenameFileOrFolderController extends Controller

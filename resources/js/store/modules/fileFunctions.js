@@ -98,7 +98,7 @@ const actions = {
                 parent_id: getters.currentFolder?.data.id,
             })
             .then((response) => {
-                commit('ADD_NEW_FOLDER', response.data)
+                commit('ADD_NEW_ITEM', response.data)
 
                 events.$emit('scrollTop')
 
@@ -196,7 +196,7 @@ const actions = {
                                 response.data.data.attributes.parent_id === getters.currentFolder.data.id)
                         ) {
                             // Add uploaded item into view
-                            commit('ADD_NEW_ITEMS', response.data)
+                            commit('ADD_NEW_ITEM', response.data)
                         }
 
                         // Reset file progress
@@ -216,8 +216,10 @@ const actions = {
 
                             // Reload File data after folder uploading is finished
                             if (getters.isUploadingFolder) {
-                                // Reload files after upload is done
-                                Vue.prototype.$getDataByLocation()
+                                commit('START_LOADING_VIEW')
+
+                                // Reload files after folder upload is done
+                                Vue.prototype.$getDataByLocation(1)
 
                                 // Reload folder tree
                                 dispatch('getFolderTree')
@@ -342,14 +344,14 @@ const actions = {
     },
     emptyTrash: ({ commit, getters }) => {
         // Clear file browser
-        commit('LOADING_STATE', { loading: true, data: [] })
+        commit('START_LOADING_VIEW')
 
         axios
             .post(getters.api + '/trash/dump', {
                 _method: 'delete',
             })
             .then(() => {
-                commit('LOADING_STATE', { loading: false, data: [] })
+                commit('STOP_LOADING_VIEW')
                 events.$emit('scrollTop')
 
                 commit('CLIPBOARD_CLEAR')
@@ -363,7 +365,7 @@ const actions = {
             })
             .then(() => {
                 if (router.currentRoute.name === 'Trash') {
-                    commit('LOADING_STATE', { loading: false, data: [] })
+                    commit('STOP_LOADING_VIEW')
                 }
 
                 events.$emit('toaster', {
@@ -373,6 +375,28 @@ const actions = {
             })
             .catch(() => Vue.prototype.$isSomethingWrong())
     },
+    pushFileToTheUploadQueue: ({commit, getters}, item) => {
+        // Prevent to upload file with 0kb file size
+        if (item.file.size === 0) {
+            events.$emit('toaster', {
+                type: 'danger',
+                message: `The file ${item.file.name} can't be uploaded`,
+            })
+        }
+
+        if (item.file.size !== 0 && item.file.name !== '.DS_Store') {
+            // commit file to the upload queue
+            commit('ADD_FILES_TO_QUEUE', item)
+
+            // Start uploading if uploading process isn't running
+            if (getters.filesInQueueTotal === 0) {
+                Vue.prototype.$handleUploading(getters.fileQueue[0])
+            }
+
+            // Increase total files in upload bar
+            commit('INCREASE_FILES_IN_QUEUES_TOTAL')
+        }
+    }
 }
 
 const mutations = {
@@ -394,8 +418,8 @@ const mutations = {
     UPLOADING_FILE_PROGRESS(state, percentage) {
         state.uploadingProgress = percentage
     },
-    INCREASE_FILES_IN_QUEUES_TOTAL(state, count) {
-        state.filesInQueueTotal += count
+    INCREASE_FILES_IN_QUEUES_TOTAL(state) {
+        state.filesInQueueTotal += 1
     },
     INCREASE_FILES_IN_QUEUE_UPLOADED(state) {
         state.filesInQueueUploaded++

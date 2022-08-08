@@ -51,12 +51,14 @@
         </div>
 
         <!--Item Info-->
-        <div class="pl-2">
+        <div class="pl-2 min-w-0">
             <!--Item Title-->
             <span
-                class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
-                :class="{ 'hover:underline cursor-text': canEditName }"
-                style="max-width: 240px"
+                class="item-name mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold lg:pr-0 pr-4"
+                :class="{
+					'hover:underline cursor-text': canEditName,
+					'lg:!pr-16': mobileHandler && $isMobile(),
+                }"
                 ref="name"
                 @input="renameItem"
                 @keydown.delete.stop
@@ -125,7 +127,11 @@ export default {
         EyeIcon,
         Emoji,
     },
-    props: ['mobileHandler', 'highlight', 'entry'],
+    props: [
+		'mobileHandler',
+		'highlight',
+		'entry',
+	],
 	watch: {
 		isChecked: function (val) {
 			if (val) {

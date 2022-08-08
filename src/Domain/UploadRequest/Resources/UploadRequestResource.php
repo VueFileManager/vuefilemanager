@@ -17,7 +17,6 @@ class UploadRequestResource extends JsonResource
                     'status'     => $this->status,
                     'email'      => $this->email,
                     'notes'      => $this->notes,
-                    'url'        => url("/request/$this->id/upload"),
                 ],
                 'relationships' => [
                     $this->mergeWhen($this->folder, fn () => [

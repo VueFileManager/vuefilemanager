@@ -23,6 +23,7 @@ return [
     ],
 
     'notifications' => [
+        'DunningEmailToCoverAccountUsageNotification' => \Domain\Subscriptions\Notifications\DunningEmailToCoverAccountUsageNotification::class,
         'ChargeFromCreditCardFailedAgainNotification' => \Domain\Subscriptions\Notifications\ChargeFromCreditCardFailedAgainNotification::class,
         'ChargeFromCreditCardFailedNotification'      => \Domain\Subscriptions\Notifications\ChargeFromCreditCardFailedNotification::class,
         'SubscriptionWasCreatedNotification'          => \Domain\Subscriptions\Notifications\SubscriptionWasCreatedNotification::class,
@@ -32,8 +33,18 @@ return [
         'BonusCreditAddedNotification'                => \Domain\Subscriptions\Notifications\BonusCreditAddedNotification::class,
     ],
 
-    'metered_billing'   => [
+    'metered_billing' => [
         'settlement_period' => 30,
+
+        'fraud_prevention_mechanism' => [
+            'usage_bigger_than_balance'   => [
+                'active' => true,
+            ],
+            'limit_usage_in_new_accounts' => [
+                'active' => true,
+                'amount' => 5,
+            ],
+        ],
     ],
 
     'paystack'          => [
@@ -48,4 +59,5 @@ return [
     ],
 
     'is_demo' => env('APP_DEMO', false),
+    'is_local' => env('APP_ENV', 'production') === 'local',
 ];

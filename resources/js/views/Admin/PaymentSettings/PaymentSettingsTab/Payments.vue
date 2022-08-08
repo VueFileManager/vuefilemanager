@@ -75,6 +75,49 @@
             </AppInputButton>
         </div>
 
+		<!--Fraud Prevention Mechanism Rules-->
+        <div v-if="config.subscriptionType === 'metered' && allowedPayments" class="card shadow-card">
+            <FormLabel icon="shield">
+                {{ $t('Usage Restriction Rules for User Accounts') }}
+            </FormLabel>
+
+            <AppInputSwitch
+                :title="$t('allow_limit_usage_in_new_accounts')"
+                :description="$t('limit_usage_description_for_restrictions')"
+            >
+                <SwitchInput
+                    @input="$updateText('/admin/settings', 'limit_usage_in_new_accounts', settings.limitUsageInNewAccounts)"
+                    v-model="settings.limitUsageInNewAccounts"
+                    :state="settings.limitUsageInNewAccounts"
+                />
+            </AppInputSwitch>
+
+			<AppInputText
+				v-if="settings.limitUsageInNewAccounts"
+				class="-mt-3"
+			>
+                <input
+					@input="$updateText('/admin/settings', 'limit_usage_in_new_accounts_amount', settings.limitUsageInNewAccountsAmount)"
+					v-model="settings.limitUsageInNewAccountsAmount"
+					:placeholder="$t('Max Usage Amount...')"
+					type="number"
+					class="focus-border-theme input-dark"
+				/>
+            </AppInputText>
+
+            <AppInputSwitch
+                :title="$t('allow_limit_usage_bigger_than_balance')"
+                :description="$t('limit_usage_description_for_restrictions')"
+				:is-last="true"
+            >
+                <SwitchInput
+                    @input="$updateText('/admin/settings', 'usage_bigger_than_balance', settings.usageBiggerThanBalance)"
+                    v-model="settings.usageBiggerThanBalance"
+                    :state="settings.usageBiggerThanBalance"
+                />
+            </AppInputSwitch>
+        </div>
+
         <!--Stripe method configuration-->
         <div v-if="allowedPayments" class="card shadow-card">
             <img :src="$getPaymentLogo('stripe')" alt="Stripe" class="mb-8 h-8" />
@@ -348,7 +391,7 @@
 				</AppInputText>
 
                 <div v-if="paypal.isConfigured">
-                    <AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle between live and sandbox mode')">
+                    <AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle between sandbox and live mode')">
                         <SwitchInput
                             @input="$updateText('/admin/settings', 'paypal_live', config.isPayPalLive)"
                             v-model="config.isPayPalLive"
@@ -404,7 +447,7 @@
                     </FormLabel>
 
 					<ValidationProvider>
-						<AppInputSwitch v-if="! paypal.isConfigured" :title="$t('Live Mode')" :description="$t('Toggle between live and sandbox mode')">
+						<AppInputSwitch :title="$t('Live Mode')" :description="$t('Toggle between sandbox and live mode')">
 							<SwitchInput v-model="paypal.credentials.live" :state="paypal.credentials.live" />
 						</AppInputSwitch>
 					</ValidationProvider>
@@ -507,11 +550,24 @@ export default {
         PageTab,
         InfoBox,
     },
+	watch: {
+		'paypal.credentials.live': function (val) {
+			this.$updateText('/admin/settings', 'paypal_live', val)
+
+			this.$store.commit('REPLACE_CONFIG_VALUE', {
+				key: 'isPayPalLive',
+				value: val,
+			})
+		}
+	},
     computed: {
-        ...mapGetters(['config']),
+        ...mapGetters([
+			'config'
+		]),
     },
     data() {
         return {
+			settings: undefined,
             allowedRegistrationBonus: true,
             registrationBonusAmount: undefined,
 
@@ -550,7 +606,7 @@ export default {
                     key: undefined,
                     secret: undefined,
                     webhook: undefined,
-					live: undefined,
+					live: false,
                 },
             },
             columns: [
@@ -651,6 +707,23 @@ export default {
 			})
 		}
     },
+	mounted() {
+		axios
+			.get('/api/admin/settings', {
+				params: {
+					column: 'limit_usage_in_new_accounts|limit_usage_in_new_accounts_amount|usage_bigger_than_balance',
+				},
+			})
+			.then((response) => {
+				this.isLoading = false
+
+				this.settings = {
+					limitUsageInNewAccounts: parseInt(response.data.limit_usage_in_new_accounts),
+					limitUsageInNewAccountsAmount: parseInt(response.data.limit_usage_in_new_accounts_amount),
+					usageBiggerThanBalance: parseInt(response.data.usage_bigger_than_balance),
+				}
+			})
+	},
     created() {
         // Set payment description
         this.stripe.paymentDescription = this.config.stripe_payment_description

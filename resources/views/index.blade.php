@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html class="{{ $config->installation === 'installation-needed' ? 'dark:bg-dark-background bg-light-background' : '' }}" style="min-height: 100%" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="{{ $config->app->installation === 'installation-needed' ? 'dark:bg-dark-background bg-light-background' : '' }}" style="min-height: 100%" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta name="theme-color" content="{{ $config->app_color ?? '#00BC7E' }}">
+    <meta name="theme-color" content="{{ $config->theme->color ?? '#00BC7E' }}">
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
-    <meta name="description" content="{{ $config->app_description ?? __t('app_description') }}">
+    <meta name="description" content="{{ $config->app->description ?? __t('app_description') }}">
 
     <title>
-        {{ $config->app_title ?? 'VueFileManager' }} | {{ $config->app_description ?? __t('app_description') }}
+        {{ $config->app->name ?? 'VueFileManager' }} | {{ $config->app->description ?? __t('app_description') }}
     </title>
 
     {{--StyleSheet--}}
@@ -18,18 +18,18 @@
 
     {{--OG items--}}
     <meta property="og:url" content="{{ url('/') }}">
-    <meta property="og:title" content="{{ $config->app_title ?? 'VueFileManager' }} | {{ $config->app_description ?? __t('app_description') }}">
-    <meta property="og:description" content="{{ $config->app_description ?? __t('app_description') }}">
-    <meta property="og:image" content="{{ isset($config->app_og_image) ? url($config->app_og_image) : '' }}">
+    <meta property="og:title" content="{{ $config->app->name ?? 'VueFileManager' }} | {{ $config->app->description ?? __t('app_description') }}">
+    <meta property="og:description" content="{{ $config->app->description ?? __t('app_description') }}">
+    <meta property="og:image" content="{{ isset($config->logos->og_image) ? url($config->logos->og_image) : '' }}">
 
     {{-- Apple Mobile Web App--}}
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="white">
-    <meta name="apple-mobile-web-app-title" content="{{ $config->app_title ?? 'VueFileManager' }}">
+    <meta name="apple-mobile-web-app-title" content="{{ $config->app->name ?? 'VueFileManager' }}">
 
     {{--Icons--}}
-    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ isset($config->app_touch_icon) ? url($config->app_touch_icon) : '' }}">
-    <link rel="icon" href="{{ isset($config->app_favicon) ? url($config->app_favicon) : asset('favicon.png') }}?v={{ get_version() }}">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{ isset($config->logos->touch_icon) ? url($config->logos->touch_icon) : '' }}">
+    <link rel="icon" href="{{ isset($config->logos->favicon) ? url($config->logos->favicon) : asset('favicon.png') }}?v={{ get_version() }}">
 
     {{--Format Detection--}}
     <meta name="format-detection" content="telephone=no">
@@ -43,112 +43,112 @@
 
     <script>
 		let config = {
-			host: '{{ $config->host }}',
-			api: '{{ $config->api }}',
-			locale: '{{ $config->locale }}',
+			host: '{{ $config->app->host }}',
+			api: '{{ $config->app->api }}',
+			locale: '{{ $config->app->locale }}',
 
-            broadcasting: '{{ $config->broadcasting }}',
-            broadcastingKey: '{{ $config->broadcastingKey }}',
-            broadcastingHost: '{{ $config->broadcastingHost }}',
-            broadcastingPort: '{{ $config->broadcastingPort }}',
-            broadcastingCluster: '{{ $config->broadcastingCluster }}',
+            broadcasting: '{{ $config->broadcasting->driver }}',
+            broadcastingKey: '{{ $config->broadcasting->key }}',
+            broadcastingHost: '{{ $config->broadcasting->host }}',
+            broadcastingPort: '{{ $config->broadcasting->port }}',
+            broadcastingCluster: '{{ $config->broadcasting->cluster }}',
 
-			app_logo: '{{ $config->app_logo }}',
-			app_logo_dark: '{{ $config->app_logo_dark }}',
-			app_logo_horizontal: '{{ $config->app_logo_horizontal }}',
-			app_logo_horizontal_dark: '{{ $config->app_logo_horizontal_dark }}',
+			app_logo: '{{ $config->logos->main }}',
+			app_logo_dark: '{{ $config->logos->main_dark }}',
+			app_logo_horizontal: '{{ $config->logos->horizontal }}',
+			app_logo_horizontal_dark: '{{ $config->logos->horizontal_dark }}',
 
-            app_color: '{{ $config->app_color }}',
-			app_footer: '{!! $config->app_footer !!}',
-			app_name: '{{ $config->app_name }}',
-			app_description: '{{ $config->app_description }}',
+            app_color: '{{ $config->theme->color }}',
+			app_footer: '{!! $config->app->footer !!}',
+			app_name: '{{ $config->app->name }}',
+			app_description: '{{ $config->app->description }}',
 
 			allowHomepage: {{ $config->allowHomepage }},
-			storageLimit: {{ $config->storageLimit }},
+			storageLimit: {{ $config->storage->limit }},
 			teamsDefaultMembers: {{ $config->teamsDefaultMembers }},
-			storageDefaultSpace: {{ $config->storageDefaultSpace }},
-			storageDefaultSpaceFormatted: '{{ $config->storageDefaultSpaceFormatted }}',
-			mimetypesBlacklist: '{{ $config->mimetypesBlacklist }}',
-			uploadLimit: {{ $config->uploadLimit }},
-			uploadLimitFormatted: '{{ $config->uploadLimitFormatted }}',
-			chunkSize: {{ $config->chunkSize }},
+			storageDefaultSpace: {{ $config->storage->defaultSpace }},
+			storageDefaultSpaceFormatted: '{{ $config->storage->defaultSpaceFormatted }}',
+			mimetypesBlacklist: '{{ $config->upload->disabledMimetypes }}',
+			uploadLimit: {{ $config->upload->limit }},
+			uploadLimitFormatted: '{{ $config->upload->limitFormatted }}',
+			chunkSize: {{ $config->upload->chunkSize }},
 
-			isAuthenticated: {{ $config->isAuthenticated }},
-			isSaaS: {{ $config->isSaaS }},
+			isAuthenticated: {{ $config->app->isAuthenticated }},
 
-			isDev: {{ $config->isDev }},
-			isDemo: {{ $config->isDemo }},
+			isDev: {{ $config->app->isDev }},
+			isDemo: {{ $config->app->isDemo }},
 
 			legal: {!! $config->legal !!},
 
-			installation: '{{ $config->installation }}',
-			statusCheck: {!! $config->statusCheck !!},
-			isSetupWizardDemo: {{ $config->isSetupWizardDemo }},
-			isSetupWizardDebug: {{ $config->isSetupWizardDebug }},
+			installation: '{{ $config->app->installation }}',
+			statusCheck: {!! $config->debug->statusCheck !!},
+			isSetupWizardDemo: {{ $config->debug->isSetupWizardDemo }},
+			isSetupWizardDebug: {{ $config->debug->isSetupWizardDebug }},
+			isPrefilledUsers: {{ $config->debug->isPrefilledUsers }},
 
 			// States
-			isEmptyPlans: {{ $config->isEmptyPlans }},
-			isEmptyTransactions: {{ $config->isEmptyTransactions }},
-			isEmptySubscriptions: {{ $config->isEmptySubscriptions }},
+			isEmptyPlans: {{ $config->payments->isEmptyPlans }},
+			isEmptyTransactions: {{ $config->payments->isEmptyTransactions }},
+			isEmptySubscriptions: {{ $config->payments->isEmptySubscriptions }},
 
 			// Hidden set ups
-			isAdminVueFileManagerBar: {{ $config->isAdminVueFileManagerBar }},
+			isAdminVueFileManagerBar: {{ $config->debug->isAdminVueFileManagerBar }},
 
 			// Metered
-			allowed_registration_bonus: {{ $config->allowed_registration_bonus }},
-			registration_bonus_amount: {{ $config->registration_bonus_amount }},
-			isCreatedMeteredPlan: {{ $config->isCreatedMeteredPlan }},
-			meteredPlanId: '{{ $config->meteredPlanId }}',
+			allowed_registration_bonus: {{ $config->billing_metered->allowed_registration_bonus }},
+			registration_bonus_amount: {{ $config->billing_metered->registration_bonus_amount }},
+			isCreatedMeteredPlan: {{ $config->billing_metered->isCreatedMeteredPlan }},
+			meteredPlanId: '{{ $config->billing_metered->meteredPlanId }}',
 
 			// Payments
-			allowed_payments: {{ $config->allowed_payments }},
-			subscriptionType: '{{ $config->subscriptionType }}',
+			allowed_payments: {{ $config->payments->allowed }},
+			subscriptionType: '{{ $config->payments->type }}',
 
 			// PayPal
-			isPayPal: {{ $config->isPayPal }},
-			isPayPalLive: {{ $config->isPayPalLive }},
-			paypal_client_id: '{{ $config->paypal_client_id }}',
-			paypal_payment_description: '{{ $config->paypal_payment_description }}',
+			isPayPal: {{ $config->gateways->paypal->allowed }},
+			isPayPalLive: {{ $config->gateways->paypal->live }},
+			paypal_client_id: '{{ $config->gateways->paypal->client_id }}',
+			paypal_payment_description: '{{ $config->gateways->paypal->payment_description }}',
 
 			// Paystack
-			isPaystack: {{ $config->isPaystack }},
-			paystack_public_key: '{{ $config->paystack_public_key }}',
-			paystack_payment_description: '{{ $config->paystack_payment_description }}',
+			isPaystack: {{ $config->gateways->paystack->allowed }},
+			paystack_public_key: '{{ $config->gateways->paystack->public_key }}',
+			paystack_payment_description: '{{ $config->gateways->paystack->payment_description }}',
 
 			// Stripe
-			isStripe: {{ $config->isStripe }},
-			stripe_public_key: '{{ $config->stripe_public_key }}',
-			stripe_payment_description: '{{ $config->stripe_payment_description }}',
+			isStripe: {{ $config->gateways->stripe->allowed }},
+			stripe_public_key: '{{ $config->gateways->stripe->public_key }}',
+			stripe_payment_description: '{{ $config->gateways->stripe->payment_description }}',
 
 			// ReCaptcha
-			recaptcha_client_id: '{{ $config->recaptcha_client_id }}',
-			allowedRecaptcha: {{ $config->allowedRecaptcha }},
-			isRecaptchaConfigured: {{ $config->isRecaptchaConfigured }},
+			recaptcha_client_id: '{{ $config->recaptcha->client_id }}',
+			allowedRecaptcha: {{ $config->recaptcha->allowed }},
+			isRecaptchaConfigured: {{ $config->recaptcha->is_configured }},
 
 			// Social logins
-			allowedFacebookLogin: {{ $config->allowedFacebookLogin }},
-			isFacebookLoginConfigured: {{ $config->isFacebookLoginConfigured }},
+			allowedFacebookLogin: {{ $config->social_logins->is_facebook_allowed }},
+			isFacebookLoginConfigured: {{ $config->social_logins->is_facebook_configured }},
 
-			allowedGoogleLogin: {{ $config->allowedGoogleLogin }},
-			isGoogleLoginConfigured: {{ $config->isGoogleLoginConfigured }},
+			allowedGoogleLogin: {{ $config->social_logins->is_google_allowed }},
+			isGoogleLoginConfigured: {{ $config->social_logins->is_google_configured }},
 
-			allowedGithubLogin: {{ $config->allowedGithubLogin }},
-			isGithubLoginConfigured: {{ $config->isGithubLoginConfigured }},
+			allowedGithubLogin: {{ $config->social_logins->is_github_allowed }},
+			isGithubLoginConfigured: {{ $config->social_logins->is_github_configured }},
 
             // Adsense
-            allowedAdsense: {{ $config->allowedAdsense }},
-            adsenseClientId: '{{ $config->adsenseClientId }}',
-			adsenseBanner01: `{!! $config->adsenseBanner01 !!}`,
-			adsenseBanner02: `{!! $config->adsenseBanner02 !!}`,
-			adsenseBanner03: `{!! $config->adsenseBanner03 !!}`,
+            allowedAdsense: {{ $config->adsense->allowed }},
+            adsenseClientId: '{{ $config->adsense->clientId }}',
+			adsenseBanner01: `{!! $config->adsense->banner01 !!}`,
+			adsenseBanner02: `{!! $config->adsense->banner02 !!}`,
+			adsenseBanner03: `{!! $config->adsense->banner03 !!}`,
 
             // User settings
-            defaultEmoji: '{{ $config->defaultEmoji }}',
-            defaultThemeMode: '{{ $config->defaultThemeMode }}',
+            defaultEmoji: '{{ $config->theme->emoji }}',
+            defaultThemeMode: '{{ $config->theme->mode }}',
 
             // App settings
-			userRegistration: {{ $config->userRegistration }},
-			userVerification: {{ $config->userVerification }},
+			userRegistration: {{ $config->registration->allowed }},
+			userVerification: {{ $config->registration->verification }},
         }
     </script>
 
@@ -158,7 +158,7 @@
         <script src="{{ asset('js/main.js') }}?v={{ get_version() }}"></script>
 
         {{--Global site tag (gtag.js) - Google Analytics--}}
-        @if(isset($config->google_analytics) && $config->google_analytics)
+        @if($config->google_analytics)
             <script async src="https://www.googletagmanager.com/gtag/js?id={{ $config->google_analytics }}"></script>
             <script>
                 window.dataLayer = window.dataLayer || [];

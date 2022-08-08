@@ -18,14 +18,11 @@
                         @click="getLanguage(language)"
                         v-for="language in languages"
                         :key="language.data.id"
-                        class="border-bottom-theme inline-block border-b-2 border-transparent px-4 py-5 text-sm font-bold"
+                        class="border-bottom-theme inline-block border-b-2 border-transparent px-4 py-5 text-sm font-bold text-gray-600"
                         :class="{
                             'text-theme router-link-active':
                                 selectedLanguage &&
                                 selectedLanguage.data.attributes.locale === language.data.attributes.locale,
-                            'text-gray-600':
-                                !selectedLanguage &&
-                                selectedLanguage.data.attributes.locale !== language.data.attributes.locale,
                         }"
                     >
                         {{ language.data.attributes.name }}
@@ -55,7 +52,7 @@
                         class="group flex cursor-pointer items-center justify-between py-2 pr-4"
                     >
                         <label
-                            class="text-base font-bold"
+                            class="text-base font-bold cursor-pointer"
                             :class="{
                                 'text-theme':
                                     selectedLanguage &&

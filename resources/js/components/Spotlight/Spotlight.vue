@@ -1,5 +1,6 @@
 <template>
     <div
+		id="spotlight"
         v-if="isVisible"
         @keyup.esc="exitSpotlight"
         @click.exact.self="exitSpotlight"
@@ -898,18 +899,7 @@ export default {
                     params: { query: value },
                 })
                 .then((response) => {
-                    // Show user result
-                    if (this.activeFilter === 'users') {
-                        this.results = response.data.data
-                    }
-
-                    // Show file result
-                    if (!this.activeFilter) {
-                        let files = response.data.files.data
-                        let folders = response.data.folders.data
-
-                        this.results = folders.concat(files)
-                    }
+					this.results = response.data.data
                 })
                 .catch(() => this.$isSomethingWrong())
                 .finally(() => (this.isLoading = false))
@@ -970,3 +960,9 @@ export default {
     },
 }
 </script>
+
+<style lang="scss">
+	#spotlight .item-name {
+		padding-right: 35px;
+	}
+</style>

@@ -1,10 +1,11 @@
 <?php
 
 return [
-    'version' => '2.2',
+    'version' => '2.2.3',
 
     'is_demo' => env('APP_DEMO', false),
 
+    'is_prefilled_users'          => env('IS_PREFILLED_USERS', false),
     'is_setup_wizard_demo'        => env('IS_SETUP_WIZARD_DEMO', false),
     'is_setup_wizard_debug'       => env('IS_SETUP_WIZARD_DEBUG', false),
     'is_admin_vuefilemanager_bar' => env('IS_ADMIN_VUEFILEMANAGER_BAR', true),
@@ -61,6 +62,10 @@ return [
         ],
     ],
 
+    'paginate' => [
+        'perPage' => env('PAGINATE_RECORDS_PER_PAGE', 50),
+    ],
+
     // The update versions which need to run upgrade process
     'updates' => [
         '2_0_10',
@@ -70,5 +75,9 @@ return [
         '2_1_1',
         '2_1_2',
         '2_2_0',
+        '2_2_0_13',
+        '2_2_1',
+        '2_2_2',
+        '2_2_3',
     ],
 ];

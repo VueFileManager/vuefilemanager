@@ -1,7 +1,7 @@
 <style>
 
         @php
-            $color = $settings->app_color ?? '#00BC7E';
+            $color = $config->theme->color ?? '#00BC7E';
         @endphp
 
         {{-- Tailwind Helpers --}}

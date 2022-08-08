@@ -1,9 +1,8 @@
 <?php
-
 namespace Domain\Settings\Controllers;
 
-use Domain\Settings\Events\TestWebsocketConnectionEvent;
 use Illuminate\Http\JsonResponse;
+use Domain\Settings\Events\TestWebsocketConnectionEvent;
 
 class TestWebsocketConnectionController
 {
@@ -14,7 +13,7 @@ class TestWebsocketConnectionController
         );
 
         return response()->json([
-            'type' => 'success',
+            'type'    => 'success',
             'message' => 'The websocket test event was successfully dispatched.',
         ]);
     }

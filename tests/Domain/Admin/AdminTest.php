@@ -11,6 +11,7 @@ use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\UploadedFile;
 use App\Users\Notifications\ResetPassword;
+use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class AdminTest extends TestCase
 {
@@ -235,7 +236,10 @@ class AdminTest extends TestCase
             'last_name'  => 'Doe',
         ]);
 
-        $avatar = User::whereEmail('john@doe.com')->first()->settings->getRawOriginal('avatar');
+        $avatar = User::where('email', 'john@doe.com')
+            ->first()
+            ->settings
+            ->getRawOriginal('avatar');
 
         collect(config('vuefilemanager.avatar_sizes'))
             ->each(
@@ -256,6 +260,15 @@ class AdminTest extends TestCase
             ->create(['role' => 'user']);
 
         Sanctum::actingAs($user);
+
+        // Create subscription
+        Subscription::factory()
+            ->hasDriver()
+            ->create([
+                'user_id' => $user->id,
+                'type'    => 'pre-paid',
+                'status'  => 'active',
+            ]);
 
         // Create folders
         $folders = Folder::factory()
@@ -307,30 +320,32 @@ class AdminTest extends TestCase
         Sanctum::actingAs($admin);
 
         // Delete user
-        $this->deleteJson("/api/admin/users/$user->id/delete", [
-            'name' => $user->settings->name,
-        ])
+        $this
+            ->actingAs($admin)
+            ->deleteJson("/api/admin/users/$user->id", [
+                'name' => $user->settings->name,
+            ])
             ->assertStatus(200);
 
-        $this->assertDatabaseMissing('user_settings', [
-            'user_id' => $user->id,
-        ]);
-
-        $this->assertDatabaseMissing('folders', [
-            'user_id' => $user->id,
-        ]);
-
-        $this->assertDatabaseMissing('shares', [
-            'user_id' => $user->id,
-        ]);
-
-        $this->assertDatabaseMissing('favourite_folder', [
-            'user_id' => $user->id,
-        ]);
-
-        $this->assertDatabaseMissing('files', [
-            'user_id' => $user->id,
-        ]);
+        $this
+            ->assertDatabaseMissing('subscriptions', [
+                'user_id' => $user->id,
+            ])
+            ->assertDatabaseMissing('user_settings', [
+                'user_id' => $user->id,
+            ])
+            ->assertDatabaseMissing('folders', [
+                'user_id' => $user->id,
+            ])
+            ->assertDatabaseMissing('shares', [
+                'user_id' => $user->id,
+            ])
+            ->assertDatabaseMissing('favourite_folder', [
+                'user_id' => $user->id,
+            ])
+            ->assertDatabaseMissing('files', [
+                'user_id' => $user->id,
+            ]);
 
         $file_ids
             ->each(function ($id, $index) use ($user) {

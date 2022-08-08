@@ -157,7 +157,7 @@ export default {
             return this.item && this.item.type === 'folder'
         },
         isInFavourites() {
-            return this.user.data.relationships.favourites.data.find((el) => el.id === this.item.id)
+            return this.user.data.relationships.favourites.find((el) => el.id === this.item.id)
         },
         hasFile() {
             return this.clipboard.find((item) => item.type !== 'folder')
@@ -169,7 +169,7 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('getMySharedItems')
+        this.$store.dispatch('getMySharedItems', 1)
 
         events.$on('context-menu:show', (event, item) => (this.item = item))
         events.$on('mobile-context-menu:show', (item) => (this.item = item))

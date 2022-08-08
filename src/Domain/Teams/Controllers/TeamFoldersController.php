@@ -1,13 +1,13 @@
 <?php
 namespace Domain\Teams\Controllers;
 
+use Gate;
 use Illuminate\Support\Str;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Domain\Teams\Models\TeamFolderMember;
 use Domain\Teams\DTO\CreateTeamFolderData;
 use Domain\Files\Resources\FilesCollection;
@@ -28,36 +28,104 @@ class TeamFoldersController extends Controller
     ) {
     }
 
-    public function show($id): array
+    public function show($id): JsonResponse
     {
-        $id = Str::isUuid($id) ? $id : null;
+        // Get root ID
+        $id = Str::isUuid($id)
+            ? $id
+            : null;
+
+        // Get page number
+        $page = request()->has('page')
+            ? request()->input('page')
+            : 'all';
+
+        $entriesPerPage = config('vuefilemanager.paginate.perPage');
 
         if ($id) {
-            $folders = Folder::where('parent_id', $id)
-                ->where('team_folder', true)
+            // Get team folder
+            $teamFolder = Folder::findOrFail($id)
+                ->getLatestParent();
+
+            // Check privileges
+            if (! Gate::any(['can-edit', 'can-view'], [$teamFolder, null])) {
+                return response()->json(accessDeniedError(), 403);
+            }
+
+            $query = [
+                'folder' => [
+                    'where' => [
+                        'parent_id'   => $id,
+                        'team_folder' => true,
+                    ],
+                ],
+                'file' => [
+                    'where' => [
+                        'parent_id'   => $id,
+                    ],
+                ],
+                'with' => [
+                    'parent:id,name',
+                    'shared:token,id,item_id,permission,is_protected,expire_in',
+                ],
+            ];
+
+            [$foldersTake, $foldersSkip, $filesTake, $filesSkip, $totalEntries] = getRecordsCount($query, $page);
+
+            $folders = Folder::with($query['with'])
+                ->where($query['folder']['where'])
                 ->sortable()
+                ->skip($foldersSkip)
+                ->take($foldersTake)
                 ->get();
 
-            $files = File::where('parent_id', $id)
+            $files = File::with($query['with'])
+                ->where($query['file']['where'])
                 ->sortable()
+                ->skip($filesSkip)
+                ->take($filesTake)
                 ->get();
         }
 
         if (! $id) {
             $folders = Folder::where('parent_id', null)
                 ->where('team_folder', true)
-                ->where('user_id', Auth::id())
+                ->where('user_id', auth()->id())
                 ->sortable()
+                ->skip($entriesPerPage * ($page - 1))
+                ->take($entriesPerPage)
                 ->get();
+
+            $totalEntries = DB::table('folders')
+                ->where('parent_id', null)
+                ->where('team_folder', true)
+                ->where('user_id', auth()->id())
+                ->count();
+
+            $files = null;
         }
 
+        [$paginate, $links] = formatPaginatorMetadata($totalEntries);
+
+        $entries = collect([
+            $folders ? json_decode((new FolderCollection($folders))->toJson(), true) : null,
+            $files ? json_decode((new FilesCollection($files))->toJson(), true) : null,
+        ])->collapse();
+
         // Collect folders and files to single array
-        return [
-            'folders'    => new FolderCollection($folders),
-            'files'      => isset($files) ? new FilesCollection($files) : new FilesCollection([]),
-            'root'       => $id ? new FolderResource(Folder::findOrFail($id)) : null,
-            'teamFolder' => $id ? new FolderResource(Folder::findOrFail($id)->getLatestParent()) : null,
-        ];
+        return response()->json([
+            'data'       => $entries,
+            'links'      => $links,
+            'meta'       => [
+                'paginate'   => $paginate,
+                'teamFolder' => $id
+                    ? new FolderResource($teamFolder)
+                    : null,
+                'root'       => $id
+                    ? new FolderResource(Folder::findOrFail($id))
+                    : null,
+            ],
+        ]);
     }
 
     public function store(

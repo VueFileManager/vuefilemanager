@@ -24,7 +24,7 @@
             <MainFeatures />
 
             <!--Pricing Tables-->
-            <PricingTables v-if="config.isSaaS && config.subscriptionType === 'fixed'" />
+            <PricingTables v-if="config.subscriptionType === 'fixed'" />
 
             <!--Get Started Call To Action-->
             <GetStarted />

@@ -40,7 +40,7 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/share/$file->id", [
+            ->postJson("/api/share", [
                 'isPassword' => false,
                 'permission' => 'editor',
                 'type'       => 'file',
@@ -75,7 +75,7 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/share/$folder->id", [
+            ->postJson("/api/share", [
                 'isPassword' => false,
                 'permission' => 'editor',
                 'type'       => 'folder',
@@ -110,7 +110,7 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/share/$folder->id", [
+            ->postJson("/api/share", [
                 'isPassword' => true,
                 'password'   => 'secret',
                 'permission' => 'editor',
@@ -150,7 +150,7 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/share/$folder->id", [
+            ->postJson("/api/share", [
                 'isPassword' => false,
                 'permission' => 'editor',
                 'type'       => 'folder',
@@ -178,7 +178,7 @@ class UserShareTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->postJson("/api/share/$folder->id", [
+            ->postJson("/api/share", [
                 'isPassword' => false,
                 'permission' => 'editor',
                 'type'       => 'folder',
@@ -206,7 +206,7 @@ class UserShareTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $this->postJson("/api/share/$folder->id", [
+        $this->postJson("/api/share", [
             'isPassword' => false,
             'permission' => 'editor',
             'type'       => 'folder',
@@ -237,7 +237,7 @@ class UserShareTest extends TestCase
 
         Sanctum::actingAs($user);
 
-        $this->postJson("/api/share/$folder->id", [
+        $this->postJson("/api/share", [
             'isPassword' => false,
             'permission' => 'editor',
             'type'       => 'folder',

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isVisible" class="w-full max-w-xl text-center">
+    <div v-if="isVisible" class="w-full max-w-xl text-center m-auto py-6">
         <slot />
     </div>
 </template>

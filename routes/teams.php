@@ -13,7 +13,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/shared-with-me/{id}', BrowseSharedWithMeController::class);
     Route::apiResource('/folders', TeamFoldersController::class);
 
-    Route::post('/folders/{folder}/convert', ConvertFolderIntoTeamFolderController::class);
-    Route::delete('/folders/{folder}/leave', LeaveTeamFolderController::class);
-    Route::get('/folders/{folder}/tree', NavigationTreeController::class);
+    Route::group(['prefix' => '/folders'], function() {
+        Route::post('/{folder}/convert', ConvertFolderIntoTeamFolderController::class);
+        Route::delete('/{folder}/leave', LeaveTeamFolderController::class);
+        Route::get('/{folder}/tree', NavigationTreeController::class);
+    });
 });

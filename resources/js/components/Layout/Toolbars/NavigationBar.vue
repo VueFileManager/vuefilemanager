@@ -1,5 +1,5 @@
 <template>
-    <div @click="goBack" class="relative flex select-none items-center text-left">
+    <div @click="goBack" class="relative flex select-none items-center text-left min-w-0 lg:pr-6 pr-12">
         <!--Menu icon-->
         <div
             v-if="!isVisibleNavigationBars"
@@ -15,13 +15,13 @@
                 '-translate-x-3 opacity-0': !isLoadedFolder || !isNotHomepage,
                 'translate-x-0 opacity-100': isLoadedFolder && isNotHomepage,
             }"
-            class="mr-2 -ml-1 cursor-pointer align-middle transition-all duration-200 lg:-mt-0.5"
+            class="mr-2 -ml-1 cursor-pointer align-middle transition-all duration-200 lg:-mt-0.5 shrink-0"
         />
 
         <!--Folder Title-->
         <b
             :class="{ '-translate-x-4': !isLoadedFolder || !isNotHomepage }"
-            class="inline-block lg:max-w-[210px] max-w-[190px] transform overflow-hidden text-ellipsis whitespace-nowrap align-middle text-sm font-bold transition-all duration-200 dark:text-gray-100"
+            class="inline-block min-w-0 transform overflow-hidden text-ellipsis whitespace-nowrap align-middle text-sm font-bold transition-all duration-200 dark:text-gray-100"
         >
             {{ $getCurrentLocationName() }}
         </b>

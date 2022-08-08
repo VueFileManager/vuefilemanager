@@ -1,12 +1,78 @@
+## Version 2.2.2
+#### Release date: 16. July 2022
+- Fixed issue when email wasn't sent in active app language
+- Fixed issue with subscription module loading
+
+## Version 2.2.1
+#### Release date: 1. July 2022
+### New Usage Restriction Rules for User Accounts for Metered Billing
+- Allow limiting max usage before users will be forced to increase balance in first month of account existence
+- Force users to increase balance when usage is bigger than their current balance
+
+#### Release date: 29. Jun 2022
+- Fixed reCaptcha for the contact form
+
+## Version 2.2.0.13
+#### Release date: 29. Jun 2022
+- Extended login time up to 3 months
+- Fixed deleted at language string in grid view browsed in trash section
+
+- ## Version 2.2.0.12
+#### Release date: 28. Jun 2022
+- Fixed paystack transaction issue
+
+## Version 2.2.0.11
+#### Release date: 27. Jun 2022
+- Added hint to set cron command in dashboard panel when cron is not set correctly
+
+## Version 2.2.0.10
+#### Release date: 27. Jun 2022
+- Fixed issue with downloading certain file types when you are using Backblaze storage driver
+- Fixed issue when Google Analytics doesn't record visitors
+
+## Version 2.2.0.9
+#### Release date: 23. Jun 2022
+- Added spinner when pdf is loading
+- Set sandbox/live mode in PayPal key configuration setup form
+- Fixed issue when after deleting user, the related subscription wasn't deleted
+- Fixed issue when you perform composer update with private repository
+- Fixed issue where change in sorting option will duplicate the content in file view
+- Fixed issue where Dragged & Dropped folder from desktop didn't start uploading
+- Fixed issue when you upload empty .txt file, it stops the upload process
+
+## Version 2.2.0.8
+#### Release date: 15. Jun 2022
+- Fixed issue when you tried switch to another language, the language stay same
+
+## Version 2.2.0.7
+#### Release date: 13. Jun 2022
+- Solved issue when you click on the PayPal logo it makes the new copy of the payment buttons
+
+## Version 2.2.0.6
+#### Release date: 13. Jun 2022
+- Solved issue when user wasn't redirected into stripe checkout
+
+## Version 2.2.0.5
+#### Release date: 12. Jun 2022
+- Solved issue with showing trash content (Affected since 2.2.0)
+
 ## Version 2.2
 #### Release date: 18. May 2022
+
+### Fixes
 - Solved issue with database backup notifications
 - Solved issue where after team member was invited into team folder, email with urging the recipient to create new account was sent
 - You are now allowed to set price for metered billing in 3 decimal places
 - Solved UI issue with empty notification popup
+- Plans in fixed subscription are now automatically sorted from lower to higher price
+- When new user was created via admin, the verification email was send
+- Item name in list view type is now extended on the full page width
+
+### New Features
+- API version 1 released
+- Paginated records loading with infinity scroller
 - If you send file request for native user via email option, the push notification will be sent to the user
 - Ability to test your websocket (Broadcasting) connection via Admin / Server / Broadcasting tab
-- Plans in fixed subscription are now automatically sorted from lower to higher price
 
 ## Version 2.1.3
 #### Release date: 10. May 2022

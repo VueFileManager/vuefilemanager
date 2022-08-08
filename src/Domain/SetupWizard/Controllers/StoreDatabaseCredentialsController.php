@@ -4,7 +4,6 @@ namespace Domain\SetupWizard\Controllers;
 use DB;
 use Artisan;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use Doctrine\DBAL\Driver\PDOException;
 use Symfony\Component\HttpKernel\Exception\HttpException;

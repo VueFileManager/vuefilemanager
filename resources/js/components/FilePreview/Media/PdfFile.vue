@@ -3,6 +3,12 @@
         class="absolute bottom-0 top-0 left-0 right-0 z-10 mx-auto overflow-y-auto rounded-xl md:p-5"
         :style="{ width: documentSize + '%' }"
     >
+		<div
+			v-if="isLoading"
+			class="mx-auto fixed left-0 right-0 top-1/2 translate-y-5 w-full z-10"
+		>
+			<Spinner />
+		</div>
         <pdf
             :src="pdfData"
             v-for="i in numPages"
@@ -12,39 +18,43 @@
             scale="page-width"
             id="printable-file"
             class="mx-auto mb-6 w-full overflow-hidden md:rounded-xl md:shadow-lg"
-        >
-            <template slot="loading">
-                <b>
-                    {{ $t('loading_content') }}
-                </b>
-            </template>
-        </pdf>
+			@loading="documentLoaded"
+        />
     </div>
 </template>
 
 <script>
+import Spinner from "../../UI/Others/Spinner"
 import { events } from '../../../bus'
 import pdf from 'pdfvuer'
 
 export default {
     name: 'PdfFile',
     components: {
+		Spinner,
         pdf,
     },
-    props: ['file'],
+    props: [
+		'file'
+	],
     watch: {
         file() {
             this.getPdf()
+			this.isLoading = true
         },
     },
     data() {
         return {
             pdfData: undefined,
             documentSize: 50,
+			isLoading: true,
             numPages: 0,
         }
     },
     methods: {
+		documentLoaded() {
+			this.isLoading = false
+		},
         getPdf() {
             this.pdfData = undefined
             this.numPages = 0

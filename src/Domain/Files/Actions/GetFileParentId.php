@@ -34,12 +34,14 @@ class GetFileParentId
         $directoryName = $directoryPath->shift();
 
         // Get requested directory
-        $requestedDirectory = Folder::where('name', $directoryName);
+        $requestedDirectory = Folder::where('name', $directoryName)
+            ->where('user_id', $userId);
 
         // Check if root exists, if not, create him
         if ($requestedDirectory->exists()) {
             // Get parent folder
             $parentCheck = Folder::where('name', $directoryName)
+                ->where('user_id', $userId)
                 ->where('parent_id', $parentId);
 
             // Check if parent folder of requested directory name exists, if not, create it

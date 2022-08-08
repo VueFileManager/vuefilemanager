@@ -1,9 +1,9 @@
 <?php
 namespace Domain\UploadRequest\Controllers;
 
-use App\Users\Models\User;
 use Gate;
 use Notification;
+use App\Users\Models\User;
 use Domain\Folders\Models\Folder;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -44,8 +44,13 @@ class CreateUploadRequestController extends Controller
             if ($user) {
                 $user->notify(new UploadRequestNotification($uploadRequest));
             } else {
+                // Get default app locale
+                $appLocale = get_settings('language') ?? 'en';
+
                 Notification::route('mail', $uploadRequest->email)
-                    ->notify(new UploadRequestNotification($uploadRequest));
+                    ->notify(
+                        (new UploadRequestNotification($uploadRequest))->locale($appLocale)
+                    );
             }
         }
 

@@ -36,7 +36,7 @@
 
         <div
             @contextmenu.prevent.capture="contextMenu($event, undefined)"
-            class="lg:flex lg:flex-col lg:w-full lg:px-3.5"
+            class="lg:flex lg:flex-col lg:w-full lg:px-3.5 min-w-0"
         >
             <DesktopToolbar />
 
@@ -53,7 +53,7 @@
 
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden grow" @drop.stop.prevent="uploadDroppedItems($event)" @dragenter.prevent @dragover.prevent>
-                <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
+                <router-view id="file-view" class="relative w-full min-w-0" :key="$route.fullPath" />
 
                 <InfoSidebar v-if="isVisibleSidebar" />
             </div>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
 import FileSortingMobile from '../components/Menus/FileSortingMobile'
 import SidebarNavigation from '../components/Sidebar/SidebarNavigation'
 import FileFilterMobile from '../components/Menus/FileFilterMobile'
@@ -116,7 +117,7 @@ export default {
         DragUI,
     },
     computed: {
-        ...mapGetters(['isVisibleSidebar', 'isLimitedUser', 'config', 'currentFolder']),
+        ...mapGetters(['isVisibleSidebar', 'config', 'currentFolder']),
     },
     data() {
         return {
@@ -124,8 +125,14 @@ export default {
         }
     },
     methods: {
-		uploadDroppedItems(event) {
-			this.$uploadDraggedFiles(event, this.currentFolder?.data.id)
+		async uploadDroppedItems(event) {
+			// Check if user dropped folder with files
+			let files = await getFilesFromDataTransferItems(event.dataTransfer.items)
+
+			if (files.length !== 0) {
+				// Upload folder with files
+				this.$uploadDraggedFolderOrFile(files, this.currentFolder?.data.id)
+			}
 		},
         contextMenu(event, item) {
             events.$emit('context-menu:show', event, item)

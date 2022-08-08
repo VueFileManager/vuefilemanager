@@ -9,36 +9,25 @@ class ResetPassword extends Notification
 {
     use Queueable;
 
-    private $token;
-
     /**
      * Create a new notification instance.
-     *
-     * @param $token
      */
-    public function __construct($token)
-    {
-        $this->token = $token;
-    }
+    public function __construct(
+        public string $token
+    ) {}
 
     /**
      * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
      */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
         return ['mail'];
     }
 
     /**
      * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable): MailMessage
     {
         $reset_url = url('/create-new-password?token=' . $this->token);
         $app_name = get_settings('app_title') ?? 'VueFileManager';
@@ -50,17 +39,5 @@ class ResetPassword extends Notification
             ->action(__t('reset_password'), $reset_url)
             ->line(__t('reset_password_line_2'))
             ->salutation(__t('salutation') . ', ' .  $app_name);
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-        ];
     }
 }

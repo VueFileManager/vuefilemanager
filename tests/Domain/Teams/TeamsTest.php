@@ -182,7 +182,7 @@ class TeamsTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->getJson('/api/teams/folders/undefined')
+            ->getJson('/api/teams/folders/all?page=1')
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $folder->id,
@@ -255,7 +255,7 @@ class TeamsTest extends TestCase
 
         $this
             ->actingAs($member)
-            ->getJson('/api/teams/shared-with-me/undefined')
+            ->getJson('/api/teams/shared-with-me/all?page=1')
             ->assertOk()
             ->assertJsonFragment([
                 'id' => $folders[0]->id,

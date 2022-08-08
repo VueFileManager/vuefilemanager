@@ -25,7 +25,7 @@
 
         <div
             @contextmenu.prevent.capture="contextMenu($event, undefined)"
-            class="lg:flex lg:flex-col lg:w-full lg:px-3.5"
+            class="lg:flex lg:flex-col lg:w-full lg:px-3.5 min-w-0"
         >
             <DesktopSharepageToolbar />
 
@@ -36,7 +36,7 @@
 
             <!--File list & info sidebar-->
             <div class="flex space-x-3 lg:overflow-hidden grow" @drop.stop.prevent="uploadDroppedItems($event)" @dragenter.prevent @dragover.prevent>
-                <router-view id="file-view" class="relative w-full" :key="$route.fullPath" />
+                <router-view id="file-view" class="relative w-full min-w-0" :key="$route.fullPath" />
 
                 <InfoSidebar v-if="isVisibleSidebar" />
             </div>
@@ -64,6 +64,7 @@ import { mapGetters } from 'vuex'
 import { events } from '../bus'
 import DesktopSharepageToolbar from '../components/Layout/Toolbars/DesktopSharepageToolbar'
 import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
+import {getFilesFromDataTransferItems} from "datatransfer-files-promise";
 
 export default {
     name: 'Shared',
@@ -95,8 +96,14 @@ export default {
         }
     },
     methods: {
-		uploadDroppedItems(event) {
-			this.$uploadDraggedFiles(event, this.currentFolder?.data.id)
+		async uploadDroppedItems(event) {
+			// Check if user dropped folder with files
+			let files = await getFilesFromDataTransferItems(event.dataTransfer.items)
+
+			if (files.length !== 0) {
+				// Upload folder with files
+				this.$uploadDraggedFolderOrFile(files, this.currentFolder?.data.id)
+			}
 		},
         contextMenu(event, item) {
             events.$emit('context-menu:show', event, item)

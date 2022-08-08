@@ -58,7 +58,7 @@
                 <!--Member list-->
                 <ValidationProvider tag="div" mode="passive" name="Members" rules="required" v-slot="{ errors }">
                     <AppInputText :title="$t('your_members')" :error="errors[0]" :is-last="true">
-                        <span v-if="errors[0]" class="error-message" style="margin-top: -5px">
+                        <span v-if="errors[0]" class="text-left text-xs text-red-600" style="margin-top: -5px">
                             {{ $t('add_at_least_one_member') }}
                         </span>
 
@@ -179,7 +179,7 @@ export default {
 
                         // Add created team folder into Team Folder homepage view
                     } else if (isTeamFoldersLocation && !this.$route.params.id) {
-                        this.$store.commit('ADD_NEW_FOLDER', response.data)
+                        this.$store.commit('ADD_NEW_ITEM', response.data)
 
                         // Redirect to Team Folders after converting simple folder
                     } else if (!isTeamFoldersLocation) {

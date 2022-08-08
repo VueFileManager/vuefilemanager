@@ -17,7 +17,7 @@
   - [Upgrading From Testing Environment to the Production Mode](#upgrading-from-testing-environment-to-the-production-mode)
 - [Broadcasting](#broadcasting)
   - [About Broadcasting](#about-broadcasting)
-  - [Install Broadcast Server](#install-broadcast-server)
+  - [Install VueFileManager Broadcast Server](#install-vuefilemanager-broadcast-server)
 - [Developers](#developers)
   - [Running Environment On Your Localhost](#running-environment-on-your-localhost)
   - [Express Installation](#express-installation)
@@ -36,12 +36,13 @@
 
 **For running app make sure you have:**
 
-- PHP >= 8.0.2 version (8.1+ recommended)
+- PHP >= 8.1
 - MySQL 5.6+
 - Nginx or Apache (Nginx recommended)
 
 **These PHP Extensions are require:**
 
+- finfo
 - Intl
 - GD
 - BCMath
@@ -91,24 +92,13 @@ That was the hardest part of installation process. Please follow instructions in
 
 #### If you are running VueFileManager on shared web hosting (CPanel, Plesk etc.)
 1. Create new cron job
-2. Set execution cycle every minute
-3. Search the absolute directory path where you uploaded VueFileManager files (like `/www/project_files`). The path must start with `/`.
-4. Copy the command below, paste it to the command text area and replace in command string `replace_by_your_path` exactly with your path you found in step 3.
-5. It should [look like this](https://i.ibb.co/SmR585j/Screenshot-2022-03-31-at-09-30-36.png) with your pasted project path.
-```
-php replace_by_your_path/artisan schedule:run >> /dev/null 2>&1
-```
-6. If you have multiple php versions installed on your server, you should specify php path to the latest php version (8+). So, you should edit `php` in command above and replace it by path. For Example:
-```
-/usr/bin/php8.1/php replace_by_your_path/artisan schedule:run >> /dev/null 2>&1
-```
+2. Set execution cycle for every minute
+3. Login to the VueFileManager as admin and go to the admin dashboard, you will see command which you have to copy and paste into the command input.
 
 #### If you are running VueFileManager on linux server
-1. Search the absolute directory path where you uploaded VueFileManager files (like `/www/project_files`). The path must start with `/`.
-2. Copy the command below, paste it to your cron list and replace in command string `/www/project_files` exactly with your path you found in step 1.
-```
-* * * * *  cd /www/project_files && php artisan schedule:run >> /dev/null 2>&1
-```
+1. Go to the terminal and run command `crontab -e`
+2. Login to the VueFileManager as admin and go to the admin dashboard, you will see command which you have to copy and paste into the end of file.
+3. Leave crontab and save the file.
 
 ### 8. CORS Configuration (When you Set External S3 Storage)
 In your s3 bucket settings you should have option to set up your CORS (Cross-Origin Resource Sharing). It's basically adding your app url to the list of allowed CORS. This step is required for reading pdf documents from s3 in your VueFileManager app without loading issues.
@@ -221,7 +211,7 @@ VueFileManager support 2 types of connections:
 1. [Pusher](https://pusher.com/) - Suitable for all users and all hosting platforms
 2. VueFileManager Broadcast Server - Free of charge, suitable for experienced users, limited for VPS servers
 
-## Install Broadcast Server
+## Install VueFileManager Broadcast Server
 We strongly recommend only for experienced users to set up and running VueFileManager broadcast server. For others, we recommend to use Pusher service to easy set up and host broadcasting service.
 
 ### Server Requirements

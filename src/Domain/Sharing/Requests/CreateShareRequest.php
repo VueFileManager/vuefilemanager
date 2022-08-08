@@ -24,6 +24,7 @@ class CreateShareRequest extends FormRequest
     public function rules()
     {
         return [
+            'id'         => 'required|uuid',
             'isPassword' => 'sometimes|boolean',
             'password'   => 'required_if:isPassword,true',
             'type'       => 'required|string',

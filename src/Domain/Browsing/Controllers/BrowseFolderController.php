@@ -4,7 +4,7 @@ namespace Domain\Browsing\Controllers;
 use Str;
 use Domain\Files\Models\File;
 use Domain\Folders\Models\Folder;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 use Domain\Files\Resources\FilesCollection;
 use Domain\Folders\Resources\FolderResource;
 use Domain\Folders\Resources\FolderCollection;
@@ -13,27 +13,68 @@ class BrowseFolderController
 {
     public function __invoke(
         string $id,
-    ): array {
-        $root_id = Str::isUuid($id) ? $id : null;
+    ): JsonResponse {
+        $rootId = Str::isUuid($id)
+            ? $id
+            : null;
 
-        $folders = Folder::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id', $root_id)
-            ->where('team_folder', false)
-            ->where('user_id', Auth::id())
-            ->sortable()
-            ->get();
+        $page = request()->has('page')
+            ? request()->input('page')
+            : 'all';
 
-        $files = File::with(['parent:id,name', 'shared:token,id,item_id,permission,is_protected,expire_in'])
-            ->where('parent_id', $root_id)
-            ->where('user_id', Auth::id())
-            ->sortable()
-            ->get();
-
-        // Collect folders and files to single array
-        return [
-            'folders' => new FolderCollection($folders),
-            'files'   => new FilesCollection($files),
-            'root'    => $root_id ? new FolderResource(Folder::findOrFail($root_id)) : null,
+        // Prepare folder & file db query
+        $query = [
+            'folder' => [
+                'where' => [
+                    'parent_id'   => $rootId,
+                    'team_folder' => false,
+                    'user_id'     => auth()->id(),
+                    'deleted_at'  => null,
+                ],
+            ],
+            'file' => [
+                'where' => [
+                    'parent_id'   => $rootId,
+                    'user_id'     => auth()->id(),
+                    'deleted_at'  => null,
+                ],
+            ],
+            'with' => [
+                'parent:id,name',
+                'shared:token,id,item_id,permission,is_protected,expire_in',
+            ],
         ];
+
+        [$foldersTake, $foldersSkip, $filesTake, $filesSkip, $totalEntries] = getRecordsCount($query, $page);
+
+        $folders = Folder::with($query['with'])
+            ->where($query['folder']['where'])
+            ->sortable()
+            ->skip($foldersSkip)
+            ->take($foldersTake)
+            ->get();
+            
+        $files = File::with($query['with'])
+            ->where($query['file']['where'])
+            ->sortable()
+            ->skip($filesSkip)
+            ->take($filesTake)
+            ->get();
+        
+        $entries = collect([
+            $folders ? json_decode((new FolderCollection($folders))->toJson(), true) : null,
+            $files ? json_decode((new FilesCollection($files))->toJson(), true) : null,
+        ])->collapse();
+            
+        [$paginate, $links] = formatPaginatorMetadata($totalEntries);
+
+        return response()->json([
+            'data'  => $entries,
+            'links' => $links,
+            'meta'  => [
+                'paginate' => $paginate,
+                'root'     => $rootId ? new FolderResource(Folder::findOrFail($rootId)) : null,
+            ],
+        ]);
     }
 }

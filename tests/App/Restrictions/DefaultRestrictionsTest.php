@@ -1,6 +1,9 @@
 <?php
 namespace Tests\App\Restrictions;
 
+use Illuminate\Http\UploadedFile;
+use Storage;
+use Str;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
@@ -121,10 +124,15 @@ class DefaultRestrictionsTest extends TestCase
             ->hasSettings()
             ->create();
 
+        $file = UploadedFile::fake()
+            ->create(Str::random() . '-fake-file.pdf', 1200, 'application/pdf');
+
+        Storage::putFileAs("files/$user->id", $file, $file->name);
+
         $file = File::factory()
             ->create([
                 'user_id'  => $user->id,
-                'basename' => 'fake-file.pdf',
+                'basename' => $file->name,
                 'name'     => 'fake-file.pdf',
             ]);
 

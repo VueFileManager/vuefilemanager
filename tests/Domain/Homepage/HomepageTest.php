@@ -21,7 +21,7 @@ class HomepageTest extends TestCase
     {
         resolve(SeedDefaultPagesAction::class)();
 
-        resolve(SeedDefaultSettingsAction::class)('Extended');
+        resolve(SeedDefaultSettingsAction::class)();
 
         Setting::create([
             'name'  => 'setup_wizard_success',

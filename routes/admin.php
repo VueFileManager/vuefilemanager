@@ -5,7 +5,6 @@ use Domain\Pages\Controllers\AdminPagesController;
 use Domain\Settings\Controllers\FlushCacheController;
 use Domain\Localization\Controllers\LanguageController;
 use Domain\Admin\Controllers\Users\DeleteUserController;
-use Domain\Settings\Controllers\TestWebsocketConnectionController;
 use Domain\Settings\Controllers\UpgradeLicenseController;
 use Domain\Settings\Controllers\GetServerStatusController;
 use Domain\Settings\Controllers\GetSettingsValueController;
@@ -17,6 +16,7 @@ use Domain\Settings\Controllers\StoreEmailCredentialsController;
 use Domain\Transactions\Controllers\GetAllTransactionsController;
 use Domain\Admin\Controllers\Dashboard\GetDashboardDataController;
 use Domain\Settings\Controllers\StoreStorageCredentialsController;
+use Domain\Settings\Controllers\TestWebsocketConnectionController;
 use Domain\Transactions\Controllers\GetUserTransactionsController;
 use Domain\Localization\Controllers\UpdateLanguageStringController;
 use Domain\Admin\Controllers\Users\ShowUserStorageCapacityController;
@@ -40,12 +40,13 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/{user}/transactions', GetUserTransactionsController::class);
     Route::get('/{user}/storage', ShowUserStorageCapacityController::class);
     Route::patch('/{user}/role', ChangeUserRoleController::class);
-    Route::delete('/{user}/delete', DeleteUserController::class);
+    Route::delete('/{user}', DeleteUserController::class);
 });
 
 Route::get('/transactions', GetAllTransactionsController::class);
 Route::apiResource('/pages', AdminPagesController::class);
-Route::apiResource('/users', UserController::class);
+Route::apiResource('/users', UserController::class)
+    ->only(['index', 'show', 'store']);
 
 // Settings
 Route::group(['prefix' => 'settings'], function () {
@@ -67,5 +68,4 @@ Route::apiResource('/languages', LanguageController::class);
 
 // Miscellaneous
 Route::get('/status', GetServerStatusController::class);
-Route::post('/upgrade-license', UpgradeLicenseController::class);
 Route::post('/test-websockets', TestWebsocketConnectionController::class);

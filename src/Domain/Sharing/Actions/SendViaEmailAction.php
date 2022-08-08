@@ -15,9 +15,14 @@ class SendViaEmailAction
         string $token,
         User $user,
     ): void {
+        // Get default app locale
+        $appLocale = get_settings('language') ?? 'en';
+
         foreach ($emails as $email) {
             Notification::route('mail', $email)
-                ->notify(new SharedSendViaEmail($token, $user));
+                ->notify(
+                    (new SharedSendViaEmail($token, $user))->locale($appLocale)
+                );
         }
     }
 }

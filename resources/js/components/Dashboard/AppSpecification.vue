@@ -35,7 +35,7 @@
                     {{ data.app.license }}
                 </ColorLabel>
             </a>
-            <b v-if="data.app.license === 'extended'" class="mr-4 inline-block">
+            <b class="mr-4 inline-block">
                 <span class="text-sm font-bold"> {{ $t('subscription') }}: </span>
                 <ColorLabel color="purple">
                     {{ config.subscriptionType }}

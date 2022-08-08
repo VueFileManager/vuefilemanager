@@ -1,7 +1,7 @@
 <template>
-    <AuthContentWrapper ref="auth">
+    <AuthContentWrapper ref="auth" class="h-screen">
         <!--Registration-->
-        <AuthContent name="sign-up" :visible="true" class="mt-4 mb-12">
+        <AuthContent name="sign-up" :visible="true">
             <Headline :title="$t('page_registration.title')" :description="$t('page_registration.subtitle')" />
 
             <ValidationObserver
@@ -208,11 +208,10 @@ export default {
             this.isLoading = true
 
             // Get ReCaptcha token
-            if (config.allowedRecaptcha) {
-                this.register.reCaptcha = await this.$reCaptchaToken('register').then((response) => {
-                    return response
-                })
-            }
+			if (this.config.allowedRecaptcha) {
+				this.register.reCaptcha = await this.$reCaptchaToken('register')
+					.then((response) => response)
+			}
 
             // Send request to get user token
             axios
@@ -278,7 +277,7 @@ export default {
 			this.$router.push({name: 'Files'})
 		}
 
-		if (this.config.isDemo || this.config.isDev) {
+		if (this.config.isPrefilledUsers) {
 			this.register = {
 				name: 'John Doe',
 				email: 'demo-' + Math.floor(Math.random() * 100000) + '@doe.com',

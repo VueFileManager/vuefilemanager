@@ -17,7 +17,7 @@ class SetupProdEnvironment extends Command
     /**
      * The name and signature of the console command.
      */
-    protected $signature = 'setup:prod {license=extended}';
+    protected $signature = 'setup:prod';
 
     /**
      * The console command description.
@@ -55,7 +55,7 @@ class SetupProdEnvironment extends Command
         $this->store_default_settings();
 
         ($this->seedDefaultPages)();
-        ($this->seedDefaultSettings)($this->argument('license'));
+        ($this->seedDefaultSettings)();
         ($this->seedDefaultLanguage)();
 
         $this->info('Creating default admin...');
@@ -155,7 +155,7 @@ class SetupProdEnvironment extends Command
             ],
             [
                 'name'  => 'license',
-                'value' => $this->argument('license'),
+                'value' => 'regular',
             ],
             [
                 'name'  => 'purchase_code',
@@ -204,19 +204,17 @@ class SetupProdEnvironment extends Command
             ]);
         });
 
-        if ($this->argument('license') === 'extended') {
-            $choice = $this->choice('Choose subscription type', [
-                'metered' => 'Metered',
-                'fixed'   => 'Fixed',
-                'none'    => 'None',
-            ]);
+        $choice = $this->choice('Choose subscription type', [
+            'metered' => 'Metered',
+            'fixed'   => 'Fixed',
+            'none'    => 'None',
+        ]);
 
-            Setting::updateOrCreate([
-                'name'  => 'subscription_type',
-            ], [
-                'value' => $choice,
-            ]);
-        }
+        Setting::updateOrCreate([
+            'name'  => 'subscription_type',
+        ], [
+            'value' => $choice,
+        ]);
     }
 
     /**

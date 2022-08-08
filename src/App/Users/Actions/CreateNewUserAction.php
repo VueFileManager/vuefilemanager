@@ -43,8 +43,6 @@ class CreateNewUserAction extends Controller
             $user->markEmailAsVerified();
         }
 
-        event(new Registered($user));
-
         return $user;
     }
 

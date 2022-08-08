@@ -178,46 +178,41 @@ const FunctionHelpers = {
                 return
             }
 
-            if (files.length === 0) return
+            if (files.length === 0) {
+                return
+            }
 
-            if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) return // Push items to file queue
-            ;[...files].map((item) => {
-                store.commit('ADD_FILES_TO_QUEUE', {
+            if (!this.$checkFileMimetype(files) || !this.$checkUploadLimit(files)) {
+                return
+            }
+
+            // Push items to file queue
+            [...files].map((item) => {
+                store.dispatch('pushFileToTheUploadQueue', {
                     parent_id: store.getters.currentFolder ? store.getters.currentFolder.data.id : '',
                     file: item,
                     path: '/' + item.webkitRelativePath,
                 })
             })
-
-            // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal === 0) this.$handleUploading(store.getters.fileQueue[0])
-
-            // Increase total files in upload bar
-            store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', files.length)
         }
 
-        Vue.prototype.$uploadDraggedFiles = async function (event, parent_id) {
-            // Show alert message when upload is disabled
-            if (store.getters.user && !store.getters.user.data.meta.restrictions.canUpload) {
-                Vue.prototype.$temporarilyDisabledUpload()
+        Vue.prototype.$uploadDraggedFolderOrFile = async function (files, parent_id) {
+            files.map((file) => {
+                // Get file path
+                let filePath = file.filepath ? '/' + file.filepath : undefined
 
-                return
-            }
+                // Determine if we are uploading folder or file
+                if (filePath.split('/').length > 2) {
+                    store.commit('UPDATE_UPLOADING_FOLDER_STATE', true)
+                }
 
-            // Prevent submit empty files
-            if (event.dataTransfer.items.length === 0) return // Push items to file queue
-            ;[...event.dataTransfer.items].map((item) => {
-                store.commit('ADD_FILES_TO_QUEUE', {
-                    parent_id: parent_id ? parent_id : '',
-                    file: item.getAsFile(),
+                // Push file to the upload queue
+                store.dispatch('pushFileToTheUploadQueue', {
+                    parent_id: parent_id || '',
+                    path: filePath,
+                    file: file,
                 })
             })
-
-            // Start uploading if uploading process isn't running
-            if (store.getters.filesInQueueTotal == 0) this.$handleUploading(store.getters.fileQueue[0])
-
-            // Increase total files in upload bar
-            store.commit('INCREASE_FILES_IN_QUEUES_TOTAL', [...event.dataTransfer.items].length)
         }
 
         Vue.prototype.$handleUploading = async function (item) {
@@ -350,19 +345,19 @@ const FunctionHelpers = {
             }[this.$router.currentRoute.name]
         }
 
-        Vue.prototype.$getDataByLocation = function () {
+        Vue.prototype.$getDataByLocation = async function (page) {
             let routes = {
-                RequestUpload: ['getUploadRequestFolder', router.currentRoute.params.id || undefined ],
-                Public: ['getSharedFolder', router.currentRoute.params.id || undefined],
-                Files: ['getFolder', router.currentRoute.params.id || undefined],
-                RecentUploads: ['getRecentUploads'],
-                MySharedItems: ['getMySharedItems'],
-                Trash: ['getTrash', router.currentRoute.params.id || undefined],
-                TeamFolders: ['getTeamFolder', router.currentRoute.params.id || undefined],
-                SharedWithMe: ['getSharedWithMeFolder', router.currentRoute.params.id || undefined],
+                RequestUpload: ['getUploadRequestFolder', {page: page, id: router.currentRoute.params.id || undefined}],
+                Public: ['getSharedFolder', {page: page, id: router.currentRoute.params.id || undefined}],
+                Files: ['getFolder', {page: page, id: router.currentRoute.params.id || undefined}],
+                RecentUploads: ['getRecentUploads', page],
+                MySharedItems: ['getMySharedItems', page],
+                Trash: ['getTrash', {page: page, id: router.currentRoute.params.id || undefined}],
+                TeamFolders: ['getTeamFolder', {page: page, id: router.currentRoute.params.id || undefined}],
+                SharedWithMe: ['getSharedWithMeFolder', {page: page, id: router.currentRoute.params.id || undefined}],
             }
 
-            store.dispatch(...routes[router.currentRoute.name])
+            return await store.dispatch(...routes[router.currentRoute.name])
         }
 
         Vue.prototype.$getPaymentLogo = function (driver) {

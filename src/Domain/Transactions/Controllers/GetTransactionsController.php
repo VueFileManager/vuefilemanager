@@ -2,7 +2,6 @@
 namespace Domain\Transactions\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Domain\Transactions\Resources\TransactionCollection;
 

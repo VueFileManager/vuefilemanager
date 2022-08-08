@@ -2,11 +2,11 @@
 namespace Domain\RemoteUpload\Controllers;
 
 use Domain\Folders\Models\Folder;
+use Illuminate\Http\JsonResponse;
 use Domain\UploadRequest\Models\UploadRequest;
 use Domain\RemoteUpload\Requests\RemoteUploadRequest;
 use Domain\RemoteUpload\Actions\GetContentFromExternalSource;
 use Domain\UploadRequest\Actions\CreateUploadRequestRootFolderAction;
-use Illuminate\Http\JsonResponse;
 
 class UploadFilesRemotelyForUploadRequestController
 {

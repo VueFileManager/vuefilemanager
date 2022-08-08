@@ -19,7 +19,7 @@ class SocialiteTest extends TestCase
     {
         $response = $this->get('api/socialite/google/redirect');
 
-        $this->assertStringContainsString('accounts.google.com/o/oauth2/auth', $response['url']);
+        $this->assertStringContainsString('accounts.google.com/o/oauth2/auth', $response->json()['data']['url']);
     }
 
     /**
