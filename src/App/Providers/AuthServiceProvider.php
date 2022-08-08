@@ -9,6 +9,8 @@ use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Messages\MailMessage;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,35 +29,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerCustomVerificationEmail();
         $this->registerPolicies();
-
-        // Define admin maintenance gate
-        Gate::define('maintenance', fn ($user) => $user->role === 'admin');
-
-        // Define user ability to edit file or folder
-        collect(['can-edit', 'can-view'])
-            ->each(function ($ability) {
-                Gate::define($ability, function (?User $user, File | Folder $item, ?Share $share) use ($ability) {
-                    // If share link exist, then check share access
-                    if ($share) {
-                        return $this->shareGuard($share, $item);
-                    }
-
-                    // Check user owner status
-                    if ($user?->id === $item->user_id) {
-                        return true;
-                    }
-
-                    // Check team member ability to access into requested item
-                    return $this->teamMemberGuard($item, $user, $ability);
-                });
-            });
-
-        // Define owner of file or folder
-        Gate::define('owner', function (?User $user, File | Folder $item) {
-            // Check user owner status
-            return $user?->id === $item->user_id;
-        });
+        $this->registerGates();
     }
 
     private function shareGuard(Share $share, Folder | File $item): bool
@@ -97,5 +73,46 @@ class AuthServiceProvider extends ServiceProvider
 
         // check existing members permission or check team folder owner privileges
         return $membership?->permission === $ability || $teamFolder->user_id === Auth::id();
+    }
+
+    private function registerGates(): void
+    {
+        // Define admin maintenance gate
+        Gate::define('maintenance', fn($user) => $user->role === 'admin');
+
+        // Define user ability to edit file or folder
+        collect(['can-edit', 'can-view'])
+            ->each(function ($ability) {
+                Gate::define($ability, function (?User $user, File|Folder $item, ?Share $share) use ($ability) {
+                    // If share link exist, then check share access
+                    if ($share) {
+                        return $this->shareGuard($share, $item);
+                    }
+
+                    // Check user owner status
+                    if ($user?->id === $item->user_id) {
+                        return true;
+                    }
+
+                    // Check team member ability to access into requested item
+                    return $this->teamMemberGuard($item, $user, $ability);
+                });
+            });
+
+        // Define owner of file or folder
+        Gate::define('owner', function (?User $user, File|Folder $item) {
+            // Check user owner status
+            return $user?->id === $item->user_id;
+        });
+    }
+
+    private function registerCustomVerificationEmail(): void
+    {
+        VerifyEmail::toMailUsing(function ($notifiable, $url) {
+            return (new MailMessage)
+                ->subject(__t('verify_email_subject'))
+                ->line(__t('verify_email_line'))
+                ->action(__t('verify_email_action'), $url);
+        });
     }
 }

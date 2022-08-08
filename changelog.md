@@ -1,3 +1,11 @@
+## Version 2.2.4
+#### Release date: 8. August 2022
+- Account verification email is now sending in preferred app language
+
+## Version 2.2.3
+#### Release date: 6. August 2022
+- Subscription module is now available for Regular license type 
+
 ## Version 2.2.2
 #### Release date: 16. July 2022
 - Fixed issue when email wasn't sent in active app language
