@@ -43,12 +43,12 @@
             <MobileToolbar />
 
             <!--Google Adsense banner-->
-			<InFeedAdsense
+			<!--<InFeedAdsense
 				data-ad-test
 				data-ad-layout-key="-gw-3+1f-3d+2z"
 				data-ad-client="ca-pub-8058330732865164"
 				data-ad-slot="2395328892">
-			</InFeedAdsense>
+			</InFeedAdsense>-->
             <div v-if="config.allowedAdsense && config.adsenseBanner01" v-html="config.adsenseBanner01" class="mb-5 min-h-[120px]"></div>
 
             <!--File list & info sidebar-->
