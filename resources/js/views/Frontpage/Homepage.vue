@@ -11,6 +11,7 @@
             <HeroScreenshot />
 
 			<InFeedAdsense
+				data-ad-test
 				data-ad-client="ca-pub-8058330732865164"
 				data-ad-slot="2845132832">
 			</InFeedAdsense>
