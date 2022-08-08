@@ -1,6 +1,7 @@
 ## Version 2.2.4
 #### Release date: 8. August 2022
 - Account verification email is now sending in preferred app language
+- Fixed issue where metered billing mode still count in some cases members after team folder was deleted
 
 ## Version 2.2.3
 #### Release date: 6. August 2022

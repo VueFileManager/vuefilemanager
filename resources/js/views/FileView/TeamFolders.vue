@@ -3,8 +3,8 @@
         <MobileContextMenu>
             <OptionGroup v-if="item">
                 <Option @click.native="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
-                <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" :class="{'is-inactive': isTeamFolderHomepage}" />
-                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" :class="{'is-inactive': isTeamFolderHomepage}" />
+                <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" :class="{'is-inactive': isTeamFolderHomepage || isTeamFolder}" />
+                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" :class="{'is-inactive': isTeamFolderHomepage || isTeamFolder}" />
             </OptionGroup>
             <OptionGroup v-if="item">
                 <Option
@@ -67,6 +67,7 @@
 
         <MobileMultiSelectToolbar>
             <ToolbarButton
+				v-if="! isTeamFolderHomepage"
                 @click.native="$moveFileOrFolder(clipboard)"
                 class="mr-4"
                 source="move"
@@ -74,6 +75,7 @@
                 :class="{ 'is-inactive': clipboard.length < 1 }"
             />
             <ToolbarButton
+				v-if="! isTeamFolderHomepage"
                 @click.native="$deleteFileOrFolder()"
                 class="mr-4"
                 source="trash"
@@ -121,8 +123,8 @@
                         :title="$t('rename')"
                         icon="rename"
                     />
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" :class="{'is-inactive': isTeamFolderHomepage}" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" :class="{'is-inactive': isTeamFolderHomepage}" />
+                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" :class="{'is-inactive': isTeamFolderHomepage || isTeamFolder}" />
+                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" :class="{'is-inactive': isTeamFolderHomepage || isTeamFolder}" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option
@@ -168,8 +170,8 @@
                     />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" :class="{'is-inactive': isTeamFolderHomepage || isTeamFolder}" />
+                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" :class="{'is-inactive': isTeamFolderHomepage || isTeamFolder}" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option @click.native="$downloadSelection()" :title="$t('download')" icon="download" />
@@ -274,6 +276,9 @@ export default {
         teamFolder() {
             return this.currentTeamFolder ? this.currentTeamFolder : this.clipboard[0]
         },
+		isTeamFolder() {
+			return this.teamFolder?.data.id === this.item.data.id
+		},
         isTeamFolderHomepage() {
             return this.$isThisRoute(this.$route, ['TeamFolders']) && !this.$route.params.id
         },

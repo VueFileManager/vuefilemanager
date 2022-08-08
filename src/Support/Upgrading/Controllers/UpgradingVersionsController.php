@@ -1,11 +1,11 @@
 <?php
 namespace Support\Upgrading\Controllers;
 
-use DB;
-use Artisan;
+use Illuminate\Support\Facades\Artisan;
 use Domain\Localization\Models\Language;
 use Domain\Settings\Models\Setting;
-use Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Users\Models\User;
 use Illuminate\Support\Arr;
 use Domain\Files\Models\File;
@@ -22,6 +22,24 @@ class UpgradingVersionsController
         public DeleteLanguageTranslationsAction $deleteLanguageStrings,
         public UpdateLanguageTranslationsAction $updateLanguageStrings,
     ) {
+    }
+
+    public function upgrade_to_2_2_4(): void
+    {
+        // Delete members from team folders where team folder doesn't exist
+        collect(['team_folder_members', 'team_folder_invitations'])
+            ->each(function ($table) {
+                DB::table($table)
+                    ->get()
+                    ->groupBy('parent_id')
+                    ->each(function ($item, $id) use ($table) {
+                        if (! Folder::find($id)) {
+                            DB::table($table)
+                                ->where('parent_id', $id)
+                                ->delete();
+                        }
+                    });
+            });
     }
 
     public function upgrade_to_2_2_3(): void
