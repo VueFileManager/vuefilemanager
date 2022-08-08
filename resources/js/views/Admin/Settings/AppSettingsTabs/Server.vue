@@ -26,6 +26,23 @@
                     </span>
                 </div>
             </div>
+
+			<div v-if="!cron.running" class="mt-8">
+				<AppInputText
+					:title="$t('Shared Web Hosting (Cpanel, Plesk, etc...) Command')"
+					:description="$t('Proposed command for Shared Web Hosting (Cpanel, Plesk, etc...)')"
+				>
+					<CopyInput size="small" :str="cron.command.shared" />
+				</AppInputText>
+
+				<AppInputText
+					:title="$t('Crontab Command')"
+					:description="$t('Proposed command for crontab. Available only for setup via linux terminal.')"
+					:is-last="true"
+				>
+					<CopyInput size="small" :str="cron.command.vps" />
+				</AppInputText>
+			</div>
         </div>
 
 		<!--Broadcasting-->
@@ -217,6 +234,8 @@
 </template>
 
 <script>
+import AppInputText from "../../../../components/Forms/Layouts/AppInputText";
+import CopyInput from "../../../../components/Inputs/CopyInput";
 import { CheckIcon, XIcon, DownloadCloudIcon } from 'vue-feather-icons'
 import FormLabel from '../../../../components/UI/Labels/FormLabel'
 import PageTab from '../../../../components/Layout/PageTab'
@@ -228,6 +247,8 @@ import ButtonBase from "../../../../components/UI/Buttons/ButtonBase";
 export default {
     name: 'Server',
     components: {
+		AppInputText,
+		CopyInput,
 		ButtonBase,
         FormLabel,
         InfoBox,

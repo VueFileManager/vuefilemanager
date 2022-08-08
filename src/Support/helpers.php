@@ -69,6 +69,19 @@ if (! function_exists('isRunningCron')) {
     }
 }
 
+if (! function_exists('getCronCommandSuggestions')) {
+    /**
+     * it gets cron command suggestion for VPS and admin panels
+     */
+    function getCronCommandSuggestions(): array
+    {
+        return [
+            'shared' => PHP_BINARY . ' ' . base_path() . '/artisan schedule:run >> /dev/null 2>&1',
+            'vps'    => '* * * * *  cd ' . base_path() . ' && ' . PHP_BINARY . ' artisan schedule:run >> /dev/null 2>&1',
+        ];
+    }
+}
+
 if (! function_exists('getInnerFolderIds')) {
     /**
      * Get all folder children ids

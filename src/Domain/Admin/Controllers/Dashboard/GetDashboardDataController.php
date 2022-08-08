@@ -41,10 +41,7 @@ class GetDashboardDataController extends Controller
             'app'   => [
                 'cron' => [
                     'isRunning' => isRunningCron(),
-                    'command'   => [
-                        'shared' => PHP_BINARY . ' ' . base_path() . '/artisan schedule:run >> /dev/null 2>&1',
-                        'vps'    => '* * * * *  cd ' . base_path() . ' && ' . PHP_BINARY . ' artisan schedule:run >> /dev/null 2>&1',
-                    ],
+                    'command'   => getCronCommandSuggestions(),
                 ],
                 'license'                   => get_settings('license'),
                 'version'                   => config('vuefilemanager.version'),

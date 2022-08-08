@@ -2,6 +2,7 @@
 #### Release date: 8. August 2022
 - Account verification email is now sending in preferred app language
 - Fixed issue where metered billing mode still count in some cases members after team folder was deleted
+- In case if cron isn't set, in Settings/Server tab you will see suggestions for cron command
 
 ## Version 2.2.3
 #### Release date: 6. August 2022

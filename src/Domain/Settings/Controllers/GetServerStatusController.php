@@ -31,6 +31,7 @@ class GetServerStatusController
         $status['cron'] = [
             'running'    => isRunningCron(),
             'lastUpdate' => isRunningCron() ? format_date(cache()->get('latest_cron_update')) : null,
+            'command'    => getCronCommandSuggestions(),
         ];
 
         return response()->json($status);
