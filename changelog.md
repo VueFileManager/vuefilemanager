@@ -1,3 +1,7 @@
+## Version 2.2.5
+#### Release date: 9. August 2022
+- improved tracking for Google Analytics
+
 ## Version 2.2.4
 #### Release date: 8. August 2022
 - Account verification email is now sending in preferred app language
