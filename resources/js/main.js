@@ -3,6 +3,7 @@ import Vue from 'vue'
 import i18n from './i18n'
 import VueRouter from 'vue-router'
 import router from './router'
+import VueAnalytics from 'vue-analytics'
 import App from './App.vue'
 import store from './store'
 import { events } from './bus'
@@ -20,6 +21,14 @@ Vue.use(ValidatorHelpers)
 Vue.use(functionHelpers)
 Vue.use(AlertHelpers)
 Vue.use(itemHelpers)
+
+// Google Analytics implementation
+if (config.googleAnalytics) {
+    Vue.use(VueAnalytics, {
+        id: config.googleAnalytics,
+        router
+    })
+}
 
 // ReCaptcha configuration
 if (config.allowedRecaptcha) {
