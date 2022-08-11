@@ -1,5 +1,5 @@
 ## Version 2.2.5
-#### Release date: 9. August 2022
+#### Release date: 11. August 2022
 - improved tracking for Google Analytics
 
 ## Version 2.2.4
