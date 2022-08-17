@@ -1,3 +1,7 @@
+## Version 2.2.6
+#### Release date: 17. August 2022
+- fixed upload button issue
+
 ## Version 2.2.5
 #### Release date: 11. August 2022
 - improved tracking for Google Analytics
