@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isVisible">
+    <div v-show="isVisible">
         <!--Overlay component-->
         <div
             @click.capture="hidePopover"
