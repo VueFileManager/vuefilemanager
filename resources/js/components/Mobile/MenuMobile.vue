@@ -2,7 +2,7 @@
     <div>
         <transition name="context-menu">
             <div
-                v-if="isVisible"
+                v-show="isVisible"
                 @click="closeMenu"
                 class="fixed bottom-0 left-0 right-0 z-50 overflow-hidden rounded-tl-xl rounded-tr-xl bg-white pb-4 dark:bg-2x-dark-foreground"
             >

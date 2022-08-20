@@ -1,3 +1,7 @@
+## Version 2.2.7
+#### Release date: 20. August 2022
+- fixed upload button issue in mobile
+
 ## Version 2.2.6
 #### Release date: 17. August 2022
 - fixed upload button issue
