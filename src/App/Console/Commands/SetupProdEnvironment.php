@@ -154,14 +154,6 @@ class SetupProdEnvironment extends Command
                 'value' => 1,
             ],
             [
-                'name'  => 'license',
-                'value' => 'regular',
-            ],
-            [
-                'name'  => 'purchase_code',
-                'value' => '26b889eb-3602-4bf2-beb3-3sc378fcf484',
-            ],
-            [
                 'name'  => 'billing_address',
                 'value' => null,
             ],

@@ -43,7 +43,6 @@ class GetDashboardDataController extends Controller
                     'isRunning' => isRunningCron(),
                     'command'   => getCronCommandSuggestions(),
                 ],
-                'license'                   => get_settings('license'),
                 'version'                   => config('vuefilemanager.version'),
                 'earnings'                  => format_currency($totalEarnings, 'USD'), // todo: refactor currency to global setup or plan currency
             ],

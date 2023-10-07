@@ -56,20 +56,6 @@ class SettingsTest extends TestCase
     /**
      * @test
      */
-    public function it_try_get_secured_settings_via_public_api()
-    {
-        Setting::create([
-            'name'  => 'purchase_code',
-            'value' => '15a53561-d387-4e0a-8de1-5d1bff34c1ed',
-        ]);
-
-        $this->getJson('/api/settings?column=purchase_code')
-            ->assertStatus(401);
-    }
-
-    /**
-     * @test
-     */
     public function it_update_settings()
     {
         resolve(SeedDefaultSettingsAction::class)();

@@ -338,7 +338,7 @@ export default {
             width: 52px;
             height: 52px;
 
-            /deep/ .folder-icon {
+            > .folder-icon {
                 @include font-size(52);
             }
         }

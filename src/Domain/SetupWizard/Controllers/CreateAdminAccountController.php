@@ -56,14 +56,6 @@ class CreateAdminAccountController extends Controller
                 'name'  => 'setup_wizard_success',
                 'value' => 1,
             ],
-            [
-                'name'  => 'license',
-                'value' => strtolower($request->input('license')),
-            ],
-            [
-                'name'  => 'purchase_code',
-                'value' => $request->input('purchase_code'),
-            ],
         ])->each(function ($col) {
             Setting::updateOrCreate([
                 'name'  => $col['name'],

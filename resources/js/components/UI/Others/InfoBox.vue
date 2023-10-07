@@ -41,11 +41,11 @@ export default {
         word-break: break-word;
         font-weight: 600;
 
-        /deep/ a {
+        > a {
             font-size: 15px;
         }
 
-        /deep/ b {
+        > b {
             font-size: 15px;
             font-weight: 700;
         }

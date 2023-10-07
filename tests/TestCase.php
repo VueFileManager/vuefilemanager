@@ -39,10 +39,6 @@ abstract class TestCase extends BaseTestCase
                 'value' => 1,
             ],
             [
-                'name'  => 'license',
-                'value' => 'extended',
-            ],
-            [
                 'name'  => 'language',
                 'value' => 'en',
             ],

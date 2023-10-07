@@ -17,15 +17,6 @@ const routesMaintenance = [
                 },
             },
             {
-                name: 'PurchaseCode',
-                path: '/setup-wizard/purchase-code',
-                component: () =>
-                    import(/* webpackChunkName: "chunks/purchase-code" */ '../views/SetupWizard/PurchaseCode'),
-                meta: {
-                    requiresAuth: false,
-                },
-            },
-            {
                 name: 'Database',
                 path: '/setup-wizard/database',
                 component: () => import(/* webpackChunkName: "chunks/database" */ '../views/SetupWizard/Database'),

@@ -25,16 +25,6 @@
                     {{ data.app.version }}
                 </ColorLabel>
             </a>
-            <a
-                href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986"
-                target="_blank"
-                class="mr-4 inline-block"
-            >
-                <span class="text-sm font-bold"> {{ $t('license') }}: </span>
-                <ColorLabel color="purple">
-                    {{ data.app.license }}
-                </ColorLabel>
-            </a>
             <b class="mr-4 inline-block">
                 <span class="text-sm font-bold"> {{ $t('subscription') }}: </span>
                 <ColorLabel color="purple">

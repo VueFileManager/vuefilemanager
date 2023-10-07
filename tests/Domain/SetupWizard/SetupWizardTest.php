@@ -13,34 +13,6 @@ class SetupWizardTest extends TestCase
     /**
      * @test
      */
-    public function it_verify_purchase_code_successfully()
-    {
-        Http::fake([
-            'https://verify.vuefilemanager.com/api/verify-code/*' => Http::response([], 204),
-        ]);
-
-        $this->postJson('/api/setup/purchase-code', [
-            'purchaseCode' => '8624194e-3156-4cd0-944e-3440fcecdacb',
-        ])->assertStatus(201);
-    }
-
-    /**
-     * @test
-     */
-    public function it_verify_purchase_code_unsuccessfully()
-    {
-        Http::fake([
-            'https://verify.vuefilemanager.com/api/verify-code/*' => Http::response([], 400),
-        ]);
-
-        $this->postJson('/api/setup/purchase-code', [
-            'purchaseCode' => '8624194e-3156-4cd0-944e-3440fcecdacb',
-        ])->assertStatus(400);
-    }
-
-    /**
-     * @test
-     */
     public function it_setup_database()
     {
         $this->postJson('/api/setup/database', [
@@ -134,8 +106,6 @@ class SetupWizardTest extends TestCase
             'password'              => 'VerySecretPassword',
             'password_confirmation' => 'VerySecretPassword',
             'name'                  => 'John Doe',
-            'purchase_code'         => '8624194e-3156-4cd0-944e-3440fcecdacb',
-            'license'               => 'Regular',
             'avatar'                => UploadedFile::fake()->image('fake-logo.jpg'),
         ])->assertStatus(204);
 
@@ -166,16 +136,6 @@ class SetupWizardTest extends TestCase
         $this->assertDatabaseHas('settings', [
             'name'  => 'setup_wizard_success',
             'value' => '1',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'license',
-            'value' => 'regular',
-        ]);
-
-        $this->assertDatabaseHas('settings', [
-            'name'  => 'purchase_code',
-            'value' => '8624194e-3156-4cd0-944e-3440fcecdacb',
         ]);
 
         $this->assertDatabaseHas('languages', [
@@ -217,8 +177,6 @@ class SetupWizardTest extends TestCase
             'password'              => 'VerySecretPassword',
             'password_confirmation' => 'VerySecretPassword',
             'name'                  => 'John Doe',
-            'purchase_code'         => '8624194e-3156-4cd0-944e-3440fcecdacb',
-            'license'               => 'Regular',
         ])->assertStatus(410);
 
         $this->assertDatabaseMissing('users', [

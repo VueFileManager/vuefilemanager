@@ -93,7 +93,7 @@ footer {
     padding-top: 50px;
     padding-bottom: 20px;
 
-    /deep/ a {
+    > a {
         font-weight: 700;
     }
 }

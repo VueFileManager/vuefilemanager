@@ -45,7 +45,7 @@ export default {
         line-height: 1.3;
         margin-bottom: 15px;
 
-        /deep/ span {
+        > span {
             font-size: 48px;
         }
     }
@@ -67,7 +67,7 @@ export default {
             line-height: 1.25;
             margin-bottom: 15px;
 
-            /deep/ span {
+            > span {
                 font-size: 32px;
             }
         }

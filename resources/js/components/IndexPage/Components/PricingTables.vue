@@ -209,7 +209,7 @@ export default {
             .sign-in-button {
                 background: rgba($theme, 0.1);
 
-                /deep/ .content {
+                > .content {
                     color: $theme;
                 }
             }

@@ -71,7 +71,7 @@ export default {
 }
 
 .page-content {
-    /deep/ p {
+    > p {
         @include font-size(20);
         font-weight: 500;
         line-height: 1.65;

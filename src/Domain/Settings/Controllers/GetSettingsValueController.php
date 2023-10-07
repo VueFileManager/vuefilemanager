@@ -7,10 +7,7 @@ use Domain\Settings\Models\Setting;
 
 class GetSettingsValueController
 {
-    private array $blacklist = [
-        'purchase_code',
-        'license',
-    ];
+    private array $blacklist = [];
 
     /**
      * Get selected settings from public route

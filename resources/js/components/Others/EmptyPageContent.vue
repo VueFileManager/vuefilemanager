@@ -44,7 +44,7 @@ export default {
         margin: 0 auto;
         max-width: 360px;
 
-        /deep/ .button-base {
+        > .button-base {
             margin: 0 auto;
         }
     }

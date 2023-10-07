@@ -13,12 +13,6 @@
                 />
             </Headline>
 
-			<a href="https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986">
-				<AlertBox color="rose" class="text-left">
-					<p class="text-rose-500">Please make sure you have only legal copy of VueFileManager <b class="text-rose-500 underline">purchased from CodeCanyon</b>. Any illegal copy can contain malicious software, bugs and others security issues which exposes your files to data breach.</p>
-				</AlertBox>
-			</a>
-
             <!--PHP version and ini check-->
             <div class="card shadow-card">
                 <FormLabel>PHP Setup</FormLabel>
@@ -247,7 +241,7 @@ export default {
             )
 
             if (writeCheck && modulesCheck && iniCheck && this.apiRunning && this.phpVersion.acceptable) {
-                this.$router.push({ name: 'PurchaseCode' })
+                this.$router.push({ name: 'Database' })
             } else {
                 this.isError = true
             }
