@@ -383,26 +383,4 @@ npm run hot
 ### Building Your App for Production
 To compiles for production build, run this command
 ```
-npm run prod
-```
-
-## Support
-
-The following support channels are available at your fingertips:
-
-- [CodeCanyon support message](https://codecanyon.net/item/vue-file-manager-with-laravel-backend/25815986/support)
-
-## Supporting VueFileManager
-We are trying to make the best for VueFileManager. There are a lot of things to do, and a lot of features we can make. 
-But, it can't be done without you, development is more and more complicated and we have to hire new colleagues to help us. There is couple way you can support us, and then, we support you with all great new features we can make. Thank you for participating on this awesome application!
-
-- [Buy me a Coffee](https://www.buymeacoffee.com/pepe)
-- [Become a Patreon](https://www.patreon.com/vuefilemanager)
-- [One-time donation via PayPal](https://www.paypal.me/peterpapp)
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within this project, please send an e-mail to [peterpapp@makingcg.com](peterpapp@makingcg.com). All security vulnerabilities will be promptly addressed.
-
-
 
