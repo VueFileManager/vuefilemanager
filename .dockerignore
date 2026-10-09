@@ -1,0 +1,3 @@
+# The PHP image only needs the docker/ directory; the project is bind-mounted at runtime.
+*
+!docker/
