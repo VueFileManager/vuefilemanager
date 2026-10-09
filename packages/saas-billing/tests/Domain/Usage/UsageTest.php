@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Usage;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use VueFileManager\Subscription\Domain\Plans\Models\Plan;
@@ -10,9 +11,7 @@ use VueFileManager\Subscription\Domain\Usage\Actions\SumUsageForCurrentPeriodAct
 
 class UsageTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_store_usage()
     {
         $plan = Plan::factory()
@@ -40,9 +39,7 @@ class UsageTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_estimates_for_current_period()
     {
         $user = User::factory()

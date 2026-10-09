@@ -1,14 +1,13 @@
 <?php
 namespace Tests\Support;
 
+use PHPUnit\Framework\Attributes\Test;
 use stdClass;
 use Tests\TestCase;
 
 class HelpersTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_test_format_currency_function()
     {
         $item = new stdClass;

@@ -30,7 +30,7 @@
                 {{ nodes.name }}
             </b>
         </div>
-        <tree-node
+        <TreeMenuNavigator
             :disabled="disableChildren"
             :depth="depth + 1"
             v-if="isVisible"
@@ -50,7 +50,6 @@ export default {
     name: 'TreeMenuNavigator',
     props: ['disabled', 'nodes', 'depth'],
     components: {
-        'tree-node': () => import('./TreeMenuNavigator.vue'),
         ChevronRightIcon,
         FolderIcon,
     },

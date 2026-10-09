@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Socialite;
 
+use PHPUnit\Framework\Attributes\Test;
 use Mockery;
 use Storage;
 use Tests\TestCase;
@@ -12,9 +13,7 @@ use Laravel\Socialite\Contracts\Factory as Socialite;
 
 class SocialiteTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function socialite_redirect_user()
     {
         $response = $this->get('api/socialite/google/redirect');
@@ -22,9 +21,7 @@ class SocialiteTest extends TestCase
         $this->assertStringContainsString('accounts.google.com/o/oauth2/auth', $response->json()['data']['url']);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function socialite_execute_provider_callback()
     {
         // Create fake image
@@ -48,15 +45,15 @@ class SocialiteTest extends TestCase
             ->andReturn('https://vuefilemanager.com/avatar.jpg');
 
         // Mock user with FB provider
-        $provider = $this->createMock(FacebookProvider::class);
-        $provider->expects($this->any())
+        $provider = $this->createStub(FacebookProvider::class);
+        $provider
             ->method('user')
             ->willReturn($socialiteUser);
 
         // Mock socialite
-        $stub = $this->createMock(Socialite::class);
+        $stub = $this->createStub(Socialite::class);
 
-        $stub->expects($this->any())
+        $stub
             ->method('driver')
             ->willReturn($provider);
 

@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Teams;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
@@ -10,9 +11,7 @@ use Domain\Teams\Models\TeamFolderMember;
 
 class TeamFileAccessTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function team_member_download_folder_as_zip()
     {
         $user = User::factory()
@@ -58,9 +57,7 @@ class TeamFileAccessTest extends TestCase
             ->assertHeader('content-type', 'application/x-zip');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function team_member_download_files_as_zip()
     {
         $user = User::factory()

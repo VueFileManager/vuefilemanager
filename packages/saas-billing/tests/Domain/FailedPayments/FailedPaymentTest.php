@@ -1,15 +1,14 @@
 <?php
 namespace Tests\Domain\FailedPayments;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use VueFileManager\Subscription\Domain\FailedPayments\Models\FailedPayment;
 
 class FailedPaymentTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_retry_withdrawn_after_balance_was_increased()
     {
         $user = User::factory()

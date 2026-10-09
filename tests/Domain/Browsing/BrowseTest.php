@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Browsing;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
@@ -14,9 +15,7 @@ class BrowseTest extends TestCase
 {
     use DatabaseMigrations, Queueable;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_navigator_tree()
     {
         $user = User::factory()
@@ -129,9 +128,7 @@ class BrowseTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_folder_content()
     {
         $user = User::factory()
@@ -177,9 +174,7 @@ class BrowseTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_recent_files()
     {
         $user = User::factory()
@@ -228,9 +223,7 @@ class BrowseTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_trash_root()
     {
         $user = User::factory()
@@ -276,9 +269,7 @@ class BrowseTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_shared_items()
     {
         $user = User::factory()

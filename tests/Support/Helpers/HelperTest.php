@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Support\Helpers;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
@@ -9,9 +10,7 @@ use Illuminate\Support\Facades\Config;
 
 class HelperTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_test_split_name()
     {
         $firstTest = split_name('Jane Doe');
@@ -30,9 +29,7 @@ class HelperTest extends TestCase
         $this->assertEquals('', $thirdTest['last_name']);
     }
 
-    /**
-    * @test
-    */
+    #[Test]
     public function it_test_get_records_count()
     {
         $user = User::factory()

@@ -14,7 +14,7 @@
         </b>
 
         <div
-            class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-opacity-5"
+            class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-light/5"
             v-for="(usage, i) in user.data.meta.usages.featureEstimates"
             :key="i"
         >

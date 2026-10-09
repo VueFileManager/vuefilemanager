@@ -2,7 +2,7 @@
     <div id="card-navigation" style="height: 62px" class="mb-7">
         <div
             :class="{
-                'fixed top-0 left-0 right-0 z-10 rounded-none bg-white bg-opacity-50 px-6 backdrop-blur-lg backdrop-filter dark:bg-dark-foreground':
+                'fixed top-0 left-0 right-0 z-10 rounded-none bg-white/50 px-6 backdrop-blur-lg backdrop-filter dark:bg-dark-foreground/50':
                     fixedNav,
             }"
         >

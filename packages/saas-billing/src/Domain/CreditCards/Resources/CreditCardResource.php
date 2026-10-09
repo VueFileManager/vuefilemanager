@@ -24,9 +24,9 @@ class CreditCardResource extends JsonResource
                     'reference'          => $this->reference,
                     'isExpired'          => $this->is_expired,
                     'isBeforeExpiration' => $this->is_before_expiration,
-                    'expiration'         => $this->expiration->formatLocalized('%b %Y'),
-                    'created_at'         => $this->created_at->formatLocalized('%d. %b. %Y'),
-                    'updated_at'         => $this->updated_at->formatLocalized('%d. %b. %Y'),
+                    'expiration'         => $this->expiration->isoFormat('MMM YYYY'),
+                    'created_at'         => $this->created_at->isoFormat('DD. MMM. YYYY'),
+                    'updated_at'         => $this->updated_at->isoFormat('DD. MMM. YYYY'),
                 ],
             ],
         ];

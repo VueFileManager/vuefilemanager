@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
 import { ChevronLeftIcon, ChevronRightIcon } from '../../icons/feather.js'
 import ToolbarButton from '../UI/Buttons/ToolbarButton.vue'
 import ItemGrid from "../UI/Entries/ItemGrid.vue"
@@ -67,7 +68,7 @@ import { events } from '../../bus'
 export default {
     name: 'FilePreviewMedia',
     components: {
-		PdfFile: () => import('./Media/PdfFile.vue'),
+		PdfFile: defineAsyncComponent(() => import('./Media/PdfFile.vue')),
         ChevronRightIcon,
         ChevronLeftIcon,
         ToolbarButton,
@@ -192,7 +193,7 @@ export default {
 			this.getFilesForView()
 		}
     },
-	destroyed() {
+	unmounted() {
 		events.$off('file:deleted')
 	}
 }

@@ -141,7 +141,7 @@ export default {
 
         window.addEventListener('keydown', this.spotlightListener)
     },
-    destroyed() {
+    unmounted() {
         window.removeEventListener('keydown', this.spotlightListener)
     },
 }

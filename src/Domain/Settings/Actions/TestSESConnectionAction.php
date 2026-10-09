@@ -12,19 +12,14 @@ class TestSESConnectionAction
     public function __invoke(array $credentials)
     {
         try {
-            // Set temporary mail connection
-            config([
-                'mail.driver'         => 'ses',
-                'mail.from.address'   => $credentials['identity'],
-                'mail.from.name'      => $credentials['identity'],
-                'services.ses.key'    => $credentials['access_key'],
-                'services.ses.secret' => $credentials['secret_access_key'],
-                'services.ses.region' => $credentials['default_region'],
-                'services.ses.token'  => $credentials['session_token'] ?? null,
-            ]);
-
-            // Send test email
-            Mail::to($credentials['identity'])->send(new TestMail($credentials['identity']));
+            // Send test email through temporary mail connection
+            Mail::build([
+                'transport' => 'ses',
+                'key'       => $credentials['access_key'],
+                'secret'    => $credentials['secret_access_key'],
+                'region'    => $credentials['default_region'],
+                'token'     => $credentials['session_token'] ?? null,
+            ])->to($credentials['identity'])->send(new TestMail($credentials['identity']));
         } catch (TransportException | LogicException | Exception $error) {
             abort(
                 response()->json([

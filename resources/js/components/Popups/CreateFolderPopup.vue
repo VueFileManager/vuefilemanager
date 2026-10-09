@@ -36,10 +36,10 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary"
                 >{{ $t('cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="createFolder" button-style="theme"
+            <ButtonBase class="w-full" @click="createFolder" button-style="theme"
                 >{{ $t('popup_create_folder.title') }}
             </ButtonBase>
         </PopupActions>
@@ -47,14 +47,13 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
 import PopupWrapper from './Components/PopupWrapper.vue'
 import PopupActions from './Components/PopupActions.vue'
 import PopupContent from './Components/PopupContent.vue'
 import PopupHeader from './Components/PopupHeader.vue'
 import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
-import { required } from 'vee-validate/dist/rules'
 import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import SwitchInput from '../Inputs/SwitchInput.vue'
@@ -76,7 +75,6 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
     },
     data() {
         return {

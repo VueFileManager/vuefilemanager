@@ -8,7 +8,7 @@
                     </MobileActionButton>
                 </router-link>
 
-                <MobileActionButton @click.native="$openSpotlight('users')" icon="search">
+                <MobileActionButton @click="$openSpotlight('users')" icon="search">
                     {{ $t('search') }}
                 </MobileActionButton>
             </div>
@@ -21,11 +21,11 @@
                 :columns="columns"
                 class="overflow-x-auto"
             >
-                <template slot-scope="{ row }">
+                <template #default="{ row }">
                     <!--Not a subscription-->
                     <tr
                         v-if="config.subscriptionType === 'none'"
-                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                     >
                         <td class="py-3 pr-3 md:pr-1">
                             <router-link
@@ -103,7 +103,7 @@
                     <!--Fixed subscription-->
                     <tr
                         v-if="config.subscriptionType === 'fixed'"
-                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                     >
                         <td class="py-3 pr-3 md:pr-1">
                             <router-link
@@ -186,7 +186,7 @@
                     <!--Metered subscription-->
                     <tr
                         v-if="config.subscriptionType === 'metered'"
-                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                     >
                         <td class="py-3 pr-3 md:pr-1">
                             <router-link

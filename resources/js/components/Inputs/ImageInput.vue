@@ -50,6 +50,7 @@ import { XIcon, ImageIcon } from '../../icons/feather.js'
 
 export default {
     name: 'ImageInput',
+    emits: ['update:modelValue', 'input'],
     props: ['image', 'error'],
     components: {
         ImageIcon,
@@ -68,6 +69,7 @@ export default {
     methods: {
         resetImage() {
             this.imagePreview = undefined
+            this.$emit('update:modelValue', undefined)
             this.$emit('input', undefined)
         },
         showImagePreview(event) {
@@ -83,6 +85,7 @@ export default {
                 reader.readAsDataURL(file)
 
                 // Update user avatar
+                this.$emit('update:modelValue', event.target.files[0])
                 this.$emit('input', event.target.files[0])
             } else {
                 alert(this.$t('wrong_image_error'))

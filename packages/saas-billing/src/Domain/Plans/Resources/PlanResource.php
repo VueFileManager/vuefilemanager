@@ -43,8 +43,8 @@ class PlanResource extends JsonResource
             'amount'      => $this->amount,
             'features'    => $this->fixedFeatures->pluck('value', 'key'),
             'interval'    => $this->interval,
-            'created_at'  => $this->created_at->formatLocalized('%d. %b. %Y'),
-            'updated_at'  => $this->updated_at->formatLocalized('%d. %b. %Y'),
+            'created_at'  => $this->created_at->isoFormat('DD. MMM. YYYY'),
+            'updated_at'  => $this->updated_at->isoFormat('DD. MMM. YYYY'),
         ];
     }
 
@@ -65,8 +65,8 @@ class PlanResource extends JsonResource
                     'tiers'              => $price['tiers'],
                 ],
             ]),
-            'created_at'  => $this->created_at->formatLocalized('%d. %b. %Y'),
-            'updated_at'  => $this->updated_at->formatLocalized('%d. %b. %Y'),
+            'created_at'  => $this->created_at->isoFormat('DD. MMM. YYYY'),
+            'updated_at'  => $this->updated_at->isoFormat('DD. MMM. YYYY'),
         ];
     }
 }

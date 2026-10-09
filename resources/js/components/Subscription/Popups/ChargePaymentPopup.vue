@@ -15,7 +15,7 @@
                 }"
             >
                 <PaymentMethod
-                    @click.native.once="payByPayPal"
+                    @click.once="payByPayPal"
                     driver="paypal"
                     :description="config.paypal_payment_description"
                 >
@@ -55,7 +55,7 @@
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel_payment') }}
             </ButtonBase>
         </PopupActions>
@@ -125,7 +125,7 @@ export default {
 
             try {
                 paypal = await loadScript({
-                    'client-id': this.config.paypal_client_id,
+                    clientId: this.config.paypal_client_id,
                     vault: true,
                 })
             } catch (error) {

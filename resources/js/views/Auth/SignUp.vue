@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="text-center">
-                    <i18n-t keypath="page_registration.agreement" tag="p" class="mx-auto mt-12 mb-6 w-96 font-bold">
+                    <i18n-t scope="global" keypath="page_registration.agreement" tag="p" class="mx-auto mt-12 mb-6 w-96 font-bold">
                         <router-link
                             :to="{
                                 name: 'DynamicPage',
@@ -151,11 +151,10 @@
 <script>
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
 import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons.vue'
-import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
@@ -170,7 +169,6 @@ export default {
         AuthContent,
         AuthButton,
         Headline,
-        required,
     },
     computed: {
         ...mapGetters(['config']),

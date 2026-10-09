@@ -2,13 +2,15 @@
 namespace Domain\Zip\Actions;
 
 use Gate;
-use ZipStream\ZipStream;
 use Illuminate\Support\Str;
 use Domain\Sharing\Models\Share;
 use Domain\Folders\Models\Folder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use STS\ZipStream\ZipStreamFacade as Zip;
+use Symfony\Component\HttpFoundation\HeaderUtils;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use STS\ZipStream\Builder;
+use STS\ZipStream\Facades\Zip;
 
 class ZipAction
 {
@@ -16,7 +18,7 @@ class ZipAction
         Collection $folders,
         Collection $files,
         ?Share $shared = null
-    ): ZipStream {
+    ): Builder {
         // Get zip name from single requested folder
         if ($files->isEmpty() && $folders->count() === 1) {
             $zipName = Str::slug($folders->first()->name) . '.zip';
@@ -96,7 +98,24 @@ class ZipAction
                 }
             }
         });
-        
+
         return $zip;
+    }
+
+    /**
+     * Create streamed download response for the zip with explicit download headers
+     */
+    public static function toResponse(Builder $zip): StreamedResponse
+    {
+        $response = $zip->response();
+
+        $response->headers->set('Content-Type', 'application/x-zip');
+        $response->headers->set('Content-Disposition', HeaderUtils::makeDisposition(
+            HeaderUtils::DISPOSITION_ATTACHMENT,
+            $zip->getOutputName(),
+            Str::ascii($zip->getOutputName()) ?: 'files.zip',
+        ));
+
+        return $response;
     }
 }

@@ -1,14 +1,13 @@
 <?php
 namespace Tests\Domain\Plans;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 
 class MeteredPlanTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_metered_plan()
     {
         $user = User::factory()

@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\FailedPayments;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Support\Facades\Http;
@@ -18,9 +19,7 @@ class StripeFailedPaymentTest extends TestCase
 {
     use StripeTestHelpers;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_retry_charge_from_payment_card_with_failed_result()
     {
         $user = User::factory()
@@ -332,9 +331,7 @@ class StripeFailedPaymentTest extends TestCase
         Notification::assertSentTo($user, ChargeFromCreditCardFailedAgainNotification::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_retry_charge_from_payment_card_with_success_result()
     {
         $user = User::factory()
@@ -554,9 +551,7 @@ class StripeFailedPaymentTest extends TestCase
             ->assertModelMissing($failedPayment);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_retry_charge_when_new_card_is_attached_with_success_result()
     {
         $user = User::factory()

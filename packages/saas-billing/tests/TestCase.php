@@ -47,6 +47,25 @@ class TestCase extends Orchestra
 
         config()->set('auth.providers.users.model', User::class);
         config()->set('subscription.metered_billing.settlement_period', 30);
+
+        // Fake (non-real) gateway credentials, all gateway API calls are mocked with Http::fake()
+        config()->set('subscription.credentials', [
+            'stripe'   => [
+                'secret'      => 'fake-stripe-secret',
+                'public_key'  => 'fake-stripe-public-key',
+                'webhook_key' => 'fake-stripe-webhook-secret',
+            ],
+            'paystack' => [
+                'secret'     => 'fake-paystack-secret',
+                'public_key' => 'fake-paystack-public-key',
+            ],
+            'paypal'   => [
+                'id'         => 'fake-paypal-client-id',
+                'secret'     => 'fake-paypal-client-secret',
+                'webhook_id' => 'fake-paypal-webhook-id',
+                'is_live'    => false,
+            ],
+        ]);
     }
 
     protected function loadDefaultEnv(Application $app): void

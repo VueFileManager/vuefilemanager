@@ -2,7 +2,8 @@
 	<div class="text-center">
 		<PlanPeriodSwitcher v-if="plans && yearlyPlans.length > 0" v-model="isSelectedYearlyPlans" class="inline-block" />
 		<div class="plans-wrapper" v-if="plans">
-			<article class="plan" v-if="plan.data.attributes.interval === intervalPlanType" v-for="plan in plans.data" :key="plan.data.id">
+			<template v-for="plan in plans.data" :key="plan.data.id">
+			<article class="plan" v-if="plan.data.attributes.interval === intervalPlanType">
 				<div class="plan-wrapper">
 					<header class="plan-header mb-8">
 						<div class="icon">
@@ -33,6 +34,7 @@
 					</footer>
 				</div>
 			</article>
+			</template>
 		</div>
 	</div>
 </template>
@@ -44,6 +46,7 @@ import PlanPeriodSwitcher from "../../Subscription/PlanPeriodSwitcher.vue";
 
 export default {
     name: 'PricingTables',
+    emits: ['load'],
     components: {
 		PlanPeriodSwitcher,
         HardDriveIcon,

@@ -31,7 +31,7 @@
         <div v-if="!hasPaymentMethod">
             <!-- Show credit card form -->
             <ButtonBase
-                @click.native="showStoreCreditCardForm"
+                @click="showStoreCreditCardForm"
                 v-if="!isCreditCardForm"
                 :loading="stripe.storingStripePaymentMethod"
                 type="submit"

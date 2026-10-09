@@ -6,7 +6,7 @@
         <span @click="closeDisclaimer" class="absolute -right-1 -top-1 cursor-pointer p-3">
             <x-icon size="10" />
         </span>
-        <i18n-t keypath="cookie_disclaimer.description" tag="p" class="text-xs">
+        <i18n-t scope="global" keypath="cookie_disclaimer.description" tag="p" class="text-xs">
             <router-link :to="{ name: 'DynamicPage', params: { slug: 'cookie-policy' } }" class="text-theme text-xs">
                 {{ $t('cookie_disclaimer.button') }}
             </router-link>

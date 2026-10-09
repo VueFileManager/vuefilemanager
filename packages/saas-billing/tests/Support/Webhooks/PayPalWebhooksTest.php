@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Support\Webhooks;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Support\Facades\Http;
@@ -16,9 +17,7 @@ use VueFileManager\Subscription\Domain\Subscriptions\Notifications\SubscriptionW
 
 class PayPalWebhooksTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function paypal_webhook_create_subscription()
     {
         $user = User::factory()
@@ -90,9 +89,7 @@ class PayPalWebhooksTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paypal_webhook_activated_subscription()
     {
         Event::fake([
@@ -265,9 +262,7 @@ class PayPalWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasCreated $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paypal_webhook_update_subscription()
     {
         Event::fake([
@@ -401,9 +396,7 @@ class PayPalWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasUpdated $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paypal_webhook_cancel_subscription()
     {
         Event::fake([
@@ -521,9 +514,7 @@ class PayPalWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasCancelled $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paypal_webhook_payment_sale_completed()
     {
         $user = User::factory()
@@ -736,9 +727,7 @@ class PayPalWebhooksTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paypal_webhook_payment_capture_completed()
     {
         $user = User::factory()

@@ -37,7 +37,7 @@ return [
 
         'smtp' => [
             'transport'    => 'smtp',
-            'scheme'       => env('MAIL_SCHEME'),
+            'scheme'       => env('MAIL_SCHEME', env('MAIL_ENCRYPTION') === 'ssl' ? 'smtps' : null),
             'url'          => env('MAIL_URL'),
             'host'         => env('MAIL_HOST', '127.0.0.1'),
             'port'         => env('MAIL_PORT', 587),

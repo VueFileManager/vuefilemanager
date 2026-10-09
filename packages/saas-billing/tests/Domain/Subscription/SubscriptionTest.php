@@ -1,15 +1,14 @@
 <?php
 namespace Tests\Domain\Subscription;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class SubscriptionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_test_grace_period()
     {
         [$isOnGracePeriod, $isNotOnGracePeriod] = Subscription::factory()
@@ -23,9 +22,7 @@ class SubscriptionTest extends TestCase
         $this->assertEquals(false, $isNotOnGracePeriod->onGracePeriod());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_test_active_subscription()
     {
         [$isActive, $isNotActive] = Subscription::factory()
@@ -39,9 +36,7 @@ class SubscriptionTest extends TestCase
         $this->assertEquals(false, $isNotActive->active());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_test_cancelled_subscription()
     {
         [$isCancelled, $isNotCancelled] = Subscription::factory()
@@ -55,9 +50,7 @@ class SubscriptionTest extends TestCase
         $this->assertEquals(false, $isNotCancelled->cancelled());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_test_ended_subscription()
     {
         [$isEnded, $isNotEnded] = Subscription::factory()
@@ -71,9 +64,7 @@ class SubscriptionTest extends TestCase
         $this->assertEquals(false, $isNotEnded->ended());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_all_subscription()
     {
         $admin = User::factory()
@@ -95,9 +86,7 @@ class SubscriptionTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_my_subscription()
     {
         $user = User::factory()
@@ -115,9 +104,7 @@ class SubscriptionTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_user_subscription()
     {
         $admin = User::factory()
@@ -138,9 +125,7 @@ class SubscriptionTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_driver_after_subscription_deletion()
     {
         $subscription = Subscription::factory()

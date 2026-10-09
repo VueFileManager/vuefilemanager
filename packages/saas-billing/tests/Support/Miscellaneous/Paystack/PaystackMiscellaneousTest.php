@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Support\Miscellaneous\Paystack;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Support\Facades\Http;
@@ -8,9 +9,7 @@ use VueFileManager\Subscription\Domain\Plans\Models\Plan;
 
 class PaystackMiscellaneousTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_transaction_url_for_subscription_plan()
     {
         $user = User::factory()
@@ -44,9 +43,7 @@ class PaystackMiscellaneousTest extends TestCase
                 'authorization_url' => 'https://checkout.paystack.com/9cfwul2yhp2ghxi',
             ]);
     }
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_transaction_url_for_single_charge()
     {
         $user = User::factory()

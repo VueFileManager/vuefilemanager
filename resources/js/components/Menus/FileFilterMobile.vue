@@ -3,28 +3,28 @@
         <MenuMobileGroup>
             <OptionGroup :title="$t('base')">
                 <Option
-                    @click.native="goToFiles"
+                    @click="goToFiles"
                     :title="$t('sidebar.home')"
                     icon="hard-drive"
                     :is-active="$isThisRoute($route, 'Files')"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToLatest"
+                    @click="goToLatest"
                     :title="$t('menu.latest')"
                     icon="upload-cloud"
                     :is-active="$isThisRoute($route, 'RecentUploads')"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToShared"
+                    @click="goToShared"
                     :title="$t('publicly_shared')"
                     icon="share"
                     :is-active="$isThisRoute($route, 'MySharedItems')"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToTrash"
+                    @click="goToTrash"
                     :title="$t('trash')"
                     icon="trash"
                     :is-active="$isThisRoute($route, 'Trash')"
@@ -33,14 +33,14 @@
             </OptionGroup>
             <OptionGroup :title="$t('collaboration')">
                 <Option
-                    @click.native="goToTeamFolders"
+                    @click="goToTeamFolders"
                     :title="$t('team_folders')"
                     icon="users"
                     :is-active="$isThisRoute($route, 'TeamFolders')"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToSharedWithMe"
+                    @click="goToSharedWithMe"
                     :title="$t('shared_with_me')"
                     icon="user-check"
                     :is-active="$isThisRoute($route, 'SharedWithMe')"

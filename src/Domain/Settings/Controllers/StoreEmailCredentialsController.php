@@ -68,16 +68,16 @@ class StoreEmailCredentialsController
 
             $mail = [
                 'log'      => [
-                    'MAIL_DRIVER' => 'log',
+                    'MAIL_MAILER' => 'log',
                 ],
                 'postmark' => [
-                    'MAIL_DRIVER'       => 'postmark',
+                    'MAIL_MAILER'       => 'postmark',
                     'POSTMARK_TOKEN'    => $request->input('postmark.token'),
                     'MAIL_FROM_ADDRESS' => $request->input('postmark.sender'),
                     'MAIL_FROM_NAME'    => $request->input('postmark.sender'),
                 ],
                 'smtp'     => [
-                    'MAIL_DRIVER'       => 'smtp',
+                    'MAIL_MAILER'       => 'smtp',
                     'MAIL_HOST'         => $request->input('smtp.host'),
                     'MAIL_PORT'         => $request->input('smtp.port'),
                     'MAIL_USERNAME'     => $request->input('smtp.username'),
@@ -87,7 +87,7 @@ class StoreEmailCredentialsController
                     'MAIL_FROM_NAME'    => $request->input('smtp.email') ?? $request->input('smtp.username'),
                 ],
                 'ses'      => [
-                    'MAIL_DRIVER'           => 'ses',
+                    'MAIL_MAILER'           => 'ses',
                     'AWS_ACCESS_KEY_ID'     => $request->input('ses.access_key'),
                     'AWS_SECRET_ACCESS_KEY' => $request->input('ses.secret_access_key'),
                     'AWS_DEFAULT_REGION'    => $request->input('ses.default_region'),
@@ -96,7 +96,7 @@ class StoreEmailCredentialsController
                     'MAIL_FROM_NAME'        => $request->input('ses.sender'),
                 ],
                 'mailgun'  => [
-                    'MAIL_DRIVER'       => 'mailgun',
+                    'MAIL_MAILER'       => 'mailgun',
                     'MAILGUN_DOMAIN'    => $request->input('mailgun.domain'),
                     'MAILGUN_SECRET'    => $request->input('mailgun.secret'),
                     'MAILGUN_ENDPOINT'  => $request->input('mailgun.endpoint'),

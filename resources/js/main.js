@@ -33,7 +33,12 @@ Object.defineProperties(globals, {
     $store: { get: () => store },
     $router: { get: () => router },
     $route: { get: () => router.currentRoute.value },
-    $t: { get: () => (...args) => i18n.global.t(...args) },
+    $t: {
+        get:
+            () =>
+            (...args) =>
+                i18n.global.t(...args),
+    },
 })
 installGlobals(app)
 

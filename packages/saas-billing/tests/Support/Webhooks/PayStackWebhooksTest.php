@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Support\Webhooks;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Http\Client\Request;
@@ -17,9 +18,7 @@ use VueFileManager\Subscription\Domain\Subscriptions\Notifications\SubscriptionW
 
 class PayStackWebhooksTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function paystack_webhook_create_subscription()
     {
         Event::fake([
@@ -115,9 +114,7 @@ class PayStackWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasCreated $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paystack_webhook_replace_subscription()
     {
         Event::fake([
@@ -320,9 +317,7 @@ class PayStackWebhooksTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paystack_webhook_disabled_subscription()
     {
         Event::fake([
@@ -422,9 +417,7 @@ class PayStackWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasCancelled $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paystack_webhook_charge_success()
     {
         $user = User::factory()
@@ -652,9 +645,7 @@ class PayStackWebhooksTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function paystack_webhook_charge_success_and_credit_user_balance()
     {
         $user = User::factory()

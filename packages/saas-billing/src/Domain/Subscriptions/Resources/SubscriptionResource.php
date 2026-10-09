@@ -24,12 +24,12 @@ class SubscriptionResource extends JsonResource
                     'name'          => $this->name,
                     'status'        => $this->status,
                     'trial_ends_at' => $this->trial_ends_at,
-                    'updated_at'    => $this->updated_at->formatLocalized('%d. %b. %Y'),
-                    'created_at'    => $this->created_at->formatLocalized('%d. %b. %Y'),
+                    'updated_at'    => $this->updated_at->isoFormat('DD. MMM. YYYY'),
+                    'created_at'    => $this->created_at->isoFormat('DD. MMM. YYYY'),
                     'renews_at'     => $this->renews_at
-                        ? $this->renews_at->formatLocalized('%d. %b. %Y')
-                        : $this->created_at->addDays(28)->formatLocalized('%d. %b. %Y'),
-                    'ends_at'       => $this->ends_at?->formatLocalized('%d. %b. %Y'),
+                        ? $this->renews_at->isoFormat('DD. MMM. YYYY')
+                        : $this->created_at->addDays(28)->isoFormat('DD. MMM. YYYY'),
+                    'ends_at'       => $this->ends_at?->isoFormat('DD. MMM. YYYY'),
                 ],
                 'relationships' => [
                     'plan' => new PlanResource($this->plan),

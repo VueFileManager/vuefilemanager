@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Support\Webhooks;
 
+use PHPUnit\Framework\Attributes\Test;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Tests\Models\User;
@@ -22,9 +23,7 @@ class StripeWebhooksTest extends TestCase
 {
     use StripeTestHelpers;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stripe_webhook_create_fixed_subscription()
     {
         Event::fake([
@@ -243,9 +242,7 @@ class StripeWebhooksTest extends TestCase
         Event::assertNothingDispatched();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stripe_webhook_activate_subscription()
     {
         Event::fake([
@@ -467,9 +464,7 @@ class StripeWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasCreated $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stripe_webhook_cancel_subscription()
     {
         Event::fake([
@@ -689,9 +684,7 @@ class StripeWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasCancelled $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stripe_webhook_incomplete_payment_expired()
     {
         Event::fake([
@@ -911,9 +904,7 @@ class StripeWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasExpired $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stripe_webhook_swap_subscription()
     {
         Event::fake([
@@ -1131,9 +1122,7 @@ class StripeWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasUpdated $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stripe_webhook_deleted_subscription()
     {
         Event::fake([
@@ -1336,9 +1325,7 @@ class StripeWebhooksTest extends TestCase
         Event::assertDispatched(fn (SubscriptionWasCancelled $event) => $event->subscription->id === $subscription->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stripe_webhook_invoice_payment_succeeded()
     {
         $user = User::factory()
@@ -1597,9 +1584,7 @@ class StripeWebhooksTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stripe_webhook_payment_intent_payment_failed()
     {
         $user = User::factory()
@@ -1788,9 +1773,7 @@ class StripeWebhooksTest extends TestCase
         Notification::assertSentTo($user, ConfirmStripePaymentNotification::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function stripe_webhook_payment_method_attached()
     {
         $user = User::factory()

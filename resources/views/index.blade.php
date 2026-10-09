@@ -13,8 +13,7 @@
     </title>
 
     {{--StyleSheet--}}
-    <link href="{{ mix('css/app.css') }}?v={{ get_version() }}" rel="stylesheet" type="text/css">
-    <link href="{{ mix('css/tailwind.css') }}?v={{ get_version() }}" rel="stylesheet" type="text/css">
+    @vite(['resources/sass/app.scss', 'resources/css/tailwind.css'])
 
     {{--OG items--}}
     <meta property="og:url" content="{{ url('/') }}">
@@ -52,6 +51,8 @@
             broadcastingHost: '{{ $config->broadcasting->host }}',
             broadcastingPort: '{{ $config->broadcasting->port }}',
             broadcastingCluster: '{{ $config->broadcasting->cluster }}',
+            broadcastingScheme: '{{ $config->broadcasting->scheme ?? 'https' }}',
+            broadcastingTls: {{ ($config->broadcasting->tls ?? false) ? 'true' : 'false' }},
 
 			app_logo: '{{ $config->logos->main }}',
 			app_logo_dark: '{{ $config->logos->main_dark }}',
@@ -155,14 +156,8 @@
         }
     </script>
 
-    @if(config('app.env') !== 'local')
-
-        {{--Application production script--}}
-        <script src="{{ asset('js/main.js') }}?v={{ get_version() }}"></script>
-    @else
-        {{--Application development script--}}
-        <script src="{{ mix('js/main.js') }}"></script>
-    @endif
+    {{--Application script--}}
+    @vite('resources/js/main.js')
 
     {{--Adsense code--}}
     @if(optional($config)->allowed_adsense)

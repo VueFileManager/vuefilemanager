@@ -52,7 +52,7 @@ export default {
                     .catch(() => this.$isSomethingWrong())
         })
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

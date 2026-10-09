@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../components/Validation/index.js'
 import AuthContentWrapper from '../components/Layout/AuthPages/AuthContentWrapper.vue'
 import AuthContent from '../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../components/UI/Buttons/AuthButton.vue'

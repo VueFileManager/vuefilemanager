@@ -87,7 +87,7 @@ export default {
     transition: all 0.3s ease;
 }
 
-.info-panel-enter,
+.info-panel-enter-from,
 .info-panel-leave-to {
     opacity: 0;
     transform: translateY(-100%);

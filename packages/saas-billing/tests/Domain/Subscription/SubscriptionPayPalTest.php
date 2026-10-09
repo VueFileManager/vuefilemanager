@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Subscription;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Support\Facades\Http;
@@ -9,9 +10,7 @@ use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class SubscriptionPayPalTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cancel_paypal_subscription()
     {
         $user = User::factory()
@@ -164,9 +163,7 @@ class SubscriptionPayPalTest extends TestCase
         Http::assertSentCount(3);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_swap_paypal_subscription()
     {
         $user = User::factory()
@@ -242,9 +239,7 @@ class SubscriptionPayPalTest extends TestCase
         Http::assertSentCount(2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_generate_update_link_for_paypal_subscription()
     {
         $user = User::factory()

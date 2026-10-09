@@ -90,7 +90,7 @@
             </ValidationObserver>
 
             <AuthButton
-                @click.native="adminAccountSubmit"
+                @click="adminAccountSubmit"
                 class="w-full justify-center"
                 icon="chevron-right"
                 text="Create Admin and Login"
@@ -103,7 +103,7 @@
 
 <script>
 import AppInputText from '../../components/Forms/Layouts/AppInputText.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
 import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
 import SelectInput from '../../components/Inputs/SelectInput.vue'
 import SwitchInput from '../../components/Inputs/SwitchInput.vue'
@@ -112,7 +112,6 @@ import FormLabel from '../../components/UI/Labels/FormLabel.vue'
 import InfoBox from '../../components/UI/Others/InfoBox.vue'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
-import { required } from 'vee-validate/dist/rules'
 import { SettingsIcon } from '../../icons/feather.js'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { events } from '../../bus'
@@ -132,7 +131,6 @@ export default {
         ImageInput,
         AuthButton,
         FormLabel,
-        required,
         Headline,
         InfoBox,
     },

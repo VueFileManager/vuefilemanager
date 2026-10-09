@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Spotlight;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
@@ -9,9 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class SearchTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_searched_file()
     {
         $user = User::factory()
@@ -49,9 +48,7 @@ class SearchTest extends TestCase
             );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_searched_folder()
     {
         $user = User::factory()
@@ -73,9 +70,7 @@ class SearchTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_searched_shared_with_me_file_and_folders()
     {
         $owner = User::factory()

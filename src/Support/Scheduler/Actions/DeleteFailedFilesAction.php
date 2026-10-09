@@ -26,8 +26,8 @@ class DeleteFailedFilesAction
                 ->lastModified($file);
 
             // Get diffInHours
-            $diff = Carbon::parse($last_modified)
-                ->diffInHours(now());
+            $diff = Carbon::createFromTimestamp($last_modified)
+                ->diffInHours(now(), true);
 
             // Delete if file is in local storage more than 24 hours
             if ($diff >= 24) {

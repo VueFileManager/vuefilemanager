@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\UploadRequest;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Notification;
 use Tests\TestCase;
@@ -15,9 +16,7 @@ use Domain\UploadRequest\Notifications\UploadRequestFulfilledNotification;
 
 class UploadRequestTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_test_upload_request_factory()
     {
         $uploadRequest = UploadRequest::factory()
@@ -26,9 +25,7 @@ class UploadRequestTest extends TestCase
         $this->assertModelExists($uploadRequest);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_create_upload_request_with_email()
     {
         $user = User::factory()
@@ -55,12 +52,10 @@ class UploadRequestTest extends TestCase
             'notes'     => 'Please send me your files...',
         ]);
 
-        Notification::assertTimesSent(1, UploadRequestNotification::class);
+        Notification::assertSentTimes(UploadRequestNotification::class, 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_create_upload_request_with_native_user_email()
     {
         $user = User::factory()
@@ -88,9 +83,7 @@ class UploadRequestTest extends TestCase
         Notification::assertSentTo($recipient, UploadRequestNotification::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_create_upload_request_without_email()
     {
         $user = User::factory()
@@ -119,9 +112,7 @@ class UploadRequestTest extends TestCase
         Notification::assertNothingSent();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_create_upload_request_with_name()
     {
         $user = User::factory()
@@ -152,9 +143,7 @@ class UploadRequestTest extends TestCase
         Notification::assertNothingSent();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_upload_request_detail()
     {
         $user = User::factory()
@@ -174,9 +163,7 @@ class UploadRequestTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_upload_file_and_create_upload_request_folder_without_custom_folder_name()
     {
         $user = User::factory()
@@ -218,9 +205,7 @@ class UploadRequestTest extends TestCase
         Storage::assertExists("files/$user->id/$file->basename");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_upload_file_and_create_upload_request_folder_with_custom_folder_name()
     {
         $user = User::factory()
@@ -262,9 +247,7 @@ class UploadRequestTest extends TestCase
         Storage::assertExists("files/$user->id/$file->basename");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_upload_file_into_non_active_upload_request()
     {
         $user = User::factory()
@@ -289,9 +272,7 @@ class UploadRequestTest extends TestCase
             ])->assertStatus(410);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_mark_upload_request_as_filled()
     {
         $user = User::factory()
@@ -311,9 +292,7 @@ class UploadRequestTest extends TestCase
         Notification::assertSentTo($user, UploadRequestFulfilledNotification::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_mark_upload_request_as_expired_after_72_hours()
     {
         UploadRequest::factory()
@@ -329,9 +308,7 @@ class UploadRequestTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_mark_upload_request_as_filled_3_hours_after_last_upload()
     {
         $user = User::factory()

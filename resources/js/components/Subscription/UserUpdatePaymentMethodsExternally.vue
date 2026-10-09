@@ -10,7 +10,7 @@
             :is-last="true"
         >
             <ButtonBase
-                @click.native="updatePaymentMethod"
+                @click="updatePaymentMethod"
                 :loading="isGeneratedUpdateLink"
                 class="w-full sm:w-auto"
                 button-style="theme"

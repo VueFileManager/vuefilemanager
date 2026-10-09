@@ -1,5 +1,5 @@
 <template>
-    <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+    <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5">
         <td class="py-5 pr-3 md:pr-1">
             <span class="text-sm font-bold">
                 {{ row.data.attributes.note }}
@@ -81,6 +81,7 @@ import { EyeIcon, FileTextIcon } from '../../icons/feather.js'
 
 export default {
     name: 'MeteredTransactionRow',
+    emits: ['showDetail'],
     components: {
         MeteredTransactionDetailRow,
         MemberAvatar,

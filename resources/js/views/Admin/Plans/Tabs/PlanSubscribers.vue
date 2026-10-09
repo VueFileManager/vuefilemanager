@@ -9,10 +9,10 @@
             class="card overflow-x-auto shadow-card"
         >
             <!--Table data content-->
-            <template slot-scope="{ row }">
+            <template #default="{ row }">
                 <tr
                     v-if="config.subscriptionType === 'metered'"
-                    class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                    class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                 >
                     <td class="py-3 pr-3 md:pr-1">
                         <router-link
@@ -53,7 +53,7 @@
                 </tr>
                 <tr
                     v-if="config.subscriptionType === 'fixed'"
-                    class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                    class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                 >
                     <td class="py-3 pr-3 md:pr-1">
                         <router-link

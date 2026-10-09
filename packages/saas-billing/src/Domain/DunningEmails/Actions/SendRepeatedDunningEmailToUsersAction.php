@@ -16,7 +16,7 @@ class SendRepeatedDunningEmailToUsersAction
             ->whereNot('sequence', 3)
             ->cursor()
             ->each(function ($dunning) {
-                $diffInDays = $dunning->updated_at->diffInDays();
+                $diffInDays = (int) $dunning->updated_at->diffInDays(now(), true);
 
                 // Send reminder for every 2 days
                 if ($diffInDays !== 0 && $diffInDays % 2 == 0) {

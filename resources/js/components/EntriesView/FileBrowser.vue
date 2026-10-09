@@ -16,10 +16,10 @@
         @click.self="deselect"
     >
         <ItemHandler
-            @click.native="hideContextMenu"
+            @click="hideContextMenu"
             @dragstart="dragStart(item)"
-            @drop.stop.native.prevent="dragFinish(item, $event)"
-            @contextmenu.native.prevent="contextMenu($event, item)"
+            @drop.stop.prevent="dragFinish(item, $event)"
+            @contextmenu.prevent="contextMenu($event, item)"
             :class="draggedItems.includes(item) ? 'opacity-60' : ''"
             v-for="item in entries"
             :key="item.data.id"

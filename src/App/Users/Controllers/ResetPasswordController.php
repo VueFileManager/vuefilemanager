@@ -1,55 +1,53 @@
 <?php
 namespace App\Users\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Users\Models\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Validation\Rules\Password as PasswordRule;
 
 class ResetPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
-
-    use ResetsPasswords;
-
     /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
+     * Reset the given user's password.
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Get the response for a successful password reset.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-     */
-    protected function sendResetResponse(Request $request, $response)
+    public function reset(Request $request)
     {
-        return response(['message' => Lang::get($response)]);
+        $request->validate([
+            'token'    => 'required',
+            'email'    => 'required|email',
+            'password' => ['required', 'confirmed', PasswordRule::defaults()],
+        ]);
+
+        $response = Password::broker()->reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            fn (User $user, string $password) => $this->resetPassword($user, $password)
+        );
+
+        return $response === Password::PASSWORD_RESET
+            ? response(['message' => Lang::get($response)])
+            : response(['error' => Lang::get($response)], 422);
     }
 
     /**
-     * Get the response for a failed password reset.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * Reset the given user's password and log him in.
      */
-    protected function sendResetFailedResponse(Request $request, $response)
+    protected function resetPassword(User $user, string $password): void
     {
-        return response(['error' => Lang::get($response)], 422);
+        $user->password = Hash::make($password);
+
+        $user->setRememberToken(Str::random(60));
+
+        $user->save();
+
+        event(new PasswordReset($user));
+
+        Auth::guard()->login($user);
     }
 }

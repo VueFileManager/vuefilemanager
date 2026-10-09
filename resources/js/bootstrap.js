@@ -23,15 +23,18 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
 window.Pusher = Pusher
 
-if (config.broadcasting) {
+// Supported real-time drivers: 'reverb' (self-hosted, Pusher protocol compatible) and 'pusher'
+if (['pusher', 'reverb'].includes(config.broadcasting)) {
+    const isReverb = config.broadcasting === 'reverb'
+
     window.Echo = new Echo({
-        broadcaster: config.broadcasting === 'reverb' ? 'reverb' : 'pusher',
-        cluster: config.broadcastingCluster,
+        broadcaster: isReverb ? 'reverb' : 'pusher',
+        cluster: config.broadcastingCluster || undefined,
         key: config.broadcastingKey,
-        wsHost: config.broadcastingHost,
-        wsPort: config.broadcastingPort,
-        wssPort: config.broadcastingPort,
-        forceTLS: false,
+        wsHost: config.broadcastingHost || undefined,
+        wsPort: config.broadcastingPort || undefined,
+        wssPort: config.broadcastingPort || undefined,
+        forceTLS: isReverb ? !!config.broadcastingTls : false,
         enabledTransports: ['ws', 'wss'],
     })
 }

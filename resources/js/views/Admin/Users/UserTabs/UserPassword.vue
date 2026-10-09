@@ -11,7 +11,7 @@
                 :is-last="true"
             >
                 <ButtonBase
-                    @click.native="requestPasswordResetEmail"
+                    @click="requestPasswordResetEmail"
                     :loading="isSendingRequest"
                     :disabled="isSendingRequest"
                     class="w-full sm:w-auto"
@@ -25,14 +25,13 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
 import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
 import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
 import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
 import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
 import PageTab from '../../../../components/Layout/PageTab.vue'
 import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
-import { required } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import axios from 'axios'
 import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
@@ -47,7 +46,6 @@ export default {
         PageTabGroup,
         ButtonBase,
         FormLabel,
-        required,
         InfoBox,
         PageTab,
     },

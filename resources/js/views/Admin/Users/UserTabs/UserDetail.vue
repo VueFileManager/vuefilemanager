@@ -140,17 +140,17 @@ import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
 import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
 import PageTab from '../../../../components/Layout/PageTab.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
 import SelectInput from '../../../../components/Inputs/SelectInput.vue'
 import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
 import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
-import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import { events } from '../../../../bus'
 import axios from 'axios'
 
 export default {
     name: 'UserDetail',
+    emits: ['reload-user'],
     props: ['user'],
     components: {
         AppInputText,
@@ -162,7 +162,6 @@ export default {
         ValidationObserver,
         SelectInput,
         ButtonBase,
-        required,
     },
     computed: {
         ...mapGetters(['roles', 'config']),

@@ -22,7 +22,7 @@
 
             <!--Navigation-->
             <div class="mt-2 relative">
-                <NotificationBell @click.native="$store.commit('TOGGLE_NOTIFICATION_CENTER')" class="hover:bg-light-300 dark:hover:bg-4x-dark-foreground" />
+                <NotificationBell @click="$store.commit('TOGGLE_NOTIFICATION_CENTER')" class="hover:bg-light-300 dark:hover:bg-4x-dark-foreground" />
             </div>
 
 			<NotificationCenter v-if="isVisibleNotificationCenter" />

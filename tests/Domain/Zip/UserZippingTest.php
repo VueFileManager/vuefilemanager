@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Zip;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
@@ -10,9 +11,7 @@ use Illuminate\Http\UploadedFile;
 
 class UserZippingTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_zip_multiple_files_and_download_it()
     {
         $user = User::factory()
@@ -64,9 +63,7 @@ class UserZippingTest extends TestCase
             ->assertHeader('content-type', 'application/x-zip');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_zip_folder_with_content_within_and_download()
     {
         $user = User::factory()

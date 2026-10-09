@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Folders;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -11,9 +12,7 @@ use Illuminate\Http\UploadedFile;
 
 class FolderTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_test_folder_factory()
     {
         $folder = Folder::factory()
@@ -24,9 +23,7 @@ class FolderTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_new_folder()
     {
         $user = User::factory()
@@ -48,9 +45,7 @@ class FolderTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_rename_folder()
     {
         $user = User::factory()
@@ -78,9 +73,7 @@ class FolderTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_set_folder_emoji()
     {
         $user = User::factory()
@@ -117,9 +110,7 @@ class FolderTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_set_folder_color()
     {
         $user = User::factory()
@@ -151,9 +142,7 @@ class FolderTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_move_folder_to_another_folder()
     {
         $user = User::factory()
@@ -188,9 +177,7 @@ class FolderTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_multiple_folder_softly()
     {
         $user = User::factory()
@@ -239,9 +226,7 @@ class FolderTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_multiple_folder_hardly()
     {
         $user = User::factory()
@@ -284,9 +269,7 @@ class FolderTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_folder_with_their_content_within_softly()
     {
         $user = User::factory()
@@ -343,9 +326,7 @@ class FolderTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_folder_with_their_content_within_hardly()
     {
         $user = User::factory()

@@ -11,13 +11,13 @@
                 }"
             >
                 <div
-                    class="h-12 origin-top-right -rotate-45 transform bg-white bg-opacity-80 backdrop-blur-2xl dark:bg-2x-dark-foreground"
+                    class="h-12 origin-top-right -rotate-45 transform bg-white/80 backdrop-blur-2xl dark:bg-2x-dark-foreground/80"
                 ></div>
             </div>
 
             <div
                 v-click-outside="clickOutside"
-                class="max-h-full overflow-y-auto rounded-xl bg-white bg-opacity-80 p-3 text-left shadow-xl backdrop-blur-2xl dark:bg-2x-dark-foreground dark:bg-opacity-80 dark:backdrop-blur-2xl"
+                class="max-h-full overflow-y-auto rounded-xl bg-white/80 p-3 text-left shadow-xl backdrop-blur-2xl dark:bg-2x-dark-foreground/80 dark:backdrop-blur-2xl"
             >
                 <!--Title-->
                 <b class="mb-2.5 block px-2.5 text-xl font-extrabold dark:text-gray-200">
@@ -27,7 +27,7 @@
                 <div class="px-2.5">
                     <MobileActionButton
                         v-if="readNotifications.length || unreadNotifications.length"
-                        @click.native="$store.dispatch('deleteAllNotifications')"
+                        @click="$store.dispatch('deleteAllNotifications')"
                         icon="check-square"
                         class="mb-2 dark:bg-4x-dark-foreground!"
                     >
@@ -72,7 +72,7 @@
 <script>
 import MobileActionButton from '../UI/Buttons/MobileActionButton.vue'
 import Notification from './Components/Notification.vue'
-import vClickOutside from 'v-click-outside'
+import clickOutside from '../../directives/clickOutside.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -82,7 +82,7 @@ export default {
         Notification,
     },
     directives: {
-        clickOutside: vClickOutside.directive,
+        clickOutside,
     },
     computed: {
         ...mapGetters(['user', 'config', 'isVisibleNotificationCenter']),

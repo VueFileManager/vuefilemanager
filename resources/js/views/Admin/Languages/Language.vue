@@ -5,7 +5,7 @@
             <div
                 class="z-20 bg-white pt-3 sm:pt-5"
                 :class="{
-                    'fixed top-0 left-0 right-0 z-10 rounded-none bg-white bg-opacity-70 px-6 backdrop-blur-lg backdrop-filter dark:bg-dark-foreground':
+                    'fixed top-0 left-0 right-0 z-10 rounded-none bg-white/70 px-6 backdrop-blur-lg backdrop-filter dark:bg-dark-foreground/70':
                         fixedNav,
                     'card sticky top-0 z-10 block pb-0! shadow-card md:hidden': !fixedNav,
                 }"
@@ -70,7 +70,7 @@
                     </div>
 
                     <!-- Create Language button -->
-                    <MobileActionButton @click.native="createLanguage" icon="plus" class="mt-5 whitespace-nowrap">
+                    <MobileActionButton @click="createLanguage" icon="plus" class="mt-5 whitespace-nowrap">
                         {{ $t('add_language') }}
                     </MobileActionButton>
                 </div>
@@ -185,7 +185,7 @@
 <script>
 import AppInputSwitch from '../../../components/Forms/Layouts/AppInputSwitch.vue'
 import AppInputText from '../../../components/Forms/Layouts/AppInputText.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../../components/Validation/index.js'
 import MobileActionButton from '../../../components/UI/Buttons/MobileActionButton.vue'
 import SwitchInput from '../../../components/Inputs/SwitchInput.vue'
 import SearchInput from '../../../components/Inputs/SearchInput.vue'
@@ -318,7 +318,7 @@ export default {
             this.fixedNav = card.getBoundingClientRect().top < 0
         })
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

@@ -205,6 +205,7 @@ import axios from 'axios'
 
 export default {
     name: 'DatatableWrapper',
+    emits: ['data', 'init'],
     props: ['paginator', 'tableData', 'columns', 'scope', 'api'],
     components: {
         ChevronRightIcon,

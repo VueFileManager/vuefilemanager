@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Balances;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -21,9 +22,7 @@ class BalanceTest extends TestCase
             ->create();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function admin_credit_user_balance()
     {
         $admin = User::factory()
@@ -61,9 +60,7 @@ class BalanceTest extends TestCase
         Notification::assertSentTo($this->user, BonusCreditAddedNotification::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_credit_user_balance()
     {
         $this->user->creditBalance(50.00, 'USD');
@@ -75,9 +72,7 @@ class BalanceTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_increment_user_balance()
     {
         $this->user->balance()->create([
@@ -93,9 +88,7 @@ class BalanceTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_withdraw_user_balance()
     {
         $this->user->balance()->create([
@@ -111,9 +104,7 @@ class BalanceTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_to_withdraw_more_than_current_user_balance()
     {
         $this->expectException(InsufficientBalanceException::class);

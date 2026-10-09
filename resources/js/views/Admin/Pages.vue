@@ -8,8 +8,8 @@
                 :columns="columns"
                 class="overflow-x-auto"
             >
-                <template slot-scope="{ row }">
-                    <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+                <template #default="{ row }">
+                    <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5">
                         <td class="py-5 pr-3 md:pr-1">
                             <router-link
                                 :to="{

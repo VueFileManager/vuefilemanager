@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Files;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -11,9 +12,7 @@ use Illuminate\Http\UploadedFile;
 
 class ContentAccessTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_public_user_avatar()
     {
         $avatar = UploadedFile::fake()
@@ -27,9 +26,7 @@ class ContentAccessTest extends TestCase
         Storage::assertExists('avatars/fake-avatar.jpg');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_public_system_image()
     {
         $system = UploadedFile::fake()
@@ -43,9 +40,7 @@ class ContentAccessTest extends TestCase
         Storage::assertExists('system/fake-logo.jpg');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_private_user_file()
     {
         $user = User::factory()
@@ -70,9 +65,7 @@ class ContentAccessTest extends TestCase
             ->assertDownload($file->name);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_private_user_image_thumbnail()
     {
         $user = User::factory()
@@ -96,9 +89,7 @@ class ContentAccessTest extends TestCase
             ->assertDownload("xs-$thumbnail->name");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function logged_user_try_to_get_another_private_user_image_thumbnail()
     {
         $users = User::factory()
@@ -121,9 +112,7 @@ class ContentAccessTest extends TestCase
             ->assertForbidden();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function logged_user_try_to_get_another_private_user_file()
     {
         $users = User::factory()
@@ -147,27 +136,21 @@ class ContentAccessTest extends TestCase
             ->assertForbidden();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_try_to_get_private_user_file()
     {
         $this->get('file/fake-file.pdf')
             ->assertRedirect();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_try_to_get_private_user_image_thumbnail()
     {
         $this->get('thumbnail/fake-thumbnail.jpg')
             ->assertRedirect();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function guest_try_to_get_private_user_folder()
     {
         $folder = Folder::factory()

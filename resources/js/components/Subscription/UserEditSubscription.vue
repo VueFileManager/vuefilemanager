@@ -14,7 +14,7 @@
             "
         >
             <ButtonBase
-                @click.native="cancelSubscriptionConfirmation"
+                @click="cancelSubscriptionConfirmation"
                 :loading="isCancelling"
                 class="w-full sm:w-auto"
                 button-style="secondary"
@@ -28,7 +28,7 @@
             :description="$t('upgrade_downgrade_plan_description')"
             :is-last="true"
         >
-            <ButtonBase @click.native="$changeSubscriptionOptions" class="w-full sm:w-auto" button-style="secondary">
+            <ButtonBase @click="$changeSubscriptionOptions" class="w-full sm:w-auto" button-style="secondary">
                 {{ $t('change_plan') }}
             </ButtonBase>
         </AppInputButton>
@@ -109,7 +109,7 @@ export default {
             }
         })
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

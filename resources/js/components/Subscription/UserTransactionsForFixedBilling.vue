@@ -10,7 +10,7 @@
             :paginator="true"
             :columns="columns"
         >
-            <template slot-scope="{ row }">
+            <template #default="{ row }">
                 <FixedTransactionRow :row="row" />
             </template>
 

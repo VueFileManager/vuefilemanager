@@ -4,15 +4,15 @@
 
         <PopupContent style="padding: 0 20px">
             <div class="mobile-actions">
-                <MobileActionButton @click.native="copyCodes" icon="copy">
+                <MobileActionButton @click="copyCodes" icon="copy">
                     {{ $t('copy') }}
                 </MobileActionButton>
 
-                <MobileActionButton @click.native="downloadCodes" icon="download">
+                <MobileActionButton @click="downloadCodes" icon="download">
                     {{ $t('download') }}
                 </MobileActionButton>
 
-                <MobileActionButton @click.native="regenerateCodes" icon="refresh">
+                <MobileActionButton @click="regenerateCodes" icon="refresh">
                     {{ $t('regenerate_codes') }}
                 </MobileActionButton>
             </div>
@@ -33,7 +33,7 @@
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="theme">
                 {{ $t('awesome_iam_done') }}
             </ButtonBase>
         </PopupActions>

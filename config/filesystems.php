@@ -54,13 +54,17 @@ return [
             'password' => env('FTP_PASSWORD'),
         ],
         'azure' => [
-            'driver'            => 'azure',
-            'name'              => env('AZURE_STORAGE_NAME'),
-            'key'               => env('AZURE_STORAGE_KEY'),
+            'driver'            => 'azure-storage-blob',
+            'connection_string' => env('AZURE_STORAGE_CONNECTION_STRING') ?: (env('AZURE_STORAGE_NAME') ? sprintf(
+                'DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net',
+                env('AZURE_STORAGE_NAME'),
+                env('AZURE_STORAGE_KEY'),
+            ) : null),
             'container'         => env('AZURE_STORAGE_CONTAINER'),
             'url'               => env('AZURE_STORAGE_URL'),
             'prefix'            => null,
-            'connection_string' => env('AZURE_STORAGE_CONNECTION_STRING'), // optional, will override default endpoint builder
+            'throw'             => false,
+            'report'            => false,
         ],
     ],
 ];

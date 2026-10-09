@@ -78,12 +78,12 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary"
                 >{{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"
-                @click.native="createTeamFolder"
+                @click="createTeamFolder"
                 button-style="theme"
                 :loading="isLoading"
                 :disabled="isLoading"
@@ -95,7 +95,7 @@
 
 <script>
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
 import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
 import PopupActions from '../Popups/Components/PopupActions.vue'
 import PopupContent from '../Popups/Components/PopupContent.vue'
@@ -103,7 +103,6 @@ import PopupHeader from '../Popups/Components/PopupHeader.vue'
 import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import TeamList from './Components/TeamList.vue'
-import { required } from 'vee-validate/dist/rules'
 import InfoBox from '../UI/Others/InfoBox.vue'
 import { events } from '../../bus'
 import axios from 'axios'
@@ -122,7 +121,6 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
         InfoBox,
     },
     computed: {

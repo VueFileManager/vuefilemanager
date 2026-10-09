@@ -19,7 +19,7 @@
             <router-link
                 v-for="(item, i) in menu.groupLinks"
                 :key="i"
-                @click.native="resetData"
+                @click="resetData"
                 :to="{ name: item.route }"
                 class="flex items-center py-2.5"
             >

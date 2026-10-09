@@ -29,7 +29,7 @@
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase @click.native="confirm2FaSetup" class="w-full" button-style="theme" :loading="isLoading">
+            <ButtonBase @click="confirm2FaSetup" class="w-full" button-style="theme" :loading="isLoading">
                 {{ $t('confirm_your_code') }}
             </ButtonBase>
         </PopupActions>
@@ -37,8 +37,7 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import { required } from 'vee-validate/dist/rules'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
@@ -60,7 +59,6 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
         InfoBox,
     },
     data() {

@@ -34,12 +34,12 @@
         </PopupContent>
 
         <PopupActions v-if="!token">
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"
-                @click.native="createTokenForm"
+                @click="createTokenForm"
                 button-style="theme"
                 :loading="isLoading"
                 :disabled="isLoading"
@@ -49,7 +49,7 @@
         </PopupActions>
 
         <PopupActions v-if="token">
-            <ButtonBase class="w-full" @click.native="$closePopup" button-style="theme">
+            <ButtonBase class="w-full" @click="$closePopup" button-style="theme">
                 {{ $t('awesome_iam_done') }}
             </ButtonBase>
         </PopupActions>
@@ -58,7 +58,7 @@
 
 <script>
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
 import PopupWrapper from './Components/PopupWrapper.vue'
 import PopupActions from './Components/PopupActions.vue'
 import PopupContent from './Components/PopupContent.vue'
@@ -66,7 +66,6 @@ import PopupHeader from './Components/PopupHeader.vue'
 import CopyInput from '../Inputs/CopyInput.vue'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import InfoBox from '../UI/Others/InfoBox.vue'
-import { required } from 'vee-validate/dist/rules'
 import { events } from '../../bus'
 import axios from 'axios'
 
@@ -82,7 +81,6 @@ export default {
         PopupHeader,
         ButtonBase,
         CopyInput,
-        required,
         InfoBox,
     },
     data() {

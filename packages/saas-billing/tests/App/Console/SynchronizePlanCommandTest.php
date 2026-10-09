@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Console;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Artisan;
 use Tests\Mocking\PayPal\UpdatePlanPayPalMocksClass;
@@ -12,9 +13,7 @@ use VueFileManager\Subscription\Domain\Plans\Models\PlanDriver;
 
 class SynchronizePlanCommandTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_plan_after_added_new_driver()
     {
         $plan = Plan::factory()

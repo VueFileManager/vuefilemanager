@@ -31,7 +31,6 @@
     "require-dev": {
         "ext-intl": "*",
         "friendsofphp/php-cs-fixer": "^3.95",
-        "larastan/larastan": "^3.13",
         "nunomaduro/collision": "^8.9",
         "orchestra/testbench": "^11.3",
         "phpunit/phpunit": "^12.5"
@@ -50,10 +49,10 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\" : "src/App/",
-            "Domain\\" : "src/Domain/",
-            "Support\\" : "src/Support/",
-            "Tests\\" : "tests"
+            "App\\": "src/App/",
+            "Domain\\": "src/Domain/",
+            "Support\\": "src/Support/",
+            "Tests\\": "tests"
         }
     },
     "scripts": {

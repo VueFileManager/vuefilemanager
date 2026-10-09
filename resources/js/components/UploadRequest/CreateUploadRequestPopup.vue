@@ -89,17 +89,17 @@
 
 		<!--Actions-->
         <PopupActions v-if="!uploadRequest">
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary"
 			>{{ $t('cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="createUploadRequest" :loading="isLoading" button-style="theme"
+            <ButtonBase class="w-full" @click="createUploadRequest" :loading="isLoading" button-style="theme"
 			>{{ $t('create_request') }}
             </ButtonBase>
         </PopupActions>
 
 		<!--Actions-->
         <PopupActions v-if="uploadRequest">
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme"
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="theme"
 			>{{ $t('awesome_iam_done') }}
             </ButtonBase>
         </PopupActions>
@@ -107,9 +107,8 @@
 </template>
 
 <script>
-import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+import {ValidationProvider, ValidationObserver} from '../Validation/index.js'
 import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
-import {required} from 'vee-validate/dist/rules'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
@@ -137,7 +136,6 @@ export default {
 		PopupHeader,
 		ButtonBase,
 		CopyInput,
-		required,
 	},
 	data() {
 		return {

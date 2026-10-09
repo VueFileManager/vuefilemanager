@@ -94,6 +94,7 @@ import { mapGetters } from 'vuex'
 
 export default {
     name: 'EmojiPicker',
+    emits: ['update:modelValue', 'input'],
     props: ['defaultEmoji'],
     components: {
         Spinner,
@@ -183,6 +184,7 @@ export default {
             this.query = undefined
             this.isOpen = false
 
+            this.$emit('update:modelValue', value)
             this.$emit('input', value)
         },
     },

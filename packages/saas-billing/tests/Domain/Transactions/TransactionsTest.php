@@ -1,14 +1,13 @@
 <?php
 namespace Tests\Domain\Transactions;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 
 class TransactionsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_all_my_transactions()
     {
         $user = User::factory()
@@ -20,9 +19,7 @@ class TransactionsTest extends TestCase
             ->getJson('/api/subscriptions/transactions')
             ->assertOk();
     }
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_all_user_transactions()
     {
         $user = User::factory()

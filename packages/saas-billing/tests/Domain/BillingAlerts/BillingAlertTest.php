@@ -1,14 +1,13 @@
 <?php
 namespace Tests\Domain\BillingAlerts;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 
 class BillingAlertTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_store_billing_alert()
     {
         $user = User::factory()
@@ -26,9 +25,7 @@ class BillingAlertTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_update_billing_alert()
     {
         $user = User::factory()
@@ -50,9 +47,7 @@ class BillingAlertTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_billing_alert()
     {
         $user = User::factory()

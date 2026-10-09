@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Teams;
 
+use PHPUnit\Framework\Attributes\Test;
 use Notification;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -12,9 +13,7 @@ use Domain\Teams\Notifications\InvitationIntoTeamFolder;
 
 class TeamsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_find_team_parent_id_from_children()
     {
         $teamFolder = Folder::factory()
@@ -36,9 +35,7 @@ class TeamsTest extends TestCase
         $this->assertEquals($teamFolder->id, $teamFolder->getLatestParent()->id);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_team_folder()
     {
         User::factory()
@@ -85,12 +82,10 @@ class TeamsTest extends TestCase
                 'email' => 'jane@external.com',
             ]);
 
-        Notification::assertTimesSent(2, InvitationIntoTeamFolder::class);
+        Notification::assertSentTimes(InvitationIntoTeamFolder::class, 2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_mark_newly_created_folder_as_team_folder()
     {
         $user = User::factory()
@@ -116,9 +111,7 @@ class TeamsTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_convert_folder_into_team_folder()
     {
         $user = User::factory()
@@ -162,12 +155,10 @@ class TeamsTest extends TestCase
             'team_folder' => 1,
         ]);
 
-        Notification::assertTimesSent(2, InvitationIntoTeamFolder::class);
+        Notification::assertSentTimes(InvitationIntoTeamFolder::class, 2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_all_team_folders()
     {
         $user = User::factory()
@@ -189,9 +180,7 @@ class TeamsTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_content_of_team_folder()
     {
         $user = User::factory()
@@ -219,9 +208,7 @@ class TeamsTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_team_folders_shared_with_another_user()
     {
         $user = User::factory()
@@ -262,9 +249,7 @@ class TeamsTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function team_member_upload_new_file()
     {
         $file = UploadedFile::fake()

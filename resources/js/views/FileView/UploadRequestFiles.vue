@@ -2,9 +2,9 @@
     <div>
         <MobileContextMenu>
             <OptionGroup v-if="item">
-                <Option @click.native="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
-                <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                <Option @click="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
+                <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
             </OptionGroup>
         </MobileContextMenu>
 
@@ -12,7 +12,7 @@
             <OptionGroup :title="$t('frequently_used')">
                 <OptionUpload :title="$t('upload_files')" type="file" :is-hover-disabled="true" />
                 <Option
-					@click.stop.native="createFolder"
+					@click.stop="createFolder"
 					:title="$t('create_folder')"
 					icon="folder-plus"
 					:is-hover-disabled="true"
@@ -21,7 +21,7 @@
             <OptionGroup :title="$t('others')">
                 <OptionUpload :title="$t('upload_folder')" type="folder" />
 				<Option
-					@click.stop.native="$openRemoteUploadPopup"
+					@click.stop="$openRemoteUploadPopup"
 					:title="$t('remote_upload')"
 					icon="remote-upload"
 				/>
@@ -30,14 +30,14 @@
 
         <MobileMultiSelectToolbar>
             <ToolbarButton
-				@click.native="$moveFileOrFolder(clipboard)"
+				@click="$moveFileOrFolder(clipboard)"
 				class="mr-4"
 				source="move"
 				:action="$t('move')"
 				:class="{ 'is-inactive': clipboard.length < 1 }"
 			/>
             <ToolbarButton
-				@click.native="$deleteFileOrFolder()"
+				@click="$deleteFileOrFolder()"
 				source="trash"
 				:class="{ 'is-inactive': clipboard.length < 1 }"
 				:action="$t('delete')"
@@ -52,7 +52,7 @@
                 </OptionGroup>
                 <OptionGroup>
                     <Option
-						@click.native="$createFolder"
+						@click="$createFolder"
 						:title="$t('create_folder')"
 						icon="create-folder"
 					/>
@@ -62,25 +62,25 @@
             <template v-slot:single-select v-if="item">
                 <OptionGroup>
                     <Option
-						@click.native="$renameFileOrFolder(item)"
+						@click="$renameFileOrFolder(item)"
 						:title="$t('rename')"
 						icon="rename"
 					/>
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
+                    <Option @click="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
                 </OptionGroup>
             </template>
 
             <template v-slot:multiple-select v-if="item">
                 <OptionGroup>
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$downloadSelection()" :title="$t('download')" icon="download" />
+                    <Option @click="$downloadSelection()" :title="$t('download')" icon="download" />
                 </OptionGroup>
             </template>
         </ContextMenu>
@@ -98,16 +98,16 @@
 			</button>
 
             <MobileActionButton
-				@click.native="$showMobileMenu('create-list')"
+				@click="$showMobileMenu('create-list')"
 				v-if="$checkPermission(['master', 'editor'])"
 				icon="cloud-plus"
 			>
                 {{ $t('upload_or_create') }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+            <MobileActionButton @click="$enableMultiSelectMode" icon="check-square">
                 {{ $t('select') }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
+            <MobileActionButton @click="$showMobileMenu('file-sorting')" icon="preview-sorting">
                 {{ $t('preview_sorting.preview_sorting_button') }}
             </MobileActionButton>
         </FileActionsMobile>

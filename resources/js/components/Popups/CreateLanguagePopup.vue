@@ -40,12 +40,12 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"
-                @click.native="createLanguage"
+                @click="createLanguage"
                 button-style="theme"
                 :loading="isLoading"
                 :disabled="isLoading"
@@ -58,14 +58,13 @@
 
 <script>
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
 import PopupWrapper from './Components/PopupWrapper.vue'
 import PopupActions from './Components/PopupActions.vue'
 import PopupContent from './Components/PopupContent.vue'
 import PopupHeader from './Components/PopupHeader.vue'
 import SelectInput from '../Inputs/SelectInput.vue'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
-import { required } from 'vee-validate/dist/rules'
 import { events } from '../../bus'
 import axios from 'axios'
 
@@ -81,7 +80,6 @@ export default {
         PopupHeader,
         SelectInput,
         ButtonBase,
-        required,
     },
     data() {
         return {

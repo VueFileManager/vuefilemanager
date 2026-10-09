@@ -145,7 +145,6 @@
 
                 <div v-if="stripe.isConfigured">
                     <AppInputText
-                        @input="$updateText('/admin/settings', 'stripe_payment_description', stripe.paymentDescription)"
                         :title="$t('payment_description')"
                         :description="$t('payment_description_note')"
                     >
@@ -276,9 +275,6 @@
 
                 <div v-if="paystack.isConfigured">
                     <AppInputText
-                        @input="
-                            $updateText('/admin/settings', 'paystack_payment_description', paystack.paymentDescription)
-                        "
                         :title="$t('payment_description')"
                         :description="$t('payment_description_note')"
                     >
@@ -400,7 +396,6 @@
                     </AppInputSwitch>
 
                     <AppInputText
-                        @input="$updateText('/admin/settings', 'paypal_payment_description', paypal.paymentDescription)"
                         :title="$t('payment_description')"
                         :description="$t('payment_description_note')"
                     >
@@ -511,7 +506,7 @@
 import { Edit2Icon, Trash2Icon } from '../../../../icons/feather.js'
 import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton.vue'
 import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
 import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
 import SelectInput from '../../../../components/Inputs/SelectInput.vue'
 import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
@@ -523,7 +518,6 @@ import CopyInput from '../../../../components/Inputs/CopyInput.vue'
 import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
 import PageTab from '../../../../components/Layout/PageTab.vue'
 import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
-import { required } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -546,7 +540,6 @@ export default {
         FormLabel,
         Trash2Icon,
         Edit2Icon,
-        required,
         PageTab,
         InfoBox,
     },
@@ -747,7 +740,7 @@ export default {
         this.allowedRegistrationBonus = this.config.allowed_registration_bonus
         this.registrationBonusAmount = this.config.registration_bonus_amount
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

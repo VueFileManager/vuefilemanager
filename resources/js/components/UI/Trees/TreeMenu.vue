@@ -59,7 +59,7 @@
         </div>
 
         <!--Children-->
-        <tree-node
+        <TreeMenu
             :disabled-by-id="disabledById"
             :depth="depth + 1"
             v-if="isVisible"
@@ -84,7 +84,6 @@ export default {
         UserPlusIcon,
         FolderIcon,
         UsersIcon,
-        'tree-node': () => import('./TreeMenu.vue'),
     },
     computed: {
         ...mapGetters(['clipboard']),

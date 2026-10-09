@@ -46,9 +46,8 @@ import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 
 import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
 import PageTab from '../../../../components/Layout/PageTab.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
 import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
-import { required, is } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import axios from 'axios'
 
@@ -64,7 +63,6 @@ export default {
         ValidationProvider,
         ValidationObserver,
         ButtonBase,
-        required,
     },
     data() {
         return {

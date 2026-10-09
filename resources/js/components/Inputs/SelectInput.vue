@@ -59,6 +59,7 @@ import { debounce, omitBy } from 'lodash'
 
 export default {
     name: 'SelectInput',
+    emits: ['update:modelValue', 'input', 'change'],
     props: ['placeholder', 'options', 'isError', 'default'],
     components: {
         Edit2Icon,
@@ -91,6 +92,7 @@ export default {
     methods: {
         selectOption(option) {
             // Emit selected
+            this.$emit('update:modelValue', option.value)
             this.$emit('input', option.value)
             this.$emit('change', option.value)
 
@@ -224,7 +226,7 @@ export default {
     transition: all 150ms ease;
 }
 
-.slide-in-enter /* .list-leave-active below version 2.1.8 */ {
+.slide-in-enter-from /* .list-leave-active below version 2.1.8 */ {
     opacity: 0;
     transform: translateY(-50px);
 }

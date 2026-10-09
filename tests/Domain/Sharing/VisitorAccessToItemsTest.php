@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Sharing;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -11,9 +12,7 @@ use Illuminate\Http\UploadedFile;
 
 class VisitorAccessToItemsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_download_file()
     {
         collect([true, false])
@@ -63,9 +62,7 @@ class VisitorAccessToItemsTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_directly_download_file()
     {
         $user = User::factory()
@@ -98,9 +95,7 @@ class VisitorAccessToItemsTest extends TestCase
             ->assertDownload($document->name);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_directly_download_protected_file()
     {
         $share = Share::factory()
@@ -114,9 +109,7 @@ class VisitorAccessToItemsTest extends TestCase
             ->assertStatus(403);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_to_get_protected_file_record()
     {
         $user = User::factory()
@@ -142,9 +135,7 @@ class VisitorAccessToItemsTest extends TestCase
             ->assertStatus(403);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_shared_image()
     {
         collect([true, false])
@@ -196,9 +187,7 @@ class VisitorAccessToItemsTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_public_thumbnail()
     {
         collect([true, false])

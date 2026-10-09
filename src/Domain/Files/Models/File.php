@@ -10,7 +10,6 @@ use Database\Factories\FileFactory;
 use Kyslik\ColumnSortable\Sortable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
-use TeamTNT\TNTSearch\Indexer\TNTIndexer;
 use \Illuminate\Database\Eloquent\SoftDeletes;
 use Domain\Traffic\Actions\RecordUploadAction;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -197,8 +196,7 @@ class File extends Model
             'UTF-8'
         );
 
-        $trigram = (new TNTIndexer)
-            ->buildTrigrams(implode(', ', [$name]));
+        $trigram = buildTrigrams(implode(', ', [$name]));
 
         return [
             'id'         => $this->id,

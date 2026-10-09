@@ -290,7 +290,7 @@
 
 <script>
 import { Edit2Icon } from '../../../../icons/feather.js'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
 import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
 import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
 import CopyInput from '../../../../components/Inputs/CopyInput.vue'
@@ -298,7 +298,6 @@ import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
 import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
 import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
 import PageTab from '../../../../components/Layout/PageTab.vue'
-import { required } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -315,7 +314,6 @@ export default {
         ButtonBase,
         Edit2Icon,
         FormLabel,
-        required,
         PageTab,
         events,
     },

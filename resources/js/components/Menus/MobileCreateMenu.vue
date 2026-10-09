@@ -1,5 +1,5 @@
 <template>
-    <MenuMobile @click.native.capture="closeMenu" name="create-list">
+    <MenuMobile @click.capture="closeMenu" name="create-list">
         <MenuMobileGroup>
             <slot />
         </MenuMobileGroup>

@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Restrictions;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Http\UploadedFile;
 use Storage;
 use Str;
@@ -12,9 +13,7 @@ use Domain\Settings\Models\Setting;
 
 class DefaultRestrictionsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_upload()
     {
         $user = User::factory()
@@ -24,9 +23,7 @@ class DefaultRestrictionsTest extends TestCase
         $this->assertEquals(true, $user->canUpload(9999999));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_upload_because_storage_limit_exceeded()
     {
         $user = User::factory()
@@ -42,9 +39,7 @@ class DefaultRestrictionsTest extends TestCase
         $this->assertEquals(false, $user->canUpload(999999999));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_upload_because_storage_limitation_is_turned_off_and_user_has_unlimited_limit()
     {
         $user = User::factory()
@@ -68,9 +63,7 @@ class DefaultRestrictionsTest extends TestCase
         $this->assertEquals(true, $user->canUpload(999999999));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_upload_because_storage_limitation_is_turned_on_and_user_exceeded_limit()
     {
         $user = User::factory()
@@ -94,9 +87,7 @@ class DefaultRestrictionsTest extends TestCase
         $this->assertEquals(false, $user->canUpload(999999999));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_create_new_folder()
     {
         $user = User::factory()
@@ -115,9 +106,7 @@ class DefaultRestrictionsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_get_private_file()
     {
         $user = User::factory()
@@ -143,9 +132,7 @@ class DefaultRestrictionsTest extends TestCase
             ->assertStatus(404);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_get_shared_file()
     {
         $user = User::factory()
@@ -172,9 +159,7 @@ class DefaultRestrictionsTest extends TestCase
             ->assertStatus(404);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_get_share_page()
     {
         $user = User::factory()

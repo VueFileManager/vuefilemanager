@@ -8,13 +8,13 @@
 
 			<!-- Multi select mode -->
 			<div v-if="isMultiSelectMode">
-				<MobileActionButton @click.native="selectAll" icon="check-square">
+				<MobileActionButton @click="selectAll" icon="check-square">
 					{{ $t('select_all') }}
 				</MobileActionButton>
-				<MobileActionButton @click.native="deselectAll" icon="x-square">
+				<MobileActionButton @click="deselectAll" icon="x-square">
 					{{ $t('deselect_all') }}
 				</MobileActionButton>
-				<MobileActionButton @click.native="disableMultiSelectMode" icon="check">
+				<MobileActionButton @click="disableMultiSelectMode" icon="check">
 					{{ $t('done') }}
 				</MobileActionButton>
 			</div>
@@ -62,7 +62,7 @@ export default {
     transition: all 250ms;
 }
 
-.button-enter {
+.button-enter-from {
     opacity: 0;
     transform: translateY(-50%);
 }

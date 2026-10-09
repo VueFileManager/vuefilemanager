@@ -67,11 +67,10 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
 import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
-import { required } from 'vee-validate/dist/rules'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -84,7 +83,6 @@ export default {
         ValidationObserver,
         AuthContent,
         AuthButton,
-        required,
         Headline,
     },
     computed: {
@@ -98,7 +96,7 @@ export default {
     },
     methods: {
         goToAuthPage(slug) {
-            this.$refs.auth.$children.forEach((page) => {
+            this.$refs.auth.pages.forEach((page) => {
                 // Hide current step
                 page.isVisible = false
 

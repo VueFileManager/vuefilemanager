@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Notifications;
 
+use PHPUnit\Framework\Attributes\Test;
 use DB;
 use Str;
 use Tests\TestCase;
@@ -8,9 +9,7 @@ use App\Users\Models\User;
 
 class NotificationsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_all_notifications()
     {
         $user = User::factory()
@@ -49,9 +48,7 @@ class NotificationsTest extends TestCase
             ->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_mark_as_read_notifications()
     {
         $user = User::factory()
@@ -91,9 +88,7 @@ class NotificationsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_all_notifications()
     {
         $user = User::factory()

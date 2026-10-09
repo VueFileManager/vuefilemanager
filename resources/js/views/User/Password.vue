@@ -11,7 +11,7 @@
                 :is-last="!user.data.attributes.two_factor_confirmed_at"
             >
                 <SwitchInput
-					@click.native="toggle2Fa"
+					@click="toggle2Fa"
 					:is-disabled="true"
                     v-model="user.data.attributes.two_factor_confirmed_at"
                     class="switch"
@@ -24,7 +24,7 @@
                 :description="$t('popup_2fa.codes_info')"
                 :is-last="true"
             >
-                <ButtonBase class="w-full" button-style="secondary" @click.native="showRecoveryCodes">
+                <ButtonBase class="w-full" button-style="secondary" @click="showRecoveryCodes">
                     {{ $t('show_codes') }}
                 </ButtonBase>
             </AppInputButton>
@@ -42,7 +42,7 @@
             <div class="mb-5">
                 <div
                     v-if="tokens.length > 0"
-                    class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-opacity-5"
+                    class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-light/5"
                     v-for="token in tokens"
                     :key="token.id"
                 >
@@ -67,7 +67,7 @@
             </div>
 
             <ButtonBase
-                @click.native="openCreateTokenPopup"
+                @click="openCreateTokenPopup"
                 type="submit"
                 button-style="theme"
                 class="w-full sm:w-auto"
@@ -138,7 +138,7 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
 import SwitchInput from '../../components/Inputs/SwitchInput.vue'
 import FormLabel from '../../components/UI/Labels/FormLabel.vue'
 import ButtonBase from '../../components/UI/Buttons/ButtonBase.vue'
@@ -146,7 +146,6 @@ import InfoBox from '../../components/UI/Others/InfoBox.vue'
 import AppInputSwitch from '../../components/Forms/Layouts/AppInputSwitch.vue'
 import AppInputButton from '../../components/Forms/Layouts/AppInputButton.vue'
 import AppInputText from '../../components/Forms/Layouts/AppInputText.vue'
-import { required } from 'vee-validate/dist/rules'
 import { XIcon, Trash2Icon } from '../../icons/feather.js'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
@@ -164,7 +163,6 @@ export default {
         ButtonBase,
         FormLabel,
         Trash2Icon,
-        required,
         InfoBox,
         XIcon,
     },
@@ -335,7 +333,7 @@ export default {
 
         events.$on('reload-personal-access-tokens', () => this.getPersonalAccessTokens())
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

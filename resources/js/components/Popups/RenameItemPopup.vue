@@ -54,10 +54,10 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="changeName" button-style="theme">
+            <ButtonBase class="w-full" @click="changeName" button-style="theme">
                 {{ $t('popup_share_edit.save') }}
             </ButtonBase>
         </PopupActions>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
 import PopupWrapper from './Components/PopupWrapper.vue'
 import PopupActions from './Components/PopupActions.vue'
 import PopupContent from './Components/PopupContent.vue'
@@ -74,7 +74,6 @@ import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
-import { required } from 'vee-validate/dist/rules'
 import SwitchInput from '../Inputs/SwitchInput.vue'
 import EmojiPicker from '../Emoji/EmojiPicker.vue'
 import { XIcon } from '../../icons/feather.js'
@@ -95,7 +94,6 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
         XIcon,
     },
     computed: {

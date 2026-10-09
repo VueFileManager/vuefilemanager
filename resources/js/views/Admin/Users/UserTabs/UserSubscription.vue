@@ -40,7 +40,7 @@
                 :paginator="true"
                 :columns="columns"
             >
-                <template slot-scope="{ row }">
+                <template #default="{ row }">
                     <!--Transaction rows-->
                     <MeteredTransactionRow
                         v-if="config.subscriptionType === 'metered'"

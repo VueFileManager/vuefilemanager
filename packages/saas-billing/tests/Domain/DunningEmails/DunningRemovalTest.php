@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\DunningEmails;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Tests\Helpers\StripeTestHelpers;
@@ -11,9 +12,7 @@ class DunningRemovalTest extends TestCase
 {
     use StripeTestHelpers;
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_remove_dunning_after_paystack_charge_complete()
     {
         $user = User::factory()
@@ -142,9 +141,7 @@ class DunningRemovalTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_remove_dunning_after_paypal_charge_complete()
     {
         $user = User::factory()
@@ -275,9 +272,7 @@ class DunningRemovalTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_remove_dunning_after_stripe_payment_card_was_added()
     {
         $user = User::factory()

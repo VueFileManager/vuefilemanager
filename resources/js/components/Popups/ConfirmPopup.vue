@@ -2,7 +2,7 @@
     <PopupWrapper>
         <div class="flex h-full -translate-y-7 transform items-center justify-center px-8 text-center md:translate-y-0">
             <div>
-                <img src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f914.svg" alt="" class="mx-auto mb-4 w-20 md:mt-6 min-h-[80px]" />
+                <img src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f914.svg" alt="" class="mx-auto mb-4 w-20 md:mt-6 min-h-[80px]" />
 
                 <h1 v-if="title" class="mb-2 text-2xl font-bold">
                     {{ title }}
@@ -14,10 +14,10 @@
         </div>
 
         <PopupActions>
-            <ButtonBase @click.native="closePopup" button-style="secondary" class="w-full"
+            <ButtonBase @click="closePopup" button-style="secondary" class="w-full"
                 >{{ $t('cancel') }}
             </ButtonBase>
-            <ButtonBase @click.native="confirm" :button-style="buttonColor" class="w-full"
+            <ButtonBase @click="confirm" :button-style="buttonColor" class="w-full"
                 >{{ $t('yes_iam_sure') }}
             </ButtonBase>
         </PopupActions>

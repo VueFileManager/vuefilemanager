@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Customers;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Support\Str;
@@ -25,9 +26,7 @@ class CustomersTest extends TestCase
         $this->user = User::factory()->create();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_customer()
     {
         resolve(CreateCustomerPaystackMocksClass::class)($this->user);
@@ -59,9 +58,7 @@ class CustomersTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_update_customer()
     {
         // Create customer drivers

@@ -33,7 +33,7 @@
             ></p>
 
             <AuthButton
-                @click.native="acceptInvitation"
+                @click="acceptInvitation"
                 class="mb-12 w-full justify-center md:w-min"
                 icon="chevron-right"
                 :text="acceptButton"
@@ -41,7 +41,7 @@
                 :disabled="isLoading"
             />
 
-            <i18n-t keypath="or_decline_your_invitation" tag="div" class="block">
+            <i18n-t scope="global" keypath="or_decline_your_invitation" tag="div" class="block">
                 <b @click="declineInvitation" class="text-theme cursor-pointer font-bold">
                     {{ $t('decline') }}
                 </b>
@@ -118,7 +118,7 @@
 </template>
 
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
+import { ValidationObserver, ValidationProvider } from '../../components/Validation/index.js'
 import VueFolderTeamIcon from '../../components/Icons/VueFolderTeamIcon.vue'
 import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
@@ -189,7 +189,7 @@ export default {
                 .finally(() => (this.isLoading = false))
         },
         goToAuthPage(slug) {
-            this.$refs.auth.$children.forEach((page) => {
+            this.$refs.auth.pages.forEach((page) => {
                 // Hide current step
                 page.isVisible = page.$props.name === slug
             })

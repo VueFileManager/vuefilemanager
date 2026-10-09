@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Subscription;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Support\Facades\Http;
@@ -8,9 +9,7 @@ use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class SubscriptionPaystackTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cancel_paystack_subscription()
     {
         $user = User::factory()
@@ -135,9 +134,7 @@ class SubscriptionPaystackTest extends TestCase
         Http::assertSentCount(2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_generate_update_link_for_paystack_subscription()
     {
         $user = User::factory()

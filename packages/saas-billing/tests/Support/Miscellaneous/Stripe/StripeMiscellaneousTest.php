@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Support\Miscellaneous\Stripe;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Support\Facades\Http;
@@ -12,9 +13,7 @@ use VueFileManager\Subscription\Domain\CreditCards\Models\CreditCard;
 
 class StripeMiscellaneousTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_stripe_checkout_session()
     {
         $user = User::factory()
@@ -35,9 +34,7 @@ class StripeMiscellaneousTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_stripe_setup_intent()
     {
         $user = User::factory()
@@ -55,9 +52,7 @@ class StripeMiscellaneousTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_stripe_credit_card()
     {
         $user = User::factory()

@@ -229,7 +229,7 @@
 
 <script>
 import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
+import { ValidationObserver, ValidationProvider } from '../../components/Validation/index.js'
 import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons.vue'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
@@ -268,7 +268,7 @@ export default {
     },
     methods: {
         goToAuthPage(slug) {
-            this.$refs.auth.$children.forEach((page) => {
+            this.$refs.auth.pages.forEach((page) => {
                 // Hide current step
                 page.isVisible = page.$props.name === slug
             })

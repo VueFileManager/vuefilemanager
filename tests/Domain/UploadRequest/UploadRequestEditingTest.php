@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\UploadRequest;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -11,9 +12,7 @@ use Domain\UploadRequest\Models\UploadRequest;
 
 class UploadRequestEditingTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_rename_folder_item()
     {
         $user = User::factory()
@@ -48,9 +47,7 @@ class UploadRequestEditingTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_rename_file_item()
     {
         $user = User::factory()
@@ -85,9 +82,7 @@ class UploadRequestEditingTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_new_folder_in_upload_request()
     {
         $user = User::factory()
@@ -117,9 +112,7 @@ class UploadRequestEditingTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_image_with_their_thumbnails()
     {
         $user = User::factory()
@@ -180,9 +173,7 @@ class UploadRequestEditingTest extends TestCase
             ->each(fn ($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_file()
     {
         $user = User::factory()
@@ -223,9 +214,7 @@ class UploadRequestEditingTest extends TestCase
         Storage::assertMissing("files/$user->id/fake-file.pdf");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_folder_with_file_within()
     {
         $user = User::factory()
@@ -289,9 +278,7 @@ class UploadRequestEditingTest extends TestCase
         Storage::assertMissing("files/$user->id/fake-file.pdf");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_move_file_to_another_folder_in_upload_request()
     {
         $user = User::factory()

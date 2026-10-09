@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1be797e2cec247dacdfeb9c1604b2866",
+    "content-hash": "f2ab40497e3f0fc83f695d1af8add8b1",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -5270,27 +5270,26 @@
         },
         {
             "name": "predis/predis",
-            "version": "v3.7.0",
+            "version": "v2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/predis/predis.git",
-                "reference": "4d91f3b08a60c3bacc2afbd8dc41724559b7626a"
+                "reference": "07105e050622ed80bd60808367ced9e379f31530"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/predis/predis/zipball/4d91f3b08a60c3bacc2afbd8dc41724559b7626a",
-                "reference": "4d91f3b08a60c3bacc2afbd8dc41724559b7626a",
+                "url": "https://api.github.com/repos/predis/predis/zipball/07105e050622ed80bd60808367ced9e379f31530",
+                "reference": "07105e050622ed80bd60808367ced9e379f31530",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2 || ^8.0",
-                "psr/http-message": "^1.0|^2.0"
+                "php": "^7.2 || ^8.0"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.3",
                 "phpstan/phpstan": "^1.9",
                 "phpunit/phpcov": "^6.0 || ^8.0",
-                "phpunit/phpunit": "^8.0 || ~9.4.4"
+                "phpunit/phpunit": "^8.0 || ^9.4"
             },
             "suggest": {
                 "ext-relay": "Faster connection with in-memory caching (>=0.6.2)"
@@ -5321,7 +5320,7 @@
             ],
             "support": {
                 "issues": "https://github.com/predis/predis/issues",
-                "source": "https://github.com/predis/predis/tree/v3.7.0"
+                "source": "https://github.com/predis/predis/tree/v2.4.1"
             },
             "funding": [
                 {
@@ -5329,7 +5328,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-08T16:46:04+00:00"
+            "time": "2025-11-12T18:00:11+00:00"
         },
         {
             "name": "psr/clock",
@@ -11146,27 +11145,26 @@
         },
         {
             "name": "teamtnt/tntsearch",
-            "version": "v5.3.0",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/teamtnt/tntsearch.git",
-                "reference": "cd62ddab514e667c3a6b6b92df151f0b067c3ad6"
+                "reference": "781e0eec1a1f56db0cdc2936849c508482b25547"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/cd62ddab514e667c3a6b6b92df151f0b067c3ad6",
-                "reference": "cd62ddab514e667c3a6b6b92df151f0b067c3ad6",
+                "url": "https://api.github.com/repos/teamtnt/tntsearch/zipball/781e0eec1a1f56db0cdc2936849c508482b25547",
+                "reference": "781e0eec1a1f56db0cdc2936849c508482b25547",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "ext-pdo": "*",
-                "php": "~7.4 || ^8",
-                "predis/predis": "^2.2 || ^3.0"
+                "php": "~7.1|^8",
+                "predis/predis": "^2.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "7.* || 8.* || 9.*",
-                "symfony/var-dumper": "^4 || ^5.2"
+                "phpunit/phpunit": "7.*|8.*|9.*",
+                "symfony/var-dumper": "^4|^5.2"
             },
             "type": "library",
             "autoload": {
@@ -11204,7 +11202,7 @@
             ],
             "support": {
                 "issues": "https://github.com/teamtnt/tntsearch/issues",
-                "source": "https://github.com/teamtnt/tntsearch/tree/v5.3.0"
+                "source": "https://github.com/teamtnt/tntsearch/tree/v4.4.0"
             },
             "funding": [
                 {
@@ -11212,7 +11210,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-08-11T20:51:50+00:00"
+            "time": "2024-12-13T08:58:55+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
@@ -14983,9 +14981,9 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.3",
         "ext-json": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "php": "^8.3"
     },
     "platform-dev": {
         "ext-json": "*"

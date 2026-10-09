@@ -112,7 +112,7 @@
     </div>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
+import { ValidationObserver, ValidationProvider } from '../Validation/index.js'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import FormLabel from '../UI/Labels/FormLabel.vue'
@@ -237,7 +237,7 @@ export default {
                     .catch(() => this.$isSomethingWrong())
         })
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

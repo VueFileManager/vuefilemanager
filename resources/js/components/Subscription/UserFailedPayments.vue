@@ -23,7 +23,7 @@
         <div
             v-for="payment in user.data.relationships.failedPayments.data"
             :key="payment.data.id"
-            class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-opacity-5"
+            class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-light/5"
         >
             <div class="w-2/4 leading-none">
                 <b class="text-sm font-bold leading-none">

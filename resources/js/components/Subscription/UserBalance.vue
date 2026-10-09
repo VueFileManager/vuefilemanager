@@ -50,7 +50,7 @@
     </div>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
+import { ValidationObserver, ValidationProvider } from '../Validation/index.js'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import FormLabel from '../UI/Labels/FormLabel.vue'
 import AppInputText from '../Forms/Layouts/AppInputText.vue'

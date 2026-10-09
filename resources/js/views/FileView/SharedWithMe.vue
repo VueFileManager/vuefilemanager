@@ -2,12 +2,12 @@
     <div>
         <MobileContextMenu>
             <OptionGroup v-if="canEdit && item">
-                <Option @click.native="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
-                <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                <Option @click="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
+                <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
             </OptionGroup>
             <OptionGroup v-if="item">
-                <Option @click.native="$downloadSelection(item)" :title="$t('download')" icon="download" />
+                <Option @click="$downloadSelection(item)" :title="$t('download')" icon="download" />
             </OptionGroup>
         </MobileContextMenu>
 
@@ -15,7 +15,7 @@
             <OptionGroup :title="$t('frequently_used')">
                 <OptionUpload :title="$t('upload_files')" type="file" :is-hover-disabled="true" />
                 <Option
-                    @click.stop.native="createFolder"
+                    @click.stop="createFolder"
                     :title="$t('create_folder')"
                     icon="folder-plus"
                     :is-hover-disabled="true"
@@ -23,7 +23,7 @@
             </OptionGroup>
             <OptionGroup :title="$t('others')">
                 <Option
-					@click.stop.native="$openRemoteUploadPopup"
+					@click.stop="$openRemoteUploadPopup"
 					:title="$t('remote_upload')"
 					icon="remote-upload"
 					:class="{'is-inactive': isTeamFolderHomepage}"
@@ -34,7 +34,7 @@
         <MobileTeamContextMenu>
             <OptionGroup>
                 <Option
-                    @click.native="$detachMeFromTeamFolder(teamFolder)"
+                    @click="$detachMeFromTeamFolder(teamFolder)"
                     :title="$t('leave_team_folder')"
                     icon="user-minus"
                 />
@@ -44,7 +44,7 @@
         <MobileMultiSelectToolbar>
             <ToolbarButton
                 v-if="canEdit"
-                @click.native="$moveFileOrFolder(clipboard)"
+                @click="$moveFileOrFolder(clipboard)"
                 class="mr-4"
                 source="move"
                 :action="$t('move')"
@@ -52,14 +52,14 @@
             />
             <ToolbarButton
                 v-if="canEdit"
-                @click.native="$deleteFileOrFolder()"
+                @click="$deleteFileOrFolder()"
                 class="mr-4"
                 source="trash"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
                 :action="$t('delete')"
             />
             <ToolbarButton
-                @click.native="$downloadSelection(item)"
+                @click="$downloadSelection(item)"
                 source="download"
                 :action="$t('download_item')"
             />
@@ -73,7 +73,7 @@
                 </OptionGroup>
                 <OptionGroup v-if="!isTeamFolderHomepage">
                     <Option
-                        @click.native="$createFolder"
+                        @click="$createFolder"
                         :title="$t('create_folder')"
                         icon="folder-plus"
                     />
@@ -83,17 +83,17 @@
             <template v-slot:single-select v-if="item">
                 <OptionGroup v-if="canEdit">
                     <Option
-                        @click.native="$renameFileOrFolder(item)"
+                        @click="$renameFileOrFolder(item)"
                         :title="$t('rename')"
                         icon="rename"
                     />
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
+                    <Option @click="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
                     <Option
-                        @click.native="$downloadSelection(item)"
+                        @click="$downloadSelection(item)"
                         :title="$t('download')"
                         icon="download"
                     />
@@ -102,29 +102,29 @@
 
             <template v-slot:multiple-select v-if="item">
                 <OptionGroup v-if="canEdit">
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$downloadSelection()" :title="$t('download')" icon="download" />
+                    <Option @click="$downloadSelection()" :title="$t('download')" icon="download" />
                 </OptionGroup>
             </template>
         </ContextMenu>
 
         <FileActionsMobile>
-            <MobileActionButton @click.native="$openSpotlight()" icon="search">
+            <MobileActionButton @click="$openSpotlight()" icon="search">
                 {{ $t('spotlight') }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
+            <MobileActionButton @click="$showMobileMenu('file-filter')" icon="filter">
                 {{ $getCurrentSectionName() }}
             </MobileActionButton>
-            <MobileActionButton v-if="canEdit" @click.native="$showMobileMenu('create-list')" icon="cloud-plus">
+            <MobileActionButton v-if="canEdit" @click="$showMobileMenu('create-list')" icon="cloud-plus">
                 {{ $t('upload_or_create') }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+            <MobileActionButton @click="$enableMultiSelectMode" icon="check-square">
                 {{ $t('select') }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
+            <MobileActionButton @click="$showMobileMenu('file-sorting')" icon="preview-sorting">
                 {{ $t('preview_sorting.preview_sorting_button') }}
             </MobileActionButton>
         </FileActionsMobile>
@@ -268,7 +268,7 @@ export default {
                     .catch(() => this.$isSomethingWrong())
         })
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

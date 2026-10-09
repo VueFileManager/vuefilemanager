@@ -65,7 +65,7 @@
 
             <div>
                 <div
-                    class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-opacity-5"
+                    class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-light/5"
                     v-for="(usage, i) in user.data.meta.usages.featureEstimates"
                     :key="i"
                 >
@@ -93,7 +93,7 @@
     </div>
 </template>
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
 import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
 import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
 import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'

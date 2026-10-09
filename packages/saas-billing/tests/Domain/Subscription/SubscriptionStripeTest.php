@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Subscription;
 
+use PHPUnit\Framework\Attributes\Test;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Tests\Models\User;
@@ -13,9 +14,7 @@ use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class SubscriptionStripeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_stripe_subscription()
     {
         $user = User::factory()
@@ -41,9 +40,7 @@ class SubscriptionStripeTest extends TestCase
 
         $this->assertEquals('sub_1K9m2OB9m4sTKy1qS88pLbae', $response['id']);
     }
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cancel_stripe_subscription()
     {
         $user = User::factory()
@@ -173,9 +170,7 @@ class SubscriptionStripeTest extends TestCase
         Http::assertSentCount(1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_swap_stripe_subscription()
     {
         $user = User::factory()

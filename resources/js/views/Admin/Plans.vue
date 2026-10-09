@@ -9,7 +9,7 @@
                         {{ $t('create_plan') }}
                     </MobileActionButton>
                 </router-link>
-				<MobileActionButton @click.native="synchronizePlans" icon="refresh">
+				<MobileActionButton @click="synchronizePlans" icon="refresh">
 					{{ $t('synchronize_plans') }}
 				</MobileActionButton>
             </div>
@@ -23,11 +23,11 @@
                 :columns="columns"
                 class="overflow-x-auto"
             >
-                <template slot-scope="{ row }">
+                <template #default="{ row }">
                     <!--Metered subscription-->
                     <tr
                         v-if="config.subscriptionType === 'metered'"
-                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                     >
                         <td class="py-5 pr-3 md:pr-1">
                             <router-link
@@ -88,7 +88,7 @@
                     <!--Fixed subscription-->
                     <tr
                         v-if="config.subscriptionType === 'fixed'"
-                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                     >
                         <td class="py-5 pr-3 md:pr-1">
 							<span v-if="row.data.attributes.status === 'archived'" class="ml-6 text-gray-300">-</span>
@@ -175,7 +175,7 @@
             <div class="text-center">
                 <img
                     class="mb-6 inline-block w-28"
-                    src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f9fe.svg"
+                    src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f9fe.svg"
                     alt="transaction"
                 />
 

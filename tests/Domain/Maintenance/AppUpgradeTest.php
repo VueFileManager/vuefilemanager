@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Maintenance;
 
+use PHPUnit\Framework\Attributes\Test;
 use DB;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -9,9 +10,7 @@ use Support\Upgrading\Actions\UpdateSystemAction;
 
 class AppUpgradeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_upgrade_default_language_translations()
     {
         $user = User::factory()
@@ -58,9 +57,7 @@ class AppUpgradeTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_upgrade_app()
     {
         resolve(UpdateSystemAction::class)();

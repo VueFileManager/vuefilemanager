@@ -237,7 +237,7 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
 import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
 import SelectInput from '../../components/Inputs/SelectInput.vue'
 import SwitchInput from '../../components/Inputs/SwitchInput.vue'
@@ -250,7 +250,6 @@ import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
 import { SettingsIcon } from '../../icons/feather.js'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
-import { required } from 'vee-validate/dist/rules'
 import axios from 'axios'
 
 export default {
@@ -268,7 +267,6 @@ export default {
         ImageInput,
         AuthButton,
         FormLabel,
-        required,
         InfoBox,
         Headline,
     },

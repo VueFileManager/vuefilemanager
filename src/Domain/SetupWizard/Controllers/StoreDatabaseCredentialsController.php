@@ -5,7 +5,7 @@ use DB;
 use Artisan;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
-use Doctrine\DBAL\Driver\PDOException;
+use PDOException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Domain\SetupWizard\Requests\StoreDatabaseCredentialsRequest;
 

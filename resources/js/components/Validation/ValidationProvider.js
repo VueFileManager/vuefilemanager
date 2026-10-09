@@ -1,12 +1,4 @@
-import {
-    h,
-    nextTick,
-    vModelCheckbox,
-    vModelDynamic,
-    vModelRadio,
-    vModelSelect,
-    vModelText,
-} from 'vue'
+import { h, nextTick, vModelCheckbox, vModelDynamic, vModelRadio, vModelSelect, vModelText } from 'vue'
 import { validateValue } from './rules.js'
 
 /**
@@ -64,7 +56,7 @@ let providerCounter = 0
 const ValidationProvider = {
     name: 'ValidationProvider',
     inject: {
-        $_veeObserver: {
+        veeObserver: {
             from: '$_veeObserver',
             default: null,
         },
@@ -101,20 +93,20 @@ const ValidationProvider = {
     },
     watch: {
         id(newId, oldId) {
-            if (this.$_veeObserver) {
-                this.$_veeObserver.unobserve(oldId, this)
-                this.$_veeObserver.observe(this)
+            if (this.veeObserver) {
+                this.veeObserver.unobserve(oldId, this)
+                this.veeObserver.observe(this)
             }
         },
     },
     created() {
-        if (this.$_veeObserver) {
-            this.$_veeObserver.observe(this)
+        if (this.veeObserver) {
+            this.veeObserver.observe(this)
         }
     },
     beforeUnmount() {
-        if (this.$_veeObserver) {
-            this.$_veeObserver.unobserve(this.id, this)
+        if (this.veeObserver) {
+            this.veeObserver.unobserve(this.id, this)
         }
     },
     methods: {
@@ -130,7 +122,7 @@ const ValidationProvider = {
             const errors = validateValue(this.getValue(), this.rules, {
                 name: this.name || this.id,
                 resolveTarget: (target) => {
-                    const provider = this.$_veeObserver && this.$_veeObserver.getProvider(target)
+                    const provider = this.veeObserver && this.veeObserver.getProvider(target)
 
                     return provider ? provider.getValue() : undefined
                 },

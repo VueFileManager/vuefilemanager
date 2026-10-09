@@ -3,26 +3,26 @@
         <OptionGroup :title="$t('view')">
             <Option
                 v-if="isList"
-                @click.native="changePreview('grid')"
+                @click="changePreview('grid')"
                 :title="$t('preview_sorting.grid_view')"
                 icon="grid"
             />
             <Option
                 v-if="isGrid"
-                @click.native="changePreview('list')"
+                @click="changePreview('list')"
                 :title="$t('preview_sorting.list_view')"
                 icon="list"
             />
         </OptionGroup>
         <OptionGroup :title="$t('sorting')">
             <Option
-                @click.native.stop="sort('created_at')"
+                @click.stop="sort('created_at')"
                 :arrow="arrowForCreatedAtField"
                 :title="$t('preview_sorting.sort_date')"
                 icon="calendar"
             />
             <Option
-                @click.native.stop="sort('name')"
+                @click.stop="sort('name')"
                 :arrow="arrowForNameField"
                 :title="$t('preview_sorting.sort_alphabet')"
                 icon="alphabet"

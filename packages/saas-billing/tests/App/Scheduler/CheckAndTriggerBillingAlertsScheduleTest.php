@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Scheduler;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Support\Facades\Notification;
@@ -12,9 +13,7 @@ use VueFileManager\Subscription\Domain\BillingAlerts\Notifications\BillingAlertT
 
 class CheckAndTriggerBillingAlertsScheduleTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_trigger_billing_alert_and_send_notification()
     {
         $user = User::factory()

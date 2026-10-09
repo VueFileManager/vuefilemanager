@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Traffic;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -29,9 +30,7 @@ class TrafficTest extends TestCase
             ->create();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_record_user_file_upload()
     {
         $this
@@ -49,9 +48,7 @@ class TrafficTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_record_current_day_and_go_to_the_next_day_and_record_it()
     {
         $this
@@ -92,9 +89,7 @@ class TrafficTest extends TestCase
         $this->assertDatabaseCount('traffic', 2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function editor_upload_file_into_shared_folder()
     {
         $folder = Folder::factory()
@@ -127,9 +122,7 @@ class TrafficTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_download_file()
     {
         $document = UploadedFile::fake()
@@ -156,9 +149,7 @@ class TrafficTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_download_file()
     {
         $document = UploadedFile::fake()
@@ -192,9 +183,7 @@ class TrafficTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_user_traffic_test()
     {
         foreach (range(0, 30) as $day) {

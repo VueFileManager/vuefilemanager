@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
+import { ValidationObserver, ValidationProvider } from '../../../../components/Validation/index.js'
 import SelectInput from '../../../../components/Inputs/SelectInput.vue'
 import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
 import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'

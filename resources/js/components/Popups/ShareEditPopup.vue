@@ -13,10 +13,10 @@
             </PopupContent>
 
             <PopupActions>
-                <ButtonBase class="w-full" @click.native="showSection(undefined)" button-style="secondary">
+                <ButtonBase class="w-full" @click="showSection(undefined)" button-style="secondary">
                     {{ $t('show_details') }}
                 </ButtonBase>
-                <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme">
+                <ButtonBase class="w-full" @click="$closePopup()" button-style="theme">
                     {{ $t('awesome_iam_done') }}
                 </ButtonBase>
             </PopupActions>
@@ -43,12 +43,12 @@
             </PopupContent>
 
             <PopupActions>
-                <ButtonBase class="w-full" @click.native="showSection(undefined)" button-style="secondary">
+                <ButtonBase class="w-full" @click="showSection(undefined)" button-style="secondary">
                     {{ $t('show_details') }}
                 </ButtonBase>
                 <ButtonBase
                     class="w-full"
-                    @click.native="sendViaEmail"
+                    @click="sendViaEmail"
                     button-style="theme"
                     :loading="isLoading"
                     :disabled="isLoading"
@@ -109,7 +109,7 @@
                                 canChangePassword &&
                                 shareOptions.isProtected
                             "
-                            @click.native="changePassword"
+                            @click="changePassword"
                             class="mb-6 -mt-4"
                         >
                             {{ $t('popup_share_edit.change_pass') }}
@@ -155,7 +155,6 @@
                             <SelectBoxInput
                                 v-model="shareOptions.expiration"
                                 :data="$translateSelectOptions(expirationList)"
-                                :value="shareOptions.expiration"
                                 class="box"
                             />
                         </AppInputText>
@@ -166,7 +165,7 @@
             <PopupActions>
                 <ButtonBase
                     class="w-full"
-                    @click.native="destroySharing"
+                    @click="destroySharing"
                     :button-style="destroyButtonStyle"
                     :loading="isDeleting"
                     :disabled="isDeleting"
@@ -175,7 +174,7 @@
                 </ButtonBase>
                 <ButtonBase
                     class="w-full"
-                    @click.native="updateShareOptions"
+                    @click="updateShareOptions"
                     button-style="theme"
                     :loading="isLoading"
                     :disabled="isLoading"
@@ -188,7 +187,7 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
 import MultiEmailInput from '../Inputs/MultiEmailInput.vue'
 import SelectBoxInput from '../Inputs/SelectBoxInput.vue'
 import CopyShareLink from '../Inputs/CopyShareLink.vue'
@@ -203,7 +202,6 @@ import ActionButton from '../UI/Buttons/ActionButton.vue'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
-import { required } from 'vee-validate/dist/rules'
 import Spinner from '../UI/Others/Spinner.vue'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
@@ -228,7 +226,6 @@ export default {
         SelectInput,
         SwitchInput,
         ButtonBase,
-        required,
         Spinner,
     },
     computed: {

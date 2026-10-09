@@ -33,10 +33,10 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary"
                 >{{ $t('cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="moveItem" :button-style="selectedFolder ? 'theme' : 'secondary'"
+            <ButtonBase class="w-full" @click="moveItem" :button-style="selectedFolder ? 'theme' : 'secondary'"
                 >{{ $t('popup_move_item.submit') }}
             </ButtonBase>
         </PopupActions>

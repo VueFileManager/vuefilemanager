@@ -1,14 +1,13 @@
 <?php
 namespace Tests\Domain\CreditCards;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use VueFileManager\Subscription\Domain\CreditCards\Models\CreditCard;
 
 class CreditCardTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_check_correctness_of_isBeforeExpiration_and_isExpired_attributes()
     {
         $isBeforeExpiration = CreditCard::factory()

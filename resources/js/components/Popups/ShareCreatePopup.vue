@@ -125,12 +125,12 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase v-if="!isGeneratedShared" class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase v-if="!isGeneratedShared" class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"
-                @click.native="submitShareOptions"
+                @click="submitShareOptions"
                 button-style="theme"
                 :loading="isLoading"
                 :disabled="isLoading"
@@ -144,7 +144,7 @@
 <script>
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
 import SelectBoxInput from '../Inputs/SelectBoxInput.vue'
 import PopupWrapper from './Components/PopupWrapper.vue'
 import PopupActions from './Components/PopupActions.vue'
@@ -159,7 +159,6 @@ import CopyShareLink from '../Inputs/CopyShareLink.vue'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import InfoBox from '../UI/Others/InfoBox.vue'
 import { LinkIcon, MailIcon } from '../../icons/feather.js'
-import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
@@ -184,7 +183,6 @@ export default {
         ButtonBase,
         CopyShareLink,
         MailIcon,
-        required,
         LinkIcon,
         InfoBox,
     },

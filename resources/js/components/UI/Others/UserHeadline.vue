@@ -11,7 +11,7 @@
                 </span>
             </div>
         </div>
-        <NotificationBell @click.native="openNotificationPopup" />
+        <NotificationBell @click="openNotificationPopup" />
     </div>
 </template>
 

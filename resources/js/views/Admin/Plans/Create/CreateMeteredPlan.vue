@@ -200,7 +200,7 @@
 import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
 import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
 import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
-import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+import {ValidationProvider, ValidationObserver} from '../../../../components/Validation/index.js'
 import SelectInput from '../../../../components/Inputs/SelectInput.vue'
 import ImageInput from '../../../../components/Inputs/ImageInput.vue'
 import MobileHeader from '../../../../components/Mobile/MobileHeader.vue'
@@ -208,7 +208,6 @@ import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
 import SectionTitle from '../../../../components/UI/Labels/SectionTitle.vue'
 import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
 import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
-import {required} from 'vee-validate/dist/rules'
 import {mapGetters} from 'vuex'
 import {events} from '../../../../bus'
 import axios from 'axios'
@@ -227,7 +226,6 @@ export default {
 		ButtonBase,
 		ImageInput,
 		FormLabel,
-		required,
 		InfoBox,
 	},
 	computed: {

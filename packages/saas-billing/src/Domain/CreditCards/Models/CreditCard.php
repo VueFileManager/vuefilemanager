@@ -48,7 +48,7 @@ class CreditCard extends Model
 
     public function getIsBeforeExpirationAttribute(): bool
     {
-        $diffInDays = $this->expiration->diffInDays(now());
+        $diffInDays = (int) $this->expiration->diffInDays(now(), true);
 
         return $this->expiration->isfuture() && $diffInDays <= 30;
     }

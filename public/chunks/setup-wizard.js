@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[7866],{3022:(n,t,e)=>{e.r(t),e.d(t,{default:()=>s});const u={name:"SetupWizard",mounted:function(){var n=this.$root.$data.config.installation;n&&"installation-done"===n&&this.$router.push({name:"SignIn"})}};const s=(0,e(1900).Z)(u,(function(){return(0,this._self._c)("router-view")}),[],!1,null,null,null).exports}}]);

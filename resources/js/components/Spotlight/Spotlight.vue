@@ -5,7 +5,7 @@
         @keyup.esc="exitSpotlight"
         @click.exact.self="exitSpotlight"
         tabindex="-1"
-        class="fixed left-0 right-0 bottom-0 top-0 z-50 z-50 h-full w-full bg-white dark:bg-dark-background md:absolute md:bg-dark-background md:bg-opacity-[0.35] dark:md:bg-opacity-[0.45]"
+        class="fixed left-0 right-0 bottom-0 top-0 z-50 z-50 h-full w-full bg-white dark:bg-dark-background md:absolute md:bg-dark-background/35 dark:md:bg-dark-background/45"
     >
         <div
             class="relative z-50 mx-auto w-full overflow-y-auto md:mt-8 md:max-w-xl md:rounded-xl md:bg-white md:shadow-xl dark:md:bg-2x-dark-foreground 2xl:mt-20"
@@ -75,7 +75,7 @@
                     :key="filter.slug"
                     :keyword="filter.keyword"
                     :description="filter.description"
-                    @click.native="setFilter(filter.slug)"
+                    @click="setFilter(filter.slug)"
                 />
             </div>
 
@@ -278,7 +278,7 @@
                         }"
                         :highlight="false"
                         :mobile-handler="false"
-                        @click.native="openItem(result)"
+                        @click="openItem(result)"
                     />
 
                     <!--Keyboard shortcut hint-->

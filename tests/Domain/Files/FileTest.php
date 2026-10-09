@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Files;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -12,9 +13,7 @@ use Domain\Settings\Models\Setting;
 
 class FileTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_test_file_factory()
     {
         $file = File::factory()
@@ -25,9 +24,7 @@ class FileTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_upload_image_file_and_create_thumbnail()
     {
         $file = UploadedFile::fake()
@@ -64,9 +61,7 @@ class FileTest extends TestCase
             );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_upload_new_file()
     {
         $file = UploadedFile::fake()
@@ -98,9 +93,7 @@ class FileTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function user_with_full_storage_capacity_try_to_upload_new_file()
     {
         $file = UploadedFile::fake()
@@ -134,9 +127,7 @@ class FileTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_upload_blacklisted_mimetype_file()
     {
         Setting::create([
@@ -163,9 +154,7 @@ class FileTest extends TestCase
             ->assertMissing("files/$user->id/fake-file.pdf");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_rename_file()
     {
         $user = User::factory()
@@ -193,9 +182,7 @@ class FileTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_move_file_to_another_folder()
     {
         $user = User::factory()
@@ -230,9 +217,7 @@ class FileTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_image_with_their_thumbnails()
     {
         $user = User::factory()
@@ -287,9 +272,7 @@ class FileTest extends TestCase
             ->each(fn ($thumbnail) => Storage::assertMissing("files/$user->id/$thumbnail"));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_multiple_files_softly()
     {
         $user = User::factory()
@@ -327,9 +310,7 @@ class FileTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_multiple_files_hardly()
     {
         $user = User::factory()
@@ -381,9 +362,7 @@ class FileTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_store_file_exif_data_after_file_upload()
     {
         $file = UploadedFile::fake()

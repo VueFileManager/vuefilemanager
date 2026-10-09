@@ -492,7 +492,7 @@
 <script>
 import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
 import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
 import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
 import SelectInput from '../../../../components/Inputs/SelectInput.vue'
 import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
@@ -501,7 +501,6 @@ import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
 import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
 import PageTab from '../../../../components/Layout/PageTab.vue'
 import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
-import { required } from 'vee-validate/dist/rules'
 import axios from 'axios'
 import { mapGetters } from 'vuex'
 
@@ -518,7 +517,6 @@ export default {
         ImageInput,
         ButtonBase,
         FormLabel,
-        required,
         PageTab,
         InfoBox,
     },

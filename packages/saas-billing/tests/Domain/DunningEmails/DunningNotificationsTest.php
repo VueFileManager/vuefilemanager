@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\DunningEmails;
 
+use PHPUnit\Framework\Attributes\Test;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Tests\Models\User;
@@ -15,9 +16,7 @@ use VueFileManager\Subscription\Domain\DunningEmails\Notifications\DunningEmailT
 
 class DunningNotificationsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_trigger_usage_bigger_than_balance_filter_and_send_first_notification()
     {
         $user = User::factory()
@@ -81,9 +80,7 @@ class DunningNotificationsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_trigger_limit_usage_in_new_accounts_and_send_first_notification()
     {
         $user = User::factory()
@@ -143,9 +140,7 @@ class DunningNotificationsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_send_three_consecutive_dunning_emails()
     {
         $user = User::factory()
@@ -177,9 +172,7 @@ class DunningNotificationsTest extends TestCase
         Notification::assertSentToTimes($user, DunningEmailToCoverAccountUsageNotification::class, 3);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function first_limit_usage_in_new_accounts_notification()
     {
         $dunning = Dunning::factory()
@@ -194,9 +187,7 @@ class DunningNotificationsTest extends TestCase
         $this->assertStringContainsString('We are happy you are using our service. To continue to using our service, please make first payment for your account balance to fund your usage.', $notification->render());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function second_limit_usage_in_new_accounts_notification()
     {
         $dunning = Dunning::factory()
@@ -211,9 +202,7 @@ class DunningNotificationsTest extends TestCase
         $this->assertStringContainsString('We are happy you are using our service. To continue to using our service, please make first payment for your account balance to fund your usage.', $notification->render());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function third_limit_usage_in_new_accounts_notification()
     {
         $dunning = Dunning::factory()
@@ -228,9 +217,7 @@ class DunningNotificationsTest extends TestCase
         $this->assertStringContainsString('We are sorry for the inconvenience with using our service. To continue to using our service, please make first payment for your account balance to fund your usage and your functionality will be allowed as soon as possible.', $notification->render());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function first_usage_bigger_than_balance_notification()
     {
         $dunning = Dunning::factory()
@@ -245,9 +232,7 @@ class DunningNotificationsTest extends TestCase
         $this->assertStringContainsString('We are happy you are using our service. To continue to using our service, please increase your funds for your account balance to cover your usage.', $notification->render());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function second_usage_bigger_than_balance_notification()
     {
         $dunning = Dunning::factory()
@@ -262,9 +247,7 @@ class DunningNotificationsTest extends TestCase
         $this->assertStringContainsString('We are happy you are using our service. To continue to using our service, please increase your funds for your account balance to cover your usage.', $notification->render());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function third_usage_bigger_than_balance_notification()
     {
         $dunning = Dunning::factory()

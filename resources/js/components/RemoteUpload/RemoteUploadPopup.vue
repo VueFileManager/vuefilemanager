@@ -26,10 +26,10 @@
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="upload" button-style="theme" :loading="loading">
+            <ButtonBase class="w-full" @click="upload" button-style="theme" :loading="loading">
                 {{ $t('upload') }}
             </ButtonBase>
         </PopupActions>
@@ -37,13 +37,12 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
 import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
 import PopupContent from '../Popups/Components/PopupContent.vue'
 import PopupActions from '../Popups/Components/PopupActions.vue'
 import PopupHeader from '../Popups/Components/PopupHeader.vue'
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
-import { required } from 'vee-validate/dist/rules'
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import { events } from '../../bus'
 import i18n from "../../i18n";
@@ -53,7 +52,6 @@ export default {
     components: {
 		ValidationProvider,
 		ValidationObserver,
-		required,
         PopupWrapper,
         PopupContent,
         PopupHeader,

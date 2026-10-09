@@ -68,7 +68,7 @@
             </div>
 
             <!--Download button-->
-            <ButtonBase @click.native="$downloadSelection(file)" button-style="theme" class="mx-auto">
+            <ButtonBase @click="$downloadSelection(file)" button-style="theme" class="mx-auto">
                 {{ $t('page_shared.download_file') }}
             </ButtonBase>
 

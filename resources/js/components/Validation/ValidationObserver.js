@@ -17,7 +17,7 @@ const ValidationObserver = {
         }
     },
     inject: {
-        $_parentObserver: {
+        parentObserver: {
             from: '$_veeObserver',
             default: null,
         },
@@ -55,13 +55,13 @@ const ValidationObserver = {
         this._providers = new Map()
         this._observers = new Set()
 
-        if (this.$_parentObserver) {
-            this.$_parentObserver.observeObserver(this)
+        if (this.parentObserver) {
+            this.parentObserver.observeObserver(this)
         }
     },
     beforeUnmount() {
-        if (this.$_parentObserver) {
-            this.$_parentObserver.unobserveObserver(this)
+        if (this.parentObserver) {
+            this.parentObserver.unobserveObserver(this)
         }
     },
     methods: {

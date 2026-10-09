@@ -59,7 +59,8 @@ import { mapGetters } from 'vuex'
 
 export default {
     name: 'TeamList',
-    props: ['value'],
+    props: ['modelValue'],
+    emits: ['update:modelValue', 'input'],
     computed: {
         ...mapGetters(['user']),
     },
@@ -85,11 +86,12 @@ export default {
             this.emitMembers()
         },
         emitMembers() {
+            this.$emit('update:modelValue', this.members)
             this.$emit('input', this.members)
         },
     },
     created() {
-        this.members = this.value
+        this.members = this.modelValue
     },
 }
 </script>

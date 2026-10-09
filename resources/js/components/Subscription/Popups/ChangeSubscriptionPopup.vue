@@ -20,14 +20,14 @@
 					v-if="plan.data.attributes.interval === intervalPlanType"
 					:class="{'opacity-50 pointer-events-none': userSubscribedPlanId === plan.data.id}"
 					:is-selected="selectedPlan && selectedPlan.data.id === plan.data.id"
-					@click.native="selectPlan(plan)"
+					@click="selectPlan(plan)"
 				/>
 			</div>
 		</PopupContent>
 
 		<!--Actions-->
 		<PopupActions>
-			<ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+			<ButtonBase class="w-full" @click="$closePopup()" button-style="secondary"
 				>{{ $t('cancel') }}
 			</ButtonBase>
 
@@ -36,7 +36,7 @@
 				v-if="plans && plans.data.length !== 0"
 				:button-style="buttonStyle"
 				:loading="isLoading"
-				@click.native="proceedToPayment"
+				@click="proceedToPayment"
 				>{{ $t('change_plan') }}
 			</ButtonBase>
 		</PopupActions>

@@ -8,7 +8,7 @@
             <TeamMembersButton
                 v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])"
                 size="28"
-                @click.stop.native="$showMobileMenu('team-menu')"
+                @click.stop="$showMobileMenu('team-menu')"
                 class="absolute right-10"
             />
 

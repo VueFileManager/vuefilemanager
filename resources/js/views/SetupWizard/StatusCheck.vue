@@ -25,7 +25,7 @@
                 </InfoBox>
 
                 <div
-                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
                 >
                     <div class="text-left">
                         <b class="block text-sm font-bold">PHP Version</b>
@@ -49,7 +49,7 @@
                 <div
                     v-for="(values, setting, i) in ini"
                     :key="i"
-                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
                 >
                     <div class="text-left">
                         <b class="block text-sm font-bold">{{ setting }}</b>
@@ -83,7 +83,7 @@
                     v-if="modules"
                     v-for="(value, module, i) in modules"
                     :key="i"
-                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
                 >
                     <b class="text-sm font-bold">
                         {{ module }}
@@ -106,7 +106,7 @@
 				<div
 					v-for="(isWritable, file, i) in writable"
 					:key="i"
-					class="flex items-center md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+					class="flex items-center md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
 				>
 					<div class="text-left">
 						<b class="block text-sm font-bold">/{{ file }}</b>
@@ -158,7 +158,7 @@
 			</InfoBox>
 
             <AuthButton
-                @click.native="lastCheckBeforeNextPage"
+                @click="lastCheckBeforeNextPage"
                 class="w-full justify-center"
                 icon="chevron-right"
                 text="Awesome, I'm done!"
@@ -170,14 +170,13 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
 import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
 import SelectInput from '../../components/Inputs/SelectInput.vue'
 import FormLabel from '../../components/UI/Labels/FormLabel.vue'
 import InfoBox from '../../components/UI/Others/InfoBox.vue'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
-import { required } from 'vee-validate/dist/rules'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -196,7 +195,6 @@ export default {
         AuthContent,
         AuthButton,
         FormLabel,
-        required,
         InfoBox,
         CheckIcon,
         Headline,

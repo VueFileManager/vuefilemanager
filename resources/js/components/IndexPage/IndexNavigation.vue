@@ -1,13 +1,19 @@
 <template>
     <nav class="main-navigation">
-        <router-link :to="{ name: 'Homepage' }" tag="div" class="logo">
-            <img
-				class="max-h-6"
-                v-if="config.app_logo_horizontal"
-                :src="$getImage(logoSrc)"
-                :alt="config.app_name"
-            />
-            <b v-if="!config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
+        <router-link :to="{ name: 'Homepage' }" custom v-slot="{ navigate, isActive, isExactActive }">
+            <div
+                class="logo"
+                :class="{ 'router-link-active': isActive, 'router-link-exact-active': isExactActive }"
+                @click="navigate"
+            >
+                <img
+    				class="max-h-6"
+                    v-if="config.app_logo_horizontal"
+                    :src="$getImage(logoSrc)"
+                    :alt="config.app_name"
+                />
+                <b v-if="!config.app_logo_horizontal" class="logo-text">{{ config.app_name }}</b>
+            </div>
         </router-link>
         <div class="navigation">
             <ul class="navigation-links">

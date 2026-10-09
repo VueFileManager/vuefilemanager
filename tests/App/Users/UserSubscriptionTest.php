@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Users;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use App\Users\Actions\FormatUsageEstimatesAction;
@@ -12,9 +13,7 @@ use VueFileManager\Subscription\Support\Events\SubscriptionWasUpdated;
 
 class UserSubscriptionTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_set_user_limitations_for_new_subscription()
     {
         $plan = Plan::factory()
@@ -46,9 +45,7 @@ class UserSubscriptionTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_set_user_limitations_for_updated_subscription()
     {
         $plan = Plan::factory()
@@ -80,9 +77,7 @@ class UserSubscriptionTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_set_user_limitations_for_expired_subscription()
     {
         $user = User::factory()
@@ -102,9 +97,7 @@ class UserSubscriptionTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_format_price_estimates()
     {
         $usages = collect([

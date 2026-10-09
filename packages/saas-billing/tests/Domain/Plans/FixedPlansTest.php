@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Plans;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Tests\Models\User;
 use Illuminate\Support\Str;
@@ -22,9 +23,7 @@ use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class FixedPlansTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_all_visible_plans_for_users()
     {
         $user = User::factory()
@@ -43,9 +42,7 @@ class FixedPlansTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_all_plans_for_admin()
     {
         $admin = User::factory()
@@ -66,9 +63,7 @@ class FixedPlansTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_fixed_plan()
     {
         $user = User::factory()
@@ -132,9 +127,7 @@ class FixedPlansTest extends TestCase
         //Http::assertSentCount(4);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_update_plan()
     {
         $user = User::factory()
@@ -229,9 +222,7 @@ class FixedPlansTest extends TestCase
             ->assertTrue(! cache()->has('action.synchronize-plans'));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_plan_as_archived()
     {
         $user = User::factory()
@@ -279,9 +270,7 @@ class FixedPlansTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_plan_hardly()
     {
         $user = User::factory()

@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Scheduler;
 
+use PHPUnit\Framework\Attributes\Test;
 use Carbon\Carbon;
 use Tests\TestCase;
 use Tests\Models\User;
@@ -18,9 +19,7 @@ use VueFileManager\Subscription\Domain\FailedPayments\Notifications\ChargeFromCr
 
 class SettlePrePaidSubscriptionPeriodTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_settle_subscription_after_end_of_current_period_from_balance()
     {
         $user = User::factory()
@@ -124,9 +123,7 @@ class SettlePrePaidSubscriptionPeriodTest extends TestCase
             ->assertEquals(6.63, Balance::first()->amount);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_settle_subscription_after_end_of_current_period_from_credit_card_with_succeeded_result()
     {
         $user = User::factory()
@@ -390,9 +387,7 @@ class SettlePrePaidSubscriptionPeriodTest extends TestCase
             ->assertEquals(0.00, Balance::first()->amount);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_settle_subscription_after_end_of_current_period_from_credit_card_with_failed_result()
     {
         $user = User::factory()
@@ -779,9 +774,7 @@ class SettlePrePaidSubscriptionPeriodTest extends TestCase
         Notification::assertSentTo($user, ChargeFromCreditCardFailedNotification::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_withdraw_from_insufficient_balance()
     {
         $user = User::factory()

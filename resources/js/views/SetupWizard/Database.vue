@@ -131,7 +131,7 @@
                 </InfoBox>
             </ValidationObserver>
             <AuthButton
-                @click.native="databaseCredentialsSubmit"
+                @click="databaseCredentialsSubmit"
                 class="w-full justify-center"
                 icon="chevron-right"
                 :text="submitButtonText"
@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
 import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
 import SelectInput from '../../components/Inputs/SelectInput.vue'
 import AppInputText from '../../components/Forms/Layouts/AppInputText.vue'
@@ -152,7 +152,6 @@ import InfoBox from '../../components/UI/Others/InfoBox.vue'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
 import { SettingsIcon } from '../../icons/feather.js'
-import { required } from 'vee-validate/dist/rules'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -169,7 +168,6 @@ export default {
         AuthContent,
         AuthButton,
         FormLabel,
-        required,
         InfoBox,
         Headline,
     },

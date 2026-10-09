@@ -8,9 +8,9 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
         "ext-json": "*",
         "ext-pdo": "*",
+        "php": "^8.3",
         "azure-oss/storage-blob-laravel": "^2.2",
         "guzzlehttp/guzzle": "^7.10",
         "intervention/image": "^4.3",
@@ -34,7 +34,8 @@
         "symfony/http-client": "^7.4|^8.0",
         "symfony/mailgun-mailer": "^7.4|^8.0",
         "symfony/postmark-mailer": "^7.4|^8.0",
-        "teamtnt/laravel-scout-tntsearch-driver": "^16.2"
+        "teamtnt/laravel-scout-tntsearch-driver": "^16.2",
+        "teamtnt/tntsearch": "^4.4"
     },
     "require-dev": {
         "ext-json": "*",

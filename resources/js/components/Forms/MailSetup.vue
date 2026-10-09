@@ -240,13 +240,14 @@
 </template>
 
 <script>
-	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+	import {ValidationObserver, ValidationProvider} from '../Validation/index.js'
 	import SelectInput from '../Inputs/SelectInput.vue'
 	import AppInputText from './Layouts/AppInputText.vue'
 	import FormLabel from '../UI/Labels/FormLabel.vue'
 
 	export default {
 		name: 'MailSetup',
+		emits: ['update:modelValue', 'input'],
 		components: {
 			ValidationObserver,
 			ValidationProvider,
@@ -257,6 +258,7 @@
 		watch: {
 			mail: {
 				handler(newValue, oldValue) {
+					this.$emit('update:modelValue', newValue)
 					this.$emit('input', newValue)
 				},
 				deep: true

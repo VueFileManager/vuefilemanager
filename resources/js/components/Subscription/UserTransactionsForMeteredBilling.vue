@@ -5,7 +5,7 @@
         </FormLabel>
 
         <DatatableWrapper class="overflow-x-auto" api="/api/user/transactions" :paginator="true" :columns="columns">
-            <template slot-scope="{ row }">
+            <template #default="{ row }">
                 <!--Transaction rows-->
                 <MeteredTransactionRow :row="row" @showDetail="showTransactionDetail" />
 

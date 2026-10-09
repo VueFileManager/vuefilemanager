@@ -41,9 +41,8 @@
 <script>
 import AppInputSwitch from '../../../components/Forms/Layouts/AppInputSwitch.vue'
 import AppInputText from '../../../components/Forms/Layouts/AppInputText.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+import { ValidationProvider, ValidationObserver } from '../../../components/Validation/index.js'
 import FormLabel from '../../../components/UI/Labels/FormLabel.vue'
-import { required } from 'vee-validate/dist/rules'
 import SwitchInput from '../../../components/Inputs/SwitchInput.vue'
 import MobileHeader from '../../../components/Mobile/MobileHeader.vue'
 import SectionTitle from '../../../components/UI/Labels/SectionTitle.vue'
@@ -63,7 +62,6 @@ export default {
         MobileHeader,
         SwitchInput,
         ButtonBase,
-        required,
         Spinner,
     },
     data() {

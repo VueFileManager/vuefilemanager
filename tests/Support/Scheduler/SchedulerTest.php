@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Support\Scheduler;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -18,9 +19,7 @@ use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class SchedulerTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_report_usage_of_subscription()
     {
         $user = User::factory()
@@ -81,9 +80,7 @@ class SchedulerTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_expired_shared_links()
     {
         $share = Share::factory()
@@ -97,9 +94,7 @@ class SchedulerTest extends TestCase
         $this->assertModelMissing($share);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_failed_files_older_than_one_day()
     {
         $this->travel(-26)->hours();
@@ -121,9 +116,7 @@ class SchedulerTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_non_verified_users_after_30_days()
     {
         $expiredUser = User::factory()

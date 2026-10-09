@@ -11,16 +11,11 @@ class TestPostmarkConnectionAction
     public function __invoke(array $credentials)
     {
         try {
-            // Set temporary mail connection
-            config([
-                'mail.driver'             => 'postmark',
-                'mail.from.address'       => $credentials['sender'],
-                'mail.from.name'          => $credentials['sender'],
-                'services.postmark.token' => $credentials['token'],
-            ]);
-
-            // Send test email
-            Mail::to($credentials['sender'])->send(new TestMail($credentials['sender']));
+            // Send test email through temporary mail connection
+            Mail::build([
+                'transport' => 'postmark',
+                'token'     => $credentials['token'],
+            ])->to($credentials['sender'])->send(new TestMail($credentials['sender']));
         } catch (TransportException | LogicException $error) {
             abort(
                 response()->json([

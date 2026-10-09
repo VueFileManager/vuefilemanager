@@ -72,7 +72,7 @@
 
             <!--Go to route-->
             <router-link
-                @click.native="closeCenter"
+                @click="closeCenter"
                 v-if="action && action.type === 'route'"
                 :to="{ name: action.params.route, params: { id: action.params.id } }"
                 class="mt-4 flex items-center"
@@ -85,7 +85,7 @@
 
             <!--Open Link-->
             <a
-                @click.native="closeCenter"
+                @click="closeCenter"
                 v-if="action && action.type === 'url'"
 				:target="action.params.target === 'blank' ? '_blank' : '_self'"
                 :href="action.params.url"

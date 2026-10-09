@@ -3,7 +3,7 @@
         <div id="loader" v-show="isLoading">
             <Spinner />
         </div>
-        <slot v-show="!isLoading" />
+        <slot />
     </div>
 </template>
 
