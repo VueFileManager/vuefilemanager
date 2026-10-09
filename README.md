@@ -19,6 +19,7 @@
   - [About Broadcasting](#about-broadcasting)
   - [Install VueFileManager Broadcast Server](#install-vuefilemanager-broadcast-server)
 - [Developers](#developers)
+  - [Running with Docker](#running-with-docker-recommended)
   - [Running Environment On Your Localhost](#running-environment-on-your-localhost)
   - [Express Installation](#express-installation)
   - [Express Installation with Demo Data](#express-installation-with-demo-data)
@@ -308,12 +309,40 @@ Find Broadcasting form and select `VueFileManager` as broadcasting driver. Set y
 That's all, you are running your own Broadcast server.
 
 # Developers
+## Running with Docker (recommended)
+
+The repository ships with a complete Docker setup for local development: nginx, PHP 8.4 (php-fpm), MySQL 8.4, Redis, Vite dev server with hot reload, queue worker, scheduler, Laravel Reverb websocket server and Mailpit.
+
+**Requirements:** Docker with Docker Compose v2.
+
+```
+docker compose up -d                              # first start installs composer & npm dependencies
+docker compose exec app php artisan setup:dev     # demo data + admin account
+```
+
+Or with `make`: `make up`, then `make setup`.
+
+| Service | URL |
+|---|---|
+| Application | http://localhost:8000 |
+| Vite dev server (HMR) | http://localhost:5173 |
+| Mailpit (caught e-mails) | http://localhost:8025 |
+| Reverb websockets | ws://localhost:8080 |
+| MySQL | localhost:3306 (`vuefilemanager` / `secret`) |
+
+Admin account: `howdy@hi5ve.digital` / `vuefilemanager`.
+
+On first start `.env` is created from `docker/.env.docker`. If you already have a `.env`, make sure it uses the Docker hostnames (`DB_HOST=mysql`, `REDIS_HOST=redis`, `MAIL_HOST=mailpit`, `REVERB_HOST=reverb`). Ports can be changed with `APP_PORT`, `VITE_PORT`, `FORWARD_DB_PORT`, `MAILPIT_PORT` and `REVERB_FORWARD_PORT`. On Linux, set `DOCKER_UID`/`DOCKER_GID` if your user id is not 1000.
+
+Useful commands: `make test` (PHP test suite), `make shell`, `make logs`, `make build-assets` (production build), `make fresh` (removes containers **and** database volumes).
+
 ## Running Environment On Your Localhost
 
 **For running development environment make sure you have:**
 
-- Node >= 14
-- NPM >= 6
+- PHP >= 8.3
+- Node >= 20.19 (Node 24 LTS recommended)
+- NPM >= 10
 
 ### Express Installation
 If you would like to have express installation without Setup Wizard process, please update your database credentials in .env file
@@ -378,13 +407,13 @@ npm install
 
 To compiles and hot-reloads for front-end development. Then run this command:
 ```
-npm run hot
+npm run dev
 ```
 
 ### Building Your App for Production
 To compiles for production build, run this command
 ```
-npm run prod
+npm run build
 ```
 
 ## Support
