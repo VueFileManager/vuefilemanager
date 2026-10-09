@@ -152,7 +152,7 @@
 						value: 'pusher',
 					},
 					{
-						label: 'VueFileManager',
+						label: 'Laravel Reverb (self-hosted)',
 						value: 'native',
 					},
 					{

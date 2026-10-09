@@ -77,7 +77,6 @@ import MailSetup from '../../../../components/Forms/MailSetup.vue'
 import { events } from '../../../../bus'
 import axios from 'axios'
 import BroadcastSetup from "../../../../components/Forms/BroadcastSetup.vue";
-import Echo from "laravel-echo";
 
 export default {
     name: 'AppEnvironment',
@@ -122,48 +121,9 @@ export default {
                         message: this.$t('broadcast_driver_updated'),
                     })
 
-					let config = {
-						'pusher': {
-							broadcasting: 'pusher',
-							broadcastingKey: this.broadcast.key,
-							broadcastingHost: this.broadcast.host,
-							broadcastingCluster: this.broadcast.cluster,
-						},
-						'native': {
-							broadcasting: 'pusher',
-							broadcastingHost: this.broadcast.host,
-							broadcastingKey: 'local',
-							broadcastingCluster: 'local',
-						},
-						'none': {
-							broadcasting: 'null',
-						}
-					}
-
-					// Set up echo
-					if (['pusher', 'native'].includes(this.broadcast.driver)) {
-						window.Echo = new Echo({
-							broadcaster: 'pusher',
-							cluster: this.broadcast.cluster || 'local',
-							key: this.broadcast.key || 'local',
-							wsHost: this.broadcast.host,
-							forceTLS: false,
-							enabledTransports: ['ws', 'wss'],
-						});
-					}
-
-					Object
-						.entries(config[this.broadcast.driver])
-						.map(([key, value]) => {
-							this.$store.commit('REPLACE_CONFIG_VALUE', {
-								key: key,
-								value: value,
-							})
-
-							if (key === 'broadcasting' && value === 'pusher') {
-								this.$store.dispatch('runConnection')
-							}
-						})
+                    // Broadcast credentials (e.g. generated Reverb keys) live on the server,
+                    // so reload the app to pick up the new real-time configuration
+                    setTimeout(() => window.location.reload(), 1500)
                 })
                 .catch(() => {
                     events.$emit('toaster', {
