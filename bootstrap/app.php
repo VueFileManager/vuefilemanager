@@ -78,7 +78,7 @@ return BaseApplication::configure(basePath: dirname(__DIR__))
         ]);
 
         $middleware->redirectGuestsTo(fn () => url('/'));
-        $middleware->redirectUsersTo('/files');
+        $middleware->redirectUsersTo('/platform/files');
 
         $middleware->group('api', [
             EnsureFrontendRequestsAreStateful::class,
