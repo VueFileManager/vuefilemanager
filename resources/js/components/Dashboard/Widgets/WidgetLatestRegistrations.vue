@@ -23,7 +23,7 @@
                             <MemberAvatar :is-border="false" :size="44" :member="row" />
                             <div class="ml-3 pr-10">
                                 <b
-                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                     style="max-width: 155px"
                                 >
                                     {{ row.data.relationships.settings.data.attributes.name }}
@@ -97,7 +97,7 @@
                             <MemberAvatar :is-border="false" :size="44" :member="row" />
                             <div class="ml-3 pr-10">
                                 <b
-                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                     style="max-width: 155px"
                                 >
                                     {{ row.data.relationships.settings.data.attributes.name }}
@@ -176,7 +176,7 @@
                             <MemberAvatar :is-border="false" :size="44" :member="row" />
                             <div class="ml-3 pr-10">
                                 <b
-                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                     style="max-width: 155px"
                                 >
                                     {{ row.data.relationships.settings.data.attributes.name }}

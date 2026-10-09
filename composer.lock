@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2ab40497e3f0fc83f695d1af8add8b1",
+    "content-hash": "4311aaabdb14482cdf0db507d9ee7cfd",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -3969,7 +3969,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/saas-billing",
-                "reference": "10ddde2db89709f0a1321313491ac548de8c38bd"
+                "reference": "9cf98eb10417a2851290298d3163df85b5f7c52c"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.10",
@@ -3986,7 +3986,6 @@
             "require-dev": {
                 "ext-intl": "*",
                 "friendsofphp/php-cs-fixer": "^3.95",
-                "larastan/larastan": "^3.13",
                 "nunomaduro/collision": "^8.9",
                 "orchestra/testbench": "^11.3",
                 "phpunit/phpunit": "^12.5"
@@ -14981,12 +14980,10 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
+        "php": "^8.3",
         "ext-json": "*",
-        "ext-pdo": "*",
-        "php": "^8.3"
+        "ext-pdo": "*"
     },
-    "platform-dev": {
-        "ext-json": "*"
-    },
+    "platform-dev": {},
     "plugin-api-version": "2.6.0"
 }

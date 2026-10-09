@@ -1,6 +1,6 @@
 <template>
     <MenuMobile name="file-menu">
-        <ThumbnailItem class="m-5" :item="clipboard[0]" />
+        <ThumbnailItem v-if="clipboard[0]" class="m-5" :item="clipboard[0]" />
 
         <MenuMobileGroup v-if="$slots.default">
             <slot />

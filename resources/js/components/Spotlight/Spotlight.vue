@@ -258,7 +258,7 @@
                         <MemberAvatar :is-border="false" :size="44" :member="result" />
                         <div class="ml-3">
                             <b
-                                class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                 style="max-width: 155px"
                             >
                                 {{ result.data.attributes.name }}

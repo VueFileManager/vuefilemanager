@@ -12,7 +12,7 @@
                         <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                         <div class="ml-3 pr-10">
                             <b
-                                class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                 style="max-width: 155px"
                             >
                                 {{ row.data.relationships.user.data.attributes.name }}

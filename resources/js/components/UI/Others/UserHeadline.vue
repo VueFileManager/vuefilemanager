@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-between">
+    <div v-if="user" class="flex items-center justify-between">
         <div class="flex items-center leading-none">
             <MemberAvatar :size="52" :is-border="false" :member="user" />
             <div class="pl-4">

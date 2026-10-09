@@ -78,7 +78,7 @@
                             }"
                         />
                         <span
-                            class="max-w-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold"
+                            class="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold"
                             :class="{
                                 'text-theme': $route.params.id === folder.data.id,
                             }"

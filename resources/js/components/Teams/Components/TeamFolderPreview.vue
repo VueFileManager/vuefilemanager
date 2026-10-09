@@ -1,5 +1,5 @@
 <template>
-    <div class="py-3 px-5 text-left">
+    <div v-if="teamFolder" class="py-3 px-5 text-left">
         <div class="info">
             <b class="title text-sm">
                 {{ teamFolder.data.attributes.name }}

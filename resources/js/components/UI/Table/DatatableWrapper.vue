@@ -3,28 +3,28 @@
         <table v-if="hasData" class="w-full">
             <thead>
                 <tr class="whitespace-nowrap">
-                    <th
-                        class="text-left"
-                        v-for="(column, index) in columns"
-                        @click="sort(column.field, column.sortable)"
-                        :key="index"
-                        :class="{
-                            'sortable cursor-pointer': column.sortable,
-                            'text-right': Object.values(columns).length - 1 === index,
-                        }"
-                        v-if="!column.hidden"
-                    >
-                        <span class="text-xs text-gray-400 dark:text-gray-500">
-                            {{ $t(column.label) }}
-                        </span>
+                    <template v-for="(column, index) in columns" :key="index">
+                        <th
+                            class="text-left"
+                            @click="sort(column.field, column.sortable)"
+                            :class="{
+                                'sortable cursor-pointer': column.sortable,
+                                'text-right': Object.values(columns).length - 1 === index,
+                            }"
+                            v-if="!column.hidden"
+                        >
+                            <span class="text-xs text-gray-400 dark:text-gray-500">
+                                {{ $t(column.label) }}
+                            </span>
 
-                        <chevron-up-icon
-                            v-if="column.sortable"
-                            :class="{ 'arrow-down': filter.sort === 'ASC' }"
-                            class="vue-feather inline-block text-gray-300 dark:text-gray-500"
-                            size="12"
-                        />
-                    </th>
+                            <chevron-up-icon
+                                v-if="column.sortable"
+                                :class="{ 'arrow-down': filter.sort === 'ASC' }"
+                                class="vue-feather inline-block text-gray-300 dark:text-gray-500"
+                                size="12"
+                            />
+                        </th>
+                    </template>
                 </tr>
             </thead>
 
@@ -41,7 +41,10 @@
         <!--Paginator-->
         <div v-if="paginator && hasData" class="mt-6 sm:flex sm:items-center sm:justify-between">
             <!--Show if there is only 6 pages-->
-            <ul v-if="data.meta.total > 15 && data.meta.last_page <= 6" class="pagination flex justify-center items-center">
+            <ul
+                v-if="data.meta.total > 15 && data.meta.last_page <= 6"
+                class="pagination flex items-center justify-center"
+            >
                 <!--Go previous icon-->
                 <li class="previous inline-block p-1">
                     <a
@@ -86,7 +89,10 @@
             </ul>
 
             <!--Show if there is more than 6 pages-->
-            <ul v-if="data.meta.total > 15 && data.meta.last_page > 6" class="pagination flex justify-center items-center">
+            <ul
+                v-if="data.meta.total > 15 && data.meta.last_page > 6"
+                class="pagination flex items-center justify-center"
+            >
                 <!--Go previous icon-->
                 <li class="previous inline-block p-1">
                     <a
@@ -191,8 +197,8 @@
                 </li>
             </ul>
 
-            <span class="text-xs text-gray-600 dark:text-gray-500 block text-center sm:mt-0 mt-4">
-				{{ $t('paginator', {from: data.meta.from, to: data.meta.to, total: data.meta.total}) }}
+            <span class="mt-4 block text-center text-xs text-gray-600 sm:mt-0 dark:text-gray-500">
+                {{ $t('paginator', { from: data.meta.from, to: data.meta.to, total: data.meta.total }) }}
             </span>
         </div>
     </div>
@@ -292,7 +298,7 @@ export default {
     created() {
         if (this.api) this.getPage(this.pageIndex)
 
-        if (this.tableData) (this.data = this.tableData), (this.isLoading = false)
+        if (this.tableData) ((this.data = this.tableData), (this.isLoading = false))
     },
 }
 </script>

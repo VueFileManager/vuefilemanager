@@ -89,10 +89,9 @@
                 <!--List available plans-->
                 <div>
                     <PlanDetail
-                        v-for="(plan, i) in plans.data"
+                        v-for="plan in plans.data.filter((plan) => plan.data.attributes.interval === intervalPlanType)"
                         :plan="plan"
                         :key="plan.data.id"
-                        v-if="plan.data.attributes.interval === intervalPlanType"
                         :class="{ 'pointer-events-none opacity-50': userSubscribedPlanId === plan.data.id }"
                         :is-selected="selectedPlan && selectedPlan.data.id === plan.data.id"
                         @click="selectPlan(plan)"
