@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { CopyIcon, CheckIcon, SendIcon } from 'vue-feather-icons'
+import { CopyIcon, CheckIcon, SendIcon } from '../../icons/feather.js'
 
 export default {
     name: 'CopyInput',

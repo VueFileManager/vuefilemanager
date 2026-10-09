@@ -113,24 +113,24 @@ export default {
 
         // Commit config
         this.$store.commit('INIT', {
-            config: this.$root.$data.config,
+            config: config,
         })
 
         // Redirect to setup wizard
-        if (this.$root.$data.config.installation === 'installation-needed') {
+        if (config.installation === 'installation-needed') {
             this.isLoaded = true
 
             if (window.location.pathname.split('/')[1] !== 'setup-wizard') {
                 this.$router.push({ name: 'StatusCheck' })
             }
         } else {
-            this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale).then(() => {
+            this.$store.dispatch('getLanguageTranslations', config.locale).then(() => {
                 this.isLoaded = true
             })
         }
 
 		// Go to sign in page if homepage is disabled
-		if (!this.$root.$data.config.allowHomepage && window.location.pathname === '/') {
+		if (!config.allowHomepage && window.location.pathname === '/') {
 			this.$router.push({ name: 'SignIn' })
 		}
     },

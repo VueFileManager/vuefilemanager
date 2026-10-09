@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { ChevronDownIcon, Edit2Icon, UserIcon } from 'vue-feather-icons'
+import { ChevronDownIcon, Edit2Icon, UserIcon } from '../../icons/feather.js'
 import { debounce, omitBy } from 'lodash'
 
 export default {

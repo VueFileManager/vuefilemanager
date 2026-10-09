@@ -34,7 +34,7 @@
 <script>
 import OptionGroup from './Components/OptionGroup.vue'
 import Option from './Components/Option.vue'
-import { ArrowUpIcon } from 'vue-feather-icons'
+import { ArrowUpIcon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

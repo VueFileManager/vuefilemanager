@@ -277,7 +277,7 @@ import SectionTitle from '../../components/UI/Labels/SectionTitle.vue'
 import ButtonBase from '../../components/UI/Buttons/ButtonBase.vue'
 import ColorLabel from '../../components/UI/Labels/ColorLabel.vue'
 import Spinner from '../../components/UI/Others/Spinner.vue'
-import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
+import { Trash2Icon, Edit2Icon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { RefreshCwIcon } from 'vue-feather-icons'
+import { RefreshCwIcon } from '../../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

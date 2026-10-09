@@ -38,7 +38,7 @@
 
 <script>
 import CardNavigation from '../../../components/UI/Others/CardNavigation.vue'
-import { UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon } from 'vue-feather-icons'
+import { UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon } from '../../../icons/feather.js'
 import MobileHeader from '../../../components/Mobile/MobileHeader.vue'
 import SectionTitle from '../../../components/UI/Labels/SectionTitle.vue'
 import ColorLabel from '../../../components/UI/Labels/ColorLabel.vue'

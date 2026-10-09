@@ -107,7 +107,7 @@
 <script>
 import Emoji from '../../Emoji/Emoji.vue'
 import FolderIcon from '../../Icons/FolderIcon.vue'
-import { LinkIcon, MoreVerticalIcon, EyeIcon } from 'vue-feather-icons'
+import { LinkIcon, MoreVerticalIcon, EyeIcon } from '../../../icons/feather.js'
 import FileIconThumbnail from '../../Icons/FileIconThumbnail.vue'
 import MemberAvatar from '../Others/MemberAvatar.vue'
 import CheckBox from '../../Inputs/CheckBox.vue'

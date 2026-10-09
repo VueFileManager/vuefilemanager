@@ -16,7 +16,7 @@
 </template>
 
 <script>
-	import { XIcon } from 'vue-feather-icons'
+	import { XIcon } from '../../icons/feather.js'
 
 	export default {
 		name: 'Toast',

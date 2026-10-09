@@ -446,13 +446,13 @@ export default {
     },
 	mounted() {
 		// Redirect if user is authenticated
-		if (this.$root.$data.config.isAuthenticated) {
+		if (config.isAuthenticated) {
 			this.$router.push({name: 'Files'})
 		}
 	},
 	created() {
 		// Show the page when user is not authenticated
-		if (! this.$root.$data.config.isAuthenticated) {
+		if (! config.isAuthenticated) {
 			this.isVisible = true
 		}
 

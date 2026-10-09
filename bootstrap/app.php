@@ -1,55 +1,177 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Create The Application
-|--------------------------------------------------------------------------
-|
-| The first thing we will do is create a new Laravel application instance
-| which serves as the "glue" for all the components of Laravel, and is
-| the IoC container for the system binding all of the various parts.
-|
-*/
+use App\BaseApplication;
+use Illuminate\Http\Request;
+use Support\Middleware\AdminCheck;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Console\Scheduling\Schedule;
+use Support\Scheduler\Actions\ReportUsageAction;
+use Support\Upgrading\Actions\UpdateSystemAction;
+use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Support\Demo\Actions\ClearHowdyDemoDataAction;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Support\Middleware\ProtectSetupWizardRoutes;
+use Support\Scheduler\Actions\DeleteFailedFilesAction;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Support\Scheduler\Actions\DeleteUnverifiedUsersAction;
+use Support\Scheduler\Actions\DeleteExpiredShareLinksAction;
+use Domain\UploadRequest\Middleware\ProtectUploadRequestRoutes;
+use Support\Scheduler\Actions\ExpireUnfilledUploadRequestAction;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful;
 
-$app = new Illuminate\Foundation\Application(
-    $_ENV['APP_BASE_PATH'] ?? dirname(__DIR__)
-);
+return BaseApplication::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        commands: __DIR__ . '/../routes/console.php',
+        using: function () {
+            Route::prefix('api')
+                ->middleware('api')
+                ->group(base_path('routes/api.php'));
 
-/*
-|--------------------------------------------------------------------------
-| Bind Important Interfaces
-|--------------------------------------------------------------------------
-|
-| Next, we need to bind some important interfaces into the container so
-| we will be able to resolve them when needed. The kernels serve the
-| incoming requests to this application from both the web and CLI.
-|
-*/
+            Route::prefix('api/sharing')
+                ->middleware('api')
+                ->group(base_path('routes/share.php'));
 
-$app->singleton(
-    Illuminate\Contracts\Http\Kernel::class,
-    App\Http\Kernel::class
-);
+            Route::prefix('api/file-request')
+                ->middleware('api')
+                ->group(base_path('routes/file-request.php'));
 
-$app->singleton(
-    Illuminate\Contracts\Console\Kernel::class,
-    App\Console\Kernel::class
-);
+            Route::prefix('api/admin')
+                ->middleware(['api', 'auth:sanctum', 'admin'])
+                ->group(base_path('routes/admin.php'));
 
-$app->singleton(
-    Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
-);
+            Route::middleware(['setup-wizard'])
+                ->group(base_path('routes/setup.php'));
 
-/*
-|--------------------------------------------------------------------------
-| Return The Application
-|--------------------------------------------------------------------------
-|
-| This script returns the application instance. The instance is given to
-| the calling script so we can separate the building of the instances
-| from the actual running of the application and sending responses.
-|
-*/
+            Route::prefix('api/user')
+                ->middleware('api')
+                ->group(base_path('routes/user.php'));
 
-return $app;
+            Route::middleware('web')
+                ->group(base_path('routes/maintenance.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/file.php'));
+
+            Route::prefix('api/teams')
+                ->middleware(['api'])
+                ->group(base_path('routes/teams.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/web.php'));
+        },
+    )
+    ->withBroadcasting(__DIR__ . '/../routes/channels.php')
+    ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(
+            headers: Request::HEADER_X_FORWARDED_FOR |
+                Request::HEADER_X_FORWARDED_HOST |
+                Request::HEADER_X_FORWARDED_PORT |
+                Request::HEADER_X_FORWARDED_PROTO |
+                Request::HEADER_X_FORWARDED_AWS_ELB
+        );
+
+        $middleware->validateCsrfTokens(except: [
+            '/deploy',
+            '/stripe/*',
+        ]);
+
+        $middleware->redirectGuestsTo(fn () => url('/'));
+        $middleware->redirectUsersTo('/files');
+
+        $middleware->group('api', [
+            EnsureFrontendRequestsAreStateful::class,
+            'throttle:api',
+            SubstituteBindings::class,
+        ]);
+
+        $middleware->alias([
+            'admin'          => AdminCheck::class,
+            'setup-wizard'   => ProtectSetupWizardRoutes::class,
+            'upload-request' => ProtectUploadRequestRoutes::class,
+        ]);
+    })
+    ->withExceptions(function (Exceptions $exceptions): void {
+        $exceptions->dontFlash([
+            'password',
+            'password_confirmation',
+        ]);
+
+        // Render missing eloquent models as custom json response or redirect to not-found page
+        $exceptions->render(function (NotFoundHttpException $exception, Request $request) {
+            $previous = $exception->getPrevious();
+
+            if (! $previous instanceof ModelNotFoundException) {
+                return null;
+            }
+
+            if (in_array('application/json', $request->getAcceptableContentTypes())) {
+                // Get ids
+                $ids = implode(', ', $previous->getIds());
+
+                return response()->json([
+                    'type'    => 'error',
+                    'message' => "We couldn't find the resource you requested with id $ids",
+                ], 404);
+            }
+
+            return response()
+                ->redirectTo('/not-found')
+                ->setStatusCode(404);
+        });
+    })
+    ->withSchedule(function (Schedule $schedule): void {
+        if (! isStorageDriver('local')) {
+            $schedule->call(
+                fn () => resolve(DeleteFailedFilesAction::class)()
+            )->everySixHours();
+        }
+
+        if (is_demo()) {
+            $schedule->call(
+                fn () => resolve(ClearHowdyDemoDataAction::class)()
+            )->daily()->at('00:00');
+        }
+
+        $schedule->call(
+            fn () => resolve(DeleteExpiredShareLinksAction::class)()
+        )->everyTenMinutes();
+
+        $schedule->call(
+            fn () => resolve(ExpireUnfilledUploadRequestAction::class)()
+        )->hourly();
+
+        $schedule->call(
+            fn () => resolve(UpdateSystemAction::class)()
+        )->everyMinute();
+
+        $schedule->call(
+            fn () => resolve(DeleteUnverifiedUsersAction::class)()
+        )->daily()->at('00:05');
+
+        $schedule->call(
+            fn () => resolve(ReportUsageAction::class)()
+        )->daily()->at('00:10');
+
+        // Run queue jobs every five minutes
+        $schedule->command('queue:work --queue=high,default --max-time=300')
+            ->everyFiveMinutes()
+            ->withoutOverlapping();
+
+        // Backup app database daily
+        $schedule->command('backup:clean')
+            ->daily()
+            ->at('00:15');
+
+        $schedule->command('backup:run --only-db')
+            ->daily()
+            ->at('00:20');
+
+        $schedule->command('config:clear')
+            ->daily();
+
+        $schedule->call(fn () => cache()->set('latest_cron_update', now()->toString()))
+            ->everyMinute();
+    })
+    ->create();

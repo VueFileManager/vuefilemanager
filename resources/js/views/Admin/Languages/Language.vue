@@ -194,7 +194,7 @@ import MobileHeader from '../../../components/Mobile/MobileHeader.vue'
 import ButtonBase from '../../../components/UI/Buttons/ButtonBase.vue'
 import InfoBox from '../../../components/UI/Others/InfoBox.vue'
 import Spinner from '../../../components/UI/Others/Spinner.vue'
-import { PlusIcon, XIcon } from 'vue-feather-icons'
+import { PlusIcon, XIcon } from '../../../icons/feather.js'
 import { debounce, omitBy } from 'lodash'
 import { events } from '../../../bus'
 

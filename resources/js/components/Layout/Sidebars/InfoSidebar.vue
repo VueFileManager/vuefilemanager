@@ -105,7 +105,7 @@
 <script>
 import FilePreviewDetail from '../../Others/FilePreviewDetail.vue'
 import CopyShareLink from '../../Inputs/CopyShareLink.vue'
-import {Edit2Icon, LockIcon, UnlockIcon, EyeOffIcon} from 'vue-feather-icons'
+import {Edit2Icon, LockIcon, UnlockIcon, EyeOffIcon} from '../../../icons/feather.js'
 import ImageMetaData from '../../UI/Others/ImageMetaData.vue'
 import TitlePreview from '../../UI/Labels/TitlePreview.vue'
 import TeamMembersPreview from '../../Teams/Components/TeamMembersPreview.vue'

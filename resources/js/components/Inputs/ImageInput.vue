@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { XIcon, ImageIcon } from 'vue-feather-icons'
+import { XIcon, ImageIcon } from '../../icons/feather.js'
 
 export default {
     name: 'ImageInput',

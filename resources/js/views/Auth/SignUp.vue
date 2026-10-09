@@ -273,7 +273,7 @@ export default {
         this.$scrollTop()
 
 		// Redirect if user is authenticated
-		if (this.$root.$data.config.isAuthenticated) {
+		if (config.isAuthenticated) {
 			this.$router.push({name: 'Files'})
 		}
 

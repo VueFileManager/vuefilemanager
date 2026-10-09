@@ -181,7 +181,7 @@ import { required } from 'vee-validate/dist/rules'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import { CheckIcon, XIcon, SettingsIcon } from 'vue-feather-icons'
+import { CheckIcon, XIcon, SettingsIcon } from '../../icons/feather.js'
 import AlertBox from "../../components/UI/Others/AlertBox.vue";
 
 export default {
@@ -204,16 +204,16 @@ export default {
     },
     computed: {
         modules() {
-            return this.$root.$data.config.statusCheck.modules
+            return config.statusCheck.modules
         },
         ini() {
-            return this.$root.$data.config.statusCheck.ini
+            return config.statusCheck.ini
         },
         phpVersion() {
-            return this.$root.$data.config.statusCheck.php_version
+            return config.statusCheck.php_version
         },
         writable() {
-            return this.$root.$data.config.statusCheck.writable
+            return config.statusCheck.writable
         },
         isCheckedAPI() {
             return typeof this.apiRunning !== 'undefined'
@@ -228,15 +228,15 @@ export default {
     },
     methods: {
         lastCheckBeforeNextPage() {
-            let modulesCheck = Object.values(this.$root.$data.config.statusCheck.modules).every(
+            let modulesCheck = Object.values(config.statusCheck.modules).every(
                 (module) => module === true
             )
 
-            let iniCheck = Object.values(this.$root.$data.config.statusCheck.ini).every(
+            let iniCheck = Object.values(config.statusCheck.ini).every(
                 (setting) => setting.status === true
             )
 
-            let writeCheck = Object.values(this.$root.$data.config.statusCheck.writable).every(
+            let writeCheck = Object.values(config.statusCheck.writable).every(
                 (directory) => directory === true
             )
 

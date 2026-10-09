@@ -42,7 +42,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'
-import { MenuIcon, ChevronLeftIcon, MoreHorizontalIcon } from 'vue-feather-icons'
+import { MenuIcon, ChevronLeftIcon, MoreHorizontalIcon } from '../../../icons/feather.js'
 
 export default {
     name: 'NavigationBar',

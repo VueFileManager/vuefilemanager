@@ -239,7 +239,7 @@
 import DatatableCellImage from '../../UI/Table/DatatableCellImage.vue'
 import DatatableWrapper from '../../UI/Table/DatatableWrapper.vue'
 import ColorLabel from '../../UI/Labels/ColorLabel.vue'
-import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
+import { Trash2Icon, Edit2Icon } from '../../../icons/feather.js'
 import MemberAvatar from '../../UI/Others/MemberAvatar.vue'
 import { mapGetters } from 'vuex'
 

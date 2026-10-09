@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { SearchIcon } from 'vue-feather-icons'
+import { SearchIcon } from '../../../icons/feather.js'
 
     export default {
         name: 'SearchBarButton',

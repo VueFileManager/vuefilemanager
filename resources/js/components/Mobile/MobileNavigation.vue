@@ -161,7 +161,7 @@ import OptionGroup from '../Menus/Components/OptionGroup.vue'
 import UserHeadline from '../UI/Others/UserHeadline.vue'
 import MenuMobile from './MenuMobile.vue'
 import Option from '../Menus/Components/Option.vue'
-import { ChevronLeftIcon } from 'vue-feather-icons'
+import { ChevronLeftIcon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

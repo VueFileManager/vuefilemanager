@@ -130,7 +130,7 @@
 
 <script>
 import FolderIcon from '../../Icons/FolderIcon.vue'
-import { LinkIcon, MoreHorizontalIcon, EyeIcon } from 'vue-feather-icons'
+import { LinkIcon, MoreHorizontalIcon, EyeIcon } from '../../../icons/feather.js'
 import FileIconThumbnail from '../../Icons/FileIconThumbnail.vue'
 import MemberAvatar from '../Others/MemberAvatar.vue'
 import Emoji from '../../Emoji/Emoji.vue'

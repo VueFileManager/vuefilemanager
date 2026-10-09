@@ -133,7 +133,7 @@
 
 <script>
 import WidgetLatestRegistrations from '../../components/Dashboard/Widgets/WidgetLatestRegistrations.vue'
-import {ChevronRightIcon} from 'vue-feather-icons'
+import {ChevronRightIcon} from '../../icons/feather.js'
 import Spinner from '../../components/UI/Others/Spinner.vue'
 import FormLabel from '../../components/UI/Labels/FormLabel.vue'
 import BarChart from '../../components/UI/BarChart/BarChart.vue'

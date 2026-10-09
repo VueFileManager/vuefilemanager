@@ -151,7 +151,7 @@ import FormLabel from '../../components/UI/Labels/FormLabel.vue'
 import InfoBox from '../../components/UI/Others/InfoBox.vue'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
-import { SettingsIcon } from 'vue-feather-icons'
+import { SettingsIcon } from '../../icons/feather.js'
 import { required } from 'vee-validate/dist/rules'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
@@ -201,7 +201,7 @@ export default {
     },
     methods: {
         async databaseCredentialsSubmit() {
-            if (this.$root.$data.config.isSetupWizardDemo) {
+            if (config.isSetupWizardDemo) {
                 this.$router.push({ name: 'EnvironmentSetup' })
                 return
             }
@@ -239,7 +239,7 @@ export default {
     created() {
         this.$scrollTop()
 
-        if (this.$root.$data.config.isSetupWizardDebug) {
+        if (config.isSetupWizardDebug) {
             this.databaseCredentials = {
                 connection: 'mysql',
                 host: '127.0.0.1',

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { XIcon } from 'vue-feather-icons'
+import { XIcon } from '../../icons/feather.js'
 import { events } from '../../bus'
 
 export default {

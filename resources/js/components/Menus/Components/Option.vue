@@ -288,7 +288,7 @@ import {
     ListIcon,
     CalendarIcon,
     DatabaseIcon,
-} from 'vue-feather-icons'
+} from '../../../icons/feather.js'
 
 export default {
     name: 'Option',

@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { FolderIcon, ChevronRightIcon } from 'vue-feather-icons'
+import { FolderIcon, ChevronRightIcon } from '../../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'
 

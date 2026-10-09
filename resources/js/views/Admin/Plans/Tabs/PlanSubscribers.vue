@@ -128,7 +128,7 @@
 import ColorLabel from '../../../../components/UI/Labels/ColorLabel.vue'
 import MemberAvatar from '../../../../components/UI/Others/MemberAvatar.vue'
 import DatatableCellImage from '../../../../components/UI/Table/DatatableCellImage.vue'
-import { DownloadCloudIcon, Edit2Icon, Trash2Icon } from 'vue-feather-icons'
+import { DownloadCloudIcon, Edit2Icon, Trash2Icon } from '../../../../icons/feather.js'
 import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper.vue'
 import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
 import PageTab from '../../../../components/Layout/PageTab.vue'

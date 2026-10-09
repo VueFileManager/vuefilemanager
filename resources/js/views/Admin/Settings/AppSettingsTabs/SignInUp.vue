@@ -289,7 +289,7 @@
 </template>
 
 <script>
-import { Edit2Icon } from 'vue-feather-icons'
+import { Edit2Icon } from '../../../../icons/feather.js'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
 import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
 import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'

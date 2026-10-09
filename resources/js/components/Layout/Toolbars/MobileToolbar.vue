@@ -25,7 +25,7 @@
 <script>
 import TeamMembersPreview from '../../Teams/Components/TeamMembersPreview.vue'
 import TeamMembersButton from '../../Teams/Components/TeamMembersButton.vue'
-import { MenuIcon } from 'vue-feather-icons'
+import { MenuIcon } from '../../../icons/feather.js'
 import NavigationBar from './NavigationBar.vue'
 
 export default {

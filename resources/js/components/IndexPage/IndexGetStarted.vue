@@ -61,7 +61,7 @@ import {
     LinkIcon,
     StarIcon,
     EyeIcon,
-} from 'vue-feather-icons'
+} from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

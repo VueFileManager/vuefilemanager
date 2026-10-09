@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { CheckIcon, XIcon } from 'vue-feather-icons'
+import { CheckIcon, XIcon } from '../../icons/feather.js'
 
 export default {
 	name: 'Toaster',

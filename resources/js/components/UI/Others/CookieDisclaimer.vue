@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { XIcon } from 'vue-feather-icons'
+import { XIcon } from '../../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

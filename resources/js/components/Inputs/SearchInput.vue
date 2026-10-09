@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { SearchIcon, XIcon } from 'vue-feather-icons'
+import { SearchIcon, XIcon } from '../../icons/feather.js'
 
 export default {
     name: 'SearchInput',

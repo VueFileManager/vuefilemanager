@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { LinkIcon, EyeIcon } from 'vue-feather-icons'
+import { LinkIcon, EyeIcon } from '../../../icons/feather.js'
 import FileIconThumbnail from '../../Icons/FileIconThumbnail.vue'
 import MemberAvatar from '../Others/MemberAvatar.vue'
 import Emoji from '../../Emoji/Emoji.vue'

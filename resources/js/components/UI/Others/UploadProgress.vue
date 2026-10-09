@@ -31,7 +31,7 @@
 
 <script>
 import ProgressBar from './ProgressBar.vue'
-import { RefreshCwIcon, XIcon } from 'vue-feather-icons'
+import { RefreshCwIcon, XIcon } from '../../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'
 

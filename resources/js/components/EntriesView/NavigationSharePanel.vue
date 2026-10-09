@@ -78,7 +78,7 @@ import {
     UserCheckIcon,
     UsersIcon,
     XIcon,
-} from 'vue-feather-icons'
+} from '../../icons/feather.js'
 import TreeMenuNavigator from '../UI/Trees/TreeMenuNavigator.vue'
 import ContentSidebar from '../Sidebar/ContentSidebar.vue'
 import ContentGroup from '../Sidebar/ContentGroup.vue'

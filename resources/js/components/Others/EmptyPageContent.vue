@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { FileIcon, FileTextIcon, SettingsIcon } from 'vue-feather-icons'
+import { FileIcon, FileTextIcon, SettingsIcon } from '../../icons/feather.js'
 
 export default {
     name: 'EmptyPageContent',

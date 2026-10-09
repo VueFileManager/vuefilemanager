@@ -203,7 +203,7 @@ import MobileActionButton from '../../components/UI/Buttons/MobileActionButton.v
 import SwitchInput from '../../components/Inputs/SwitchInput.vue'
 import ButtonBase from '../../components/UI/Buttons/ButtonBase.vue'
 import ColorLabel from '../../components/UI/Labels/ColorLabel.vue'
-import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
+import { Trash2Icon, Edit2Icon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import {events} from "../../bus";
 

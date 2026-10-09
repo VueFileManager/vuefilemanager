@@ -74,7 +74,7 @@
 <script>
 import MemberAvatar from '../UI/Others/MemberAvatar.vue'
 import {mapGetters} from 'vuex'
-import {HardDriveIcon, MoonIcon, PowerIcon, SettingsIcon, SunIcon, UserIcon,} from 'vue-feather-icons'
+import {HardDriveIcon, MoonIcon, PowerIcon, SettingsIcon, SunIcon, UserIcon,} from '../../icons/feather.js'
 import NotificationCenter from "../Notifications/NotificationCenter.vue"
 import NotificationBell from "../Notifications/Components/NotificationBell.vue";
 

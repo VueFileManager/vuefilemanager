@@ -26,7 +26,7 @@
 <script>
 import PricingTables from './Components/PricingTables.vue'
 import AuthButton from '../UI/Buttons/AuthButton.vue'
-import { CloudIcon } from 'vue-feather-icons'
+import { CloudIcon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

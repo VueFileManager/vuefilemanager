@@ -36,7 +36,7 @@
     </div>
 </template>
 <script>
-	import {AlertOctagonIcon, RefreshCwIcon} from "vue-feather-icons";
+	import {AlertOctagonIcon, RefreshCwIcon} from "../../../icons/feather.js";
 
 	export default {
 		name: 'AlertBox',

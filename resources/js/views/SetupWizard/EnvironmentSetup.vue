@@ -75,7 +75,7 @@ import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
 import MailSetup from '../../components/Forms/MailSetup.vue'
 import { required } from 'vee-validate/dist/rules'
-import { SettingsIcon } from 'vue-feather-icons'
+import { SettingsIcon } from '../../icons/feather.js'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { events } from '../../bus'
 import axios from 'axios'
@@ -122,7 +122,7 @@ export default {
     },
     methods: {
         async EnvironmentSetupSubmit() {
-            if (this.$root.$data.config.isSetupWizardDemo) {
+            if (config.isSetupWizardDemo) {
                 this.$router.push({ name: 'AppSetup' })
                 return
             }
@@ -167,7 +167,7 @@ export default {
         },
     },
     beforeMount() {
-        if (this.$root.$data.config.isSetupWizardDebug) {
+        if (config.isSetupWizardDebug) {
             this.environment = 'local'
             this.storage.driver = 'local'
 

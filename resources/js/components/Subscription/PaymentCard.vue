@@ -14,7 +14,7 @@
     </div>
 </template>
 <script>
-import { Trash2Icon } from 'vue-feather-icons'
+import { Trash2Icon } from '../../icons/feather.js'
 import { events } from '../../bus'
 import axios from 'axios'
 

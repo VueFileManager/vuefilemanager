@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { CheckIcon, HardDriveIcon } from 'vue-feather-icons'
+import { CheckIcon, HardDriveIcon } from '../../../icons/feather.js'
 import axios from 'axios'
 import PlanPeriodSwitcher from "../../Subscription/PlanPeriodSwitcher.vue";
 

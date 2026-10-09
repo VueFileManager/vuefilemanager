@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon, UserPlusIcon } from 'vue-feather-icons'
+import { FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon, UserPlusIcon } from '../../../icons/feather.js'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
 

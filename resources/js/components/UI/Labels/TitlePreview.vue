@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { CheckSquareIcon, FolderIcon, ImageIcon, VideoIcon, FileIcon } from 'vue-feather-icons'
+import { CheckSquareIcon, FolderIcon, ImageIcon, VideoIcon, FileIcon } from '../../../icons/feather.js'
 
 export default {
     name: 'TitlePreview',

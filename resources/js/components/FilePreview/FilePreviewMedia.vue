@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons'
+import { ChevronLeftIcon, ChevronRightIcon } from '../../icons/feather.js'
 import ToolbarButton from '../UI/Buttons/ToolbarButton.vue'
 import ItemGrid from "../UI/Entries/ItemGrid.vue"
 import ImageFile from './Media/ImageFile.vue'

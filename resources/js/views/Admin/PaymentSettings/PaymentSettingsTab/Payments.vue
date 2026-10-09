@@ -508,7 +508,7 @@
 </template>
 
 <script>
-import { Edit2Icon, Trash2Icon } from 'vue-feather-icons'
+import { Edit2Icon, Trash2Icon } from '../../../../icons/feather.js'
 import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton.vue'
 import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper.vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'

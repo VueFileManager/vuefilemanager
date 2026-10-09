@@ -35,7 +35,7 @@
 
 <script>
 import FolderUploadIcon from '../../Icons/FolderUploadIcon.vue'
-import { UploadCloudIcon } from 'vue-feather-icons'
+import { UploadCloudIcon } from '../../../icons/feather.js'
 
 export default {
     name: 'Option',

@@ -45,7 +45,7 @@
     </div>
 </template>
 <script>
-import {ThumbsUpIcon} from 'vue-feather-icons'
+import {ThumbsUpIcon} from '../../icons/feather.js'
 import ColorLabel from '../UI/Labels/ColorLabel.vue'
 import {mapGetters} from "vuex";
 

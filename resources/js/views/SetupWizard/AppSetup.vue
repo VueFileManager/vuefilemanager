@@ -248,7 +248,7 @@ import AppInputText from '../../components/Forms/Layouts/AppInputText.vue'
 import InfoBox from '../../components/UI/Others/InfoBox.vue'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
-import { SettingsIcon } from 'vue-feather-icons'
+import { SettingsIcon } from '../../icons/feather.js'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { required } from 'vee-validate/dist/rules'
 import axios from 'axios'
@@ -296,7 +296,7 @@ export default {
     },
     methods: {
         async appSetupSubmit() {
-            if (this.$root.$data.config.isSetupWizardDemo) {
+            if (config.isSetupWizardDemo) {
                 this.$router.push({ name: 'AdminAccount' })
             }
 
@@ -356,7 +356,7 @@ export default {
     created() {
         this.$scrollTop()
 
-        if (this.$root.$data.config.isSetupWizardDebug) {
+        if (config.isSetupWizardDebug) {
             this.app.subscriptionType = 'metered'
             this.app.title = 'VueFileManager'
             this.app.description = 'Your private cloud storage software build on Laravel & Vue.js.'

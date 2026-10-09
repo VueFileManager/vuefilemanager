@@ -18,7 +18,7 @@
 <script>
 import { events } from '../../bus'
 
-import { ChevronLeftIcon, MenuIcon } from 'vue-feather-icons'
+import { ChevronLeftIcon, MenuIcon } from '../../icons/feather.js'
 
 export default {
     name: 'MobileHeader',

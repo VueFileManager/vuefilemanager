@@ -113,7 +113,7 @@ import InfoBox from '../../components/UI/Others/InfoBox.vue'
 import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
 import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
 import { required } from 'vee-validate/dist/rules'
-import { SettingsIcon } from 'vue-feather-icons'
+import { SettingsIcon } from '../../icons/feather.js'
 import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { events } from '../../bus'
 import axios from 'axios'
@@ -208,7 +208,7 @@ export default {
     created() {
         this.$scrollTop()
 
-        if (this.$root.$data.config.isSetupWizardDebug) {
+        if (config.isSetupWizardDebug) {
             this.admin = {
                 name: 'Jane Doe',
                 email: 'howdy@hi5ve.digital',

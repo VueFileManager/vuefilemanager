@@ -116,7 +116,7 @@ import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-va
 import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import FormLabel from '../UI/Labels/FormLabel.vue'
-import { Edit2Icon, Trash2Icon } from 'vue-feather-icons'
+import { Edit2Icon, Trash2Icon } from '../../icons/feather.js'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'

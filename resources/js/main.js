@@ -1,12 +1,12 @@
-require('./bootstrap')
-import Vue from 'vue'
+import './bootstrap'
+import { createApp } from 'vue'
 import i18n from './i18n'
-import VueRouter from 'vue-router'
 import router from './router'
-import VueAnalytics from 'vue-analytics'
+import { createGtag } from 'vue-gtag'
 import App from './App.vue'
 import store from './store'
 import { events } from './bus'
+import { globals, installGlobals } from './globals'
 
 import SubscriptionHelpers from './helpers/SubscriptionHelpers'
 import ValidatorHelpers from './helpers/ValidatorHelpers'
@@ -15,32 +15,49 @@ import AlertHelpers from './helpers/AlertHelpers'
 import itemHelpers from './helpers/itemHelpers'
 import { VueReCaptcha } from 'vue-recaptcha-v3'
 
-Vue.use(VueRouter)
-Vue.use(SubscriptionHelpers)
-Vue.use(ValidatorHelpers)
-Vue.use(functionHelpers)
-Vue.use(AlertHelpers)
-Vue.use(itemHelpers)
+const app = createApp(App)
+
+app.use(store)
+app.use(router)
+app.use(i18n)
+
+app.use(SubscriptionHelpers)
+app.use(ValidatorHelpers)
+app.use(functionHelpers)
+app.use(AlertHelpers)
+app.use(itemHelpers)
+
+// Make $xxx helpers available in components (this.$xxx) and expose app services to helpers
+// that are called outside of components (globals.$xxx).
+Object.defineProperties(globals, {
+    $store: { get: () => store },
+    $router: { get: () => router },
+    $route: { get: () => router.currentRoute.value },
+    $t: { get: () => (...args) => i18n.global.t(...args) },
+})
+installGlobals(app)
 
 // Google Analytics implementation
 if (config.googleAnalytics) {
-    Vue.use(VueAnalytics, {
-        id: config.googleAnalytics,
-        router
-    })
+    app.use(
+        createGtag({
+            tagId: config.googleAnalytics,
+            pageTracker: {
+                router,
+            },
+        })
+    )
 }
 
 // ReCaptcha configuration
 if (config.allowedRecaptcha) {
-    Vue.use(VueReCaptcha, {
+    app.use(VueReCaptcha, {
         siteKey: config.recaptcha_client_id,
         loaderOptions: {
             autoHideBadge: true,
         },
     })
 }
-
-Vue.config.productionTip = false
 
 // Handle position of Drag & Drop Ghost
 document.addEventListener(
@@ -63,12 +80,4 @@ document.addEventListener(
     false
 )
 
-let vueFileManager = new Vue({
-    i18n,
-    store,
-    router,
-    data: {
-        config,
-    },
-    render: (h) => h(App),
-}).$mount('#app')
+app.mount('#app')

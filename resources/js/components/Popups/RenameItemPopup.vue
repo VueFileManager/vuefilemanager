@@ -77,7 +77,7 @@ import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import { required } from 'vee-validate/dist/rules'
 import SwitchInput from '../Inputs/SwitchInput.vue'
 import EmojiPicker from '../Emoji/EmojiPicker.vue'
-import { XIcon } from 'vue-feather-icons'
+import { XIcon } from '../../icons/feather.js'
 import { events } from '../../bus'
 
 export default {

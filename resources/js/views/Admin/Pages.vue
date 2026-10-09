@@ -73,7 +73,7 @@ import SwitchInput from '../../components/Inputs/SwitchInput.vue'
 import MobileHeader from '../../components/Mobile/MobileHeader.vue'
 import SectionTitle from '../../components/UI/Labels/SectionTitle.vue'
 import ButtonBase from '../../components/UI/Buttons/ButtonBase.vue'
-import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
+import { Trash2Icon, Edit2Icon } from '../../icons/feather.js'
 import ColorLabel from '../../components/UI/Labels/ColorLabel.vue'
 import Spinner from '../../components/UI/Others/Spinner.vue'
 

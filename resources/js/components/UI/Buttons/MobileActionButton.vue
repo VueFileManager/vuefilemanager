@@ -57,7 +57,7 @@ import {
     UserPlusIcon,
     PlusIcon,
     CreditCardIcon,
-} from 'vue-feather-icons'
+} from '../../../icons/feather.js'
 import CloudPlusIcon from '../../Icons/CloudPlusIcon.vue'
 import SortingIcon from '../../Icons/SortingIcon.vue'
 

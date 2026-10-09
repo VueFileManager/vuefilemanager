@@ -100,7 +100,7 @@
     </article>
 </template>
 <script>
-import { RefreshCwIcon, TrendingUpIcon, GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from 'vue-feather-icons'
+import { RefreshCwIcon, TrendingUpIcon, GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from '../../../icons/feather.js'
 import MemberAvatar from '../../UI/Others/MemberAvatar.vue'
 import {events} from "../../../bus";
 

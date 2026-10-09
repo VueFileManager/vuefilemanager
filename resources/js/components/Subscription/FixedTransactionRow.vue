@@ -65,7 +65,7 @@
 import MemberAvatar from '../UI/Others/MemberAvatar.vue'
 import MeteredTransactionDetailRow from './MeteredTransactionDetailRow.vue'
 import ColorLabel from '../UI/Labels/ColorLabel.vue'
-import { EyeIcon, FileTextIcon } from 'vue-feather-icons'
+import { EyeIcon, FileTextIcon } from '../../icons/feather.js'
 
 export default {
     name: 'FixedTransactionRow',

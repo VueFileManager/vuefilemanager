@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { Edit2Icon, LockIcon, UnlockIcon, EyeOffIcon } from 'vue-feather-icons'
+import { Edit2Icon, LockIcon, UnlockIcon, EyeOffIcon } from '../../../icons/feather.js'
 import FilePreviewDetail from '../../Others/FilePreviewDetail.vue'
 import ListInfoItem from '../../UI/List/ListInfoItem.vue'
 import ImageMetaData from '../../UI/Others/ImageMetaData.vue'

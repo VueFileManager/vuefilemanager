@@ -9,7 +9,7 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
-import {BellIcon} from "vue-feather-icons"
+import {BellIcon} from "../../../icons/feather.js"
 
 export default {
 	name: 'NotificationBell',

@@ -26,7 +26,7 @@
     </div>
 </template>
 <script>
-import { EyeIcon, FileTextIcon } from 'vue-feather-icons'
+import { EyeIcon, FileTextIcon } from '../../icons/feather.js'
 import ColorLabel from '../UI/Labels/ColorLabel.vue'
 import DatatableWrapper from '../UI/Table/DatatableWrapper.vue'
 import FormLabel from '../UI/Labels/FormLabel.vue'

@@ -236,7 +236,7 @@
 <script>
 import AppInputText from "../../../../components/Forms/Layouts/AppInputText.vue";
 import CopyInput from "../../../../components/Inputs/CopyInput.vue";
-import { CheckIcon, XIcon, DownloadCloudIcon } from 'vue-feather-icons'
+import { CheckIcon, XIcon, DownloadCloudIcon } from '../../../../icons/feather.js'
 import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
 import PageTab from '../../../../components/Layout/PageTab.vue'
 import InfoBox from '../../../../components/UI/Others/InfoBox.vue'

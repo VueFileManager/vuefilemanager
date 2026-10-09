@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { FacebookIcon, GithubIcon } from 'vue-feather-icons'
+import { FacebookIcon, GithubIcon } from '../../../icons/feather.js'
 import GoogleIcon from "../../Icons/GoogleIcon.vue"
 import { mapGetters } from 'vuex'
 

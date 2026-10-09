@@ -109,7 +109,7 @@ import OptionGroup from '../Menus/Components/OptionGroup.vue'
 import Option from '../Menus/Components/Option.vue'
 
 import ToolbarButton from '../UI/Buttons/ToolbarButton.vue'
-import { XIcon, MoreHorizontalIcon } from 'vue-feather-icons'
+import { XIcon, MoreHorizontalIcon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 

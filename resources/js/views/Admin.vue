@@ -83,7 +83,7 @@ import {
     RefreshCwIcon,
     SettingsIcon,
     UsersIcon,
-} from 'vue-feather-icons'
+} from '../icons/feather.js'
 import { mapGetters } from 'vuex'
 import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup.vue";
 import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup.vue";

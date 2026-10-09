@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { CheckIcon } from 'vue-feather-icons'
+import { CheckIcon } from '../../icons/feather.js'
 
 export default {
     name: 'CheckBox',

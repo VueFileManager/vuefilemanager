@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { ChevronRightIcon, RefreshCwIcon } from 'vue-feather-icons'
+import { ChevronRightIcon, RefreshCwIcon } from '../../../icons/feather.js'
 
 export default {
     name: 'AuthContent',
