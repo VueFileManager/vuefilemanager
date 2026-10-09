@@ -36,7 +36,7 @@
 
 **For running app make sure you have:**
 
-- PHP >= 8.1
+- PHP >= 8.3
 - MySQL 5.6+
 - Nginx or Apache (Nginx recommended)
 
@@ -218,7 +218,7 @@ We strongly recommend only for experienced users to set up and running VueFileMa
 **For running app make sure you have:**
 
 - VPS server with SSH access
-- PHP >= 8.0.2 version (8.1+ recommended)
+- PHP >= 8.3 version (8.4 recommended)
 - Nginx
 - Supervisor
 - Certbot
@@ -230,10 +230,11 @@ Upload VueFileManager into your server, for example path directory `/var/www/soc
 ```
 cd /var/www/sockets
 ```
-Run installation command for websocket server. You will be prompted to type host of which you want to allow incoming requests.
+The broadcast server is powered by [Laravel Reverb](https://reverb.laravel.com), which is compatible with the Pusher protocol. Run installation command for websocket server. You will be prompted to type host of which you want to allow incoming requests and the Reverb app credentials (`REVERB_APP_ID`, `REVERB_APP_KEY`, `REVERB_APP_SECRET`). Use the same credentials in the `.env` file of your VueFileManager application.
 ```
 php artisan websockets:install
 ```
+The server listens on `REVERB_SERVER_HOST`:`REVERB_SERVER_PORT` (default `0.0.0.0:8080`).
 ### Domain & Nginx Set Up
 Create subdomain for your socket host, for example `socket.vuefilemanager.com` and direct this subdomain to your vps where socket server will be running.
 
@@ -248,7 +249,7 @@ server {
   server_name   socket.vuefilemanager.com;
 
   location / {
-    proxy_pass             http://127.0.0.1:6001;
+    proxy_pass             http://127.0.0.1:8080;
     proxy_read_timeout     60;
     proxy_connect_timeout  60;
     proxy_redirect         off;
@@ -281,7 +282,7 @@ In `/etc/supervisor/conf.d` (Debian/Ubuntu) or `/etc/supervisord.d/` (Red Hat/Ce
 Just edit php path, project path and user when they are different for your vps:
 ```
 [program:websockets]
-command=/usr/bin/php /var/www/socket/artisan websockets:serve
+command=/usr/bin/php /var/www/socket/artisan reverb:start
 numprocs=1
 autostart=true
 autorestart=true
