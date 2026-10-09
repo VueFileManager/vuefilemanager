@@ -31,8 +31,8 @@
 
 <script>
 import { events } from '../../bus'
-import ItemList from '../UI/Entries/ItemList'
-import ItemGrid from '../UI/Entries/ItemGrid'
+import ItemList from '../UI/Entries/ItemList.vue'
+import ItemGrid from '../UI/Entries/ItemGrid.vue'
 import { mapGetters } from 'vuex'
 
 export default {

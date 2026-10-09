@@ -99,16 +99,16 @@
 </template>
 
 <script>
-import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PageTabGroup from '../../../../components/Layout/PageTabGroup'
-import SelectInput from '../../../../components/Inputs/SelectInput'
-import ImageInput from '../../../../components/Inputs/ImageInput'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import PageTab from '../../../../components/Layout/PageTab'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
+import SelectInput from '../../../../components/Inputs/SelectInput.vue'
+import ImageInput from '../../../../components/Inputs/ImageInput.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import { required } from 'vee-validate/dist/rules'
 import axios from 'axios'
 

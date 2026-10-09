@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import PopupWrapper from './Components/PopupWrapper'
-import PopupActions from './Components/PopupActions'
-import ButtonBase from '../UI/Buttons/ButtonBase'
+import PopupWrapper from './Components/PopupWrapper.vue'
+import PopupActions from './Components/PopupActions.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import { events } from '../../bus'
 
 export default {

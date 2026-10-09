@@ -1,9 +1,9 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Server Check-->
-        <AuthContent :visible="true" class="mt-6 mb-12 !max-w-2xl">
+        <AuthContent :visible="true" class="mt-6 mb-12 max-w-2xl!">
             <Headline
-                class="mx-auto !mb-10 max-w-screen-sm"
+                class="mx-auto mb-10! max-w-(--breakpoint-sm)"
                 title="Server Check"
                 description="At first, we have to check if all modules and setup is ready for running VueFileManager"
             >
@@ -17,7 +17,7 @@
             <div class="card shadow-card">
                 <FormLabel>PHP Setup</FormLabel>
 
-                <InfoBox class="!mb-2">
+                <InfoBox class="mb-2!">
                     <p>
                         Those PHP settings are needed for accurate running VueFileManager on your server, please check
                         and tweak in your php.ini if needed.
@@ -72,7 +72,7 @@
             <div class="card shadow-card">
                 <FormLabel> Required PHP Extensions </FormLabel>
 
-                <InfoBox class="!mb-2">
+                <InfoBox class="mb-2!">
                     <p>
                         Those PHP modules are needed for accurate running VueFileManager on your server, please check
                         and install if some is missing.
@@ -126,7 +126,7 @@
             <div class="card shadow-card">
                 <FormLabel> API </FormLabel>
 
-                <InfoBox class="!mb-2">
+                <InfoBox class="mb-2!">
                     <p>The check, if your domain is set correctly.</p>
                 </InfoBox>
 
@@ -171,18 +171,18 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
-import SelectInput from '../../components/Inputs/SelectInput'
-import FormLabel from '../../components/UI/Labels/FormLabel'
-import InfoBox from '../../components/UI/Others/InfoBox'
-import AuthContent from '../../components/Layout/AuthPages/AuthContent'
-import AuthButton from '../../components/UI/Buttons/AuthButton'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
+import SelectInput from '../../components/Inputs/SelectInput.vue'
+import FormLabel from '../../components/UI/Labels/FormLabel.vue'
+import InfoBox from '../../components/UI/Others/InfoBox.vue'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
+import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
 import { required } from 'vee-validate/dist/rules'
-import Headline from '../../components/UI/Labels/LogoHeadline'
+import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { CheckIcon, XIcon, SettingsIcon } from 'vue-feather-icons'
-import AlertBox from "../../components/UI/Others/AlertBox";
+import AlertBox from "../../components/UI/Others/AlertBox.vue";
 
 export default {
     name: 'StatusCheck',

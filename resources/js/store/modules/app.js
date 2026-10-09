@@ -1,6 +1,6 @@
 import i18n from '../../i18n'
 import axios from 'axios'
-import Vue from 'vue'
+import { globals } from '../../globals'
 import router from '../../router'
 
 const defaultState = {
@@ -32,8 +32,8 @@ const actions = {
         })
 
         // Update user settings
-        if (!Vue.prototype.$isThisRoute(router.currentRoute, ['Public'])) {
-            Vue.prototype.$updateText('/user/settings', 'theme_mode', mode)
+        if (!globals.$isThisRoute(router.currentRoute.value, ['Public'])) {
+            globals.$updateText('/user/settings', 'theme_mode', mode)
         }
     },
     toggleNavigationBars: ({ commit, state }) => {
@@ -63,7 +63,7 @@ const actions = {
         })
 
         // Update user settings
-        Vue.prototype.$updateText('/user/settings', 'emoji_type', newType)
+        globals.$updateText('/user/settings', 'emoji_type', newType)
     },
     fileInfoToggle: (context, visibility = undefined) => {
         if (!visibility) {
@@ -81,8 +81,8 @@ const actions = {
             axios
                 .get(`/translations/${lang}`)
                 .then((response) => {
-                    i18n.setLocaleMessage(lang, response.data)
-                    i18n.locale = lang
+                    i18n.global.setLocaleMessage(lang, response.data)
+                    i18n.global.locale = lang
 
                     resolve(response)
                 })

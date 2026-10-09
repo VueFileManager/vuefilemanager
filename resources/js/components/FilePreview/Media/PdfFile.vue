@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import Spinner from "../../UI/Others/Spinner"
+import Spinner from "../../UI/Others/Spinner.vue"
 import { events } from '../../../bus'
 import pdf from 'pdfvuer'
 

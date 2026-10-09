@@ -47,12 +47,12 @@
 </template>
 
 <script>
-import FixedTransactionRow from '../../components/Subscription/FixedTransactionRow'
-import MeteredTransactionDetailRow from '../../components/Subscription/MeteredTransactionDetailRow'
-import MeteredTransactionRow from '../../components/Subscription/MeteredTransactionRow'
-import MemberAvatar from '../../components/UI/Others/MemberAvatar'
-import DatatableWrapper from '../../components/UI/Table/DatatableWrapper'
-import ColorLabel from '../../components/UI/Labels/ColorLabel'
+import FixedTransactionRow from '../../components/Subscription/FixedTransactionRow.vue'
+import MeteredTransactionDetailRow from '../../components/Subscription/MeteredTransactionDetailRow.vue'
+import MeteredTransactionRow from '../../components/Subscription/MeteredTransactionRow.vue'
+import MemberAvatar from '../../components/UI/Others/MemberAvatar.vue'
+import DatatableWrapper from '../../components/UI/Table/DatatableWrapper.vue'
+import ColorLabel from '../../components/UI/Labels/ColorLabel.vue'
 import { mapGetters } from 'vuex'
 
 export default {

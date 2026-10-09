@@ -44,7 +44,7 @@
     </div>
 </template>
 <script>
-import FormLabel from '../UI/Labels/FormLabel'
+import FormLabel from '../UI/Labels/FormLabel.vue'
 import { mapGetters } from 'vuex'
 
 export default {

@@ -11,7 +11,7 @@
                 </span>
             </div>
             <span
-                class="rounded border px-1 py-0.5 text-xs font-bold tracking-normal text-gray-400 dark:border-slate-200 dark:border-opacity-5 dark:text-gray-600"
+                class="rounded-sm border px-1 py-0.5 text-xs font-bold tracking-normal text-gray-400 dark:border-slate-200 dark:border-opacity-5 dark:text-gray-600"
             >
                 {{ metaKeyIcon }}+K
             </span>

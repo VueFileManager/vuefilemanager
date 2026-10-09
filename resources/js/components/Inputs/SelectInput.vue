@@ -3,7 +3,7 @@
         <!--Area-->
         <div
             class="input-area rounded-lg bg-light-background dark:bg-2x-dark-foreground"
-            :class="{ 'is-active': isOpen, '!border-rose-600': isError }"
+            :class="{ 'is-active': isOpen, 'border-rose-600!': isError }"
             @click="openMenu"
         >
             <!--If is selected-->

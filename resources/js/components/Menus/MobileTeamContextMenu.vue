@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import MenuMobileGroup from '../Mobile/MenuMobileGroup'
-import TeamFolderPreview from '../Teams/Components/TeamFolderPreview'
-import MenuMobile from '../Mobile/MenuMobile'
+import MenuMobileGroup from '../Mobile/MenuMobileGroup.vue'
+import TeamFolderPreview from '../Teams/Components/TeamFolderPreview.vue'
+import MenuMobile from '../Mobile/MenuMobile.vue'
 
 export default {
     name: 'MobileTeamContextMenu',

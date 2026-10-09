@@ -111,17 +111,17 @@
 </template>
 
 <script>
-import EmptyFilePage from '../../components/EntriesView/EmptyFilePage'
-import FileActionsMobile from '../../components/Mobile/FileActionsMobile'
-import MobileActionButtonUpload from '../../components/UI/Buttons/MobileActionButtonUpload'
-import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
-import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar'
-import MobileContextMenu from '../../components/Menus/MobileContextMenu'
-import ToolbarButton from '../../components/UI/Buttons/ToolbarButton'
-import FileBrowser from '../../components/EntriesView/FileBrowser'
-import ContextMenu from '../../components/Menus/ContextMenu'
-import OptionGroup from '../../components/Menus/Components/OptionGroup'
-import Option from '../../components/Menus/Components/Option'
+import EmptyFilePage from '../../components/EntriesView/EmptyFilePage.vue'
+import FileActionsMobile from '../../components/Mobile/FileActionsMobile.vue'
+import MobileActionButtonUpload from '../../components/UI/Buttons/MobileActionButtonUpload.vue'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton.vue'
+import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar.vue'
+import MobileContextMenu from '../../components/Menus/MobileContextMenu.vue'
+import ToolbarButton from '../../components/UI/Buttons/ToolbarButton.vue'
+import FileBrowser from '../../components/EntriesView/FileBrowser.vue'
+import ContextMenu from '../../components/Menus/ContextMenu.vue'
+import OptionGroup from '../../components/Menus/Components/OptionGroup.vue'
+import Option from '../../components/Menus/Components/Option.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 

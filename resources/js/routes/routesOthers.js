@@ -1,8 +1,8 @@
 const routesOthers = [
     {
         name: 'NotFound',
-        path: '*',
-        component: () => import(/* webpackChunkName: "chunks/not-found" */ '../views/NotFound'),
+        path: '/:pathMatch(.*)*',
+        component: () => import(/* webpackChunkName: "chunks/not-found" */ '../views/NotFound.vue'),
         meta: {
             requiresAuth: false,
         },
@@ -10,7 +10,7 @@ const routesOthers = [
     {
         name: 'TemporaryUnavailable',
         path: '/temporary-unavailable',
-        component: () => import(/* webpackChunkName: "chunks/temporary-unavailable" */ '../views/TemporaryUnavailable'),
+        component: () => import(/* webpackChunkName: "chunks/temporary-unavailable" */ '../views/TemporaryUnavailable.vue'),
         meta: {
             requiresAuth: false,
         },

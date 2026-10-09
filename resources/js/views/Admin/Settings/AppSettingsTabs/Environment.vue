@@ -67,16 +67,16 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import SelectInput from '../../../../components/Inputs/SelectInput'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import StorageSetup from '../../../../components/Forms/StorageSetup'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import PageTab from '../../../../components/Layout/PageTab'
-import MailSetup from '../../../../components/Forms/MailSetup'
+import SelectInput from '../../../../components/Inputs/SelectInput.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import StorageSetup from '../../../../components/Forms/StorageSetup.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import MailSetup from '../../../../components/Forms/MailSetup.vue'
 import { events } from '../../../../bus'
 import axios from 'axios'
-import BroadcastSetup from "../../../../components/Forms/BroadcastSetup";
+import BroadcastSetup from "../../../../components/Forms/BroadcastSetup.vue";
 import Echo from "laravel-echo";
 
 export default {

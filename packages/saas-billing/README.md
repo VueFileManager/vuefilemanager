@@ -1,0 +1,3 @@
+# Subscription module for all great payment gateway
+
+Documentation coming soon...

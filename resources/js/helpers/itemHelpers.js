@@ -1,22 +1,23 @@
+import { globals } from '../globals'
 import i18n from '../i18n'
 import store from '../store/index'
 import { events } from '../bus'
 import {isArray} from "lodash";
 
 const itemHelpers = {
-    install(Vue) {
-        Vue.prototype.$emptyTrash = function () {
+    install(app) {
+        globals.$emptyTrash = function () {
             store.dispatch('emptyTrash')
         }
-        Vue.prototype.$emptyTrashQuietly = function () {
+        globals.$emptyTrashQuietly = function () {
             store.dispatch('emptyTrashQuietly')
         }
 
-        Vue.prototype.$shareCancel = function () {
+        globals.$shareCancel = function () {
             store.dispatch('shareCancel')
         }
 
-        Vue.prototype.$toggleFavourites = function (entry) {
+        globals.$toggleFavourites = function (entry) {
             let favourites = store.getters.user.data.relationships.favourites
 
             // Check if folder is in favourites and then add/remove from favourites
@@ -35,21 +36,21 @@ const itemHelpers = {
             }
         }
 
-        Vue.prototype.$renameFileOrFolder = function (entry) {
+        globals.$renameFileOrFolder = function (entry) {
             events.$emit('popup:open', { name: 'rename-item', item: entry })
         }
 
-        Vue.prototype.$moveFileOrFolder = function (entry) {
+        globals.$moveFileOrFolder = function (entry) {
 
             let item = isArray(entry) ? [...entry] : [entry]
 
             events.$emit('popup:open', { name: 'move', item: item })
         }
 
-        Vue.prototype.$createFolderByPopup = function () {
+        globals.$createFolderByPopup = function () {
             // Show alert message when create folder is disabled
             if (store.getters.user && !store.getters.user.data.meta.restrictions.canCreateFolder) {
-                Vue.prototype.$temporarilyDisabledFolderCreate()
+                globals.$temporarilyDisabledFolderCreate()
 
                 return
             }
@@ -57,23 +58,23 @@ const itemHelpers = {
             events.$emit('popup:open', { name: 'create-folder' })
         }
 
-        Vue.prototype.$createFolder = function () {
+        globals.$createFolder = function () {
             // Show alert message when create folder is disabled
             if (store.getters.user && !store.getters.user.data.meta.restrictions.canCreateFolder) {
-                Vue.prototype.$temporarilyDisabledFolderCreate()
+                globals.$temporarilyDisabledFolderCreate()
 
                 return
             }
 
             store.dispatch('createFolder', {
-                name: i18n.t('popup_create_folder.folder_default_name'),
+                name: i18n.global.t('popup_create_folder.folder_default_name'),
             })
         }
 
-        Vue.prototype.$downloadSelection = function (item = undefined) {
+        globals.$downloadSelection = function (item = undefined) {
             // Show alert message when download is disabled
             if (store.getters.user && !store.getters.user.data.meta.restrictions.canDownload) {
-                Vue.prototype.$temporarilyDisabledDownload()
+                globals.$temporarilyDisabledDownload()
 
                 return
             }
@@ -87,7 +88,7 @@ const itemHelpers = {
 
             // Download single item
             if (item && item.data.type !== 'folder') {
-                Vue.prototype.$downloadFile(
+                globals.$downloadFile(
                     item.data.attributes.file_url,
                     item.data.attributes.name + '.' + item.data.attributes.mimetype
                 )
@@ -103,10 +104,10 @@ const itemHelpers = {
             }
         }
 
-        Vue.prototype.$dissolveTeamFolder = function (folder) {
+        globals.$dissolveTeamFolder = function (folder) {
             events.$emit('confirm:open', {
-                title: i18n.t('really_dissolve_team'),
-                message: i18n.t(
+                title: i18n.global.t('really_dissolve_team'),
+                message: i18n.global.t(
                     'really_dissolve_team_desc'
                 ),
                 action: {
@@ -116,10 +117,10 @@ const itemHelpers = {
             })
         }
 
-        Vue.prototype.$detachMeFromTeamFolder = function (folder) {
+        globals.$detachMeFromTeamFolder = function (folder) {
             events.$emit('confirm:open', {
-                title: i18n.t('really_leave_team'),
-                message: i18n.t(
+                title: i18n.global.t('really_leave_team'),
+                message: i18n.global.t(
                     "really_leave_team_desc"
                 ),
                 action: {
@@ -129,10 +130,10 @@ const itemHelpers = {
             })
         }
 
-        Vue.prototype.$createTeamFolder = function () {
+        globals.$createTeamFolder = function () {
             // Show alert message when create folder is disabled
             if (!store.getters.user.data.meta.restrictions.canCreateTeamFolder) {
-                Vue.prototype.$temporarilyDisabledFolderCreate()
+                globals.$temporarilyDisabledFolderCreate()
 
                 return
             }
@@ -140,32 +141,32 @@ const itemHelpers = {
             events.$emit('popup:open', { name: 'create-team-folder' })
         }
 
-        Vue.prototype.$convertAsTeamFolder = function (entry) {
+        globals.$convertAsTeamFolder = function (entry) {
             events.$emit('popup:open', {
                 name: 'create-team-folder',
                 item: entry,
             })
         }
 
-        Vue.prototype.$createFileRequest = function (entry = undefined) {
+        globals.$createFileRequest = function (entry = undefined) {
             events.$emit('popup:open', {
                 name: 'create-file-request',
                 item: entry,
             })
         }
 
-        Vue.prototype.$updateTeamFolder = function (entry) {
+        globals.$updateTeamFolder = function (entry) {
             events.$emit('popup:open', {
                 name: 'update-team-folder',
                 item: entry,
             })
         }
 
-        Vue.prototype.$removeFavourite = function (folder) {
+        globals.$removeFavourite = function (folder) {
             store.dispatch('removeFromFavourites', folder)
         }
 
-        Vue.prototype.$deleteFileOrFolder = function (entry) {
+        globals.$deleteFileOrFolder = function (entry) {
             if (!store.getters.clipboard.includes(entry)) {
                 store.dispatch('deleteItem', entry)
             }
@@ -175,13 +176,13 @@ const itemHelpers = {
             }
         }
 
-        Vue.prototype.$restoreFileOrFolder = function (entry) {
+        globals.$restoreFileOrFolder = function (entry) {
             if (!store.getters.clipboard.includes(entry)) store.dispatch('restoreItem', entry)
 
             if (store.getters.clipboard.includes(entry)) store.dispatch('restoreItem', null)
         }
 
-        Vue.prototype.$shareFileOrFolder = function (entry) {
+        globals.$shareFileOrFolder = function (entry) {
             let event = entry.data.relationships.shared ? 'share-edit' : 'share-create'
 
             events.$emit('popup:open', {

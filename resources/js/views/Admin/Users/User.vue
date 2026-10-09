@@ -37,16 +37,16 @@
 </template>
 
 <script>
-import CardNavigation from '../../../components/UI/Others/CardNavigation'
+import CardNavigation from '../../../components/UI/Others/CardNavigation.vue'
 import { UserIcon, HardDriveIcon, LockIcon, Trash2Icon, FileTextIcon, CreditCardIcon } from 'vue-feather-icons'
-import MobileHeader from '../../../components/Mobile/MobileHeader'
-import SectionTitle from '../../../components/UI/Labels/SectionTitle'
-import ColorLabel from '../../../components/UI/Labels/ColorLabel'
-import Spinner from '../../../components/UI/Others/Spinner'
+import MobileHeader from '../../../components/Mobile/MobileHeader.vue'
+import SectionTitle from '../../../components/UI/Labels/SectionTitle.vue'
+import ColorLabel from '../../../components/UI/Labels/ColorLabel.vue'
+import Spinner from '../../../components/UI/Others/Spinner.vue'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import MemberAvatar from "../../../components/UI/Others/MemberAvatar";
+import MemberAvatar from "../../../components/UI/Others/MemberAvatar.vue";
 
 export default {
     name: 'Profile',

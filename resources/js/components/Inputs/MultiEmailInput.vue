@@ -1,7 +1,7 @@
 <template>
     <div
 		class="focus-border-theme input-dark focus-within-border-theme"
-		:class="{'!border-rose-600':isError, '!py-3.5': !emails.length, '!px-2 !pt-[10px] !pb-0.5': emails.length}"
+		:class="{'border-rose-600!':isError, 'py-3.5!': !emails.length, 'px-2! pt-[10px]! pb-0.5!': emails.length}"
 	>
 		<div @click="$refs.input.focus()" class="flex flex-wrap cursor-text items-center" style="grid-template-columns: auto minmax(0,1fr);">
 			<div

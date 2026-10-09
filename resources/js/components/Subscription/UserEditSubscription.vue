@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import AppInputButton from '../Forms/Layouts/AppInputButton'
-import AppInputText from '../Forms/Layouts/AppInputText'
-import AppInputSwitch from '../Forms/Layouts/AppInputSwitch'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import FormLabel from '../UI/Labels/FormLabel'
+import AppInputButton from '../Forms/Layouts/AppInputButton.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import FormLabel from '../UI/Labels/FormLabel.vue'
 import { events } from '../../bus'
 import axios from 'axios'
 

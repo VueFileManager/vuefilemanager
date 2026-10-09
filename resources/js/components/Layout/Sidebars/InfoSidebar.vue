@@ -18,7 +18,7 @@
 			class="mb-6"
 			icon="check-square"
 			:title="$t('selected_multiple')"
-			:subtitle="this.clipboard.length + ' ' + $tc('items', this.clipboard.length)"
+			:subtitle="this.clipboard.length + ' ' + $t('items', this.clipboard.length)"
 		/>
 
 		<!--Single file preview-->
@@ -103,14 +103,14 @@
 </template>
 
 <script>
-import FilePreviewDetail from '../../Others/FilePreviewDetail'
-import CopyShareLink from '../../Inputs/CopyShareLink'
+import FilePreviewDetail from '../../Others/FilePreviewDetail.vue'
+import CopyShareLink from '../../Inputs/CopyShareLink.vue'
 import {Edit2Icon, LockIcon, UnlockIcon, EyeOffIcon} from 'vue-feather-icons'
-import ImageMetaData from '../../UI/Others/ImageMetaData'
-import TitlePreview from '../../UI/Labels/TitlePreview'
-import TeamMembersPreview from '../../Teams/Components/TeamMembersPreview'
-import ListInfoItem from '../../UI/List/ListInfoItem'
-import MemberAvatar from '../../UI/Others/MemberAvatar'
+import ImageMetaData from '../../UI/Others/ImageMetaData.vue'
+import TitlePreview from '../../UI/Labels/TitlePreview.vue'
+import TeamMembersPreview from '../../Teams/Components/TeamMembersPreview.vue'
+import ListInfoItem from '../../UI/List/ListInfoItem.vue'
+import MemberAvatar from '../../UI/Others/MemberAvatar.vue'
 import {mapGetters} from 'vuex'
 
 export default {

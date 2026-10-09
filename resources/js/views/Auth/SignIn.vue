@@ -21,7 +21,7 @@
                 >
                     <input
                         class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                         v-model="loginEmail"
                         :placeholder="$t('page_login.placeholder_email')"
                         type="email"
@@ -84,7 +84,7 @@
                         type="password"
 						ref="inputPassword"
                         class="dark:placeholder:text-gray-600 focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                     />
                     <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -161,7 +161,7 @@
                         type="text"
                         maxlength="6"
                         class="dark:placeholder:text-gray-600 focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 text-center font-bold dark:bg-2x-dark-foreground md:w-80"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                     />
                     <span class="mt-2 block text-center text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -210,7 +210,7 @@
                         type="text"
                         maxlength="21"
                         class="dark:placeholder:text-gray-600 focus-border-theme h-full w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 text-center font-bold dark:bg-2x-dark-foreground md:w-80"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                     />
                     <span class="mt-2 block text-center text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -228,16 +228,16 @@
 </template>
 
 <script>
-import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
 import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons'
-import AuthContent from '../../components/Layout/AuthPages/AuthContent'
-import AuthButton from '../../components/UI/Buttons/AuthButton'
-import Spinner from '../../components/UI/Others/Spinner'
+import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons.vue'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
+import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
+import Spinner from '../../components/UI/Others/Spinner.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
-import Headline from '../../components/UI/Labels/LogoHeadline'
+import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 
 export default {
     name: 'SignIn',

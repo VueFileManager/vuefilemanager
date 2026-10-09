@@ -12,7 +12,7 @@
                         v-model="plan.name"
                         :placeholder="$t('plan_name')"
                         type="text"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                         class="focus-border-theme input-dark"
                     />
                 </AppInputText>
@@ -24,7 +24,7 @@
                     <textarea
                         v-model="plan.description"
                         :placeholder="$t('plan_description')"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                         class="focus-border-theme input-dark"
                         maxlength="120"
                     ></textarea>
@@ -55,7 +55,7 @@
                             step="0.01"
                             min="1"
                             max="999999999999"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -117,7 +117,7 @@
                         type="number"
                         min="1"
                         max="999999999"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                         class="focus-border-theme input-dark"
                     />
                 </AppInputText>
@@ -136,7 +136,7 @@
                         type="number"
                         min="-1"
                         max="999999999"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                         class="focus-border-theme input-dark"
                     />
                 </AppInputText>
@@ -154,15 +154,15 @@
 </template>
 
 <script>
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import SelectInput from '../../../../components/Inputs/SelectInput'
-import ImageInput from '../../../../components/Inputs/ImageInput'
-import MobileHeader from '../../../../components/Mobile/MobileHeader'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import SectionTitle from '../../../../components/UI/Labels/SectionTitle'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import SelectInput from '../../../../components/Inputs/SelectInput.vue'
+import ImageInput from '../../../../components/Inputs/ImageInput.vue'
+import MobileHeader from '../../../../components/Mobile/MobileHeader.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import SectionTitle from '../../../../components/UI/Labels/SectionTitle.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import { events } from '../../../../bus'

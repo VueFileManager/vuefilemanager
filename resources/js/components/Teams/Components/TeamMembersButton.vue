@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import TeamMembersPreview from './TeamMembersPreview'
+import TeamMembersPreview from './TeamMembersPreview.vue'
 import { mapGetters } from 'vuex'
 
 export default {

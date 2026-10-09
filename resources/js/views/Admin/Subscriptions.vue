@@ -98,9 +98,9 @@
 </template>
 
 <script>
-import ColorLabel from '../../components/UI/Labels/ColorLabel'
-import MemberAvatar from '../../components/UI/Others/MemberAvatar'
-import DatatableWrapper from '../../components/UI/Table/DatatableWrapper'
+import ColorLabel from '../../components/UI/Labels/ColorLabel.vue'
+import MemberAvatar from '../../components/UI/Others/MemberAvatar.vue'
+import DatatableWrapper from '../../components/UI/Table/DatatableWrapper.vue'
 import { mapGetters } from 'vuex'
 
 export default {

@@ -1,6 +1,6 @@
 <template>
     <article
-        class="delay-[3000ms] duration-700 transition-all relative z-[11] mb-1.5 flex items-start space-x-4 rounded-xl p-2.5"
+        class="delay-3000 duration-700 transition-all relative z-11 mb-1.5 flex items-start space-x-4 rounded-xl p-2.5"
 		:class="{'dark:bg-4x-dark-foreground bg-light-background/80': isUnread}"
     >
         <gift-icon
@@ -101,7 +101,7 @@
 </template>
 <script>
 import { RefreshCwIcon, TrendingUpIcon, GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from 'vue-feather-icons'
-import MemberAvatar from '../../UI/Others/MemberAvatar'
+import MemberAvatar from '../../UI/Others/MemberAvatar.vue'
 import {events} from "../../../bus";
 
 export default {

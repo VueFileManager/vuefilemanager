@@ -1,6 +1,6 @@
 <template>
     <div
-        class="sticky top-14 z-[19] whitespace-nowrap bg-white dark:bg-dark-background lg:hidden"
+        class="sticky top-14 z-19 whitespace-nowrap bg-white dark:bg-dark-background lg:hidden"
     >
 		<div class="flex items-center overflow-x-auto pb-3 pl-4">
 			<!--Show Buttons-->
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import MobileActionButton from '../UI/Buttons/MobileActionButton'
-import UploadProgress from '../UI/Others/UploadProgress'
+import MobileActionButton from '../UI/Buttons/MobileActionButton.vue'
+import UploadProgress from '../UI/Others/UploadProgress.vue'
 import { mapGetters } from 'vuex'
 
 export default {

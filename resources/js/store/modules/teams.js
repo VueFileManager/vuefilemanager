@@ -2,7 +2,7 @@ import router from '../../router'
 import {events} from '../../bus'
 import i18n from '../../i18n'
 import axios from 'axios'
-import Vue from 'vue'
+import { globals } from '../../globals'
 
 const defaultState = {
 	currentTeamFolder: undefined,
@@ -44,8 +44,8 @@ const actions = {
 					} else {
 						// Show error message
 						events.$emit('alert:open', {
-							title: i18n.t('popup_error.title'),
-							message: i18n.t('popup_error.message'),
+							title: i18n.global.t('popup_error.title'),
+							message: i18n.global.t('popup_error.message'),
 						})
 					}
 
@@ -89,8 +89,8 @@ const actions = {
 					} else {
 						// Show error message
 						events.$emit('alert:open', {
-							title: i18n.t('popup_error.title'),
-							message: i18n.t('popup_error.message'),
+							title: i18n.global.t('popup_error.title'),
+							message: i18n.global.t('popup_error.message'),
 						})
 					}
 
@@ -110,7 +110,7 @@ const actions = {
 				.catch((error) => {
 					reject(error)
 
-					Vue.prototype.$isSomethingWrong()
+					globals.$isSomethingWrong()
 				})
 		})
 	},

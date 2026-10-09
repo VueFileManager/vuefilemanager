@@ -29,7 +29,7 @@
                         v-if="readNotifications.length || unreadNotifications.length"
                         @click.native="$store.dispatch('deleteAllNotifications')"
                         icon="check-square"
-                        class="mb-2 dark:!bg-4x-dark-foreground"
+                        class="mb-2 dark:bg-4x-dark-foreground!"
                     >
                         {{ $t('clear_all') }}
                     </MobileActionButton>
@@ -70,8 +70,8 @@
 </template>
 
 <script>
-import MobileActionButton from '../UI/Buttons/MobileActionButton'
-import Notification from './Components/Notification'
+import MobileActionButton from '../UI/Buttons/MobileActionButton.vue'
+import Notification from './Components/Notification.vue'
 import vClickOutside from 'v-click-outside'
 import { mapGetters } from 'vuex'
 

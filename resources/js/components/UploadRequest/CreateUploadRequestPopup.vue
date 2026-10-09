@@ -26,7 +26,7 @@
                     <AppInputText :title="$t('folder_name_optional')" :description="$t('folder_name_optional_description')" :error="errors[0]">
                         <input
 							v-model="form.name"
-							:class="{ '!border-rose-600': errors[0] }"
+							:class="{ 'border-rose-600!': errors[0] }"
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"
@@ -41,7 +41,7 @@
                         <textarea
 							v-model="form.notes"
 							rows="2"
-							:class="{ '!border-rose-600': errors[0] }"
+							:class="{ 'border-rose-600!': errors[0] }"
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"
@@ -71,7 +71,7 @@
                     <AppInputText :error="errors[0]" class="-mt-2" :is-last="true">
                         <input
 							v-model="form.email"
-							:class="{ '!border-rose-600': errors[0] }"
+							:class="{ 'border-rose-600!': errors[0] }"
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"
@@ -108,17 +108,17 @@
 
 <script>
 import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import AppInputSwitch from '../Forms/Layouts/AppInputSwitch'
+import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
 import {required} from 'vee-validate/dist/rules'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import AppInputText from '../Forms/Layouts/AppInputText'
-import PopupWrapper from '../Popups/Components/PopupWrapper'
-import PopupActions from '../Popups/Components/PopupActions'
-import PopupContent from '../Popups/Components/PopupContent'
-import PopupHeader from '../Popups/Components/PopupHeader'
-import SwitchInput from '../Inputs/SwitchInput'
-import ThumbnailItem from '../UI/Entries/ThumbnailItem'
-import CopyInput from '../Inputs/CopyInput'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../Popups/Components/PopupActions.vue'
+import PopupContent from '../Popups/Components/PopupContent.vue'
+import PopupHeader from '../Popups/Components/PopupHeader.vue'
+import SwitchInput from '../Inputs/SwitchInput.vue'
+import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
+import CopyInput from '../Inputs/CopyInput.vue'
 import {events} from '../../bus'
 import axios from 'axios'
 

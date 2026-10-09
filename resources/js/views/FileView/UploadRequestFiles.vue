@@ -162,24 +162,24 @@
 </template>
 
 <script>
-import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar'
-import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
-import FileActionsMobile from '../../components/Mobile/FileActionsMobile'
-import MobileContextMenu from '../../components/Menus/MobileContextMenu'
-import VueFolderIcon from '../../components/Icons/VueFolderIcon'
-import MobileCreateMenu from '../../components/Menus/MobileCreateMenu'
-import EmptyFilePage from '../../components/EntriesView/EmptyFilePage'
-import ToolbarButton from '../../components/UI/Buttons/ToolbarButton'
-import MemberAvatar from '../../components/UI/Others/MemberAvatar'
-import ButtonUpload from '../../components/UI/Buttons/ButtonUpload'
-import OptionUpload from '../../components/Menus/Components/OptionUpload'
-import FileBrowser from '../../components/EntriesView/FileBrowser'
-import ContextMenu from '../../components/Menus/ContextMenu'
-import OptionGroup from '../../components/Menus/Components/OptionGroup'
-import Option from '../../components/Menus/Components/Option'
+import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar.vue'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton.vue'
+import FileActionsMobile from '../../components/Mobile/FileActionsMobile.vue'
+import MobileContextMenu from '../../components/Menus/MobileContextMenu.vue'
+import VueFolderIcon from '../../components/Icons/VueFolderIcon.vue'
+import MobileCreateMenu from '../../components/Menus/MobileCreateMenu.vue'
+import EmptyFilePage from '../../components/EntriesView/EmptyFilePage.vue'
+import ToolbarButton from '../../components/UI/Buttons/ToolbarButton.vue'
+import MemberAvatar from '../../components/UI/Others/MemberAvatar.vue'
+import ButtonUpload from '../../components/UI/Buttons/ButtonUpload.vue'
+import OptionUpload from '../../components/Menus/Components/OptionUpload.vue'
+import FileBrowser from '../../components/EntriesView/FileBrowser.vue'
+import ContextMenu from '../../components/Menus/ContextMenu.vue'
+import OptionGroup from '../../components/Menus/Components/OptionGroup.vue'
+import Option from '../../components/Menus/Components/Option.vue'
 import {events} from '../../bus'
 import {mapGetters} from 'vuex'
-import InfoBox from "../../components/UI/Others/InfoBox";
+import InfoBox from "../../components/UI/Others/InfoBox.vue";
 
 export default {
 	name: 'Files',
@@ -238,7 +238,7 @@ export default {
 				title: this.$t('closing_request_for_upload', {name: this.userName}),
 				message: this.$t('closing_request_for_upload_warn'),
 				action: {
-					id: this.$router.currentRoute.params.token,
+					id: this.$route.params.token,
 					operation: 'close-upload-request',
 				},
 			})

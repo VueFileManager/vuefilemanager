@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import InfoBox from '../UI/Others/InfoBox'
-import FormLabel from '../UI/Labels/FormLabel'
-import ButtonBase from '../UI/Buttons/ButtonBase'
+import InfoBox from '../UI/Others/InfoBox.vue'
+import FormLabel from '../UI/Labels/FormLabel.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 
 export default {
     name: 'UserEmptySubscription',

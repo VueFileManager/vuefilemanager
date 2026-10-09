@@ -38,7 +38,7 @@
                     :class="{
                         'router-link-active':
                             item.linkActivation &&
-                            item.linkActivation.includes($router.currentRoute.fullPath.split('/')[2]),
+                            item.linkActivation.includes($route.fullPath.split('/')[2]),
                     }"
                 >
                     <box-icon v-if="item.icon === 'box'" size="17" class="vue-feather icon-active mr-2.5" />
@@ -58,19 +58,19 @@
             </ContentGroup>
         </ContentSidebar>
 
-        <router-view class="relative w-full overflow-x-hidden px-2.5 pb-12 md:px-6 lg:pt-6 lg:pb-0 z-[5]" />
+        <router-view class="relative w-full overflow-x-hidden px-2.5 pb-12 md:px-6 lg:pt-6 lg:pb-0 z-5" />
     </div>
 </template>
 
 <script>
-import FilePreview from '../components/FilePreview/FilePreview'
-import CreateLanguage from '../components/Popups/CreateLanguagePopup'
-import MobileNavigation from '../components/Mobile/MobileNavigation'
-import ConfirmPopup from '../components/Popups/ConfirmPopup'
-import ContentGroup from '../components/Sidebar/ContentGroup'
-import ContentSidebar from '../components/Sidebar/ContentSidebar'
-import Spotlight from '../components/Spotlight/Spotlight'
-import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar'
+import FilePreview from '../components/FilePreview/FilePreview.vue'
+import CreateLanguage from '../components/Popups/CreateLanguagePopup.vue'
+import MobileNavigation from '../components/Mobile/MobileNavigation.vue'
+import ConfirmPopup from '../components/Popups/ConfirmPopup.vue'
+import ContentGroup from '../components/Sidebar/ContentGroup.vue'
+import ContentSidebar from '../components/Sidebar/ContentSidebar.vue'
+import Spotlight from '../components/Spotlight/Spotlight.vue'
+import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar.vue'
 import {
     BoxIcon,
     CreditCardIcon,
@@ -85,11 +85,11 @@ import {
     UsersIcon,
 } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
-import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
-import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
-import NotificationsPopup from "../components/Notifications/NotificationsPopup";
-import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
-import ProcessingPopup from "../components/Popups/ProcessingPopup";
+import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup.vue";
+import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup.vue";
+import NotificationsPopup from "../components/Notifications/NotificationsPopup.vue";
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup.vue";
+import ProcessingPopup from "../components/Popups/ProcessingPopup.vue";
 
 export default {
     name: 'Admin',

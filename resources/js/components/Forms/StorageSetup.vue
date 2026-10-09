@@ -29,7 +29,7 @@
 						v-model="storage.s3.key"
 						placeholder="Paste your key"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -41,7 +41,7 @@
 						v-model="storage.s3.secret"
 						placeholder="Paste your secret"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -74,7 +74,7 @@
 						v-model="storage.s3.region"
 						placeholder="Type your region"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 						:readonly="storage.driver !== 'other'"
 					/>
 				</AppInputText>
@@ -93,7 +93,7 @@
 						v-model="storage.s3.endpoint"
 						placeholder="Type your endpoint"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 						:readonly="storage.driver !== 'other'"
 					/>
 				</AppInputText>
@@ -111,7 +111,7 @@
 						v-model="storage.s3.bucket"
 						placeholder="Type your bucket name"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -125,7 +125,7 @@
 						v-model="storage.ftp.host"
 						placeholder="Type your ftp host..."
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -136,7 +136,7 @@
 						v-model="storage.ftp.user"
 						placeholder="Type your ftp username..."
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -147,7 +147,7 @@
 						v-model="storage.ftp.password"
 						placeholder="Type your ftp password..."
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -157,9 +157,9 @@
 
 <script>
 	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
-	import SelectInput from '../Inputs/SelectInput'
-	import AppInputText from './Layouts/AppInputText'
-	import FormLabel from '../UI/Labels/FormLabel'
+	import SelectInput from '../Inputs/SelectInput.vue'
+	import AppInputText from './Layouts/AppInputText.vue'
+	import FormLabel from '../UI/Labels/FormLabel.vue'
 
 	export default {
 		name: 'StorageSetup',

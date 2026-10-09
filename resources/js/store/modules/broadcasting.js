@@ -63,7 +63,7 @@ const actions = {
                 if (event.payload.progress.total === event.payload.progress.processed) {
                     events.$emit('toaster', {
                         type: 'success',
-                        message: i18n.t('remote_download_finished'),
+                        message: i18n.global.t('remote_download_finished'),
                     })
                 }
             })

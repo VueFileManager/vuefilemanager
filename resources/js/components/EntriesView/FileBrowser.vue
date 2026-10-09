@@ -39,8 +39,8 @@
 
 <script>
 import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
-import Spinner from '../UI/Others/Spinner'
-import ItemHandler from './ItemHandler'
+import Spinner from '../UI/Others/Spinner.vue'
+import ItemHandler from './ItemHandler.vue'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 import { debounce } from 'lodash'

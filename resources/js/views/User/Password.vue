@@ -95,7 +95,7 @@
                         :placeholder="$t('current_password')"
                         type="password"
                         class="focus-border-theme input-dark"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>
@@ -107,7 +107,7 @@
                         :placeholder="$t('new_password')"
                         type="password"
                         class="focus-border-theme input-dark"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>
@@ -125,7 +125,7 @@
                         :placeholder="$t('confirm_password')"
                         type="password"
                         class="focus-border-theme input-dark"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>
@@ -139,13 +139,13 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import SwitchInput from '../../components/Inputs/SwitchInput'
-import FormLabel from '../../components/UI/Labels/FormLabel'
-import ButtonBase from '../../components/UI/Buttons/ButtonBase'
-import InfoBox from '../../components/UI/Others/InfoBox'
-import AppInputSwitch from '../../components/Forms/Layouts/AppInputSwitch'
-import AppInputButton from '../../components/Forms/Layouts/AppInputButton'
-import AppInputText from '../../components/Forms/Layouts/AppInputText'
+import SwitchInput from '../../components/Inputs/SwitchInput.vue'
+import FormLabel from '../../components/UI/Labels/FormLabel.vue'
+import ButtonBase from '../../components/UI/Buttons/ButtonBase.vue'
+import InfoBox from '../../components/UI/Others/InfoBox.vue'
+import AppInputSwitch from '../../components/Forms/Layouts/AppInputSwitch.vue'
+import AppInputButton from '../../components/Forms/Layouts/AppInputButton.vue'
+import AppInputText from '../../components/Forms/Layouts/AppInputText.vue'
 import { required } from 'vee-validate/dist/rules'
 import { XIcon, Trash2Icon } from 'vue-feather-icons'
 import { events } from '../../bus'

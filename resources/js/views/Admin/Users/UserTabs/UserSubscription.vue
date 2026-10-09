@@ -70,15 +70,15 @@
 </template>
 
 <script>
-import MeteredTransactionDetailRow from '../../../../components/Subscription/MeteredTransactionDetailRow'
-import MeteredTransactionRow from '../../../../components/Subscription/MeteredTransactionRow'
-import FixedTransactionRow from '../../../../components/Subscription/FixedTransactionRow'
-import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import PageTab from '../../../../components/Layout/PageTab'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
-import UserMeteredSubscription from './UserMeteredSubscription'
-import UserFixedSubscription from './UserFixedSubscription'
+import MeteredTransactionDetailRow from '../../../../components/Subscription/MeteredTransactionDetailRow.vue'
+import MeteredTransactionRow from '../../../../components/Subscription/MeteredTransactionRow.vue'
+import FixedTransactionRow from '../../../../components/Subscription/FixedTransactionRow.vue'
+import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
+import UserMeteredSubscription from './UserMeteredSubscription.vue'
+import UserFixedSubscription from './UserFixedSubscription.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

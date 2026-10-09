@@ -83,12 +83,12 @@
 </template>
 
 <script>
-import SwitchInput from '../../../../components/Inputs/SwitchInput'
-import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton'
-import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import PageTab from '../../../../components/Layout/PageTab'
+import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
+import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton.vue'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
 import { mapGetters } from 'vuex'
 
 export default {

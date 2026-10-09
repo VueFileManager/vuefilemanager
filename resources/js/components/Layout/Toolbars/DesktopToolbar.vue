@@ -163,20 +163,20 @@
 </template>
 
 <script>
-import TeamMembersButton from '../../Teams/Components/TeamMembersButton'
-import TeamFolderPreview from '../../Teams/Components/TeamFolderPreview'
-import PopoverWrapper from '../../UI/Popover/PopoverWrapper'
-import FileSortingOptions from '../../Menus/FileSortingOptions'
-import PopoverItem from '../../UI/Popover/PopoverItem'
-import UploadProgress from '../../UI/Others/UploadProgress'
-import NavigationBar from './NavigationBar'
-import ToolbarButton from '../../UI/Buttons/ToolbarButton'
-import OptionUpload from '../../Menus/Components/OptionUpload'
-import OptionGroup from '../../Menus/Components/OptionGroup'
-import SearchBarButton from '../../UI/Buttons/SearchBarButton'
+import TeamMembersButton from '../../Teams/Components/TeamMembersButton.vue'
+import TeamFolderPreview from '../../Teams/Components/TeamFolderPreview.vue'
+import PopoverWrapper from '../../UI/Popover/PopoverWrapper.vue'
+import FileSortingOptions from '../../Menus/FileSortingOptions.vue'
+import PopoverItem from '../../UI/Popover/PopoverItem.vue'
+import UploadProgress from '../../UI/Others/UploadProgress.vue'
+import NavigationBar from './NavigationBar.vue'
+import ToolbarButton from '../../UI/Buttons/ToolbarButton.vue'
+import OptionUpload from '../../Menus/Components/OptionUpload.vue'
+import OptionGroup from '../../Menus/Components/OptionGroup.vue'
+import SearchBarButton from '../../UI/Buttons/SearchBarButton.vue'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
-import Option from '../../Menus/Components/Option'
+import Option from '../../Menus/Components/Option.vue'
 
 export default {
     name: 'DesktopToolbar',

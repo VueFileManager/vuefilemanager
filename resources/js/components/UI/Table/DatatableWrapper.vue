@@ -200,7 +200,7 @@
 
 <script>
 import { ChevronUpIcon, ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons'
-import DatatableCell from './DatatableCell'
+import DatatableCell from './DatatableCell.vue'
 import axios from 'axios'
 
 export default {

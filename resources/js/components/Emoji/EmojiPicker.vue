@@ -86,8 +86,8 @@
 </template>
 
 <script>
-import Spinner from '../UI/Others/Spinner'
-import Emoji from './Emoji'
+import Spinner from '../UI/Others/Spinner.vue'
+import Emoji from './Emoji.vue'
 import { debounce, groupBy } from 'lodash'
 import { XIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'

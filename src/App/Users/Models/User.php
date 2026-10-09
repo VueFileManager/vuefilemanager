@@ -1,7 +1,7 @@
 <?php
 namespace App\Users\Models;
 
-use ByteUnits\Metric;
+use Support\ByteUnits\Metric;
 use Illuminate\Support\Str;
 use BadMethodCallException;
 use Domain\Files\Models\File;

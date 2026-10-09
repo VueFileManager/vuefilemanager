@@ -84,7 +84,7 @@ export default {
         UserPlusIcon,
         FolderIcon,
         UsersIcon,
-        'tree-node': () => import('./TreeMenu'),
+        'tree-node': () => import('./TreeMenu.vue'),
     },
     computed: {
         ...mapGetters(['clipboard']),

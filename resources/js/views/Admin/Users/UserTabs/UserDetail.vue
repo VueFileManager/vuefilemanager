@@ -136,14 +136,14 @@
 </template>
 
 <script>
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
-import PageTabGroup from '../../../../components/Layout/PageTabGroup'
-import PageTab from '../../../../components/Layout/PageTab'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import SelectInput from '../../../../components/Inputs/SelectInput'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
+import SelectInput from '../../../../components/Inputs/SelectInput.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
 import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import { events } from '../../../../bus'

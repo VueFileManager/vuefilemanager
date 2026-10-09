@@ -31,7 +31,7 @@
                                 min="1"
                                 max="999999999"
                                 class="focus-border-theme input-dark"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                             />
                             <ButtonBase
                                 type="submit"
@@ -94,10 +94,10 @@
 </template>
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import ColorLabel from '../../../../components/UI/Labels/ColorLabel'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import ColorLabel from '../../../../components/UI/Labels/ColorLabel.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import { events } from '../../../../bus'

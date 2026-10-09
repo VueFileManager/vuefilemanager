@@ -22,12 +22,12 @@
 </template>
 
 <script>
-import AppInputSwitch from '../Forms/Layouts/AppInputSwitch'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import FormLabel from '../UI/Labels/FormLabel'
+import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import FormLabel from '../UI/Labels/FormLabel.vue'
 import axios from 'axios'
 import { events } from '../../bus'
-import AppInputButton from '../Forms/Layouts/AppInputButton'
+import AppInputButton from '../Forms/Layouts/AppInputButton.vue'
 
 export default {
     name: 'UserUpdatePaymentMethodsExternally',

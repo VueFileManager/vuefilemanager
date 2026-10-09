@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { globals } from '../../globals'
 import axios from 'axios'
 import { events } from '../../bus'
 import router from '../../router'
@@ -41,8 +41,8 @@ const actions = {
                     } else {
                         // Show error message
                         events.$emit('alert:open', {
-                            title: i18n.t('popup_error.title'),
-                            message: i18n.t('popup_error.message'),
+                            title: i18n.global.t('popup_error.title'),
+                            message: i18n.global.t('popup_error.message'),
                         })
                     }
 
@@ -67,7 +67,7 @@ const actions = {
 
                     resolve(response)
                 })
-                .catch(() => Vue.prototype.$isSomethingWrong())
+                .catch(() => globals.$isSomethingWrong())
         })
     },
     getMySharedItems: ({ commit, getters }, page) => {
@@ -87,7 +87,7 @@ const actions = {
 
                     resolve(response)
                 })
-                .catch(() => Vue.prototype.$isSomethingWrong())
+                .catch(() => globals.$isSomethingWrong())
         })
     },
     getTrash: ({ commit, getters }, {page, id}) => {
@@ -108,7 +108,7 @@ const actions = {
                     resolve(response)
                 })
                 .catch((error) => {
-                    Vue.prototype.$isSomethingWrong()
+                    globals.$isSomethingWrong()
 
                     reject(error);
                 })
@@ -118,9 +118,9 @@ const actions = {
         return new Promise((resolve, reject) => {
             // Get route
             let route = {
-                RequestUpload: `/api/file-request/${router.currentRoute.params.token}/navigation`,
-                Public: `/api/sharing/navigation/${router.currentRoute.params.token}`,
-            }[router.currentRoute.name] || '/api/browse/navigation'
+                RequestUpload: `/api/file-request/${router.currentRoute.value.params.token}/navigation`,
+                Public: `/api/sharing/navigation/${router.currentRoute.value.params.token}`,
+            }[router.currentRoute.value.name] || '/api/browse/navigation'
 
             axios
                 .get(route + getters.sorting.URI)
@@ -132,7 +132,7 @@ const actions = {
                 .catch((error) => {
                     reject(error)
 
-                    Vue.prototype.$isSomethingWrong()
+                    globals.$isSomethingWrong()
                 })
         })
     },

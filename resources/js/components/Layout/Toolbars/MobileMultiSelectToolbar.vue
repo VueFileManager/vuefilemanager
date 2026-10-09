@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ToolbarButton from '../../UI/Buttons/ToolbarButton'
+import ToolbarButton from '../../UI/Buttons/ToolbarButton.vue'
 import { mapGetters } from 'vuex'
 
 export default {

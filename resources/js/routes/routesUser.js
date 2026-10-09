@@ -2,7 +2,7 @@ const routesUser = [
     {
         name: 'User',
         path: '/user',
-        component: () => import(/* webpackChunkName: "chunks/settings" */ '../views/Profile'),
+        component: () => import(/* webpackChunkName: "chunks/settings" */ '../views/Profile.vue'),
         meta: {
             requiresAuth: true,
         },
@@ -10,7 +10,7 @@ const routesUser = [
             {
                 name: 'Profile',
                 path: '/user/profile',
-                component: () => import(/* webpackChunkName: "chunks/profile" */ '../views/User/Settings'),
+                component: () => import(/* webpackChunkName: "chunks/profile" */ '../views/User/Settings.vue'),
                 meta: {
                     requiresAuth: true,
                     title: 'my_profile',
@@ -19,7 +19,7 @@ const routesUser = [
             {
                 name: 'Password',
                 path: '/user/settings/password',
-                component: () => import(/* webpackChunkName: "chunks/settings-password" */ '../views/User/Password'),
+                component: () => import(/* webpackChunkName: "chunks/settings-password" */ '../views/User/Password.vue'),
                 meta: {
                     requiresAuth: true,
                     title: 'change_password',
@@ -28,7 +28,7 @@ const routesUser = [
             {
                 name: 'Storage',
                 path: '/user/settings/storage',
-                component: () => import(/* webpackChunkName: "chunks/settings-storage" */ '../views/User/Storage'),
+                component: () => import(/* webpackChunkName: "chunks/settings-storage" */ '../views/User/Storage.vue'),
                 meta: {
                     requiresAuth: true,
                     title: 'storage',
@@ -37,7 +37,7 @@ const routesUser = [
             {
                 name: 'Billing',
                 path: '/user/settings/billing',
-                component: () => import(/* webpackChunkName: "chunks/billing" */ '../views/User/Billing'),
+                component: () => import(/* webpackChunkName: "chunks/billing" */ '../views/User/Billing.vue'),
                 meta: {
                     requiresAuth: true,
                     title: 'billing',

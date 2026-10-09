@@ -1,9 +1,9 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Database Credentials-->
-        <AuthContent name="database-credentials" :visible="true" class="mt-6 mb-12 !max-w-2xl">
+        <AuthContent name="database-credentials" :visible="true" class="mt-6 mb-12 max-w-2xl!">
             <Headline
-                class="mx-auto !mb-10 max-w-screen-sm"
+                class="mx-auto mb-10! max-w-(--breakpoint-sm)"
                 title="Setup Wizard"
                 description="Set up your application appearance, analytics, etc."
             >
@@ -24,7 +24,7 @@
                                 v-model="app.title"
                                 placeholder="Type your app title"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                             />
                         </AppInputText>
                     </ValidationProvider>
@@ -42,7 +42,7 @@
                                 v-model="app.description"
                                 placeholder="Type your app description"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                             ></textarea>
                         </AppInputText>
                     </ValidationProvider>
@@ -107,7 +107,7 @@
                                 v-model="app.contactMail"
                                 placeholder="Type your contact email"
                                 type="email"
-								:class="{ '!border-rose-600': errors[0] }"
+								:class="{ 'border-rose-600!': errors[0] }"
                             />
                         </AppInputText>
                     </ValidationProvider>
@@ -119,7 +119,7 @@
                                 v-model="app.googleAnalytics"
                                 placeholder="Paste your Google Analytics Code"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                             />
                         </AppInputText>
                     </ValidationProvider>
@@ -162,7 +162,7 @@
 								max="999999999"
 								placeholder="Set default storage space in GB"
 								type="number"
-								:class="{ '!border-rose-600': errors[0] }"
+								:class="{ 'border-rose-600!': errors[0] }"
 							/>
                         </AppInputText>
                     </ValidationProvider>
@@ -188,7 +188,7 @@
 								max="999999999"
 								placeholder="Set default max team members"
 								type="number"
-								:class="{'!border-rose-600': errors[0]}"
+								:class="{'border-rose-600!': errors[0]}"
 							/>
                         </AppInputText>
                     </ValidationProvider>
@@ -219,7 +219,7 @@
                         </AppInputText>
                     </ValidationProvider>
 
-                    <InfoBox class="!mb-2">
+                    <InfoBox class="mb-2!">
                         <p>Any other subscription related settings you will be able set up later in admin panel.</p>
                     </InfoBox>
                 </div>
@@ -238,18 +238,18 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
-import SelectInput from '../../components/Inputs/SelectInput'
-import SwitchInput from '../../components/Inputs/SwitchInput'
-import AppInputSwitch from '../../components/Forms/Layouts/AppInputSwitch'
-import ImageInput from '../../components/Inputs/ImageInput'
-import FormLabel from '../../components/UI/Labels/FormLabel'
-import AppInputText from '../../components/Forms/Layouts/AppInputText'
-import InfoBox from '../../components/UI/Others/InfoBox'
-import AuthContent from '../../components/Layout/AuthPages/AuthContent'
-import AuthButton from '../../components/UI/Buttons/AuthButton'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
+import SelectInput from '../../components/Inputs/SelectInput.vue'
+import SwitchInput from '../../components/Inputs/SwitchInput.vue'
+import AppInputSwitch from '../../components/Forms/Layouts/AppInputSwitch.vue'
+import ImageInput from '../../components/Inputs/ImageInput.vue'
+import FormLabel from '../../components/UI/Labels/FormLabel.vue'
+import AppInputText from '../../components/Forms/Layouts/AppInputText.vue'
+import InfoBox from '../../components/UI/Others/InfoBox.vue'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
+import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
 import { SettingsIcon } from 'vue-feather-icons'
-import Headline from '../../components/UI/Labels/LogoHeadline'
+import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { required } from 'vee-validate/dist/rules'
 import axios from 'axios'
 

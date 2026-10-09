@@ -89,18 +89,18 @@
 </template>
 
 <script>
-import PopoverWrapper from '../../UI/Popover/PopoverWrapper'
-import FileSortingOptions from '../../Menus/FileSortingOptions'
-import PopoverItem from '../../UI/Popover/PopoverItem'
-import UploadProgress from '../../UI/Others/UploadProgress'
-import NavigationBar from './NavigationBar'
-import ToolbarButton from '../../UI/Buttons/ToolbarButton'
-import MemberAvatar from "../../UI/Others/MemberAvatar"
-import OptionUpload from '../../Menus/Components/OptionUpload'
-import OptionGroup from '../../Menus/Components/OptionGroup'
+import PopoverWrapper from '../../UI/Popover/PopoverWrapper.vue'
+import FileSortingOptions from '../../Menus/FileSortingOptions.vue'
+import PopoverItem from '../../UI/Popover/PopoverItem.vue'
+import UploadProgress from '../../UI/Others/UploadProgress.vue'
+import NavigationBar from './NavigationBar.vue'
+import ToolbarButton from '../../UI/Buttons/ToolbarButton.vue'
+import MemberAvatar from "../../UI/Others/MemberAvatar.vue"
+import OptionUpload from '../../Menus/Components/OptionUpload.vue'
+import OptionGroup from '../../Menus/Components/OptionGroup.vue'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
-import Option from '../../Menus/Components/Option'
+import Option from '../../Menus/Components/Option.vue'
 
 export default {
     name: 'DesktopUploadRequestToolbar',
@@ -128,7 +128,7 @@ export default {
 				title: this.$t('closing_request_for_upload', {name: this.uploadRequest.data.relationships.user.data.attributes.name}),
 				message: this.$t('closing_request_for_upload_warn'),
 				action: {
-					id: this.$router.currentRoute.params.token,
+					id: this.$route.params.token,
 					operation: 'close-upload-request',
 				},
 			})

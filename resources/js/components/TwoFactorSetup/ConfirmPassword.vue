@@ -8,7 +8,7 @@
                     <AppInputText :title="$t('password')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="password"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             type="password"
                             ref="input"
                             class="focus-border-theme input-dark"
@@ -38,12 +38,12 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from '../Popups/Components/PopupWrapper'
-import PopupActions from '../Popups/Components/PopupActions'
-import PopupContent from '../Popups/Components/PopupContent'
-import PopupHeader from '../Popups/Components/PopupHeader'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import AppInputText from '../Forms/Layouts/AppInputText'
+import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../Popups/Components/PopupActions.vue'
+import PopupContent from '../Popups/Components/PopupContent.vue'
+import PopupHeader from '../Popups/Components/PopupHeader.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import { required } from 'vee-validate/dist/rules'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'

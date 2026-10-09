@@ -202,7 +202,7 @@
                                 v-model="stripe.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -213,7 +213,7 @@
                                 v-model="stripe.credentials.secret"
                                 :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -230,7 +230,7 @@
                                 v-model="stripe.credentials.webhook"
                                 :placeholder="$t('paste_webhook_secret')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -329,7 +329,7 @@
                                 v-model="paystack.credentials.secret"
                                 :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -346,7 +346,7 @@
                                 v-model="paystack.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -464,7 +464,7 @@
                                 v-model="paypal.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -475,7 +475,7 @@
                                 v-model="paypal.credentials.secret"
                                 :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -486,7 +486,7 @@
                                 v-model="paypal.credentials.webhook"
                                 :placeholder="$t('Paste your webhook id')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -509,20 +509,20 @@
 
 <script>
 import { Edit2Icon, Trash2Icon } from 'vue-feather-icons'
-import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton'
-import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper'
+import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton.vue'
+import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper.vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PageTabGroup from '../../../../components/Layout/PageTabGroup'
-import SelectInput from '../../../../components/Inputs/SelectInput'
-import SwitchInput from '../../../../components/Inputs/SwitchInput'
-import ImageInput from '../../../../components/Inputs/ImageInput'
-import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import CopyInput from '../../../../components/Inputs/CopyInput'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import PageTab from '../../../../components/Layout/PageTab'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
+import SelectInput from '../../../../components/Inputs/SelectInput.vue'
+import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
+import ImageInput from '../../../../components/Inputs/ImageInput.vue'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import CopyInput from '../../../../components/Inputs/CopyInput.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import { required } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import { mapGetters } from 'vuex'

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import PageTitle from './Components/PageTitle'
+import PageTitle from './Components/PageTitle.vue'
 import {
     ChevronRightIcon,
     UploadCloudIcon,

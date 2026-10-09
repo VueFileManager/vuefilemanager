@@ -1,7 +1,7 @@
 <template>
     <div
 		v-if="toasters.length || notifications.length"
-		class="fixed bottom-4 right-4 left-4 z-[55] sm:w-[360px] sm:left-auto lg:bottom-8 lg:right-8"
+		class="fixed bottom-4 right-4 left-4 z-55 sm:w-[360px] sm:left-auto lg:bottom-8 lg:right-8"
 	>
         <ToasterWrapper
 			v-for="notification in notifications"
@@ -9,7 +9,7 @@
 			class="mt-4 overflow-hidden rounded-xl dark:bg-2x-dark-foreground bg-white/80 backdrop-blur-2xl shadow-xl"
 			bar-color="bg-theme"
 		>
-            <Notification :notification="notification" class="z-10 !mb-0 !px-4 !pt-4 !pb-5" />
+            <Notification :notification="notification" class="z-10 mb-0! px-4! pt-4! pb-5!" />
         </ToasterWrapper>
 
 		<ToasterWrapper
@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import Notification from '../Notifications/Components/Notification'
-import ToasterWrapper from './ToasterWrapper'
+import Notification from '../Notifications/Components/Notification.vue'
+import ToasterWrapper from './ToasterWrapper.vue'
 import {events} from '../../bus'
-import Toaster from './Toaster'
+import Toaster from './Toaster.vue'
 
 export default {
 	components: {

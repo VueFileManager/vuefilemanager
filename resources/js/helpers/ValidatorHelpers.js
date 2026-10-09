@@ -1,8 +1,9 @@
+import { globals } from '../globals'
 import store from '../store/index'
 
 const ValidatorHelpers = {
-    install(Vue) {
-        Vue.prototype.$cantInviteMember = function (email, invitations) {
+    install(app) {
+        globals.$cantInviteMember = function (email, invitations) {
             if (['metered', 'none'].includes(store.getters.config.subscriptionType)) {
                 return false
             }
@@ -26,11 +27,11 @@ const ValidatorHelpers = {
             return totalUniqueEmails.length >= limit.total && !totalUniqueEmails.includes(email)
         }
 
-        Vue.prototype.$isValidEmail = function (email) {
+        globals.$isValidEmail = function (email) {
             return email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) !== null
         }
 
-        Vue.prototype.$reCaptchaToken = async function (action) {
+        globals.$reCaptchaToken = async function (action) {
             await this.$recaptchaLoaded()
 
             return await this.$recaptcha(action)

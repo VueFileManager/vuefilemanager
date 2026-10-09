@@ -1,17 +1,99 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/*
+ * Tailwind CSS v4 entry.
+ *
+ * Preflight and utilities are intentionally imported WITHOUT cascade layers so the
+ * cascade behaves like Tailwind v3 did: utilities compete with app.scss, the color
+ * template (resources/views/vuefilemanager/others/color-template.blade.php) and Vue SFC
+ * styles by specificity and source order, not by layer.
+ */
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css';
+
+@plugin 'tailwind-scrollbar-hide';
+@plugin 'tailwindcss-debug-screens' {
+    position: 'bottom, right';
+}
+
+/* Class based dark mode (Tailwind v3 `darkMode: 'class'` used `.dark` ancestor selector) */
+@custom-variant dark (&:is(.dark *));
+@custom-variant print (@media print);
+
+/* Only scan the frontend sources and blade views */
+@source '../js';
+@source '../views';
+
+@theme {
+    --breakpoint-*: initial;
+    --breakpoint-xs: 420px;
+    --breakpoint-sm: 640px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 1024px;
+    --breakpoint-xl: 1280px;
+    --breakpoint-2xl: 1536px;
+
+    --text-tiny: 11px;
+    --text-tiny--line-height: 16px;
+
+    --shadow-card: 0 2px 6px 0 rgba(0, 0, 0, 0.04);
+    --shadow-card_red: 0 2px 6px 0 rgba(253, 57, 122, 0.04);
+
+    /* Border-only colors (theme.extend.borderColor) */
+    --border-color-light: #f3f3f3;
+    --border-color-red: #fd397a;
+    --border-color-dark-background: #151515;
+    --border-color-dark-secondary: #1e2024;
+
+    /* Background-only colors (theme.extend.backgroundColor) */
+    --background-color-dark-background: #151515;
+    --background-color-dark-foreground: #171819;
+    --background-color-2x-dark-foreground: #191b1e;
+    --background-color-4x-dark-foreground: #1e2124;
+    --background-color-light-background: #f4f5f6;
+    --background-color-light-300: #e1e1ef;
+}
+
+/*
+ * Tailwind v3 compatibility for preflight defaults that changed in v4.
+ */
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+}
+
+input::placeholder,
+textarea::placeholder {
+    opacity: 1;
+    color: var(--color-gray-400);
+}
+
+button:not(:disabled),
+[role='button']:not(:disabled) {
+    cursor: pointer;
+}
+
+@tailwind utilities source(none);
+
+@utility overflow-initial {
+    overflow: initial;
+}
+
+@utility overflow-anywhere {
+    overflow-wrap: anywhere;
+}
 
 .card {
-    @apply mb-5 rounded-xl bg-white p-4 dark:bg-dark-foreground sm:p-6 lg:mb-6;
+    @apply mb-5 rounded-xl bg-white p-4 sm:p-6 lg:mb-6 dark:bg-dark-foreground;
 }
 
 .widget-card {
-    @apply rounded-xl bg-white p-4 dark:bg-dark-foreground lg:p-5;
+    @apply rounded-xl bg-white p-4 lg:p-5 dark:bg-dark-foreground;
 }
 
 .input-dark {
-    @apply w-full appearance-none rounded-lg border border-transparent bg-light-background py-3 px-4 text-sm font-bold dark:bg-2x-dark-foreground dark:placeholder:text-gray-600 sm:px-5 sm:text-base dark:disabled:text-gray-400;
+    @apply w-full appearance-none rounded-lg border border-transparent bg-light-background px-4 py-3 text-sm font-bold sm:px-5 sm:text-base dark:bg-2x-dark-foreground dark:placeholder:text-gray-600 dark:disabled:text-gray-400;
 }
 
 .text-limit {
@@ -31,16 +113,7 @@
 }
 
 .page-link {
-    @apply block flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-sm font-bold transition duration-200 hover:bg-light-background;
-}
-
-@layer utilities {
-    .overflow-initial {
-        overflow: initial;
-    }
-    .overflow-anywhere {
-        overflow-wrap: anywhere;
-    }
+    @apply flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg text-sm font-bold transition duration-200 hover:bg-light-background;
 }
 
 @supports (-webkit-touch-callout: none) {

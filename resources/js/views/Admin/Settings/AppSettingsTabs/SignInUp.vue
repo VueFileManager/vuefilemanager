@@ -88,7 +88,7 @@
                             v-model="facebook.credentials.client_id"
                             :placeholder="$t('Paste your Client ID here')"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -100,7 +100,7 @@
                             v-model="facebook.credentials.client_secret"
                             :placeholder="$t('Paste your Client Secret here')"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -172,7 +172,7 @@
                             v-model="google.credentials.client_id"
                             :placeholder="$t('Paste your Client ID here')"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -184,7 +184,7 @@
                             v-model="google.credentials.client_secret"
                             :placeholder="$t('Paste your Client Secret here')"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -256,7 +256,7 @@
                             v-model="github.credentials.client_id"
                             :placeholder="$t('Paste your Client ID here')"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -268,7 +268,7 @@
                             v-model="github.credentials.client_secret"
                             :placeholder="$t('Paste your Client Secret here')"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                     </AppInputText>
@@ -291,13 +291,13 @@
 <script>
 import { Edit2Icon } from 'vue-feather-icons'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import SwitchInput from '../../../../components/Inputs/SwitchInput'
-import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
-import CopyInput from '../../../../components/Inputs/CopyInput'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import PageTab from '../../../../components/Layout/PageTab'
+import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
+import CopyInput from '../../../../components/Inputs/CopyInput.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
 import { required } from 'vee-validate/dist/rules'
 import { events } from '../../../../bus'
 import { mapGetters } from 'vuex'

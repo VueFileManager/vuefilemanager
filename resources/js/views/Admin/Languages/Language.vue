@@ -7,7 +7,7 @@
                 :class="{
                     'fixed top-0 left-0 right-0 z-10 rounded-none bg-white bg-opacity-70 px-6 backdrop-blur-lg backdrop-filter dark:bg-dark-foreground':
                         fixedNav,
-                    'card sticky top-0 z-10 block !pb-0 shadow-card md:hidden': !fixedNav,
+                    'card sticky top-0 z-10 block pb-0! shadow-card md:hidden': !fixedNav,
                 }"
             >
                 <SearchInput v-model="query" @reset-query="query = ''" />
@@ -106,7 +106,7 @@
                                     v-model="selectedLanguage.data.attributes.name"
                                     :placeholder="$t('admin_settings.appearance.description_plac')"
                                     type="text"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
                             </AppInputText>
@@ -169,7 +169,7 @@
                                     "
                                     :rows="selectedLanguage.data.attributes.translations[key].length >= 80 ? 3 : 1"
                                     class="focus-border-theme input-dark"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                 ></textarea>
                             </AppInputText>
                         </ValidationProvider>
@@ -183,17 +183,17 @@
 </template>
 
 <script>
-import AppInputSwitch from '../../../components/Forms/Layouts/AppInputSwitch'
-import AppInputText from '../../../components/Forms/Layouts/AppInputText'
+import AppInputSwitch from '../../../components/Forms/Layouts/AppInputSwitch.vue'
+import AppInputText from '../../../components/Forms/Layouts/AppInputText.vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import MobileActionButton from '../../../components/UI/Buttons/MobileActionButton'
-import SwitchInput from '../../../components/Inputs/SwitchInput'
-import SearchInput from '../../../components/Inputs/SearchInput'
-import FormLabel from '../../../components/UI/Labels/FormLabel'
-import MobileHeader from '../../../components/Mobile/MobileHeader'
-import ButtonBase from '../../../components/UI/Buttons/ButtonBase'
-import InfoBox from '../../../components/UI/Others/InfoBox'
-import Spinner from '../../../components/UI/Others/Spinner'
+import MobileActionButton from '../../../components/UI/Buttons/MobileActionButton.vue'
+import SwitchInput from '../../../components/Inputs/SwitchInput.vue'
+import SearchInput from '../../../components/Inputs/SearchInput.vue'
+import FormLabel from '../../../components/UI/Labels/FormLabel.vue'
+import MobileHeader from '../../../components/Mobile/MobileHeader.vue'
+import ButtonBase from '../../../components/UI/Buttons/ButtonBase.vue'
+import InfoBox from '../../../components/UI/Others/InfoBox.vue'
+import Spinner from '../../../components/UI/Others/Spinner.vue'
 import { PlusIcon, XIcon } from 'vue-feather-icons'
 import { debounce, omitBy } from 'lodash'
 import { events } from '../../../bus'

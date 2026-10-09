@@ -28,7 +28,7 @@
                             :placeholder="$t('page_contact_us.form.email_plac')"
                             type="email"
                             class="focus-border-theme input-dark"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -42,7 +42,7 @@
                             :placeholder="$t('page_contact_us.form.message_plac')"
                             rows="6"
                             class="focus-border-theme input-dark"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         ></textarea>
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -62,7 +62,7 @@
                     />
                 </div>
             </ValidationObserver>
-            <InfoBox v-if="isSuccess" class="!mb-0">
+            <InfoBox v-if="isSuccess" class="mb-0!">
                 <p>{{ $t('page_contact_us.success_message') }}</p>
             </InfoBox>
         </div>
@@ -74,11 +74,11 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PageTitle from '../../components/IndexPage/Components/PageTitle'
-import PageFooter from '../../components/IndexPage/IndexPageFooter'
-import Navigation from '../../components/IndexPage/IndexNavigation'
-import InfoBox from '../../components/UI/Others/InfoBox'
-import AuthButton from '../../components/UI/Buttons/AuthButton'
+import PageTitle from '../../components/IndexPage/Components/PageTitle.vue'
+import PageFooter from '../../components/IndexPage/IndexPageFooter.vue'
+import Navigation from '../../components/IndexPage/IndexNavigation.vue'
+import InfoBox from '../../components/UI/Others/InfoBox.vue'
+import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
 import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import axios from 'axios'

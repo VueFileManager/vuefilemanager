@@ -6,11 +6,11 @@
         <span @click="closeDisclaimer" class="absolute -right-1 -top-1 cursor-pointer p-3">
             <x-icon size="10" />
         </span>
-        <i18n path="cookie_disclaimer.description" tag="p" class="text-xs">
+        <i18n-t keypath="cookie_disclaimer.description" tag="p" class="text-xs">
             <router-link :to="{ name: 'DynamicPage', params: { slug: 'cookie-policy' } }" class="text-theme text-xs">
                 {{ $t('cookie_disclaimer.button') }}
             </router-link>
-        </i18n>
+        </i18n-t>
     </div>
 </template>
 

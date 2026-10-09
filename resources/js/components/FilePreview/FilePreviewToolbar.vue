@@ -2,7 +2,7 @@
     <div v-if="currentFile" class="select-none items-center px-3.5 py-4 lg:grid lg:grid-cols-3 lg:py-3">
         <div class="flex items-center justify-between lg:w-auto lg:justify-start">
             <!--Close icon-->
-            <div @click="closeFullPreview" class="order-last -m-3 cursor-pointer p-3 lg:order-none">
+            <div @click="closeFullPreview" class="order-last -m-3 cursor-pointer p-3 lg:order-0">
                 <x-icon size="16" class="vue-feather" />
             </div>
 
@@ -103,12 +103,12 @@
 </template>
 
 <script>
-import PopoverWrapper from '../UI/Popover/PopoverWrapper'
-import PopoverItem from '../UI/Popover/PopoverItem'
-import OptionGroup from '../Menus/Components/OptionGroup'
-import Option from '../Menus/Components/Option'
+import PopoverWrapper from '../UI/Popover/PopoverWrapper.vue'
+import PopoverItem from '../UI/Popover/PopoverItem.vue'
+import OptionGroup from '../Menus/Components/OptionGroup.vue'
+import Option from '../Menus/Components/Option.vue'
 
-import ToolbarButton from '../UI/Buttons/ToolbarButton'
+import ToolbarButton from '../UI/Buttons/ToolbarButton.vue'
 import { XIcon, MoreHorizontalIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'

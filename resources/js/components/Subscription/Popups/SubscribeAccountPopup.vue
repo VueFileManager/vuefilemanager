@@ -80,7 +80,7 @@
         <!--Select Payment Plans-->
         <div v-if="!isPaymentOptionPage">
             <PopupContent v-if="plans">
-                <InfoBox v-if="plans.data.length === 0" class="!mb-0">
+                <InfoBox v-if="plans.data.length === 0" class="mb-0!">
                     <p>There isn't any plan yet.</p>
                 </InfoBox>
 
@@ -118,21 +118,21 @@
 </template>
 
 <script>
-import PaymentMethod from '../PaymentMethod'
+import PaymentMethod from '../PaymentMethod.vue'
 import { loadScript } from '@paypal/paypal-js'
-import SwitchInput from '../../Inputs/SwitchInput'
-import PopupWrapper from '../../Popups/Components/PopupWrapper'
-import PopupActions from '../../Popups/Components/PopupActions'
-import PopupContent from '../../Popups/Components/PopupContent'
-import PopupHeader from '../../Popups/Components/PopupHeader'
-import ButtonBase from '../../UI/Buttons/ButtonBase'
-import PlanDetail from '../PlanDetail'
+import SwitchInput from '../../Inputs/SwitchInput.vue'
+import PopupWrapper from '../../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../../Popups/Components/PopupActions.vue'
+import PopupContent from '../../Popups/Components/PopupContent.vue'
+import PopupHeader from '../../Popups/Components/PopupHeader.vue'
+import ButtonBase from '../../UI/Buttons/ButtonBase.vue'
+import PlanDetail from '../PlanDetail.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'
 import axios from 'axios'
-import Spinner from '../../UI/Others/Spinner'
-import InfoBox from '../../UI/Others/InfoBox'
-import PlanPeriodSwitcher from '../PlanPeriodSwitcher'
+import Spinner from '../../UI/Others/Spinner.vue'
+import InfoBox from '../../UI/Others/InfoBox.vue'
+import PlanPeriodSwitcher from '../PlanPeriodSwitcher.vue'
 
 
 export default {

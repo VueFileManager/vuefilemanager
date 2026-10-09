@@ -22,7 +22,7 @@
                         :placeholder="$t('page_shared.placeholder_pass')"
                         type="password"
                         class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                     />
                     <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -40,10 +40,10 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from '../components/Layout/AuthPages/AuthContentWrapper'
-import AuthContent from '../components/Layout/AuthPages/AuthContent'
-import AuthButton from '../components/UI/Buttons/AuthButton'
-import Headline from '../components/UI/Labels/LogoHeadline'
+import AuthContentWrapper from '../components/Layout/AuthPages/AuthContentWrapper.vue'
+import AuthContent from '../components/Layout/AuthPages/AuthContent.vue'
+import AuthButton from '../components/UI/Buttons/AuthButton.vue'
+import Headline from '../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

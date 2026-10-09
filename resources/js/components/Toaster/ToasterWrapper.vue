@@ -1,7 +1,7 @@
 <template>
 	<transition v-if="isActive" appear name="fade">
 		<div class="relative">
-			<div @click="isActive = false" class="absolute z-[20] right-0 top-0 cursor-pointer p-2">
+			<div @click="isActive = false" class="absolute z-20 right-0 top-0 cursor-pointer p-2">
 				<x-icon size="16" class="vue-feather text-black opacity-10 dark:text-white" />
 			</div>
 

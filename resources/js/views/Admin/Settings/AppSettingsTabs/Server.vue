@@ -68,7 +68,7 @@
         <div class="card shadow-card">
             <FormLabel icon="list">Latest Server Logs</FormLabel>
 
-            <InfoBox v-if="!logs.length" class="!mb-0">
+            <InfoBox v-if="!logs.length" class="mb-0!">
                 <p v-html="$t('there_is_not_log')"></p>
             </InfoBox>
 
@@ -93,11 +93,11 @@
         <div class="card shadow-card">
             <FormLabel icon="database"> Latest Database Backups </FormLabel>
 
-            <InfoBox v-if="!backups.length" class="!mb-0">
+            <InfoBox v-if="!backups.length" class="mb-0!">
                 <p v-html="$t('there_is_not_database_backup')"></p>
             </InfoBox>
 
-            <InfoBox v-if="backups.length" class="!mb-3">
+            <InfoBox v-if="backups.length" class="mb-3!">
                 <p v-html="$t('backup_path')"></p>
             </InfoBox>
 
@@ -234,15 +234,15 @@
 </template>
 
 <script>
-import AppInputText from "../../../../components/Forms/Layouts/AppInputText";
-import CopyInput from "../../../../components/Inputs/CopyInput";
+import AppInputText from "../../../../components/Forms/Layouts/AppInputText.vue";
+import CopyInput from "../../../../components/Inputs/CopyInput.vue";
 import { CheckIcon, XIcon, DownloadCloudIcon } from 'vue-feather-icons'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import PageTab from '../../../../components/Layout/PageTab'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import ButtonBase from "../../../../components/UI/Buttons/ButtonBase";
+import ButtonBase from "../../../../components/UI/Buttons/ButtonBase.vue";
 
 export default {
     name: 'Server',

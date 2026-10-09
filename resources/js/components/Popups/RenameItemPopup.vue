@@ -20,10 +20,10 @@
                         <div class="relative flex items-center">
                             <input
                                 v-model="pickedItem.data.attributes.name"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 ref="input"
                                 type="text"
-                                class="!pr-10 focus-border-theme input-dark"
+                                class="pr-10! focus-border-theme input-dark"
                                 :placeholder="$t('popup_rename.placeholder')"
                             />
                             <div @click="pickedItem.data.attributes.name = ''" class="absolute right-0 p-4 cursor-pointer">
@@ -66,17 +66,17 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from './Components/PopupWrapper'
-import PopupActions from './Components/PopupActions'
-import PopupContent from './Components/PopupContent'
-import PopupHeader from './Components/PopupHeader'
-import ThumbnailItem from '../UI/Entries/ThumbnailItem'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import AppInputSwitch from '../Forms/Layouts/AppInputSwitch'
-import AppInputText from '../Forms/Layouts/AppInputText'
+import PopupWrapper from './Components/PopupWrapper.vue'
+import PopupActions from './Components/PopupActions.vue'
+import PopupContent from './Components/PopupContent.vue'
+import PopupHeader from './Components/PopupHeader.vue'
+import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import { required } from 'vee-validate/dist/rules'
-import SwitchInput from '../Inputs/SwitchInput'
-import EmojiPicker from '../Emoji/EmojiPicker'
+import SwitchInput from '../Inputs/SwitchInput.vue'
+import EmojiPicker from '../Emoji/EmojiPicker.vue'
 import { XIcon } from 'vue-feather-icons'
 import { events } from '../../bus'
 

@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import SortingIcon from '../../Icons/SortingIcon'
-import CloudPlusIcon from '../../Icons/CloudPlusIcon'
+import SortingIcon from '../../Icons/SortingIcon.vue'
+import CloudPlusIcon from '../../Icons/CloudPlusIcon.vue'
 import {
     SearchIcon,
     UserPlusIcon,

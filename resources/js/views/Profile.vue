@@ -32,7 +32,7 @@
 
         <div
             v-if="user"
-            class="relative mx-auto w-full overflow-x-hidden px-2.5 pb-12 md:max-w-4xl md:px-6 lg:pt-6 lg:pb-0 xl:max-w-screen-lg z-[5]"
+            class="relative mx-auto w-full overflow-x-hidden px-2.5 pb-12 md:max-w-4xl md:px-6 lg:pt-6 lg:pb-0 xl:max-w-(--breakpoint-lg) z-5"
         >
             <div v-if="!isLoading" id="page-content">
                 <div class="card sticky top-0 z-10 shadow-card" style="padding-bottom: 0">
@@ -74,27 +74,27 @@
 </template>
 
 <script>
-import MobileNavigation from '../components/Mobile/MobileNavigation'
-import ChargePaymentPopup from '../components/Subscription/Popups/ChargePaymentPopup'
-import SubscribeAccountPopup from '../components/Subscription/Popups/SubscribeAccountPopup'
-import ConfirmPopup from '../components/Popups/ConfirmPopup'
-import FilePreview from '../components/FilePreview/FilePreview'
-import Spotlight from '../components/Spotlight/Spotlight'
-import TwoFactorRecoveryCodesPopup from '../components/TwoFactorSetup/TwoFactorRecoveryCodesPopup'
-import CreatePersonalTokenPopup from '../components/Popups/CreatePersonalTokenPopup'
-import TwoFactorQrSetupPopup from '../components/TwoFactorSetup/TwoFactorQrSetupPopup'
-import AvatarInput from '../components/Inputs/AvatarInput'
-import ColorLabel from '../components/UI/Labels/ColorLabel'
-import Spinner from '../components/UI/Others/Spinner'
+import MobileNavigation from '../components/Mobile/MobileNavigation.vue'
+import ChargePaymentPopup from '../components/Subscription/Popups/ChargePaymentPopup.vue'
+import SubscribeAccountPopup from '../components/Subscription/Popups/SubscribeAccountPopup.vue'
+import ConfirmPopup from '../components/Popups/ConfirmPopup.vue'
+import FilePreview from '../components/FilePreview/FilePreview.vue'
+import Spotlight from '../components/Spotlight/Spotlight.vue'
+import TwoFactorRecoveryCodesPopup from '../components/TwoFactorSetup/TwoFactorRecoveryCodesPopup.vue'
+import CreatePersonalTokenPopup from '../components/Popups/CreatePersonalTokenPopup.vue'
+import TwoFactorQrSetupPopup from '../components/TwoFactorSetup/TwoFactorQrSetupPopup.vue'
+import AvatarInput from '../components/Inputs/AvatarInput.vue'
+import ColorLabel from '../components/UI/Labels/ColorLabel.vue'
+import Spinner from '../components/UI/Others/Spinner.vue'
 import { mapGetters } from 'vuex'
-import CardNavigation from '../components/UI/Others/CardNavigation'
-import ConfirmPassword from '../components/TwoFactorSetup/ConfirmPassword'
-import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar'
-import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
-import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup";
-import ChangeSubscriptionPopup from "../components/Subscription/Popups/ChangeSubscriptionPopup";
-import NotificationsPopup from "../components/Notifications/NotificationsPopup";
-import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
+import CardNavigation from '../components/UI/Others/CardNavigation.vue'
+import ConfirmPassword from '../components/TwoFactorSetup/ConfirmPassword.vue'
+import MobileNavigationToolbar from '../components/Mobile/MobileNavigationToolbar.vue'
+import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup.vue";
+import CreateTeamFolderPopup from "../components/Teams/CreateTeamFolderPopup.vue";
+import ChangeSubscriptionPopup from "../components/Subscription/Popups/ChangeSubscriptionPopup.vue";
+import NotificationsPopup from "../components/Notifications/NotificationsPopup.vue";
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup.vue";
 
 export default {
     name: 'Settings',

@@ -125,14 +125,14 @@
 </template>
 
 <script>
-import ColorLabel from '../../../../components/UI/Labels/ColorLabel'
-import MemberAvatar from '../../../../components/UI/Others/MemberAvatar'
-import DatatableCellImage from '../../../../components/UI/Table/DatatableCellImage'
+import ColorLabel from '../../../../components/UI/Labels/ColorLabel.vue'
+import MemberAvatar from '../../../../components/UI/Others/MemberAvatar.vue'
+import DatatableCellImage from '../../../../components/UI/Table/DatatableCellImage.vue'
 import { DownloadCloudIcon, Edit2Icon, Trash2Icon } from 'vue-feather-icons'
-import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper'
-import PageTabGroup from '../../../../components/Layout/PageTabGroup'
-import PageTab from '../../../../components/Layout/PageTab'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper.vue'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import { mapGetters } from 'vuex'
 
 export default {

@@ -107,9 +107,9 @@ import {
     UsersIcon,
     XIcon,
 } from 'vue-feather-icons'
-import TreeMenuNavigator from '../UI/Trees/TreeMenuNavigator'
-import ContentSidebar from '../Sidebar/ContentSidebar'
-import ContentGroup from '../Sidebar/ContentGroup'
+import TreeMenuNavigator from '../UI/Trees/TreeMenuNavigator.vue'
+import ContentSidebar from '../Sidebar/ContentSidebar.vue'
+import ContentGroup from '../Sidebar/ContentGroup.vue'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 

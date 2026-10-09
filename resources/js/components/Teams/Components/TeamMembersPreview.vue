@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import MemberAvatar from '../../UI/Others/MemberAvatar'
+import MemberAvatar from '../../UI/Others/MemberAvatar.vue'
 
 export default {
     name: 'TeamMembersPreview',

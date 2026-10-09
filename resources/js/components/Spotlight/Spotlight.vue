@@ -37,7 +37,7 @@
 
                 <!--Text search field-->
                 <input
-                    class="w-full border-none bg-transparent text-lg font-semibold placeholder-gray-700 focus:outline-none dark:placeholder-gray-400 sm:text-xl"
+                    class="w-full border-none bg-transparent text-lg font-semibold placeholder-gray-700 focus:outline-hidden dark:placeholder-gray-400 sm:text-xl"
                     v-model="query"
                     @keydown.delete="undoFilter"
                     @keydown.enter="showSelected"
@@ -306,12 +306,12 @@
 
 <script>
 import { events } from '../../bus'
-import ItemList from '../UI/Entries/ItemList'
-import MemberAvatar from '../UI/Others/MemberAvatar'
-import Spinner from '../UI/Others/Spinner'
-import CategoryName from './Components/CategoryName'
-import FilterSuggestion from './Components/FilterSuggestion'
-import KeyboardHints from './Components/KeyboardHints'
+import ItemList from '../UI/Entries/ItemList.vue'
+import MemberAvatar from '../UI/Others/MemberAvatar.vue'
+import Spinner from '../UI/Others/Spinner.vue'
+import CategoryName from './Components/CategoryName.vue'
+import FilterSuggestion from './Components/FilterSuggestion.vue'
+import KeyboardHints from './Components/KeyboardHints.vue'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import {
@@ -891,7 +891,7 @@ export default {
 
             // Get route
             let route = this.$store.getters.sharedDetail
-                ? `/api/sharing/search/${this.$router.currentRoute.params.token}`
+                ? `/api/sharing/search/${this.$route.params.token}`
                 : '/api/search'
 
             axios

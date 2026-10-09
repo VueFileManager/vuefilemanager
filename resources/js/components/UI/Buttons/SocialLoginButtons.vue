@@ -19,7 +19,7 @@
 
 <script>
 import { FacebookIcon, GithubIcon } from 'vue-feather-icons'
-import GoogleIcon from "../../Icons/GoogleIcon"
+import GoogleIcon from "../../Icons/GoogleIcon.vue"
 import { mapGetters } from 'vuex'
 
 export default {

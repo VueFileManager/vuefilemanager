@@ -18,7 +18,7 @@
             class="mb-6"
             icon="check-square"
             :title="$t('selected_multiple')"
-            :subtitle="this.clipboard.length + ' ' + $tc('items', this.clipboard.length)"
+            :subtitle="this.clipboard.length + ' ' + $t('items', this.clipboard.length)"
         />
 
         <!--Single file preview-->
@@ -94,10 +94,10 @@
 
 <script>
 import { Edit2Icon, LockIcon, UnlockIcon, EyeOffIcon } from 'vue-feather-icons'
-import FilePreviewDetail from '../../Others/FilePreviewDetail'
-import ListInfoItem from '../../UI/List/ListInfoItem'
-import ImageMetaData from '../../UI/Others/ImageMetaData'
-import TitlePreview from '../../UI/Labels/TitlePreview'
+import FilePreviewDetail from '../../Others/FilePreviewDetail.vue'
+import ListInfoItem from '../../UI/List/ListInfoItem.vue'
+import ImageMetaData from '../../UI/Others/ImageMetaData.vue'
+import TitlePreview from '../../UI/Labels/TitlePreview.vue'
 import { mapGetters } from 'vuex'
 
 export default {

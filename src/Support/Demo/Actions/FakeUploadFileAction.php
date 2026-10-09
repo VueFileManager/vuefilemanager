@@ -1,7 +1,7 @@
 <?php
 namespace Support\Demo\Actions;
 
-use ByteUnits\Metric;
+use Support\ByteUnits\Metric;
 use Illuminate\Support\Str;
 use Domain\Files\Requests\UploadFileRequest;
 use Domain\Files\Requests\UploadChunkRequest;

@@ -16,7 +16,7 @@
 	</div>
 </template>
 <script>
-import SwitchInput from '../Inputs/SwitchInput'
+import SwitchInput from '../Inputs/SwitchInput.vue'
 
 export default {
 	name: 'PlanPeriodSwitcher',

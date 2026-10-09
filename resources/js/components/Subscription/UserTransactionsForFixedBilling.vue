@@ -24,11 +24,11 @@
     </div>
 </template>
 <script>
-import InfoBox from '../UI/Others/InfoBox'
-import DatatableWrapper from '../UI/Table/DatatableWrapper'
-import FixedTransactionRow from './FixedTransactionRow'
-import FormLabel from '../UI/Labels/FormLabel'
-import ColorLabel from '../UI/Labels/ColorLabel'
+import InfoBox from '../UI/Others/InfoBox.vue'
+import DatatableWrapper from '../UI/Table/DatatableWrapper.vue'
+import FixedTransactionRow from './FixedTransactionRow.vue'
+import FormLabel from '../UI/Labels/FormLabel.vue'
+import ColorLabel from '../UI/Labels/ColorLabel.vue'
 
 export default {
     name: 'UserTransactionsForFixedBilling',

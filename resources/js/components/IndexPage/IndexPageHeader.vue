@@ -33,8 +33,8 @@
 
 <script>
 import HardDriveIcon from 'vue-feather-icons/icons/HardDriveIcon'
-import PageTitle from './Components/PageTitle'
-import AuthButton from '../UI/Buttons/AuthButton'
+import PageTitle from './Components/PageTitle.vue'
+import AuthButton from '../UI/Buttons/AuthButton.vue'
 import { CreditCardIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 

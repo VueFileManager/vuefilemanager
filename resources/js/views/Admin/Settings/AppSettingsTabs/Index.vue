@@ -42,7 +42,7 @@
                                 @input="$updateText('/admin/settings', 'header_title', app.header_title)"
                                 v-model="app.header_title"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                             <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -62,7 +62,7 @@
                                 @input="$updateText('/admin/settings', 'header_description', app.header_description)"
                                 rows="2"
                                 v-model="app.header_description"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             ></textarea>
                             <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -108,7 +108,7 @@
                                     @input="$updateText('/admin/settings', 'features_title', app.features_title)"
                                     v-model="app.features_title"
                                     type="text"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -130,7 +130,7 @@
                                     "
                                     rows="2"
                                     v-model="app.features_description"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -182,7 +182,7 @@
                                     @input="$updateText('/admin/settings', 'feature_title_1', app.feature_title_1)"
                                     v-model="app.feature_title_1"
                                     type="text"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -207,7 +207,7 @@
                                     "
                                     rows="2"
                                     v-model="app.feature_description_1"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -226,7 +226,7 @@
                                     @input="$updateText('/admin/settings', 'feature_title_2', app.feature_title_2)"
                                     v-model="app.feature_title_2"
                                     type="text"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -251,7 +251,7 @@
                                     "
                                     rows="2"
                                     v-model="app.feature_description_2"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -270,7 +270,7 @@
                                     @input="$updateText('/admin/settings', 'feature_title_3', app.feature_title_3)"
                                     v-model="app.feature_title_3"
                                     type="text"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -295,7 +295,7 @@
                                     "
                                     rows="2"
                                     v-model="app.feature_description_3"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -351,7 +351,7 @@
                                     @input="$updateText('/admin/settings', 'pricing_title', app.pricing_title)"
                                     v-model="app.pricing_title"
                                     type="text"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -373,7 +373,7 @@
                                     "
                                     rows="2"
                                     v-model="app.pricing_description"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -425,7 +425,7 @@
                                     @input="$updateText('/admin/settings', 'get_started_title', app.get_started_title)"
                                     v-model="app.get_started_title"
                                     type="text"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 />
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -451,7 +451,7 @@
                                     "
                                     rows="2"
                                     v-model="app.get_started_description"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     class="focus-border-theme input-dark"
                                 ></textarea>
                                 <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -477,7 +477,7 @@
                                 @input="$updateText('/admin/settings', 'footer_content', app.footer_content)"
                                 v-model="app.footer_content"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                             <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
@@ -490,17 +490,17 @@
 </template>
 
 <script>
-import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PageTabGroup from '../../../../components/Layout/PageTabGroup'
-import SelectInput from '../../../../components/Inputs/SelectInput'
-import SwitchInput from '../../../../components/Inputs/SwitchInput'
-import ImageInput from '../../../../components/Inputs/ImageInput'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import PageTab from '../../../../components/Layout/PageTab'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
+import SelectInput from '../../../../components/Inputs/SelectInput.vue'
+import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
+import ImageInput from '../../../../components/Inputs/ImageInput.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import { required } from 'vee-validate/dist/rules'
 import axios from 'axios'
 import { mapGetters } from 'vuex'

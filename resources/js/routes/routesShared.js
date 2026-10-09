@@ -2,7 +2,7 @@ const routesShared = [
     {
         name: 'Shared',
         path: '/share/:token',
-        component: () => import(/* webpackChunkName: "chunks/shared" */ '../views/Shared'),
+        component: () => import(/* webpackChunkName: "chunks/shared" */ '../views/Shared.vue'),
         meta: {
             requiresAuth: false,
         },
@@ -10,7 +10,7 @@ const routesShared = [
             {
                 name: 'Public',
                 path: '/share/:token/files/:id?',
-                component: () => import(/* webpackChunkName: "chunks/shared/browser" */ '../views/FileView/Public'),
+                component: () => import(/* webpackChunkName: "chunks/shared/browser" */ '../views/FileView/Public.vue'),
                 meta: {
                     requiresAuth: false,
                 },
@@ -20,7 +20,7 @@ const routesShared = [
     {
         name: 'SharedSingleFile',
         path: '/share/:token/file',
-        component: () => import(/* webpackChunkName: "chunks/shared/single-file" */ '../views/SharedSingleFile'),
+        component: () => import(/* webpackChunkName: "chunks/shared/single-file" */ '../views/SharedSingleFile.vue'),
         meta: {
             requiresAuth: false,
         },
@@ -28,7 +28,7 @@ const routesShared = [
     {
         name: 'SharedAuthentication',
         path: '/share/:token/authenticate',
-        component: () => import(/* webpackChunkName: "chunks/shared/authenticate" */ '../views/SharedAuthentication'),
+        component: () => import(/* webpackChunkName: "chunks/shared/authenticate" */ '../views/SharedAuthentication.vue'),
         meta: {
             requiresAuth: false,
         },

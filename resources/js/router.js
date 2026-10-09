@@ -9,13 +9,10 @@ import routesUser from './routes/routesUser'
 import routesFile from './routes/routesFile'
 import routesTeam from './routes/routesTeam'
 import store from './store/index'
-import Router from 'vue-router'
-import Vue from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
 
-Vue.use(Router)
-
-const router = new Router({
-    mode: 'history',
+const router = createRouter({
+    history: createWebHistory(),
     routes: [
         ...routesUploadRequest,
         ...routesMaintenance,
@@ -32,12 +29,12 @@ const router = new Router({
         if (savedPosition) {
             return savedPosition
         } else {
-            return { x: 0, y: 0 }
+            return { left: 0, top: 0 }
         }
     },
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
     if (to.matched.some((record) => record.meta.requiresAuth)) {
         // this route requires auth, check if logged in
         // if not, redirect to login page.
@@ -45,15 +42,11 @@ router.beforeEach((to, from, next) => {
         let isAuthenticated = store.getters.config ? store.getters.config.isAuthenticated : config.isAuthenticated
 
         if (!isAuthenticated) {
-            next({
+            return {
                 name: 'SignIn',
                 query: { redirect: to.fullPath },
-            })
-        } else {
-            next()
+            }
         }
-    } else {
-        next() // make sure to always call next()!
     }
 })
 

@@ -32,8 +32,8 @@
 </template>
 
 <script>
-import OptionGroup from './Components/OptionGroup'
-import Option from './Components/Option'
+import OptionGroup from './Components/OptionGroup.vue'
+import Option from './Components/Option.vue'
 import { ArrowUpIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 

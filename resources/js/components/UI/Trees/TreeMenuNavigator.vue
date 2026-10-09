@@ -50,7 +50,7 @@ export default {
     name: 'TreeMenuNavigator',
     props: ['disabled', 'nodes', 'depth'],
     components: {
-        'tree-node': () => import('./TreeMenuNavigator'),
+        'tree-node': () => import('./TreeMenuNavigator.vue'),
         ChevronRightIcon,
         FolderIcon,
     },

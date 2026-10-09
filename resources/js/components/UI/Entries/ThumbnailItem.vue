@@ -31,7 +31,7 @@
             <!--Image thumbnail-->
             <img
                 v-if="isImage && item.data.attributes.thumbnail"
-                class="ml-0.5 h-12 w-12 rounded object-cover"
+                class="ml-0.5 h-12 w-12 rounded-sm object-cover"
                 :src="item.data.attributes.thumbnail.xs"
                 :alt="item.data.attributes.name"
                 loading="lazy"
@@ -59,7 +59,7 @@
 
                 <!--Folder sub line-->
                 <small v-if="isFolder" class="block text-xs text-gray-500">
-                    {{ folderItems === 0 ? $t('empty') : $tc('folder.item_counts', folderItems) }},
+                    {{ folderItems === 0 ? $t('empty') : $t('folder.item_counts', folderItems) }},
                     {{ timeStamp }}
                 </small>
             </div>
@@ -69,11 +69,11 @@
 
 <script>
 import { LinkIcon, EyeIcon } from 'vue-feather-icons'
-import FileIconThumbnail from '../../Icons/FileIconThumbnail'
-import MemberAvatar from '../Others/MemberAvatar'
-import Emoji from '../../Emoji/Emoji'
+import FileIconThumbnail from '../../Icons/FileIconThumbnail.vue'
+import MemberAvatar from '../Others/MemberAvatar.vue'
+import Emoji from '../../Emoji/Emoji.vue'
 import { mapGetters } from 'vuex'
-import FolderIcon from '../../Icons/FolderIcon'
+import FolderIcon from '../../Icons/FolderIcon.vue'
 
 export default {
     name: 'ThumbnailItem',

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import TitlePreview from '../Labels/TitlePreview'
+import TitlePreview from '../Labels/TitlePreview.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'
 
@@ -40,7 +40,7 @@ export default {
 
             // Subtitle for multiple selected items
             if (filesLength > 1 && hasDraggedItem) {
-                return filesLength + ' ' + this.$tc('items', filesLength)
+                return filesLength + ' ' + this.$t('items', filesLength)
             }
 
             if ((filesLength < 2 || !hasDraggedItem) && this.draggedItem) {
@@ -48,7 +48,7 @@ export default {
                 if (this.draggedItem.data.type === 'folder') {
                     return this.draggedItem.items == 0
                         ? this.$t('empty')
-                        : this.$tc('folder.item_counts', this.draggedItem.items)
+                        : this.$t('folder.item_counts', this.draggedItem.items)
                 }
 
                 // Subtitle for single file

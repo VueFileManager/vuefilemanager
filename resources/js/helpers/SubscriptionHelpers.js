@@ -1,6 +1,7 @@
+import { globals } from '../globals'
 const ValidatorHelpers = {
-    install(Vue) {
-        Vue.prototype.$generatePaystackReference = function () {
+    install(app) {
+        globals.$generatePaystackReference = function () {
             let text = ''
 
             let possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'

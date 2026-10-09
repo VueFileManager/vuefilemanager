@@ -52,10 +52,10 @@
 </template>
 
 <script>
-import MenuMobileGroup from '../Mobile/MenuMobileGroup'
-import OptionGroup from './Components/OptionGroup'
-import MenuMobile from '../Mobile/MenuMobile'
-import Option from './Components/Option'
+import MenuMobileGroup from '../Mobile/MenuMobileGroup.vue'
+import OptionGroup from './Components/OptionGroup.vue'
+import MenuMobile from '../Mobile/MenuMobile.vue'
+import Option from './Components/Option.vue'
 import { mapGetters } from 'vuex'
 
 export default {

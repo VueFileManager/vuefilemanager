@@ -3,7 +3,7 @@ const routesAuth = [
         name: 'SuccessfullyVerified',
         path: '/successfully-verified',
         component: () =>
-            import(/* webpackChunkName: "chunks/successfully-email-verified" */ '../views/Auth/SuccessfullyEmailVerified'),
+            import(/* webpackChunkName: "chunks/successfully-email-verified" */ '../views/Auth/SuccessfullyEmailVerified.vue'),
         meta: {
             requiresAuth: false,
         },
@@ -11,7 +11,7 @@ const routesAuth = [
     {
         name: 'SuccessfullySend',
         path: '/successfully-send',
-        component: () => import(/* webpackChunkName: "chunks/successfully-email-send" */ '../views/Auth/SuccessfullySendEmail'),
+        component: () => import(/* webpackChunkName: "chunks/successfully-email-send" */ '../views/Auth/SuccessfullySendEmail.vue'),
         meta: {
             requiresAuth: false,
         },
@@ -19,7 +19,7 @@ const routesAuth = [
     {
         name: 'SignIn',
         path: '/sign-in',
-        component: () => import(/* webpackChunkName: "chunks/sign-in" */ '../views/Auth/SignIn'),
+        component: () => import(/* webpackChunkName: "chunks/sign-in" */ '../views/Auth/SignIn.vue'),
         meta: {
             requiresAuth: false,
         },
@@ -27,7 +27,7 @@ const routesAuth = [
     {
         name: 'SignUp',
         path: '/sign-up',
-        component: () => import(/* webpackChunkName: "chunks/sign-up" */ '../views/Auth/SignUp'),
+        component: () => import(/* webpackChunkName: "chunks/sign-up" */ '../views/Auth/SignUp.vue'),
         meta: {
             requiresAuth: false,
         },
@@ -35,7 +35,7 @@ const routesAuth = [
     {
         name: 'ForgottenPassword',
         path: '/forgotten-password',
-        component: () => import(/* webpackChunkName: "chunks/forgotten-password" */ '../views/Auth/ForgottenPassword'),
+        component: () => import(/* webpackChunkName: "chunks/forgotten-password" */ '../views/Auth/ForgottenPassword.vue'),
         meta: {
             requiresAuth: false,
         },
@@ -43,7 +43,7 @@ const routesAuth = [
     {
         name: 'CreateNewPassword',
         path: '/create-new-password',
-        component: () => import(/* webpackChunkName: "chunks/create-new-password" */ '../views/Auth/CreateNewPassword'),
+        component: () => import(/* webpackChunkName: "chunks/create-new-password" */ '../views/Auth/CreateNewPassword.vue'),
         meta: {
             requiresAuth: false,
         },

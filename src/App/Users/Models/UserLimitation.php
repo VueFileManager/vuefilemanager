@@ -2,7 +2,7 @@
 namespace App\Users\Models;
 
 use DB;
-use ByteUnits\Metric;
+use Support\ByteUnits\Metric;
 use Illuminate\Database\Eloquent\Model;
 use Database\Factories\UserLimitationFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;

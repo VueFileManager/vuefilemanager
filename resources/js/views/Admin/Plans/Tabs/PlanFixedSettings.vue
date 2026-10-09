@@ -113,12 +113,12 @@
 </template>
 
 <script>
-import SwitchInput from '../../../../components/Inputs/SwitchInput'
-import SelectInput from '../../../../components/Inputs/SelectInput'
-import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
+import SelectInput from '../../../../components/Inputs/SelectInput.vue'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 
 export default {
     name: 'PlanFixedSettings',

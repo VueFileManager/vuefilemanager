@@ -72,12 +72,12 @@
 </template>
 
 <script>
-import DatatableCellImage from '../../UI/Table/DatatableCellImage'
-import DatatableWrapper from '../../UI/Table/DatatableWrapper'
-import ColorLabel from '../../UI/Labels/ColorLabel'
+import DatatableCellImage from '../../UI/Table/DatatableCellImage.vue'
+import DatatableWrapper from '../../UI/Table/DatatableWrapper.vue'
+import ColorLabel from '../../UI/Labels/ColorLabel.vue'
 import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
-import MemberAvatar from '../../UI/Others/MemberAvatar'
-import InfoBox from '../../UI/Others/InfoBox'
+import MemberAvatar from '../../UI/Others/MemberAvatar.vue'
+import InfoBox from '../../UI/Others/InfoBox.vue'
 import { mapGetters } from 'vuex'
 
 export default {

@@ -24,7 +24,7 @@
 						v-model="mail.smtp.host"
 						placeholder="Type your mail host"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -36,7 +36,7 @@
 						v-model="mail.smtp.port"
 						placeholder="Type your mail port"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -48,7 +48,7 @@
 						v-model="mail.smtp.username"
 						placeholder="Type your mail username"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -60,7 +60,7 @@
 						v-model="mail.smtp.password"
 						placeholder="Type your mail password"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -89,7 +89,7 @@
 						v-model.trim="mail.smtp.email"
 						placeholder="Type your mail from address"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -103,7 +103,7 @@
 						v-model="mail.mailgun.domain"
 						placeholder="Type your domain"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -115,7 +115,7 @@
 						v-model="mail.mailgun.secret"
 						placeholder="Type your secret"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -138,7 +138,7 @@
 						v-model="mail.mailgun.sender"
 						placeholder="Type your sender email..."
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -152,7 +152,7 @@
 						v-model="mail.postmark.token"
 						placeholder="Type your token"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -164,7 +164,7 @@
 						v-model="mail.postmark.sender"
 						placeholder="Type your sender signature..."
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -178,7 +178,7 @@
 						v-model="mail.ses.access_key"
 						placeholder="Type your access key"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -196,7 +196,7 @@
 						v-model="mail.ses.secret_access_key"
 						placeholder="Type your secret access key"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -219,7 +219,7 @@
 						v-model="mail.ses.sender"
 						placeholder="Type your identity email..."
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -231,7 +231,7 @@
 						v-model="mail.ses.session_token"
 						placeholder="Type your session token"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -241,9 +241,9 @@
 
 <script>
 	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
-	import SelectInput from '../Inputs/SelectInput'
-	import AppInputText from './Layouts/AppInputText'
-	import FormLabel from '../UI/Labels/FormLabel'
+	import SelectInput from '../Inputs/SelectInput.vue'
+	import AppInputText from './Layouts/AppInputText.vue'
+	import FormLabel from '../UI/Labels/FormLabel.vue'
 
 	export default {
 		name: 'MailSetup',

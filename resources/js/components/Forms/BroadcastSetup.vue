@@ -33,7 +33,7 @@
 						v-model="broadcast.host"
 						placeholder="Type your hostname or IP"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -57,7 +57,7 @@
 						v-model="broadcast.id"
 						placeholder="Type your app id"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -69,7 +69,7 @@
 						v-model="broadcast.key"
 						placeholder="Paste your key"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -81,7 +81,7 @@
 						v-model="broadcast.secret"
 						placeholder="Paste your secret"
 						type="text"
-						:class="{ '!border-rose-600': errors[0] }"
+						:class="{ 'border-rose-600!': errors[0] }"
 					/>
 				</AppInputText>
 			</ValidationProvider>
@@ -108,11 +108,11 @@
 
 <script>
 	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
-	import SelectInput from '../Inputs/SelectInput'
-	import AppInputText from './Layouts/AppInputText'
-	import FormLabel from '../UI/Labels/FormLabel'
-	import AppInputSwitch from "./Layouts/AppInputSwitch";
-	import SwitchInput from "../Inputs/SwitchInput";
+	import SelectInput from '../Inputs/SelectInput.vue'
+	import AppInputText from './Layouts/AppInputText.vue'
+	import FormLabel from '../UI/Labels/FormLabel.vue'
+	import AppInputSwitch from "./Layouts/AppInputSwitch.vue";
+	import SwitchInput from "../Inputs/SwitchInput.vue";
 
 	export default {
 		name: 'BroadcastSetup',

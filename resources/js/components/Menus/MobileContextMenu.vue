@@ -17,9 +17,9 @@
 </template>
 
 <script>
-import MenuMobileGroup from '../Mobile/MenuMobileGroup'
-import ThumbnailItem from '../UI/Entries/ThumbnailItem'
-import MenuMobile from '../Mobile/MenuMobile'
+import MenuMobileGroup from '../Mobile/MenuMobileGroup.vue'
+import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
+import MenuMobile from '../Mobile/MenuMobile.vue'
 import { mapGetters } from 'vuex'
 
 export default {

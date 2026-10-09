@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import FilePreviewToolbar from './FilePreviewToolbar'
-import FilePreviewMedia from './FilePreviewMedia'
+import FilePreviewToolbar from './FilePreviewToolbar.vue'
+import FilePreviewMedia from './FilePreviewMedia.vue'
 import { events } from '../../bus'
 
 export default {

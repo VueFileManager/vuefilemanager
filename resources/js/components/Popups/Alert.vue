@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import ButtonBase from '../UI/Buttons/ButtonBase'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import { events } from '../../bus'
-import PopupActions from "./Components/PopupActions";
+import PopupActions from "./Components/PopupActions.vue";
 
 export default {
     name: 'AlertPopup',

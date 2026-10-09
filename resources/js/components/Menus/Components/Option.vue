@@ -250,7 +250,7 @@
 </template>
 
 <script>
-import AlphabetIcon from '../../Icons/AlphabetIcon'
+import AlphabetIcon from '../../Icons/AlphabetIcon.vue'
 import {
 	Link2Icon,
     UserMinusIcon,

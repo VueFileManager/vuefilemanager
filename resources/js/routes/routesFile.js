@@ -2,12 +2,12 @@ const routesFile = [
     {
         name: 'Platform',
         path: '/platform',
-        component: () => import(/* webpackChunkName: "chunks/platform" */ '../views/Platform'),
+        component: () => import(/* webpackChunkName: "chunks/platform" */ '../views/Platform.vue'),
         children: [
             {
                 name: 'Files',
                 path: '/platform/files/:id?',
-                component: () => import(/* webpackChunkName: "chunks/files" */ '../views/FileView/Files'),
+                component: () => import(/* webpackChunkName: "chunks/files" */ '../views/FileView/Files.vue'),
                 meta: {
                     requiresAuth: true,
                 },
@@ -16,7 +16,7 @@ const routesFile = [
                 name: 'RecentUploads',
                 path: '/platform/recent-uploads',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/recent-uploads" */ '../views/FileView/RecentUploads'),
+                    import(/* webpackChunkName: "chunks/recent-uploads" */ '../views/FileView/RecentUploads.vue'),
                 meta: {
                     requiresAuth: true,
                 },
@@ -25,7 +25,7 @@ const routesFile = [
                 name: 'MySharedItems',
                 path: '/platform/my-shared-items',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/my-shared-items" */ '../views/FileView/MySharedItems'),
+                    import(/* webpackChunkName: "chunks/my-shared-items" */ '../views/FileView/MySharedItems.vue'),
                 meta: {
                     requiresAuth: true,
                 },
@@ -33,7 +33,7 @@ const routesFile = [
             {
                 name: 'Trash',
                 path: '/platform/trash/:id?',
-                component: () => import(/* webpackChunkName: "chunks/trash" */ '../views/FileView/Trash'),
+                component: () => import(/* webpackChunkName: "chunks/trash" */ '../views/FileView/Trash.vue'),
                 meta: {
                     requiresAuth: true,
                 },
@@ -41,7 +41,7 @@ const routesFile = [
             {
                 name: 'TeamFolders',
                 path: '/platform/team-folders/:id?',
-                component: () => import(/* webpackChunkName: "chunks/team-folders" */ '../views/FileView/TeamFolders'),
+                component: () => import(/* webpackChunkName: "chunks/team-folders" */ '../views/FileView/TeamFolders.vue'),
                 meta: {
                     requiresAuth: true,
                 },
@@ -50,7 +50,7 @@ const routesFile = [
                 name: 'SharedWithMe',
                 path: '/platform/shared-with-me/:id?',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/shared-with-me" */ '../views/FileView/SharedWithMe'),
+                    import(/* webpackChunkName: "chunks/shared-with-me" */ '../views/FileView/SharedWithMe.vue'),
                 meta: {
                     requiresAuth: true,
                 },

@@ -156,11 +156,11 @@
 </template>
 
 <script>
-import MenuMobileGroup from './MenuMobileGroup'
-import OptionGroup from '../Menus/Components/OptionGroup'
-import UserHeadline from '../UI/Others/UserHeadline'
-import MenuMobile from './MenuMobile'
-import Option from '../Menus/Components/Option'
+import MenuMobileGroup from './MenuMobileGroup.vue'
+import OptionGroup from '../Menus/Components/OptionGroup.vue'
+import UserHeadline from '../UI/Others/UserHeadline.vue'
+import MenuMobile from './MenuMobile.vue'
+import Option from '../Menus/Components/Option.vue'
 import { ChevronLeftIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 

@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import PermissionToggleButton from './PermissionToggleButton'
-import MemberAvatar from '../../UI/Others/MemberAvatar'
+import PermissionToggleButton from './PermissionToggleButton.vue'
+import MemberAvatar from '../../UI/Others/MemberAvatar.vue'
 import { XIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 

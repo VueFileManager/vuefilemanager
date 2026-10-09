@@ -40,7 +40,7 @@
 <script>
 import { CheckIcon, HardDriveIcon } from 'vue-feather-icons'
 import axios from 'axios'
-import PlanPeriodSwitcher from "../../Subscription/PlanPeriodSwitcher";
+import PlanPeriodSwitcher from "../../Subscription/PlanPeriodSwitcher.vue";
 
 export default {
     name: 'PricingTables',

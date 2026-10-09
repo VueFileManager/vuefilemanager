@@ -198,11 +198,11 @@
 </template>
 
 <script>
-import DatatableWrapper from '../../components/UI/Table/DatatableWrapper'
-import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
-import SwitchInput from '../../components/Inputs/SwitchInput'
-import ButtonBase from '../../components/UI/Buttons/ButtonBase'
-import ColorLabel from '../../components/UI/Labels/ColorLabel'
+import DatatableWrapper from '../../components/UI/Table/DatatableWrapper.vue'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton.vue'
+import SwitchInput from '../../components/Inputs/SwitchInput.vue'
+import ButtonBase from '../../components/UI/Buttons/ButtonBase.vue'
+import ColorLabel from '../../components/UI/Labels/ColorLabel.vue'
 import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
 import {events} from "../../bus";

@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import MemberAvatar from './MemberAvatar'
-import NotificationBell from '../../Notifications/Components/NotificationBell'
+import MemberAvatar from './MemberAvatar.vue'
+import NotificationBell from '../../Notifications/Components/NotificationBell.vue'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
 

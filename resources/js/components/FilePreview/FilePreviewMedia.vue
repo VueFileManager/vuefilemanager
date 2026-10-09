@@ -26,7 +26,7 @@
             <div v-if="isAudio || isImage || isVideo" class="flex h-full w-full items-center justify-center">
                 <Audio v-if="isAudio" :file="currentFile" />
                 <Video v-if="isVideo" :file="currentFile" class="mx-auto max-h-full max-w-[1080px] self-center" />
-                <ImageFile v-if="isImage" :file="currentFile" class="mx-auto max-h-[100%] max-w-[100%] self-center" :class="{'file-shadow': !$isMobile()}" id="printable-file" />
+                <ImageFile v-if="isImage" :file="currentFile" class="mx-auto max-h-full max-w-full self-center" :class="{'file-shadow': !$isMobile()}" id="printable-file" />
             </div>
         </div>
 
@@ -44,7 +44,7 @@
                 :id="`group-${file.data.id}`"
                 class="relative flex h-full w-screen shrink-0 snap-center items-center justify-center"
             >
-                <ImageFile v-if="isImage" :file="file" class="mx-auto max-h-[100%] max-w-[100%] self-center" />
+                <ImageFile v-if="isImage" :file="file" class="mx-auto max-h-full max-w-full self-center" />
                 <Audio v-if="isAudio" :file="file" />
                 <Video v-if="isVideo" :file="file" />
                 <PdfFile v-if="isPDF" :file="file" />
@@ -55,19 +55,19 @@
 
 <script>
 import { ChevronLeftIcon, ChevronRightIcon } from 'vue-feather-icons'
-import ToolbarButton from '../UI/Buttons/ToolbarButton'
-import ItemGrid from "../UI/Entries/ItemGrid"
-import ImageFile from './Media/ImageFile'
-import Audio from './Media/Audio'
-import Video from './Media/Video'
-import Spinner from '../UI/Others/Spinner'
+import ToolbarButton from '../UI/Buttons/ToolbarButton.vue'
+import ItemGrid from "../UI/Entries/ItemGrid.vue"
+import ImageFile from './Media/ImageFile.vue'
+import Audio from './Media/Audio.vue'
+import Video from './Media/Video.vue'
+import Spinner from '../UI/Others/Spinner.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 
 export default {
     name: 'FilePreviewMedia',
     components: {
-		PdfFile: () => import('./Media/PdfFile'),
+		PdfFile: () => import('./Media/PdfFile.vue'),
         ChevronRightIcon,
         ChevronLeftIcon,
         ToolbarButton,

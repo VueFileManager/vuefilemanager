@@ -72,11 +72,11 @@
 </template>
 
 <script>
-import MemberAvatar from '../UI/Others/MemberAvatar'
+import MemberAvatar from '../UI/Others/MemberAvatar.vue'
 import {mapGetters} from 'vuex'
 import {HardDriveIcon, MoonIcon, PowerIcon, SettingsIcon, SunIcon, UserIcon,} from 'vue-feather-icons'
-import NotificationCenter from "../Notifications/NotificationCenter"
-import NotificationBell from "../Notifications/Components/NotificationBell";
+import NotificationCenter from "../Notifications/NotificationCenter.vue"
+import NotificationBell from "../Notifications/Components/NotificationBell.vue";
 
 export default {
     name: 'SidebarNavigation',

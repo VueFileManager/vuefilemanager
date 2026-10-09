@@ -12,7 +12,7 @@
                     <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
                         <input
                             v-model="name"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             type="text"
                             ref="input"
                             class="focus-border-theme input-dark"
@@ -48,18 +48,18 @@
 
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from './Components/PopupWrapper'
-import PopupActions from './Components/PopupActions'
-import PopupContent from './Components/PopupContent'
-import PopupHeader from './Components/PopupHeader'
-import ThumbnailItem from '../UI/Entries/ThumbnailItem'
-import ButtonBase from '../UI/Buttons/ButtonBase'
+import PopupWrapper from './Components/PopupWrapper.vue'
+import PopupActions from './Components/PopupActions.vue'
+import PopupContent from './Components/PopupContent.vue'
+import PopupHeader from './Components/PopupHeader.vue'
+import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import { required } from 'vee-validate/dist/rules'
-import AppInputSwitch from '../Forms/Layouts/AppInputSwitch'
-import AppInputText from '../Forms/Layouts/AppInputText'
-import SwitchInput from '../Inputs/SwitchInput'
+import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import SwitchInput from '../Inputs/SwitchInput.vue'
 import { events } from '../../bus'
-import EmojiPicker from '../Emoji/EmojiPicker'
+import EmojiPicker from '../Emoji/EmojiPicker.vue'
 
 export default {
     name: 'CreateFolderPopup',

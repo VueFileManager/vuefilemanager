@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Spinner from '../UI/Others/Spinner'
+import Spinner from '../UI/Others/Spinner.vue'
 
 export default {
     name: 'PageTab',

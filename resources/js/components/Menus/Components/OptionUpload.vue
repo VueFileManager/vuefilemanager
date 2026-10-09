@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import FolderUploadIcon from '../../Icons/FolderUploadIcon'
+import FolderUploadIcon from '../../Icons/FolderUploadIcon.vue'
 import { UploadCloudIcon } from 'vue-feather-icons'
 
 export default {

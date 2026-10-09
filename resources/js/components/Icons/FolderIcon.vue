@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import VueFolderTeamIcon from './VueFolderTeamIcon'
-import VueFolderIcon from './VueFolderIcon'
+import VueFolderTeamIcon from './VueFolderTeamIcon.vue'
+import VueFolderIcon from './VueFolderIcon.vue'
 
 export default {
     name: 'FolderIcon',

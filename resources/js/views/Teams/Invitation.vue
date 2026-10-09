@@ -41,11 +41,11 @@
                 :disabled="isLoading"
             />
 
-            <i18n path="or_decline_your_invitation" tag="div" class="block">
+            <i18n-t keypath="or_decline_your_invitation" tag="div" class="block">
                 <b @click="declineInvitation" class="text-theme cursor-pointer font-bold">
                     {{ $t('decline') }}
                 </b>
-            </i18n>
+            </i18n-t>
         </AuthContent>
 
         <!--Accepted invitation screen-->
@@ -119,13 +119,13 @@
 
 <script>
 import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import VueFolderTeamIcon from '../../components/Icons/VueFolderTeamIcon'
-import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
-import AuthContent from '../../components/Layout/AuthPages/AuthContent'
-import MemberAvatar from '../../components/UI/Others/MemberAvatar'
-import AuthButton from '../../components/UI/Buttons/AuthButton'
-import Spinner from '../../components/UI/Others/Spinner'
-import Headline from '../../components/UI/Labels/LogoHeadline'
+import VueFolderTeamIcon from '../../components/Icons/VueFolderTeamIcon.vue'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
+import MemberAvatar from '../../components/UI/Others/MemberAvatar.vue'
+import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
+import Spinner from '../../components/UI/Others/Spinner.vue'
+import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 
@@ -162,7 +162,7 @@ export default {
             this.isLoading = true
 
             axios
-                .put(`/api/teams/invitations/${this.$router.currentRoute.params.id}`)
+                .put(`/api/teams/invitations/${this.$route.params.id}`)
                 .then(() => {
                     if (this.invitation.data.attributes.isExistedUser) {
                         this.goToAuthPage('accepted')
@@ -179,7 +179,7 @@ export default {
             this.isLoading = true
 
             axios
-                .delete(`/api/teams/invitations/${this.$router.currentRoute.params.id}`)
+                .delete(`/api/teams/invitations/${this.$route.params.id}`)
                 .then(() => {
                     this.goToAuthPage('denied')
                 })
@@ -197,7 +197,7 @@ export default {
     },
     created() {
         axios
-            .get(`/api/teams/invitations/${this.$router.currentRoute.params.id}`)
+            .get(`/api/teams/invitations/${this.$route.params.id}`)
             .then((response) => {
                 this.invitation = response.data
                 this.goToAuthPage('invitation')

@@ -1,7 +1,7 @@
 <template>
     <ContentSidebar
         v-if="navigationTree && navigationTree.length >= 1 && isVisibleNavigationBars"
-        class="relative lg:!grid"
+        class="relative lg:grid!"
     >
         <!--Full screen button-->
         <div
@@ -79,9 +79,9 @@ import {
     UsersIcon,
     XIcon,
 } from 'vue-feather-icons'
-import TreeMenuNavigator from '../UI/Trees/TreeMenuNavigator'
-import ContentSidebar from '../Sidebar/ContentSidebar'
-import ContentGroup from '../Sidebar/ContentGroup'
+import TreeMenuNavigator from '../UI/Trees/TreeMenuNavigator.vue'
+import ContentSidebar from '../Sidebar/ContentSidebar.vue'
+import ContentGroup from '../Sidebar/ContentGroup.vue'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 

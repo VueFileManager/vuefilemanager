@@ -1,9 +1,9 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Database Credentials-->
-        <AuthContent name="database-credentials" :visible="true" class="mt-6 mb-12 !max-w-2xl">
+        <AuthContent name="database-credentials" :visible="true" class="mt-6 mb-12 max-w-2xl!">
             <Headline
-                class="mx-auto !mb-10 max-w-screen-sm"
+                class="mx-auto mb-10! max-w-(--breakpoint-sm)"
                 title="Setup Wizard"
                 description="Create your admin account."
             >
@@ -35,7 +35,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your full name"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -47,7 +47,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your email"
                             type="email"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -65,7 +65,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your password"
                             type="password"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -83,7 +83,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Confirm your password"
                             type="password"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -102,19 +102,19 @@
 </template>
 
 <script>
-import AppInputText from '../../components/Forms/Layouts/AppInputText'
+import AppInputText from '../../components/Forms/Layouts/AppInputText.vue'
 import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
-import SelectInput from '../../components/Inputs/SelectInput'
-import SwitchInput from '../../components/Inputs/SwitchInput'
-import ImageInput from '../../components/Inputs/ImageInput'
-import FormLabel from '../../components/UI/Labels/FormLabel'
-import InfoBox from '../../components/UI/Others/InfoBox'
-import AuthContent from '../../components/Layout/AuthPages/AuthContent'
-import AuthButton from '../../components/UI/Buttons/AuthButton'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
+import SelectInput from '../../components/Inputs/SelectInput.vue'
+import SwitchInput from '../../components/Inputs/SwitchInput.vue'
+import ImageInput from '../../components/Inputs/ImageInput.vue'
+import FormLabel from '../../components/UI/Labels/FormLabel.vue'
+import InfoBox from '../../components/UI/Others/InfoBox.vue'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
+import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
 import { required } from 'vee-validate/dist/rules'
 import { SettingsIcon } from 'vue-feather-icons'
-import Headline from '../../components/UI/Labels/LogoHeadline'
+import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { events } from '../../bus'
 import axios from 'axios'
 
