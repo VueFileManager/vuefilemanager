@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\UploadRequest;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
@@ -9,9 +10,7 @@ use Domain\UploadRequest\Models\UploadRequest;
 
 class UploadRequestBrowsingTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_navigator_tree_for_upload_request_folder()
     {
         $user = User::factory()
@@ -78,9 +77,7 @@ class UploadRequestBrowsingTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_folder_content_for_upload_request_folder()
     {
         $user = User::factory()
@@ -128,9 +125,7 @@ class UploadRequestBrowsingTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_folder_content_from_not_existed_upload_request_folder()
     {
         $user = User::factory()

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import Spinner from '../UI/Others/Spinner'
+import Spinner from '../UI/Others/Spinner.vue'
 import { mapGetters } from 'vuex'
 
 export default {

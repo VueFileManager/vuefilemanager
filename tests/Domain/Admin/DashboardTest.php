@@ -1,15 +1,14 @@
 <?php
 namespace Tests\Domain\Admin;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
 
 class DashboardTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_dashboard_data()
     {
         $user = User::factory()
@@ -25,9 +24,7 @@ class DashboardTest extends TestCase
             ->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_new_users_for_dashboard()
     {
         $users = User::factory()

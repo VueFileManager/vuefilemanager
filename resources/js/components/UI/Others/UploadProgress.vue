@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import ProgressBar from './ProgressBar'
-import { RefreshCwIcon, XIcon } from 'vue-feather-icons'
+import ProgressBar from './ProgressBar.vue'
+import { RefreshCwIcon, XIcon } from '../../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'
 
@@ -87,7 +87,7 @@ export default {
     transition: all 0.3s ease;
 }
 
-.info-panel-enter,
+.info-panel-enter-from,
 .info-panel-leave-to {
     opacity: 0;
     transform: translateY(-100%);

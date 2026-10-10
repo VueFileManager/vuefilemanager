@@ -8,7 +8,7 @@
                     </MobileActionButton>
                 </router-link>
 
-                <MobileActionButton @click.native="$openSpotlight('users')" icon="search">
+                <MobileActionButton @click="$openSpotlight('users')" icon="search">
                     {{ $t('search') }}
                 </MobileActionButton>
             </div>
@@ -21,11 +21,11 @@
                 :columns="columns"
                 class="overflow-x-auto"
             >
-                <template slot-scope="{ row }">
+                <template #default="{ row }">
                     <!--Not a subscription-->
                     <tr
                         v-if="config.subscriptionType === 'none'"
-                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                     >
                         <td class="py-3 pr-3 md:pr-1">
                             <router-link
@@ -42,7 +42,7 @@
                                     />
                                     <div class="ml-3 pr-10">
                                         <b
-                                            class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                            class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                             style="max-width: 155px"
                                         >
                                             {{ row.data.relationships.settings.data.attributes.name }}
@@ -103,7 +103,7 @@
                     <!--Fixed subscription-->
                     <tr
                         v-if="config.subscriptionType === 'fixed'"
-                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                     >
                         <td class="py-3 pr-3 md:pr-1">
                             <router-link
@@ -120,7 +120,7 @@
                                     />
                                     <div class="ml-3 pr-10">
                                         <b
-                                            class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                            class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                             style="max-width: 155px"
                                         >
                                             {{ row.data.relationships.settings.data.attributes.name }}
@@ -186,7 +186,7 @@
                     <!--Metered subscription-->
                     <tr
                         v-if="config.subscriptionType === 'metered'"
-                        class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                        class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                     >
                         <td class="py-3 pr-3 md:pr-1">
                             <router-link
@@ -203,7 +203,7 @@
                                     />
                                     <div class="ml-3 pr-10">
                                         <b
-                                            class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                            class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                             style="max-width: 155px"
                                         >
                                             {{ row.data.relationships.settings.data.attributes.name }}
@@ -268,16 +268,16 @@
 </template>
 
 <script>
-import MemberAvatar from '../../components/UI/Others/MemberAvatar'
-import DatatableCellImage from '../../components/UI/Table/DatatableCellImage'
-import DatatableWrapper from '../../components/UI/Table/DatatableWrapper'
-import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
-import MobileHeader from '../../components/Mobile/MobileHeader'
-import SectionTitle from '../../components/UI/Labels/SectionTitle'
-import ButtonBase from '../../components/UI/Buttons/ButtonBase'
-import ColorLabel from '../../components/UI/Labels/ColorLabel'
-import Spinner from '../../components/UI/Others/Spinner'
-import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
+import MemberAvatar from '../../components/UI/Others/MemberAvatar.vue'
+import DatatableCellImage from '../../components/UI/Table/DatatableCellImage.vue'
+import DatatableWrapper from '../../components/UI/Table/DatatableWrapper.vue'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton.vue'
+import MobileHeader from '../../components/Mobile/MobileHeader.vue'
+import SectionTitle from '../../components/UI/Labels/SectionTitle.vue'
+import ButtonBase from '../../components/UI/Buttons/ButtonBase.vue'
+import ColorLabel from '../../components/UI/Labels/ColorLabel.vue'
+import Spinner from '../../components/UI/Others/Spinner.vue'
+import { Trash2Icon, Edit2Icon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

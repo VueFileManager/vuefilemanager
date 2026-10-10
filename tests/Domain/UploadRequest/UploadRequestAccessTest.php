@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\UploadRequest;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -11,9 +12,7 @@ use Domain\UploadRequest\Models\UploadRequest;
 
 class UploadRequestAccessTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_file_from_upload_request_folder()
     {
         $user = User::factory()
@@ -45,9 +44,7 @@ class UploadRequestAccessTest extends TestCase
             ->assertDownload($file->name);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_thumbnail_from_upload_request_folder()
     {
         $user = User::factory()
@@ -78,9 +75,7 @@ class UploadRequestAccessTest extends TestCase
             ->assertDownload("xs-$thumbnail->name");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_get_file_from_expired_upload_request_folder()
     {
         $uploadRequest = UploadRequest::factory()
@@ -94,9 +89,7 @@ class UploadRequestAccessTest extends TestCase
             ->assertStatus(410);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_get_thumbnail_from_expired_upload_request_folder()
     {
         $uploadRequest = UploadRequest::factory()

@@ -6,11 +6,11 @@
         :columns="columns"
         class="mt-6 overflow-x-auto"
     >
-        <template slot-scope="{ row }">
+        <template #default="{ row }">
             <!--Not a subscription-->
             <tr
                 v-if="config.subscriptionType === 'none'"
-                class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
             >
                 <td class="py-3 pr-3 md:pr-1">
                     <router-link
@@ -23,7 +23,7 @@
                             <MemberAvatar :is-border="false" :size="44" :member="row" />
                             <div class="ml-3 pr-10">
                                 <b
-                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                     style="max-width: 155px"
                                 >
                                     {{ row.data.relationships.settings.data.attributes.name }}
@@ -84,7 +84,7 @@
             <!--Fixed subscription-->
             <tr
                 v-if="config.subscriptionType === 'fixed'"
-                class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
             >
                 <td class="py-3 pr-3 md:pr-1">
                     <router-link
@@ -97,7 +97,7 @@
                             <MemberAvatar :is-border="false" :size="44" :member="row" />
                             <div class="ml-3 pr-10">
                                 <b
-                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                     style="max-width: 155px"
                                 >
                                     {{ row.data.relationships.settings.data.attributes.name }}
@@ -163,7 +163,7 @@
             <!--Metered subscription-->
             <tr
                 v-if="config.subscriptionType === 'metered'"
-                class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
             >
                 <td class="py-3 pr-3 md:pr-1">
                     <router-link
@@ -176,7 +176,7 @@
                             <MemberAvatar :is-border="false" :size="44" :member="row" />
                             <div class="ml-3 pr-10">
                                 <b
-                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                     style="max-width: 155px"
                                 >
                                     {{ row.data.relationships.settings.data.attributes.name }}
@@ -236,11 +236,11 @@
 </template>
 
 <script>
-import DatatableCellImage from '../../UI/Table/DatatableCellImage'
-import DatatableWrapper from '../../UI/Table/DatatableWrapper'
-import ColorLabel from '../../UI/Labels/ColorLabel'
-import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
-import MemberAvatar from '../../UI/Others/MemberAvatar'
+import DatatableCellImage from '../../UI/Table/DatatableCellImage.vue'
+import DatatableWrapper from '../../UI/Table/DatatableWrapper.vue'
+import ColorLabel from '../../UI/Labels/ColorLabel.vue'
+import { Trash2Icon, Edit2Icon } from '../../../icons/feather.js'
+import MemberAvatar from '../../UI/Others/MemberAvatar.vue'
 import { mapGetters } from 'vuex'
 
 export default {

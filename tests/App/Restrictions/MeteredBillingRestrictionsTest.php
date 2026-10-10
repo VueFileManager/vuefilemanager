@@ -2,6 +2,7 @@
 
 namespace Tests\App\Restrictions;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Str;
 use Storage;
@@ -25,9 +26,7 @@ class MeteredBillingRestrictionsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_upload()
     {
         $user = User::factory()
@@ -44,9 +43,7 @@ class MeteredBillingRestrictionsTest extends TestCase
         $this->assertEquals(true, $user->canUpload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_upload_because_user_has_3_failed_payments()
     {
         $user = User::factory()
@@ -56,9 +53,7 @@ class MeteredBillingRestrictionsTest extends TestCase
         $this->assertEquals(false, $user->canUpload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_upload_because_user_has_3_dunning_mails()
     {
         $user = User::factory()
@@ -74,9 +69,7 @@ class MeteredBillingRestrictionsTest extends TestCase
         $this->assertEquals(false, $user->canUpload());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_create_new_folder()
     {
         $user = User::factory()
@@ -109,9 +102,7 @@ class MeteredBillingRestrictionsTest extends TestCase
         $this->assertDatabaseCount('folders', 2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_create_new_folder_because_user_has_3_failed_payments()
     {
         $user = User::factory()
@@ -144,9 +135,7 @@ class MeteredBillingRestrictionsTest extends TestCase
         $this->assertDatabaseCount('folders', 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_create_new_folder_because_user_has_3_dunning_mails()
     {
         $user = User::factory()
@@ -185,9 +174,7 @@ class MeteredBillingRestrictionsTest extends TestCase
         $this->assertDatabaseCount('folders', 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_get_private_file_because_user_has_3_failed_payments()
     {
         $user = User::factory()
@@ -207,9 +194,7 @@ class MeteredBillingRestrictionsTest extends TestCase
             ->assertStatus(401);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_get_private_file_because_user_has_3_dunning_mails()
     {
         $user = User::factory()
@@ -235,9 +220,7 @@ class MeteredBillingRestrictionsTest extends TestCase
             ->assertStatus(401);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_get_private_file()
     {
         $user = User::factory()
@@ -262,9 +245,7 @@ class MeteredBillingRestrictionsTest extends TestCase
             ->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_get_shared_file_because_user_has_3_failed_payments()
     {
         $user = User::factory()
@@ -291,9 +272,7 @@ class MeteredBillingRestrictionsTest extends TestCase
             ->assertStatus(401);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_get_shared_file_because_user_has_3_dunning_mails()
     {
         $user = User::factory()
@@ -326,9 +305,7 @@ class MeteredBillingRestrictionsTest extends TestCase
             ->assertStatus(401);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_get_shared_file()
     {
         $user = User::factory()
@@ -361,9 +338,7 @@ class MeteredBillingRestrictionsTest extends TestCase
             ->assertStatus(404);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_get_share_page_because_user_has_3_failed_payments()
     {
         $user = User::factory()
@@ -381,9 +356,7 @@ class MeteredBillingRestrictionsTest extends TestCase
             ->assertRedirect('/temporary-unavailable');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_get_share_page_because_user_has_3_dunning_mails()
     {
         $user = User::factory()

@@ -1,11 +1,11 @@
 <?php
 namespace Support\Middleware;
 
-use Schema;
+use Illuminate\Support\Facades\Schema;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Doctrine\DBAL\Driver\PDOException;
+use PDOException;
 
 class ProtectSetupWizardRoutes
 {

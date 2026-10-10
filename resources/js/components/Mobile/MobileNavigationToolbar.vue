@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-import { MenuIcon, ChevronLeftIcon, SearchIcon } from 'vue-feather-icons'
+import { MenuIcon, ChevronLeftIcon, SearchIcon } from '../../icons/feather.js'
 
 export default {
     name: 'MobileNavigationToolbar',

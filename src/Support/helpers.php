@@ -1,7 +1,7 @@
 <?php
 
 use Carbon\Carbon;
-use ByteUnits\Metric;
+use Support\ByteUnits\Metric;
 use App\Users\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -16,7 +16,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Storage;
 use Domain\Localization\Models\Language;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Interfaces\ImageInterface;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 if (! function_exists('getListOfLatestLogs')) {
@@ -45,7 +48,7 @@ if (! function_exists('isBroadcasting')) {
      */
     function isBroadcasting(): bool
     {
-        return config('broadcasting.default') === 'pusher';
+        return in_array(config('broadcasting.default'), ['pusher', 'reverb']);
     }
 }
 
@@ -55,7 +58,7 @@ if (! function_exists('isNotBroadcasting')) {
      */
     function isNotBroadcasting(): bool
     {
-        return config('broadcasting.default') === null;
+        return in_array(config('broadcasting.default'), [null, 'null'], true);
     }
 }
 
@@ -65,7 +68,7 @@ if (! function_exists('isRunningCron')) {
      */
     function isRunningCron(): bool
     {
-        return cache()->has('latest_cron_update') && Carbon::parse(cache()->get('latest_cron_update'))->diffInMinutes(now()) <= 1;
+        return cache()->has('latest_cron_update') && (int) Carbon::parse(cache()->get('latest_cron_update'))->diffInMinutes(now(), true) <= 1;
     }
 }
 
@@ -242,24 +245,20 @@ if (! function_exists('setEnvironmentValue')) {
         $envFile = app()->environmentFilePath();
         $str = file_get_contents($envFile);
 
-        if (count($values) > 0) {
-            foreach ($values as $envKey => $envValue) {
-                $str .= "\n"; // In case the searched variable is in the last line without \n
-                $keyPosition = strpos($str, "{$envKey}=");
+        foreach ($values as $envKey => $envValue) {
+            $line = "{$envKey}=\"{$envValue}\"";
 
-                if ($keyPosition) {
-                    $endOfLinePosition = strpos($str, "\n", $keyPosition);
-                    $oldLine = substr($str, $keyPosition, $endOfLinePosition - $keyPosition);
-                    $str = str_replace($oldLine, "{$envKey}=\"{$envValue}\"", $str);
-                } else {
-                    $str .= "\n$envKey=\"$envValue\"";
-                }
+            // Match the whole variable line, so e.g. REVERB_HOST does not match VITE_REVERB_HOST
+            $pattern = '/^' . preg_quote($envKey, '/') . '=.*$/m';
+
+            if (preg_match($pattern, $str)) {
+                $str = preg_replace_callback($pattern, fn () => $line, $str, 1);
+            } else {
+                $str = rtrim($str, "\n") . "\n$line\n";
             }
         }
 
-        $str = substr($str, 0, -1);
-
-        return file_put_contents($envFile, $str);
+        return (bool) file_put_contents($envFile, $str);
     }
 }
 
@@ -458,7 +457,7 @@ if (! function_exists('store_avatar')) {
         $avatar_name = Str::uuid() . '.' . $image->getClientOriginalExtension();
 
         // Create intervention image
-        $intervention = Image::make($image->getRealPath());
+        $intervention = image_manager()->decodePath($image->getRealPath());
 
         // Generate avatar sizes
         generate_avatar_thumbnails($intervention, $avatar_name);
@@ -1112,7 +1111,7 @@ if (! function_exists('replace_occurrence')) {
             $avatar_name = Str::uuid() . '.jpg';
 
             // Create intervention image
-            $intervention = Image::make($image);
+            $intervention = image_manager()->decodeBinary($image);
 
             // Generate avatar sizes
             generate_avatar_thumbnails($intervention, $avatar_name);
@@ -1126,16 +1125,30 @@ if (! function_exists('replace_occurrence')) {
         /**
          * Create avatar thumbnails
          */
-        function generate_avatar_thumbnails($intervention, $avatar_name)
+        function generate_avatar_thumbnails(ImageInterface $intervention, $avatar_name)
         {
             collect(config('vuefilemanager.avatar_sizes'))
                 ->each(function ($size) use ($intervention, $avatar_name) {
                     // fit thumbnail
-                    $intervention->fit($size['size'], $size['size'])->stream();
+                    $thumbnail = (clone $intervention)
+                        ->cover($size['size'], $size['size'])
+                        ->encode();
 
                     // Store thumbnail to disk
-                    Storage::put("avatars/{$size['name']}-{$avatar_name}", $intervention);
+                    Storage::put("avatars/{$size['name']}-{$avatar_name}", (string) $thumbnail);
                 });
+        }
+    }
+
+    if (! function_exists('image_manager')) {
+        /**
+         * Get intervention image manager with the best available driver
+         */
+        function image_manager(): ImageManager
+        {
+            return ImageManager::usingDriver(
+                extension_loaded('imagick') ? ImagickDriver::class : GdDriver::class
+            );
         }
     }
 
@@ -1349,5 +1362,22 @@ if (! function_exists('extractItemsFromGetAttribute')) {
 
             return [$foldersTake, $foldersSkip, $filesTake, $filesSkip, $totalEntries];
         }
+    }
+}
+
+if (! function_exists('buildTrigrams')) {
+    /**
+     * Build trigrams for TNTSearch fuzzy searching (same algorithm as TNTIndexer::buildTrigrams)
+     */
+    function buildTrigrams(string $keyword): string
+    {
+        $t = '__' . $keyword . '__';
+        $trigrams = '';
+
+        for ($i = 0; $i < strlen($t) - 2; $i++) {
+            $trigrams .= mb_substr($t, $i, 3) . ' ';
+        }
+
+        return trim($trigrams);
     }
 }

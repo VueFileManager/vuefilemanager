@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Files\Resources;
 
-use ByteUnits\Metric;
+use Support\ByteUnits\Metric;
 use Domain\Sharing\Resources\ShareResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 

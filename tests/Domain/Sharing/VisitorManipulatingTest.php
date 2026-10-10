@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Sharing;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -11,9 +12,7 @@ use Illuminate\Http\UploadedFile;
 
 class VisitorManipulatingTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function editor_rename_shared_file()
     {
         // check private or public share record
@@ -81,9 +80,7 @@ class VisitorManipulatingTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function editor_rename_shared_folder()
     {
         // check private or public share record
@@ -151,9 +148,7 @@ class VisitorManipulatingTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function editor_create_new_folder_in_shared_folder()
     {
         // check private or public share record
@@ -216,9 +211,7 @@ class VisitorManipulatingTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function editor_delete_multiple_files_in_shared_folder()
     {
         // check private or public share record
@@ -291,9 +284,7 @@ class VisitorManipulatingTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function editor_upload_file_into_shared_folder()
     {
         // check private or public share record
@@ -358,9 +349,7 @@ class VisitorManipulatingTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function editor_move_file_to_another_folder()
     {
         // check private or public share record
@@ -431,9 +420,7 @@ class VisitorManipulatingTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function editor_move_folder_to_another_folder()
     {
         // check private or public share record

@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Teams;
 
+use PHPUnit\Framework\Attributes\Test;
 use Str;
 use Notification;
 use Tests\TestCase;
@@ -12,9 +13,7 @@ use Domain\Teams\Notifications\InvitationIntoTeamFolder;
 
 class TeamManagementTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_team_folder_invite()
     {
         [$inviter, $member] = User::factory()
@@ -38,9 +37,7 @@ class TeamManagementTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_accept_team_folder_invite_as_registered_user()
     {
         $member = User::factory()
@@ -106,9 +103,7 @@ class TeamManagementTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_accept_team_folder_invite_as_guest_user()
     {
         $folder = Folder::factory()
@@ -137,9 +132,7 @@ class TeamManagementTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_apply_accepted_invitation_after_user_registration()
     {
         $invitation = TeamFolderInvitation::factory()
@@ -167,9 +160,7 @@ class TeamManagementTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_used_team_folder_invite()
     {
         $invitation = TeamFolderInvitation::factory()
@@ -180,9 +171,7 @@ class TeamManagementTest extends TestCase
             ->assertStatus(410);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_reject_team_folder_invite()
     {
         $member = User::factory()
@@ -247,9 +236,7 @@ class TeamManagementTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_invite_member_into_team_folder()
     {
         [$user, $member_1, $member_2] = User::factory()
@@ -323,12 +310,10 @@ class TeamManagementTest extends TestCase
                 'permission' => 'can-view',
             ]);
 
-        Notification::assertTimesSent(1, InvitationIntoTeamFolder::class);
+        Notification::assertSentTimes(InvitationIntoTeamFolder::class, 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_invited_member_from_team_folder()
     {
         [$user, $member_1, $member_2] = User::factory()
@@ -404,9 +389,7 @@ class TeamManagementTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_remove_member_from_team_folder()
     {
         [$user, $member, $deletedMember] = User::factory()
@@ -456,9 +439,7 @@ class TeamManagementTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_update_invited_member_permission_in_team_folder()
     {
         $user = User::factory()
@@ -502,12 +483,10 @@ class TeamManagementTest extends TestCase
                 'permission' => 'can-edit',
             ]);
 
-        Notification::assertTimesSent(0, InvitationIntoTeamFolder::class);
+        Notification::assertSentTimes(InvitationIntoTeamFolder::class, 0);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_update_member_permission_in_team_folder()
     {
         [$user, $member_1, $member_2] = User::factory()
@@ -558,9 +537,7 @@ class TeamManagementTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function member_try_update_permission_in_team_folder()
     {
         [$user, $member_1, $member_2] = User::factory()
@@ -612,9 +589,7 @@ class TeamManagementTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_dissolve_team_folder()
     {
         [$user, $member_1, $member_2] = User::factory()
@@ -673,9 +648,7 @@ class TeamManagementTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_leave_team_folder()
     {
         [$user, $member] = User::factory()
@@ -712,9 +685,7 @@ class TeamManagementTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function member_try_dissolve_team_folder()
     {
         [$user, $member_1, $member_2] = User::factory()

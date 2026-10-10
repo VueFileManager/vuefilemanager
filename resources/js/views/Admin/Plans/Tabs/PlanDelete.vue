@@ -26,7 +26,7 @@
                             v-model="planName"
                             :placeholder="$t('type_plan_name')"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             class="focus-border-theme input-dark"
                         />
                         <ButtonBase
@@ -46,12 +46,11 @@
 </template>
 
 <script>
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import { required, is } from 'vee-validate/dist/rules'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
 import { events } from '../../../../bus'
 import axios from 'axios'
 
@@ -64,7 +63,6 @@ export default {
         AppInputText,
         ButtonBase,
         FormLabel,
-        required,
         InfoBox,
     },
     data() {

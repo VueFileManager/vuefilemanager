@@ -2,7 +2,7 @@ import i18n from '../../i18n'
 import router from '../../router'
 import { events } from '../../bus'
 import axios from 'axios'
-import Vue from 'vue'
+import { globals } from '../../globals'
 
 const defaultState = {
     processingPopup: undefined,
@@ -34,11 +34,11 @@ const actions = {
 
         // Get route
         let route = getters.sharedDetail
-            ? `/api/sharing/zip/${router.currentRoute.params.token}?items=${files.join(',')}`
+            ? `/api/sharing/zip/${router.currentRoute.value.params.token}?items=${files.join(',')}`
             : `/api/zip?items=${files.join(',')}`
 
         // Download zip
-        Vue.prototype.$downloadFile(route, 'files.zip')
+        globals.$downloadFile(route, 'files.zip')
     },
     moveItem: ({ commit, getters, dispatch }, { to_item, item }) => {
         let items = item
@@ -59,9 +59,9 @@ const actions = {
 
         // Get route
         let route = {
-            RequestUpload: `/api/file-request/${router.currentRoute.params.token}/move`,
-            Public: `/api/sharing/move/${router.currentRoute.params.token}`,
-        }[router.currentRoute.name] || '/api/move'
+            RequestUpload: `/api/file-request/${router.currentRoute.value.params.token}/move`,
+            Public: `/api/sharing/move/${router.currentRoute.value.params.token}`,
+        }[router.currentRoute.value.name] || '/api/move'
 
         let moveToId = to_item.data ? to_item.data.id : to_item.id
 
@@ -78,18 +78,18 @@ const actions = {
                     if (item.type === 'folder')
                         dispatch('getAppData')
 
-                    if (Vue.prototype.$isThisRoute(router.currentRoute, ['Public']))
+                    if (globals.$isThisRoute(router.currentRoute.value, ['Public']))
                         dispatch('getFolderTree')
                 })
             })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            .catch(() => globals.$isSomethingWrong())
     },
     createFolder: ({ commit, getters, dispatch }, folder) => {
         // Get route
         let route = {
-            RequestUpload: `/api/file-request/${router.currentRoute.params.token}/create-folder`,
-            Public: `/api/sharing/create-folder/${router.currentRoute.params.token}`,
-        }[router.currentRoute.name] || '/api/create-folder'
+            RequestUpload: `/api/file-request/${router.currentRoute.value.params.token}/create-folder`,
+            Public: `/api/sharing/create-folder/${router.currentRoute.value.params.token}`,
+        }[router.currentRoute.value.name] || '/api/create-folder'
 
         axios
             .post(route, {
@@ -104,7 +104,7 @@ const actions = {
 
                 // Set focus on new folder name
                 setTimeout(() => {
-                    if (!Vue.prototype.$isMobile()) {
+                    if (!globals.$isMobile()) {
                         events.$emit('newFolder:focus', response.data.data.id)
                     }
                 }, 10)
@@ -114,8 +114,8 @@ const actions = {
             })
             .catch((error) => {
                 events.$emit('alert:open', {
-                    title: error.response.data.message || i18n.t('popup_error.title'),
-                    message: i18n.t('popup_error.message'),
+                    title: error.response.data.message || i18n.global.t('popup_error.title'),
+                    message: i18n.global.t('popup_error.message'),
                 })
             })
     },
@@ -126,9 +126,9 @@ const actions = {
 
         // Get route
         let route = {
-            RequestUpload: `/api/file-request/${router.currentRoute.params.token}/rename/${data.id}`,
-            Public: `/api/sharing/rename/${data.id}/${router.currentRoute.params.token}`,
-        }[router.currentRoute.name] || `/api/rename/${data.id}`
+            RequestUpload: `/api/file-request/${router.currentRoute.value.params.token}/rename/${data.id}`,
+            Public: `/api/sharing/rename/${data.id}/${router.currentRoute.value.params.token}`,
+        }[router.currentRoute.value.name] || `/api/rename/${data.id}`
 
         axios
             .post(route, {
@@ -138,20 +138,20 @@ const actions = {
             .then((response) => {
                 commit('CHANGE_ITEM_NAME', response.data)
 
-                if (data.type === 'folder' && router.currentRoute.name !== 'Public')
+                if (data.type === 'folder' && router.currentRoute.value.name !== 'Public')
                     dispatch('getAppData')
-                if (data.type === 'folder' && router.currentRoute.name === 'Public')
+                if (data.type === 'folder' && router.currentRoute.value.name === 'Public')
                     dispatch('getFolderTree')
             })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            .catch(() => globals.$isSomethingWrong())
     },
     uploadFiles: ({ commit, getters, dispatch }, { form, fileSize, totalUploadedSize }) => {
         return new Promise((resolve, reject) => {
             // Get route
             let route = {
-                RequestUpload: `/api/file-request/${router.currentRoute.params.token}/upload/chunks`,
-                Public: `/api/sharing/upload/chunks/${router.currentRoute.params.token}`,
-            }[router.currentRoute.name] || '/api/upload/chunks'
+                RequestUpload: `/api/file-request/${router.currentRoute.value.params.token}/upload/chunks`,
+                Public: `/api/sharing/upload/chunks/${router.currentRoute.value.params.token}`,
+            }[router.currentRoute.value.name] || '/api/upload/chunks'
 
             // Create cancel token for axios cancellation
             const CancelToken = axios.CancelToken,
@@ -185,7 +185,7 @@ const actions = {
                         commit('SHIFT_FROM_FILE_QUEUE')
 
                         // Refresh request detail to update currentFolder in Vuex
-                        if (router.currentRoute.name === 'RequestUpload' && !getters.currentFolder) {
+                        if (router.currentRoute.value.name === 'RequestUpload' && !getters.currentFolder) {
                             await dispatch('getUploadRequestDetail')
                         }
 
@@ -207,7 +207,7 @@ const actions = {
 
                         // Start uploading next file if file queue is not empty
                         if (getters.fileQueue.length) {
-                            Vue.prototype.$handleUploading(getters.fileQueue[0])
+                            globals.$handleUploading(getters.fileQueue[0])
                         }
 
                         // Reset upload process
@@ -219,7 +219,7 @@ const actions = {
                                 commit('START_LOADING_VIEW')
 
                                 // Reload files after folder upload is done
-                                Vue.prototype.$getDataByLocation(1)
+                                globals.$getDataByLocation(1)
 
                                 // Reload folder tree
                                 dispatch('getFolderTree')
@@ -234,16 +234,16 @@ const actions = {
 
                     let messages = {
                         423: {
-                            title: i18n.t('popup_exceed_limit.title'),
-                            message: i18n.t('popup_exceed_limit.message'),
+                            title: i18n.global.t('popup_exceed_limit.title'),
+                            message: i18n.global.t('popup_exceed_limit.message'),
                         },
                         422: {
-                            title: i18n.t('popup_mimetypes_blacklist.title'),
-                            message: i18n.t('popup_mimetypes_blacklist.message'),
+                            title: i18n.global.t('popup_mimetypes_blacklist.title'),
+                            message: i18n.global.t('popup_mimetypes_blacklist.message'),
                         },
                         413: {
-                            title: i18n.t('popup_paylod_error.title'),
-                            message: i18n.t('popup_paylod_error.message'),
+                            title: i18n.global.t('popup_paylod_error.title'),
+                            message: i18n.global.t('popup_paylod_error.message'),
                         },
                         401: {
                             title: error.response.data.message,
@@ -277,7 +277,7 @@ const actions = {
             ? [item]
             : getters.clipboard
 
-        let restoreToHome = Vue.prototype.$isThisRoute(router.currentRoute, ['Trash'])
+        let restoreToHome = globals.$isThisRoute(router.currentRoute.value, ['Trash'])
 
         let itemToRestore = items.map((data) => {
             return {
@@ -295,7 +295,7 @@ const actions = {
                 items: itemToRestore,
             })
             .then(() => items.forEach((item) => commit('REMOVE_ITEM', item.data.id)))
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            .catch(() => globals.$isSomethingWrong())
     },
     deleteItem: ({ commit, getters, dispatch }, item) => {
         let items = item
@@ -309,7 +309,7 @@ const actions = {
             events.$emit('file:deleted', data.data.id)
 
             // Remove item from sidebar
-            if (! ['Public', 'RequestUpload'].includes(router.currentRoute.name) && data.data.type === 'folder')
+            if (! ['Public', 'RequestUpload'].includes(router.currentRoute.value.name) && data.data.type === 'folder')
                 commit('REMOVE_ITEM_FROM_FAVOURITES', data)
 
             return {
@@ -321,9 +321,9 @@ const actions = {
 
         // Get route
         let route = {
-            RequestUpload: `/api/file-request/${router.currentRoute.params.token}/remove`,
-            Public: `/api/sharing/remove/${router.currentRoute.params.token}`,
-        }[router.currentRoute.name] || '/api/remove'
+            RequestUpload: `/api/file-request/${router.currentRoute.value.params.token}/remove`,
+            Public: `/api/sharing/remove/${router.currentRoute.value.params.token}`,
+        }[router.currentRoute.value.name] || '/api/remove'
 
         axios
             .post(route, {
@@ -340,7 +340,7 @@ const actions = {
                 // Refresh folder tree navigation
                 dispatch('getFolderTree')
             })
-        //.catch(() => Vue.prototype.$isSomethingWrong())
+        //.catch(() => globals.$isSomethingWrong())
     },
     emptyTrash: ({ commit, getters }) => {
         // Clear file browser
@@ -356,7 +356,7 @@ const actions = {
 
                 commit('CLIPBOARD_CLEAR')
             })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            .catch(() => globals.$isSomethingWrong())
     },
     emptyTrashQuietly: ({ commit, getters }) => {
         axios
@@ -364,16 +364,16 @@ const actions = {
                 _method: 'delete',
             })
             .then(() => {
-                if (router.currentRoute.name === 'Trash') {
+                if (router.currentRoute.value.name === 'Trash') {
                     commit('STOP_LOADING_VIEW')
                 }
 
                 events.$emit('toaster', {
                     type: 'success',
-                    message: i18n.t('Your trash was successfully cleared.'),
+                    message: i18n.global.t('Your trash was successfully cleared.'),
                 })
             })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            .catch(() => globals.$isSomethingWrong())
     },
     pushFileToTheUploadQueue: ({commit, getters}, item) => {
         // Prevent to upload file with 0kb file size
@@ -390,7 +390,7 @@ const actions = {
 
             // Start uploading if uploading process isn't running
             if (getters.filesInQueueTotal === 0) {
-                Vue.prototype.$handleUploading(getters.fileQueue[0])
+                globals.$handleUploading(getters.fileQueue[0])
             }
 
             // Increase total files in upload bar

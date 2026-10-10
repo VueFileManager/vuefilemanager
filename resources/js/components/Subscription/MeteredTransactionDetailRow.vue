@@ -2,7 +2,7 @@
     <tr>
         <td colspan="10" class="overflow-hidden rounded-lg py-2">
             <div
-                class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-opacity-5"
+                class="flex items-center justify-between border-b border-dashed border-light py-2 dark:border-light/5"
                 v-for="(usage, i) in row.data.attributes.metadata"
                 :key="i"
             >

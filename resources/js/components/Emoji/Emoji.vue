@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import twemoji from 'twemoji'
+import twemoji from '@twemoji/api'
 import { mapGetters } from 'vuex'
 
 export default {

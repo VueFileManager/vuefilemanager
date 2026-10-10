@@ -15,7 +15,8 @@
 <script>
 export default {
     name: 'SelectBoxInput',
-    props: ['data', 'value'],
+    props: ['data', 'modelValue'],
+    emits: ['update:modelValue', 'input'],
     data() {
         return {
             input: undefined,
@@ -26,11 +27,12 @@ export default {
             if (!this.input || this.input !== item.value) this.input = item.value
             else this.input = undefined
 
+            this.$emit('update:modelValue', this.input)
             this.$emit('input', this.input)
         },
     },
     created() {
-        if (this.value) this.input = this.value
+        if (this.modelValue) this.input = this.modelValue
     },
 }
 </script>

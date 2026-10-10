@@ -13,7 +13,7 @@
             <div
                 v-if="isVisible"
                 @click="closeMenu"
-                class="fixed left-0 right-0 top-0 bottom-0 z-[49] bg-dark-background bg-opacity-[0.35] dark:bg-opacity-[0.45]"
+                class="fixed left-0 right-0 top-0 bottom-0 z-49 bg-dark-background/35 dark:bg-dark-background/45"
             ></div>
         </transition>
     </div>
@@ -59,12 +59,12 @@ export default {
     transition: all 300ms;
 }
 
-.fade-enter,
+.fade-enter-from,
 .fade-leave-to {
     opacity: 0;
 }
 
-.context-menu-enter,
+.context-menu-enter-from,
 .context-menu-leave-to {
     opacity: 0;
     transform: translateY(100%);

@@ -59,7 +59,7 @@
         </div>
 
         <!--Children-->
-        <tree-node
+        <TreeMenu
             :disabled-by-id="disabledById"
             :depth="depth + 1"
             v-if="isVisible"
@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import { FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon, UserPlusIcon } from 'vue-feather-icons'
+import { FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon, UserPlusIcon } from '../../../icons/feather.js'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
 
@@ -84,7 +84,6 @@ export default {
         UserPlusIcon,
         FolderIcon,
         UsersIcon,
-        'tree-node': () => import('./TreeMenu'),
     },
     computed: {
         ...mapGetters(['clipboard']),

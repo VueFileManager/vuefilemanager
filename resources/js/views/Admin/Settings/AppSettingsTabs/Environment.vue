@@ -66,18 +66,17 @@
 </template>
 
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import SelectInput from '../../../../components/Inputs/SelectInput'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import StorageSetup from '../../../../components/Forms/StorageSetup'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import PageTab from '../../../../components/Layout/PageTab'
-import MailSetup from '../../../../components/Forms/MailSetup'
+import { ValidationObserver, ValidationProvider } from '../../../../components/Validation/index.js'
+import SelectInput from '../../../../components/Inputs/SelectInput.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import StorageSetup from '../../../../components/Forms/StorageSetup.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import MailSetup from '../../../../components/Forms/MailSetup.vue'
 import { events } from '../../../../bus'
 import axios from 'axios'
-import BroadcastSetup from "../../../../components/Forms/BroadcastSetup";
-import Echo from "laravel-echo";
+import BroadcastSetup from "../../../../components/Forms/BroadcastSetup.vue";
 
 export default {
     name: 'AppEnvironment',
@@ -122,48 +121,9 @@ export default {
                         message: this.$t('broadcast_driver_updated'),
                     })
 
-					let config = {
-						'pusher': {
-							broadcasting: 'pusher',
-							broadcastingKey: this.broadcast.key,
-							broadcastingHost: this.broadcast.host,
-							broadcastingCluster: this.broadcast.cluster,
-						},
-						'native': {
-							broadcasting: 'pusher',
-							broadcastingHost: this.broadcast.host,
-							broadcastingKey: 'local',
-							broadcastingCluster: 'local',
-						},
-						'none': {
-							broadcasting: 'null',
-						}
-					}
-
-					// Set up echo
-					if (['pusher', 'native'].includes(this.broadcast.driver)) {
-						window.Echo = new Echo({
-							broadcaster: 'pusher',
-							cluster: this.broadcast.cluster || 'local',
-							key: this.broadcast.key || 'local',
-							wsHost: this.broadcast.host,
-							forceTLS: false,
-							enabledTransports: ['ws', 'wss'],
-						});
-					}
-
-					Object
-						.entries(config[this.broadcast.driver])
-						.map(([key, value]) => {
-							this.$store.commit('REPLACE_CONFIG_VALUE', {
-								key: key,
-								value: value,
-							})
-
-							if (key === 'broadcasting' && value === 'pusher') {
-								this.$store.dispatch('runConnection')
-							}
-						})
+                    // Broadcast credentials (e.g. generated Reverb keys) live on the server,
+                    // so reload the app to pick up the new real-time configuration
+                    setTimeout(() => window.location.reload(), 1500)
                 })
                 .catch(() => {
                     events.$emit('toaster', {

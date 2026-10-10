@@ -10,8 +10,8 @@
             class="card overflow-x-auto shadow-card"
         >
             <!--Table data content-->
-            <template slot-scope="{ row }">
-                <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+            <template #default="{ row }">
+                <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5">
                     <td class="py-5 pr-3 md:pr-1">
                         <router-link
 							v-if="row.data.relationships.user"
@@ -26,7 +26,7 @@
                             <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                             <div class="ml-3 pr-10">
                                 <b
-                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                     style="max-width: 155px"
                                 >
                                     {{ row.data.relationships.user.data.attributes.name }}
@@ -81,7 +81,7 @@
             <div class="text-center">
                 <img
                     class="mb-6 inline-block w-28"
-                    src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f5c3.svg"
+                    src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f5c3.svg"
                     alt="transaction"
                 />
 
@@ -98,9 +98,9 @@
 </template>
 
 <script>
-import ColorLabel from '../../components/UI/Labels/ColorLabel'
-import MemberAvatar from '../../components/UI/Others/MemberAvatar'
-import DatatableWrapper from '../../components/UI/Table/DatatableWrapper'
+import ColorLabel from '../../components/UI/Labels/ColorLabel.vue'
+import MemberAvatar from '../../components/UI/Others/MemberAvatar.vue'
+import DatatableWrapper from '../../components/UI/Table/DatatableWrapper.vue'
 import { mapGetters } from 'vuex'
 
 export default {

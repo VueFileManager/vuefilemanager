@@ -4,7 +4,7 @@
         <PopupHeader :title="$t('create_language')" icon="edit" />
 
         <!--Content-->
-        <PopupContent class="!overflow-initial">
+        <PopupContent class="overflow-initial!">
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="createLanguage" ref="createForm" v-slot="{ invalid }" tag="form">
                 <ValidationProvider
@@ -27,7 +27,7 @@
                     <AppInputText :title="$t('locale_name')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="form.name"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             type="text"
                             ref="input"
                             class="focus-border-theme input-dark"
@@ -40,12 +40,12 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"
-                @click.native="createLanguage"
+                @click="createLanguage"
                 button-style="theme"
                 :loading="isLoading"
                 :disabled="isLoading"
@@ -57,15 +57,14 @@
 </template>
 
 <script>
-import AppInputText from '../Forms/Layouts/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from './Components/PopupWrapper'
-import PopupActions from './Components/PopupActions'
-import PopupContent from './Components/PopupContent'
-import PopupHeader from './Components/PopupHeader'
-import SelectInput from '../Inputs/SelectInput'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import { required } from 'vee-validate/dist/rules'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
+import PopupWrapper from './Components/PopupWrapper.vue'
+import PopupActions from './Components/PopupActions.vue'
+import PopupContent from './Components/PopupContent.vue'
+import PopupHeader from './Components/PopupHeader.vue'
+import SelectInput from '../Inputs/SelectInput.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import { events } from '../../bus'
 import axios from 'axios'
 
@@ -81,7 +80,6 @@ export default {
         PopupHeader,
         SelectInput,
         ButtonBase,
-        required,
     },
     data() {
         return {

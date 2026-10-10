@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Sharing;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Laravel\Sanctum\Sanctum;
@@ -11,9 +12,7 @@ use Domain\Sharing\Notifications\SharedSendViaEmail;
 
 class UserShareTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_generate_qr_code()
     {
         $user = User::factory()
@@ -26,9 +25,7 @@ class UserShareTest extends TestCase
             ->assertOk();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_share_single_file_without_password()
     {
         $user = User::factory()
@@ -61,9 +58,7 @@ class UserShareTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_share_folder_without_password()
     {
         $user = User::factory()
@@ -96,9 +91,7 @@ class UserShareTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_share_folder_with_password()
     {
         $user = User::factory()
@@ -136,9 +129,7 @@ class UserShareTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_share_folder_with_expiration_time()
     {
         $user = User::factory()
@@ -164,9 +155,7 @@ class UserShareTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_share_folder_and_send_link_for_multiple_email()
     {
         $user = User::factory()
@@ -189,12 +178,10 @@ class UserShareTest extends TestCase
                 ],
             ])->assertStatus(201);
 
-        Notification::assertTimesSent(2, SharedSendViaEmail::class);
+        Notification::assertSentTimes(SharedSendViaEmail::class, 2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_send_existing_shared_folder_for_multiple_email_once_again()
     {
         $user = User::factory()
@@ -220,12 +207,10 @@ class UserShareTest extends TestCase
             ],
         ])->assertStatus(200);
 
-        Notification::assertTimesSent(2, SharedSendViaEmail::class);
+        Notification::assertSentTimes(SharedSendViaEmail::class, 2);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_revoke_single_share_record()
     {
         $user = User::factory()

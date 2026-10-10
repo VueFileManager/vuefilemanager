@@ -1,15 +1,14 @@
 <?php
 namespace Tests\Domain\Languages;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Domain\Localization\Models\Language;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
 class TranslationsAccessTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_language_translations_for_frontend()
     {
         resolve(SeedDefaultLanguageAction::class)();
@@ -21,9 +20,7 @@ class TranslationsAccessTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_custom_translations_from_file_config()
     {
         resolve(SeedDefaultLanguageAction::class)();
@@ -35,9 +32,7 @@ class TranslationsAccessTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_translated_string_from_t_helper_function()
     {
         resolve(SeedDefaultLanguageAction::class)();
@@ -66,9 +61,7 @@ class TranslationsAccessTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_translated_string_from_t_helper_without_database_connection()
     {
         $this->assertEquals(

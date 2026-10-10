@@ -52,7 +52,7 @@
                             min="1"
                             max="999999999"
                             class="focus-border-theme input-dark"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                         <ButtonBase
                             :loadint="isSendingBillingAlert"
@@ -94,7 +94,7 @@
                             min="1"
                             max="999999999"
                             class="focus-border-theme input-dark"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                         <ButtonBase
                             :loadint="isSendingBillingAlert"
@@ -112,11 +112,11 @@
     </div>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import AppInputText from '../Forms/Layouts/AppInputText'
-import FormLabel from '../UI/Labels/FormLabel'
-import { Edit2Icon, Trash2Icon } from 'vue-feather-icons'
+import { ValidationObserver, ValidationProvider } from '../Validation/index.js'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import FormLabel from '../UI/Labels/FormLabel.vue'
+import { Edit2Icon, Trash2Icon } from '../../icons/feather.js'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -237,7 +237,7 @@ export default {
                     .catch(() => this.$isSomethingWrong())
         })
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

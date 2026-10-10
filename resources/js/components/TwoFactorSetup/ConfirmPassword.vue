@@ -8,7 +8,7 @@
                     <AppInputText :title="$t('password')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="password"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             type="password"
                             ref="input"
                             class="focus-border-theme input-dark"
@@ -20,12 +20,12 @@
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"
-                @click.native="confirmPassword"
+                @click="confirmPassword"
                 button-style="theme"
                 :loading="isLoading"
                 :disabled="isLoading"
@@ -37,14 +37,13 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from '../Popups/Components/PopupWrapper'
-import PopupActions from '../Popups/Components/PopupActions'
-import PopupContent from '../Popups/Components/PopupContent'
-import PopupHeader from '../Popups/Components/PopupHeader'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import AppInputText from '../Forms/Layouts/AppInputText'
-import { required } from 'vee-validate/dist/rules'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
+import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../Popups/Components/PopupActions.vue'
+import PopupContent from '../Popups/Components/PopupContent.vue'
+import PopupHeader from '../Popups/Components/PopupHeader.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -60,7 +59,6 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
     },
     computed: {
         ...mapGetters(['user']),

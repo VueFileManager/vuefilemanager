@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Folders;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
@@ -9,9 +10,7 @@ use Illuminate\Http\UploadedFile;
 
 class FolderUploadTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function upload_single_file_to_the_folder()
     {
         $user = User::factory()
@@ -44,9 +43,7 @@ class FolderUploadTest extends TestCase
         $this->assertDatabaseCount('folders', 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function check_folder_tree_structure_creation_after_folder_upload()
     {
         $user = User::factory()
@@ -121,9 +118,7 @@ class FolderUploadTest extends TestCase
         $this->assertDatabaseCount('folders', 6);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function duplicity_paths_test()
     {
         $user = User::factory()
@@ -174,9 +169,7 @@ class FolderUploadTest extends TestCase
         $this->assertDatabaseCount('folders', 6);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function check_children_tree_structure_creation_after_folder_upload()
     {
         $user = User::factory()

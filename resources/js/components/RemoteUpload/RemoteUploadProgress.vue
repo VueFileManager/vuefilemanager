@@ -8,14 +8,14 @@
 						{{ this.$t('remote_upload_progress', {processed: remoteUploadQueue.processed, total: remoteUploadQueue.total}) }}{{ remoteUploadQueue.failed > 0 ? ", " + this.$t('remote_upload_failed_count', {count: remoteUploadQueue.failed}) : '' }}
 					</span>
 				</div>
-				<span class="absolute w-full h-full top-0 bottom-0 left-0 right-0 block bg-theme brightness-125 animate-[pulse_3s_ease-in-out_infinite] z-[5]"></span>
+				<span class="absolute w-full h-full top-0 bottom-0 left-0 right-0 block bg-theme brightness-125 animate-[pulse_3s_ease-in-out_infinite] z-5"></span>
 				<span class="absolute w-full h-full top-0 bottom-0 left-0 right-0 block bg-theme z-0"></span>
 			</div>
 		</div>
 	</transition>
 </template>
 <script>
-	import {RefreshCwIcon} from "vue-feather-icons";
+	import {RefreshCwIcon} from "../../icons/feather.js";
 	import {mapGetters} from "vuex";
 
 	export default {

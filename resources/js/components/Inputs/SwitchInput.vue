@@ -18,6 +18,7 @@
 <script>
 export default {
     name: 'SwitchInput',
+    emits: ['update:modelValue', 'input'],
     props: ['label', 'name', 'state', 'info', 'input', 'isDisabled'],
     data() {
         return {
@@ -29,6 +30,7 @@ export default {
 			if (this.isDisabled) return
 
             this.isSwitched = !this.isSwitched
+            this.$emit('update:modelValue', this.isSwitched)
             this.$emit('input', this.isSwitched)
         },
     },

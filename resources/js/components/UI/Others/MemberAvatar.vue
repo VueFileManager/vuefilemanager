@@ -29,7 +29,7 @@
             }"
         >
             <span class="font-extrabold uppercase text-white dark:text-gray-900"
-				:class="[fontSize, {'!text-gray-900': !member.data.attributes.color}]"
+				:class="[fontSize, {'text-gray-900!': !member.data.attributes.color}]"
 			>
                 {{ letter }}
             </span>

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { CornerDownLeftIcon, ArrowDownIcon, ArrowUpIcon } from 'vue-feather-icons'
+import { CornerDownLeftIcon, ArrowDownIcon, ArrowUpIcon } from '../../../icons/feather.js'
 
 export default {
     name: 'KeyboardHints',

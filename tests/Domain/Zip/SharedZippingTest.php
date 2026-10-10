@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Zip;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -12,9 +13,7 @@ use Illuminate\Http\UploadedFile;
 
 class SharedZippingTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_zip_shared_multiple_files()
     {
         // check private or public share record
@@ -104,9 +103,7 @@ class SharedZippingTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_try_zip_not_shared_file_with_already_shared_multiple_files()
     {
         // check private or public share record
@@ -167,9 +164,7 @@ class SharedZippingTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_zip_shared_folder()
     {
         // check private or public share record
@@ -235,9 +230,7 @@ class SharedZippingTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_try_zip_not_shared_folder()
     {
         // check private or public share record

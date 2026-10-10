@@ -2,8 +2,13 @@
 namespace App\Providers;
 
 use PDOException;
-use Schema;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Support\Facades\RateLimiter;
+use Support\Listeners\SubscriptionEventSubscriber;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -12,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
     }
 
@@ -21,9 +26,15 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Schema::defaultStringLength(191);
+
+        // Register event subscribers
+        Event::subscribe(SubscriptionEventSubscriber::class);
+
+        // Configure the rate limiters for the application
+        $this->configureRateLimiting();
 
         // TODO: temporary
         config()->set('session.lifetime', 15120);
@@ -36,6 +47,19 @@ class AppServiceProvider extends ServiceProvider
 
         // Get all migrations with all directories
         $this->setMigrations();
+    }
+
+    private function configureRateLimiting(): void
+    {
+        RateLimiter::for('api', function (Request $request) {
+            return $request->user()
+                ? Limit::perMinute(1000)->by($request->user()->id)
+                : Limit::perMinute(100)->by($request->ip());
+        });
+
+        RateLimiter::for('login', fn (Request $request) => Limit::perMinute(5)->by($request->ip()));
+
+        RateLimiter::for('two-factor', fn (Request $request) => Limit::perMinute(5)->by($request->session()->get('login.id')));
     }
 
     private function setMigrations(): void

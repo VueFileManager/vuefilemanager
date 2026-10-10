@@ -22,7 +22,7 @@
 
             <!--Navigation-->
             <div class="mt-2 relative">
-                <NotificationBell @click.native="$store.commit('TOGGLE_NOTIFICATION_CENTER')" class="hover:bg-light-300 dark:hover:bg-4x-dark-foreground" />
+                <NotificationBell @click="$store.commit('TOGGLE_NOTIFICATION_CENTER')" class="hover:bg-light-300 dark:hover:bg-4x-dark-foreground" />
             </div>
 
 			<NotificationCenter v-if="isVisibleNotificationCenter" />
@@ -72,11 +72,11 @@
 </template>
 
 <script>
-import MemberAvatar from '../UI/Others/MemberAvatar'
+import MemberAvatar from '../UI/Others/MemberAvatar.vue'
 import {mapGetters} from 'vuex'
-import {HardDriveIcon, MoonIcon, PowerIcon, SettingsIcon, SunIcon, UserIcon,} from 'vue-feather-icons'
-import NotificationCenter from "../Notifications/NotificationCenter"
-import NotificationBell from "../Notifications/Components/NotificationBell";
+import {HardDriveIcon, MoonIcon, PowerIcon, SettingsIcon, SunIcon, UserIcon,} from '../../icons/feather.js'
+import NotificationCenter from "../Notifications/NotificationCenter.vue"
+import NotificationBell from "../Notifications/Components/NotificationBell.vue";
 
 export default {
     name: 'SidebarNavigation',

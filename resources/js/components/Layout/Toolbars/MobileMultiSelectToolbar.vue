@@ -6,7 +6,7 @@
             <slot v-if="$slots.visitor && $checkPermission('visitor')" name="visitor" />
 
             <ToolbarButton
-                @click.native="closeSelecting"
+                @click="closeSelecting"
                 class="action-btn close-icon"
                 source="close"
                 :action="$t('close')"
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import ToolbarButton from '../../UI/Buttons/ToolbarButton'
+import ToolbarButton from '../../UI/Buttons/ToolbarButton.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -97,12 +97,12 @@ export default {
     transition: all 200ms;
 }
 
-.fade-enter,
+.fade-enter-from,
 .fade-leave-to {
     opacity: 0;
 }
 
-.context-menu-enter,
+.context-menu-enter-from,
 .context-menu-leave-to {
     opacity: 0;
     transform: translateY(100%);

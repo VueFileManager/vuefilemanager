@@ -40,22 +40,22 @@
 </template>
 
 <script>
-import DesktopUploadRequestToolbar from '../components/Layout/Toolbars/DesktopUploadRequestToolbar'
-import MobileUploadRequestToolBar from "../components/Layout/Toolbars/MobileUploadRequestToolbar"
-import InfoSidebarUploadRequest from "../components/Layout/Sidebars/InfoSidebarUploadRequest"
-import FileSortingMobile from '../components/Menus/FileSortingMobile'
-import FileFilterMobile from '../components/Menus/FileFilterMobile'
-import CreateFolderPopup from '../components/Popups/CreateFolderPopup'
-import DesktopToolbar from '../components/Layout/Toolbars/DesktopToolbar'
-import ConfirmPopup from "../components/Popups/ConfirmPopup"
-import RenameItemPopup from '../components/Popups/RenameItemPopup'
-import FilePreview from '../components/FilePreview/FilePreview'
-import MoveItemPopup from '../components/Popups/MoveItemPopup'
-import Spotlight from '../components/Spotlight/Spotlight'
-import DragUI from '../components/UI/Others/DragUI'
+import DesktopUploadRequestToolbar from '../components/Layout/Toolbars/DesktopUploadRequestToolbar.vue'
+import MobileUploadRequestToolBar from "../components/Layout/Toolbars/MobileUploadRequestToolbar.vue"
+import InfoSidebarUploadRequest from "../components/Layout/Sidebars/InfoSidebarUploadRequest.vue"
+import FileSortingMobile from '../components/Menus/FileSortingMobile.vue'
+import FileFilterMobile from '../components/Menus/FileFilterMobile.vue'
+import CreateFolderPopup from '../components/Popups/CreateFolderPopup.vue'
+import DesktopToolbar from '../components/Layout/Toolbars/DesktopToolbar.vue'
+import ConfirmPopup from "../components/Popups/ConfirmPopup.vue"
+import RenameItemPopup from '../components/Popups/RenameItemPopup.vue'
+import FilePreview from '../components/FilePreview/FilePreview.vue'
+import MoveItemPopup from '../components/Popups/MoveItemPopup.vue'
+import Spotlight from '../components/Spotlight/Spotlight.vue'
+import DragUI from '../components/UI/Others/DragUI.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../bus'
-import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup.vue";
 import {getFilesFromDataTransferItems} from "datatransfer-files-promise";
 
 export default {

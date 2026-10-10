@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Sharing;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Files\Models\File;
@@ -9,9 +10,7 @@ use Domain\Folders\Models\Folder;
 
 class VisitorBrowseTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_share_record()
     {
         $share = Share::factory()
@@ -38,9 +37,7 @@ class VisitorBrowseTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_share_page()
     {
         $user = User::factory()
@@ -58,27 +55,21 @@ class VisitorBrowseTest extends TestCase
             ->assertRedirect("/share/$share->token/files/$share->item_id");
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_to_get_deleted_share_record()
     {
         $this->get('/api/sharing/19ZMPNiass4ZqWwQ')
             ->assertNotFound();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_to_get_deleted_share_page()
     {
         $this->get('/share/19ZMPNiass4ZqWwQ')
             ->assertNotFound();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_authenticate_protected_file_with_correct_password()
     {
         $file = File::factory()
@@ -103,9 +94,7 @@ class VisitorBrowseTest extends TestCase
             ]), false);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_authenticate_protected_file_with_incorrect_password()
     {
         $file = File::factory()
@@ -127,9 +116,7 @@ class VisitorBrowseTest extends TestCase
             ->assertCookieMissing('share_session');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_get_folder_content()
     {
         // check private or public share record
@@ -204,9 +191,7 @@ class VisitorBrowseTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_get_navigator_tree()
     {
         // check private or public share record
@@ -312,9 +297,7 @@ class VisitorBrowseTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_search_file()
     {
         // check private or public share record
@@ -366,9 +349,7 @@ class VisitorBrowseTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_try_search_not_shared_user_file()
     {
         // check private or public share record
@@ -415,9 +396,7 @@ class VisitorBrowseTest extends TestCase
             });
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function visitor_get_file_detail()
     {
         // check private or public share record

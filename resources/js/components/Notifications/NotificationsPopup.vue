@@ -7,9 +7,9 @@
         <PopupContent v-if="readNotifications && unreadNotifications">
 			<MobileActionButton
 				v-if="readNotifications.length || unreadNotifications.length"
-				@click.native="$store.dispatch('deleteAllNotifications')"
+				@click="$store.dispatch('deleteAllNotifications')"
 				icon="check-square"
-				class="mb-2 dark:!bg-4x-dark-foreground"
+				class="mb-2 dark:bg-4x-dark-foreground!"
 			>
 				{{ $t('clear_all') }}
 			</MobileActionButton>
@@ -44,7 +44,7 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('close') }}
             </ButtonBase>
         </PopupActions>
@@ -52,14 +52,14 @@
 </template>
 
 <script>
-import MobileActionButton from '../UI/Buttons/MobileActionButton'
-import Notification from './Components/Notification'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import PopupWrapper from '../Popups/Components/PopupWrapper'
-import PopupActions from '../Popups/Components/PopupActions'
-import PopupContent from '../Popups/Components/PopupContent'
-import PopupHeader from '../Popups/Components/PopupHeader'
-import vClickOutside from 'v-click-outside'
+import MobileActionButton from '../UI/Buttons/MobileActionButton.vue'
+import Notification from './Components/Notification.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../Popups/Components/PopupActions.vue'
+import PopupContent from '../Popups/Components/PopupContent.vue'
+import PopupHeader from '../Popups/Components/PopupHeader.vue'
+import clickOutside from '../../directives/clickOutside.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -74,7 +74,7 @@ export default {
         ButtonBase,
     },
     directives: {
-        clickOutside: vClickOutside.directive,
+        clickOutside,
     },
     computed: {
         ...mapGetters(['user', 'config']),

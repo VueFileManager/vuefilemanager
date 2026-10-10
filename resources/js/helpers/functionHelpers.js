@@ -1,3 +1,4 @@
+import { globals } from '../globals'
 import { debounce, isArray, orderBy } from 'lodash'
 import i18n from '../i18n'
 import router from '../router'
@@ -6,8 +7,8 @@ import { events } from '../bus'
 import axios from 'axios'
 
 const FunctionHelpers = {
-    install(Vue) {
-        Vue.prototype.$updateText = debounce(function (route, name, value, allowEmpty = false) {
+    install(app) {
+        globals.$updateText = debounce(function (route, name, value, allowEmpty = false) {
             if ((value === '' || value === ' ' || typeof value === 'object') && !allowEmpty) return
 
             axios
@@ -24,7 +25,7 @@ const FunctionHelpers = {
                 })
         }, 150)
 
-        Vue.prototype.$updateInput = debounce(function (route, name, value, allowEmpty = false) {
+        globals.$updateInput = debounce(function (route, name, value, allowEmpty = false) {
             if ((value === '' || value === ' ' || typeof value === 'object') && !allowEmpty) return
 
             axios
@@ -40,7 +41,7 @@ const FunctionHelpers = {
                 })
         }, 150)
 
-        Vue.prototype.$updateImage = function (route, name, image) {
+        globals.$updateImage = function (route, name, image) {
             // Create form
             let formData = new FormData()
 
@@ -63,7 +64,7 @@ const FunctionHelpers = {
                 })
         }
 
-        Vue.prototype.$updateAvatar = function (image) {
+        globals.$updateAvatar = function (image) {
             // Create form
             let formData = new FormData()
 
@@ -84,7 +85,7 @@ const FunctionHelpers = {
                 })
         }
 
-        Vue.prototype.$scrollTop = function () {
+        globals.$scrollTop = function () {
             const container = document.getElementsByTagName('html')[0]
 
             if (container) {
@@ -92,7 +93,7 @@ const FunctionHelpers = {
             }
         }
 
-        Vue.prototype.$translateSelectOptions = function (options) {
+        globals.$translateSelectOptions = function (options) {
             return options.map((role) => {
                 let key, values
 
@@ -101,44 +102,44 @@ const FunctionHelpers = {
                 }
 
                 return {
-                    label: isArray(role.label) ? i18n.t(key, values) : i18n.t(role.label),
+                    label: isArray(role.label) ? i18n.global.t(key, values) : i18n.global.t(role.label),
                     value: role.value,
                     icon: role.icon ? role.icon : '',
                 }
             })
         }
 
-        Vue.prototype.$mapStorageUsage = function (storage) {
+        globals.$mapStorageUsage = function (storage) {
             let distribution = [
                 {
                     progress: storage.data.meta.images.percentage,
                     color: 'success',
                     value: storage.data.meta.images.used,
-                    title: i18n.t('images'),
+                    title: i18n.global.t('images'),
                 },
                 {
                     progress: storage.data.meta.videos.percentage,
                     color: 'danger',
                     value: storage.data.meta.videos.used,
-                    title: i18n.t('videos'),
+                    title: i18n.global.t('videos'),
                 },
                 {
                     progress: storage.data.meta.audios.percentage,
                     color: 'warning',
                     value: storage.data.meta.audios.used,
-                    title: i18n.t('audios'),
+                    title: i18n.global.t('audios'),
                 },
                 {
                     progress: storage.data.meta.documents.percentage,
                     color: 'info',
                     value: storage.data.meta.documents.used,
-                    title: i18n.t('documents'),
+                    title: i18n.global.t('documents'),
                 },
                 {
                     progress: storage.data.meta.others.percentage,
                     color: 'purple',
                     value: storage.data.meta.others.used,
-                    title: i18n.t('others'),
+                    title: i18n.global.t('others'),
                 },
             ]
 
@@ -151,29 +152,29 @@ const FunctionHelpers = {
                     progress: 100 - storage.data.attributes.percentage,
                     color: 'secondary',
                     value: storage.data.meta.others.used,
-                    title: i18n.t('empty'),
+                    title: i18n.global.t('empty'),
                 })
             }
 
             return distribution
         }
 
-        Vue.prototype.$getImage = function (source) {
+        globals.$getImage = function (source) {
             return source ? store.getters.config.host + '/' + source : ''
         }
 
-        Vue.prototype.$getCreditCardBrand = function (brand) {
+        globals.$getCreditCardBrand = function (brand) {
             return `/assets/icons/${brand}.svg`
         }
 
-        Vue.prototype.$getInvoiceLink = function (id) {
+        globals.$getInvoiceLink = function (id) {
             return '/invoices/' + id
         }
 
-        Vue.prototype.$uploadFiles = async function (files) {
+        globals.$uploadFiles = async function (files) {
             // Show alert message when upload is disabled
             if (store.getters.user && !store.getters.user.data.meta.restrictions.canUpload) {
-                Vue.prototype.$temporarilyDisabledUpload()
+                globals.$temporarilyDisabledUpload()
 
                 return
             }
@@ -196,7 +197,7 @@ const FunctionHelpers = {
             })
         }
 
-        Vue.prototype.$uploadDraggedFolderOrFile = async function (files, parent_id) {
+        globals.$uploadDraggedFolderOrFile = async function (files, parent_id) {
             files.map((file) => {
                 // Get file path
                 let filePath = file.filepath ? '/' + file.filepath : undefined
@@ -215,7 +216,7 @@ const FunctionHelpers = {
             })
         }
 
-        Vue.prototype.$handleUploading = async function (item) {
+        globals.$handleUploading = async function (item) {
             // Create ceil
             let size = store.getters.config.chunkSize,
                 chunksCeil = Math.ceil(item.file.size / size),
@@ -286,10 +287,10 @@ const FunctionHelpers = {
             } while (isNotGeneralError && chunks.length !== 0)
         }
 
-        Vue.prototype.$downloadFile = function (url, filename) {
+        globals.$downloadFile = function (url, filename) {
             // Show alert message when download is disabled
             if (store.getters.user && !store.getters.user.data.meta.restrictions.canDownload) {
-                Vue.prototype.$temporarilyDisabledDownload()
+                globals.$temporarilyDisabledDownload()
 
                 return
             }
@@ -304,7 +305,7 @@ const FunctionHelpers = {
             anchor.click()
         }
 
-        Vue.prototype.$getCurrentLocationName = function () {
+        globals.$getCurrentLocationName = function () {
             if (store.getters.currentFolder) {
                 return store.getters.currentFolder.data.attributes.name
             } else {
@@ -321,7 +322,7 @@ const FunctionHelpers = {
             }
         }
 
-        Vue.prototype.$getCurrentSectionName = function () {
+        globals.$getCurrentSectionName = function () {
             return {
                 RecentUploads: this.$t('menu.latest'),
                 MySharedItems: this.$t('publicly_shared'),
@@ -333,7 +334,7 @@ const FunctionHelpers = {
             }[this.$route.name]
         }
 
-        Vue.prototype.$getCurrentSectionIcon = function () {
+        globals.$getCurrentSectionIcon = function () {
             return {
                 RecentUploads: 'upload-cloud',
                 MySharedItems: 'share',
@@ -342,25 +343,25 @@ const FunctionHelpers = {
                 Files: 'hard-drive',
                 TeamFolders: 'users',
                 SharedWithMe: 'user-check',
-            }[this.$router.currentRoute.name]
+            }[this.$route.name]
         }
 
-        Vue.prototype.$getDataByLocation = async function (page) {
+        globals.$getDataByLocation = async function (page) {
             let routes = {
-                RequestUpload: ['getUploadRequestFolder', {page: page, id: router.currentRoute.params.id || undefined}],
-                Public: ['getSharedFolder', {page: page, id: router.currentRoute.params.id || undefined}],
-                Files: ['getFolder', {page: page, id: router.currentRoute.params.id || undefined}],
+                RequestUpload: ['getUploadRequestFolder', {page: page, id: router.currentRoute.value.params.id || undefined}],
+                Public: ['getSharedFolder', {page: page, id: router.currentRoute.value.params.id || undefined}],
+                Files: ['getFolder', {page: page, id: router.currentRoute.value.params.id || undefined}],
                 RecentUploads: ['getRecentUploads', page],
                 MySharedItems: ['getMySharedItems', page],
-                Trash: ['getTrash', {page: page, id: router.currentRoute.params.id || undefined}],
-                TeamFolders: ['getTeamFolder', {page: page, id: router.currentRoute.params.id || undefined}],
-                SharedWithMe: ['getSharedWithMeFolder', {page: page, id: router.currentRoute.params.id || undefined}],
+                Trash: ['getTrash', {page: page, id: router.currentRoute.value.params.id || undefined}],
+                TeamFolders: ['getTeamFolder', {page: page, id: router.currentRoute.value.params.id || undefined}],
+                SharedWithMe: ['getSharedWithMeFolder', {page: page, id: router.currentRoute.value.params.id || undefined}],
             }
 
-            return await store.dispatch(...routes[router.currentRoute.name])
+            return await store.dispatch(...routes[router.currentRoute.value.name])
         }
 
-        Vue.prototype.$getPaymentLogo = function (driver) {
+        globals.$getPaymentLogo = function (driver) {
             return (
                 {
                     paypal: store.getters.isDarkMode
@@ -377,7 +378,7 @@ const FunctionHelpers = {
             )
         }
 
-        Vue.prototype.$getSocialLogo = function (driver) {
+        globals.$getSocialLogo = function (driver) {
             return {
                 google: '/assets/socials/google.svg',
                 facebook: '/assets/socials/facebook.svg',
@@ -385,7 +386,7 @@ const FunctionHelpers = {
             }[driver]
         }
 
-        Vue.prototype.$getSubscriptionStatusColor = function (status) {
+        globals.$getSubscriptionStatusColor = function (status) {
             return {
                 active: 'green',
                 cancelled: 'yellow',
@@ -393,7 +394,7 @@ const FunctionHelpers = {
             }[status]
         }
 
-        Vue.prototype.$getTransactionStatusColor = function (status) {
+        globals.$getTransactionStatusColor = function (status) {
             return {
                 completed: 'green',
                 cancelled: 'yellow',
@@ -401,7 +402,7 @@ const FunctionHelpers = {
             }[status]
         }
 
-        Vue.prototype.$getTransactionTypeColor = function (type) {
+        globals.$getTransactionTypeColor = function (type) {
             return {
                 credit: 'green',
                 charge: 'purple',
@@ -409,28 +410,28 @@ const FunctionHelpers = {
             }[type]
         }
 
-        Vue.prototype.$getTransactionStatusColor = function (type) {
+        globals.$getTransactionStatusColor = function (type) {
             return {
                 completed: 'green',
                 error: 'red',
             }[type]
         }
 
-        Vue.prototype.$getPlanStatusColor = function (type) {
+        globals.$getPlanStatusColor = function (type) {
             return {
                 active: 'green',
                 archived: 'red',
             }[type]
         }
 
-        Vue.prototype.$getUserRoleColor = function (role) {
+        globals.$getUserRoleColor = function (role) {
             return {
                 admin: 'purple',
                 user: 'green',
             }[role]
         }
 
-        Vue.prototype.$getTransactionTypeTextColor = function (type) {
+        globals.$getTransactionTypeTextColor = function (type) {
             return {
                 withdrawal: 'text-red',
                 credit: 'text-green',
@@ -438,7 +439,7 @@ const FunctionHelpers = {
             }[type]
         }
 
-        Vue.prototype.$getTransactionMark = function (type) {
+        globals.$getTransactionMark = function (type) {
             return {
                 withdrawal: '-',
                 credit: '+',
@@ -446,9 +447,9 @@ const FunctionHelpers = {
             }[type]
         }
 
-        Vue.prototype.$goToFileView = function (id) {
+        globals.$goToFileView = function (id) {
             // If user is located in trash, then automatically after click on the navigator go to the Files view
-            if (this.$router.currentRoute.name === 'Trash') {
+            if (this.$route.name === 'Trash') {
                 this.$router.push({ name: 'Files', params: { id: id } })
                 return
             }
@@ -463,15 +464,15 @@ const FunctionHelpers = {
                 Files: { name: 'Files', params: { id: id } },
             }
 
-            this.$router.push(locations[this.$router.currentRoute.name])
+            this.$router.push(locations[this.$route.name])
         }
 
-        Vue.prototype.$isThisRoute = function (route, locations) {
+        globals.$isThisRoute = function (route, locations) {
             return locations.includes(route.name)
         }
 
         // TODO: not working correctly in share page
-        Vue.prototype.$checkPermission = function (type) {
+        globals.$checkPermission = function (type) {
             let currentPermission = store.getters.permission
 
             // Check if type is object
@@ -482,7 +483,7 @@ const FunctionHelpers = {
             }
         }
 
-        Vue.prototype.$checkFileMimetype = function (files) {
+        globals.$checkFileMimetype = function (files) {
             let validated = true
             let mimetypesBlacklist = store.getters.config.mimetypesBlacklist
 
@@ -498,8 +499,8 @@ const FunctionHelpers = {
 
                     events.$emit('alert:open', {
                         emoji: '😬😬😬',
-                        title: i18n.t('popup_mimetypes_blacklist.title'),
-                        message: i18n.t('popup_mimetypes_blacklist.message', {
+                        title: i18n.global.t('popup_mimetypes_blacklist.title'),
+                        message: i18n.global.t('popup_mimetypes_blacklist.message', {
                             mimetype: fileType[1],
                         }),
                     })
@@ -508,7 +509,7 @@ const FunctionHelpers = {
             return validated
         }
 
-        Vue.prototype.$checkUploadLimit = function (files) {
+        globals.$checkUploadLimit = function (files) {
             let uploadLimit = store.getters.config.uploadLimit
             let validate = true
 
@@ -517,8 +518,8 @@ const FunctionHelpers = {
                     validate = false
                     events.$emit('alert:open', {
                         emoji: '😟😟😟',
-                        title: i18n.t('popup_upload_limit.title'),
-                        message: i18n.t('popup_upload_limit.message', {
+                        title: i18n.global.t('popup_upload_limit.title'),
+                        message: i18n.global.t('popup_upload_limit.message', {
                             uploadLimit: store.getters.config.uploadLimitFormatted,
                         }),
                     })
@@ -529,12 +530,12 @@ const FunctionHelpers = {
         }
 
         // Detect windows
-        Vue.prototype.$isWindows = function () {
+        globals.$isWindows = function () {
             return navigator.userAgent.indexOf('Windows') != -1
         }
 
         // Check if device is Apple
-        Vue.prototype.$isApple = function () {
+        globals.$isApple = function () {
             const toMatch = [/iPhone/i, /iPad/i, /iPod/i, /iOS/i, /macOS/i, /Macintosh/i]
 
             return toMatch.some((toMatchItem) => {
@@ -542,7 +543,7 @@ const FunctionHelpers = {
             })
         }
 
-        Vue.prototype.$isMobile = function () {
+        globals.$isMobile = function () {
             const toMatch = [/Android/i, /webOS/i, /iPhone/i, /iPad/i, /iPod/i, /BlackBerry/i, /Windows Phone/i]
 
             return toMatch.some((toMatchItem) => {
@@ -550,7 +551,7 @@ const FunctionHelpers = {
             })
         }
 
-        Vue.prototype.$mapIntoMemberResource = function (entry) {
+        globals.$mapIntoMemberResource = function (entry) {
             return {
                 data: {
                     attributes: {
@@ -563,11 +564,11 @@ const FunctionHelpers = {
             }
         }
 
-        Vue.prototype.$closePopup = function () {
+        globals.$closePopup = function () {
             events.$emit('popup:close')
         }
 
-        Vue.prototype.$openInDetailPanel = function (entry) {
+        globals.$openInDetailPanel = function (entry) {
             // Dispatch load file info detail
             store.commit('CLIPBOARD_CLEAR')
             store.commit('ADD_ITEM_TO_CLIPBOARD', entry)
@@ -576,27 +577,27 @@ const FunctionHelpers = {
             store.dispatch('fileInfoToggle', true)
         }
 
-        Vue.prototype.$openSpotlight = function (filter = undefined) {
+        globals.$openSpotlight = function (filter = undefined) {
             events.$emit('spotlight:show', filter)
         }
 
-        Vue.prototype.$enableMultiSelectMode = function () {
+        globals.$enableMultiSelectMode = function () {
             store.commit('TOGGLE_MULTISELECT_MODE')
         }
 
-        Vue.prototype.$showMobileMenu = function (name) {
+        globals.$showMobileMenu = function (name) {
             events.$emit('mobile-menu:show', name)
         }
 
-        Vue.prototype.$openSubscribeOptions = function () {
+        globals.$openSubscribeOptions = function () {
             events.$emit('popup:open', { name: 'select-plan-subscription' })
         }
 
-        Vue.prototype.$changeSubscriptionOptions = function () {
+        globals.$changeSubscriptionOptions = function () {
             events.$emit('popup:open', { name: 'change-plan-subscription' })
         }
 
-        Vue.prototype.$openRemoteUploadPopup = function () {
+        globals.$openRemoteUploadPopup = function () {
             events.$emit('popup:open', {name: 'remote-upload'})
         }
     },

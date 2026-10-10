@@ -1,6 +1,6 @@
 <template>
     <div
-        class="sticky top-14 z-[19] whitespace-nowrap bg-white dark:bg-dark-background lg:hidden"
+        class="sticky top-14 z-19 whitespace-nowrap bg-white dark:bg-dark-background lg:hidden"
     >
 		<div class="flex items-center overflow-x-auto pb-3 pl-4">
 			<!--Show Buttons-->
@@ -8,13 +8,13 @@
 
 			<!-- Multi select mode -->
 			<div v-if="isMultiSelectMode">
-				<MobileActionButton @click.native="selectAll" icon="check-square">
+				<MobileActionButton @click="selectAll" icon="check-square">
 					{{ $t('select_all') }}
 				</MobileActionButton>
-				<MobileActionButton @click.native="deselectAll" icon="x-square">
+				<MobileActionButton @click="deselectAll" icon="x-square">
 					{{ $t('deselect_all') }}
 				</MobileActionButton>
-				<MobileActionButton @click.native="disableMultiSelectMode" icon="check">
+				<MobileActionButton @click="disableMultiSelectMode" icon="check">
 					{{ $t('done') }}
 				</MobileActionButton>
 			</div>
@@ -26,8 +26,8 @@
 </template>
 
 <script>
-import MobileActionButton from '../UI/Buttons/MobileActionButton'
-import UploadProgress from '../UI/Others/UploadProgress'
+import MobileActionButton from '../UI/Buttons/MobileActionButton.vue'
+import UploadProgress from '../UI/Others/UploadProgress.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -62,7 +62,7 @@ export default {
     transition: all 250ms;
 }
 
-.button-enter {
+.button-enter-from {
     opacity: 0;
     transform: translateY(-50%);
 }

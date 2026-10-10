@@ -16,24 +16,13 @@ class TestMailgunConnectionAction
     public function __invoke(array $credentials)
     {
         try {
-            // Set temporary mail connection
-            config([
-                'mail'     => [
-                    'driver'       => 'mailgun',
-                    'from.address' => $credentials['sender'],
-                    'from.name'    => $credentials['sender'],
-                ],
-                'services' => [
-                    'mailgun' => [
-                        'domain'   => $credentials['domain'],
-                        'secret'   => $credentials['secret'],
-                        'endpoint' => $credentials['endpoint'],
-                    ],
-                ],
-            ]);
-
-            // Send test email
-            Mail::to($credentials['sender'])->send(new TestMail($credentials['sender']));
+            // Send test email through temporary mail connection
+            Mail::build([
+                'transport' => 'mailgun',
+                'domain'    => $credentials['domain'],
+                'secret'    => $credentials['secret'],
+                'endpoint'  => $credentials['endpoint'] ?: 'api.mailgun.net',
+            ])->to($credentials['sender'])->send(new TestMail($credentials['sender']));
         } catch (TransportException | LogicException $error) {
             abort(
                 response()->json([

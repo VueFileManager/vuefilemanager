@@ -7,7 +7,7 @@
                 <!--Create button-->
                 <PopoverWrapper v-if="canEdit">
                     <ToolbarButton
-                        @click.stop.native="showCreateMenu"
+                        @click.stop="showCreateMenu"
                         source="cloud-plus"
                         :action="$t('create_something')"
                     />
@@ -15,7 +15,7 @@
                         <OptionGroup :title="$t('frequently_used')">
                             <OptionUpload :title="$t('upload_files')" type="file" />
                             <Option
-                                @click.native="$createFolder"
+                                @click="$createFolder"
                                 :title="$t('create_folder')"
                                 icon="folder-plus"
                             />
@@ -23,7 +23,7 @@
                         <OptionGroup :title="$t('others')">
                             <OptionUpload :title="$t('upload_folder')" type="folder" />
 							<Option
-								@click.stop.native="$openRemoteUploadPopup"
+								@click.stop="$openRemoteUploadPopup"
 								:title="$t('remote_upload')"
 								icon="remote-upload"
 							/>
@@ -39,7 +39,7 @@
                     <!--Action buttons-->
                     <div v-if="canEdit && !$isMobile()" class="flex items-center">
                         <ToolbarButton
-                            @click.native="$moveFileOrFolder(clipboard[0])"
+                            @click="$moveFileOrFolder(clipboard[0])"
                             :class="{
                                 'is-inactive': !canManipulate,
                             }"
@@ -47,7 +47,7 @@
                             :action="$t('move')"
                         />
                         <ToolbarButton
-                            @click.native="$deleteFileOrFolder(clipboard[0])"
+                            @click="$deleteFileOrFolder(clipboard[0])"
                             :class="{
                                 'is-inactive': !canManipulate,
                             }"
@@ -61,7 +61,7 @@
                 <div class="ml-5 flex items-center xl:ml-8">
                     <PopoverWrapper>
                         <ToolbarButton
-                            @click.stop.native="showSortingMenu"
+                            @click.stop="showSortingMenu"
                             source="preview-sorting"
                             :action="$t('sorting_view')"
                         />
@@ -70,7 +70,7 @@
                         </PopoverItem>
                     </PopoverWrapper>
                     <ToolbarButton
-                        @click.native="$store.dispatch('fileInfoToggle')"
+                        @click="$store.dispatch('fileInfoToggle')"
                         :action="$t('info_panel')"
                         source="info"
                     />
@@ -83,18 +83,18 @@
 </template>
 
 <script>
-import PopoverWrapper from '../../UI/Popover/PopoverWrapper'
-import FileSortingOptions from '../../Menus/FileSortingOptions'
-import PopoverItem from '../../UI/Popover/PopoverItem'
-import UploadProgress from '../../UI/Others/UploadProgress'
-import NavigationBar from './NavigationBar'
-import ToolbarButton from '../../UI/Buttons/ToolbarButton'
-import OptionUpload from '../../Menus/Components/OptionUpload'
-import OptionGroup from '../../Menus/Components/OptionGroup'
-import SearchBarButton from '../../UI/Buttons/SearchBarButton'
+import PopoverWrapper from '../../UI/Popover/PopoverWrapper.vue'
+import FileSortingOptions from '../../Menus/FileSortingOptions.vue'
+import PopoverItem from '../../UI/Popover/PopoverItem.vue'
+import UploadProgress from '../../UI/Others/UploadProgress.vue'
+import NavigationBar from './NavigationBar.vue'
+import ToolbarButton from '../../UI/Buttons/ToolbarButton.vue'
+import OptionUpload from '../../Menus/Components/OptionUpload.vue'
+import OptionGroup from '../../Menus/Components/OptionGroup.vue'
+import SearchBarButton from '../../UI/Buttons/SearchBarButton.vue'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
-import Option from '../../Menus/Components/Option'
+import Option from '../../Menus/Components/Option.vue'
 
 export default {
     name: 'DesktopSharepageToolbar',

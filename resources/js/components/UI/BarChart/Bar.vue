@@ -13,7 +13,7 @@
                 {{ bar.created_at }}
             </b>
             <div class="flex items-center pb-1">
-                <span class="bg-theme mr-2 block h-3 w-3 rounded"></span>
+                <span class="bg-theme mr-2 block h-3 w-3 rounded-sm"></span>
                 <b class="whitespace-nowrap text-xs text-white dark:text-gray-800">
                     {{ bar.amount }}
                 </b>

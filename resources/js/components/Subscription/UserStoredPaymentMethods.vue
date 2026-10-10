@@ -31,7 +31,7 @@
         <div v-if="!hasPaymentMethod">
             <!-- Show credit card form -->
             <ButtonBase
-                @click.native="showStoreCreditCardForm"
+                @click="showStoreCreditCardForm"
                 v-if="!isCreditCardForm"
                 :loading="stripe.storingStripePaymentMethod"
                 type="submit"
@@ -69,15 +69,15 @@
     </div>
 </template>
 <script>
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import FormLabel from '../UI/Labels/FormLabel'
-import PaymentCard from './PaymentCard'
-import Spinner from '../UI/Others/Spinner'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import FormLabel from '../UI/Labels/FormLabel.vue'
+import PaymentCard from './PaymentCard.vue'
+import Spinner from '../UI/Others/Spinner.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from 'axios'
-import InfoBox from "../UI/Others/InfoBox";
+import InfoBox from "../UI/Others/InfoBox.vue";
 
 // Define stripe variables
 let stripe,

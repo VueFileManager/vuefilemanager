@@ -42,7 +42,7 @@
             <!--Image thumbnail-->
             <img
                 v-if="isImage && entry.data.attributes.thumbnail"
-                class="ml-0.5 h-12 w-12 rounded object-cover pointer-events-none"
+                class="ml-0.5 h-12 w-12 rounded-sm object-cover pointer-events-none"
                 :src="imageSrc"
 				alt=""
                 loading="lazy"
@@ -57,7 +57,7 @@
                 class="item-name mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold lg:pr-0 pr-4"
                 :class="{
 					'hover:underline cursor-text': canEditName,
-					'lg:!pr-16': mobileHandler && $isMobile(),
+					'lg:pr-16!': mobileHandler && $isMobile(),
                 }"
                 ref="name"
                 @input="renameItem"
@@ -83,14 +83,14 @@
 
                 <!--Folder sub line-->
                 <small v-if="isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
-                    {{ folderItems === 0 ? $t('empty') : $tc('folder.item_counts', folderItems) }},
+                    {{ folderItems === 0 ? $t('empty') : $t('folder.item_counts', folderItems) }},
                     {{ timeStamp }}
                 </small>
             </div>
         </div>
 
         <!-- Mobile item action button-->
-        <div v-if="mobileHandler && !isMultiSelectMode && $isMobile()" class="relative flex-grow pr-1 text-right">
+        <div v-if="mobileHandler && !isMultiSelectMode && $isMobile()" class="relative grow pr-1 text-right">
             <div
                 @mouseup.stop="$openInDetailPanel(entry)"
                 class="absolute right-10 -mr-4 hidden -translate-y-2/4 transform p-2.5 lg:block"
@@ -105,12 +105,12 @@
 </template>
 
 <script>
-import Emoji from '../../Emoji/Emoji'
-import FolderIcon from '../../Icons/FolderIcon'
-import { LinkIcon, MoreVerticalIcon, EyeIcon } from 'vue-feather-icons'
-import FileIconThumbnail from '../../Icons/FileIconThumbnail'
-import MemberAvatar from '../Others/MemberAvatar'
-import CheckBox from '../../Inputs/CheckBox'
+import Emoji from '../../Emoji/Emoji.vue'
+import FolderIcon from '../../Icons/FolderIcon.vue'
+import { LinkIcon, MoreVerticalIcon, EyeIcon } from '../../../icons/feather.js'
+import FileIconThumbnail from '../../Icons/FileIconThumbnail.vue'
+import MemberAvatar from '../Others/MemberAvatar.vue'
+import CheckBox from '../../Inputs/CheckBox.vue'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'

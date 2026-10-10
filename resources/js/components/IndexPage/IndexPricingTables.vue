@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import PricingTables from './Components/PricingTables'
-import AuthButton from '../UI/Buttons/AuthButton'
-import { CloudIcon } from 'vue-feather-icons'
+import PricingTables from './Components/PricingTables.vue'
+import AuthButton from '../UI/Buttons/AuthButton.vue'
+import { CloudIcon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

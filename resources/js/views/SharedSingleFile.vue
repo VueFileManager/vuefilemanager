@@ -68,7 +68,7 @@
             </div>
 
             <!--Download button-->
-            <ButtonBase @click.native="$downloadSelection(file)" button-style="theme" class="mx-auto">
+            <ButtonBase @click="$downloadSelection(file)" button-style="theme" class="mx-auto">
                 {{ $t('page_shared.download_file') }}
             </ButtonBase>
 
@@ -79,9 +79,9 @@
 </template>
 
 <script>
-import ButtonBase from '../components/UI/Buttons/ButtonBase'
-import Video from '../components/FilePreview/Media/Video'
-import ItemGrid from '../components/UI/Entries/ItemGrid'
+import ButtonBase from '../components/UI/Buttons/ButtonBase.vue'
+import Video from '../components/FilePreview/Media/Video.vue'
+import ItemGrid from '../components/UI/Entries/ItemGrid.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 
@@ -108,7 +108,7 @@ export default {
     },
     mounted() {
         axios
-            .get(`/api/sharing/file/${this.$router.currentRoute.params.token}`)
+            .get(`/api/sharing/file/${this.$route.params.token}`)
             .then((response) => {
                 this.file = response.data
             })

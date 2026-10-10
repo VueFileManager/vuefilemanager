@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '../../router'
-import Vue from 'vue'
+import { globals } from '../../globals'
 
 const defaultState = {
     permission: 'master', // master | editor | visitor
@@ -18,7 +18,7 @@ const actions = {
                     commit('RETRIEVE_USER', response.data)
                     commit('UPDATE_NOTIFICATION_COUNT', response.data.data.relationships.unreadNotifications.data.length)
 
-                    if (! getters.isBroadcasting && getters.config.broadcasting === 'pusher') {
+                    if (! getters.isBroadcasting && ['pusher', 'reverb'].includes(getters.config.broadcasting)) {
                         dispatch('runConnection')
                     }
                 })
@@ -45,7 +45,7 @@ const actions = {
             .post('/logout')
             .catch((error) => {
                 if (error.response.status === 500) {
-                    Vue.prototype.$isSomethingWrong()
+                    globals.$isSomethingWrong()
                 }
             })
             .finally(() => {
@@ -70,7 +70,7 @@ const actions = {
                     window.location.href = response.data.data.url
                 }
             })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            .catch(() => globals.$isSomethingWrong())
     },
     addToFavourites: (context, folder) => {
         let items = [folder]
@@ -102,7 +102,7 @@ const actions = {
                 ids: itemsToFavourites,
             })
             .catch(() => {
-                Vue.prototype.$isSomethingWrong()
+                globals.$isSomethingWrong()
             })
     },
     removeFromFavourites: ({ commit, getters, dispatch }, folder) => {
@@ -113,7 +113,7 @@ const actions = {
             .post(getters.api + '/favourites/' + folder.data.id, {
                 _method: 'delete',
             })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            .catch(() => globals.$isSomethingWrong())
     },
     readAllNotifications: ({ commit }) => {
         axios.post('/api/notifications/read')
@@ -126,7 +126,7 @@ const actions = {
             .then(() => {
                 commit('FLUSH_NOTIFICATIONS')
             })
-            .catch(() => Vue.prototype.$isSomethingWrong())
+            .catch(() => globals.$isSomethingWrong())
     },
 }
 

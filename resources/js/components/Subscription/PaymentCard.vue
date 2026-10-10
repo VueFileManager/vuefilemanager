@@ -3,7 +3,7 @@
         class="flex items-center justify-between rounded-lg bg-light-background py-3 px-2 dark:bg-2x-dark-foreground md:px-4"
     >
         <div class="flex items-center">
-            <img :src="`/assets/gateways/${card.data.attributes.brand}.svg`" alt="" class="mr-3 h-5 rounded" />
+            <img :src="`/assets/gateways/${card.data.attributes.brand}.svg`" alt="" class="mr-3 h-5 rounded-sm" />
             <b class="whitespace-nowrap text-sm font-bold capitalize leading-none">
                 {{ card.data.attributes.brand }} ••••
                 {{ card.data.attributes.last4 }}
@@ -14,7 +14,7 @@
     </div>
 </template>
 <script>
-import { Trash2Icon } from 'vue-feather-icons'
+import { Trash2Icon } from '../../icons/feather.js'
 import { events } from '../../bus'
 import axios from 'axios'
 
@@ -52,7 +52,7 @@ export default {
                     .catch(() => this.$isSomethingWrong())
         })
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

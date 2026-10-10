@@ -12,14 +12,14 @@
         </div>
 
         <div v-if="config.allowedGoogleLogin" class="mx-5 cursor-pointer">
-			<google-icon @click.native="socialiteRedirect('google')" class="vue-feather"/>
+			<google-icon @click="socialiteRedirect('google')" class="vue-feather"/>
         </div>
     </div>
 </template>
 
 <script>
-import { FacebookIcon, GithubIcon } from 'vue-feather-icons'
-import GoogleIcon from "../../Icons/GoogleIcon"
+import { FacebookIcon, GithubIcon } from '../../../icons/feather.js'
+import GoogleIcon from "../../Icons/GoogleIcon.vue"
 import { mapGetters } from 'vuex'
 
 export default {

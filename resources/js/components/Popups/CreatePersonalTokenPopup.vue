@@ -14,7 +14,7 @@
                     <AppInputText :title="$t('token_name')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="name"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             type="text"
                             ref="input"
                             class="focus-border-theme input-dark"
@@ -34,12 +34,12 @@
         </PopupContent>
 
         <PopupActions v-if="!token">
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"
-                @click.native="createTokenForm"
+                @click="createTokenForm"
                 button-style="theme"
                 :loading="isLoading"
                 :disabled="isLoading"
@@ -49,7 +49,7 @@
         </PopupActions>
 
         <PopupActions v-if="token">
-            <ButtonBase class="w-full" @click.native="$closePopup" button-style="theme">
+            <ButtonBase class="w-full" @click="$closePopup" button-style="theme">
                 {{ $t('awesome_iam_done') }}
             </ButtonBase>
         </PopupActions>
@@ -57,16 +57,15 @@
 </template>
 
 <script>
-import AppInputText from '../Forms/Layouts/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from './Components/PopupWrapper'
-import PopupActions from './Components/PopupActions'
-import PopupContent from './Components/PopupContent'
-import PopupHeader from './Components/PopupHeader'
-import CopyInput from '../Inputs/CopyInput'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import InfoBox from '../UI/Others/InfoBox'
-import { required } from 'vee-validate/dist/rules'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
+import PopupWrapper from './Components/PopupWrapper.vue'
+import PopupActions from './Components/PopupActions.vue'
+import PopupContent from './Components/PopupContent.vue'
+import PopupHeader from './Components/PopupHeader.vue'
+import CopyInput from '../Inputs/CopyInput.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import InfoBox from '../UI/Others/InfoBox.vue'
 import { events } from '../../bus'
 import axios from 'axios'
 
@@ -82,7 +81,6 @@ export default {
         PopupHeader,
         ButtonBase,
         CopyInput,
-        required,
         InfoBox,
     },
     data() {

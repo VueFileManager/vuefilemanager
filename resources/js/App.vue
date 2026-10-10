@@ -23,14 +23,14 @@
 </template>
 
 <script>
-import RestrictionWarningBar from './components/Subscription/RestrictionWarningBar'
-import RemoteUploadProgress from "./components/RemoteUpload/RemoteUploadProgress"
-import ToasterWrapper from './components/Toaster/ToasterNotifications'
-import SidebarNavigation from "./components/Sidebar/SidebarNavigation"
-import CookieDisclaimer from './components/UI/Others/CookieDisclaimer'
-import Spinner from './components/UI/Others/Spinner'
-import Vignette from './components/UI/Others/Vignette'
-import Alert from './components/Popups/Alert'
+import RestrictionWarningBar from './components/Subscription/RestrictionWarningBar.vue'
+import RemoteUploadProgress from "./components/RemoteUpload/RemoteUploadProgress.vue"
+import ToasterWrapper from './components/Toaster/ToasterNotifications.vue'
+import SidebarNavigation from "./components/Sidebar/SidebarNavigation.vue"
+import CookieDisclaimer from './components/UI/Others/CookieDisclaimer.vue'
+import Spinner from './components/UI/Others/Spinner.vue'
+import Vignette from './components/UI/Others/Vignette.vue'
+import Alert from './components/Popups/Alert.vue'
 import { mapGetters } from 'vuex'
 import { events } from './bus'
 
@@ -60,7 +60,7 @@ export default {
             this.handleDarkMode()
         },
 		'$route' () {
-			let section = this.$router.currentRoute.fullPath.split('/')[1]
+			let section = this.$route.fullPath.split('/')[1]
 			const app = document.getElementsByTagName('body')[0]
 
 			// Set background color via theme setup
@@ -113,24 +113,24 @@ export default {
 
         // Commit config
         this.$store.commit('INIT', {
-            config: this.$root.$data.config,
+            config: config,
         })
 
         // Redirect to setup wizard
-        if (this.$root.$data.config.installation === 'installation-needed') {
+        if (config.installation === 'installation-needed') {
             this.isLoaded = true
 
             if (window.location.pathname.split('/')[1] !== 'setup-wizard') {
                 this.$router.push({ name: 'StatusCheck' })
             }
         } else {
-            this.$store.dispatch('getLanguageTranslations', this.$root.$data.config.locale).then(() => {
+            this.$store.dispatch('getLanguageTranslations', config.locale).then(() => {
                 this.isLoaded = true
             })
         }
 
 		// Go to sign in page if homepage is disabled
-		if (!this.$root.$data.config.allowHomepage && window.location.pathname === '/') {
+		if (!config.allowHomepage && window.location.pathname === '/') {
 			this.$router.push({ name: 'SignIn' })
 		}
     },
@@ -141,7 +141,7 @@ export default {
 
         window.addEventListener('keydown', this.spotlightListener)
     },
-    destroyed() {
+    unmounted() {
         window.removeEventListener('keydown', this.spotlightListener)
     },
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="mb-4 flex h-2.5 items-center rounded bg-light-300 dark:bg-2x-dark-foreground">
+        <div class="mb-4 flex h-2.5 items-center rounded-sm bg-light-300 dark:bg-2x-dark-foreground">
             <div
                 v-for="(chart, i) in data"
                 :key="i"
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import DotLabel from './DotLabel'
+import DotLabel from './DotLabel.vue'
 
 export default {
     name: 'ProgressLine',

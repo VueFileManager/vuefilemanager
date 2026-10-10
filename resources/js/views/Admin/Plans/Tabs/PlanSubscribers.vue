@@ -9,10 +9,10 @@
             class="card overflow-x-auto shadow-card"
         >
             <!--Table data content-->
-            <template slot-scope="{ row }">
+            <template #default="{ row }">
                 <tr
                     v-if="config.subscriptionType === 'metered'"
-                    class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                    class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                 >
                     <td class="py-3 pr-3 md:pr-1">
                         <router-link
@@ -27,7 +27,7 @@
                             <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                             <div class="ml-3 pr-10">
                                 <b
-                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                     style="max-width: 155px"
                                 >
                                     {{ row.data.relationships.user.data.attributes.name }}
@@ -53,7 +53,7 @@
                 </tr>
                 <tr
                     v-if="config.subscriptionType === 'fixed'"
-                    class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5"
+                    class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5"
                 >
                     <td class="py-3 pr-3 md:pr-1">
                         <router-link
@@ -68,7 +68,7 @@
                             <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                             <div class="ml-3 pr-10">
                                 <b
-                                    class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                    class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                     style="max-width: 155px"
                                 >
                                     {{ row.data.relationships.user.data.attributes.name }}
@@ -125,14 +125,14 @@
 </template>
 
 <script>
-import ColorLabel from '../../../../components/UI/Labels/ColorLabel'
-import MemberAvatar from '../../../../components/UI/Others/MemberAvatar'
-import DatatableCellImage from '../../../../components/UI/Table/DatatableCellImage'
-import { DownloadCloudIcon, Edit2Icon, Trash2Icon } from 'vue-feather-icons'
-import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper'
-import PageTabGroup from '../../../../components/Layout/PageTabGroup'
-import PageTab from '../../../../components/Layout/PageTab'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import ColorLabel from '../../../../components/UI/Labels/ColorLabel.vue'
+import MemberAvatar from '../../../../components/UI/Others/MemberAvatar.vue'
+import DatatableCellImage from '../../../../components/UI/Table/DatatableCellImage.vue'
+import { DownloadCloudIcon, Edit2Icon, Trash2Icon } from '../../../../icons/feather.js'
+import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper.vue'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import { mapGetters } from 'vuex'
 
 export default {

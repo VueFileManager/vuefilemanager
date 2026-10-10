@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Settings;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -10,9 +11,7 @@ use Domain\Settings\Actions\SeedDefaultSettingsAction;
 
 class SettingsTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_page_settings()
     {
         Setting::create([
@@ -33,9 +32,7 @@ class SettingsTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_admin_settings()
     {
         resolve(SeedDefaultSettingsAction::class)();
@@ -53,9 +50,7 @@ class SettingsTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_update_settings()
     {
         resolve(SeedDefaultSettingsAction::class)();
@@ -75,9 +70,7 @@ class SettingsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_update_settings_image()
     {
         Setting::forceCreate([
@@ -107,9 +100,7 @@ class SettingsTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_flush_cache()
     {
         $admin = User::factory()
@@ -121,9 +112,7 @@ class SettingsTest extends TestCase
             ->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_store_payment_service_credentials()
     {
         $admin = User::factory()
@@ -143,9 +132,7 @@ class SettingsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_store_social_service_credentials()
     {
         $admin = User::factory()
@@ -165,9 +152,7 @@ class SettingsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_set_email()
     {
         $admin = User::factory()
@@ -185,9 +170,7 @@ class SettingsTest extends TestCase
             ])->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_set_storage()
     {
         $admin = User::factory()
@@ -207,9 +190,7 @@ class SettingsTest extends TestCase
             ])->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_set_broadcast()
     {
         $admin = User::factory()

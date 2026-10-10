@@ -1,4 +1,9 @@
-window._ = require('lodash')
+import lodash from 'lodash'
+import axios from 'axios'
+import Echo from 'laravel-echo'
+import Pusher from 'pusher-js'
+
+window._ = lodash
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -6,7 +11,7 @@ window._ = require('lodash')
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios')
+window.axios = axios
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 
@@ -16,19 +21,20 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
  * allows your team to easily build robust real-time web applications.
  */
 
-import Echo from 'laravel-echo';
+window.Pusher = Pusher
 
-window.Pusher = require('pusher-js');
+// Supported real-time drivers: 'reverb' (self-hosted, Pusher protocol compatible) and 'pusher'
+if (['pusher', 'reverb'].includes(config.broadcasting)) {
+    const isReverb = config.broadcasting === 'reverb'
 
-if (config.broadcasting) {
-	window.Echo = new Echo({
-		broadcaster: 'pusher',
-		cluster: config.broadcastingCluster,
-		key: config.broadcastingKey,
-		wsHost: config.broadcastingHost,
-		wsPort: config.broadcastingPort,
-		wssPort: config.broadcastingPort,
-		forceTLS: false,
-		enabledTransports: ['ws', 'wss'],
-	});
+    window.Echo = new Echo({
+        broadcaster: isReverb ? 'reverb' : 'pusher',
+        cluster: config.broadcastingCluster || undefined,
+        key: config.broadcastingKey,
+        wsHost: config.broadcastingHost || undefined,
+        wsPort: config.broadcastingPort || undefined,
+        wssPort: config.broadcastingPort || undefined,
+        forceTLS: isReverb ? !!config.broadcastingTls : false,
+        enabledTransports: ['ws', 'wss'],
+    })
 }

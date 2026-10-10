@@ -14,10 +14,11 @@
 </template>
 
 <script>
-import { CheckIcon } from 'vue-feather-icons'
+import { CheckIcon } from '../../icons/feather.js'
 
 export default {
     name: 'CheckBox',
+    emits: ['update:modelValue', 'input'],
     props: ['isClicked'],
     components: {
         CheckIcon,
@@ -30,6 +31,7 @@ export default {
     methods: {
         changeState() {
             this.isSwitched = !this.isSwitched
+            this.$emit('update:modelValue', this.isSwitched)
             this.$emit('input', this.isSwitched)
         },
     },

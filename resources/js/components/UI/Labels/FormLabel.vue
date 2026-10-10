@@ -46,7 +46,7 @@ import {
     Edit2Icon,
     BellIcon,
     KeyIcon,
-} from 'vue-feather-icons'
+} from '../../../icons/feather.js'
 
 export default {
     name: 'FormLabel',

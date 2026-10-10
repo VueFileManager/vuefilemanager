@@ -1,14 +1,13 @@
 <?php
 namespace Tests\Domain\Pages;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use Domain\Pages\Actions\SeedDefaultPagesAction;
 
 class PagesTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_legal_page()
     {
         resolve(SeedDefaultPagesAction::class)();

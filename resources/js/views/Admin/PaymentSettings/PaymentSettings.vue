@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import CardNavigation from '../../../components/UI/Others/CardNavigation'
+import CardNavigation from '../../../components/UI/Others/CardNavigation.vue'
 
 export default {
     name: 'PaymentSettings',

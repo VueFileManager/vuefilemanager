@@ -193,10 +193,9 @@
 </template>
 
 <script>
-import AppInputText from '../../components/Forms/Layouts/AppInputText'
-import SelectInput from '../../components/Inputs/SelectInput'
-import FormLabel from '../../components/UI/Labels/FormLabel'
-import { required } from 'vee-validate/dist/rules'
+import AppInputText from '../../components/Forms/Layouts/AppInputText.vue'
+import SelectInput from '../../components/Inputs/SelectInput.vue'
+import FormLabel from '../../components/UI/Labels/FormLabel.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -205,7 +204,6 @@ export default {
         AppInputText,
         SelectInput,
         FormLabel,
-        required,
     },
     computed: {
         ...mapGetters(['isDarkMode', 'countries', 'timezones', 'config']),

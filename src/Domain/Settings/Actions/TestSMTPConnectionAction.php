@@ -16,25 +16,18 @@ class TestSMTPConnectionAction
     public function __invoke(array $credentials)
     {
         try {
-            // Set temporary mail connection
-            config(['mail' => [
-                'driver'       => 'smtp',
-                'host'         => $credentials['host'],
-                'port'         => $credentials['port'],
-                'username'     => $credentials['username'],
-                'password'     => $credentials['password'],
-                'encryption'   => $credentials['encryption'] ?? '',
-                'from'         => [
-                    'address' => $credentials['email'] ?? $credentials['username'],
-                    'name'    => $credentials['email'] ?? $credentials['username'],
-                ],
-            ]]);
-
             // Get sender
             $sender = $credentials['email'] ?? $credentials['username'];
 
-            // Send test email
-            Mail::to($sender)->send(new TestMail($sender));
+            // Send test email through temporary mail connection
+            Mail::build([
+                'transport'  => 'smtp',
+                'host'       => $credentials['host'],
+                'port'       => $credentials['port'],
+                'username'   => $credentials['username'],
+                'password'   => $credentials['password'],
+                'scheme'     => ($credentials['encryption'] ?? null) === 'ssl' ? 'smtps' : null,
+            ])->to($sender)->send(new TestMail($sender));
         } catch (TransportException | LogicException $error) {
             abort(
                 response()->json([

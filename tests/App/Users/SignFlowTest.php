@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Users;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Notification;
 use Tests\TestCase;
@@ -15,9 +16,7 @@ use App\Users\Notifications\RegistrationBonusAddedNotification;
 
 class SignFlowTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_user_from_register_form()
     {
         collect([
@@ -62,12 +61,10 @@ class SignFlowTest extends TestCase
         Storage::disk('local')
             ->assertExists('files/' . User::first()->id);
 
-        Notification::assertTimesSent(1, VerifyEmail::class);
+        Notification::assertSentTimes(VerifyEmail::class, 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_register_user_when_metered_billing_is_active()
     {
         // Seed default settings
@@ -130,9 +127,7 @@ class SignFlowTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_register_user_when_metered_billing_is_active_with_registration_bonus()
     {
         // Seed default settings
@@ -206,9 +201,7 @@ class SignFlowTest extends TestCase
         Notification::assertSentTo($user, RegistrationBonusAddedNotification::class);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_register_when_registration_is_disabled()
     {
         Setting::updateOrCreate([
@@ -230,9 +223,7 @@ class SignFlowTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_register_from_disabled_email_provider()
     {
         $this->postJson('api/register', [
@@ -248,9 +239,7 @@ class SignFlowTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_check_if_user_exist_and_return_name_with_avatar()
     {
         $user = User::factory()
@@ -262,9 +251,7 @@ class SignFlowTest extends TestCase
         ])->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_check_non_existed_user_and_return_not_found()
     {
         $this->postJson('/api/user/check', [
@@ -272,9 +259,7 @@ class SignFlowTest extends TestCase
         ])->assertStatus(404);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_login_user()
     {
         $user = User::factory()
@@ -286,9 +271,7 @@ class SignFlowTest extends TestCase
         ])->assertStatus(200);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_logout_user()
     {
         $user = User::factory()
@@ -301,9 +284,7 @@ class SignFlowTest extends TestCase
             ->assertStatus(204);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_send_reset_link_to_email()
     {
         $user = User::factory()
@@ -313,12 +294,10 @@ class SignFlowTest extends TestCase
             'email' => $user->email,
         ])->assertStatus(200);
 
-        Notification::assertTimesSent(1, ResetPassword::class);
+        Notification::assertSentTimes(ResetPassword::class, 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_reset_user_password()
     {
         $user = User::factory()
@@ -340,9 +319,7 @@ class SignFlowTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_user_from_register_form_with_reCaptcha()
     {
         Setting::updateOrCreate([

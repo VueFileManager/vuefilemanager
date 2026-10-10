@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { Edit2Icon, XIcon } from 'vue-feather-icons'
+import { Edit2Icon, XIcon } from '../../../icons/feather.js'
 
 export default {
     name: 'ActionButton',

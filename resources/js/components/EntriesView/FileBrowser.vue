@@ -16,10 +16,10 @@
         @click.self="deselect"
     >
         <ItemHandler
-            @click.native="hideContextMenu"
+            @click="hideContextMenu"
             @dragstart="dragStart(item)"
-            @drop.stop.native.prevent="dragFinish(item, $event)"
-            @contextmenu.native.prevent="contextMenu($event, item)"
+            @drop.stop.prevent="dragFinish(item, $event)"
+            @contextmenu.prevent="contextMenu($event, item)"
             :class="draggedItems.includes(item) ? 'opacity-60' : ''"
             v-for="item in entries"
             :key="item.data.id"
@@ -39,8 +39,8 @@
 
 <script>
 import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
-import Spinner from '../UI/Others/Spinner'
-import ItemHandler from './ItemHandler'
+import Spinner from '../UI/Others/Spinner.vue'
+import ItemHandler from './ItemHandler.vue'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 import { debounce } from 'lodash'

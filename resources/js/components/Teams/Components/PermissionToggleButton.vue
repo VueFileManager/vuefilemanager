@@ -6,11 +6,12 @@
 </template>
 
 <script>
-import { RefreshCwIcon } from 'vue-feather-icons'
+import { RefreshCwIcon } from '../../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'PermissionToggleButton',
+    emits: ['update:modelValue', 'input'],
     props: ['item'],
     computed: {
         ...mapGetters(['teamPermissions']),
@@ -35,6 +36,7 @@ export default {
                 this.permission = Object.keys(this.teamPermissions)[index + 1]
             }
 
+            this.$emit('update:modelValue', this.permission)
             this.$emit('input', this.permission)
         },
     },

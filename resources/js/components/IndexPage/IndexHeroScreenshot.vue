@@ -34,7 +34,7 @@ import {
     LinkIcon,
     StarIcon,
     EyeIcon,
-} from 'vue-feather-icons'
+} from '../../icons/feather.js'
 
 export default {
     name: 'IndexHeroScreenshot',

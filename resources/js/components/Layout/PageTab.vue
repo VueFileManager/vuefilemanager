@@ -3,12 +3,12 @@
         <div id="loader" v-show="isLoading">
             <Spinner />
         </div>
-        <slot v-show="!isLoading" />
+        <slot />
     </div>
 </template>
 
 <script>
-import Spinner from '../UI/Others/Spinner'
+import Spinner from '../UI/Others/Spinner.vue'
 
 export default {
     name: 'PageTab',

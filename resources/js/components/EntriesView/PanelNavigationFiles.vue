@@ -19,7 +19,7 @@
             <router-link
                 v-for="(item, i) in menu.groupLinks"
                 :key="i"
-                @click.native="resetData"
+                @click="resetData"
                 :to="{ name: item.route }"
                 class="flex items-center py-2.5"
             >
@@ -78,7 +78,7 @@
                             }"
                         />
                         <span
-                            class="max-w-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold"
+                            class="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold"
                             :class="{
                                 'text-theme': $route.params.id === folder.data.id,
                             }"
@@ -106,10 +106,10 @@ import {
     UserCheckIcon,
     UsersIcon,
     XIcon,
-} from 'vue-feather-icons'
-import TreeMenuNavigator from '../UI/Trees/TreeMenuNavigator'
-import ContentSidebar from '../Sidebar/ContentSidebar'
-import ContentGroup from '../Sidebar/ContentGroup'
+} from '../../icons/feather.js'
+import TreeMenuNavigator from '../UI/Trees/TreeMenuNavigator.vue'
+import ContentSidebar from '../Sidebar/ContentSidebar.vue'
+import ContentGroup from '../Sidebar/ContentGroup.vue'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 

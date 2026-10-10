@@ -5,7 +5,7 @@
         </FormLabel>
 
         <DatatableWrapper class="overflow-x-auto" api="/api/user/transactions" :paginator="true" :columns="columns">
-            <template slot-scope="{ row }">
+            <template #default="{ row }">
                 <!--Transaction rows-->
                 <MeteredTransactionRow :row="row" @showDetail="showTransactionDetail" />
 
@@ -26,14 +26,14 @@
     </div>
 </template>
 <script>
-import { EyeIcon, FileTextIcon } from 'vue-feather-icons'
-import ColorLabel from '../UI/Labels/ColorLabel'
-import DatatableWrapper from '../UI/Table/DatatableWrapper'
-import FormLabel from '../UI/Labels/FormLabel'
-import InfoBox from '../UI/Others/InfoBox'
+import { EyeIcon, FileTextIcon } from '../../icons/feather.js'
+import ColorLabel from '../UI/Labels/ColorLabel.vue'
+import DatatableWrapper from '../UI/Table/DatatableWrapper.vue'
+import FormLabel from '../UI/Labels/FormLabel.vue'
+import InfoBox from '../UI/Others/InfoBox.vue'
 import { mapGetters } from 'vuex'
-import MeteredTransactionDetailRow from './MeteredTransactionDetailRow'
-import MeteredTransactionRow from './MeteredTransactionRow'
+import MeteredTransactionDetailRow from './MeteredTransactionDetailRow.vue'
+import MeteredTransactionRow from './MeteredTransactionRow.vue'
 
 export default {
     name: 'UserTransactionsForMeteredBilling',

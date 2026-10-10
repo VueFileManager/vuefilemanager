@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-between">
+    <div v-if="user" class="flex items-center justify-between">
         <div class="flex items-center leading-none">
             <MemberAvatar :size="52" :is-border="false" :member="user" />
             <div class="pl-4">
@@ -11,13 +11,13 @@
                 </span>
             </div>
         </div>
-        <NotificationBell @click.native="openNotificationPopup" />
+        <NotificationBell @click="openNotificationPopup" />
     </div>
 </template>
 
 <script>
-import MemberAvatar from './MemberAvatar'
-import NotificationBell from '../../Notifications/Components/NotificationBell'
+import MemberAvatar from './MemberAvatar.vue'
+import NotificationBell from '../../Notifications/Components/NotificationBell.vue'
 import { events } from '../../../bus'
 import { mapGetters } from 'vuex'
 

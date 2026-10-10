@@ -30,7 +30,7 @@
                         :placeholder="$t('admin_page_user.create_user.label_email')"
                         type="email"
                         class="focus-border-theme input-dark"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>
@@ -43,7 +43,7 @@
                         :placeholder="$t('admin_page_user.create_user.label_name')"
                         type="text"
                         class="focus-border-theme input-dark"
-                        :class="{ '!border-rose-600': errors[0] }"
+                        :class="{ 'border-rose-600!': errors[0] }"
                     />
                 </AppInputText>
             </ValidationProvider>
@@ -64,7 +64,7 @@
                             :placeholder="$t('new_password')"
                             type="password"
                             class="focus-border-theme input-dark"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -86,7 +86,7 @@
                             :placeholder="$t('confirm_password')"
                             type="password"
                             class="focus-border-theme input-dark"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -107,15 +107,14 @@
 </template>
 
 <script>
-import AppInputText from '../../../components/Forms/Layouts/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import SelectInput from '../../../components/Inputs/SelectInput'
-import ImageInput from '../../../components/Inputs/ImageInput'
-import FormLabel from '../../../components/UI/Labels/FormLabel'
-import MobileHeader from '../../../components/Mobile/MobileHeader'
-import SectionTitle from '../../../components/UI/Labels/SectionTitle'
-import ButtonBase from '../../../components/UI/Buttons/ButtonBase'
-import { required } from 'vee-validate/dist/rules'
+import AppInputText from '../../../components/Forms/Layouts/AppInputText.vue'
+import { ValidationProvider, ValidationObserver } from '../../../components/Validation/index.js'
+import SelectInput from '../../../components/Inputs/SelectInput.vue'
+import ImageInput from '../../../components/Inputs/ImageInput.vue'
+import FormLabel from '../../../components/UI/Labels/FormLabel.vue'
+import MobileHeader from '../../../components/Mobile/MobileHeader.vue'
+import SectionTitle from '../../../components/UI/Labels/SectionTitle.vue'
+import ButtonBase from '../../../components/UI/Buttons/ButtonBase.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'
 import axios from 'axios'
@@ -132,7 +131,6 @@ export default {
         ButtonBase,
         ImageInput,
         FormLabel,
-        required,
     },
     computed: {
         ...mapGetters(['roles']),

@@ -5,11 +5,11 @@
             :entry="item"
             :highlight="true"
             :mobile-handler="true"
-            @mouseup.stop.native="clickFilter"
-            @dragstart.native="$emit('dragstart')"
-            @drop.native="drop()"
-            @dragleave.native="dragLeave"
-            @dragover.prevent.native="dragEnter"
+            @mouseup.stop="clickFilter"
+            @dragstart="$emit('dragstart')"
+            @drop="drop()"
+            @dragleave="dragLeave"
+            @dragover.prevent="dragEnter"
             :class="{ 'border-theme': area }"
         />
 
@@ -19,11 +19,11 @@
             :highlight="true"
             :mobile-handler="true"
             :can-hover="true"
-            @mouseup.stop.native="clickFilter"
-            @dragstart.native="$emit('dragstart')"
-            @drop.native="drop()"
-            @dragleave.native="dragLeave"
-            @dragover.prevent.native="dragEnter"
+            @mouseup.stop="clickFilter"
+            @dragstart="$emit('dragstart')"
+            @drop="drop()"
+            @dragleave="dragLeave"
+            @dragover.prevent="dragEnter"
             :class="{ 'border-theme': area }"
         />
     </div>
@@ -31,12 +31,13 @@
 
 <script>
 import { events } from '../../bus'
-import ItemList from '../UI/Entries/ItemList'
-import ItemGrid from '../UI/Entries/ItemGrid'
+import ItemList from '../UI/Entries/ItemList.vue'
+import ItemGrid from '../UI/Entries/ItemGrid.vue'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'ItemHandler',
+    emits: ['dragstart'],
     props: ['disableHighlight', 'item'],
     components: {
         ItemList,
@@ -211,13 +212,13 @@ export default {
     transition: all 300ms;
 }
 
-.slide-from-left-enter,
+.slide-from-left-enter-from,
 .slide-from-left-leave-to {
     opacity: 0;
     transform: translateX(-100%);
 }
 
-.slide-from-right-enter,
+.slide-from-right-enter-from,
 .slide-from-right-leave-to {
     opacity: 0;
     transform: translateX(100%);

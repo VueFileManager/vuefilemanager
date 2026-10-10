@@ -1,5 +1,5 @@
 <template>
-    <MenuMobile @click.native.capture="closeMenu" name="create-list">
+    <MenuMobile @click.capture="closeMenu" name="create-list">
         <MenuMobileGroup>
             <slot />
         </MenuMobileGroup>
@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import MenuMobileGroup from '../Mobile/MenuMobileGroup'
-import MenuMobile from '../Mobile/MenuMobile'
+import MenuMobileGroup from '../Mobile/MenuMobileGroup.vue'
+import MenuMobile from '../Mobile/MenuMobile.vue'
 import { events } from '../../bus'
 
 export default {

@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\RemoteUpload;
 
+use PHPUnit\Framework\Attributes\Test;
 use Event;
 use Storage;
 use Tests\TestCase;
@@ -13,9 +14,7 @@ use Domain\RemoteUpload\Events\RemoteFileCreatedEvent;
 
 class RemoteUploadTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_remotely_upload_new_file()
     {
         Event::fake([

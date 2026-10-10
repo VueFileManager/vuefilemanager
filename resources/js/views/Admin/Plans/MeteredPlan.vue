@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import CardNavigation from '../../../components/UI/Others/CardNavigation'
-import Spinner from '../../../components/UI/Others/Spinner'
+import CardNavigation from '../../../components/UI/Others/CardNavigation.vue'
+import Spinner from '../../../components/UI/Others/Spinner.vue'
 import axios from 'axios'
 import { mapGetters } from 'vuex'
 

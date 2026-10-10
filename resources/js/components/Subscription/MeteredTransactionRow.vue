@@ -1,5 +1,5 @@
 <template>
-    <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+    <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5">
         <td class="py-5 pr-3 md:pr-1">
             <span class="text-sm font-bold">
                 {{ row.data.attributes.note }}
@@ -10,7 +10,7 @@
                 <MemberAvatar :is-border="false" :size="36" :member="row.data.relationships.user" />
                 <div class="ml-3 pr-10">
                     <b
-                        class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                        class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                         style="max-width: 155px"
                     >
                         {{ row.data.relationships.user.data.attributes.name }}
@@ -74,13 +74,14 @@
     </tr>
 </template>
 <script>
-import MemberAvatar from '../UI/Others/MemberAvatar'
-import MeteredTransactionDetailRow from './MeteredTransactionDetailRow'
-import ColorLabel from '../UI/Labels/ColorLabel'
-import { EyeIcon, FileTextIcon } from 'vue-feather-icons'
+import MemberAvatar from '../UI/Others/MemberAvatar.vue'
+import MeteredTransactionDetailRow from './MeteredTransactionDetailRow.vue'
+import ColorLabel from '../UI/Labels/ColorLabel.vue'
+import { EyeIcon, FileTextIcon } from '../../icons/feather.js'
 
 export default {
     name: 'MeteredTransactionRow',
+    emits: ['showDetail'],
     components: {
         MeteredTransactionDetailRow,
         MemberAvatar,

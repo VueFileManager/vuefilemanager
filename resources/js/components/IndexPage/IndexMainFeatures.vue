@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import { UserIcon, CloudIcon, HardDriveIcon } from 'vue-feather-icons'
-import PageTitle from './Components/PageTitle'
+import { UserIcon, CloudIcon, HardDriveIcon } from '../../icons/feather.js'
+import PageTitle from './Components/PageTitle.vue'
 import { mapGetters } from 'vuex'
 
 export default {

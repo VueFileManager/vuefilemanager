@@ -145,7 +145,6 @@
 
                 <div v-if="stripe.isConfigured">
                     <AppInputText
-                        @input="$updateText('/admin/settings', 'stripe_payment_description', stripe.paymentDescription)"
                         :title="$t('payment_description')"
                         :description="$t('payment_description_note')"
                     >
@@ -202,7 +201,7 @@
                                 v-model="stripe.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -213,7 +212,7 @@
                                 v-model="stripe.credentials.secret"
                                 :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -230,7 +229,7 @@
                                 v-model="stripe.credentials.webhook"
                                 :placeholder="$t('paste_webhook_secret')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -276,9 +275,6 @@
 
                 <div v-if="paystack.isConfigured">
                     <AppInputText
-                        @input="
-                            $updateText('/admin/settings', 'paystack_payment_description', paystack.paymentDescription)
-                        "
                         :title="$t('payment_description')"
                         :description="$t('payment_description_note')"
                     >
@@ -329,7 +325,7 @@
                                 v-model="paystack.credentials.secret"
                                 :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -346,7 +342,7 @@
                                 v-model="paystack.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -400,7 +396,6 @@
                     </AppInputSwitch>
 
                     <AppInputText
-                        @input="$updateText('/admin/settings', 'paypal_payment_description', paypal.paymentDescription)"
                         :title="$t('payment_description')"
                         :description="$t('payment_description_note')"
                     >
@@ -464,7 +459,7 @@
                                 v-model="paypal.credentials.key"
                                 :placeholder="$t('admin_settings.payments.stripe_pub_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -475,7 +470,7 @@
                                 v-model="paypal.credentials.secret"
                                 :placeholder="$t('admin_settings.payments.stripe_sec_key_plac')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -486,7 +481,7 @@
                                 v-model="paypal.credentials.webhook"
                                 :placeholder="$t('Paste your webhook id')"
                                 type="text"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 class="focus-border-theme input-dark"
                             />
                         </AppInputText>
@@ -508,22 +503,21 @@
 </template>
 
 <script>
-import { Edit2Icon, Trash2Icon } from 'vue-feather-icons'
-import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton'
-import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PageTabGroup from '../../../../components/Layout/PageTabGroup'
-import SelectInput from '../../../../components/Inputs/SelectInput'
-import SwitchInput from '../../../../components/Inputs/SwitchInput'
-import ImageInput from '../../../../components/Inputs/ImageInput'
-import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import CopyInput from '../../../../components/Inputs/CopyInput'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import PageTab from '../../../../components/Layout/PageTab'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
-import { required } from 'vee-validate/dist/rules'
+import { Edit2Icon, Trash2Icon } from '../../../../icons/feather.js'
+import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton.vue'
+import DatatableWrapper from '../../../../components/UI/Table/DatatableWrapper.vue'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
+import SelectInput from '../../../../components/Inputs/SelectInput.vue'
+import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
+import ImageInput from '../../../../components/Inputs/ImageInput.vue'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import CopyInput from '../../../../components/Inputs/CopyInput.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import { events } from '../../../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -546,7 +540,6 @@ export default {
         FormLabel,
         Trash2Icon,
         Edit2Icon,
-        required,
         PageTab,
         InfoBox,
     },
@@ -747,7 +740,7 @@ export default {
         this.allowedRegistrationBonus = this.config.allowed_registration_bonus
         this.registrationBonusAmount = this.config.registration_bonus_amount
     },
-    destroyed() {
+    unmounted() {
         events.$off('action:confirmed')
     },
 }

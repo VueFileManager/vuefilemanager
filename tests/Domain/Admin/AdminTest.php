@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Admin;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Notification;
 use Tests\TestCase;
@@ -15,9 +16,7 @@ use VueFileManager\Subscription\Domain\Subscriptions\Models\Subscription;
 
 class AdminTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_server_status()
     {
         $admin = User::factory()
@@ -30,9 +29,7 @@ class AdminTest extends TestCase
             ->assertOk();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_all_users()
     {
         $users = User::factory()
@@ -56,9 +53,7 @@ class AdminTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_single_user()
     {
         $user = User::factory()
@@ -96,9 +91,7 @@ class AdminTest extends TestCase
             ->assertStatus(404);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_user_storage_detail()
     {
         $user = User::factory()
@@ -129,9 +122,7 @@ class AdminTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_send_reset_password_for_user()
     {
         $user = User::factory()
@@ -145,12 +136,10 @@ class AdminTest extends TestCase
             ->postJson("/api/admin/users/$user->id/reset-password")
             ->assertStatus(200);
 
-        Notification::assertTimesSent(1, ResetPassword::class);
+        Notification::assertSentTimes(ResetPassword::class, 1);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_change_user_storage_capacity()
     {
         $user = User::factory()
@@ -176,9 +165,7 @@ class AdminTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_change_user_role()
     {
         $user = User::factory()
@@ -200,9 +187,7 @@ class AdminTest extends TestCase
         $this->assertTrue(User::find($user->id)->role === 'admin');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_new_user_with_avatar()
     {
         $admin = User::factory()
@@ -249,9 +234,7 @@ class AdminTest extends TestCase
             );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_user_with_all_data()
     {
         // Create and login user

@@ -38,7 +38,7 @@ import {
     Edit2Icon,
     ShareIcon,
     UsersIcon,
-} from 'vue-feather-icons'
+} from '../../../icons/feather.js'
 import { events } from '../../../bus'
 
 export default {

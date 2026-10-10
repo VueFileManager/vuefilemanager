@@ -86,7 +86,7 @@
                                 min="1"
                                 max="999999999"
                                 class="focus-border-theme input-dark"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                             />
                             <ButtonBase
                                 :loading="isSendingRequest"
@@ -106,16 +106,15 @@
 </template>
 
 <script>
-import ProgressLine from '../../../../components/UI/ProgressChart/ProgressLine'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
-import PageTabGroup from '../../../../components/Layout/PageTabGroup'
-import PageTab from '../../../../components/Layout/PageTab'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import { required } from 'vee-validate/dist/rules'
-import BarChart from '../../../../components/UI/BarChart/BarChart'
+import ProgressLine from '../../../../components/UI/ProgressChart/ProgressLine.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import BarChart from '../../../../components/UI/BarChart/BarChart.vue'
 import { events } from '../../../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -133,7 +132,6 @@ export default {
         ValidationProvider,
         ValidationObserver,
         ButtonBase,
-        required,
         BarChart,
     },
     computed: {

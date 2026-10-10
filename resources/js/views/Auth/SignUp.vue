@@ -28,7 +28,7 @@
                             :placeholder="$t('page_registration.placeholder_email')"
                             type="email"
                             class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -51,7 +51,7 @@
                             :placeholder="$t('page_registration.placeholder_name')"
                             type="text"
                             class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -74,7 +74,7 @@
                             :placeholder="$t('new_password')"
                             type="password"
                             class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
@@ -97,14 +97,14 @@
                             :placeholder="$t('page_registration.placeholder_confirm_pass')"
                             class="dark:placeholder:text-gray-600 focus-border-theme w-full appearance-none rounded-lg border border-transparent bg-light-background px-5 py-3.5 font-bold dark:bg-2x-dark-foreground"
                             type="password"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                         <span class="text-left text-xs text-red-600" v-if="errors[0]">{{ errors[0] }}</span>
                     </ValidationProvider>
                 </div>
 
                 <div class="text-center">
-                    <i18n path="page_registration.agreement" tag="p" class="mx-auto mt-12 mb-6 w-96 font-bold">
+                    <i18n-t scope="global" keypath="page_registration.agreement" tag="p" class="mx-auto mt-12 mb-6 w-96 font-bold">
                         <router-link
                             :to="{
                                 name: 'DynamicPage',
@@ -125,7 +125,7 @@
                         >
                             {{ privacyPolicy.title }}
                         </router-link>
-                    </i18n>
+                    </i18n-t>
                     <AuthButton
                         class="w-full justify-center md:w-min"
                         icon="chevron-right"
@@ -149,13 +149,12 @@
 </template>
 
 <script>
-import Headline from '../../components/UI/Labels/LogoHeadline'
-import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContent from '../../components/Layout/AuthPages/AuthContent'
-import AuthButton from '../../components/UI/Buttons/AuthButton'
-import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons'
-import { required } from 'vee-validate/dist/rules'
+import Headline from '../../components/UI/Labels/LogoHeadline.vue'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
+import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
+import SocialLoginButtons from '../../components/UI/Buttons/SocialLoginButtons.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
@@ -170,7 +169,6 @@ export default {
         AuthContent,
         AuthButton,
         Headline,
-        required,
     },
     computed: {
         ...mapGetters(['config']),
@@ -273,7 +271,7 @@ export default {
         this.$scrollTop()
 
 		// Redirect if user is authenticated
-		if (this.$root.$data.config.isAuthenticated) {
+		if (config.isAuthenticated) {
 			this.$router.push({name: 'Files'})
 		}
 

@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import MemberAvatar from '../Others/MemberAvatar'
+import MemberAvatar from '../Others/MemberAvatar.vue'
 
 export default {
     name: 'DatatableCellImage',

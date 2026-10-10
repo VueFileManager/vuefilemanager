@@ -1,6 +1,6 @@
 <template>
     <div
-        class="sticky top-0 z-[19] block flex w-full items-center justify-between bg-white py-5 px-4 text-center dark:bg-dark-background lg:hidden"
+        class="sticky top-0 z-19 block flex w-full items-center justify-between bg-white py-5 px-4 text-center dark:bg-dark-background lg:hidden"
     >
         <NavigationBar />
 
@@ -8,7 +8,7 @@
             <TeamMembersButton
                 v-if="$isThisRoute($route, ['TeamFolders', 'SharedWithMe'])"
                 size="28"
-                @click.stop.native="$showMobileMenu('team-menu')"
+                @click.stop="$showMobileMenu('team-menu')"
                 class="absolute right-10"
             />
 
@@ -23,10 +23,10 @@
 </template>
 
 <script>
-import TeamMembersPreview from '../../Teams/Components/TeamMembersPreview'
-import TeamMembersButton from '../../Teams/Components/TeamMembersButton'
-import { MenuIcon } from 'vue-feather-icons'
-import NavigationBar from './NavigationBar'
+import TeamMembersPreview from '../../Teams/Components/TeamMembersPreview.vue'
+import TeamMembersButton from '../../Teams/Components/TeamMembersButton.vue'
+import { MenuIcon } from '../../../icons/feather.js'
+import NavigationBar from './NavigationBar.vue'
 
 export default {
     name: 'MobileToolBar',

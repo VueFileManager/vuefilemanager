@@ -5,7 +5,6 @@ use Str;
 use Storage;
 use Exception;
 use Domain\Files\Models\Exif;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class StoreExifDataAction
 {
@@ -21,7 +20,7 @@ class StoreExifDataAction
 
             // Get Exif data
             $exifRaw = mb_convert_encoding(
-                Image::make(Storage::path($path))->exif(),
+                @exif_read_data(Storage::path($path)) ?: [],
                 'UTF8',
                 'UTF8'
             );

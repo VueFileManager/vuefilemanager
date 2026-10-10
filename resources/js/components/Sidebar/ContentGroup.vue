@@ -17,8 +17,8 @@
 </template>
 
 <script>
-import TextLabel from '../UI/Labels/TextLabel'
-import { ChevronUpIcon } from 'vue-feather-icons'
+import TextLabel from '../UI/Labels/TextLabel.vue'
+import { ChevronUpIcon } from '../../icons/feather.js'
 
 export default {
     name: 'ContentGroup',

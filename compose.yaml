@@ -1,0 +1,131 @@
+# VueFileManager — local development environment
+#
+#   cp docker/.env.docker .env   (optional, done automatically on first start)
+#   docker compose up -d
+#   docker compose exec app php artisan setup:dev   # demo data + admin account
+#
+# App:      http://localhost:8000
+# Vite HMR: http://localhost:5173
+# Mailpit:  http://localhost:8025
+# Reverb:   ws://localhost:8080
+
+x-php: &php
+  build:
+    context: .
+    dockerfile: docker/php/Dockerfile
+    args:
+      UID: ${DOCKER_UID:-1000}
+      GID: ${DOCKER_GID:-1000}
+  image: vuefilemanager-php:local
+  volumes:
+    - .:/var/www/html
+    - composer-cache:/var/www/.composer/cache
+  restart: unless-stopped
+
+services:
+  app:
+    <<: *php
+    environment:
+      VFM_BOOTSTRAP: "true"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "test -f vendor/autoload.php && php artisan --version > /dev/null"]
+      interval: 10s
+      timeout: 10s
+      retries: 60
+      start_period: 30s
+
+  web:
+    image: nginx:1.29-alpine
+    ports:
+      - "${APP_PORT:-8000}:80"
+    volumes:
+      - .:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  queue:
+    <<: *php
+    command: ["php", "artisan", "queue:work", "--queue=high,default", "--tries=3", "--sleep=1"]
+    depends_on:
+      app:
+        condition: service_healthy
+
+  scheduler:
+    <<: *php
+    command: ["php", "artisan", "schedule:work"]
+    depends_on:
+      app:
+        condition: service_healthy
+
+  reverb:
+    <<: *php
+    command: ["php", "artisan", "reverb:start", "--host=0.0.0.0", "--port=8080"]
+    ports:
+      - "${REVERB_FORWARD_PORT:-8080}:8080"
+    depends_on:
+      app:
+        condition: service_healthy
+
+  vite:
+    image: node:24-alpine
+    user: node
+    working_dir: /var/www/html
+    command: >
+      sh -c "if [ ! -f node_modules/.package-lock.json ] || [ package-lock.json -nt node_modules/.package-lock.json ]; then npm ci --no-audit --no-fund; fi
+      && npm run dev -- --host 0.0.0.0"
+    environment:
+      VITE_DEV_SERVER_HOST: localhost
+    ports:
+      - "${VITE_PORT:-5173}:5173"
+    volumes:
+      - .:/var/www/html
+      - node-modules:/var/www/html/node_modules
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-vuefilemanager}
+      MYSQL_USER: ${DB_USERNAME:-vuefilemanager}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-secret}
+    ports:
+      - "${FORWARD_DB_PORT:-3306}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${DB_ROOT_PASSWORD:-secret}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    restart: unless-stopped
+
+  redis:
+    image: redis:8-alpine
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "${MAILPIT_PORT:-8025}:8025"
+    restart: unless-stopped
+
+volumes:
+  composer-cache:
+  node-modules:
+  mysql-data:
+  redis-data:

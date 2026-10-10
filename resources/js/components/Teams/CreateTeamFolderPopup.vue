@@ -22,7 +22,7 @@
                     <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
                         <input
                             v-model="name"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                             type="text"
                             ref="name"
                             class="focus-border-theme input-dark"
@@ -46,7 +46,7 @@
                                 @keypress.enter.stop.prevent="addMember"
                                 ref="email"
                                 v-model="email"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 type="email"
                                 class="focus-border-theme input-dark"
                                 :placeholder="$t('type_member_email_')"
@@ -70,7 +70,7 @@
                     </AppInputText>
                 </ValidationProvider>
 
-                <InfoBox v-if="!isNewFolderTeamCreation" class="mt-2.5 !mb-0">
+                <InfoBox v-if="!isNewFolderTeamCreation" class="mt-2.5 mb-0!">
                     <p v-html="$t('popup.move_into_team_disclaimer')"></p>
                 </InfoBox>
             </ValidationObserver>
@@ -78,12 +78,12 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary"
                 >{{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"
-                @click.native="createTeamFolder"
+                @click="createTeamFolder"
                 button-style="theme"
                 :loading="isLoading"
                 :disabled="isLoading"
@@ -94,17 +94,16 @@
 </template>
 
 <script>
-import AppInputText from '../Forms/Layouts/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from '../Popups/Components/PopupWrapper'
-import PopupActions from '../Popups/Components/PopupActions'
-import PopupContent from '../Popups/Components/PopupContent'
-import PopupHeader from '../Popups/Components/PopupHeader'
-import ThumbnailItem from '../UI/Entries/ThumbnailItem'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import TeamList from './Components/TeamList'
-import { required } from 'vee-validate/dist/rules'
-import InfoBox from '../UI/Others/InfoBox'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
+import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../Popups/Components/PopupActions.vue'
+import PopupContent from '../Popups/Components/PopupContent.vue'
+import PopupHeader from '../Popups/Components/PopupHeader.vue'
+import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import TeamList from './Components/TeamList.vue'
+import InfoBox from '../UI/Others/InfoBox.vue'
 import { events } from '../../bus'
 import axios from 'axios'
 import { mapGetters } from 'vuex'
@@ -122,7 +121,6 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
         InfoBox,
     },
     computed: {

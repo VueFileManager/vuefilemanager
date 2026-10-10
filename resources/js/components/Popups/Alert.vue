@@ -8,8 +8,8 @@
             <div class="fixed top-0 bottom-0 left-0 right-0 z-10 m-auto w-full bg-white shadow-xl dark:bg-dark-foreground md:relative md:w-[490px] md:rounded-xl">
 				<div class="flex h-full -translate-y-7 transform items-center justify-center px-8 text-center md:translate-y-0">
 					<div>
-						<img v-if="isSuccess" src="https://twemoji.maxcdn.com/v/13.1.1/svg/1f609.svg" alt="" class="mx-auto mb-4 w-20 md:mt-6 min-h-[80px]" />
-						<img v-if="isAlert" src="https://twemoji.maxcdn.com/v/13.1.0/svg/1f627.svg" alt="" class="mx-auto mb-4 w-20 md:mt-6 min-h-[80px]" />
+						<img v-if="isSuccess" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f609.svg" alt="" class="mx-auto mb-4 w-20 md:mt-6 min-h-[80px]" />
+						<img v-if="isAlert" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@17.0.3/assets/svg/1f627.svg" alt="" class="mx-auto mb-4 w-20 md:mt-6 min-h-[80px]" />
 
 						<h1 v-if="title" class="mb-2 text-2xl font-bold">
 							{{ title }}
@@ -20,7 +20,7 @@
 					</div>
 				</div>
 				<PopupActions>
-					<ButtonBase @click.native="closePopup" :button-style="buttonStyle" class="w-full">
+					<ButtonBase @click="closePopup" :button-style="buttonStyle" class="w-full">
 						{{ button }}
                     </ButtonBase>
 				</PopupActions>
@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import ButtonBase from '../UI/Buttons/ButtonBase'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import { events } from '../../bus'
-import PopupActions from "./Components/PopupActions";
+import PopupActions from "./Components/PopupActions.vue";
 
 export default {
     name: 'AlertPopup',

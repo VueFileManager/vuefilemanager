@@ -5,21 +5,21 @@
                 <OptionGroup>
                     <Option
                         v-if="item"
-                        @click.native="$renameFileOrFolder(item)"
+                        @click="$renameFileOrFolder(item)"
                         :title="$t('rename')"
                         icon="rename"
                     />
                     <Option
                         v-if="item"
-                        @click.native="$moveFileOrFolder(item)"
+                        @click="$moveFileOrFolder(item)"
                         :title="$t('move')"
                         icon="move-item"
                     />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option
-                        @click.native="$downloadSelection(item)"
+                        @click="$downloadSelection(item)"
                         :title="$t('download')"
                         icon="download"
                     />
@@ -28,7 +28,7 @@
             <template v-slot:visitor>
                 <OptionGroup>
                     <Option
-                        @click.native="$downloadSelection(item)"
+                        @click="$downloadSelection(item)"
                         :title="$t('download')"
                         icon="download"
                     />
@@ -40,7 +40,7 @@
             <OptionGroup :title="$t('frequently_used')">
                 <OptionUpload :title="$t('upload_files')" type="file" :is-hover-disabled="true" />
                 <Option
-                    @click.stop.native="createFolder"
+                    @click.stop="createFolder"
                     :title="$t('create_folder')"
                     icon="folder-plus"
                     :is-hover-disabled="true"
@@ -49,7 +49,7 @@
             <OptionGroup :title="$t('others')">
                 <OptionUpload :title="$t('upload_folder')" type="folder" :is-hover-disabled="true" />
 				<Option
-					@click.stop.native="$openRemoteUploadPopup"
+					@click.stop="$openRemoteUploadPopup"
 					:title="$t('remote_upload')"
 					icon="remote-upload"
 					:is-hover-disabled="true"
@@ -60,7 +60,7 @@
         <MobileMultiSelectToolbar>
             <template v-slot:visitor>
                 <ToolbarButton
-                    @click.native="$downloadSelection()"
+                    @click="$downloadSelection()"
                     class="mr-4"
                     source="download"
                     :action="$t('download_item')"
@@ -68,21 +68,21 @@
             </template>
             <template v-slot:editor>
                 <ToolbarButton
-                    @click.native="$moveFileOrFolder(clipboard)"
+                    @click="$moveFileOrFolder(clipboard)"
                     class="mr-4"
                     source="move"
                     :action="$t('move')"
                     :class="{ 'is-inactive': clipboard.length < 1 }"
                 />
                 <ToolbarButton
-                    @click.native="$deleteFileOrFolder()"
+                    @click="$deleteFileOrFolder()"
                     class="mr-4"
                     source="trash"
                     :class="{ 'is-inactive': clipboard.length < 1 }"
                     :action="$t('delete')"
                 />
                 <ToolbarButton
-                    @click.native="$downloadSelection()"
+                    @click="$downloadSelection()"
                     source="download"
                     :action="$t('download_item')"
                 />
@@ -97,7 +97,7 @@
                 </OptionGroup>
                 <OptionGroup>
                     <Option
-                        @click.native="$createFolder"
+                        @click="$createFolder"
                         :title="$t('create_folder')"
                         icon="create-folder"
                     />
@@ -107,17 +107,17 @@
             <template v-slot:single-select v-if="item">
                 <OptionGroup v-if="$checkPermission('editor')">
                     <Option
-                        @click.native="$renameFileOrFolder(item)"
+                        @click="$renameFileOrFolder(item)"
                         :title="$t('rename')"
                         icon="rename"
                     />
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
+                    <Option @click="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
                     <Option
-                        @click.native="$downloadSelection(item)"
+                        @click="$downloadSelection(item)"
                         :title="$t('download')"
                         icon="download"
                     />
@@ -126,38 +126,38 @@
 
             <template v-slot:multiple-select v-if="item">
                 <OptionGroup v-if="$checkPermission('editor')">
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$downloadSelection()" :title="$t('download')" icon="download" />
+                    <Option @click="$downloadSelection()" :title="$t('download')" icon="download" />
                 </OptionGroup>
             </template>
         </ContextMenu>
 
         <FileActionsMobile>
             <template v-if="$checkPermission('editor')">
-                <MobileActionButton @click.native="$openSpotlight()" icon="search">
+                <MobileActionButton @click="$openSpotlight()" icon="search">
                     {{ $t('spotlight') }}
                 </MobileActionButton>
-                <MobileActionButton @click.native="$showMobileMenu('create-list')" icon="cloud-plus">
+                <MobileActionButton @click="$showMobileMenu('create-list')" icon="cloud-plus">
                     {{ $t('upload_or_create') }}
                 </MobileActionButton>
-                <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+                <MobileActionButton @click="$enableMultiSelectMode" icon="check-square">
                     {{ $t('select') }}
                 </MobileActionButton>
-                <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
+                <MobileActionButton @click="$showMobileMenu('file-sorting')" icon="preview-sorting">
                     {{ $t('preview_sorting.preview_sorting_button') }}
                 </MobileActionButton>
             </template>
             <template v-if="$checkPermission('visitor')">
-                <MobileActionButton @click.native="$openSpotlight()" icon="search">
+                <MobileActionButton @click="$openSpotlight()" icon="search">
                     {{ $t('spotlight') }}
                 </MobileActionButton>
-                <MobileActionButton @click.native="$enableMultiSelectMode()" icon="check-square">
+                <MobileActionButton @click="$enableMultiSelectMode()" icon="check-square">
                     {{ $t('select') }}
                 </MobileActionButton>
-                <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
+                <MobileActionButton @click="$showMobileMenu('file-sorting')" icon="preview-sorting">
                     {{ $t('preview_sorting.preview_sorting_button') }}
                 </MobileActionButton>
             </template>
@@ -187,19 +187,19 @@
 </template>
 
 <script>
-import EmptyFilePage from '../../components/EntriesView/EmptyFilePage'
-import FileActionsMobile from '../../components/Mobile/FileActionsMobile'
-import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar'
-import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
-import MobileContextMenu from '../../components/Menus/MobileContextMenu'
-import MobileCreateMenu from '../../components/Menus/MobileCreateMenu'
-import ToolbarButton from '../../components/UI/Buttons/ToolbarButton'
-import OptionUpload from '../../components/Menus/Components/OptionUpload'
-import ButtonUpload from '../../components/UI/Buttons/ButtonUpload'
-import FileBrowser from '../../components/EntriesView/FileBrowser'
-import ContextMenu from '../../components/Menus/ContextMenu'
-import OptionGroup from '../../components/Menus/Components/OptionGroup'
-import Option from '../../components/Menus/Components/Option'
+import EmptyFilePage from '../../components/EntriesView/EmptyFilePage.vue'
+import FileActionsMobile from '../../components/Mobile/FileActionsMobile.vue'
+import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar.vue'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton.vue'
+import MobileContextMenu from '../../components/Menus/MobileContextMenu.vue'
+import MobileCreateMenu from '../../components/Menus/MobileCreateMenu.vue'
+import ToolbarButton from '../../components/UI/Buttons/ToolbarButton.vue'
+import OptionUpload from '../../components/Menus/Components/OptionUpload.vue'
+import ButtonUpload from '../../components/UI/Buttons/ButtonUpload.vue'
+import FileBrowser from '../../components/EntriesView/FileBrowser.vue'
+import ContextMenu from '../../components/Menus/ContextMenu.vue'
+import OptionGroup from '../../components/Menus/Components/OptionGroup.vue'
+import Option from '../../components/Menus/Components/Option.vue'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 

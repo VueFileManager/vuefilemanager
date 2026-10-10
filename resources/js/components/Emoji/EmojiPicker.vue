@@ -86,14 +86,15 @@
 </template>
 
 <script>
-import Spinner from '../UI/Others/Spinner'
-import Emoji from './Emoji'
+import Spinner from '../UI/Others/Spinner.vue'
+import Emoji from './Emoji.vue'
 import { debounce, groupBy } from 'lodash'
-import { XIcon } from 'vue-feather-icons'
+import { XIcon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {
     name: 'EmojiPicker',
+    emits: ['update:modelValue', 'input'],
     props: ['defaultEmoji'],
     components: {
         Spinner,
@@ -183,6 +184,7 @@ export default {
             this.query = undefined
             this.isOpen = false
 
+            this.$emit('update:modelValue', value)
             this.$emit('input', value)
         },
     },

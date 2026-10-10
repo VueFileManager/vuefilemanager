@@ -1,7 +1,7 @@
 import { events } from '../../bus'
 import router from '../../router'
 import axios from 'axios'
-import Vue from 'vue'
+import { globals } from '../../globals'
 
 const defaultState = {
     permissionOptions: [
@@ -27,7 +27,7 @@ const actions = {
                 commit('START_LOADING_VIEW')
 
             axios
-                .get(`/api/sharing/folders/${id}/${router.currentRoute.params.token}${getters.sorting.URI}&page=${page}`)
+                .get(`/api/sharing/folders/${id}/${router.currentRoute.value.params.token}${getters.sorting.URI}&page=${page}`)
                 .then((response) => {
                     commit('SET_CURRENT_FOLDER', response.data.meta.root)
                     commit('SET_PAGINATOR', response.data.meta.paginate)
@@ -39,7 +39,7 @@ const actions = {
                     resolve(response)
                 })
                 .catch((error) => {
-                    Vue.prototype.$isSomethingWrong()
+                    globals.$isSomethingWrong()
 
                     reject(error)
                 })
@@ -78,7 +78,7 @@ const actions = {
                 .then(() => {
                     items.forEach((item) => {
                         // Remove item from file browser
-                        if (Vue.prototype.$isThisRoute(router.currentRoute, ['MySharedItems'])) {
+                        if (globals.$isThisRoute(router.currentRoute.value, ['MySharedItems'])) {
                             commit('REMOVE_ITEM', item.data.id)
                             commit('CLIPBOARD_CLEAR')
                         }
@@ -89,7 +89,7 @@ const actions = {
                     resolve(true)
                 })
                 .catch((error) => {
-                    Vue.prototype.$isSomethingWrong()
+                    globals.$isSomethingWrong()
 
                     reject(error)
                 })

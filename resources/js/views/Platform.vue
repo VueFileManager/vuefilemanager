@@ -57,31 +57,31 @@
 
 <script>
 import { getFilesFromDataTransferItems } from 'datatransfer-files-promise'
-import FileSortingMobile from '../components/Menus/FileSortingMobile'
-import SidebarNavigation from '../components/Sidebar/SidebarNavigation'
-import FileFilterMobile from '../components/Menus/FileFilterMobile'
-import CreateFolderPopup from '../components/Popups/CreateFolderPopup'
-import ProcessingPopup from '../components/Popups/ProcessingPopup'
-import MobileNavigation from '../components/Mobile/MobileNavigation'
-import ShareCreatePopup from '../components/Popups/ShareCreatePopup'
-import DesktopToolbar from '../components/Layout/Toolbars/DesktopToolbar'
-import CreateTeamFolderPopup from '../components/Teams/CreateTeamFolderPopup'
-import ConfirmPopup from '../components/Popups/ConfirmPopup'
-import RenameItemPopup from '../components/Popups/RenameItemPopup'
-import PanelNavigationFiles from '../components/EntriesView/PanelNavigationFiles'
-import MobileToolbar from '../components/Layout/Toolbars/MobileToolbar'
-import ShareEditPopup from '../components/Popups/ShareEditPopup'
-import FilePreview from '../components/FilePreview/FilePreview'
-import MoveItemPopup from '../components/Popups/MoveItemPopup'
-import EditTeamFolderPopup from '../components/Teams/EditTeamFolderPopup'
-import Spotlight from '../components/Spotlight/Spotlight'
-import DragUI from '../components/UI/Others/DragUI'
-import InfoSidebar from '../components/Layout/Sidebars/InfoSidebar'
+import FileSortingMobile from '../components/Menus/FileSortingMobile.vue'
+import SidebarNavigation from '../components/Sidebar/SidebarNavigation.vue'
+import FileFilterMobile from '../components/Menus/FileFilterMobile.vue'
+import CreateFolderPopup from '../components/Popups/CreateFolderPopup.vue'
+import ProcessingPopup from '../components/Popups/ProcessingPopup.vue'
+import MobileNavigation from '../components/Mobile/MobileNavigation.vue'
+import ShareCreatePopup from '../components/Popups/ShareCreatePopup.vue'
+import DesktopToolbar from '../components/Layout/Toolbars/DesktopToolbar.vue'
+import CreateTeamFolderPopup from '../components/Teams/CreateTeamFolderPopup.vue'
+import ConfirmPopup from '../components/Popups/ConfirmPopup.vue'
+import RenameItemPopup from '../components/Popups/RenameItemPopup.vue'
+import PanelNavigationFiles from '../components/EntriesView/PanelNavigationFiles.vue'
+import MobileToolbar from '../components/Layout/Toolbars/MobileToolbar.vue'
+import ShareEditPopup from '../components/Popups/ShareEditPopup.vue'
+import FilePreview from '../components/FilePreview/FilePreview.vue'
+import MoveItemPopup from '../components/Popups/MoveItemPopup.vue'
+import EditTeamFolderPopup from '../components/Teams/EditTeamFolderPopup.vue'
+import Spotlight from '../components/Spotlight/Spotlight.vue'
+import DragUI from '../components/UI/Others/DragUI.vue'
+import InfoSidebar from '../components/Layout/Sidebars/InfoSidebar.vue'
 import { events } from '../bus'
 import { mapGetters } from 'vuex'
-import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup";
-import NotificationsPopup from "../components/Notifications/NotificationsPopup";
-import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
+import CreateUploadRequestPopup from "../components/UploadRequest/CreateUploadRequestPopup.vue";
+import NotificationsPopup from "../components/Notifications/NotificationsPopup.vue";
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup.vue";
 
 export default {
     name: 'Platform',

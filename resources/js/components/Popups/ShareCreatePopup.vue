@@ -4,7 +4,7 @@
         <PopupHeader :title="$t('popup_share_create.title', { item: itemTypeTitle })" icon="share" />
 
         <!--Content-->
-        <PopupContent class="!overflow-initial">
+        <PopupContent class="overflow-initial!">
             <!--Item Thumbnail-->
             <ThumbnailItem class="mb-5" :item="pickedItem" />
 
@@ -60,7 +60,7 @@
                         <AppInputText :error="errors[0]" class="-mt-2">
                             <input
                                 v-model="shareOptions.password"
-                                :class="{ '!border-rose-600': errors[0] }"
+                                :class="{ 'border-rose-600!': errors[0] }"
                                 type="text"
                                 class="focus-border-theme input-dark"
                                 :placeholder="$t('page_sign_in.placeholder_password')"
@@ -125,12 +125,12 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase v-if="!isGeneratedShared" class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase v-if="!isGeneratedShared" class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
             <ButtonBase
                 class="w-full"
-                @click.native="submitShareOptions"
+                @click="submitShareOptions"
                 button-style="theme"
                 :loading="isLoading"
                 :disabled="isLoading"
@@ -142,24 +142,23 @@
 </template>
 
 <script>
-import AppInputText from '../Forms/Layouts/AppInputText'
-import AppInputSwitch from '../Forms/Layouts/AppInputSwitch'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import SelectBoxInput from '../Inputs/SelectBoxInput'
-import PopupWrapper from './Components/PopupWrapper'
-import PopupActions from './Components/PopupActions'
-import PopupContent from './Components/PopupContent'
-import PopupHeader from './Components/PopupHeader'
-import MultiEmailInput from '../Inputs/MultiEmailInput'
-import SwitchInput from '../Inputs/SwitchInput'
-import SelectInput from '../Inputs/SelectInput'
-import ThumbnailItem from '../UI/Entries/ThumbnailItem'
-import ActionButton from '../UI/Buttons/ActionButton'
-import CopyShareLink from '../Inputs/CopyShareLink'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import InfoBox from '../UI/Others/InfoBox'
-import { LinkIcon, MailIcon } from 'vue-feather-icons'
-import { required } from 'vee-validate/dist/rules'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
+import SelectBoxInput from '../Inputs/SelectBoxInput.vue'
+import PopupWrapper from './Components/PopupWrapper.vue'
+import PopupActions from './Components/PopupActions.vue'
+import PopupContent from './Components/PopupContent.vue'
+import PopupHeader from './Components/PopupHeader.vue'
+import MultiEmailInput from '../Inputs/MultiEmailInput.vue'
+import SwitchInput from '../Inputs/SwitchInput.vue'
+import SelectInput from '../Inputs/SelectInput.vue'
+import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
+import ActionButton from '../UI/Buttons/ActionButton.vue'
+import CopyShareLink from '../Inputs/CopyShareLink.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import InfoBox from '../UI/Others/InfoBox.vue'
+import { LinkIcon, MailIcon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'
@@ -184,7 +183,6 @@ export default {
         ButtonBase,
         CopyShareLink,
         MailIcon,
-        required,
         LinkIcon,
         InfoBox,
     },

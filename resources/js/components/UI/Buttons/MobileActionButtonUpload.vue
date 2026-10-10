@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import { UploadCloudIcon } from 'vue-feather-icons'
-import CloudPlusIcon from '../../Icons/CloudPlusIcon'
+import { UploadCloudIcon } from '../../../icons/feather.js'
+import CloudPlusIcon from '../../Icons/CloudPlusIcon.vue'
 
 export default {
     name: 'MobileActionButtonUpload',

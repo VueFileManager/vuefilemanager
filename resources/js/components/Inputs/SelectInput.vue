@@ -3,7 +3,7 @@
         <!--Area-->
         <div
             class="input-area rounded-lg bg-light-background dark:bg-2x-dark-foreground"
-            :class="{ 'is-active': isOpen, '!border-rose-600': isError }"
+            :class="{ 'is-active': isOpen, 'border-rose-600!': isError }"
             @click="openMenu"
         >
             <!--If is selected-->
@@ -54,11 +54,12 @@
 </template>
 
 <script>
-import { ChevronDownIcon, Edit2Icon, UserIcon } from 'vue-feather-icons'
+import { ChevronDownIcon, Edit2Icon, UserIcon } from '../../icons/feather.js'
 import { debounce, omitBy } from 'lodash'
 
 export default {
     name: 'SelectInput',
+    emits: ['update:modelValue', 'input', 'change'],
     props: ['placeholder', 'options', 'isError', 'default'],
     components: {
         Edit2Icon,
@@ -91,6 +92,7 @@ export default {
     methods: {
         selectOption(option) {
             // Emit selected
+            this.$emit('update:modelValue', option.value)
             this.$emit('input', option.value)
             this.$emit('change', option.value)
 
@@ -224,7 +226,7 @@ export default {
     transition: all 150ms ease;
 }
 
-.slide-in-enter /* .list-leave-active below version 2.1.8 */ {
+.slide-in-enter-from /* .list-leave-active below version 2.1.8 */ {
     opacity: 0;
     transform: translateY(-50px);
 }

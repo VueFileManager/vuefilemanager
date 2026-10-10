@@ -1,7 +1,8 @@
 <?php
 namespace Domain\Zip\Controllers;
 
-use ZipStream\ZipStream;
+use STS\ZipStream\Builder;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Http\Request;
 use Domain\Files\Models\File;
 use Domain\Sharing\Models\Share;
@@ -30,7 +31,7 @@ class VisitorZipController extends Controller
     public function __invoke(
         Request $request,
         Share $shared,
-    ): ZipStream {
+    ): StreamedResponse {
         $items = extractItemsFromGetAttribute($request->get('items'));
 
         // Validate items GET attribute
@@ -79,11 +80,13 @@ class VisitorZipController extends Controller
         // Zip items
         $zip = ($this->zip)($folders, $files, $shared);
 
-        ($this->recordDownload)(
-            $zip->predictZipSize(),
-            $shared->user_id
-        );
+        // Record download traffic once the zip has been streamed
+        $userId = $shared->user_id;
 
-        return $zip;
+        return ZipAction::toResponse(
+            $zip->then(
+                fn (Builder $builder, $zipStream, int $size) => ($this->recordDownload)($size, $userId)
+            )
+        );
     }
 }

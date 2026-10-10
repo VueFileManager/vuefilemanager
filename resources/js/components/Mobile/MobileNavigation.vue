@@ -31,13 +31,13 @@
             <!--Main navigation-->
             <OptionGroup v-if="!clickedSubmenu">
                 <Option
-                    @click.native="goToFiles"
+                    @click="goToFiles"
                     :title="$t('menu.files')"
                     icon="hard-drive"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native.stop="showSubmenu('settings')"
+                    @click.stop="showSubmenu('settings')"
                     :title="$t('settings')"
                     icon="user"
                     arrow="right"
@@ -45,7 +45,7 @@
                 />
                 <Option
                     v-if="isAdmin"
-                    @click.native.stop="showSubmenu('admin')"
+                    @click.stop="showSubmenu('admin')"
                     :title="$t('administration')"
                     icon="settings"
                     arrow="right"
@@ -53,31 +53,31 @@
                 />
             </OptionGroup>
             <OptionGroup v-if="!clickedSubmenu">
-                <Option @click.native="logOut" :title="$t('logout')" icon="power" :is-hover-disabled="true" />
+                <Option @click="logOut" :title="$t('logout')" icon="power" :is-hover-disabled="true" />
             </OptionGroup>
 
             <!--Submenu: User settings-->
             <OptionGroup v-if="clickedSubmenu === 'settings'">
                 <Option
-                    @click.native="goToRoute('Profile')"
+                    @click="goToRoute('Profile')"
                     :title="$t('menu.profile')"
                     icon="user"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToRoute('Password')"
+                    @click="goToRoute('Password')"
                     :title="$t('menu.password')"
                     icon="lock"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToRoute('Storage')"
+                    @click="goToRoute('Storage')"
                     :title="$t('storage')"
                     icon="hard-drive"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToRoute('Billing')"
+                    @click="goToRoute('Billing')"
                     v-if="config.subscriptionType !== 'none'"
                     :title="$t('billing')"
                     icon="cloud"
@@ -88,19 +88,19 @@
             <!--Submenu: Admin settings-->
             <OptionGroup v-if="clickedSubmenu === 'admin'">
                 <Option
-                    @click.native="goToRoute('Dashboard')"
+                    @click="goToRoute('Dashboard')"
                     :title="$t('dashboard')"
                     icon="box"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToRoute('Users')"
+                    @click="goToRoute('Users')"
                     :title="$t('users')"
                     icon="users"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToRoute('AppOthers')"
+                    @click="goToRoute('AppOthers')"
                     :title="$t('settings')"
                     icon="settings"
                     :is-hover-disabled="true"
@@ -110,13 +110,13 @@
             <!--Submenu: Content settings-->
             <OptionGroup v-if="clickedSubmenu === 'admin'">
                 <Option
-                    @click.native="goToRoute('Pages')"
+                    @click="goToRoute('Pages')"
                     :title="$t('pages')"
                     icon="monitor"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToRoute('Language')"
+                    @click="goToRoute('Language')"
                     :title="$t('languages')"
                     icon="globe"
                     :is-hover-disabled="true"
@@ -126,26 +126,26 @@
             <!--Submenu: Billing settings-->
             <OptionGroup v-if="clickedSubmenu === 'admin' && config.subscriptionType !== 'none'">
                 <Option
-                    @click.native="goToRoute('AppPayments')"
+                    @click="goToRoute('AppPayments')"
                     :title="$t('payments')"
                     icon="credit-card"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToRoute('Subscriptions')"
+                    @click="goToRoute('Subscriptions')"
                     v-if="config.subscriptionType === 'fixed'"
                     :title="$t('subscriptions')"
                     icon="credit-card"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToRoute('Plans')"
+                    @click="goToRoute('Plans')"
                     :title="$t('plans')"
                     icon="database"
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.native="goToRoute('Invoices')"
+                    @click="goToRoute('Invoices')"
                     :title="$t('transactions')"
                     icon="file-text"
                     :is-hover-disabled="true"
@@ -156,12 +156,12 @@
 </template>
 
 <script>
-import MenuMobileGroup from './MenuMobileGroup'
-import OptionGroup from '../Menus/Components/OptionGroup'
-import UserHeadline from '../UI/Others/UserHeadline'
-import MenuMobile from './MenuMobile'
-import Option from '../Menus/Components/Option'
-import { ChevronLeftIcon } from 'vue-feather-icons'
+import MenuMobileGroup from './MenuMobileGroup.vue'
+import OptionGroup from '../Menus/Components/OptionGroup.vue'
+import UserHeadline from '../UI/Others/UserHeadline.vue'
+import MenuMobile from './MenuMobile.vue'
+import Option from '../Menus/Components/Option.vue'
+import { ChevronLeftIcon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

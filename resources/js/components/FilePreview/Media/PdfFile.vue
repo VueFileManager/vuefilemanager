@@ -9,30 +9,32 @@
 		>
 			<Spinner />
 		</div>
-        <pdf
-            :src="pdfData"
-            v-for="i in numPages"
-            :key="i"
-            :resize="true"
-            :page="i"
-            scale="page-width"
+        <VuePdfEmbed
+            v-if="pdfSource"
+            :key="pdfSource"
+            :source="pdfSource"
+            text-layer
+            annotation-layer
             id="printable-file"
-            class="mx-auto mb-6 w-full overflow-hidden md:rounded-xl md:shadow-lg"
-			@loading="documentLoaded"
+            class="pdf-document mx-auto w-full"
+            @rendered="documentLoaded"
+            @loading-failed="documentLoaded"
         />
     </div>
 </template>
 
 <script>
-import Spinner from "../../UI/Others/Spinner"
+import Spinner from "../../UI/Others/Spinner.vue"
 import { events } from '../../../bus'
-import pdf from 'pdfvuer'
+import VuePdfEmbed from 'vue-pdf-embed'
+import 'vue-pdf-embed/dist/styles/annotationLayer.css'
+import 'vue-pdf-embed/dist/styles/textLayer.css'
 
 export default {
     name: 'PdfFile',
     components: {
 		Spinner,
-        pdf,
+        VuePdfEmbed,
     },
     props: [
 		'file'
@@ -45,10 +47,9 @@ export default {
     },
     data() {
         return {
-            pdfData: undefined,
+            pdfSource: undefined,
             documentSize: 50,
 			isLoading: true,
-            numPages: 0,
         }
     },
     methods: {
@@ -56,14 +57,7 @@ export default {
 			this.isLoading = false
 		},
         getPdf() {
-            this.pdfData = undefined
-            this.numPages = 0
-
-            let self = this
-
-            self.pdfData = pdf.createLoadingTask(this.file.data.attributes.file_url)
-
-            self.pdfData.then((pdf) => (self.numPages = pdf.numPages))
+            this.pdfSource = this.file.data.attributes.file_url
         },
         getDocumentSize() {
             if (window.innerWidth < 960) {
@@ -99,4 +93,20 @@ export default {
 }
 </script>
 
-<style src="pdfvuer/dist/pdfvuer.css" lang="css"></style>
+<style scoped>
+/* Same look as the previous per-page pdfvuer components (mb-6, rounded, shadow) */
+.pdf-document :deep(.vue-pdf-embed__page) {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.5rem;
+    width: 100%;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .pdf-document :deep(.vue-pdf-embed__page) {
+        border-radius: 0.75rem;
+        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    }
+}
+</style>

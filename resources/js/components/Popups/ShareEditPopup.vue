@@ -13,10 +13,10 @@
             </PopupContent>
 
             <PopupActions>
-                <ButtonBase class="w-full" @click.native="showSection(undefined)" button-style="secondary">
+                <ButtonBase class="w-full" @click="showSection(undefined)" button-style="secondary">
                     {{ $t('show_details') }}
                 </ButtonBase>
-                <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme">
+                <ButtonBase class="w-full" @click="$closePopup()" button-style="theme">
                     {{ $t('awesome_iam_done') }}
                 </ButtonBase>
             </PopupActions>
@@ -43,12 +43,12 @@
             </PopupContent>
 
             <PopupActions>
-                <ButtonBase class="w-full" @click.native="showSection(undefined)" button-style="secondary">
+                <ButtonBase class="w-full" @click="showSection(undefined)" button-style="secondary">
                     {{ $t('show_details') }}
                 </ButtonBase>
                 <ButtonBase
                     class="w-full"
-                    @click.native="sendViaEmail"
+                    @click="sendViaEmail"
                     button-style="theme"
                     :loading="isLoading"
                     :disabled="isLoading"
@@ -60,7 +60,7 @@
 
         <!--Update sharing-->
         <div v-if="pickedItem && !activeSection">
-            <PopupContent class="!overflow-initial">
+            <PopupContent class="overflow-initial!">
                 <!--Item Thumbnail-->
                 <ThumbnailItem class="mb-5" :item="pickedItem" />
 
@@ -109,7 +109,7 @@
                                 canChangePassword &&
                                 shareOptions.isProtected
                             "
-                            @click.native="changePassword"
+                            @click="changePassword"
                             class="mb-6 -mt-4"
                         >
                             {{ $t('popup_share_edit.change_pass') }}
@@ -127,7 +127,7 @@
                             <AppInputText :error="errors[0]" class="-mt-2">
                                 <input
                                     v-model="shareOptions.password"
-                                    :class="{ '!border-rose-600': errors[0] }"
+                                    :class="{ 'border-rose-600!': errors[0] }"
                                     type="text"
                                     class="focus-border-theme input-dark"
                                     :placeholder="$t('page_sign_in.placeholder_password')"
@@ -155,7 +155,6 @@
                             <SelectBoxInput
                                 v-model="shareOptions.expiration"
                                 :data="$translateSelectOptions(expirationList)"
-                                :value="shareOptions.expiration"
                                 class="box"
                             />
                         </AppInputText>
@@ -166,7 +165,7 @@
             <PopupActions>
                 <ButtonBase
                     class="w-full"
-                    @click.native="destroySharing"
+                    @click="destroySharing"
                     :button-style="destroyButtonStyle"
                     :loading="isDeleting"
                     :disabled="isDeleting"
@@ -175,7 +174,7 @@
                 </ButtonBase>
                 <ButtonBase
                     class="w-full"
-                    @click.native="updateShareOptions"
+                    @click="updateShareOptions"
                     button-style="theme"
                     :loading="isLoading"
                     :disabled="isLoading"
@@ -188,23 +187,22 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import MultiEmailInput from '../Inputs/MultiEmailInput'
-import SelectBoxInput from '../Inputs/SelectBoxInput'
-import CopyShareLink from '../Inputs/CopyShareLink'
-import PopupWrapper from './Components/PopupWrapper'
-import PopupActions from './Components/PopupActions'
-import PopupContent from './Components/PopupContent'
-import PopupHeader from './Components/PopupHeader'
-import SwitchInput from '../Inputs/SwitchInput'
-import SelectInput from '../Inputs/SelectInput'
-import ThumbnailItem from '../UI/Entries/ThumbnailItem'
-import ActionButton from '../UI/Buttons/ActionButton'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import AppInputSwitch from '../Forms/Layouts/AppInputSwitch'
-import AppInputText from '../Forms/Layouts/AppInputText'
-import { required } from 'vee-validate/dist/rules'
-import Spinner from '../UI/Others/Spinner'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
+import MultiEmailInput from '../Inputs/MultiEmailInput.vue'
+import SelectBoxInput from '../Inputs/SelectBoxInput.vue'
+import CopyShareLink from '../Inputs/CopyShareLink.vue'
+import PopupWrapper from './Components/PopupWrapper.vue'
+import PopupActions from './Components/PopupActions.vue'
+import PopupContent from './Components/PopupContent.vue'
+import PopupHeader from './Components/PopupHeader.vue'
+import SwitchInput from '../Inputs/SwitchInput.vue'
+import SelectInput from '../Inputs/SelectInput.vue'
+import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
+import ActionButton from '../UI/Buttons/ActionButton.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import AppInputSwitch from '../Forms/Layouts/AppInputSwitch.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import Spinner from '../UI/Others/Spinner.vue'
 import { events } from '../../bus'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
@@ -228,7 +226,6 @@ export default {
         SelectInput,
         SwitchInput,
         ButtonBase,
-        required,
         Spinner,
     },
     computed: {

@@ -39,16 +39,15 @@
 </template>
 
 <script>
-import AppInputSwitch from '../../../components/Forms/Layouts/AppInputSwitch'
-import AppInputText from '../../../components/Forms/Layouts/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import FormLabel from '../../../components/UI/Labels/FormLabel'
-import { required } from 'vee-validate/dist/rules'
-import SwitchInput from '../../../components/Inputs/SwitchInput'
-import MobileHeader from '../../../components/Mobile/MobileHeader'
-import SectionTitle from '../../../components/UI/Labels/SectionTitle'
-import ButtonBase from '../../../components/UI/Buttons/ButtonBase'
-import Spinner from '../../../components/UI/Others/Spinner'
+import AppInputSwitch from '../../../components/Forms/Layouts/AppInputSwitch.vue'
+import AppInputText from '../../../components/Forms/Layouts/AppInputText.vue'
+import { ValidationProvider, ValidationObserver } from '../../../components/Validation/index.js'
+import FormLabel from '../../../components/UI/Labels/FormLabel.vue'
+import SwitchInput from '../../../components/Inputs/SwitchInput.vue'
+import MobileHeader from '../../../components/Mobile/MobileHeader.vue'
+import SectionTitle from '../../../components/UI/Labels/SectionTitle.vue'
+import ButtonBase from '../../../components/UI/Buttons/ButtonBase.vue'
+import Spinner from '../../../components/UI/Others/Spinner.vue'
 import axios from 'axios'
 
 export default {
@@ -63,7 +62,6 @@ export default {
         MobileHeader,
         SwitchInput,
         ButtonBase,
-        required,
         Spinner,
     },
     data() {

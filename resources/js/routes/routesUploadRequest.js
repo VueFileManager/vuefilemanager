@@ -2,7 +2,7 @@ const routesShared = [
     {
         name: 'Request',
         path: '/request',
-        component: () => import(/* webpackChunkName: "chunks/request" */ '../views/UploadRequest'),
+        component: () => import(/* webpackChunkName: "chunks/request" */ '../views/UploadRequest.vue'),
         meta: {
             requiresAuth: false,
         },
@@ -11,7 +11,7 @@ const routesShared = [
                 name: 'RequestUpload',
                 path: '/request/:token/upload/:id?',
                 component: () =>
-                    import(/* webpackChunkName: "chunks/request-upload" */ '../views/FileView/UploadRequestFiles'),
+                    import(/* webpackChunkName: "chunks/request-upload" */ '../views/FileView/UploadRequestFiles.vue'),
                 meta: {
                     requiresAuth: false,
                 },

@@ -1,5 +1,4 @@
-import Vuex from 'vuex'
-import Vue from 'vue'
+import { createStore } from 'vuex'
 
 import uploadRequest from './modules/uploadRequest'
 import fileFunctions from './modules/fileFunctions'
@@ -12,9 +11,7 @@ import lists from './modules/lists'
 import teams from './modules/teams'
 import app from './modules/app'
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default createStore({
     modules: {
         uploadRequest,
         fileFunctions,

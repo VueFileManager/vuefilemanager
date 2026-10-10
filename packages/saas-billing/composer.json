@@ -1,0 +1,78 @@
+{
+    "name": "makingcg/saas-billing",
+    "description": "Subscription module for all great payment gateway",
+    "keywords": [
+        "VueFileManager",
+        "laravel",
+        "subscription"
+    ],
+    "homepage": "https://github.com/makingcg/saas-billing",
+    "license": "MIT",
+    "version": "2.0.0",
+    "authors": [
+        {
+            "name": "Peter Papp",
+            "email": "peterpapp@makingcg.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "guzzlehttp/guzzle": "^7.10",
+        "illuminate/contracts": "^13.0",
+        "illuminate/database": "^13.0",
+        "illuminate/support": "^13.0",
+        "kyslik/column-sortable": "^8.0",
+        "laravel/sanctum": "^4.3",
+        "spatie/laravel-package-tools": "^1.93",
+        "spatie/laravel-queueable-action": "^2.17",
+        "stripe/stripe-php": "^22.0"
+    },
+    "require-dev": {
+        "ext-intl": "*",
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "nunomaduro/collision": "^8.9",
+        "orchestra/testbench": "^11.3",
+        "phpunit/phpunit": "^12.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "VueFileManager\\Subscription\\": "src",
+            "VueFileManager\\Subscription\\Database\\Factories\\": "database/factories"
+        },
+        "files": [
+            "src/Support/helpers.php",
+            "src/Support/PayPalHelpers.php",
+            "src/Support/PaystackHelpers.php",
+            "src/Support/StripeHelpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\": "src/App/",
+            "Domain\\": "src/Domain/",
+            "Support\\": "src/Support/",
+            "Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
+        "test": "vendor/bin/phpunit --no-coverage",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "VueFileManager\\Subscription\\SubscriptionServiceProvider"
+            ],
+            "aliases": {
+                "Subscription": "VueFileManager\\Subscription\\SubscriptionFacade"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

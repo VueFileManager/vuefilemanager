@@ -1,7 +1,7 @@
 import router from '../../router'
 import { events } from '../../bus'
 import axios from 'axios'
-import Vue from 'vue'
+import { globals } from '../../globals'
 
 const defaultState = {
     uploadRequest: undefined,
@@ -13,7 +13,7 @@ const actions = {
 
         return new Promise((resolve, reject) => {
             axios
-                .get(`/api/file-request/${router.currentRoute.params.token}/browse/${id || 'all'}${getters.sorting.URI}`)
+                .get(`/api/file-request/${router.currentRoute.value.params.token}/browse/${id || 'all'}${getters.sorting.URI}`)
                 .then((response) => {
                     commit('SET_CURRENT_FOLDER', response.data.meta.root)
                     commit('SET_PAGINATOR', response.data.meta.paginate)
@@ -25,7 +25,7 @@ const actions = {
                     resolve(response)
                 })
                 .catch((error) => {
-                    Vue.prototype.$isSomethingWrong()
+                    globals.$isSomethingWrong()
 
                     reject(error)
                 })
@@ -33,7 +33,7 @@ const actions = {
     },
     getUploadRequestDetail: ({ commit }) => {
         return new Promise((resolve, reject) => {
-            axios.get(`/api/file-request/${router.currentRoute.params.token}`)
+            axios.get(`/api/file-request/${router.currentRoute.value.params.token}`)
                 .then((response) => {
                     resolve(response)
 
@@ -44,12 +44,12 @@ const actions = {
                     commit('SET_UPLOAD_REQUEST', response.data)
 
                     // Set current folder if exist
-                    if (! router.currentRoute.params.id) {
+                    if (! router.currentRoute.value.params.id) {
                         commit('SET_CURRENT_FOLDER', response.data.data.relationships.folder)
                     }
                 })
                 .catch((error) => {
-                    Vue.prototype.$isSomethingWrong()
+                    globals.$isSomethingWrong()
 
                     reject(error)
                 })
@@ -57,7 +57,7 @@ const actions = {
     },
     closeUploadRequest: ({ commit }) => {
         axios
-            .delete(`/api/file-request/${router.currentRoute.params.token}`)
+            .delete(`/api/file-request/${router.currentRoute.value.params.token}`)
             .then((response) => {
                 commit('START_LOADING_VIEW')
                 commit('STOP_LOADING_VIEW')

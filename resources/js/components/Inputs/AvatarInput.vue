@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { CameraIcon} from 'vue-feather-icons'
+import { CameraIcon} from '../../icons/feather.js'
 
 export default {
     name: 'AvatarInput',

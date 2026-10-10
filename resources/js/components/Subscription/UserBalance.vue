@@ -38,7 +38,7 @@
                             min="1"
                             max="999999999"
                             class="focus-border-theme input-dark"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                         <ButtonBase type="submit" button-style="theme" class="w-full sm:w-auto">
                             {{ $t('make_payment') }}
@@ -50,10 +50,10 @@
     </div>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import FormLabel from '../UI/Labels/FormLabel'
-import AppInputText from '../Forms/Layouts/AppInputText'
+import { ValidationObserver, ValidationProvider } from '../Validation/index.js'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import FormLabel from '../UI/Labels/FormLabel.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
 import { mapGetters } from 'vuex'
 
 export default {

@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Domain\Teams\Models\TeamFolderInvitation;
 use Domain\Pages\Actions\SeedDefaultPagesAction;
-use Intervention\Image\ImageManagerStatic as Image;
 use Domain\Settings\Actions\SeedDefaultSettingsAction;
 use Domain\Localization\Actions\SeedDefaultLanguageAction;
 use Domain\SetupWizard\Actions\CreateDiskDirectoriesAction;
@@ -1623,19 +1622,12 @@ class SetupDevEnvironment extends Command
         $avatar_name = Str::uuid() . '.png';
 
         // Create intervention image
-        $img = Image::make($image);
+        $img = image_manager()->decodeBinary($image);
 
         $this->info("Generating thumbnails for $avatar...");
 
         // Generate avatar
-        collect(config('vuefilemanager.avatar_sizes'))
-            ->each(function ($size) use ($img, $avatar_name) {
-                // fit thumbnail
-                $img->fit($size['size'], $size['size'])->stream();
-
-                // Store thumbnail to disk
-                Storage::put("avatars/{$size['name']}-{$avatar_name}", $img);
-            });
+        generate_avatar_thumbnails($img, $avatar_name);
 
         return $avatar_name;
     }
@@ -1661,16 +1653,16 @@ class SetupDevEnvironment extends Command
             ->each(function ($size) use ($file_name, $user, $file) {
                 $image = \Illuminate\Support\Facades\File::get(storage_path($file));
 
-                // Create intervention image
-                $intervention = Image::make($image)->orientate();
+                // Create intervention image (EXIF orientation is applied automatically)
+                $intervention = image_manager()->decodeBinary($image);
 
                 // Create thumbnail only if image is larger than predefined image sizes
-                if ($intervention->getWidth() > $size['size']) {
+                if ($intervention->width() > $size['size']) {
                     // Generate thumbnail
-                    $intervention->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())->stream();
+                    $thumbnail = $intervention->scale(width: $size['size'])->encode();
 
                     // Store thumbnail to disk
-                    Storage::put("files/$user->id/{$size['name']}-{$file_name}", $intervention);
+                    Storage::put("files/$user->id/{$size['name']}-{$file_name}", (string) $thumbnail);
                 }
             });
 

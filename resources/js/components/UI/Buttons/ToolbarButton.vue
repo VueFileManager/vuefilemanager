@@ -30,8 +30,8 @@
 </template>
 
 <script>
-import SortingIcon from '../../Icons/SortingIcon'
-import CloudPlusIcon from '../../Icons/CloudPlusIcon'
+import SortingIcon from '../../Icons/SortingIcon.vue'
+import CloudPlusIcon from '../../Icons/CloudPlusIcon.vue'
 import {
     SearchIcon,
     UserPlusIcon,
@@ -49,7 +49,7 @@ import {
     InfoIcon,
     LinkIcon,
     XIcon,
-} from 'vue-feather-icons'
+} from '../../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

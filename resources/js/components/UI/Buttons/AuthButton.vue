@@ -1,6 +1,6 @@
 <template>
     <button
-        class="group mx-auto inline-block flex items-center whitespace-nowrap rounded-lg border-2 border-black px-7 py-2.5 dark:border-gray-300"
+        class="group mx-auto flex items-center whitespace-nowrap rounded-lg border-2 border-black px-7 py-2.5 dark:border-gray-300"
     >
         <span class="pr-1 text-lg font-extrabold">
             {{ text }}
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { ChevronRightIcon, RefreshCwIcon } from 'vue-feather-icons'
+import { ChevronRightIcon, RefreshCwIcon } from '../../../icons/feather.js'
 
 export default {
     name: 'AuthContent',

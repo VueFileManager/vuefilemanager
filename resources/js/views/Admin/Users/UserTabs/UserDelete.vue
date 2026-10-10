@@ -21,7 +21,7 @@
                             :placeholder="$t('admin_page_user.placeholder_delete_user')"
                             type="text"
                             class="focus-border-theme input-dark"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                         <ButtonBase
                             :loading="isSendingRequest"
@@ -40,15 +40,14 @@
 </template>
 
 <script>
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 
-import PageTabGroup from '../../../../components/Layout/PageTabGroup'
-import PageTab from '../../../../components/Layout/PageTab'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import { required, is } from 'vee-validate/dist/rules'
+import PageTabGroup from '../../../../components/Layout/PageTabGroup.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import { ValidationProvider, ValidationObserver } from '../../../../components/Validation/index.js'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
 import { events } from '../../../../bus'
 import axios from 'axios'
 
@@ -64,7 +63,6 @@ export default {
         ValidationProvider,
         ValidationObserver,
         ButtonBase,
-        required,
     },
     data() {
         return {

@@ -32,14 +32,14 @@
 </template>
 
 <script>
-import HeroScreenshot from '../../components/IndexPage/IndexHeroScreenshot'
-import PricingTables from '../../components/IndexPage/IndexPricingTables'
-import MainFeatures from '../../components/IndexPage/IndexMainFeatures'
-import Navigation from '../../components/IndexPage/IndexNavigation'
-import PageHeader from '../../components/IndexPage/IndexPageHeader'
-import GetStarted from '../../components/IndexPage/IndexGetStarted'
-import PageFooter from '../../components/IndexPage/IndexPageFooter'
-import Spinner from '../../components/UI/Others/Spinner'
+import HeroScreenshot from '../../components/IndexPage/IndexHeroScreenshot.vue'
+import PricingTables from '../../components/IndexPage/IndexPricingTables.vue'
+import MainFeatures from '../../components/IndexPage/IndexMainFeatures.vue'
+import Navigation from '../../components/IndexPage/IndexNavigation.vue'
+import PageHeader from '../../components/IndexPage/IndexPageHeader.vue'
+import GetStarted from '../../components/IndexPage/IndexGetStarted.vue'
+import PageFooter from '../../components/IndexPage/IndexPageFooter.vue'
+import Spinner from '../../components/UI/Others/Spinner.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

@@ -2,7 +2,7 @@
     <div v-if="currentFile" class="select-none items-center px-3.5 py-4 lg:grid lg:grid-cols-3 lg:py-3">
         <div class="flex items-center justify-between lg:w-auto lg:justify-start">
             <!--Close icon-->
-            <div @click="closeFullPreview" class="order-last -m-3 cursor-pointer p-3 lg:order-none">
+            <div @click="closeFullPreview" class="order-last -m-3 cursor-pointer p-3 lg:order-0">
                 <x-icon size="16" class="vue-feather" />
             </div>
 
@@ -35,30 +35,30 @@
                     <PopoverItem name="file-preview-contextmenu" side="right">
                         <OptionGroup>
                             <Option
-                                @click.native="$renameFileOrFolder(currentFile)"
+                                @click="$renameFileOrFolder(currentFile)"
                                 :title="$t('rename')"
                                 icon="rename"
                             />
                             <Option
-                                @click.native="$moveFileOrFolder(currentFile)"
+                                @click="$moveFileOrFolder(currentFile)"
                                 :title="$t('move')"
                                 icon="move-item"
                             />
                             <Option
-                                @click.native="$shareFileOrFolder(currentFile)"
+                                @click="$shareFileOrFolder(currentFile)"
                                 :title="sharingTitle"
                                 icon="share"
                                 v-if="!$isThisRoute($route, ['Public', 'RequestUpload', 'SharedWithMe'])"
                             />
                             <Option
-                                @click.native="$deleteFileOrFolder(currentFile)"
+                                @click="$deleteFileOrFolder(currentFile)"
                                 :title="$t('delete')"
                                 icon="trash"
                                 class="menu-option"
                             />
                         </OptionGroup>
                         <OptionGroup v-if="!$isThisRoute($route, ['RequestUpload'])">
-                            <Option @click.native="downloadItem" :title="$t('download')" icon="download" />
+                            <Option @click="downloadItem" :title="$t('download')" icon="download" />
                         </OptionGroup>
                     </PopoverItem>
                 </PopoverWrapper>
@@ -73,27 +73,27 @@
         <!--Actions-->
         <div class="hidden items-center lg:flex lg:justify-end">
             <div v-if="isPdf">
-                <ToolbarButton @click.native="decreaseSizeOfPDF" source="zoom-out" :action="$t('pdf_zoom_out')" />
-                <ToolbarButton @click.native="increaseSizeOfPDF" source="zoom-in" :action="$t('pdf_zoom_in')" />
+                <ToolbarButton @click="decreaseSizeOfPDF" source="zoom-out" :action="$t('pdf_zoom_out')" />
+                <ToolbarButton @click="increaseSizeOfPDF" source="zoom-in" :action="$t('pdf_zoom_in')" />
             </div>
 
             <div class="ml-5">
                 <ToolbarButton
                     v-if="!$isThisRoute($route, ['RequestUpload'])"
-                    @click.native="downloadItem"
+                    @click="downloadItem"
                     source="download"
                     :action="$t('download_item')"
                 />
                 <ToolbarButton
                     v-if="canShareItem"
-                    @click.native="$shareFileOrFolder(currentFile)"
+                    @click="$shareFileOrFolder(currentFile)"
                     :class="{ 'is-inactive': !canShareItem }"
                     source="share"
                     :action="$t('share_item')"
                 />
                 <ToolbarButton
                     v-if="isImage"
-                    @click.native="printMethod()"
+                    @click="printMethod()"
                     source="print"
                     :action="$t('print')"
                 />
@@ -103,13 +103,13 @@
 </template>
 
 <script>
-import PopoverWrapper from '../UI/Popover/PopoverWrapper'
-import PopoverItem from '../UI/Popover/PopoverItem'
-import OptionGroup from '../Menus/Components/OptionGroup'
-import Option from '../Menus/Components/Option'
+import PopoverWrapper from '../UI/Popover/PopoverWrapper.vue'
+import PopoverItem from '../UI/Popover/PopoverItem.vue'
+import OptionGroup from '../Menus/Components/OptionGroup.vue'
+import Option from '../Menus/Components/Option.vue'
 
-import ToolbarButton from '../UI/Buttons/ToolbarButton'
-import { XIcon, MoreHorizontalIcon } from 'vue-feather-icons'
+import ToolbarButton from '../UI/Buttons/ToolbarButton.vue'
+import { XIcon, MoreHorizontalIcon } from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 

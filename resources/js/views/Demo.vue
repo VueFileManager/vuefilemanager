@@ -17,10 +17,10 @@
     </AuthContentWrapper>
 </template>
 <script>
-import AuthContentWrapper from '../components/Layout/AuthPages/AuthContentWrapper'
-import AuthContent from '../components/Layout/AuthPages/AuthContent'
-import AuthButton from '../components/UI/Buttons/AuthButton'
-import Headline from '../components/UI/Labels/LogoHeadline'
+import AuthContentWrapper from '../components/Layout/AuthPages/AuthContentWrapper.vue'
+import AuthContent from '../components/Layout/AuthPages/AuthContent.vue'
+import AuthButton from '../components/UI/Buttons/AuthButton.vue'
+import Headline from '../components/UI/Labels/LogoHeadline.vue'
 
 export default {
     name: 'Demo',

@@ -57,7 +57,7 @@
                     </small>
                 </div>
                 <div class="flex items-center">
-                    <ButtonBase @click.native="testWebsocketConnection" class="w-full sm:w-auto" button-style="theme">
+                    <ButtonBase @click="testWebsocketConnection" class="w-full sm:w-auto" button-style="theme">
                         {{ $t('Send Test Event') }}
                     </ButtonBase>
                 </div>
@@ -68,7 +68,7 @@
         <div class="card shadow-card">
             <FormLabel icon="list">Latest Server Logs</FormLabel>
 
-            <InfoBox v-if="!logs.length" class="!mb-0">
+            <InfoBox v-if="!logs.length" class="mb-0!">
                 <p v-html="$t('there_is_not_log')"></p>
             </InfoBox>
 
@@ -76,7 +76,7 @@
                 v-if="logs.length"
                 v-for="(log, i) in logs"
                 :key="i"
-                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
             >
                 <div class="text-left">
                     <b class="block text-sm font-bold">
@@ -93,11 +93,11 @@
         <div class="card shadow-card">
             <FormLabel icon="database"> Latest Database Backups </FormLabel>
 
-            <InfoBox v-if="!backups.length" class="!mb-0">
+            <InfoBox v-if="!backups.length" class="mb-0!">
                 <p v-html="$t('there_is_not_database_backup')"></p>
             </InfoBox>
 
-            <InfoBox v-if="backups.length" class="!mb-3">
+            <InfoBox v-if="backups.length" class="mb-3!">
                 <p v-html="$t('backup_path')"></p>
             </InfoBox>
 
@@ -105,7 +105,7 @@
                 v-if="backups.length"
                 v-for="(filename, i) in backups"
                 :key="i"
-                class="md:flex md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                class="md:flex md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
             >
                 <div class="text-left">
                     <b class="block text-sm font-bold">{{ filename }}</b>
@@ -125,7 +125,7 @@
             <div
                 v-for="(isWritable, file, i) in writable"
                 :key="i"
-                class="flex md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                class="flex md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
             >
                 <div class="text-left">
                     <b class="block text-sm font-bold">/{{ file }}</b>
@@ -146,7 +146,7 @@
             <FormLabel icon="info"> PHP Settings </FormLabel>
 
             <div
-                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
             >
                 <div class="text-left">
                     <b class="block text-sm font-bold">PHP Version</b>
@@ -182,7 +182,7 @@
             <div
                 v-for="(values, setting, i) in ini"
                 :key="i"
-                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
             >
                 <div class="text-left">
                     <b class="block text-sm font-bold">{{ setting }}</b>
@@ -212,7 +212,7 @@
                 v-if="modules"
                 v-for="(value, module, i) in modules"
                 :key="i"
-                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
             >
                 <b class="text-sm font-bold">
                     {{ module }}
@@ -234,15 +234,15 @@
 </template>
 
 <script>
-import AppInputText from "../../../../components/Forms/Layouts/AppInputText";
-import CopyInput from "../../../../components/Inputs/CopyInput";
-import { CheckIcon, XIcon, DownloadCloudIcon } from 'vue-feather-icons'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import PageTab from '../../../../components/Layout/PageTab'
-import InfoBox from '../../../../components/UI/Others/InfoBox'
+import AppInputText from "../../../../components/Forms/Layouts/AppInputText.vue";
+import CopyInput from "../../../../components/Inputs/CopyInput.vue";
+import { CheckIcon, XIcon, DownloadCloudIcon } from '../../../../icons/feather.js'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
+import InfoBox from '../../../../components/UI/Others/InfoBox.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import ButtonBase from "../../../../components/UI/Buttons/ButtonBase";
+import ButtonBase from "../../../../components/UI/Buttons/ButtonBase.vue";
 
 export default {
     name: 'Server',

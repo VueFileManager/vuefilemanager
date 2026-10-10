@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Homepage;
 
+use PHPUnit\Framework\Attributes\Test;
 use Mail;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -14,9 +15,7 @@ use Domain\Settings\Actions\SeedDefaultSettingsAction;
 
 class HomepageTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_index_page()
     {
         resolve(SeedDefaultPagesAction::class)();
@@ -34,9 +33,7 @@ class HomepageTest extends TestCase
             ->assertSee('VueFileManager');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_index_page_without_setup()
     {
         $this->get('/')
@@ -45,9 +42,7 @@ class HomepageTest extends TestCase
             ->assertSee('VueFileManager');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_og_page_for_folder()
     {
         $user = User::factory()
@@ -74,9 +69,7 @@ class HomepageTest extends TestCase
             ->assertSee('Folder Title');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_og_page_for_image()
     {
         $user = User::factory()
@@ -106,9 +99,7 @@ class HomepageTest extends TestCase
             ->assertSee('lg-fake-image.jpg');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_og_page_for_protected_file()
     {
         $user = User::factory()
@@ -137,9 +128,7 @@ class HomepageTest extends TestCase
             ->assertSee('This link is protected by password');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_send_contact_form()
     {
         Mail::fake();

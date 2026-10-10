@@ -1,6 +1,6 @@
 <template>
     <article
-        class="delay-[3000ms] duration-700 transition-all relative z-[11] mb-1.5 flex items-start space-x-4 rounded-xl p-2.5"
+        class="delay-3000 duration-700 transition-all relative z-11 mb-1.5 flex items-start space-x-4 rounded-xl p-2.5"
 		:class="{'dark:bg-4x-dark-foreground bg-light-background/80': isUnread}"
     >
         <gift-icon
@@ -72,7 +72,7 @@
 
             <!--Go to route-->
             <router-link
-                @click.native="closeCenter"
+                @click="closeCenter"
                 v-if="action && action.type === 'route'"
                 :to="{ name: action.params.route, params: { id: action.params.id } }"
                 class="mt-4 flex items-center"
@@ -85,7 +85,7 @@
 
             <!--Open Link-->
             <a
-                @click.native="closeCenter"
+                @click="closeCenter"
                 v-if="action && action.type === 'url'"
 				:target="action.params.target === 'blank' ? '_blank' : '_self'"
                 :href="action.params.url"
@@ -100,8 +100,8 @@
     </article>
 </template>
 <script>
-import { RefreshCwIcon, TrendingUpIcon, GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from 'vue-feather-icons'
-import MemberAvatar from '../../UI/Others/MemberAvatar'
+import { RefreshCwIcon, TrendingUpIcon, GiftIcon, CheckIcon, XIcon, MailIcon, UserPlusIcon, UploadCloudIcon, ChevronRightIcon, AlertTriangleIcon } from '../../../icons/feather.js'
+import MemberAvatar from '../../UI/Others/MemberAvatar.vue'
 import {events} from "../../../bus";
 
 export default {

@@ -3,7 +3,6 @@ namespace Domain\Files\Actions;
 
 use Illuminate\Support\Facades\Storage;
 use Spatie\QueueableAction\QueueableAction;
-use Intervention\Image\ImageManagerStatic as Image;
 
 class GenerateImageThumbnailAction
 {
@@ -19,19 +18,18 @@ class GenerateImageThumbnailAction
         collect(config("vuefilemanager.image_sizes.$execution"))
             ->each(function ($size) use ($userId, $fileName, $imageWidth) {
                 if ($imageWidth > $size['size']) {
-                    // Create intervention image
-                    $intervention = Image::make(
+                    // Create intervention image (EXIF orientation is applied automatically)
+                    $intervention = image_manager()->decodePath(
                         Storage::disk('local')->path("temp/$userId/$fileName")
-                    )
-                        ->orientate();
+                    );
 
                     // Generate thumbnail
-                    $intervention
-                        ->resize($size['size'], null, fn ($constraint) => $constraint->aspectRatio())
-                        ->stream();
+                    $thumbnail = $intervention
+                        ->scale(width: $size['size'])
+                        ->encode();
 
                     // Store thumbnail to disk
-                    Storage::put("files/$userId/{$size['name']}-$fileName", $intervention);
+                    Storage::put("files/$userId/{$size['name']}-$fileName", (string) $thumbnail);
                 }
             });
 

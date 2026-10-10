@@ -5,7 +5,7 @@
         @keyup.esc="exitSpotlight"
         @click.exact.self="exitSpotlight"
         tabindex="-1"
-        class="fixed left-0 right-0 bottom-0 top-0 z-50 z-50 h-full w-full bg-white dark:bg-dark-background md:absolute md:bg-dark-background md:bg-opacity-[0.35] dark:md:bg-opacity-[0.45]"
+        class="fixed left-0 right-0 bottom-0 top-0 z-50 z-50 h-full w-full bg-white dark:bg-dark-background md:absolute md:bg-dark-background/35 dark:md:bg-dark-background/45"
     >
         <div
             class="relative z-50 mx-auto w-full overflow-y-auto md:mt-8 md:max-w-xl md:rounded-xl md:bg-white md:shadow-xl dark:md:bg-2x-dark-foreground 2xl:mt-20"
@@ -37,7 +37,7 @@
 
                 <!--Text search field-->
                 <input
-                    class="w-full border-none bg-transparent text-lg font-semibold placeholder-gray-700 focus:outline-none dark:placeholder-gray-400 sm:text-xl"
+                    class="w-full border-none bg-transparent text-lg font-semibold placeholder-gray-700 focus:outline-hidden dark:placeholder-gray-400 sm:text-xl"
                     v-model="query"
                     @keydown.delete="undoFilter"
                     @keydown.enter="showSelected"
@@ -75,7 +75,7 @@
                     :key="filter.slug"
                     :keyword="filter.keyword"
                     :description="filter.description"
-                    @click.native="setFilter(filter.slug)"
+                    @click="setFilter(filter.slug)"
                 />
             </div>
 
@@ -258,7 +258,7 @@
                         <MemberAvatar :is-border="false" :size="44" :member="result" />
                         <div class="ml-3">
                             <b
-                                class="max-w-1 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
+                                class="block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold"
                                 style="max-width: 155px"
                             >
                                 {{ result.data.attributes.name }}
@@ -278,7 +278,7 @@
                         }"
                         :highlight="false"
                         :mobile-handler="false"
-                        @click.native="openItem(result)"
+                        @click="openItem(result)"
                     />
 
                     <!--Keyboard shortcut hint-->
@@ -306,12 +306,12 @@
 
 <script>
 import { events } from '../../bus'
-import ItemList from '../UI/Entries/ItemList'
-import MemberAvatar from '../UI/Others/MemberAvatar'
-import Spinner from '../UI/Others/Spinner'
-import CategoryName from './Components/CategoryName'
-import FilterSuggestion from './Components/FilterSuggestion'
-import KeyboardHints from './Components/KeyboardHints'
+import ItemList from '../UI/Entries/ItemList.vue'
+import MemberAvatar from '../UI/Others/MemberAvatar.vue'
+import Spinner from '../UI/Others/Spinner.vue'
+import CategoryName from './Components/CategoryName.vue'
+import FilterSuggestion from './Components/FilterSuggestion.vue'
+import KeyboardHints from './Components/KeyboardHints.vue'
 import axios from 'axios'
 import { debounce } from 'lodash'
 import {
@@ -341,7 +341,7 @@ import {
     UserPlusIcon,
     UsersIcon,
     XIcon,
-} from 'vue-feather-icons'
+} from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -891,7 +891,7 @@ export default {
 
             // Get route
             let route = this.$store.getters.sharedDetail
-                ? `/api/sharing/search/${this.$router.currentRoute.params.token}`
+                ? `/api/sharing/search/${this.$route.params.token}`
                 : '/api/search'
 
             axios

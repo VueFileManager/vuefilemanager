@@ -8,7 +8,7 @@
         </div>
         <input
             v-model="query"
-            @input="$emit('input', query)"
+            @input="$emit('update:modelValue', query); $emit('input', query)"
             class="query focus-border-theme"
             type="text"
             name="searchInput"
@@ -18,10 +18,11 @@
 </template>
 
 <script>
-import { SearchIcon, XIcon } from 'vue-feather-icons'
+import { SearchIcon, XIcon } from '../../icons/feather.js'
 
 export default {
     name: 'SearchInput',
+    emits: ['update:modelValue', 'input', 'reset-query'],
     components: {
         SearchIcon,
         XIcon,

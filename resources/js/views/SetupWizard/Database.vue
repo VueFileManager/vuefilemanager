@@ -1,9 +1,9 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Database Credentials-->
-        <AuthContent name="database-credentials" :visible="true" class="mt-6 mb-12 !max-w-2xl">
+        <AuthContent name="database-credentials" :visible="true" class="mt-6 mb-12 max-w-2xl!">
             <Headline
-                class="mx-auto !mb-10 max-w-screen-sm"
+                class="mx-auto mb-10! max-w-(--breakpoint-sm)"
                 title="Setup Wizard"
                 description="Set up your database connection to install application database."
             >
@@ -60,7 +60,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your database host"
                             type="text"
-                            :class="{'!border-rose-600': errors[0] }"
+                            :class="{'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -72,7 +72,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your database port"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -84,7 +84,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your database name"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -102,7 +102,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your database name"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -119,7 +119,7 @@
                             class="focus-border-theme input-dark"
                             placeholder="Type your database password"
                             type="text"
-                            :class="{ '!border-rose-600': errors[0] }"
+                            :class="{ 'border-rose-600!': errors[0] }"
                         />
                     </AppInputText>
                 </ValidationProvider>
@@ -131,7 +131,7 @@
                 </InfoBox>
             </ValidationObserver>
             <AuthButton
-                @click.native="databaseCredentialsSubmit"
+                @click="databaseCredentialsSubmit"
                 class="w-full justify-center"
                 icon="chevron-right"
                 :text="submitButtonText"
@@ -143,17 +143,16 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
-import SelectInput from '../../components/Inputs/SelectInput'
-import AppInputText from '../../components/Forms/Layouts/AppInputText'
-import FormLabel from '../../components/UI/Labels/FormLabel'
-import InfoBox from '../../components/UI/Others/InfoBox'
-import AuthContent from '../../components/Layout/AuthPages/AuthContent'
-import AuthButton from '../../components/UI/Buttons/AuthButton'
-import { SettingsIcon } from 'vue-feather-icons'
-import { required } from 'vee-validate/dist/rules'
-import Headline from '../../components/UI/Labels/LogoHeadline'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
+import SelectInput from '../../components/Inputs/SelectInput.vue'
+import AppInputText from '../../components/Forms/Layouts/AppInputText.vue'
+import FormLabel from '../../components/UI/Labels/FormLabel.vue'
+import InfoBox from '../../components/UI/Others/InfoBox.vue'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
+import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
+import { SettingsIcon } from '../../icons/feather.js'
+import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 
@@ -169,7 +168,6 @@ export default {
         AuthContent,
         AuthButton,
         FormLabel,
-        required,
         InfoBox,
         Headline,
     },
@@ -201,7 +199,7 @@ export default {
     },
     methods: {
         async databaseCredentialsSubmit() {
-            if (this.$root.$data.config.isSetupWizardDemo) {
+            if (config.isSetupWizardDemo) {
                 this.$router.push({ name: 'EnvironmentSetup' })
                 return
             }
@@ -239,7 +237,7 @@ export default {
     created() {
         this.$scrollTop()
 
-        if (this.$root.$data.config.isSetupWizardDebug) {
+        if (config.isSetupWizardDebug) {
             this.databaseCredentials = {
                 connection: 'mysql',
                 host: '127.0.0.1',

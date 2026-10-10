@@ -1,5 +1,5 @@
 <template>
-    <div class="py-3 px-5 text-left">
+    <div v-if="teamFolder" class="py-3 px-5 text-left">
         <div class="info">
             <b class="title text-sm">
                 {{ teamFolder.data.attributes.name }}
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import TeamMembersPreview from './TeamMembersPreview'
+import TeamMembersPreview from './TeamMembersPreview.vue'
 import { mapGetters } from 'vuex'
 
 export default {

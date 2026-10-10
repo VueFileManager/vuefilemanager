@@ -4,15 +4,15 @@
 
         <PopupContent style="padding: 0 20px">
             <div class="mobile-actions">
-                <MobileActionButton @click.native="copyCodes" icon="copy">
+                <MobileActionButton @click="copyCodes" icon="copy">
                     {{ $t('copy') }}
                 </MobileActionButton>
 
-                <MobileActionButton @click.native="downloadCodes" icon="download">
+                <MobileActionButton @click="downloadCodes" icon="download">
                     {{ $t('download') }}
                 </MobileActionButton>
 
-                <MobileActionButton @click.native="regenerateCodes" icon="refresh">
+                <MobileActionButton @click="regenerateCodes" icon="refresh">
                     {{ $t('regenerate_codes') }}
                 </MobileActionButton>
             </div>
@@ -33,7 +33,7 @@
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="theme">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="theme">
                 {{ $t('awesome_iam_done') }}
             </ButtonBase>
         </PopupActions>
@@ -41,14 +41,14 @@
 </template>
 
 <script>
-import MobileActionButton from '../UI/Buttons/MobileActionButton'
-import PopupWrapper from '../Popups/Components/PopupWrapper'
-import PopupActions from '../Popups/Components/PopupActions'
-import PopupContent from '../Popups/Components/PopupContent'
-import PopupHeader from '../Popups/Components/PopupHeader'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import InfoBox from '../UI/Others/InfoBox'
-import Spinner from '../UI/Others/Spinner'
+import MobileActionButton from '../UI/Buttons/MobileActionButton.vue'
+import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../Popups/Components/PopupActions.vue'
+import PopupContent from '../Popups/Components/PopupContent.vue'
+import PopupHeader from '../Popups/Components/PopupHeader.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import InfoBox from '../UI/Others/InfoBox.vue'
+import Spinner from '../UI/Others/Spinner.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 import axios from 'axios'

@@ -8,8 +8,8 @@
                 :columns="columns"
                 class="overflow-x-auto"
             >
-                <template slot-scope="{ row }">
-                    <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-opacity-5">
+                <template #default="{ row }">
+                    <tr class="whitespace-nowrap border-b border-dashed border-light dark:border-light/5">
                         <td class="py-5 pr-3 md:pr-1">
                             <router-link
                                 :to="{
@@ -66,16 +66,16 @@
 </template>
 
 <script>
-import DatatableWrapper from '../../components/UI/Table/DatatableWrapper'
-import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
-import EmptyPageContent from '../../components/Others/EmptyPageContent'
-import SwitchInput from '../../components/Inputs/SwitchInput'
-import MobileHeader from '../../components/Mobile/MobileHeader'
-import SectionTitle from '../../components/UI/Labels/SectionTitle'
-import ButtonBase from '../../components/UI/Buttons/ButtonBase'
-import { Trash2Icon, Edit2Icon } from 'vue-feather-icons'
-import ColorLabel from '../../components/UI/Labels/ColorLabel'
-import Spinner from '../../components/UI/Others/Spinner'
+import DatatableWrapper from '../../components/UI/Table/DatatableWrapper.vue'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton.vue'
+import EmptyPageContent from '../../components/Others/EmptyPageContent.vue'
+import SwitchInput from '../../components/Inputs/SwitchInput.vue'
+import MobileHeader from '../../components/Mobile/MobileHeader.vue'
+import SectionTitle from '../../components/UI/Labels/SectionTitle.vue'
+import ButtonBase from '../../components/UI/Buttons/ButtonBase.vue'
+import { Trash2Icon, Edit2Icon } from '../../icons/feather.js'
+import ColorLabel from '../../components/UI/Labels/ColorLabel.vue'
+import Spinner from '../../components/UI/Others/Spinner.vue'
 
 export default {
     name: 'Pages',

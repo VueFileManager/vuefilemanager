@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import FileSortingOptions from './FileSortingOptions'
-import MenuMobileGroup from '../Mobile/MenuMobileGroup'
-import MenuMobile from '../Mobile/MenuMobile'
+import FileSortingOptions from './FileSortingOptions.vue'
+import MenuMobileGroup from '../Mobile/MenuMobileGroup.vue'
+import MenuMobile from '../Mobile/MenuMobile.vue'
 
 export default {
     name: 'FileSortingMobile',

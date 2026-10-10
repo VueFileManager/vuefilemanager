@@ -250,7 +250,7 @@
 </template>
 
 <script>
-import AlphabetIcon from '../../Icons/AlphabetIcon'
+import AlphabetIcon from '../../Icons/AlphabetIcon.vue'
 import {
 	Link2Icon,
     UserMinusIcon,
@@ -288,7 +288,7 @@ import {
     ListIcon,
     CalendarIcon,
     DatabaseIcon,
-} from 'vue-feather-icons'
+} from '../../../icons/feather.js'
 
 export default {
     name: 'Option',

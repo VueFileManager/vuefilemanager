@@ -31,8 +31,8 @@
     </div>
 </template>
 <script>
-import { CheckIcon } from 'vue-feather-icons'
-import CheckBox from '../Inputs/CheckBox'
+import { CheckIcon } from '../../icons/feather.js'
+import CheckBox from '../Inputs/CheckBox.vue'
 
 export default {
     name: 'PlanDetail',

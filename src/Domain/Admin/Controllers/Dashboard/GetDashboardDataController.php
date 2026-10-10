@@ -1,7 +1,7 @@
 <?php
 namespace Domain\Admin\Controllers\Dashboard;
 
-use ByteUnits\Metric;
+use Support\ByteUnits\Metric;
 use App\Users\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;

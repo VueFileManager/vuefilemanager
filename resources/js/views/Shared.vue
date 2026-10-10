@@ -45,25 +45,25 @@
 </template>
 
 <script>
-import MobileMultiSelectToolbar from '../components/Layout/Toolbars/MobileMultiSelectToolbar'
-import NavigationSharePanel from '../components/EntriesView/NavigationSharePanel'
-import FileSortingMobile from '../components/Menus/FileSortingMobile'
-import CreateFolderPopup from '../components/Popups/CreateFolderPopup'
-import ProcessingPopup from '../components/Popups/ProcessingPopup'
-import DesktopToolbar from '../components/Layout/Toolbars/DesktopToolbar'
-import RenameItemPopup from '../components/Popups/RenameItemPopup'
-import MobileToolbar from '../components/Layout/Toolbars/MobileToolbar'
-import FilePreview from '../components/FilePreview/FilePreview'
-import MoveItemPopup from '../components/Popups/MoveItemPopup'
-import InfoSidebar from '../components/Layout/Sidebars/InfoSidebar'
-import Spotlight from '../components/Spotlight/Spotlight'
-import Vignette from '../components/UI/Others/Vignette'
-import DragUI from '../components/UI/Others/DragUI'
-import Alert from '../components/Popups/Alert'
+import MobileMultiSelectToolbar from '../components/Layout/Toolbars/MobileMultiSelectToolbar.vue'
+import NavigationSharePanel from '../components/EntriesView/NavigationSharePanel.vue'
+import FileSortingMobile from '../components/Menus/FileSortingMobile.vue'
+import CreateFolderPopup from '../components/Popups/CreateFolderPopup.vue'
+import ProcessingPopup from '../components/Popups/ProcessingPopup.vue'
+import DesktopToolbar from '../components/Layout/Toolbars/DesktopToolbar.vue'
+import RenameItemPopup from '../components/Popups/RenameItemPopup.vue'
+import MobileToolbar from '../components/Layout/Toolbars/MobileToolbar.vue'
+import FilePreview from '../components/FilePreview/FilePreview.vue'
+import MoveItemPopup from '../components/Popups/MoveItemPopup.vue'
+import InfoSidebar from '../components/Layout/Sidebars/InfoSidebar.vue'
+import Spotlight from '../components/Spotlight/Spotlight.vue'
+import Vignette from '../components/UI/Others/Vignette.vue'
+import DragUI from '../components/UI/Others/DragUI.vue'
+import Alert from '../components/Popups/Alert.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../bus'
-import DesktopSharepageToolbar from '../components/Layout/Toolbars/DesktopSharepageToolbar'
-import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup";
+import DesktopSharepageToolbar from '../components/Layout/Toolbars/DesktopSharepageToolbar.vue'
+import RemoteUploadPopup from "../components/RemoteUpload/RemoteUploadPopup.vue";
 import {getFilesFromDataTransferItems} from "datatransfer-files-promise";
 
 export default {
@@ -115,7 +115,7 @@ export default {
         events.$on('mobile-menu:hide', () => (this.isScaledDown = false))
 
         this.$store
-            .dispatch('getShareDetail', this.$router.currentRoute.params.token)
+            .dispatch('getShareDetail', this.$route.params.token)
             .then(() => this.$store.dispatch('getFolderTree'))
     },
 }

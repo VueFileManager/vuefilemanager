@@ -2,24 +2,24 @@
     <div>
         <MobileContextMenu>
             <OptionGroup v-if="item">
-                <Option @click.native="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
-                <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                <Option @click="$renameFileOrFolder(item)" :title="$t('rename')" icon="rename" />
+                <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
             </OptionGroup>
             <OptionGroup v-if="item">
                 <Option
-                    @click.native="$shareFileOrFolder(item)"
+                    @click="$shareFileOrFolder(item)"
                     :title="item.data.relationships.shared ? $t('edit_sharing') : $t('share')"
                     icon="share"
                 />
                 <Option
-                    @click.native="$convertAsTeamFolder(item)"
+                    @click="$convertAsTeamFolder(item)"
                     v-if="isFolder"
                     :title="$t('convert_as_team_folder')"
                     icon="users"
                 />
 				<Option
-					@click.native="$createFileRequest(item)"
+					@click="$createFileRequest(item)"
 					v-if="isFolder"
 					:title="$t('file_request')"
 					icon="upload-cloud"
@@ -27,7 +27,7 @@
             </OptionGroup>
 
             <OptionGroup v-if="item">
-                <Option @click.native="$downloadSelection(item)" :title="$t('download')" icon="download" />
+                <Option @click="$downloadSelection(item)" :title="$t('download')" icon="download" />
             </OptionGroup>
         </MobileContextMenu>
 
@@ -39,7 +39,7 @@
                     :is-hover-disabled="true"
                 />
                 <Option
-                    @click.stop.native="$createFolderByPopup"
+                    @click.stop="$createFolderByPopup"
                     :title="$t('create_folder')"
                     icon="folder-plus"
                     :is-hover-disabled="true"
@@ -47,18 +47,18 @@
             </OptionGroup>
             <OptionGroup :title="$t('others')">
 				<Option
-					@click.stop.native="$openRemoteUploadPopup"
+					@click.stop="$openRemoteUploadPopup"
 					:title="$t('remote_upload')"
 					icon="remote-upload"
 				/>
                 <Option
-                    @click.stop.native="$createTeamFolder"
+                    @click.stop="$createTeamFolder"
                     :title="$t('create_team_folder')"
                     icon="users"
                     :is-hover-disabled="true"
                 />
 				<Option
-					@click.native="$createFileRequest"
+					@click="$createFileRequest"
 					:title="$t('create_file_request')"
 					icon="upload-cloud"
 					:is-hover-disabled="true"
@@ -68,21 +68,21 @@
 
         <MobileMultiSelectToolbar>
             <ToolbarButton
-                @click.native="$moveFileOrFolder(clipboard)"
+                @click="$moveFileOrFolder(clipboard)"
                 class="mr-4"
                 source="move"
                 :action="$t('move')"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
             />
             <ToolbarButton
-                @click.native="$deleteFileOrFolder()"
+                @click="$deleteFileOrFolder()"
                 class="mr-4"
                 source="trash"
                 :class="{ 'is-inactive': clipboard.length < 1 }"
                 :action="$t('delete')"
             />
             <ToolbarButton
-                @click.native="$downloadSelection(item)"
+                @click="$downloadSelection(item)"
                 source="download"
                 :action="$t('download_item')"
             />
@@ -96,7 +96,7 @@
                 </OptionGroup>
                 <OptionGroup>
                     <Option
-                        @click.native="$createFolder"
+                        @click="$createFolder"
                         :title="$t('create_folder')"
                         icon="create-folder"
                     />
@@ -106,7 +106,7 @@
             <template v-slot:single-select v-if="item">
                 <OptionGroup v-if="isFolder">
                     <Option
-                        @click.native="$toggleFavourites(item)"
+                        @click="$toggleFavourites(item)"
                         :title="
                             isInFavourites
                                 ? $t('remove_favourite')
@@ -117,38 +117,38 @@
                 </OptionGroup>
                 <OptionGroup>
                     <Option
-                        @click.native="$renameFileOrFolder(item)"
+                        @click="$renameFileOrFolder(item)"
                         :title="$t('rename')"
                         icon="rename"
                     />
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
                     <Option
-                        @click.native="$shareFileOrFolder(item)"
+                        @click="$shareFileOrFolder(item)"
                         :title="
                             item.data.relationships.shared ? $t('edit_sharing') : $t('share')
                         "
                         icon="share"
                     />
                     <Option
-                        @click.native="$convertAsTeamFolder(item)"
+                        @click="$convertAsTeamFolder(item)"
                         v-if="isFolder"
                         :title="$t('convert_as_team_folder')"
                         icon="user-plus"
                     />
                     <Option
-                        @click.native="$createFileRequest(item)"
+                        @click="$createFileRequest(item)"
                         v-if="isFolder"
                         :title="$t('file_request')"
                         icon="upload-cloud"
                     />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
+                    <Option @click="$openInDetailPanel(item)" :title="$t('detail')" icon="detail" />
                     <Option
-                        @click.native="$downloadSelection(item)"
+                        @click="$downloadSelection(item)"
                         :title="$t('download')"
                         icon="download"
                     />
@@ -158,7 +158,7 @@
             <template v-slot:multiple-select v-if="item">
                 <OptionGroup v-if="!hasFile">
                     <Option
-                        @click.native="$toggleFavourites(item)"
+                        @click="$toggleFavourites(item)"
                         :title="
                             isInFavourites
                                 ? $t('remove_favourite')
@@ -168,32 +168,32 @@
                     />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
-                    <Option @click.native="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
+                    <Option @click="$moveFileOrFolder(item)" :title="$t('move')" icon="move-item" />
+                    <Option @click="$deleteFileOrFolder(item)" :title="$t('delete')" icon="trash" />
                 </OptionGroup>
                 <OptionGroup>
-                    <Option @click.native="$downloadSelection()" :title="$t('download')" icon="download" />
+                    <Option @click="$downloadSelection()" :title="$t('download')" icon="download" />
                 </OptionGroup>
             </template>
         </ContextMenu>
 
         <FileActionsMobile>
-            <MobileActionButton @click.native="$openSpotlight()" icon="search">
+            <MobileActionButton @click="$openSpotlight()" icon="search">
                 {{ $t('spotlight') }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$showMobileMenu('file-filter')" icon="filter">
+            <MobileActionButton @click="$showMobileMenu('file-filter')" icon="filter">
                 {{ $getCurrentSectionName() }}
             </MobileActionButton>
             <MobileActionButton
-                @click.native="$showMobileMenu('create-list')"
+                @click="$showMobileMenu('create-list')"
                 icon="cloud-plus"
             >
                 {{ $t('upload_or_create') }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$enableMultiSelectMode" icon="check-square">
+            <MobileActionButton @click="$enableMultiSelectMode" icon="check-square">
                 {{ $t('select') }}
             </MobileActionButton>
-            <MobileActionButton @click.native="$showMobileMenu('file-sorting')" icon="preview-sorting">
+            <MobileActionButton @click="$showMobileMenu('file-sorting')" icon="preview-sorting">
                 {{ $t('preview_sorting.preview_sorting_button') }}
             </MobileActionButton>
         </FileActionsMobile>
@@ -215,19 +215,19 @@
 </template>
 
 <script>
-import EmptyFilePage from '../../components/EntriesView/EmptyFilePage'
-import FileActionsMobile from '../../components/Mobile/FileActionsMobile'
-import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar'
-import MobileActionButton from '../../components/UI/Buttons/MobileActionButton'
-import MobileContextMenu from '../../components/Menus/MobileContextMenu'
-import MobileCreateMenu from '../../components/Menus/MobileCreateMenu'
-import ButtonUpload from '../../components/UI/Buttons/ButtonUpload'
-import ToolbarButton from '../../components/UI/Buttons/ToolbarButton'
-import OptionUpload from '../../components/Menus/Components/OptionUpload'
-import FileBrowser from '../../components/EntriesView/FileBrowser'
-import ContextMenu from '../../components/Menus/ContextMenu'
-import OptionGroup from '../../components/Menus/Components/OptionGroup'
-import Option from '../../components/Menus/Components/Option'
+import EmptyFilePage from '../../components/EntriesView/EmptyFilePage.vue'
+import FileActionsMobile from '../../components/Mobile/FileActionsMobile.vue'
+import MobileMultiSelectToolbar from '../../components/Layout/Toolbars/MobileMultiSelectToolbar.vue'
+import MobileActionButton from '../../components/UI/Buttons/MobileActionButton.vue'
+import MobileContextMenu from '../../components/Menus/MobileContextMenu.vue'
+import MobileCreateMenu from '../../components/Menus/MobileCreateMenu.vue'
+import ButtonUpload from '../../components/UI/Buttons/ButtonUpload.vue'
+import ToolbarButton from '../../components/UI/Buttons/ToolbarButton.vue'
+import OptionUpload from '../../components/Menus/Components/OptionUpload.vue'
+import FileBrowser from '../../components/EntriesView/FileBrowser.vue'
+import ContextMenu from '../../components/Menus/ContextMenu.vue'
+import OptionGroup from '../../components/Menus/Components/OptionGroup.vue'
+import Option from '../../components/Menus/Components/Option.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'
 

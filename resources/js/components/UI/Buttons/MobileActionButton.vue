@@ -57,9 +57,9 @@ import {
     UserPlusIcon,
     PlusIcon,
     CreditCardIcon,
-} from 'vue-feather-icons'
-import CloudPlusIcon from '../../Icons/CloudPlusIcon'
-import SortingIcon from '../../Icons/SortingIcon'
+} from '../../../icons/feather.js'
+import CloudPlusIcon from '../../Icons/CloudPlusIcon.vue'
+import SortingIcon from '../../Icons/SortingIcon.vue'
 
 export default {
     name: 'MobileActionButton',

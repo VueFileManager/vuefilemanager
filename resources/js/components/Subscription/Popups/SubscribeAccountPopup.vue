@@ -31,7 +31,7 @@
                     }"
                 >
                     <PaymentMethod
-                        @click.native.once="payByPayPal"
+                        @click.once="payByPayPal"
                         driver="paypal"
                         :description="$t(config.paypal_payment_description)"
                     >
@@ -71,7 +71,7 @@
             </PopupContent>
 
             <PopupActions>
-                <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+                <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                     {{ $t('cancel_payment') }}
                 </ButtonBase>
             </PopupActions>
@@ -80,7 +80,7 @@
         <!--Select Payment Plans-->
         <div v-if="!isPaymentOptionPage">
             <PopupContent v-if="plans">
-                <InfoBox v-if="plans.data.length === 0" class="!mb-0">
+                <InfoBox v-if="plans.data.length === 0" class="mb-0!">
                     <p>There isn't any plan yet.</p>
                 </InfoBox>
 
@@ -89,27 +89,26 @@
                 <!--List available plans-->
                 <div>
                     <PlanDetail
-                        v-for="(plan, i) in plans.data"
+                        v-for="plan in plans.data.filter((plan) => plan.data.attributes.interval === intervalPlanType)"
                         :plan="plan"
                         :key="plan.data.id"
-                        v-if="plan.data.attributes.interval === intervalPlanType"
                         :class="{ 'pointer-events-none opacity-50': userSubscribedPlanId === plan.data.id }"
                         :is-selected="selectedPlan && selectedPlan.data.id === plan.data.id"
-                        @click.native="selectPlan(plan)"
+                        @click="selectPlan(plan)"
                     />
                 </div>
             </PopupContent>
 
             <!--Actions-->
             <PopupActions>
-                <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+                <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary"
                     >{{ $t('cancel') }}
                 </ButtonBase>
                 <ButtonBase
                     class="w-full"
                     v-if="plans && plans.data.length !== 0"
                     :button-style="buttonStyle"
-                    @click.native="isPaymentOptionPage = true"
+                    @click="isPaymentOptionPage = true"
                     >{{ $t('upgrade_account') }}
                 </ButtonBase>
             </PopupActions>
@@ -118,21 +117,21 @@
 </template>
 
 <script>
-import PaymentMethod from '../PaymentMethod'
+import PaymentMethod from '../PaymentMethod.vue'
 import { loadScript } from '@paypal/paypal-js'
-import SwitchInput from '../../Inputs/SwitchInput'
-import PopupWrapper from '../../Popups/Components/PopupWrapper'
-import PopupActions from '../../Popups/Components/PopupActions'
-import PopupContent from '../../Popups/Components/PopupContent'
-import PopupHeader from '../../Popups/Components/PopupHeader'
-import ButtonBase from '../../UI/Buttons/ButtonBase'
-import PlanDetail from '../PlanDetail'
+import SwitchInput from '../../Inputs/SwitchInput.vue'
+import PopupWrapper from '../../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../../Popups/Components/PopupActions.vue'
+import PopupContent from '../../Popups/Components/PopupContent.vue'
+import PopupHeader from '../../Popups/Components/PopupHeader.vue'
+import ButtonBase from '../../UI/Buttons/ButtonBase.vue'
+import PlanDetail from '../PlanDetail.vue'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'
 import axios from 'axios'
-import Spinner from '../../UI/Others/Spinner'
-import InfoBox from '../../UI/Others/InfoBox'
-import PlanPeriodSwitcher from '../PlanPeriodSwitcher'
+import Spinner from '../../UI/Others/Spinner.vue'
+import InfoBox from '../../UI/Others/InfoBox.vue'
+import PlanPeriodSwitcher from '../PlanPeriodSwitcher.vue'
 
 
 export default {
@@ -216,7 +215,7 @@ export default {
 
             try {
                 paypal = await loadScript({
-                    'client-id': this.config.paypal_client_id,
+                    clientId: this.config.paypal_client_id,
                     vault: true,
                 })
             } catch (error) {

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import PageTitle from './Components/PageTitle'
+import PageTitle from './Components/PageTitle.vue'
 import {
     ChevronRightIcon,
     UploadCloudIcon,
@@ -61,7 +61,7 @@ import {
     LinkIcon,
     StarIcon,
     EyeIcon,
-} from 'vue-feather-icons'
+} from '../../icons/feather.js'
 import { mapGetters } from 'vuex'
 
 export default {

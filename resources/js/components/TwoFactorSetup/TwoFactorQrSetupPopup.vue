@@ -16,7 +16,7 @@
                     <AppInputText :title="$t('confirm')" :error="errors[0]" :is-last="true">
                         <input
 							v-model="code"
-							:class="{ '!border-rose-600': errors[0] }"
+							:class="{ 'border-rose-600!': errors[0] }"
 							type="text"
 							ref="input"
 							class="focus-border-theme input-dark"
@@ -29,7 +29,7 @@
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase @click.native="confirm2FaSetup" class="w-full" button-style="theme" :loading="isLoading">
+            <ButtonBase @click="confirm2FaSetup" class="w-full" button-style="theme" :loading="isLoading">
                 {{ $t('confirm_your_code') }}
             </ButtonBase>
         </PopupActions>
@@ -37,15 +37,14 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import { required } from 'vee-validate/dist/rules'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import AppInputText from '../Forms/Layouts/AppInputText'
-import PopupWrapper from '../Popups/Components/PopupWrapper'
-import PopupActions from '../Popups/Components/PopupActions'
-import PopupContent from '../Popups/Components/PopupContent'
-import PopupHeader from '../Popups/Components/PopupHeader'
-import InfoBox from '../UI/Others/InfoBox'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../Popups/Components/PopupActions.vue'
+import PopupContent from '../Popups/Components/PopupContent.vue'
+import PopupHeader from '../Popups/Components/PopupHeader.vue'
+import InfoBox from '../UI/Others/InfoBox.vue'
 import { events } from '../../bus'
 import axios from 'axios'
 
@@ -60,7 +59,6 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
         InfoBox,
     },
     data() {

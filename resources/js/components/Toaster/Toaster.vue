@@ -1,10 +1,10 @@
 <template>
     <transition appear name="fade">
         <div
-            class="relative w-full overflow-hidden rounded-xl bg-opacity-80 p-4 shadow-lg backdrop-blur-2xl"
+            class="relative w-full overflow-hidden rounded-xl p-4 shadow-lg backdrop-blur-2xl"
             :class="{
-                'bg-red-50 dark:bg-2x-dark-foreground': item.type === 'danger',
-                'bg-green-50 dark:bg-2x-dark-foreground': item.type === 'success',
+                'bg-red-50/80 dark:bg-2x-dark-foreground/80': item.type === 'danger',
+                'bg-green-50/80 dark:bg-2x-dark-foreground/80': item.type === 'success',
             }"
         >
             <!--Content-->
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { CheckIcon, XIcon } from 'vue-feather-icons'
+import { CheckIcon, XIcon } from '../../icons/feather.js'
 
 export default {
 	name: 'Toaster',

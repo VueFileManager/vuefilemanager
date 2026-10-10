@@ -14,7 +14,7 @@
 
         <ButtonBase
             v-if="$store.getters.config.allowed_payments"
-            @click.native="$openSubscribeOptions"
+            @click="$openSubscribeOptions"
             type="submit"
             button-style="theme"
             class="mt-4 w-full"
@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import InfoBox from '../UI/Others/InfoBox'
-import FormLabel from '../UI/Labels/FormLabel'
-import ButtonBase from '../UI/Buttons/ButtonBase'
+import InfoBox from '../UI/Others/InfoBox.vue'
+import FormLabel from '../UI/Labels/FormLabel.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 
 export default {
     name: 'UserEmptySubscription',

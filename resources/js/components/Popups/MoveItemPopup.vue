@@ -16,7 +16,7 @@
                     class="mb-4"
                     icon="check-square"
                     :title="$t('selected_multiple')"
-                    :subtitle="clipboard.length + ' ' + $tc('items', clipboard.length)"
+                    :subtitle="clipboard.length + ' ' + $t('items', clipboard.length)"
                     v-if="clipboard.length > 1 && !isSelectedItem"
                 />
 
@@ -33,10 +33,10 @@
 
         <!--Actions-->
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary"
                 >{{ $t('cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="moveItem" :button-style="selectedFolder ? 'theme' : 'secondary'"
+            <ButtonBase class="w-full" @click="moveItem" :button-style="selectedFolder ? 'theme' : 'secondary'"
                 >{{ $t('popup_move_item.submit') }}
             </ButtonBase>
         </PopupActions>
@@ -44,15 +44,15 @@
 </template>
 
 <script>
-import PopupWrapper from './Components/PopupWrapper'
-import PopupActions from './Components/PopupActions'
-import TitlePreview from '../UI/Labels/TitlePreview'
-import PopupContent from './Components/PopupContent'
-import PopupHeader from './Components/PopupHeader'
-import ThumbnailItem from '../UI/Entries/ThumbnailItem'
-import ButtonBase from '../UI/Buttons/ButtonBase'
-import Spinner from '../UI/Others/Spinner'
-import TreeMenu from '../UI/Trees/TreeMenu'
+import PopupWrapper from './Components/PopupWrapper.vue'
+import PopupActions from './Components/PopupActions.vue'
+import TitlePreview from '../UI/Labels/TitlePreview.vue'
+import PopupContent from './Components/PopupContent.vue'
+import PopupHeader from './Components/PopupHeader.vue'
+import ThumbnailItem from '../UI/Entries/ThumbnailItem.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
+import Spinner from '../UI/Others/Spinner.vue'
+import TreeMenu from '../UI/Trees/TreeMenu.vue'
 import { isArray } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '../../bus'

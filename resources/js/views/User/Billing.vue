@@ -72,18 +72,18 @@
 </template>
 
 <script>
-import UserUpdatePaymentMethodsExternally from '../../components/Subscription/UserUpdatePaymentMethodsExternally'
-import UserTransactionsForMeteredBilling from '../../components/Subscription/UserTransactionsForMeteredBilling'
-import UserTransactionsForFixedBilling from '../../components/Subscription/UserTransactionsForFixedBilling'
-import UserFixedSubscriptionDetail from '../../components/Subscription/UserFixedSubscriptionDetail'
-import UserStoredPaymentMethods from '../../components/Subscription/UserStoredPaymentMethods'
-import UserEmptySubscription from '../../components/Subscription/UserEmptySubscription'
-import UserEditSubscription from '../../components/Subscription/UserEditSubscription'
-import UserFailedPayments from '../../components/Subscription/UserFailedPayments'
-import UserUsageEstimates from '../../components/Subscription/UserUsageEstimates'
-import UserBillingAlerts from '../../components/Subscription/UserBillingAlerts'
-import PageTab from '../../components/Layout/PageTab'
-import UserBalance from '../../components/Subscription/UserBalance'
+import UserUpdatePaymentMethodsExternally from '../../components/Subscription/UserUpdatePaymentMethodsExternally.vue'
+import UserTransactionsForMeteredBilling from '../../components/Subscription/UserTransactionsForMeteredBilling.vue'
+import UserTransactionsForFixedBilling from '../../components/Subscription/UserTransactionsForFixedBilling.vue'
+import UserFixedSubscriptionDetail from '../../components/Subscription/UserFixedSubscriptionDetail.vue'
+import UserStoredPaymentMethods from '../../components/Subscription/UserStoredPaymentMethods.vue'
+import UserEmptySubscription from '../../components/Subscription/UserEmptySubscription.vue'
+import UserEditSubscription from '../../components/Subscription/UserEditSubscription.vue'
+import UserFailedPayments from '../../components/Subscription/UserFailedPayments.vue'
+import UserUsageEstimates from '../../components/Subscription/UserUsageEstimates.vue'
+import UserBillingAlerts from '../../components/Subscription/UserBillingAlerts.vue'
+import PageTab from '../../components/Layout/PageTab.vue'
+import UserBalance from '../../components/Subscription/UserBalance.vue'
 import { mapGetters } from 'vuex'
 
 export default {

@@ -16,7 +16,7 @@
 							class="focus-border-theme input-dark whitespace-nowrap"
 							rows="6"
 							:placeholder="$t('paste_remote_links_here')"
-							:class="{ '!border-rose-600': errors[0] }"
+							:class="{ 'border-rose-600!': errors[0] }"
 							ref="textarea"
 						>
 						</textarea>
@@ -26,10 +26,10 @@
         </PopupContent>
 
         <PopupActions>
-            <ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary">
+            <ButtonBase class="w-full" @click="$closePopup()" button-style="secondary">
                 {{ $t('cancel') }}
             </ButtonBase>
-            <ButtonBase class="w-full" @click.native="upload" button-style="theme" :loading="loading">
+            <ButtonBase class="w-full" @click="upload" button-style="theme" :loading="loading">
                 {{ $t('upload') }}
             </ButtonBase>
         </PopupActions>
@@ -37,14 +37,13 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import PopupWrapper from '../Popups/Components/PopupWrapper'
-import PopupContent from '../Popups/Components/PopupContent'
-import PopupActions from '../Popups/Components/PopupActions'
-import PopupHeader from '../Popups/Components/PopupHeader'
-import AppInputText from '../Forms/Layouts/AppInputText'
-import { required } from 'vee-validate/dist/rules'
-import ButtonBase from '../UI/Buttons/ButtonBase'
+import { ValidationProvider, ValidationObserver } from '../Validation/index.js'
+import PopupWrapper from '../Popups/Components/PopupWrapper.vue'
+import PopupContent from '../Popups/Components/PopupContent.vue'
+import PopupActions from '../Popups/Components/PopupActions.vue'
+import PopupHeader from '../Popups/Components/PopupHeader.vue'
+import AppInputText from '../Forms/Layouts/AppInputText.vue'
+import ButtonBase from '../UI/Buttons/ButtonBase.vue'
 import { events } from '../../bus'
 import i18n from "../../i18n";
 
@@ -53,7 +52,6 @@ export default {
     components: {
 		ValidationProvider,
 		ValidationObserver,
-		required,
         PopupWrapper,
         PopupContent,
         PopupHeader,
@@ -84,7 +82,7 @@ export default {
 			if (this.$store.getters.config.isDemo && this.$store.getters.user.data.attributes.email === 'ho**@hi5ve.digital') {
 				events.$emit('toaster', {
 					type: 'success',
-					message: i18n.t('remote_download_finished'),
+					message: i18n.global.t('remote_download_finished'),
 				})
 
 				events.$emit('popup:close')
@@ -105,9 +103,9 @@ export default {
 
 			// Get route
 			let route = {
-				RequestUpload: `/api/file-request/${this.$router.currentRoute.params.token}/upload/remote`,
-				Public: `/api/sharing/upload/remote/${this.$router.currentRoute.params.token}`,
-			}[this.$router.currentRoute.name] || '/api/upload/remote'
+				RequestUpload: `/api/file-request/${this.$route.params.token}/upload/remote`,
+				Public: `/api/sharing/upload/remote/${this.$route.params.token}`,
+			}[this.$route.name] || '/api/upload/remote'
 
 			let parentId = this.$store.getters.currentFolder
 				? this.$store.getters.currentFolder.data.id
@@ -128,7 +126,7 @@ export default {
 
 						events.$emit('toaster', {
 							type: 'success',
-							message: i18n.t('remote_download_finished'),
+							message: i18n.global.t('remote_download_finished'),
 						})
 					}
 

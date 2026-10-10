@@ -4,44 +4,25 @@ namespace App\Users\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset emails and
-    | includes a trait which assists in sending these notifications from
-    | your application to your users. Feel free to explore this trait.
-    |
-    */
-
-    use SendsPasswordResetEmails;
-
     /**
-     * Get the response for a successful password reset link.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * Send a reset link to the given user.
      */
-    protected function sendResetLinkResponse(Request $request, $response)
+    public function sendResetLinkEmail(Request $request)
     {
-        return response(['message' => Lang::get($response)]);
-    }
+        $request->validate([
+            'email' => 'required|email',
+        ]);
 
-    /**
-     * Get the response for a failed password reset link.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $response
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
-     */
-    protected function sendResetLinkFailedResponse(Request $request, $response)
-    {
-        return response(['message' => Lang::get($response)], 422);
+        $response = Password::broker()->sendResetLink(
+            $request->only('email')
+        );
+
+        return $response === Password::RESET_LINK_SENT
+            ? response(['message' => Lang::get($response)])
+            : response(['message' => Lang::get($response)], 422);
     }
 }

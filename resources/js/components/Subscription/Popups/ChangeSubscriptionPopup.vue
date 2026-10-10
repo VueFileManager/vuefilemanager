@@ -4,7 +4,7 @@
 
         <!--Select Payment Plans-->
 		<PopupContent v-if="plans">
-			<InfoBox v-if="plans.data.length === 0" class="!mb-0">
+			<InfoBox v-if="plans.data.length === 0" class="mb-0!">
 				<p>{{ $t("not_any_plan") }}</p>
 			</InfoBox>
 
@@ -14,20 +14,19 @@
 			<!--List available plans-->
 			<div>
 				<PlanDetail
-					v-for="(plan, i) in plans.data"
+					v-for="plan in plans.data.filter((plan) => plan.data.attributes.interval === intervalPlanType)"
 					:plan="plan"
 					:key="plan.data.id"
-					v-if="plan.data.attributes.interval === intervalPlanType"
 					:class="{'opacity-50 pointer-events-none': userSubscribedPlanId === plan.data.id}"
 					:is-selected="selectedPlan && selectedPlan.data.id === plan.data.id"
-					@click.native="selectPlan(plan)"
+					@click="selectPlan(plan)"
 				/>
 			</div>
 		</PopupContent>
 
 		<!--Actions-->
 		<PopupActions>
-			<ButtonBase class="w-full" @click.native="$closePopup()" button-style="secondary"
+			<ButtonBase class="w-full" @click="$closePopup()" button-style="secondary"
 				>{{ $t('cancel') }}
 			</ButtonBase>
 
@@ -36,7 +35,7 @@
 				v-if="plans && plans.data.length !== 0"
 				:button-style="buttonStyle"
 				:loading="isLoading"
-				@click.native="proceedToPayment"
+				@click="proceedToPayment"
 				>{{ $t('change_plan') }}
 			</ButtonBase>
 		</PopupActions>
@@ -44,18 +43,18 @@
 </template>
 
 <script>
-import PopupWrapper from '../../Popups/Components/PopupWrapper'
-import PopupActions from '../../Popups/Components/PopupActions'
-import PopupContent from '../../Popups/Components/PopupContent'
-import PopupHeader from '../../Popups/Components/PopupHeader'
-import ButtonBase from '../../UI/Buttons/ButtonBase'
-import PlanDetail from '../PlanDetail'
+import PopupWrapper from '../../Popups/Components/PopupWrapper.vue'
+import PopupActions from '../../Popups/Components/PopupActions.vue'
+import PopupContent from '../../Popups/Components/PopupContent.vue'
+import PopupHeader from '../../Popups/Components/PopupHeader.vue'
+import ButtonBase from '../../UI/Buttons/ButtonBase.vue'
+import PlanDetail from '../PlanDetail.vue'
 import {mapGetters} from 'vuex'
 import {events} from '../../../bus'
 import axios from 'axios'
-import Spinner from '../../UI/Others/Spinner'
-import InfoBox from '../../UI/Others/InfoBox'
-import PlanPeriodSwitcher from "../PlanPeriodSwitcher";
+import Spinner from '../../UI/Others/Spinner.vue'
+import InfoBox from '../../UI/Others/InfoBox.vue'
+import PlanPeriodSwitcher from "../PlanPeriodSwitcher.vue";
 
 export default {
     name: 'ChangeSubscriptionPopup',

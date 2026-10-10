@@ -1,6 +1,7 @@
 <?php
 namespace Tests\App\Restrictions;
 
+use PHPUnit\Framework\Attributes\Test;
 use Illuminate\Http\UploadedFile;
 use Storage;
 use Str;
@@ -24,9 +25,7 @@ class FixedBillingRestrictionsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_upload()
     {
         $user = User::factory()
@@ -36,9 +35,7 @@ class FixedBillingRestrictionsTest extends TestCase
         $this->assertEquals(true, $user->canUpload(9999999));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_upload_because_storage_limit_exceeded()
     {
         $user = User::factory()
@@ -54,9 +51,7 @@ class FixedBillingRestrictionsTest extends TestCase
         $this->assertEquals(false, $user->canUpload(999999999));
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_create_new_folder()
     {
         $user = User::factory()
@@ -75,9 +70,7 @@ class FixedBillingRestrictionsTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_cant_invite_team_members_into_team_folder_because_user_exceeded_members_limit()
     {
         $user = User::factory()
@@ -161,9 +154,7 @@ class FixedBillingRestrictionsTest extends TestCase
             ->assertCreated();
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_get_private_file()
     {
         $user = User::factory()
@@ -189,9 +180,7 @@ class FixedBillingRestrictionsTest extends TestCase
             ->assertStatus(404);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_get_shared_file()
     {
         $user = User::factory()
@@ -218,9 +207,7 @@ class FixedBillingRestrictionsTest extends TestCase
             ->assertStatus(404);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_can_get_share_page()
     {
         $user = User::factory()

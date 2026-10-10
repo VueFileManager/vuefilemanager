@@ -1,9 +1,9 @@
 <template>
     <AuthContentWrapper ref="auth">
         <!--Server Check-->
-        <AuthContent :visible="true" class="mt-6 mb-12 !max-w-2xl">
+        <AuthContent :visible="true" class="mt-6 mb-12 max-w-2xl!">
             <Headline
-                class="mx-auto !mb-10 max-w-screen-sm"
+                class="mx-auto mb-10! max-w-(--breakpoint-sm)"
                 title="Server Check"
                 description="At first, we have to check if all modules and setup is ready for running VueFileManager"
             >
@@ -17,7 +17,7 @@
             <div class="card shadow-card">
                 <FormLabel>PHP Setup</FormLabel>
 
-                <InfoBox class="!mb-2">
+                <InfoBox class="mb-2!">
                     <p>
                         Those PHP settings are needed for accurate running VueFileManager on your server, please check
                         and tweak in your php.ini if needed.
@@ -25,7 +25,7 @@
                 </InfoBox>
 
                 <div
-                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
                 >
                     <div class="text-left">
                         <b class="block text-sm font-bold">PHP Version</b>
@@ -49,7 +49,7 @@
                 <div
                     v-for="(values, setting, i) in ini"
                     :key="i"
-                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
                 >
                     <div class="text-left">
                         <b class="block text-sm font-bold">{{ setting }}</b>
@@ -72,7 +72,7 @@
             <div class="card shadow-card">
                 <FormLabel> Required PHP Extensions </FormLabel>
 
-                <InfoBox class="!mb-2">
+                <InfoBox class="mb-2!">
                     <p>
                         Those PHP modules are needed for accurate running VueFileManager on your server, please check
                         and install if some is missing.
@@ -83,7 +83,7 @@
                     v-if="modules"
                     v-for="(value, module, i) in modules"
                     :key="i"
-                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+                    class="flex items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
                 >
                     <b class="text-sm font-bold">
                         {{ module }}
@@ -106,7 +106,7 @@
 				<div
 					v-for="(isWritable, file, i) in writable"
 					:key="i"
-					class="flex items-center md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-opacity-5"
+					class="flex items-center md:space-y-0 space-y-3 items-center justify-between border-b border-dashed border-light py-3 dark:border-light/5"
 				>
 					<div class="text-left">
 						<b class="block text-sm font-bold">/{{ file }}</b>
@@ -126,7 +126,7 @@
             <div class="card shadow-card">
                 <FormLabel> API </FormLabel>
 
-                <InfoBox class="!mb-2">
+                <InfoBox class="mb-2!">
                     <p>The check, if your domain is set correctly.</p>
                 </InfoBox>
 
@@ -158,7 +158,7 @@
 			</InfoBox>
 
             <AuthButton
-                @click.native="lastCheckBeforeNextPage"
+                @click="lastCheckBeforeNextPage"
                 class="w-full justify-center"
                 icon="chevron-right"
                 text="Awesome, I'm done!"
@@ -170,19 +170,18 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
-import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper'
-import SelectInput from '../../components/Inputs/SelectInput'
-import FormLabel from '../../components/UI/Labels/FormLabel'
-import InfoBox from '../../components/UI/Others/InfoBox'
-import AuthContent from '../../components/Layout/AuthPages/AuthContent'
-import AuthButton from '../../components/UI/Buttons/AuthButton'
-import { required } from 'vee-validate/dist/rules'
-import Headline from '../../components/UI/Labels/LogoHeadline'
+import { ValidationProvider, ValidationObserver } from '../../components/Validation/index.js'
+import AuthContentWrapper from '../../components/Layout/AuthPages/AuthContentWrapper.vue'
+import SelectInput from '../../components/Inputs/SelectInput.vue'
+import FormLabel from '../../components/UI/Labels/FormLabel.vue'
+import InfoBox from '../../components/UI/Others/InfoBox.vue'
+import AuthContent from '../../components/Layout/AuthPages/AuthContent.vue'
+import AuthButton from '../../components/UI/Buttons/AuthButton.vue'
+import Headline from '../../components/UI/Labels/LogoHeadline.vue'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
-import { CheckIcon, XIcon, SettingsIcon } from 'vue-feather-icons'
-import AlertBox from "../../components/UI/Others/AlertBox";
+import { CheckIcon, XIcon, SettingsIcon } from '../../icons/feather.js'
+import AlertBox from "../../components/UI/Others/AlertBox.vue";
 
 export default {
     name: 'StatusCheck',
@@ -196,7 +195,6 @@ export default {
         AuthContent,
         AuthButton,
         FormLabel,
-        required,
         InfoBox,
         CheckIcon,
         Headline,
@@ -204,16 +202,16 @@ export default {
     },
     computed: {
         modules() {
-            return this.$root.$data.config.statusCheck.modules
+            return config.statusCheck.modules
         },
         ini() {
-            return this.$root.$data.config.statusCheck.ini
+            return config.statusCheck.ini
         },
         phpVersion() {
-            return this.$root.$data.config.statusCheck.php_version
+            return config.statusCheck.php_version
         },
         writable() {
-            return this.$root.$data.config.statusCheck.writable
+            return config.statusCheck.writable
         },
         isCheckedAPI() {
             return typeof this.apiRunning !== 'undefined'
@@ -228,15 +226,15 @@ export default {
     },
     methods: {
         lastCheckBeforeNextPage() {
-            let modulesCheck = Object.values(this.$root.$data.config.statusCheck.modules).every(
+            let modulesCheck = Object.values(config.statusCheck.modules).every(
                 (module) => module === true
             )
 
-            let iniCheck = Object.values(this.$root.$data.config.statusCheck.ini).every(
+            let iniCheck = Object.values(config.statusCheck.ini).every(
                 (setting) => setting.status === true
             )
 
-            let writeCheck = Object.values(this.$root.$data.config.statusCheck.writable).every(
+            let writeCheck = Object.values(config.statusCheck.writable).every(
                 (directory) => directory === true
             )
 

@@ -160,7 +160,7 @@
                     <AppInputText :error="errors[0]" :title="$t('Site Key')">
                         <input
 							v-model="recaptcha.credentials.client_id"
-							:class="{ '!border-rose-600': errors[0] }"
+							:class="{ 'border-rose-600!': errors[0] }"
 							:placeholder="$t('Paste your Site Key here')"
 							class="focus-border-theme input-dark"
 							type="text"
@@ -172,7 +172,7 @@
                     <AppInputText :error="errors[0]" :title="$t('Secret Key')">
                         <input
 							v-model="recaptcha.credentials.client_secret"
-							:class="{ '!border-rose-600': errors[0] }"
+							:class="{ 'border-rose-600!': errors[0] }"
 							:placeholder="$t('Paste your Secret key here')"
 							class="focus-border-theme input-dark"
 							type="text"
@@ -207,7 +207,7 @@
 					:loading="isFlushingCache"
 					button-style="theme"
 					class="w-full sm:w-auto"
-					@click.native="flushCache"
+					@click="flushCache"
 				>
                     {{ $t('clear_cache') }}
                 </ButtonBase>
@@ -237,20 +237,19 @@
 </template>
 
 <script>
-import {Edit2Icon} from 'vue-feather-icons'
-import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
-import SwitchInput from '../../../../components/Inputs/SwitchInput'
-import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton'
-import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch'
-import FormLabel from '../../../../components/UI/Labels/FormLabel'
-import ButtonBase from '../../../../components/UI/Buttons/ButtonBase'
-import AppInputText from '../../../../components/Forms/Layouts/AppInputText'
-import PageTab from '../../../../components/Layout/PageTab'
-import {required} from 'vee-validate/dist/rules'
+import {Edit2Icon} from '../../../../icons/feather.js'
+import {ValidationProvider, ValidationObserver} from '../../../../components/Validation/index.js'
+import SwitchInput from '../../../../components/Inputs/SwitchInput.vue'
+import AppInputButton from '../../../../components/Forms/Layouts/AppInputButton.vue'
+import AppInputSwitch from '../../../../components/Forms/Layouts/AppInputSwitch.vue'
+import FormLabel from '../../../../components/UI/Labels/FormLabel.vue'
+import ButtonBase from '../../../../components/UI/Buttons/ButtonBase.vue'
+import AppInputText from '../../../../components/Forms/Layouts/AppInputText.vue'
+import PageTab from '../../../../components/Layout/PageTab.vue'
 import {events} from '../../../../bus'
 import {mapGetters} from 'vuex'
 import axios from 'axios'
-import SelectInput from "../../../../components/Inputs/SelectInput";
+import SelectInput from "../../../../components/Inputs/SelectInput.vue";
 
 export default {
 	name: 'AppOthers',
@@ -265,7 +264,6 @@ export default {
 		ButtonBase,
 		Edit2Icon,
 		FormLabel,
-		required,
 		PageTab,
 	},
 	computed: {
@@ -394,7 +392,7 @@ export default {
 			}
 		})
 	},
-	destroyed() {
+	unmounted() {
 		events.$off('action:confirmed')
 	},
 }

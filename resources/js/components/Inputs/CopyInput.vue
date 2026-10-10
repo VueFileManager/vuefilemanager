@@ -1,6 +1,6 @@
 <template>
     <div @click="copyUrl" class="relative flex items-center">
-        <input ref="sel" :value="str" :id="id" type="text" class="focus-border-theme input-dark !pr-10" readonly />
+        <input ref="sel" :value="str" :id="id" type="text" class="focus-border-theme input-dark pr-10!" readonly />
 
         <!--Copy icon-->
         <div class="absolute right-0 px-4">
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { CopyIcon, CheckIcon, SendIcon } from 'vue-feather-icons'
+import { CopyIcon, CheckIcon, SendIcon } from '../../icons/feather.js'
 
 export default {
     name: 'CopyInput',

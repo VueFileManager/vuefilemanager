@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Trash;
 
+use PHPUnit\Framework\Attributes\Test;
 use Storage;
 use Tests\TestCase;
 use App\Users\Models\User;
@@ -11,9 +12,7 @@ use Illuminate\Http\UploadedFile;
 
 class TrashTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_restore_items_from_trash()
     {
         $user = User::factory()
@@ -55,9 +54,7 @@ class TrashTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_dump_trash()
     {
         $user = User::factory()

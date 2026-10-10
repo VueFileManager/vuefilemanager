@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { DownloadIcon, CameraIcon, CopyIcon, CheckIcon, SendIcon, MoreHorizontalIcon, CodeIcon } from 'vue-feather-icons'
+import { DownloadIcon, CameraIcon, CopyIcon, CheckIcon, SendIcon, MoreHorizontalIcon, CodeIcon } from '../../icons/feather.js'
 import { events } from '../../bus'
 
 export default {

@@ -1,7 +1,7 @@
 <?php
 namespace App\Users\Actions;
 
-use ByteUnits\Metric;
+use Support\ByteUnits\Metric;
 use Illuminate\Support\Collection;
 
 class FormatUsageEstimatesAction

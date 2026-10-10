@@ -1,6 +1,7 @@
 <?php
 namespace Tests\Domain\Languages;
 
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 use App\Users\Models\User;
 use Domain\Localization\Models\Language;
@@ -8,9 +9,7 @@ use Domain\Localization\Actions\SeedDefaultLanguageAction;
 
 class AdminLanguageTranslatorTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function it_create_language()
     {
         $admin = User::factory()
@@ -40,9 +39,7 @@ class AdminLanguageTranslatorTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_update_language()
     {
         resolve(SeedDefaultLanguageAction::class)();
@@ -69,9 +66,7 @@ class AdminLanguageTranslatorTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_delete_language()
     {
         $language = Language::create([
@@ -99,9 +94,7 @@ class AdminLanguageTranslatorTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_try_to_delete_default_language()
     {
         resolve(SeedDefaultLanguageAction::class)();
@@ -117,9 +110,7 @@ class AdminLanguageTranslatorTest extends TestCase
             ->assertStatus(422);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_all_languages()
     {
         resolve(SeedDefaultLanguageAction::class)();
@@ -137,9 +128,7 @@ class AdminLanguageTranslatorTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_update_language_string()
     {
         resolve(SeedDefaultLanguageAction::class)();
@@ -163,9 +152,7 @@ class AdminLanguageTranslatorTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function it_get_language_with_strings_by_selected_language_id()
     {
         resolve(SeedDefaultLanguageAction::class)();

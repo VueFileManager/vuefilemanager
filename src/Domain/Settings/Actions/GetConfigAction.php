@@ -107,13 +107,7 @@ class GetConfigAction
                 'isPrefilledUsers'         => config('vuefilemanager.is_prefilled_users') ? 1 : 0,
                 'statusCheck'              => json_encode($serverInfo) ?? 'undefined',
             ],
-            'broadcasting'        => [
-                'driver'  => config('broadcasting.default'),
-                'key'     => config('broadcasting.connections.pusher.key'),
-                'host'    => config('broadcasting.connections.pusher.options.host'),
-                'port'    => config('broadcasting.connections.pusher.options.port'),
-                'cluster' => config('broadcasting.connections.pusher.options.cluster'),
-            ],
+            'broadcasting'        => $this->getBroadcastingConfig(),
             'logos'               => [
                 'main'            => $settings->app_logo ?? null,
                 'og_image'        => $settings->app_og_image ?? null,
@@ -200,6 +194,38 @@ class GetConfigAction
             'teamsDefaultMembers' => intval($settings->default_max_team_member ?? 10),
             'legal'               => $pages ? json_encode($pages) : 'undefined',
             'google_analytics'    => optional($settings)->google_analytics ?? null,
+        ];
+    }
+
+    /**
+     * Get broadcasting settings for the frontend Laravel Echo client
+     */
+    private function getBroadcastingConfig(): array
+    {
+        $driver = config('broadcasting.default');
+
+        if ($driver === 'reverb') {
+            $scheme = config('broadcasting.connections.reverb.frontend.scheme', 'https');
+
+            return [
+                'driver'  => 'reverb',
+                'key'     => config('broadcasting.connections.reverb.key'),
+                'host'    => config('broadcasting.connections.reverb.frontend.host'),
+                'port'    => config('broadcasting.connections.reverb.frontend.port'),
+                'cluster' => null,
+                'scheme'  => $scheme,
+                'tls'     => $scheme === 'https',
+            ];
+        }
+
+        return [
+            'driver'  => $driver,
+            'key'     => config('broadcasting.connections.pusher.key'),
+            'host'    => config('broadcasting.connections.pusher.options.host'),
+            'port'    => config('broadcasting.connections.pusher.options.port'),
+            'cluster' => config('broadcasting.connections.pusher.options.cluster'),
+            'scheme'  => config('broadcasting.connections.pusher.options.scheme', 'https'),
+            'tls'     => (bool) config('broadcasting.connections.pusher.options.useTLS', true),
         ];
     }
 }

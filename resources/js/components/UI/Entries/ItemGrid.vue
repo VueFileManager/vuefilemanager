@@ -103,7 +103,7 @@
                     <!--Folder sub line-->
                     <small v-if="isFolder" class="block text-xs text-gray-500 dark:text-gray-500">
 						<link-icon v-if="canShowLinkIcon" size="12" class="text-theme dark-text-theme vue-feather mr-0.5 mb-1 inline-block" />
-                        {{ folderItems === 0 ? $t('empty') : $tc('folder.item_counts', folderItems)
+                        {{ folderItems === 0 ? $t('empty') : $t('folder.item_counts', folderItems)
                         }}, <span class="hidden text-xs text-gray-500 dark:text-gray-500 lg:inline-block"
                             >{{ timeStamp }}</span
                         >
@@ -129,12 +129,12 @@
 </template>
 
 <script>
-import FolderIcon from '../../Icons/FolderIcon'
-import { LinkIcon, MoreHorizontalIcon, EyeIcon } from 'vue-feather-icons'
-import FileIconThumbnail from '../../Icons/FileIconThumbnail'
-import MemberAvatar from '../Others/MemberAvatar'
-import Emoji from '../../Emoji/Emoji'
-import CheckBox from '../../Inputs/CheckBox'
+import FolderIcon from '../../Icons/FolderIcon.vue'
+import { LinkIcon, MoreHorizontalIcon, EyeIcon } from '../../../icons/feather.js'
+import FileIconThumbnail from '../../Icons/FileIconThumbnail.vue'
+import MemberAvatar from '../Others/MemberAvatar.vue'
+import Emoji from '../../Emoji/Emoji.vue'
+import CheckBox from '../../Inputs/CheckBox.vue'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'

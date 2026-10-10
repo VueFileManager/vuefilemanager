@@ -1,11 +1,13 @@
+@use 'sass:math';
+
 @mixin text($font: "Open Sans", $font-size: 16, $color: $text-primary) {
   font-family: $font, sans-serif;
-  font-size:($font-size/16) + 0em;
+  font-size:math.div($font-size, 16) + 0em;
   color: $color;
 }
 
 @mixin font-size($size) {
-  font-size:($size/16) + 0em;
+  font-size:math.div($size, 16) + 0em;
 }
 
 @mixin transition($time: 0.3s) {

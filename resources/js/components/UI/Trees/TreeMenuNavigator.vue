@@ -24,13 +24,13 @@
             </div>
             <folder-icon size="17" class="vue-feather mr-2.5 shrink-0" :class="{ 'text-theme': isSelected }" />
             <b
-                class="max-w-1 overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold"
+                class="overflow-hidden text-ellipsis whitespace-nowrap text-xs font-bold"
                 :class="{ 'text-theme': isSelected }"
             >
                 {{ nodes.name }}
             </b>
         </div>
-        <tree-node
+        <TreeMenuNavigator
             :disabled="disableChildren"
             :depth="depth + 1"
             v-if="isVisible"
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { FolderIcon, ChevronRightIcon } from 'vue-feather-icons'
+import { FolderIcon, ChevronRightIcon } from '../../../icons/feather.js'
 import { mapGetters } from 'vuex'
 import { events } from '../../../bus'
 
@@ -50,7 +50,6 @@ export default {
     name: 'TreeMenuNavigator',
     props: ['disabled', 'nodes', 'depth'],
     components: {
-        'tree-node': () => import('./TreeMenuNavigator'),
         ChevronRightIcon,
         FolderIcon,
     },

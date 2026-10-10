@@ -1,22 +1,23 @@
+import { globals } from '../globals'
 import store from '../store/index'
 import { events } from '../bus'
 import i18n from '../i18n'
 
 const AlertHelpers = {
-    install(Vue) {
-        Vue.prototype.$temporarilyDisabledUpload = function () {
+    install(app) {
+        globals.$temporarilyDisabledUpload = function () {
             let messages = {
                 metered: {
-                    title: i18n.t('upload_temporarily_disabled'),
-                    message: i18n.t('upload_temporarily_disabled_note'),
+                    title: i18n.global.t('upload_temporarily_disabled'),
+                    message: i18n.global.t('upload_temporarily_disabled_note'),
                 },
                 fixed: {
-                    title: i18n.t('upload_temporarily_disabled'),
-                    message: i18n.t('upload_temporarily_disabled_note'),
+                    title: i18n.global.t('upload_temporarily_disabled'),
+                    message: i18n.global.t('upload_temporarily_disabled_note'),
                 },
                 none: {
-                    title: i18n.t('exceed_upload_limit'),
-                    message: i18n.t('exceed_upload_limit_description'),
+                    title: i18n.global.t('exceed_upload_limit'),
+                    message: i18n.global.t('exceed_upload_limit_description'),
                 },
             }
 
@@ -26,24 +27,24 @@ const AlertHelpers = {
             })
         }
 
-        Vue.prototype.$temporarilyDisabledFolderCreate = function () {
+        globals.$temporarilyDisabledFolderCreate = function () {
             events.$emit('alert:open', {
-                title: i18n.t('create_folder_temporarily_disabled'),
-                message: i18n.t('create_folder_temporarily_disabled_desc'),
+                title: i18n.global.t('create_folder_temporarily_disabled'),
+                message: i18n.global.t('create_folder_temporarily_disabled_desc'),
             })
         }
 
-        Vue.prototype.$temporarilyDisabledDownload = function () {
+        globals.$temporarilyDisabledDownload = function () {
             events.$emit('alert:open', {
-                title: i18n.t('download_temporarily_disabled'),
-                message: i18n.t('download_temporarily_disabled_desc'),
+                title: i18n.global.t('download_temporarily_disabled'),
+                message: i18n.global.t('download_temporarily_disabled_desc'),
             })
         }
 
-        Vue.prototype.$isSomethingWrong = function () {
+        globals.$isSomethingWrong = function () {
             events.$emit('alert:open', {
-                title: i18n.t('popup_error.title'),
-                message: i18n.t('popup_error.message'),
+                title: i18n.global.t('popup_error.title'),
+                message: i18n.global.t('popup_error.message'),
             })
         }
     },

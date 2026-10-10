@@ -22,7 +22,7 @@
         <video
             v-if="singleFile.data.type === 'video'"
             ref="video"
-            class="h-auto w-full overflow-hidden rounded-sm"
+            class="h-auto w-full overflow-hidden rounded-xs"
             controlsList="nodownload"
             disablePictureInPicture
             playsinline
@@ -36,7 +36,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { includes } from 'lodash'
-import ImageFile from "../FilePreview/Media/ImageFile";
+import ImageFile from "../FilePreview/Media/ImageFile.vue";
 
 export default {
     name: 'FilePreview',
